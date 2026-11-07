@@ -10,7 +10,7 @@ extern void LoadTimList();
 extern void RaceLoadReset();
 extern int PsyqRand();
 extern int CdDirectoryBuffer;
-extern int D_800F4D40;
+extern int MenuArenaBase;
 extern unsigned char LoadState;
 
 int func_8003BD2C(void) {
@@ -42,12 +42,12 @@ int func_8003BD2C(void) {
         if (t != 0) {
             LoadCursor += t;
             LoadState = 5;
-            D_800F4D40 = LoadCursor;
+            MenuArenaBase = LoadCursor;
             RaceLoadReset();
         }
         break;
     case 5:
-        if (func_8004E990() == 1) {
+        if (LoadVabAndTimsStep() == 1) {
             func_8005C13C(PsyqRand() & 1);
             LoadState = 6;
     case 6:

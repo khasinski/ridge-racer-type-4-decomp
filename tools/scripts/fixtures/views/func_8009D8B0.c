@@ -12,12 +12,12 @@ s32 _cardSectorBegin(s32 a0, s32 a1, s32 a2) {
             r = 1;
             CardReceiveIndex = 0;
             CardRxCount = 0;
-            D_80114730 = 0;
-            D_800ABDE8 = 0;
+            CardBytesRemaining = 0;
+            CardTxCount = 0;
             CardCommandRequest = a0;
         }
         if (r != 0) {
-            D_8011472C.value = a2 != 0;
+            CardCmdValue.value = a2 != 0;
             CardCurrentCommand = 0xB;
             CardCommandReader = _cardSectorTx;
             CardWriteHandler = _cardSectorRx;

@@ -9,13 +9,13 @@ void ovl660_func_801154D8(void)
     ModeFrame = 0;
     if (TotalRaceTime != -1) {
         ovl660_func_801162D8();
-        ovl660_race_record_rank = ovl660_func_80115FA8(0, LapTimes[(s16)D_800AC1A0]);
+        ovl660_race_record_rank = ovl660_func_80115FA8(0, LapTimes[(s16)BestLapIndex]);
         ovl660_lap_record_rank = ovl660_func_80115FA8(1, TotalRaceTime);
     } else {
         ovl660_race_record_rank = 6;
         ovl660_lap_record_rank = 6;
     }
-    InitMenuTextRows(D_800FFC48);
+    InitMenuTextRows(SharedWorkBuffer);
     MenuCursor = 0;
     MenuItemCount = 3;
     off = 0;
@@ -43,10 +43,10 @@ void ovl660_func_801154D8(void)
 }
 
 s32 ovl660_func_801156A8(s32 reserved){
- func_80041320(MenuCursor+37,0,0);
+ SetMenuTextRowCursor(MenuCursor+37,0,0);
  StepMenuValue(0,2,(char*)&MenuCursor,MenuItemCount,0);
- func_80041320(MenuCursor+37,1,1);
- if(D_800F3A60){PlaySfx(1);return MenuCursor;}
+ SetMenuTextRowCursor(MenuCursor+37,1,1);
+ if(MenuConfirmPressed){PlaySfx(1);return MenuCursor;}
  return -1;
 }
 
@@ -59,22 +59,22 @@ void ovl660_func_8011572C(void) {
     s32 ready;
 
     ModeFrame++;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         if (TotalRaceTime == -1) {
             group = 44;
             if (MenuTextRows[44].signedBytes[2] >= 2) {
-                D_800F4D8A = 3;
+                ModeSubState = 3;
             }
             break;
         }
         group = 0;
         if (MenuTextRows[1].signedBytes[3] >= 15) {
             SetMenuFrameOptions(1, 1, 0);
-            if (D_800F3A60 != 0) {
+            if (MenuConfirmPressed != 0) {
                 PlaySfx(1);
                 ovl660_name_cursor = 0;
-                D_800F4D8A++;
+                ModeSubState++;
                 SetMenuFrameOptions(0, 1, 0);
             }
         }
@@ -87,7 +87,7 @@ void ovl660_func_8011572C(void) {
             FormatDecimalDigits((char *)&MenuTextRows[row].bytes[32], i + 1, 0);
             FormatRaceTime((char *)&MenuTextRows[row].bytes[35], LapTimes[i]);
             if (i == PlayerCars[0].steering288.finish20 && ovl660_race_record_rank < 5) {
-                func_80041320(row, 1, -1);
+                SetMenuTextRowCursor(row, 1, -1);
                 CopyStringClearTail((char *)&MenuTextRows[row].bytes[45], ovl660_new_record_label);
             }
         }
@@ -96,7 +96,7 @@ void ovl660_func_8011572C(void) {
             base = 10;
         }
         if (ovl660_lap_record_rank < 5) {
-            func_80041320(base, 1, -1);
+            SetMenuTextRowCursor(base, 1, -1);
             CopyStringClearTail((char *)&MenuTextRows[base].bytes[45], ovl660_new_record_label);
         }
         break;
@@ -110,14 +110,14 @@ void ovl660_func_8011572C(void) {
                 CopyStringClearTail((char *)&MenuTextRows[entry].bytes[42], ovl660_record_name);
             }
             CopyStringClearTail(LapRecords[ReverseCourse][CourseIndex][ovl660_race_record_rank].name, ovl660_record_name);
-            func_80041320(ovl660_race_record_rank + 15, 1, -((ovl660_name_cursor + 15) << 8));
+            SetMenuTextRowCursor(ovl660_race_record_rank + 15, 1, -((ovl660_name_cursor + 15) << 8));
         }
         if (MenuTextRows[15].signedBytes[3] >= 15) {
             SetMenuFrameOptions(1, 1, 0);
-            if (D_800F3A60 != 0) {
+            if (MenuConfirmPressed != 0) {
                 PlaySfx(1);
                 ovl660_name_cursor = 0;
-                D_800F4D8A++;
+                ModeSubState++;
                 SetMenuFrameOptions(0, 1, 0);
             }
         }
@@ -132,13 +132,13 @@ void ovl660_func_8011572C(void) {
                 CopyStringClearTail((char *)&MenuTextRows[entry].bytes[42], ovl660_record_name);
             }
             CopyStringClearTail(RaceRecords[ReverseCourse][CourseIndex][ovl660_lap_record_rank].name, ovl660_record_name);
-            func_80041320(ovl660_lap_record_rank + 26, 1, -((ovl660_name_cursor + 15) << 8));
+            SetMenuTextRowCursor(ovl660_lap_record_rank + 26, 1, -((ovl660_name_cursor + 15) << 8));
         }
         if (MenuTextRows[15].signedBytes[3] >= 15) {
             SetMenuFrameOptions(1, 1, 0);
-            if (D_800F3A60 != 0) {
+            if (MenuConfirmPressed != 0) {
                 PlaySfx(1);
-                D_800F4D8A++;
+                ModeSubState++;
                 SetMenuFrameOptions(0, 1, 0);
             }
         }
@@ -151,8 +151,8 @@ void ovl660_func_8011572C(void) {
                 SetMenuFrameOptions(0, 1, 0);
                 ResetScreenCounters();
                 InitMenuArenas();
-                D_800AC5D0 = 64;
-                D_800F4D8A = MenuCursor + 4;
+                MenuFadeTimer = 64;
+                ModeSubState = MenuCursor + 4;
             }
         } else {
             SetMenuFrameOptions(0, 1, 0);
@@ -161,7 +161,7 @@ void ovl660_func_8011572C(void) {
             if (ovl660_result_transition == 1) {
                 ready = PackChoiceGlyph((s8 *)&SelectionRows);
                 MenuTextRows[42].bytes[28] = 34;
-                EncodeRecordPassword(D_800AC648, ready, TotalRaceTime, ovl660_result_kind, D_800AD564,
+                EncodeRecordPassword(CourseMenuSelection, ready, TotalRaceTime, ovl660_result_kind, D_800AD564,
                               &MenuTextRows[42].bytes[29]);
                 MenuTextRows[42].bytes[42] = 34;
                 ovl660_result_transition = 2;
@@ -171,36 +171,36 @@ void ovl660_func_8011572C(void) {
         }
         break;
     case 4:
-        timer = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = timer;
+        timer = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = timer;
         AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (64 - timer) * 4, 69);
         group = 33;
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             MenuScriptId = 0;
             ModeGroup = 1;
-            D_800F3A26 = 35;
-            D_800F4D8A = 0;
+            ModeId = 35;
+            ModeSubState = 0;
         }
         break;
     case 5:
-        timer = (u16)D_800AC5D0 - 2;
-        D_800AC5D0 = timer;
+        timer = (u16)MenuFadeTimer - 2;
+        MenuFadeTimer = timer;
         AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (64 - timer) * 4, 69);
         group = 33;
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             group = -1;
-            D_800F4D8A = 8;
+            ModeSubState = 8;
         }
         break;
     case 6:
-        timer = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = timer;
+        timer = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = timer;
         AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (64 - timer) * 4, 69);
         group = -1;
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
-            D_800F3A26 = 3;
-            D_800F4D8A = 0;
+            ModeId = 3;
+            ModeSubState = 0;
         }
         break;
     case 8:
@@ -209,8 +209,8 @@ void ovl660_func_8011572C(void) {
             SeqStartTrack(0);
             ovl660_func_80114920();
             ModeGroup = ready;
-            D_800F3A26 = 50;
-            D_800F4D8A = 0;
+            ModeId = 50;
+            ModeSubState = 0;
         }
         return;
     }
@@ -321,5 +321,5 @@ void ovl660_func_801162D8(void)
             }
         }
     }
-    D_800AC1A0 = indices[0];
+    BestLapIndex = indices[0];
 }

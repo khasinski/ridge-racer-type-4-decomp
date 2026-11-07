@@ -24,8 +24,8 @@ int MemCardSync(a0, a1, a2) int a0; int *a1; int *a2; {
         *a2 = 0;
         return 0;
     case 17:
-        if (D_800ABDE8 == 1) {
-            *a2 = D_800ABDE8;
+        if (CardTxCount == 1) {
+            *a2 = CardTxCount;
         } else {
     case 33:
             *a2 = 2;
@@ -51,8 +51,8 @@ s32 _cardCmdReset(s32 value) {
     if (!(CardCommandStatus & 1)) return 0;
     CardReceiveIndex = 0;
     CardRxCount = 0;
-    D_80114730 = 0;
-    D_800ABDE8 = 0;
+    CardBytesRemaining = 0;
+    CardTxCount = 0;
     {
         /* ASM_BARRIER: retain the original assembler temporary for the final state store. */
         register s32 *base __asm__("$1");

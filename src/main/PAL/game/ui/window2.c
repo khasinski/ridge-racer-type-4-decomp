@@ -21,7 +21,7 @@ extern int AddDrawModePrim();
 extern char D_8009EA90[];
 extern char D_8009EACC[];
 
-void func_800211A4();
+void DrawHudFrameSprites();
 void DrawHudRotatingQuad(s32 phase,s32 index);
 void *EmitHudGlyph12(u32 *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
 void *EmitHudGlyph12Alt(s32 *arg0, void *arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5);
@@ -34,7 +34,7 @@ void InitHudNumberTargets(int a0) {
     switch (a0) {
     case 0: case 1: case 5: break;
     case 2: case 3: case 4: case 6:
-        if (a0 == 4 && D_80107178 == 2) {
+        if (a0 == 4 && PlayerCount == 2) {
         } else if (a0 != 6) {
             goto w3g0b;
         }
@@ -69,7 +69,7 @@ w3g0b:
 
 #undef HudNumberTargets
 
-void func_800211A4(a0)
+void DrawHudFrameSprites(a0)
 int a0;
 {
     unsigned *s0;
@@ -154,7 +154,7 @@ void DrawHudRotatingQuad(s32 phase,s32 index) {
     angle=(s32)((u32)phase*0xA00U)/10000+0xE00;
     sine=rsin(angle);
     cosine=rcos(angle);
-    i=0;color=colors;corner=D_8009EE38;
+    i=0;color=colors;corner=HudQuadCorners;
     base=&HudNumberTargets;
     row=(unsigned long)index*sizeof(RrNumberTarget);
     target=(RrNumberTarget *)((u8 *)base+row);

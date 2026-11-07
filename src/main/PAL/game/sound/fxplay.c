@@ -19,7 +19,7 @@ extern struct {
     char p4[0x287C - 0x2870]; s32 x287C;
 } SoundState;
 extern int SeqFadeVolume();
-extern s16 D_800F761C;
+extern s16 MusicSeqAccessNum;
 
 void SeqStartTrack(int a0);
 void SeqMuteVolume(void);
@@ -37,7 +37,7 @@ void SeqStartTrack(int a0) {
         SetReverbDepthBoth(0x32);
         SsSeqPlay((s16)SoundState.x2864, 1, 0);
         SeqSetVolume((s16)arr[a0]);
-        func_80096434(&SoundState.x286C, 0x1C);
+        PsyqBzero(&SoundState.x286C, 0x1C);
         SoundState.x287C = D_800A0CD8[a0].a;
         RestartMotionSequence();
     }
@@ -48,9 +48,9 @@ void SeqMuteVolume(void) {
 }
 
 void SeqMusicPause(void) {
-    SsSeqPause(D_800F761C);
+    SsSeqPause(MusicSeqAccessNum);
 }
 
 void SeqMusicResume(void) {
-    SsSeqReplay(D_800F761C);
+    SsSeqReplay(MusicSeqAccessNum);
 }

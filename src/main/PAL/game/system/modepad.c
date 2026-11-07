@@ -14,26 +14,26 @@ extern int PlayerControllers[];
 extern char *UiRows;
 extern short MenuCursor;
 extern short D_800AD564;
-extern int D_800F3A60;
+extern int MenuConfirmPressed;
 extern int D_800F3AA4;
 extern short MenuScriptId;
 extern int UiRowCount;
-extern int D_800F4CA8;
-extern short D_800FFC10;
+extern int DialogueContext;
+extern short MenuDispMode;
 extern void StepMenuValue();
 extern void PlaySfx();
 extern unsigned _sio_control();
 
-void func_8002F0E0(void);
+void RunIntroScriptStep(void);
 void DrawModeSelectRows();
 int ModeSelectMenuStep(void);
 
-void func_8002F0E0(void) {
+void RunIntroScriptStep(void) {
     IntroScriptStep();
 }
 
 void DrawModeSelectRows() {
-    int n = D_800F4CD0 + IsLinkPeerPresent();
+    int n = MainMenuLastIndex + IsLinkPeerPresent();
     int i = 0;
     if (n > 0) {
         do {
@@ -55,8 +55,8 @@ int ModeSelectMenuStep(void)
     int s1, s2, i;
     int v;
 
-    s1 = D_800F4CD0 + IsLinkPeerPresent();
-    if (MenuCursor == D_800F4CD0) {
+    s1 = MainMenuLastIndex + IsLinkPeerPresent();
+    if (MenuCursor == MainMenuLastIndex) {
         if (s1 == MenuCursor) {
             UiRows[s1].b0C = 0;
             MenuCursor = 0;
@@ -70,65 +70,65 @@ int ModeSelectMenuStep(void)
     else
         UiRows[MenuCursor].b0C = 2;
     s2 = 0;
-    if (D_800F3A60 != 0) {
+    if (MenuConfirmPressed != 0) {
         if (UiRows[MenuCursor].s20 == 1) {
             PlaySfx(4);
             return s2;
         }
         PlaySfx(1);
         s2 = 1;
-        if (MenuCursor == D_800F4CD0)
-            func_80034E14();
+        if (MenuCursor == MainMenuLastIndex)
+            EnableLinkSioTx();
         else
             _sio_control(1, 1, 0);
-        D_800F4CA8 = 2;
+        DialogueContext = 2;
         MenuScriptId = 8;
         PendingModeId = 0x123;
-        D_800F4D2C = MenuCursor;
+        ModeMenuCursorSaved = MenuCursor;
         v = (short)MenuCursor;
         switch (v) {
         case 0:
-            D_800F4D44 = 1;
+            RaceType = 1;
             break;
         case 1:
-            D_800F4D44 = 0;
-            D_800FFC10 = 0;
+            RaceType = 0;
+            MenuDispMode = 0;
             break;
         case 2:
             RestoreSaveData();
-            D_800F4D44 = 2;
-            D_800FFC10 = 0;
+            RaceType = 2;
+            MenuDispMode = 0;
             break;
         case 3:
         case 4:
-            D_800F4D44 = 0;
+            RaceType = 0;
             break;
         case 5:
-            D_800F4CA8 = 3;
+            DialogueContext = 3;
             break;
         case 6:
             break;
         default:
-            if (v == D_800F4CD0) {
+            if (v == MainMenuLastIndex) {
                 RestoreSaveData();
-                D_800F4D44 = 4;
-                D_800F4D2C = 8;
+                RaceType = 4;
+                ModeMenuCursorSaved = 8;
                 PendingModeId = 0x11D;
             } else {
-                D_800F4D2C = 7;
-                D_800F4D44 = 6;
+                ModeMenuCursorSaved = 7;
+                RaceType = 6;
             }
             break;
         }
     } else {
-        if (s1 == D_800F4CD0 + 1) {
+        if (s1 == MainMenuLastIndex + 1) {
             if (((_sio_control(0, 0, 0) >> 7) & 3) == 2) {
                 UiRows[MenuCursor].b0C = 0;
                 s2 = 1;
-                UiRows[(short)D_800F4D2C].b0C = 0;
+                UiRows[(short)ModeMenuCursorSaved].b0C = 0;
                 RestoreSaveData();
-                D_800F4D2C = 8;
-                D_800F4D44 = 4;
+                ModeMenuCursorSaved = 8;
+                RaceType = 4;
                 PendingModeId = 0x11D;
             }
         }

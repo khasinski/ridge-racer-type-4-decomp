@@ -3,7 +3,7 @@
 s32 _cardCmd5BRangeRx(s32 value) {
     s32 phase=CardRxCount;
     s32 result;
-    if(phase==9) D_80114730=(u32)D_80114728+1;
+    if(phase==9) CardBytesRemaining=(u32)CardVarRxLength+1;
     else if(phase>=11) CardCmdBuffer[phase-11]=value;
     result=0;
     return result;

@@ -7,7 +7,7 @@ s32 _cardCmd5BRx(s32 value) {
     /* ASM_BARRIER: Share the zero result after all response stores. */
     register s32 result __asm__("$2");
     if(phase==5) {
-        D_80114730=saved & 255;
+        CardBytesRemaining=saved & 255;
         /* ASM_BARRIER: Keep the copied raw input distinct from its masked status. */
         __asm__ volatile("" : : "r"(saved));
     }

@@ -17,19 +17,19 @@ s32 _cardCmd5BVarRx(s32 value) {
         port=CardCmdSioRegs;
         RR_NOP_DEP_ON(port);
         while(!(port->status & 2)) { }
-        D_80114728=CardCmdSioRegs->data;
+        CardVarRxLength=CardCmdSioRegs->data;
     } else if(CardRxCount>=4) {
-        if((u32)CardRxCount==(u32)D_80114728+4) {
+        if((u32)CardRxCount==(u32)CardVarRxLength+4) {
             port=CardCmdSioRegs;
             RR_NOP_DEP_ON(port);
             while(!(port->status & 2)) { }
             received=CardCmdSioRegs->data;
             CardCmdBuffer=CardCmdResultPtrA;
-            D_8011472C.value=1;
-            D_80114730=received+1;
+            CardCmdValue.value=1;
+            CardBytesRemaining=received+1;
         }
         {
-            s32 count=D_80114728;
+            s32 count=CardVarRxLength;
             s32 phase=CardRxCount;
             if((s32)((u32)count+5)<phase) {
                 /* Preserve native pointer width and the original wrapping 32-bit difference. */
@@ -56,8 +56,8 @@ s32 _cardCmd5CVarBegin(s32 request, s32 parameter, u8 *buffer, u8 *first) {
     CardCmdSector = parameter;
     CardCmdBuffer = buffer;
     CardCmdResultPtrA = first;
-    D_80114728 = 0;
-    D_8011472C.value = 0;
+    CardVarRxLength = 0;
+    CardCmdValue.value = 0;
     {
         /* ASM_BARRIER: preserve the original assembler temporary for the mapped store. */
         register s32 *base __asm__("$1");

@@ -11,7 +11,7 @@ void ovl667_func_80117EF8(void)
     MenuCursor=0;
     MenuItemCount=3;
     D_8010C068=0;
-    choice=DecodeCourseIndex(D_800AC648);
+    choice=DecodeCourseIndex(CourseMenuSelection);
     CourseIndex=choice;
     ResetScreenCounters();
     RR_GPU_PROJECTION_SCRATCH->word18=512;
@@ -23,7 +23,7 @@ void ovl667_func_80117EF8(void)
     ComCars.words20[0]=0;
     ComCars.words20[1]=0;
     ComCars.words20[2]=0;
-    D_800AC5D4=0;
+    SelectionPlayer=0;
     D_8010C0B8=0;
     LoadCursor=MenuArenas.second;
 }

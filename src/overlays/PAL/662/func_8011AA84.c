@@ -10,8 +10,8 @@ void ovl662_func_8011AA84(void) {
     ovl662_D_801276A8.word04=count.value;
     if (count.value >= 28) {
         ModeGroup = 3;
-        D_800F3A26 = 5;
-        D_800F4D8A = 0;
+        ModeId = 5;
+        ModeSubState = 0;
     }
     }
 }

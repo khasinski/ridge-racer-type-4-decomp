@@ -20,21 +20,21 @@ extern int CourseBestLapTimes[2][8][3];
 extern Struct840 *D_800F3910;
 extern Struct840 *D_800F3918;
 extern Struct7C SaveProgress;
-extern int D_800F3B28[];
-extern short D_800F4D3C;
-extern short D_800F4D44;
+extern int SaveDataBackup[];
+extern short SaveSlotIndex;
+extern short RaceType;
 extern Struct10 LapRecords[2][8][5];
-extern Struct2C D_8010B258[3];
-extern Struct48 D_8010BFD8[2];
-extern StructC D_8010C088[];
+extern Struct2C SaveSlotSelectionsBackup[3];
+extern Struct48 CourseMenuChoices[2];
+extern StructC PlayerNames[];
 extern StructC D_80118420[];
 extern Struct48 D_80118458[2];
 extern int D_801272F0[];
 extern int StoreImage();
 extern char StrFmtPercentS[];
-extern short D_8010EF98[];
-extern char D_80011568[];
-extern short D_8010EFA0[];
+extern short SaveStoreRect[];
+extern char StrCrd0[];
+extern short SaveIconRect[];
 
 void BuildCardHeaderAnim();
 
@@ -66,7 +66,7 @@ int ApplySaveData(int arg0) {
                 if (arg0 == 0x30) {
                     SaveSlotSelections[s0] = s3->f360[s0];
                 } else {
-                    D_8010B258[s0] = s3->f360[s0];
+                    SaveSlotSelectionsBackup[s0] = s3->f360[s0];
                 }
             }
             for (s0 = 0; s0 < 9; s0++) {
@@ -86,7 +86,7 @@ int ApplySaveData(int arg0) {
                 }
             }
             for (s0 = 0; s0 < 0x210; s0++) {
-                D_800F3B28[s0] = s3->fEA4[s0];
+                SaveDataBackup[s0] = s3->fEA4[s0];
             }
             ApplySoundVolumes();
             a2 = 1;
@@ -100,28 +100,28 @@ int ApplySaveData(int arg0) {
         }
         if (s3->f1AA4 == a1) {
             for (s0 = 0; s0 < 9; s0++) {
-                if (D_800F4D44 == 2 || D_800F4D44 == 3) {
-                    D_80118458[D_800AC5D4 & 1].f24[s0] = s3->f33C[s0];
-                    CopyStringClearTail(&D_80118420[D_800AC5D4 & 1], &s3->f280);
-                } else if (D_800F4D44 == 4) {
-                    D_8010BFD8[D_800AC5D4 & 1].f24[s0] = s3->f33C[s0];
-                    CopyStringClearTail(&D_8010C088[D_800AC5D4], &s3->f280);
+                if (RaceType == 2 || RaceType == 3) {
+                    D_80118458[SelectionPlayer & 1].f24[s0] = s3->f33C[s0];
+                    CopyStringClearTail(&D_80118420[SelectionPlayer & 1], &s3->f280);
+                } else if (RaceType == 4) {
+                    CourseMenuChoices[SelectionPlayer & 1].f24[s0] = s3->f33C[s0];
+                    CopyStringClearTail(&PlayerNames[SelectionPlayer], &s3->f280);
                 }
             }
             for (s0 = 0; s0 < 0x210; s0++) {
-                *(int *)((D_800AC5D4 & 1) * 0x840 + (s0 << 2) + (int)D_800F3B28) = s3->fEA4[s0];
+                *(int *)((SelectionPlayer & 1) * 0x840 + (s0 << 2) + (int)SaveDataBackup) = s3->fEA4[s0];
             }
             a2 = 1;
         }
         break;
     case 0x10:
         v10 = *(int *)SaveBuffer;
-        D_801272F0[D_800F4D3C] = v10;
+        D_801272F0[SaveSlotIndex] = v10;
         a2 = 1;
         break;
     case 0x11:
         v11 = (p = (SaveBuf11 *)SaveBuffer)->f280;
-        D_800F4D38 = D_801272F0[D_800F4D3C] = v11;
+        PlayTimeFrames = D_801272F0[SaveSlotIndex] = v11;
         for (t0 = 0; t0 < 2; t0++) {
             for (s0 = 0; s0 < 0x840; s0++) {
                 if (t0 == 0) {
@@ -152,20 +152,20 @@ int a5;
     a0[2] = 0x13;
     a0[3] = 1;
     PsyqSprintf(a0 + 4, StrFmtPercentS, a1);
-    D_8010EF98[0] = a2;
-    D_8010EF98[2] = 0x10;
-    D_8010EF98[1] = a3;
-    D_8010EF98[3] = 1;
-    StoreImage(D_8010EF98, a0 + 0x60);
+    SaveStoreRect[0] = a2;
+    SaveStoreRect[2] = 0x10;
+    SaveStoreRect[1] = a3;
+    SaveStoreRect[3] = 1;
+    StoreImage(SaveStoreRect, a0 + 0x60);
     DrawSync(0);
     i = 0;
     do {
-        D_8010EF98[0] = a4;
-        D_8010EF98[1] = a5;
-        D_8010EF98[2] = 4;
-        D_8010EF98[3] = 0x10;
+        SaveStoreRect[0] = a4;
+        SaveStoreRect[1] = a5;
+        SaveStoreRect[2] = 4;
+        SaveStoreRect[3] = 0x10;
         /* (new_var = &a4) is a dead address-of that keeps gcc from hoisting the li 0x10 out of the loop (found by permuter) */
-        StoreImage(D_8010EF98, a0 + 0x80 + (*(new_var = &a4), i) * 0x80);
+        StoreImage(SaveStoreRect, a0 + 0x80 + (*(new_var = &a4), i) * 0x80);
         DrawSync(0);
         i++;
         a4 += 4;
@@ -189,20 +189,20 @@ B *a6;
     PsyqSprintf(a0 + 4, StrFmtPercentS, a1);
     a0[0x50] = 1;
     a0[0x51] = 0;
-    PsyqSprintf(a0 + 0x52, StrFmtPercentS, D_80011568);
-    D_8010EFA0[0] = a2;
-    D_8010EFA0[2] = 0x10;
-    D_8010EFA0[1] = a3;
-    D_8010EFA0[3] = 1;
-    StoreImage(D_8010EFA0, a0 + 0x60);
+    PsyqSprintf(a0 + 0x52, StrFmtPercentS, StrCrd0);
+    SaveIconRect[0] = a2;
+    SaveIconRect[2] = 0x10;
+    SaveIconRect[1] = a3;
+    SaveIconRect[3] = 1;
+    StoreImage(SaveIconRect, a0 + 0x60);
     DrawSync(0);
     i = 0;
     do {
-        D_8010EFA0[0] = a4;
-        D_8010EFA0[1] = a5;
-        D_8010EFA0[2] = 4;
-        D_8010EFA0[3] = 0x10;
-        StoreImage(D_8010EFA0, a0 + 0x80 + i * 0x80);
+        SaveIconRect[0] = a4;
+        SaveIconRect[1] = a5;
+        SaveIconRect[2] = 4;
+        SaveIconRect[3] = 0x10;
+        StoreImage(SaveIconRect, a0 + 0x80 + i * 0x80);
         DrawSync(0);
         i++;
         a4 += 4;

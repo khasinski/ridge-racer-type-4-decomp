@@ -1,6 +1,6 @@
 #include "rr/overlay662_init.h"
 void ovl662_func_8011A414(void){
- D_800F4D38=0;
+ PlayTimeFrames=0;
  ovl662_D_801276A8.fade00=-1;
  ovl662_D_801276A8.config1C=2;
  ovl662_D_801276A8.word04=0;

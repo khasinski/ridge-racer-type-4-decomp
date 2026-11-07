@@ -10,9 +10,9 @@ extern RrLibCompletionCallback CdSyncCallback(RrLibCompletionCallback);
 extern RrLibCompletionCallback CdReadyCallback(RrLibCompletionCallback);
 extern RrLibCompletionCallback CdDataCallback(RrLibCompletionCallback);
 extern s32 CdPosToInt(void *);
-extern s32 func_800963DC(const char *, ...);
+extern s32 PsyqPuts(const char *, ...);
 extern const char StrCdReadShellOpen[], StrCdReadRetry[];
-extern volatile u32 D_800A67BC;
+extern volatile u32 DsSavedCdMode;
 extern void cb_read(s32, u8 *);
 extern void cb_data(void);
 
@@ -41,7 +41,7 @@ s32 cd_read_retry(s32 restart) {
     }
     if (CdStatus() & 0x10) {
         if (!(VSync(-1) & 63)) {
-            func_800963DC(StrCdReadShellOpen);
+            PsyqPuts(StrCdReadShellOpen);
         }
         CdControlF(1, 0);
         timestamp = VSync(-1);
@@ -54,7 +54,7 @@ s32 cd_read_retry(s32 restart) {
         /* ASM_BARRIER: keep retry-only diagnostic address formation in this
          * branch instead of copying it into its predecessor's delay slot. */
         __asm__("" : );
-        func_800963DC(StrCdReadRetry);
+        PsyqPuts(StrCdReadRetry);
         command = 9;
         parameters = 0;
         /* ASM_BARRIER: stage the null parameter after the command value. */
@@ -67,7 +67,7 @@ s32 cd_read_retry(s32 restart) {
     CdFlush();
     /* ASM_BARRIER: form the captured mode address after reset returns. */
     __asm__("" : : : "$17");
-    mode_slot = &D_800A67BC;
+    mode_slot = &DsSavedCdMode;
     /* ASM_BARRIER: preserve the complete address before the mode load. */
     __asm__("" : "+r"(mode_slot));
     requested = *mode_slot;

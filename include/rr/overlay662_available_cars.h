@@ -11,7 +11,7 @@
 typedef struct {s16 value;u16 reserved;} RrGarageAvailableCar;
 extern RrCourseChoice4 CourseChoiceTable[2][9];
 extern s16 ovl662_D_801272D4,ovl662_D_801272E0,ovl662_D_801272E4;
-extern s16 MenuCursor,MenuItemCount,D_800F3A26,D_800F4D8A;
+extern s16 MenuCursor,MenuItemCount,ModeId,ModeSubState;
 extern u16 ModeGroup;
 extern s16 ovl662_D_80127300[20];
 extern RrGarageAvailableCar ovl662_D_80127348[20];

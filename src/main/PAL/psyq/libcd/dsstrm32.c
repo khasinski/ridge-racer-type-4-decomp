@@ -32,16 +32,16 @@ typedef struct {
 extern volatile u8 *CD_REG2_STRM;
 extern volatile u8 *DS_cd_reg3;
 extern volatile s32 *CDROM_DELAY_SIZE;
-extern volatile s32 *D_800A6884;
-extern volatile s32 *D_800A6890;
+extern volatile s32 *CdComDelayReg;
+extern volatile s32 *MdecOutDmaChcr;
 extern volatile s32 *DS_dma_regs;
-extern s32 D_800A68B8;
-extern s32 D_801102DC;
+extern s32 StCdIntrStatus;
+extern s32 StCdIntrFlag;
 extern s32 StRingHeaderIndex;
 extern u32 StEndFrame;
 extern void *StRingSectorDest;
-extern StHeader *D_80110310;
-extern s32 D_80110314;
+extern StHeader *StRingHeaders;
+extern s32 StRingSize;
 extern void (*StRingFullFunc)(void);
 extern StHeader *StCurHeader;
 
@@ -68,25 +68,25 @@ void StCdInterrupt(void) {
     /* ASM_BARRIER: Keep header pointer in v1. */
     register StHeader *hdr_v1 __asm__("$3");
 
-    st = D_801102EC;
+    st = StDataReadyPending;
     one = 1;
     if (st == one) {
         return;
     }
-    if (D_801102D8 != 0) {
-        if (*D_800A6890 & 0x01000000) {
+    if (StRgb24 != 0) {
+        if (*MdecOutDmaChcr & 0x01000000) {
             s32 f300 = StRingBase;
             /* ASM_BARRIER: Load StRingBase before materializing page_8011 for delay slot. */
             __asm__("" : "=r"(one) : "0"(one), "r"(f300) : "$1");
             page_8011 = (s32 *)0x80110000U;
-            /* ASM_BARRIER: Expose D_801102DC store for conditional branch delay slot. */
+            /* ASM_BARRIER: Expose StCdIntrFlag store for conditional branch delay slot. */
             __asm__("" : "=r"(page_8011) : "0"(page_8011));
             page_8011[0x2DC / 4] = one;
             if (f300 != 0) {
                 StRingHeaderIndex += 1;
             }
             page_800a = (s32 *)0x800A0000U;
-            /* ASM_BARRIER: Expose D_800A68B8 store for epilogue jump delay slot. */
+            /* ASM_BARRIER: Expose StCdIntrStatus store for epilogue jump delay slot. */
             __asm__("" : "=r"(page_800a) : "0"(page_800a));
             page_800a[0x68B8 / 4] = one;
             return;
@@ -100,7 +100,7 @@ void StCdInterrupt(void) {
     if (s.sp22 & 4) {
         st = 3;
         page_800a = (s32 *)0x800A0000U;
-        /* ASM_BARRIER: Expose D_800A68B8 store for epilogue jump delay slot. */
+        /* ASM_BARRIER: Expose StCdIntrStatus store for epilogue jump delay slot. */
         __asm__("" : "=r"(page_800a), "=r"(st) : "0"(page_800a), "1"(st));
         page_800a[0x68B8 / 4] = st;
         return;
@@ -108,7 +108,7 @@ void StCdInterrupt(void) {
     {
         /* ASM_BARRIER: Keep index in v0 and base in v1 for addu v1, v1, v0. */
         register s32 f2f4 __asm__("$2") = StRingWriteIndex;
-        hdr_v1 = D_80110310;
+        hdr_v1 = StRingHeaders;
         /* ASM_BARRIER: Materialize both before scaling and adding. */
         __asm__("" : "=r"(f2f4), "=r"(hdr_v1) : "0"(f2f4), "1"(hdr_v1));
         hdr_v1 = (StHeader *)((u8 *)hdr_v1 + (f2f4 << 5));
@@ -122,7 +122,7 @@ void StCdInterrupt(void) {
         }
         st = 4;
         page_800a = (s32 *)0x800A0000U;
-        /* ASM_BARRIER: Expose D_800A68B8 store for epilogue jump delay slot. */
+        /* ASM_BARRIER: Expose StCdIntrStatus store for epilogue jump delay slot. */
         __asm__("" : "=r"(page_800a), "=r"(st) : "0"(page_800a), "1"(st));
         page_800a[0x68B8 / 4] = st;
         return;
@@ -132,7 +132,7 @@ void StCdInterrupt(void) {
     *CD_REG0_STRM = 0;
     *DS_cd_reg3 = 0x80;
     *CDROM_DELAY_SIZE = 0x20943;
-    *D_800A6884 = 0x1323;
+    *CdComDelayReg = 0x1323;
     {
         /* ASM_BARRIER: Pin loop counter to a0 and buffer base to a1. */
         register u32 idx __asm__("$4") = 0;
@@ -182,8 +182,8 @@ void StCdInterrupt(void) {
         h->headm = *(Packed32 *)s.sp28;
         *p80 = c20843;
     }
-    *D_800A6884 = 0x1325;
-    if (D_80110308 == 1) {
+    *CdComDelayReg = 0x1325;
+    if (StMaskEnabled == 1) {
         /* ASM_BARRIER: Keep StStartFrame in a0 and StCurHeader in v1. */
         register s32 e4 __asm__("$4") = StStartFrame;
         if (e4 != 0) {
@@ -203,10 +203,10 @@ void StCdInterrupt(void) {
                 }
                 return;
             }
-            D_80110308 = 0;
+            StMaskEnabled = 0;
         }
     }
-    if (StCurHeader->state != 0x160 || ((StCurHeader->type >> 10) & 0x1F) != D_801102E8) {
+    if (StCurHeader->state != 0x160 || ((StCurHeader->type >> 10) & 0x1F) != StExpectedChannel) {
         if (StRingBase != 0) {
             /* ASM_BARRIER: Keep branch delay slot empty before materializing page_8011. */
             __asm__ volatile("" : : : "$1");
@@ -217,15 +217,15 @@ void StCdInterrupt(void) {
         } else {
             *(volatile u16 *)&StCurHeader->state;
         }
-        D_800A68B8 = 5;
+        StCdIntrStatus = 5;
         StCurHeader->state = 0;
         return;
     }
-    if (D_801102D4 != StCurHeader->sector_offset || (StCurFrameNo != 0 && StCurFrameNo != StCurHeader->frame_no)) {
+    if (StNextSectorOffset != StCurHeader->sector_offset || (StCurFrameNo != 0 && StCurFrameNo != StCurHeader->frame_no)) {
         StCurFrameNo = 0;
-        D_801102D4 = 0;
-        init_ring_status(D_801102F8, StRingWriteIndex - D_801102F8);
-        StRingWriteIndex = D_801102F8;
+        StNextSectorOffset = 0;
+        init_ring_status(StRingStartIndex, StRingWriteIndex - StRingStartIndex);
+        StRingWriteIndex = StRingStartIndex;
         StCurHeader->state = 0;
         /* ASM_BARRIER: Store state before checking StRingBase. */
         __asm__ volatile("" : : : "memory");
@@ -234,7 +234,7 @@ void StCdInterrupt(void) {
         }
         st = 6;
         page_800a = (s32 *)0x800A0000U;
-        /* ASM_BARRIER: Expose D_800A68B8 store for epilogue jump delay slot. */
+        /* ASM_BARRIER: Expose StCdIntrStatus store for epilogue jump delay slot. */
         __asm__("" : "=r"(page_800a), "=r"(st) : "0"(page_800a), "1"(st));
         page_800a[0x68B8 / 4] = st;
         return;
@@ -242,19 +242,19 @@ void StCdInterrupt(void) {
     if (StCurHeader->sector_offset == 0) {
         s32 fn = StCurHeader->frame_no;
         u32 f304 = StEndFrame;
-        /* ASM_BARRIER: Load frame_no and StEndFrame before clearing D_801102D4. */
+        /* ASM_BARRIER: Load frame_no and StEndFrame before clearing StNextSectorOffset. */
         __asm__ volatile("" : "=r"(fn) : "0"(fn), "r"(f304) : "memory");
-        D_801102D4 = 0;
-        /* ASM_BARRIER: Clear D_801102D4 before masking fn with 0xFFFF. */
+        StNextSectorOffset = 0;
+        /* ASM_BARRIER: Clear StNextSectorOffset before masking fn with 0xFFFF. */
         __asm__ volatile("" : "=r"(fn) : "0"(fn) : "memory");
         StCurFrameNo = fn & 0xFFFF;
         if (f304 != 0 && StCurFrameNo >= f304) {
             /* ASM_BARRIER: Pin cb to v1 so it is loaded before st = 1. */
             register void (*cb)(void) __asm__("$3");
             StCurFrameNo = 0;
-            D_801102D4 = 0;
-            init_ring_status(D_801102F8, StRingWriteIndex - D_801102F8);
-            StRingWriteIndex = D_801102F8;
+            StNextSectorOffset = 0;
+            init_ring_status(StRingStartIndex, StRingWriteIndex - StRingStartIndex);
+            StRingWriteIndex = StRingStartIndex;
             StCurHeader->state = 0;
             /* ASM_BARRIER: Store state before loading callback. */
             __asm__ volatile("" : : : "memory");
@@ -265,7 +265,7 @@ void StCdInterrupt(void) {
             /* ASM_BARRIER: Load cb and 1 before materializing page_8011 for delay slot. */
             __asm__("" : "=r"(st) : "0"(st), "r"(cb) : "$1");
             page_8011 = (s32 *)0x80110000U;
-            /* ASM_BARRIER: Expose D_80110308 store for branch delay slot. */
+            /* ASM_BARRIER: Expose StMaskEnabled store for branch delay slot. */
             __asm__("" : "=r"(page_8011) : "0"(page_8011));
             page_8011[0x308 / 4] = st;
             if (cb != 0) {
@@ -276,12 +276,12 @@ void StCdInterrupt(void) {
             }
             st = 7;
             page_800a = (s32 *)0x800A0000U;
-            /* ASM_BARRIER: Expose D_800A68B8 store for epilogue jump delay slot. */
+            /* ASM_BARRIER: Expose StCdIntrStatus store for epilogue jump delay slot. */
             __asm__("" : "=r"(page_800a), "=r"(st) : "0"(page_800a), "1"(st));
             page_800a[0x68B8 / 4] = st;
             return;
         }
-        if ((u32)(D_80110314 - StRingWriteIndex - 1) < StCurHeader->sector_size) {
+        if ((u32)(StRingSize - StRingWriteIndex - 1) < StCurHeader->sector_size) {
             if (StEndFrame == 0) {
                 /* ASM_BARRIER: Pin cb to v1 so it is loaded before st = 1. */
                 register void (*cb)(void) __asm__("$3");
@@ -295,7 +295,7 @@ void StCdInterrupt(void) {
                 /* ASM_BARRIER: Load cb and 1 before materializing page_8011 for delay slot. */
                 __asm__("" : "=r"(st) : "0"(st), "r"(cb) : "$1");
                 page_8011 = (s32 *)0x80110000U;
-                /* ASM_BARRIER: Expose D_80110308 store for branch delay slot. */
+                /* ASM_BARRIER: Expose StMaskEnabled store for branch delay slot. */
                 __asm__("" : "=r"(page_8011) : "0"(page_8011));
                 page_8011[0x308 / 4] = st;
                 if (cb != 0) {
@@ -306,12 +306,12 @@ void StCdInterrupt(void) {
                 }
                 st = 8;
                 page_800a = (s32 *)0x800A0000U;
-                /* ASM_BARRIER: Expose D_800A68B8 store for epilogue jump delay slot. */
+                /* ASM_BARRIER: Expose StCdIntrStatus store for epilogue jump delay slot. */
                 __asm__("" : "=r"(page_800a), "=r"(st) : "0"(page_800a), "1"(st));
                 page_800a[0x68B8 / 4] = st;
                 return;
             }
-            if ((s16)D_80110310->state != 0) {
+            if ((s16)StRingHeaders->state != 0) {
                 StCurHeader->state = 0;
                 /* ASM_BARRIER: Store state before checking StRingBase. */
                 __asm__ volatile("" : : : "memory");
@@ -320,17 +320,17 @@ void StCdInterrupt(void) {
                 }
                 st = 9;
                 page_800a = (s32 *)0x800A0000U;
-                /* ASM_BARRIER: Expose D_800A68B8 store for epilogue jump delay slot. */
+                /* ASM_BARRIER: Expose StCdIntrStatus store for epilogue jump delay slot. */
                 __asm__("" : "=r"(page_800a), "=r"(st) : "0"(page_800a), "1"(st));
                 page_800a[0x68B8 / 4] = st;
                 return;
             }
             StCurHeader->state = 1;
-            /* ASM_BARRIER: Store state before reloading D_80110310. */
+            /* ASM_BARRIER: Store state before reloading StRingHeaders. */
             __asm__ volatile("" : : : "memory");
             {
                 /* ASM_BARRIER: Pin copy pointers and counter to a1, v1, a0. */
-                register s32 *dst __asm__("$5") = (s32 *)D_80110310;
+                register s32 *dst __asm__("$5") = (s32 *)StRingHeaders;
                 register s32 *src __asm__("$3") = (s32 *)StCurHeader;
                 register u32 idx __asm__("$4") = 0;
                 StRingWriteIndex = 0;
@@ -342,15 +342,15 @@ void StCdInterrupt(void) {
                     dst += 1;
                 } while (idx < 8U);
             }
-            StCurHeader = D_80110310;
+            StCurHeader = StRingHeaders;
         }
-        D_801102F8 = StRingWriteIndex;
+        StRingStartIndex = StRingWriteIndex;
     }
-    D_800A68B8 = 0xA;
-    D_801102D4 = (u16)D_801102D4 + 1;
-    StRingSectorDest = (u8 *)(D_80110310 + D_80110314) + StRingWriteIndex * 0x7E0;
+    StCdIntrStatus = 0xA;
+    StNextSectorOffset = (u16)StNextSectorOffset + 1;
+    StRingSectorDest = (u8 *)(StRingHeaders + StRingSize) + StRingWriteIndex * 0x7E0;
     var_t0 = 0x11000000;
-    if (D_801102D8 != 0) {
+    if (StRgb24 != 0) {
         {
             /* ASM_BARRIER: Pin 0x20943 to v1 and p80 to v0. */
             register s32 c20943 __asm__("$3");
@@ -364,7 +364,7 @@ void StCdInterrupt(void) {
         }
         {
             /* ASM_BARRIER: Keep p84 in v1 and 0x1323 in v0 so sw fills jump delay slot. */
-            register volatile s32 *p84 __asm__("$3") = D_800A6884;
+            register volatile s32 *p84 __asm__("$3") = CdComDelayReg;
             /* ASM_BARRIER: Materialize p84 before loading 0x1323 into v0. */
             __asm__("" : "=r"(p84) : "0"(p84));
             st = 0x1323;
@@ -387,12 +387,12 @@ void StCdInterrupt(void) {
         *(s32 *)p80 = c2102;
     }
     if (StCurHeader->sector_size - 1 == StCurHeader->sector_offset) {
-        /* ASM_BARRIER: Keep constant 1 in v1 for D_801102EC and dma_execute arg. */
+        /* ASM_BARRIER: Keep constant 1 in v1 for StDataReadyPending and dma_execute arg. */
         register s32 one_v1 __asm__("$3") = 1;
         s32 f300 = StRingBase;
-        /* ASM_BARRIER: Load StRingBase before storing D_801102EC. */
+        /* ASM_BARRIER: Load StRingBase before storing StDataReadyPending. */
         __asm__("" : "=r"(one_v1) : "0"(one_v1), "r"(f300) : "$1");
-        D_801102EC = one_v1;
+        StDataReadyPending = one_v1;
         if (f300 != 0) {
             s32 f2f0;
             mem2mem(StRingSectorDest, f300 + (StRingHeaderIndex << 11) + 0x20, 0x1F8, 1);
@@ -408,14 +408,14 @@ void StCdInterrupt(void) {
         }
         {
             s32 e0 = D_801102E0;
-            /* ASM_BARRIER: Load D_801102E0 before clearing D_801102D4 and StCurFrameNo. */
+            /* ASM_BARRIER: Load D_801102E0 before clearing StNextSectorOffset and StCurFrameNo. */
             __asm__ volatile("" : "=r"(e0) : "0"(e0) : "memory");
-            D_801102D4 = 0;
+            StNextSectorOffset = 0;
             StCurFrameNo = 0;
             /* ASM_BARRIER: Clear StCurFrameNo before materializing page_8011 for delay slot. */
             __asm__ volatile("" : : "r"(e0) : "$1", "memory");
             page_8011 = (s32 *)0x80110000U;
-            /* ASM_BARRIER: Expose D_801102E8 store for jump delay slot. */
+            /* ASM_BARRIER: Expose StExpectedChannel store for jump delay slot. */
             __asm__("" : "=r"(page_8011) : "0"(page_8011));
             page_8011[0x2E8 / 4] = e0;
         }
@@ -435,7 +435,7 @@ void StCdInterrupt(void) {
             dma_execute(3, StRingSectorDest, 0, 0x1F8, var_t0, 0, 0);
         }
     }
-    *D_800A6884 = 0x1325;
+    *CdComDelayReg = 0x1325;
     StCurHeader->state = 3;
     /* ASM_BARRIER: Store state before incrementing StRingWriteIndex. */
     __asm__ volatile("" : : : "memory");
@@ -449,7 +449,7 @@ void StCdInterrupt(void) {
         /* ASM_BARRIER: Expose StRingWriteIndex store for conditional branch delay slot. */
         __asm__("" : "=r"(page_8011) : "0"(page_8011));
         page_8011[0x2F4 / 4] = f2f4;
-        if (f300 != 0 && D_801102EC != 0) {
+        if (f300 != 0 && StDataReadyPending != 0) {
             data_ready_callback();
         }
     }

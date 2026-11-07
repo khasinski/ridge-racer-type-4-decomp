@@ -26,9 +26,9 @@ class Overlay662DrawAreaTest(unittest.TestCase):
 #include "rr/overlay662_draw_area.h"
 _Static_assert(sizeof(RrFrameStorage)==0x22778,"real frame stride");
 _Static_assert(offsetof(RrFrameEnvironment,display.y)==0x5E,"comparison halfword");
-RrFrameStorage D_800ADAF0[2];static RrFrameStorage expected_frames[2];
+RrFrameStorage FrameEnvs[2];static RrFrameStorage expected_frames[2];
 RrGarageSelectionPrefix ovl662_D_801276A8;static RrGarageSelectionPrefix saved;
-s32 DrawBufIndex;s16 D_800ABAC4,D_800ABAC6;
+s32 DrawBufIndex;s16 D_800ABAC4,GpuVramHeight;
 static struct Packets {u32 before[3],words[9],head,after[3];} actual,expected;
 '''+resident+constructor+body+r'''
 static u32 rng=0x1ABB4;
@@ -38,7 +38,7 @@ static s16 half(u32 bits){u16 h=(u16)bits;s16 value;memcpy(&value,&h,2);return v
 static s16 narrow(int64_t n){return half((u32)((uint64_t)n&65535U));}
 static u32 command(s16 x,s16 y,u32 code){
  int64_t a=x,b=y;if(a<0)a=0;else if(a>=D_800ABAC4)a=D_800ABAC4-1;
- if(b<0)b=0;else if(b>=D_800ABAC6)b=D_800ABAC6-1;
+ if(b<0)b=0;else if(b>=GpuVramHeight)b=GpuVramHeight-1;
  return code|((u32)a&1023U)|(((u32)b&1023U)*1024U);
 }
 static u32 *head(struct Packets *p,unsigned shape){
@@ -51,12 +51,12 @@ int main(void){unsigned i,shape,j;u32 x,y,w,h;uint64_t cases=0;
   s16 rx,ry;int64_t yy;
   ovl662_D_801276A8.halfC8=half(i);ovl662_D_801276A8.halfCA=half(i*73U+17);
   memcpy(&saved,&ovl662_D_801276A8,sizeof(saved));
-  D_800ADAF0[0].environment.display.y=half(i);
-  D_800ADAF0[1].environment.display.y=half(i+(i&1));
-  expected_frames[0].environment.display.y=D_800ADAF0[0].environment.display.y;
-  expected_frames[1].environment.display.y=D_800ADAF0[1].environment.display.y;
+  FrameEnvs[0].environment.display.y=half(i);
+  FrameEnvs[1].environment.display.y=half(i+(i&1));
+  expected_frames[0].environment.display.y=FrameEnvs[0].environment.display.y;
+  expected_frames[1].environment.display.y=FrameEnvs[1].environment.display.y;
   DrawBufIndex=i%9==8?word(next()):clocks[i%8];
-  D_800ABAC4=i%3==0?1:i%3==1?320:1024;D_800ABAC6=i%3==0?512:i%3==1?256:1;
+  D_800ABAC4=i%3==0?1:i%3==1?320:1024;GpuVramHeight=i%3==0?512:i%3==1?256:1;
   x=next();y=next();w=(u16)i;h=(u16)(i*73U+17);
   rx=narrow((int64_t)saved.halfC8+x);ry=narrow((int64_t)saved.halfCA+y);
   yy=ry;if(i&1)yy+=(int64_t)DrawBufIndex*256;ry=narrow(yy);
@@ -76,7 +76,7 @@ int main(void){unsigned i,shape,j;u32 x,y,w,h;uint64_t cases=0;
    assert(memcmp(&saved,&ovl662_D_801276A8,sizeof(saved))==0);cases++;
   }
  }
- assert(memcmp(D_800ADAF0,expected_frames,sizeof(expected_frames))==0);
+ assert(memcmp(FrameEnvs,expected_frames,sizeof(expected_frames))==0);
  assert(cases==458752ULL);return 0;
 }
 '''

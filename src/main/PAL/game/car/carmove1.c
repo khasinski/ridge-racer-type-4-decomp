@@ -33,7 +33,7 @@ typedef struct {
 
 struct B4 { char b[4]; };
 
-extern short D_800AC53C;
+extern short TrackLengthDiv1024;
 extern short D_800ACC74;
 
 void FindAxleTrackNode(void);
@@ -380,7 +380,7 @@ void SetTrackNodeData(char *a)
     int i = 0;
     int n;
     register char *p asm("$8");
-    D_800ACBE8 = a + 4;
+    TrackNodeGrid = a + 4;
     sp = *(struct B4 *)a;
     n = *(int *)(a + 0x804);
     TrackNodes = p = a + 0x808;
@@ -395,7 +395,7 @@ void SetTrackNodeData(char *a)
             i++;
         } while (i < m);
     }
-    D_800AC53C = TrackLength / 1024;
+    TrackLengthDiv1024 = TrackLength / 1024;
     D_800ACC74 = (TrackLength >> 8) + 1;
 }
 

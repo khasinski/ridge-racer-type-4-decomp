@@ -4,7 +4,7 @@
 #include "rr/ui_bar.h"
 typedef struct {u32 addr:24;u32 len:8;u32 command;} RrGlyphCommand8;
 typedef struct {RrSpritePacketSignedClut sprite;RrGlyphCommand8 mode;} RrGlyphPacket28;
-extern RrUiUvRect D_800A1090[50],HudGlyphUvRects[40];
+extern RrUiUvRect HudGlyphUvRectsBank0[50],HudGlyphUvRects[40];
 #ifndef RR_GLYPH_SCRATCH
 #define RR_GLYPH_SCRATCH ((RrGpuScratchPointers*)0x1F800000U)
 #endif

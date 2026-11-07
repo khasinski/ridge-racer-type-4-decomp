@@ -62,9 +62,9 @@ RrReplayCameraContextPrefix *ctx;
                 ctx->mode4A8 = 0;
                 CdAudioFade(0, 0);
                 ModeGroup = (s16) temp_s1;
-                D_800F3A26 = 3;
+                ModeId = 3;
                 ctx->flagB0 = 1;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
             }
             AddScreenFadeTiles(&CurrentDrawBuf->head70, (s32)(255U - (u32)ctx->counter4A4), 0x45);
             break;

@@ -55,29 +55,29 @@ extern char D_8009FDC4[];
 extern u8 D_8009FDCC[];
 extern u8 D_8009FDD8[];
 extern u8 D_8009FDE4[];
-extern int D_800AC5D4;
+extern int SelectionPlayer;
 extern signed char *ImageRows;
 extern char *CarRecordPtrs[];
 extern char *BadgeRows;
 extern R4 SelectionRows[];
 extern int AddTileSemiTransPrim();
-extern u8 D_8009FDF4[];
-extern u8 D_8009FDF8[];
+extern u8 SaveListColumnSpacing[];
+extern u8 SaveListRowOffsets[];
 extern u8 D_8009FDFC[];
 extern u8 D_8009FE00[];
 extern u8 D_8009FE04[];
 extern u8 D_8009FE08[];
 extern u8 D_8009FE0C[];
 extern S2C SaveSlotSelections[];
-extern short D_800F4D3C;
+extern short SaveSlotIndex;
 extern char FractionText[];
 extern unsigned char D_8009FBEC[];
 extern char Options[];
 extern char PlayerControllers[];
-extern int D_800F4CB8;
+extern int MenuActivePlayerPlusOne;
 
 int func_80042254();
-int func_80042820();
+int DrawSaveSlotList();
 char *FormatCountOfTotal(int a, int b, int c);
 void func_80042DBC();
 
@@ -117,18 +117,18 @@ int arg2;
   x = *((short *) ((BadgeRows + (arg2 * 0x1C)) + 4));
   y = *((short *) ((BadgeRows + (arg2 * 0x1C)) + 6));
   sp30 = *((short *) ((BadgeRows + (arg2 * 0x1C)) + 0xC));
-  sp3C = (SelectionRows[D_800AC5D4].b * 2) + 8;
-  sp38 = SelectionRows[D_800AC5D4].a * 2;
-  sp34 = (SelectionRows[D_800AC5D4].c ^ 0x27) == 0;
-  if ((SelectionRows[D_800AC5D4].c ^ 0x27) == 0)
+  sp3C = (SelectionRows[SelectionPlayer].b * 2) + 8;
+  sp38 = SelectionRows[SelectionPlayer].a * 2;
+  sp34 = (SelectionRows[SelectionPlayer].c ^ 0x27) == 0;
+  if ((SelectionRows[SelectionPlayer].c ^ 0x27) == 0)
   {
-    if (SelectionRows[D_800AC5D4].a == 2)
+    if (SelectionRows[SelectionPlayer].a == 2)
     {
       sp4C = D_8009FDC4;
     }
     else
     {
-      if (SelectionRows[D_800AC5D4].a == 0)
+      if (SelectionRows[SelectionPlayer].a == 0)
       {
         CopyStringClearTail(D_8009FDBF, "D ");
       }
@@ -137,11 +137,11 @@ int arg2;
         CopyStringClearTail(D_8009FDBF, "G ");
       }
       q = D_8009FDC0;
-      FormatDecimalDigits(q, SelectionRows[D_800AC5D4].b + 1, 0);
+      FormatDecimalDigits(q, SelectionRows[SelectionPlayer].b + 1, 0);
       sp4C = q - 8;
     }
   }
-  c = CarRecordPtrs[D_800AC5D4];
+  c = CarRecordPtrs[SelectionPlayer];
   sp48 = 0x11;
   sp44 = ((u8) c[0x1F3]) + 1;
   sp40 = *((short *) (c + 0x1F0));
@@ -200,7 +200,7 @@ int arg2;
         case 3:
           if (sp34 == 0)
         {
-          arg1 = AddTextSprites(arg0, arg1, s2, y, CarRecordPtrs[D_800AC5D4] + 0x1F5, 0x7FF8, 2, 0);
+          arg1 = AddTextSprites(arg0, arg1, s2, y, CarRecordPtrs[SelectionPlayer] + 0x1F5, 0x7FF8, 2, 0);
         }
         else
         {
@@ -265,7 +265,7 @@ int arg2;
 #define FormatDecimalDigits ((void (*)())FormatDecimalDigits)
 #define UiFontGlyphs (*(R4_1 (*)[])&UiFontGlyphs)
 
-int func_80042820(arg0, arg1, arg2)
+int DrawSaveSlotList(arg0, arg1, arg2)
 int arg0;
 int arg1;
 int arg2;
@@ -285,7 +285,7 @@ int arg2;
     y += 0x20;
 
     for (i = 0; i < 4; i++) {
-        x += D_8009FDF4[i];
+        x += SaveListColumnSpacing[i];
         arg1 = AddSpritePrim(arg0, arg1, x, y, &UiFontGlyphs[D_8009FDFC[i]], 0x7FF8, 0);
     }
 
@@ -301,27 +301,27 @@ int arg2;
     for (i = 0; i < 3; i++) {
         x = *(short *)(BadgeRows + arg2 * 0x1C + 4) + 8;
         FormatDecimalDigits(sp38, i + 1, 0);
-        arg1 = AddTextSprites(arg0, arg1, x, y + D_8009FDF8[i + 1], sp38, 0x7FF8, 0, 0);
+        arg1 = AddTextSprites(arg0, arg1, x, y + SaveListRowOffsets[i + 1], sp38, 0x7FF8, 0, 0);
         if ((sp28[2] = SaveSlotSelections[i].b17) != -1) {
             sp28[0] = D_8009FE00[SaveSlotSelections[i].b1C & 3];
             sp28[1] = D_8009FE04[SaveSlotSelections[i].b1D & 3];
             sp28[2] = D_8009FE08[SaveSlotSelections[i].b17 / 2];
             for (j = 0; j < 3; j++) {
-                x += D_8009FDF4[j + 1];
-                arg1 = AddSpritePrim(arg0, arg1, x, y + D_8009FDF8[i + 1], &UiFontGlyphs[sp28[j]], 0x7FF8, 0);
+                x += SaveListColumnSpacing[j + 1];
+                arg1 = AddSpritePrim(arg0, arg1, x, y + SaveListRowOffsets[i + 1], &UiFontGlyphs[sp28[j]], 0x7FF8, 0);
                 if (j == 2 && SaveSlotSelections[i].b17 < 4) {
                     x += 0xE;
-                    arg1 = AddSpritePrim(arg0, arg1, x, y + D_8009FDF8[i + 1], &UiFontGlyphs[38], 0x7FF8, 0);
+                    arg1 = AddSpritePrim(arg0, arg1, x, y + SaveListRowOffsets[i + 1], &UiFontGlyphs[38], 0x7FF8, 0);
                 }
             }
         } else {
             for (j = 0; j < 3; j++) {
-                x += D_8009FDF4[j + 1];
-                arg1 = AddTilePrim(arg0, arg1, x, y + D_8009FDF8[i + 1] + 8, D_8009FE0C[j], 2, 0xFF, 0xFF, 0xFF);
+                x += SaveListColumnSpacing[j + 1];
+                arg1 = AddTilePrim(arg0, arg1, x, y + SaveListRowOffsets[i + 1] + 8, D_8009FE0C[j], 2, 0xFF, 0xFF, 0xFF);
             }
         }
-        if (i == D_800F4D3C) {
-            arg1 = AddTileSemiTransPrim(arg0, arg1, *(short *)(BadgeRows + arg2 * 0x1C + 4), y + D_8009FDF8[i + 1] - 4, sp40, 0x18, 0x20, 0x20, 0x20);
+        if (i == SaveSlotIndex) {
+            arg1 = AddTileSemiTransPrim(arg0, arg1, *(short *)(BadgeRows + arg2 * 0x1C + 4), y + SaveListRowOffsets[i + 1] - 4, sp40, 0x18, 0x20, 0x20, 0x20);
         }
     }
 
@@ -333,8 +333,8 @@ int arg2;
     for (i = 0; i < 4; i++) {
         x = *(short *)(BadgeRows + arg2 * 0x1C + 4);
         for (j = 0; j < 3; j++) {
-            x += D_8009FDF4[j + 1];
-            arg1 = AddTilePrim(arg0, arg1, x, y + D_8009FDF8[i], 2, 0x10, 0xFF, 0xFF, 0xFF);
+            x += SaveListColumnSpacing[j + 1];
+            arg1 = AddTilePrim(arg0, arg1, x, y + SaveListRowOffsets[i], 2, 0x10, 0xFF, 0xFF, 0xFF);
         }
     }
 
@@ -400,7 +400,7 @@ int a2;
     p--;
   }
   while (i >= 0);
-  idx = (D_800F4CB8 - 1) & 1;
+  idx = (MenuActivePlayerPlusOne - 1) & 1;
   if (idx < 0)
   {
     idx = 0;

@@ -43,7 +43,7 @@ typedef struct
   int a88;
 } T38;
 
-extern int func_8002E828();
+extern int ScaleMatrixRow1();
 extern int BuildCameraMatrices();
 extern short D_8009F694[];
 extern short D_8009F6A0[];
@@ -65,11 +65,11 @@ extern int BuildRotMatrixY();
 extern int BuildRotMatrixX();
 extern int MulMatrix();
 extern int ApplyMatrix();
-extern int D_8010718C;
+extern int ViewUsesCarTrackNode;
 extern s32 AddDrawAreaPrim();
 extern s32 AddDrawModePrim();
 extern s32 AddSpritePrim();
-extern Glyph4 D_8009F6AC[];
+extern Glyph4 StartCountdownGlyphs[];
 extern u16 D_8009F6CC[];
 extern u16 D_8009F6D0[];
 extern u8 D_8009F6D8[];
@@ -78,33 +78,33 @@ extern u8 D_8009F6DB;
 extern s32 RaceState;
 extern int SoundQueueEnqueue();
 extern int RaceVoiceFlags;
-extern short D_800AC5D0;
+extern short MenuFadeTimer;
 extern int PadSetRumbleParams();
 extern int PlaySfx();
-extern unsigned char D_8009F6DC[];
+extern unsigned char PauseCursorMax[];
 extern signed char PauseCursor;
 extern int FinishRace();
 extern int D_8009F6E4[];
 extern char SelectionState[];
 extern int RankEntries;
 extern int TrackLength;
-extern short D_800F3A26;
+extern short ModeId;
 extern int TotalRaceTime;
 extern short ModeGroup;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern int GameQueueSprite();
-extern int func_8002071C();
+extern int EmitPolyF3();
 extern unsigned char D_8009F71C[][4];
 extern int SioDeviceName[];
 extern int LinkWriteHandle;
 extern int LinkReadHandle;
 extern s16 LinkState;
-extern int D_8009F728;
+extern int LinkHandshakeCountdown;
 extern signed char LinkEntryState[];
 extern signed char D_800ABEBE;
 extern int RaceTimeRemaining;
-extern short D_800AD508;
-extern int D_800F3A64;
+extern short LinkRoleSlot;
+extern int MenuCancelPressed;
 
 void SetupMenuCarCamera(int a);
 void UpdateRaceChaseCamera(struct w3g2p *p);
@@ -143,27 +143,27 @@ void SetupMenuCarCamera(int a)
     t = SCRATCH_ROT_MATRIX;
     /* ASM_BARRIER: forces the SCRATCH_ROT_MATRIX li to be scheduled before the li a0,2 (original delay-slot layout) */
     asm volatile("" : "=r"(t) : "0"(t));
-    func_8002E828(2, t);
+    ScaleMatrixRow1(2, t);
   }
   ;
-  if (PlayerControllers[D_800AC5D4 & 1].b & 4)
+  if (PlayerControllers[SelectionPlayer & 1].b & 4)
   {
-    PlayerCars[D_800AC5D4 & 1].v += 0xC0;
+    PlayerCars[SelectionPlayer & 1].v += 0xC0;
   }
   else
-    if (PlayerControllers[D_800AC5D4 & 1].b & 8)
+    if (PlayerControllers[SelectionPlayer & 1].b & 8)
   {
-    PlayerCars[D_800AC5D4 & 1].v -= 0xC0;
+    PlayerCars[SelectionPlayer & 1].v -= 0xC0;
   }
-  i = PlayerCars[D_800AC5D4 & 1].v;
+  i = PlayerCars[SelectionPlayer & 1].v;
   if (i > 0xF00)
   {
-    PlayerCars[D_800AC5D4 & 1].v = 0xF00;
+    PlayerCars[SelectionPlayer & 1].v = 0xF00;
   }
   else
     if (i < (-0xF00))
   {
-    PlayerCars[D_800AC5D4 & 1].v = -0xF00;
+    PlayerCars[SelectionPlayer & 1].v = -0xF00;
   }
 }
 
@@ -173,7 +173,7 @@ void UpdateRaceChaseCamera(struct w3g2p *p) {
     int r;
     short t;
     unsigned short a1, a2;
-    D_8010718C = 1;
+    ViewUsesCarTrackNode = 1;
     if (p->u1E4 & 0x100) {
         BuildRotMatrixY(s.a, 0x800 - p->f54);
         BuildRotMatrixX(s.b, p->f50);
@@ -259,10 +259,10 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                 fp = 1;
             }
         }
-        if (D_800F4D44 == 1) {
+        if (RaceType == 1) {
             if (s3 >= 4) {
                 s7 = ((arg1 >> 2) & 1) + 2;
-                sp20 = D_8009F6AC[7];
+                sp20 = StartCountdownGlyphs[7];
                 a1 = AddSpritePrim(arg0, a1, D_8009F6DB + 0x60, s4 + 0x39, &sp20, D_8009F6D0[s7], 0);
             } else if (s3 > 0) {
                 s2 = 0;
@@ -274,13 +274,13 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                     }
                     b = s1 & 1;
                     c = b << 1;
-                    a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s4 + 0x39, &D_8009F6AC[2 + b], D_8009F6D0[b * 2], 0);
+                    a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s4 + 0x39, &StartCountdownGlyphs[2 + b], D_8009F6D0[b * 2], 0);
                     s1++;
                     s2 += 1 << (c + 1);
                 }
                 s7 = 0;
-                sp20 = D_8009F6AC[5];
-                sp20 = D_8009F6AC[6];
+                sp20 = StartCountdownGlyphs[5];
+                sp20 = StartCountdownGlyphs[6];
                 sp20.b0 += (s3 - 1) * 12;
                 a1 = AddSpritePrim(arg0, a1, D_8009F6DA + 0x60, s4 + 0x39, &sp20, D_8009F6D0[0], 0);
             }
@@ -295,31 +295,31 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                     }
                     b = s1 & 1;
                     c = b << 1;
-                    a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s4 + 0x39, &D_8009F6AC[2 + b], D_8009F6D0[b * 2], 0);
+                    a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s4 + 0x39, &StartCountdownGlyphs[2 + b], D_8009F6D0[b * 2], 0);
                     s1++;
                     s2 += 1 << (c + 1);
                 }
             } else if (s3 >= 4) {
                 s7 = ((arg1 >> 2) & 1) + 2;
-                sp20 = D_8009F6AC[5];
+                sp20 = StartCountdownGlyphs[5];
                 sp20.b0 += 0x60;
                 for (s1 = 0; s1 < 3; s1++) {
                     if (s1 == 2) {
-                        sp20 = D_8009F6AC[7];
+                        sp20 = StartCountdownGlyphs[7];
                         s1 = 3;
                     }
                     a1 = AddSpritePrim(arg0, a1, D_8009F6D8[s1] + 0x60, s4 + 0x39, &sp20, D_8009F6D0[s7], 0);
                 }
             } else {
                 s7 = 0;
-                sp20 = D_8009F6AC[5];
+                sp20 = StartCountdownGlyphs[5];
                 for (s1 = 0; s1 < 3; s1++) {
                     if (s1 == 0) {
                         sp20.b0 += ((s5 * 9) / 25) * 12;
                     } else if (s1 == 1) {
-                        sp20.b0 = D_8009F6AC[5].b0 + s3 * 0x18;
+                        sp20.b0 = StartCountdownGlyphs[5].b0 + s3 * 0x18;
                     } else {
-                        sp20 = D_8009F6AC[6];
+                        sp20 = StartCountdownGlyphs[6];
                         sp20.b0 += (s3 - 1) * 12;
                     }
                     a1 = AddSpritePrim(arg0, a1, D_8009F6D8[s1] + 0x60, s4 + 0x39, &sp20, D_8009F6D0[s7], 0);
@@ -330,12 +330,12 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
             s0 = s4 + 0x39;
             s2 = 0;
             for (s1 = 0; s1 < 10; s1++) {
-                a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s0, &D_8009F6AC[4], D_8009F6D0[(u32)(s1 - 3) < 4 ? 3 : s7], 0);
+                a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s0, &StartCountdownGlyphs[4], D_8009F6D0[(u32)(s1 - 3) < 4 ? 3 : s7], 0);
                 s2 += 8;
             }
         }
-        a1 = AddSpritePrim(arg0, a1, 0x68, s4 + 0x1A, &D_8009F6AC[1], D_8009F6CC[s3 >= 4], (fp << 1) | 1);
-        a1 = AddSpritePrim(arg0, a1, 0x60, s4, &D_8009F6AC[0], 0x797C, 0);
+        a1 = AddSpritePrim(arg0, a1, 0x68, s4 + 0x1A, &StartCountdownGlyphs[1], D_8009F6CC[s3 >= 4], (fp << 1) | 1);
+        a1 = AddSpritePrim(arg0, a1, 0x60, s4, &StartCountdownGlyphs[0], 0x797C, 0);
         *(s32 *)SCRATCHPAD = AddDrawModePrim(arg0, a1, 0x3F);
         if (arg0 == CurrentDrawBuf + 0xB70) {
             s32 y;
@@ -353,7 +353,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
 void PlayStartCountdownVoice(int a0) {
     if (RaceState != 0 && a0 < 0x115) {
         if (a0 == 0xC3) {
-            D_800AC5D0 = 0x1E;
+            MenuFadeTimer = 0x1E;
         }
         if (a0 == 0x65) {
             if (!(RaceVoiceFlags & 1)) {
@@ -423,7 +423,7 @@ void UpdatePauseMenu(int a0) {
         }
     }
     if (Pad0Buttons & 0x4000) {
-        if (PauseCursor < D_8009F6DC[a0]) {
+        if (PauseCursor < PauseCursorMax[a0]) {
             PauseCursor = PauseCursor + 1;
             PlaySfx(0);
         }
@@ -435,7 +435,7 @@ void ApplyPauseMenuChoice(int arg0) {
     int *t;
     int b;
     if (PauseCursor == 0) {
-        D_800AC5D0 = 0x1E;
+        MenuFadeTimer = 0x1E;
         return;
     }
     SelectionState[0x19] = 0;
@@ -445,9 +445,9 @@ void ApplyPauseMenuChoice(int arg0) {
         RaceState = 6;
         RankEntries = -TrackLength;
         if (PauseCursor == 2) {
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             ModeGroup = D_8009F6E4[3] >> 8;
-            D_800F3A26 = *(unsigned char *)&D_8009F6E4[3];
+            ModeId = *(unsigned char *)&D_8009F6E4[3];
             return;
         }
         FinishRace(SelectionState, PauseCursor);
@@ -459,8 +459,8 @@ void ApplyPauseMenuChoice(int arg0) {
     ModeGroup = *t >> 8;
     {
         int v = *(unsigned char *)t;
-        D_800F4D8A = 0;
-        D_800F3A26 = v;
+        ModeSubState = 0;
+        ModeId = v;
     }
 }
 
@@ -474,7 +474,7 @@ void DrawPauseMenu(int a0, int a1) {
 
     p = GameQueueSprite(a0, *(int *)SCRATCHPAD, 0x90, 0x5C, 0x1C, 8, 0x60, 0xA0, 0x7FF8);
     p = GameQueueSprite(a0, p, 0x90, 0x6A, 0x20, 8, 0xC4, 0xA0, 0x7FF8);
-    if (D_800F4D44 == 1) {
+    if (RaceType == 1) {
         p = GameQueueSprite(a0, p, 0x90, 0x74, 0x1C, 8, 0x7C, 0xA0, 0x7FF8);
     } else {
         p = GameQueueSprite(a0, p, 0x90, 0x74, 0x24, 8, 0x9C, 0xA0, 0x7FF8);
@@ -498,11 +498,11 @@ void DrawPauseMenu(int a0, int a1) {
         j = j == 1;
         base = D_8009F71C;
         t = base[j];
-        p = func_8002071C(a0, p, v[t[0]], v[t[1]], v[t[2]], rgb, 1);
+        p = EmitPolyF3(a0, p, v[t[0]], v[t[1]], v[t[2]], rgb, 1);
         rgb[0] = 0xFF;
         rgb[2] = 0xFF;
         rgb[1] = 0xFF;
-        p = func_8002071C(a0, p, v[t[1]], v[t[2]], v[t[3]], rgb, 1);
+        p = EmitPolyF3(a0, p, v[t[1]], v[t[2]], v[t[3]], rgb, 1);
     }
     *(int *)SCRATCHPAD = AddDrawModePrim(a0, p, 5);
 
@@ -525,7 +525,7 @@ void DrawPauseMenu(int a0, int a1) {
     }
 }
 
-void func_80034E14(void) {
+void EnableLinkSioTx(void) {
     _sio_control(1, 1, 1);
 }
 
@@ -564,8 +564,8 @@ void BeginLinkSync(void) {
 int ExitOnLinkLost(void) {
     if (LinkState == -1) {
         ModeGroup = 1;
-        D_800F3A26 = 0x2D;
-        D_800F4D8A = 0;
+        ModeId = 0x2D;
+        ModeSubState = 0;
         _sio_control(1, 1, 0);
         return 1;
     }
@@ -601,9 +601,9 @@ int UpdateLinkHandshake(int a0)
       _sio_control(1, 1, 2);
       if (a0 == 0)
       {
-        D_800AD508 = 0;
+        LinkRoleSlot = 0;
         D_800ABEBE = 1;
-        D_8009F728 = 3;
+        LinkHandshakeCountdown = 3;
         LinkState = 10;
       }
       else
@@ -615,7 +615,7 @@ int UpdateLinkHandshake(int a0)
       _sio_control(1, 1, 2);
       if (a0 == 0)
     {
-      D_800AD508 = 1;
+      LinkRoleSlot = 1;
       LinkEntryState[0] = 1;
       LinkState = 1;
     }
@@ -631,14 +631,14 @@ int UpdateLinkHandshake(int a0)
       break;
 
     case 11:
-      if (D_8009F728 > 0)
+      if (LinkHandshakeCountdown > 0)
     {
       _sio_control(1, 1, 2);
-      D_8009F728 -= 1;
+      LinkHandshakeCountdown -= 1;
       if (k == 1)
       {
         LinkState = 2;
-        D_8009F728 = 0;
+        LinkHandshakeCountdown = 0;
       }
     }
     else
@@ -660,17 +660,17 @@ int UpdateLinkHandshake(int a0)
       if (k == 2)
     {
       LinkState = k;
-      D_8009F728 = 4;
+      LinkHandshakeCountdown = 4;
     }
       break;
 
     case 3:
       _sio_control(1, 1, 1);
-      if (D_8009F728 > 0)
+      if (LinkHandshakeCountdown > 0)
     {
       if (a0 == 0)
       {
-        D_8009F728 -= 1;
+        LinkHandshakeCountdown -= 1;
         break;
       }
     }
@@ -678,7 +678,7 @@ int UpdateLinkHandshake(int a0)
       if (a0 == 0)
     {
       new_var = LinkEntryState;
-      xx = D_800AD508;
+      xx = LinkRoleSlot;
       z = 3;
       new_var2 = xx * 2;
       bp = new_var;
@@ -690,16 +690,16 @@ int UpdateLinkHandshake(int a0)
         if (e->a84 != 0)
         {
           PlaySfx(1);
-          bp[new_var3 - (D_800AD508 * 2)] = 1;
+          bp[new_var3 - (LinkRoleSlot * 2)] = 1;
         }
         else
           if (e->a88 != 0)
         {
           *t = -1;
         }
-        if (D_800F3A64 != 0)
+        if (MenuCancelPressed != 0)
         {
-          LinkEntryState[1 - (q3 = D_800AD508)] = -1;
+          LinkEntryState[1 - (q3 = LinkRoleSlot)] = -1;
           _sio_control(1, 1, 0, q3);
         }
       }
@@ -719,7 +719,7 @@ int UpdateLinkHandshake(int a0)
         _sio_control(1, 1, 2);
       }
       else
-        if (LinkEntryState[3 - (D_800AD508 * 2)] != 0)
+        if (LinkEntryState[3 - (LinkRoleSlot * 2)] != 0)
       {
         LinkState = 3;
         _sio_control(1, 1, 2);

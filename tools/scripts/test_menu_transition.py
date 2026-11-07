@@ -41,16 +41,16 @@ static unsigned seen[12];
 static _Alignas(16) u8 contexts[2][0xc00],packets[4096];
 static s8 *scripts[12];
 #define CurrentDrawBuf ((RrIconSpriteContext*)contexts[w->context])
-#define D_800AD50A (w->transition)
+#define SceneId (w->transition)
 #define ModeFrame (w->frame)
-#define D_800F3A26 (w->next_timer)
+#define ModeId (w->next_timer)
 #define MenuScriptStep (w->step)
 #define MenuScriptId (w->scene)
 #define ModeGroup (w->phase)
-#define D_800F4D44 (w->ui_mode)
+#define RaceType (w->ui_mode)
 #define LoadState (w->operation)
-#define D_800F4D8A (w->timer)
-#define D_800FFC10 (w->mode)
+#define ModeSubState (w->timer)
+#define MenuDispMode (w->mode)
 #define MenuScripts scripts
 static void record(int kind,intptr_t a,intptr_t b,intptr_t c,intptr_t d,intptr_t e,intptr_t f,intptr_t g,intptr_t h,intptr_t j){
  assert(count<12);Entry *p=&entries[count++];memset(p,0,sizeof(*p));p->kind=kind;
@@ -67,9 +67,9 @@ static void record(int kind,intptr_t a,intptr_t b,intptr_t c,intptr_t d,intptr_t
 }
 void SetDispMask(s32 arg){record(0,arg,0,0,0,0,0,0,0,0);}
 int UpdateLinkHandshake(int arg){record(1,arg,0,0,0,0,0,0,0,0);return -77;}
-s32 func_80059E40(s32 frame){record(2,frame,0,0,0,0,0,0,0,0);return status;}
+s32 OpeningScriptStep(s32 frame){record(2,frame,0,0,0,0,0,0,0,0);return status;}
 s32 IntroScriptStep(void){record(3,0,0,0,0,0,0,0,0,0);return status;}
-void func_8005CA14(void){record(4,0,0,0,0,0,0,0,0,0);}
+void StartSceneFadeOut(void){record(4,0,0,0,0,0,0,0,0,0);}
 static s32 op0(void){record(5,0,0,0,0,0,0,0,0,0);return op_status;}
 static s32 op1(void){record(5,1,0,0,0,0,0,0,0,0);return op_status;}
 static s32 op2(void){record(5,2,0,0,0,0,0,0,0,0);return op_status;}

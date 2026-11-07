@@ -1,12 +1,12 @@
 #include "rr/menu_text_rows.h"
 
-extern s32 ModeFrame, TotalRaceTime, D_800F3A60, D_800AC5D4;
-extern u16 D_800F4D8A;
-extern s16 ModeGroup, D_800F3A26, D_800AC5D0, MenuCursor, D_800AD508;
-extern s16 LinkState, D_8010C068, D_80107178;
+extern s32 ModeFrame, TotalRaceTime, MenuConfirmPressed, SelectionPlayer;
+extern u16 ModeSubState;
+extern s16 ModeGroup, ModeId, MenuFadeTimer, MenuCursor, LinkRoleSlot;
+extern s16 LinkState, D_8010C068, PlayerCount;
 extern s16 D_8010C070[4];
-extern s16 D_8010C080[4];
-extern char D_8010C088[4][12];
+extern s16 PlayerWinCounts[4];
+extern char PlayerNames[4][12];
 extern u8 *CurrentDrawBuf;
 
 s32 ExitOnLinkLost(void);
@@ -43,33 +43,33 @@ void ovl667_func_8011885C(void) {
     if ((u32)ModeFrame >= 0x08000000) {
         ModeFrame = 3;
     }
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         if (TotalRaceTime == -1) {
             group = 1;
             if (MenuTextRows[11].signedBytes[2] >= 2) {
-                D_800F4D8A = 3;
+                ModeSubState = 3;
             }
             break;
         }
         group = 0;
         if (MenuTextRows[3].signedBytes[3] >= 16) {
             SetMenuFrameOptions(1, 1, group);
-            if (D_800F3A60 != 0) {
-                D_800F4D8A = 3;
+            if (MenuConfirmPressed != 0) {
+                ModeSubState = 3;
                 SetMenuFrameOptions(group, 1, group);
             }
         }
         FormatDecimalDigits(MenuTextRows[4].marquee.at28 + 8, D_8010C070[0] + 1, 0);
-        CopyStringPadSpaces(MenuTextRows[5].marquee.at28 + 1, D_8010C088[D_8010C070[0]], 9);
+        CopyStringPadSpaces(MenuTextRows[5].marquee.at28 + 1, PlayerNames[D_8010C070[0]], 9);
         /* The original literal occupies 12 bytes (zero word before "WIN "). */
         CopyStringClearTail(MenuTextRows[5].marquee.at28 + 10, "WON !!!\0\0\0");
         for (i = 0; i < 4; i++) {
-            if (i < D_80107178) {
+            if (i < PlayerCount) {
                 player = D_8010C070[i];
-                CopyStringPadSpaces(MenuTextRows[7 + i].marquee.at28 + 5, D_8010C088[player], 9);
+                CopyStringPadSpaces(MenuTextRows[7 + i].marquee.at28 + 5, PlayerNames[player], 9);
                 CopyStringClearTail(MenuTextRows[7 + i].marquee.at28 + 14, "WIN ");
-                FormatDecimalDigits(MenuTextRows[7 + i].marquee.at28 + 18, D_8010C080[player], 1);
+                FormatDecimalDigits(MenuTextRows[7 + i].marquee.at28 + 18, PlayerWinCounts[player], 1);
             } else {
                 MenuTextRows[7 + i].marquee.at28[0] = 0;
             }
@@ -82,8 +82,8 @@ void ovl667_func_8011885C(void) {
             if (ovl667_func_801187DC(0) >= 0) {
                 ResetScreenCounters();
                 InitMenuArenas();
-                D_800AC5D0 = 64;
-                D_800F4D8A = MenuCursor + 5;
+                MenuFadeTimer = 64;
+                ModeSubState = MenuCursor + 5;
                 BeginLinkSync();
                 SetMenuFrameOptions(0, 1, 0);
             }
@@ -91,40 +91,40 @@ void ovl667_func_8011885C(void) {
         break;
     case 4:
         group = -1;
-        if (pressed == 0 && D_800AC5D0 == 64) {
+        if (pressed == 0 && MenuFadeTimer == 64) {
             break;
         }
-        D_800AC5D0--;
-        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+        MenuFadeTimer--;
+        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             D_8010C068 = 1;
             ModeGroup = 1;
-            D_800F3A26 = 41;
-            D_800F4D8A = 0;
+            ModeId = 41;
+            ModeSubState = 0;
             LinkState = 0;
         }
         break;
     case 5:
         group = 3;
-        if (pressed == 0 && D_800AC5D0 == 64) {
+        if (pressed == 0 && MenuFadeTimer == 64) {
             CopyStringClearTail(MenuTextRows[38].marquee.at28, "*PLEASE WAIT! ");
             break;
         }
-        D_800AC5D0 -= 2;
-        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+        MenuFadeTimer -= 2;
+        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             group = -1;
-            D_800F4D8A = 8;
+            ModeSubState = 8;
         }
         break;
     case 6:
         group = -1;
-        D_800AC5D0--;
-        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+        MenuFadeTimer--;
+        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
-            D_800F3A26 = 3;
-            D_800F4D8A = 0;
+            ModeId = 3;
+            ModeSubState = 0;
         }
         break;
     case 8:
@@ -134,11 +134,11 @@ void ovl667_func_8011885C(void) {
         }
         SeqStartTrack(0);
         LinkState = 0;
-        D_800AC5D4 = (result - D_800AD508) * 2;
-        ovl667_func_801161A8(D_800AC5D4);
+        SelectionPlayer = (result - LinkRoleSlot) * 2;
+        ovl667_func_801161A8(SelectionPlayer);
         ModeGroup = result;
-        D_800F3A26 = 60;
-        D_800F4D8A = 0;
+        ModeId = 60;
+        ModeSubState = 0;
         return;
     }
     UpdateScreenFade(0x1000C);

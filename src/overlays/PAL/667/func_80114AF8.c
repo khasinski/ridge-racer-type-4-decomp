@@ -46,12 +46,12 @@ void ovl667_func_80114AF8(unsigned long configuration) {
     ovl667_D_80118F10.words[0]=0;
     ovl667_D_80118F10.words[1]=0;
     ovl667_D_80118F10.words[2]=0;
-    D_800F3AF0.words[0]=0;
-    D_800F3AF0.words[1]=0;
+    LinkLocalInputs.words[0]=0;
+    LinkLocalInputs.words[1]=0;
     D_800ACBF0.words[0]=0;
     D_800ACBF0.words[1]=0;
-    D_800ACBE0.words[0]=0;
-    D_800ACBE0.words[1]=0;
+    LinkRemoteInputs.words[0]=0;
+    LinkRemoteInputs.words[1]=0;
     ovl667_D_80118ED0=0;
     ovl667_D_80118ED4=0;
     if (_sio_control(3,1,0) != 0) {

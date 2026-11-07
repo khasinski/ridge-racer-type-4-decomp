@@ -7,16 +7,16 @@
 #include "rr/library.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800A6764 (*(u8 (*)[2])&D_800A6764)
+#define CdIntrStatusBytes (*(u8 (*)[2])&CdIntrStatusBytes)
 
-#undef D_800A6764
+#undef CdIntrStatusBytes
 
-extern volatile u8 D_800A6764[];
+extern volatile u8 CdIntrStatusBytes[];
 
 extern s32 getintr(void);
 
 void CdCommandCallback(void) {
-    u8 *p=&D_800A6764[1];
+    u8 *p=&CdIntrStatusBytes[1];
     u8 *q=p-1;
     s32 saved=*CD_reg0 & 3;
     s32 result;

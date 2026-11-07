@@ -56,8 +56,8 @@ typedef struct {
  unsigned calls;Call trace[14];u8 suffix[32];
 } World;
 static World *actual,*expected;static unsigned iteration;
-#define D_8009F108 (actual->patterns+16)
-#define D_8009F074 (actual->uv+128)
+#define BadgePatternTable (actual->patterns+16)
+#define BadgeUvTable (actual->uv+128)
 '''+body+r'''
 static u32 mixed(u32 x){x^=x>>16;x*=0x7feb352dU;x^=x>>15;x*=0x846ca68bU;return x^(x>>16);}
 static u8 *mapped(const void *pointer,size_t size) {
@@ -179,7 +179,7 @@ int main(void) {
   }
   void *start=iteration&1?(void *)(actual->arena+32):(void *)&actual->rows[0][2];
   memcpy(expected,actual,sizeof(*actual));
-  void *want=reference(start,style,index),*got=func_80030BEC(start,style,index);
+  void *want=reference(start,style,index),*got=DrawBadgePatternRows(start,style,index);
   assert(got==want && actual->calls==14);
   if(memcmp(actual,expected,sizeof(*actual))){fprintf(stderr,"row case %u failed\n",iteration);abort();}
  }

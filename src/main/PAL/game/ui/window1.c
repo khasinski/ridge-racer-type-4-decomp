@@ -64,7 +64,7 @@ void InitRaceHudPackets(int a0)
     case 3:
     case 4:
     case 6:
-        if (D_80107178 == 2 && a0 == 4) goto l60;
+        if (PlayerCount == 2 && a0 == 4) goto l60;
         if (a0 != 6) { n = 12; goto l64; }
     l60:
         n = 6;
@@ -101,7 +101,7 @@ L68:
     s0 = (int *)(CurrentDrawBuf + 0x70);
     goto LC0;
 L7C:
-    if (D_80107178 != 2 || a0 != 3) {
+    if (PlayerCount != 2 || a0 != 3) {
         if (a0 != 4) goto Lb4;
     }
     a1 = 6;

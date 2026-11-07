@@ -29,9 +29,9 @@ struct DirPath {
 extern int CD_debug;
 extern struct DirPath DS_pathTable[];
 extern CdlFILE DsDirFileCache[];
-extern const char D_80011CA4[];
+extern const char CdCacheFileDirNotFoundMsg[];
 extern const char CdCacheFileSearchMsg[];
-extern unsigned short D_80011CE0;
+extern unsigned short DsDirNameDot;
 extern short D_80011CE4;
 extern char D_80011CE6;
 extern const char CdFileEntryFmt[];
@@ -46,12 +46,12 @@ int DS_cachefile(int dir) {
     unsigned char *p;
     int i;
 
-    if (dir == D_800A67A0) {
+    if (dir == DS_cachedDir) {
         return 1;
     }
     if (cd_read(1, DS_pathTable[dir].a, CdIsoSectorBuf) != 1) {
         if (CD_debug > 0) {
-            DebugPrintStub(D_80011CA4);
+            DebugPrintStub(CdCacheFileDirNotFoundMsg);
             return -1;
         }
         return -1;
@@ -70,7 +70,7 @@ int DS_cachefile(int dir) {
         *(U4 *)&DsDirFileCache[i].size = *(U4 *)(p + 10);
         switch (i) {
         case 0:
-            __builtin_memcpy(DsDirFileCache[0].name, &D_80011CE0, 2);
+            __builtin_memcpy(DsDirFileCache[0].name, &DsDirNameDot, 2);
             break;
         case 1:
             __builtin_memcpy(DsDirFileCache[1].name, &D_80011CE4, 3);
@@ -96,7 +96,7 @@ int DS_cachefile(int dir) {
             break;
         }
     }
-    D_800A67A0 = dir;
+    DS_cachedDir = dir;
     if (i < 0x40) {
         DsDirFileCache[i].name[0] = 0;
     }

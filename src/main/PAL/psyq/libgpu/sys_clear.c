@@ -21,7 +21,7 @@ void GPU_memset(s8 *arg0, s8 arg1, s32 arg2);
 #define GPU_printf (*(int (*(*))())&GPU_printf)
 
 int DrawOTag2(a0) int a0; {
-    if (D_800ABAC2 >= 2) GPU_printf(D_80011F38, a0);
+    if (D_800ABAC2 >= 2) GPU_printf(DrawOTagFmt, a0);
     GpuTimeoutDeadline = VSync(-1) + 0xF0;
     GpuAlarmCount = 0;
     while ((*DMA2_CHCR & 0x1000000) || (*GPU_STATUS & 0x4000000) == 0) {

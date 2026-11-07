@@ -53,7 +53,7 @@ static Entry entries[5],saved[5];static unsigned count,seed=0xF1EC3097;static in
 static u32 *packet(World *p){return embedded?p->env.draw_packet1C:p->packet;}
 u32 real_window(RrGpuRectangleFields *);
 #define D_800ABAC4 (w->width)
-#define D_800ABAC6 (w->height)
+#define GpuVramHeight (w->height)
 static u32 random32(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
 static u32 emit(int kind,int a,int b,int c){
  assert(count<5);Entry *p=&entries[count++];memset(p,0,sizeof(*p));p->kind=kind;p->args[0]=a;p->args[1]=b;p->args[2]=c;p->snapshot=*w;

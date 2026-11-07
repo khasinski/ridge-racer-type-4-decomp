@@ -1,9 +1,9 @@
 #ifndef RR_MENU_SELECTION_H
 #define RR_MENU_SELECTION_H
 #include "rr/layout.h"
-extern u8 D_8009F64C[8];
-extern s16 ReverseCourse,D_800AC648,CourseIndex;
-extern s32 D_800AC5D4;
+extern u8 CourseIndexMap[8];
+extern s16 ReverseCourse,CourseMenuSelection,CourseIndex;
+extern s32 SelectionPlayer;
 /* Word result0..255: the original loads the byte with zero extension. */
 s32 DecodeCourseIndex(s32 selection);
 typedef struct {s16 first,second;} RrMenuGridPoint;

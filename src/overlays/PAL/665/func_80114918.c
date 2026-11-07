@@ -9,7 +9,7 @@ void ovl665_func_80114918(void)
     SetDispMask(0);
     SetupDrawDispEnvs(0,0,0,2);
     state=&ovl665_D_80119768;
-    func_80096434(state,160);
+    PsyqBzero(state,160);
     state->lighting4C.matrix.signedHalves[6]=4500;
     state->lighting4C.matrix.signedHalves[7]=-4096;
     state->lighting4C.matrix.signedHalves[8]=-8000;
@@ -23,5 +23,5 @@ void ovl665_func_80114918(void)
     scratch->word08=0;scratch->word0C=0;scratch->word10=0;
     scratch->word18=0;scratch->word1C=0;scratch->word20=0;
     ResetScreenCounters();
-    D_800F4CA8=2;ModeGroup=2;D_800F3A26=2;D_800F4D8A=0;
+    DialogueContext=2;ModeGroup=2;ModeId=2;ModeSubState=0;
 }

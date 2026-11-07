@@ -32,7 +32,7 @@ void ovl662_func_8011512C(void) {
     scratch->word1C=0;
     scratch->word20=0;
     scratch->word10=-96;
-    arena=D_800F4D40;
+    arena=MenuArenaBase;
     LoadCursor=arena;
     MenuArenas.first=arena;
     do {

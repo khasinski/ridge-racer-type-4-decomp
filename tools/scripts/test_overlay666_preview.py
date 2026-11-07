@@ -30,13 +30,13 @@ static unsigned scenario,calls,reference_calls;static u8 arenas[3][64],packets[6
 #define ovl666_available_courses world.table
 #define PlayerCourseChoices world.grid
 #define SelectionRows world.choice
-#define D_800F4D40 world.base
+#define MenuArenaBase world.base
 #define LoadCursor world.published
 #define ModeFrame world.frame
 #define ScreenFrame world.pulse
 #define ovl666_selected_course world.index
 #define ovl666_preview_phase world.local
-#define D_800F3826 world.row
+#define CourseListIndex world.row
 #define MenuItemCount world.mode
 #define MenuCursor world.flag
 #define MenuScriptStep world.clear1

@@ -22,7 +22,7 @@ class OverlayInitTest(unittest.TestCase):
 #include "rr/overlay662_init.h"
 static struct World {u32 before[8],saved_word;RrGarageSelectionPrefix state;
  RrGarageWorkingStorage work;u32 after[8];} world,expected;
-#define D_800F4D38 world.saved_word
+#define PlayTimeFrames world.saved_word
 #define ovl662_D_801276A8 world.state
 #define ovl662_D_80127668 world.work
 ''' + body + r'''

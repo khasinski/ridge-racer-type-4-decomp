@@ -8,7 +8,7 @@ extern RrLibCompletionCallback CdDataCallback(RrLibCompletionCallback);
 extern s32 CdGetSector2(u8 *,u32);
 extern void CdDataSync(s32);
 extern s32 CdPosToInt(void *);
-extern s32 func_800963DC(const char *,...);
+extern s32 PsyqPuts(const char *,...);
 extern const char CdReadSectorErrorMsg[];
 extern void cb_data(void),cd_read_restore_sync(void);
 
@@ -42,11 +42,11 @@ void cb_read(s32 event,u8 *data) {
                     CdGetSector(header,3);
                 }
                 now=CdPosToInt(header);
-                completed=&D_800A67D0;
+                completed=&CdReadExpectedPos;
                 /* ASM_BARRIER: capture the complete counter address before load. */
                 __asm__("" : "+r"(completed));
                 if ((u32)now!=*completed) {
-                    func_800963DC(CdReadSectorErrorMsg);
+                    PsyqPuts(CdReadSectorErrorMsg);
                     failed=(RrLibReadRequestState *)((u8 *)completed-
                                                      RR_READ_COMPLETED_OWNER_OFFSET);
                     failed->remaining14=-1;

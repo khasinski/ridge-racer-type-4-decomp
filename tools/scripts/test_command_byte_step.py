@@ -24,18 +24,18 @@ class CommandByteStepTest(unittest.TestCase):
         for name in ('commands', 'serial'):
             text = (root / ('include/rr/' + name + '.h')).read_text()
             text = re.sub(r'^#include[^\n]*\n|^RR_ASSERT_[^\n]*\n', '', text, flags=re.M)
-            text = text.replace(', D_80114730, CardCurrentCommand', ', CardCurrentCommand')
+            text = text.replace(', CardBytesRemaining, CardCurrentCommand', ', CardCurrentCommand')
             headers += text
         source = '''#include <stdint.h>
 #include <string.h>
 typedef uint8_t u8;typedef uint16_t u16;typedef uint32_t u32;typedef int32_t s32;
 s32 test_page[0x4000];
-#define D_80114730 test_page[0x4730/4]
+#define CardBytesRemaining test_page[0x4730/4]
 #define RR_NOP_DEP_ON(value) ((void)(value))
 ''' + headers + '''
-s32 CardCommandStatus,D_800ABDE8,CardCommandRequest,CardReceiveIndex,CardRxCount;
-s32 D_80114728,CardCurrentCommand;
-u8 CardRxTrace[160],D_801147D8[160];
+s32 CardCommandStatus,CardTxCount,CardCommandRequest,CardReceiveIndex,CardRxCount;
+s32 CardVarRxLength,CardCurrentCommand;
+u8 CardRxTrace[160],CardTxTrace[160];
 RrCommandReadCallback CardCommandReader;
 RrCommandWriteCallback CardWriteHandler;
 RrSerialPortRegisters test_ports[2];
@@ -50,11 +50,11 @@ u8 test_data_read(RrSerialPortRegisters *p) {return test_data(p);}
 void test_reset(void) {
  memset(test_page,0xA5,sizeof(test_page));
  memset(CardRxTrace,0xA5,sizeof(CardRxTrace));
- memset(D_801147D8,0xA5,sizeof(D_801147D8));
+ memset(CardTxTrace,0xA5,sizeof(CardTxTrace));
  memset(test_ports,0,sizeof(test_ports));
- CardCommandStatus=3;D_800ABDE8=2;CardCommandRequest=0x123;
- CardReceiveIndex=4;CardRxCount=6;D_80114730=9;
- D_80114728=0;CardCurrentCommand=0;
+ CardCommandStatus=3;CardTxCount=2;CardCommandRequest=0x123;
+ CardReceiveIndex=4;CardRxCount=6;CardBytesRemaining=9;
+ CardVarRxLength=0;CardCurrentCommand=0;
  test_ports[0].data=0xAB;test_ports[0].status=2;
  test_ports[1].data=0xCD;test_ports[1].status=2;
  CardCmdSioRegs=&test_ports[0];
@@ -81,7 +81,7 @@ void test_reset(void) {
         cls.lib = C.CDLL(str(directory/'function.so'))
         cls.page = (C.c_int32 * 0x4000).in_dll(cls.lib, 'test_page')
         cls.rx = (C.c_uint8 * 160).in_dll(cls.lib, 'CardRxTrace')
-        cls.tx = (C.c_uint8 * 160).in_dll(cls.lib, 'D_801147D8')
+        cls.tx = (C.c_uint8 * 160).in_dll(cls.lib, 'CardTxTrace')
         cls.ports = (Port * 2).in_dll(cls.lib, 'test_ports')
         cls.step = cls.lib._cardCmdStep
         cls.step.argtypes = []
@@ -111,12 +111,12 @@ void test_reset(void) {
         C.c_void_p.in_dll(self.lib, name).value = C.cast(callback, C.c_void_p).value
 
     def get(self, name):
-        if name == 'D_80114730':
+        if name == 'CardBytesRemaining':
             return self.page[0x4730//4]
         return C.c_int32.in_dll(self.lib, name).value
 
     def put(self, name, value):
-        if name == 'D_80114730':
+        if name == 'CardBytesRemaining':
             self.page[0x4730//4] = value
         else:
             C.c_int32.in_dll(self.lib, name).value = value
@@ -138,7 +138,7 @@ void test_reset(void) {
         for request in (-0x80000000, -1, 0, 0x7FFFFFFF, 0x12345678):
             for nibble in range(16):
                 self.setUp()
-                self.put('D_800ABDE8', 1)
+                self.put('CardTxCount', 1)
                 self.put('CardCommandRequest', request)
                 self.put('CardReceiveIndex', 0x7FFFFFFF)
                 events = []
@@ -146,7 +146,7 @@ void test_reset(void) {
                     events.append(('select', slot))
                     self.assertEqual(slot, request >> 4)
                     self.assertEqual(self.get('CardCommandStatus'), 4)
-                    self.assertEqual(self.get('D_80114730'), 9)
+                    self.assertEqual(self.get('CardBytesRemaining'), 9)
                     self.put('CardCommandRequest', 0x2340 | nibble)
                     return -0x80000000
                 def exchange(byte):
@@ -169,7 +169,7 @@ void test_reset(void) {
         for byte in range(256):
             self.setUp()
             def reader():
-                self.assertEqual(self.get('D_80114730'), 8)
+                self.assertEqual(self.get('CardBytesRemaining'), 8)
                 self.put('CardReceiveIndex', 9)
                 return C.c_int32(0x80000000 | byte).value
             def exchange(argument):
@@ -196,11 +196,11 @@ void test_reset(void) {
         for remaining in (-0x80000000, -1, 0, 1, 2, 0x7FFFFFFF):
             for result in (-0x80000000, -2001, -1):
                 self.setUp()
-                self.put('D_80114730', remaining)
+                self.put('CardBytesRemaining', remaining)
                 self.install('test_exchange', Unary, lambda byte: result)
                 self.install('CardWriteHandler', Unary, self.forbidden)
                 self.assertEqual(self.run_step(), C.c_int32(result-1000).value)
-                self.assertEqual(self.get('D_80114730'), C.c_int32(remaining-1).value)
+                self.assertEqual(self.get('CardBytesRemaining'), C.c_int32(remaining-1).value)
                 self.assertEqual(bytes(self.rx), b'\xA5'*160)
         for result in (-0x80000000, -1, 1, 2000, 0x7FFFFFFF):
             self.setUp()
@@ -214,19 +214,19 @@ void test_reset(void) {
                 self.setUp()
                 calls = []
                 self.put('CardCurrentCommand', subtype)
-                self.put('D_80114728', 3)
+                self.put('CardVarRxLength', 3)
                 self.ports[0].data = byte
                 def writer(value):
                     calls.append(value)
                     self.assertEqual(self.get('CardRxCount'), 6+len(calls))
-                    self.put('D_80114730', 1 if len(calls) == 1 else 99)
+                    self.put('CardBytesRemaining', 1 if len(calls) == 1 else 99)
                     return 0
                 self.install('CardWriteHandler', Unary, writer)
                 self.install('test_status', Status, self.forbidden)
                 self.assertEqual(self.run_step(), 1)
                 self.assertEqual(calls, [0x82, byte])
-                self.assertEqual(self.get('D_800ABDE8'), 3)
-                self.assertEqual(self.get('D_80114730'), 99)
+                self.assertEqual(self.get('CardTxCount'), 3)
+                self.assertEqual(self.get('CardBytesRemaining'), 99)
                 self.assertEqual(bytes(self.rx), b'\xA5'*6+bytes([0x82,byte])+b'\xA5'*152)
 
     def test_wait_captures_port_then_final_read_reloads_pointer_and_index(self):
@@ -234,14 +234,14 @@ void test_reset(void) {
             for final_result in (0, -0x80000000, -1, 1, 3000, 0x7FFFFFFF):
                 self.setUp()
                 self.put('CardCurrentCommand', subtype)
-                self.put('D_800ABDE8', 0x7FFFFFFF)
+                self.put('CardTxCount', 0x7FFFFFFF)
                 calls, statuses, types = [], [], []
                 initial = C.addressof(self.ports)
                 second = initial+C.sizeof(Port)
                 def writer(value):
                     calls.append(value)
                     if len(calls) == 1:
-                        self.put('D_80114730', 1)
+                        self.put('CardBytesRemaining', 1)
                         self.install('CardWriteHandler', Unary, final_writer)
                     return 0
                 def final_writer(value):
@@ -256,8 +256,8 @@ void test_reset(void) {
                     return 2 if len(statuses) == 3 else 0
                 def data(address):
                     self.assertEqual(address, second)
-                    self.assertEqual(self.get('D_800ABDE8'), -0x80000000)
-                    self.assertEqual(self.get('D_80114730'), 0)
+                    self.assertEqual(self.get('CardTxCount'), -0x80000000)
+                    self.assertEqual(self.get('CardBytesRemaining'), 0)
                     self.put('CardRxCount', 20)
                     return 0xCD
                 def read_type():
@@ -273,14 +273,14 @@ void test_reset(void) {
                 self.assertEqual(len(types), 1 if subtype == 14 else 2)
 
     def test_separate_subtype_read_and_wrapped_special_length(self):
-        self.put('D_80114728', -4)
+        self.put('CardVarRxLength', -4)
         types, calls = [], []
         def subtype():
             types.append(1)
             return 0 if len(types) == 1 else 15
         def writer(value):
             calls.append(value)
-            self.put('D_80114730', 1)
+            self.put('CardBytesRemaining', 1)
             self.put('CardRxCount', 0)
             return 0
         self.install('CardWriteHandler', Unary, writer)

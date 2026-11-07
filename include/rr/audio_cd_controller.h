@@ -7,7 +7,7 @@
 extern RrAudioState SoundState;
 extern char XaRepeatMsg[];
 /* Physical alias: request26B4. */
-extern s32 D_800F746C;
+extern s32 CdAudioStopRequest;
 s32 DebugPrintStub(const char*,...);
 void CdAudioMute(void);void CdAudioSetVolume(u16);void CdAudioSetVolumeRaw(s32);void CdAudioRequestPause(void);
 void CdAudioFadeStep(void);void CdAudioPlayStep(void);void CdAudioPauseStep(void);void CdAudioStopStep(void);

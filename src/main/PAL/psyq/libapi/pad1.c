@@ -21,7 +21,7 @@ extern int DisablePAD();
 extern int SysEnqIntRP();
 extern int SysDeqIntRP();
 extern int D_801143F4;
-extern int D_801143EC[];
+extern int PadVsyncHookFuncs[];
 
 void SetInitPadFlag(s32 value);
 s32 ReadInitPadFlag(void);
@@ -78,11 +78,11 @@ int _padInstallVsyncHook(void) {
     int *p;
     char *s;
     EnterCriticalSection();
-    p = D_801143EC;
+    p = PadVsyncHookFuncs;
     s = (char *)p - 4;
     p[0] = (int)_padVsyncHookHandler;
     p[1] = (int)_padVsyncHookCheck;
-    D_801143E8 = 0;
+    PadVsyncIntRP = 0;
     D_801143F4 = 0;
     SysDeqIntRP(1, s);
     SysEnqIntRP(1, s);

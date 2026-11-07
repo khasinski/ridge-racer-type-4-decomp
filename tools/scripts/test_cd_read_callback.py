@@ -81,7 +81,7 @@ static void notification0(s32,u8*),notification1(s32,u8*);
 const char CdReadSectorErrorMsg[]="CdRead: sector mismatch\n";
 #define CdReadState actual.state
 #define D_800A67B8 (*(RrCdPositionView*)&actual.state.position08)
-#define D_800A67D0 actual.state.completed20
+#define CdReadExpectedPos actual.state.completed20
 #define CD_read_dma_mode actual.flags
 ''' + body + '\n' + decoder + r'''
 enum {SET,READ_IMMEDIATE,READ_DEFERRED,SYNC,DECODE,DIAGNOSTIC,CLOCK,RESTART,COMMAND,NOTIFY};
@@ -212,7 +212,7 @@ s32 CdGetSector(u8 *p,u32 n){return read_data(0,0,p,n);}
 s32 CdGetSector2(u8 *p,u32 n){return read_data(0,1,p,n);}
 void CdDataSync(s32 mode){sync_transfer(0,mode);}
 s32 CdPosToInt(void *p){return decode(0,p);}
-s32 func_800963DC(const char *s,...){return diagnostic(0,s);}
+s32 PsyqPuts(const char *s,...){return diagnostic(0,s);}
 s32 VSync(s32 mode){return clock_tick(0,mode);}
 s32 cd_read_retry(s32 mode){return restart(0,mode);}
 s32 CdControlF(s32 c,const u8 *p){return command(0,c,p);}

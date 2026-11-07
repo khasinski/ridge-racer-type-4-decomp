@@ -9,29 +9,29 @@ extern struct
   unsigned char d;
   unsigned char e;
   short f;
-} D_800A4258[];
+} MenuStateTable[];
 extern void (*D_800A4548[])();
 extern short MenuStateIndex;
-extern unsigned char D_800F3A24[];
-extern unsigned short D_800F3AF8;
-extern short D_800F4D3C;
-extern short D_800F4D8A;
-extern short D_800FFC00;
-extern unsigned short D_800FFC18;
-extern short D_80109478[];
+extern unsigned char CardSlotState[];
+extern unsigned short SaveSlotSelect;
+extern short SaveSlotIndex;
+extern short ModeSubState;
+extern short CardSlot;
+extern unsigned short MenuResultCode;
+extern short MenuChoiceValues[];
 extern short D_8010948E;
-extern short D_800AC594;
+extern short MenuPlayerIndex;
 extern struct { char pad[0x28]; int x28; int x2c; char pad2[0x2C]; } PlayerControllers[];
 
-void func_8007B460();
-int func_8007B654();
+void DispatchCardMenuStep();
+int CheckCardSlotReady();
 
 static inline int w4c7_nz(int arg0)
 {
   return arg0 != 0;
 }
 
-void func_8007B460()
+void DispatchCardMenuStep()
 {
   int a;
   int t0;
@@ -44,35 +44,35 @@ void func_8007B460()
   int new_var;
   int fp;
   r = 1;
-  s0 = D_800A4258[MenuStateIndex].e;
-  s1 = D_800A4258[MenuStateIndex].c;
-  t0 = D_800A4258[MenuStateIndex].a;
+  s0 = MenuStateTable[MenuStateIndex].e;
+  s1 = MenuStateTable[MenuStateIndex].c;
+  t0 = MenuStateTable[MenuStateIndex].a;
   s7 = s0 & 1;
-  s3 = D_800A4258[MenuStateIndex].b;
-  fp = D_800F3A24[D_800FFC00];
+  s3 = MenuStateTable[MenuStateIndex].b;
+  fp = CardSlotState[CardSlot];
   if (w4c7_nz(s7))
   {
-    PollCardStatus(D_800FFC00, 0, 0);
+    PollCardStatus(CardSlot, 0, 0);
   }
   if (s0 & 2)
   {
-    r = func_8007B654();
+    r = CheckCardSlotReady();
   }
   if (r == 1)
   {
     D_800A4548[s1]();
   }
-  func_8007D1B8(s3, t0, s0, D_800FFC00, D_80109478[D_8010948E], D_800F3A24[D_800FFC00]);
+  UpdateCardMenuDialogue(s3, t0, s0, CardSlot, MenuChoiceValues[D_8010948E], CardSlotState[CardSlot]);
   if (w4c7_nz(s7))
   {
     if (fp == 0x1E)
     {
-      if (D_800F3A24[D_800FFC00] != fp)
+      if (CardSlotState[CardSlot] != fp)
       {
-        D_800F4D8A = 0;
-        D_800F4D3C = 0;
-        v = D_800FFC18;
-        D_800F3AF8 = v;
+        ModeSubState = 0;
+        SaveSlotIndex = 0;
+        v = MenuResultCode;
+        SaveSlotSelect = v;
         a = (short) v;
         if (a == 0)
         {
@@ -82,7 +82,7 @@ void func_8007B460()
         if (((unsigned short) (v - 6)) < 2)
         {
           MenuStateIndex = 0x29;
-          D_800F3AF8 = 0x10;
+          SaveSlotSelect = 0x10;
           return;
         }
         new_var = 1;
@@ -106,15 +106,15 @@ void func_8007B460()
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800FFC18 (*(short (*))&D_800FFC18)
+#define MenuResultCode (*(short (*))&MenuResultCode)
 
-int func_8007B654()
+int CheckCardSlotReady()
 {
     int a1;
     int a2;
     int v;
     a2 = -1;
-    switch (D_800FFC18) {
+    switch (MenuResultCode) {
     case 0:
         a1 = 0;
         break;
@@ -135,12 +135,12 @@ int func_8007B654()
     case 4:
         break;
     }
-    v = D_800F3A24[D_800FFC00];
+    v = CardSlotState[CardSlot];
     switch (v) {
     case 0x28:
     case 0x3C:
     case 0x1E:
-        if (PlayerControllers[D_800AC594].x28 != 0 || PlayerControllers[D_800AC594].x2c != 0) {
+        if (PlayerControllers[MenuPlayerIndex].x28 != 0 || PlayerControllers[MenuPlayerIndex].x2c != 0) {
             MenuStateIndex = a1;
         }
         break;
@@ -157,4 +157,4 @@ int func_8007B654()
     return a2;
 }
 
-#undef D_800FFC18
+#undef MenuResultCode

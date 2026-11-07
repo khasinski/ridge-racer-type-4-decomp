@@ -20,18 +20,18 @@ typedef struct { char p0[0xC]; unsigned char a; char p1[7]; unsigned char b; cha
 extern int ClearScreenOverlayState();
 extern void InitUiRow(int,int,int,int,int,int,int,int,int,int,...);
 extern int SetMenuFrameOptions();
-extern short D_800AC5D0;
+extern short MenuFadeTimer;
 extern int VSyncThreshold;
 extern short MenuCursor;
 extern signed char SelectionState[];
 extern int ModeFrame;
 extern T SaveSlotSelections[];
-extern short D_800F3A26;
+extern short ModeId;
 extern short ModeGroup;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern int DrawUiRow();
 extern E *UiRows;
-extern short D_800FFC18;
+extern short MenuResultCode;
 extern struct { int p[10]; int a28; int a2c; } PlayerControllers;
 extern int StepMenuValue();
 extern int PlaySfx();
@@ -43,12 +43,12 @@ extern int InitMenuGrid();
 extern int LoadCursor;
 extern int *MenuGridRecords;
 extern short MenuFrameState;
-extern int D_800F4D40;
-extern char D_800FFC48[];
+extern int MenuArenaBase;
+extern char SharedWorkBuffer[];
 
 void func_8002FCEC();
 void func_8002FE98(void);
-void func_8002FECC(void);
+void DrawFirstThreeUiRows(void);
 void func_8002FEFC();
 void func_8003016C(void);
 
@@ -60,7 +60,7 @@ void func_8002FCEC() {
     SetupDrawDispEnvs(0, 0, 0, 3);
     ModeFrame = 0;
     ScreenFrame = 0;
-    D_800AC5D0 = 0;
+    MenuFadeTimer = 0;
     MenuCursor = 1;
     VSyncThreshold = 0x80;
     SelectionState[0x17] = -1;
@@ -79,8 +79,8 @@ void func_8002FCEC() {
     if (a1 != 0) goto B;
     func_8002F688();
     ModeGroup = 0;
-    D_800F3A26 = 1;
-    D_800F4D8A = 0;
+    ModeId = 1;
+    ModeSubState = 0;
     goto E2;
     T:
     a1 = 1;
@@ -91,33 +91,33 @@ void func_8002FCEC() {
     InitUiRow(2, 0x6C, 0x108, 0x44, 0x20, 0, 0, 1, 0, 0x55);
     SetMenuFrameOptions(0, 1, 1);
     ModeGroup = 1;
-    D_800F3A26 = 6;
-    D_800F4D8A = 0;
+    ModeId = 6;
+    ModeSubState = 0;
     E2:
 }
 
 void func_8002FE98(void) {
     func_8002FEFC();
-    func_8002FECC();
+    DrawFirstThreeUiRows();
     UpdateScreenFade(0x10086);
 }
 
-void func_8002FECC(void) {
+void DrawFirstThreeUiRows(void) {
     DrawUiRow(0);
     DrawUiRow(1);
     DrawUiRow(2);
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
-#define D_800AC5D0 (*(unsigned short (*))&D_800AC5D0)
-#define D_800F3A26 (*(unsigned short (*))&D_800F3A26)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
+#define MenuFadeTimer (*(unsigned short (*))&MenuFadeTimer)
+#define ModeId (*(unsigned short (*))&ModeId)
 #define ModeGroup (*(unsigned short (*))&ModeGroup)
 
 void func_8002FEFC() {
     int s;
     int v, t, w;
-    s = D_800F4D8A;
+    s = ModeSubState;
     if (s != 0) goto C1;
     UiRows[MenuCursor].a = 0;
     StepMenuValue(0, 2, &MenuCursor, 3, 0);
@@ -133,8 +133,8 @@ void func_8002FEFC() {
     UiRows->b = v;
     UiRows[1].b = v;
     UiRows[2].b = v;
-    D_800AC5D0 = 0x40;
-    D_800F4D8A = 1;
+    MenuFadeTimer = 0x40;
+    ModeSubState = 1;
     goto END;
 L0C:
     if (PlayerControllers.a2c == 0) goto END;
@@ -144,16 +144,16 @@ L0C:
     UiRows->b = 3;
     UiRows[1].b = v;
     UiRows[2].b = v;
-    D_800AC5D0 = 0x40;
-    D_800F4D8A = 1;
+    MenuFadeTimer = 0x40;
+    ModeSubState = 1;
     goto END;
 C1:
     if (s != 1) goto END;
     SetMenuFrameOptions(0, 1, 1);
-    t = D_800AC5D0 - 1;
-    D_800AC5D0 = t;
+    t = MenuFadeTimer - 1;
+    MenuFadeTimer = t;
     AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - (short)t) * 4, 0x45);
-    if ((short)D_800AC5D0 > 0) goto END;
+    if ((short)MenuFadeTimer > 0) goto END;
     w = MenuCursor;
     if (w == s) goto L120;
     if (w < 2) {
@@ -165,26 +165,26 @@ C1:
 L104:
     func_8002F688();
     ModeGroup = 0;
-    D_800F3A26 = s;
-    D_800F4D8A = 0;
+    ModeId = s;
+    ModeSubState = 0;
     goto END;
 L120:
-    D_800FFC18 = 4;
+    MenuResultCode = 4;
     ModeGroup = s;
-    D_800F3A26 = 0xD;
-    D_800F4D8A = 0;
+    ModeId = 0xD;
+    ModeSubState = 0;
     goto END;
 L13C:
     ModeGroup = s;
-    D_800F3A26 = 3;
-    D_800F4D8A = 0;
+    ModeId = 3;
+    ModeSubState = 0;
 END:
     return;
 }
 
-#undef D_800F4D8A
-#undef D_800AC5D0
-#undef D_800F3A26
+#undef ModeSubState
+#undef MenuFadeTimer
+#undef ModeId
 #undef ModeGroup
 
 /* legacy typing of shared globals in this part of the unit */
@@ -194,9 +194,9 @@ void func_8003016C(void)
 {
     int *sp = (int *)SCRATCHPAD;
     int *p;
-    AllocMenuGridRecords(D_800FFC48, 1);
+    AllocMenuGridRecords(SharedWorkBuffer, 1);
     InitMenuGrid(0, 0, 3, 0xF0, 0xA0);
-    func_80096434((SCRATCHPAD + 0x8), 0x20);
+    PsyqBzero((SCRATCHPAD + 0x8), 0x20);
     p = MenuGridRecords;
     p[7] = 0x60;
     p[8] = -0x110;
@@ -212,13 +212,13 @@ void func_8003016C(void)
         InitSelectionRows();
         ClearScreenOverlayState();
         InitMenuArenas();
-        LoadCursor = D_800F4D40;
+        LoadCursor = MenuArenaBase;
     }
     MenuFrameState = 0;
     sp[0] = AddTileGrid2x2(CurrentDrawBuf + 0x70, sp[0], 0, 0, 0x140, 0x200, 8, 8, 8);
     ModeGroup = 1;
-    D_800F3A26 = 0x10;
-    D_800F4D8A = 0;
+    ModeId = 0x10;
+    ModeSubState = 0;
 }
 
 #undef CurrentDrawBuf

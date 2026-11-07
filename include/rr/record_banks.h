@@ -15,7 +15,7 @@ typedef struct {
 extern s32 ReplayFrame,ReplayState,SavedRaceState,ReplayLength;
 extern s16 NumCars;
 extern RrBankRecord320 *CarSnapshots[],*CarTable[];
-extern u8 D_800FFC48[];
+extern u8 SharedWorkBuffer[];
 extern u8 *ReplayInputs[];
 
 /* Mode2 restores the live signed count of records; source/destination records
@@ -23,7 +23,7 @@ extern u8 *ReplayInputs[];
  * Other modes configure layout1(two banks/four records), layout2(four/four),
  * or the default(one/eight). Arena storage must cover0x60E8 bytes, aligned4.
  * Pointer slots retain native pointer widths; arena byte offsets stay fixed. */
-void func_800293D0(s32 layout,s32 mode);
+void InitReplayBuffers(s32 layout,s32 mode);
 RR_ASSERT_SIZE(RrBankRecord320,0x320);
 RR_ASSERT_OFFSET(RrBankRecord320,x20,0x20);
 RR_ASSERT_OFFSET(RrBankRecord320,y28,0x28);

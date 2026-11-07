@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern char *D_800AC89C;
+extern char *SparkCarState;
 void UpdateSparkEffects();
 
 #endif /* RR_GAME_EFFECT_SPARK_H */

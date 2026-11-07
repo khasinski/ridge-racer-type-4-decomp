@@ -40,7 +40,7 @@ void UpdateSaveProgress(void) {
 #undef MARK_PROGRESS
 
     if (old_count < CountProgressFlags()) {
-        D_800F4BE0 |= 1;
+        SaveNoticeFlags |= 1;
     }
 
     slot = 0;
@@ -85,7 +85,7 @@ void UpdateSaveProgress(void) {
     old_count = SaveProgress.prefix.reserved50.words[1];
     SaveProgress.prefix.reserved50.words[1] = old_count | 1;
     if (old_count != (old_count | 1)) {
-        D_800F4BE0 |= 2;
+        SaveNoticeFlags |= 2;
     }
 
     for (i = 4, slot = 0; i < 8; i++) {
@@ -105,6 +105,6 @@ void UpdateSaveProgress(void) {
     }
 
     if (new_mask != old_count) {
-        D_800F4BE0 |= 4;
+        SaveNoticeFlags |= 4;
     }
 }

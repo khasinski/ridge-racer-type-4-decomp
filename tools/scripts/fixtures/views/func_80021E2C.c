@@ -19,8 +19,8 @@ void DrawRaceMinimap(s32 arg0) {
     var_s4 = 0;
     if (arg0 == 0) {
         var_s3 = ((RrFrameStorage *)(void *)CurrentDrawBuf)->ordering.ordering70;
-        if (D_800AD508 >= 0) {
-            var_s2 = (s16)((u16)D_800AD508 ^ 1);
+        if (LinkRoleSlot >= 0) {
+            var_s2 = (s16)((u16)LinkRoleSlot ^ 1);
         } else {
             var_s2 = 0;
         }
@@ -29,8 +29,8 @@ void DrawRaceMinimap(s32 arg0) {
         if (arg0 == 1) {
             var_s4 = -0x80;
         }
-        if (D_800AD508 >= 0) {
-            {s32 step=((s32)(((u16)D_800AD508^1)<<16)>>15);step=step-1;var_s2=arg0+step;}
+        if (LinkRoleSlot >= 0) {
+            {s32 step=((s32)(((u16)LinkRoleSlot^1)<<16)>>15);step=step-1;var_s2=arg0+step;}
         } else {
             var_s2 = arg0 - 1;
         }

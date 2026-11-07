@@ -4,26 +4,26 @@
 #include "rr/driver_control.h"
 
 extern int RaceContext[];
-extern short D_800F3A26;
+extern short ModeId;
 extern short ModeGroup;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern void CdAudioInit();
 extern void CdAudioSelectTrack();
-extern void func_8005CA14();
+extern void StartSceneFadeOut();
 extern int IntroScriptStep();
 
-void func_8005D310(void);
+void IntroUpdate(void);
 
-void func_8005D310(void) {
+void IntroUpdate(void) {
     int s1 = IntroScriptStep();
     switch (RaceContext[0x444 / 4]) {
     case 0:
         SetDispMask(1);
         RaceContext[0x444 / 4]++;
     case 1:
-        if (func_8004EA8C() != 0) {
+        if (LoadIntroSceneStep() != 0) {
             RaceContext[0x444 / 4]++;
-            func_8005CA14();
+            StartSceneFadeOut();
             CdAudioInit();
             CdAudioSelectTrack(0, 0x25);
         }
@@ -32,9 +32,9 @@ void func_8005D310(void) {
         if (s1 == RaceContext[0x444 / 4]) {
             SetDispMask(0);
             ModeGroup = s1;
-            D_800F3A26 = 7;
+            ModeId = 7;
             RaceContext[0x444 / 4] = 0;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     }

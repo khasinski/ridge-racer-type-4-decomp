@@ -66,7 +66,7 @@ void InterpolateLanePointXYZ(const RrTrackSample3C *a,const RrTrackSample3C *b,s
  out[3]=0;for(i=0;i<3;i++)e->a[4]^=out[i];effect();
 }
 s32 Atan2Table(s32 y,s32 x){Event *e=event(2);s32 result=(s32)(next()%4097)-1024;e->a[0]=y;e->a[1]=x;e->a[2]=result;effect();return result;}
-s32 func_80090758(s32 squared){Event *e=event(3);s32 result=(s32)(next()&0x7fffffffU);assert(squared>=0);e->a[0]=squared;e->a[1]=result;effect();return result;}
+s32 CordicSqrt(s32 squared){Event *e=event(3);s32 result=(s32)(next()&0x7fffffffU);assert(squared>=0);e->a[0]=squared;e->a[1]=result;effect();return result;}
 u16 *RotMatrix(s16 *angles,u16 *matrix){Event *e=event(4);unsigned i;assert(((uintptr_t)matrix&3)==0);for(i=0;i<3;i++)e->a[i]=angles[i];for(i=0;i<16;i++)matrix[i]=(u16)next();effect();return matrix;}
 void *ApplyMatrixSV(const RrMatrixWords32 *matrix,const s16 *offset,RrPreviewVector8 *output){
  Event *e=event(5);u32 words[8];unsigned i;assert(offset==w->s.camera.offset488);memcpy(words,matrix,32);
@@ -90,7 +90,7 @@ static void expected(unsigned kind){RrReplayCameraContextPrefix *c=&w->s.camera;
   b=c->node498;a=b-1;c->position450[1]=wrap((int64_t)first[1]-120);if(a<0)a+=w->s.count;
   InterpolateLanePointXYZ(TrackNodes+a,TrackNodes+b,c->lateral49E,c->fraction49C,second);
   dx=wrap(((int64_t)second[0]-first[0])*4);dz=wrap(((int64_t)second[2]-first[2])*4);height=wrap((int64_t)second[1]-first[1]);
-  root=func_80090758(wrap((int64_t)dx*dx+(int64_t)dz*dz));angle=Atan2Table(height,root>>6);c->pitch460=half(1024-angle);
+  root=CordicSqrt(wrap((int64_t)dx*dx+(int64_t)dz*dz));angle=Atan2Table(height,root>>6);c->pitch460=half(1024-angle);
  }else{
   RrPreviewMatrixWorkspace matrix;RrPreviewVector8 vector={0};int i;
   w->s.scratch[6]=c->pitch460;w->s.scratch[7]=c->yaw462;w->s.scratch[8]=c->roll464;

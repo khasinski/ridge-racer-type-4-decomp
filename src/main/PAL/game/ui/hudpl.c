@@ -3,7 +3,7 @@
 typedef struct { int x; } __attribute__((packed)) U4;
 extern int AddSpritePrim();
 extern int AddDrawModePrim();
-extern U4 D_8009EE4C[];
+extern U4 LapCounterSprites[];
 extern int NumLaps;
 
 void DrawLapCounter(a0, a1)
@@ -21,11 +21,11 @@ int a0; int a1;
     a = *(int *)SCRATCHPAD;
     i = 0;
     do {
-        buf = D_8009EE4C[i];
+        buf = LapCounterSprites[i];
         a = AddSpritePrim(s4, a, 0xEC + i * 0x38, s5, &buf, 0x7EF8, 0);
         i++;
     } while (i < 2);
-    buf = D_8009EE4C[2];
+    buf = LapCounterSprites[2];
     i = 0;
     if (a1 <= 0) {
         a1 = 1;

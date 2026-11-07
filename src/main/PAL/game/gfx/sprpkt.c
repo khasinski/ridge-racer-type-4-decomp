@@ -9,26 +9,26 @@
 struct O { char pad[0x70]; u32 addr:24; u32 len:8; };
 extern s32 SoundQueueEnqueue();
 extern s32 RaceState;
-extern s32 D_8010C120[];
-void func_8003BFC8(a0) s32 a0;
+extern s32 SplitTimes[];
+void DrawSplitTimeHud(a0) s32 a0;
 {
     s32 s1, s2, s3, s4, s5, t;
     s32 c;
     RrSpritePacket *p;
-    if (D_800F4D44 == 0 && RaceState != 0 && RaceState < 4) {
-        t = D_8010C120[D_8010C12C];
+    if (RaceType == 0 && RaceState != 0 && RaceState < 4) {
+        t = SplitTimes[NextSplitIndex];
         if (t < 0) {
             s3 = -1;
             s4 = -1;
             s2 = 0;
         } else {
             s4 = t;
-            if (D_8010C114 > 0) {
-                if (a0 == 0) D_8010C114--;
-                s3 = D_8010C10C;
-                s2 = D_8010C104;
-                s4 = D_8010C108;
-                s1 = D_8010C120[s2] - s3;
+            if (SplitDeltaTimer > 0) {
+                if (a0 == 0) SplitDeltaTimer--;
+                s3 = LatchedBestSplitTime;
+                s2 = SplitDeltaIndex;
+                s4 = ShownSplitTime;
+                s1 = SplitTimes[s2] - s3;
                 s5 = 0x84;
                 if (s1 < 0) {
                     s5 = 0x78;
@@ -37,12 +37,12 @@ void func_8003BFC8(a0) s32 a0;
                 } else {
                     c = 0x16;
                 }
-                if (D_8010C114 == 0x3B && s2 < 2 && a0 == 0) SoundQueueEnqueue(c, 0);
+                if (SplitDeltaTimer == 0x3B && s2 < 2 && a0 == 0) SoundQueueEnqueue(c, 0);
                 *(RrSpritePacket **)SCRATCHPAD = GameQueueSprite((char *)CurrentDrawBuf + 0x70, *(RrSpritePacket **)SCRATCHPAD, 0x70, 0x60, 0xC, 0xC, s5, 0xA8, 0x7EF8);
                 DrawRaceTime(0x80, 0x60, s1, 0x7EF8, 1);
             } else {
-                s3 = D_8010C0F8[D_8010C12C];
-                s2 = D_8010C12C;
+                s3 = BestSplitTimes[NextSplitIndex];
+                s2 = NextSplitIndex;
             }
         }
         DrawRaceTime(0x14, 0x1C, s3, 0x7EF8, 0);

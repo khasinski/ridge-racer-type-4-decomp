@@ -40,7 +40,7 @@ extern s32 SetSemiTrans();
 
 extern s32 SetShadeTex();
 
-extern u8 D_8009ED38[];
+extern u8 FontGlyphCells[];
 
 void DrawBigFontString(a0, a1, a2)
 s32 a0, a1;
@@ -54,7 +54,7 @@ u8 *a2;
             a = *a2 - 0x20;
             a2++;
             if (a != 0) {
-                a = D_8009ED38[a * 2] + (D_8009ED38[a * 2 + 1] << 5);
+                a = FontGlyphCells[a * 2] + (FontGlyphCells[a * 2 + 1] << 5);
                 row = a / 21;
                 col = a % 21;
                 u = col * 12;

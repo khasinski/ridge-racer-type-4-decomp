@@ -2,8 +2,8 @@
 
 void ovl662_func_8011AAF4(void) {
     ScreenFrame=(s32)((u32)ScreenFrame+1U);
-    if (++D_800F4D38 > 0x014996FFU) {
-        D_800F4D38 = 0x014996FFU;
+    if (++PlayTimeFrames > 0x014996FFU) {
+        PlayTimeFrames = 0x014996FFU;
     }
     ovl662_func_8011D208();
     ovl662_func_8011E070();

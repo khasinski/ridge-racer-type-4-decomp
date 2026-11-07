@@ -29,7 +29,7 @@ typedef int32_t s32;
 u32 test_history_words[0x20000 / 4];
 #define test_history ((u8 *)test_history_words)
 u32 test_ram[0x14000];
-u32 *D_800ABC30;
+u32 *I_STAT_RCnt;
 u32 *GPU_STATUS;
 ''' + header + '\nRrChannelControlRow36 test_rows[320];\n'
         for name in ('_getctl', 'StopRCnt', '_ctl', 'vmNoiseOff'):
@@ -77,7 +77,7 @@ u32 *GPU_STATUS;
             self.ram[index] = (index * 0x9E3779B9) & 0xFFFFFFFF
         before = bytes(self.ram)
         registers = (C.c_uint32 * 4)(0x12345678, 0, 0x9ABCDEF0, 0xDEADBEEF)
-        pointer = C.c_void_p.in_dll(self.library, 'D_800ABC30')
+        pointer = C.c_void_p.in_dll(self.library, 'I_STAT_RCnt')
         pointer.value = C.addressof(registers)
         for index in range(0x10000):
             word = (index * 0x10204081 + 0xA55AA55A) & 0xFFFFFFFF
@@ -91,7 +91,7 @@ u32 *GPU_STATUS;
 
     def test_only_low_halfword_selects_the_mask(self):
         registers = (C.c_uint32 * 2)(0xA5A5A5A5, 0)
-        C.c_void_p.in_dll(self.library, 'D_800ABC30').value = C.addressof(registers)
+        C.c_void_p.in_dll(self.library, 'I_STAT_RCnt').value = C.addressof(registers)
         for index in (0, 1, 2, 5, 0x7FFF, 0xFFFF):
             self.ram[0xBC38 // 4 + index] = 0x80000001 ^ index
             for upper in (0, 1, 0x7FFF, 0xFFFF):

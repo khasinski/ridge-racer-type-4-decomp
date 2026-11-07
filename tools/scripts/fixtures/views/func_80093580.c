@@ -73,13 +73,13 @@ extern u8 D_800ABAC2[];
 
 extern u8 D_800ABAC3;
 
-extern char D_800ABB2C[];
+extern char GpuDispEnv[];
 
-extern URECT16 D_800ABB34;
+extern URECT16 GpuLastDispScreen;
 
 extern HRANGE DispHRangeTable[2][5];
 
-extern u8 D_800ABBBC[5];
+extern u8 DispDotClockDivisors[5];
 
 DISPENV_T *PutDispEnv(DISPENV_T *env) {
     u32 mode;
@@ -137,10 +137,10 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
         GpuFuncTable->f10(mode);
         env->pad0 = 8;
     }
-    if ((s16)D_800ABB34.x != env->screen.x ||
-        (s16)D_800ABB34.y != env->screen.y ||
-        (s16)D_800ABB34.w != env->screen.w ||
-        (s16)D_800ABB34.h != env->screen.h ||
+    if ((s16)GpuLastDispScreen.x != env->screen.x ||
+        (s16)GpuLastDispScreen.y != env->screen.y ||
+        (s16)GpuLastDispScreen.w != env->screen.w ||
+        (s16)GpuLastDispScreen.h != env->screen.h ||
         env->pad0 == 8) {
         s32 x0;
         /* ASM_BARRIER: keep x1 in $v1 */
@@ -166,7 +166,7 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
         } else {
             i = 4;
         }
-        x0 = DispHRangeTable[env->pad0][i].x0 + env->screen.x * D_800ABBBC[i];
+        x0 = DispHRangeTable[env->pad0][i].x0 + env->screen.x * DispDotClockDivisors[i];
         dx = DispHRangeTable[env->pad0][i].x1 - DispHRangeTable[env->pad0][i].x0;
         w = env->screen.w;
         if (w) {
@@ -177,12 +177,12 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
         __asm__ volatile("" : : : "memory");
         if (env->pad0) {
             x0 = CLAMP(x0, 0x21C, 0xC94);
-            x1 = CLAMP(x1, x0 + D_800ABBBC[i] * 4, 0xCBC);
+            x1 = CLAMP(x1, x0 + DispDotClockDivisors[i] * 4, 0xCBC);
             y0 = CLAMP(y0, 0x13, 0x12F);
             y1 = CLAMP(y1, y0 + 2, 0x131);
         } else {
             x0 = CLAMP(x0, 0x1F4, 0xCB2);
-            x1 = CLAMP(x1, x0 + D_800ABBBC[i] * 4, 0xCDA);
+            x1 = CLAMP(x1, x0 + DispDotClockDivisors[i] * 4, 0xCDA);
             y0 = CLAMP(y0, 0x10, 0x101);
             y1 = CLAMP(y1, y0 + 2, 0x102);
         }
@@ -191,6 +191,6 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
         x1 = (y1 & 0x3FF) << 10;
         GpuFuncTable->f10(0x07000000 | x1 | (y0 & 0x3FF));
     }
-    PsyqMemcpy(D_800ABB2C, env, 0x14);
+    PsyqMemcpy(GpuDispEnv, env, 0x14);
     return env;
 }

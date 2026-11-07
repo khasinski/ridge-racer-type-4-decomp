@@ -20,7 +20,7 @@
 #include "game/gfx/drawbuf.h"
 
 extern int SetModelTexturePage();
-extern int func_800172DC();
+extern int ResetCarSlotBuffers();
 extern int AddScreenFadeTiles();
 extern int DrawOpponentCar();
 extern int DrawCars();
@@ -42,20 +42,20 @@ extern int DrawTrackObjects();
 extern char RepeatLabel[];
 extern char StrFmtTwoDigitsTitle[];
 extern char D_800A1A6C[];
-extern short D_800AC5D0;
+extern short MenuFadeTimer;
 extern int D_800ACA2C;
 extern int D_800ACB0C;
 extern int D_800ACB28;
 extern int D_800ACB2C;
 extern int D_800F2A64;
 extern int MaskBitSetting;
-extern short D_800F3A26;
-extern int D_800F3A60;
+extern short ModeId;
+extern int MenuConfirmPressed;
 extern int D_800F3A68;
 extern int D_800F3A6C;
 extern short ModeGroup;
-extern short D_800F4D8A;
-extern int D_8010718C;
+extern short ModeSubState;
+extern int ViewUsesCarTrackNode;
 extern int CarTable[];
 extern Car ComCars[];
 extern struct 
@@ -99,7 +99,7 @@ typedef struct
   int w538;
 } AC;
 extern AC RaceContext;
-void func_8005DDF4()
+void AttractDemoRaceUpdate()
 {
   char sp18[16];
   int i;
@@ -158,7 +158,7 @@ void func_8005DDF4()
   }
   if (p->w4c8 == 0)
   {
-    vv = D_800F3A60;
+    vv = MenuConfirmPressed;
   }
   else
   {
@@ -166,7 +166,7 @@ void func_8005DDF4()
   }
   if (vv != 0)
   {
-    if (D_800AC5D0 == 0)
+    if (MenuFadeTimer == 0)
     {
       if (p->w4bc >= 0x1A)
       {
@@ -179,19 +179,19 @@ void func_8005DDF4()
   {
     if (RaceContext.w4bc == 0xBB8)
     {
-      D_800AC5D0 = 0x40;
+      MenuFadeTimer = 0x40;
       SoundSetMasterVolume(0, 0x3C);
     }
   }
   else
     if (RaceContext.w4cc == 1)
   {
-    D_800AC5D0 = 0x40;
+    MenuFadeTimer = 0x40;
     SoundSetMasterVolume(0, 0x3C);
     RaceContext.w4cc = 2;
   }
   {
-    register int c8_1 asm("a1") = RaceContext.w4c8; /* ASM_BARRIER: pin w4c8 to a1 across switch cases and func_800172DC second argument */
+    register int c8_1 asm("a1") = RaceContext.w4c8; /* ASM_BARRIER: pin w4c8 to a1 across switch cases and ResetCarSlotBuffers second argument */
     register int one_v0 asm("v0") = 1; /* ASM_BARRIER: pin constant 1 to v0 for w4c8 comparison */
     if (c8_1 == one_v0)
     {
@@ -207,7 +207,7 @@ void func_8005DDF4()
           case 0:
             RaceContext.w3dc = 0;
             RaceContext.w530 = 0;
-            func_800172DC(&RaceContext, c8_1);
+            ResetCarSlotBuffers(&RaceContext, c8_1);
             break;
 
           case 1:
@@ -219,7 +219,7 @@ void func_8005DDF4()
             RaceContext.w3dc = 0;
             __asm__ volatile("" ::: "memory"); /* ASM_BARRIER: keep w3dc store before w530 store in delay slot */
             RaceContext.w530 = c8_1;
-            func_800172DC(&RaceContext, c8_1);
+            ResetCarSlotBuffers(&RaceContext, c8_1);
             break;
 
           case 3:
@@ -299,13 +299,13 @@ void func_8005DDF4()
   SetupViewport(0);
   if ((RaceContext.w4c8 == 0) || (RaceContext.w530 == 0))
   {
-    func_8004417C(2, ComCars + RaceContext.w4c0);
+    UpdateRaceCamera(2, ComCars + RaceContext.w4c0);
   }
   else
   {
-    D_8010718C = 1;
-    D_800ABFE8 = ComCars[0].wF0;
-    func_800437D8(ComCars, &RaceContext.w4ec);
+    ViewUsesCarTrackNode = 1;
+    ViewCarTrackNode = ComCars[0].wF0;
+    SetCarAttachedCamera(ComCars, &RaceContext.w4ec);
   }
   if (RaceContext.w4c4 >= 0x178)
   {
@@ -321,7 +321,7 @@ void func_8005DDF4()
         }
         RaceContext.w4c = -1;
         RaceContext.w4c4 = 0;
-        func_8004417C(2, ComCars + RaceContext.w4c0);
+        UpdateRaceCamera(2, ComCars + RaceContext.w4c0);
       }
     }
   }
@@ -337,24 +337,24 @@ void func_8005DDF4()
       func_80055660();
     }
   }
-  if (D_800AC5D0 > 0)
+  if (MenuFadeTimer > 0)
   {
-    D_800AC5D0 = D_800AC5D0 - 1;
-    AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - D_800AC5D0) * 4, 0x45);
-    if (D_800AC5D0 == 0)
+    MenuFadeTimer = MenuFadeTimer - 1;
+    AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - MenuFadeTimer) * 4, 0x45);
+    if (MenuFadeTimer == 0)
     {
       if (RaceContext.w4c8 == 0)
       {
         ModeGroup = 1;
-        D_800F3A26 = 3;
+        ModeId = 3;
       }
       else
       {
         RaceContext.w18 = 1;
         ModeGroup = 2;
-        D_800F3A26 = 8;
+        ModeId = 8;
       }
-      D_800F4D8A = 0;
+      ModeSubState = 0;
       MaskBitSetting = 0;
       __asm__ volatile("" ::: "memory"); /* ASM_BARRIER: prevent hoisting argument setup for SoundSetMasterVolume before stores */
       SoundSetMasterVolume(0, 0);
@@ -366,7 +366,7 @@ void func_8005DDF4()
     AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x19 - D_800ACB0C) * 8, 0x45);
   }
   {
-    register int c8_2 asm("a2") = RaceContext.w4c8; /* ASM_BARRIER: pin w4c8 to a2 across w28a4 clamping and func_800534B4 third argument */
+    register int c8_2 asm("a2") = RaceContext.w4c8; /* ASM_BARRIER: pin w4c8 to a2 across w28a4 clamping and GetCdAudioPosition third argument */
     if (c8_2 == 1)
     {
       if (RaceContext.w538 == 0)
@@ -391,7 +391,7 @@ void func_8005DDF4()
         if (old != SoundState.w28a4)
         {
           RaceContext.w4d4 = 0x1D;
-          if (func_800534B4(&SoundState, old, c8_2) >= 0)
+          if (GetCdAudioPosition(&SoundState, old, c8_2) >= 0)
         {
           if (RaceContext.w4d0 == 0)
           {
@@ -408,7 +408,7 @@ void func_8005DDF4()
       {
         if (RaceContext.w4dc == 0)
         {
-          if (func_800534B4() < 0)
+          if (GetCdAudioPosition() < 0)
           {
             if (RaceContext.w4d8 == 0)
             {
@@ -434,7 +434,7 @@ void func_8005DDF4()
         RaceContext.w4d4 = RaceContext.w4d4 - 1;
         if (RaceContext.w4d4 == 0)
         {
-          CdAudioSelectTrack(0, D_800A0C9C[D_800F765C - 1]);
+          CdAudioSelectTrack(0, BgmNumberToCdTrack[RaceBgmListIndex - 1]);
           if (RaceContext.w4d8 == 0)
           {
             CdAudioBeginPlay(0);
@@ -462,13 +462,13 @@ void func_8005DDF4()
         old = 0xC8;
         DrawFontStringRight(0x131, old, RepeatLabel, 0xFF, 0);
       }
-      DrawFontStringRight(0xFA, 0xD4, D_800A095C + (D_800A0C9C[SoundState.w28a4 - 1] << 5), 0xFF, 0);
-      func_80059B1C(D_800A1A6C, 0xFC, 0xD4, 0xFF);
-      func_80059B1C(D_800A1A6C - 4, 0x105, 0xD4, 0xFF);
+      DrawFontStringRight(0xFA, 0xD4, CdTrackTitleStrings + (BgmNumberToCdTrack[SoundState.w28a4 - 1] << 5), 0xFF, 0);
+      AddBrightnessSprite(D_800A1A6C, 0xFC, 0xD4, 0xFF);
+      AddBrightnessSprite(D_800A1A6C - 4, 0x105, 0xD4, 0xFF);
       PsyqSprintf(sp18, StrFmtTwoDigitsTitle, SoundState.w28a4);
       DrawFontString(0x112, 0xD4, sp18, 0xFF, 0);
-      func_80059B1C(D_800A1A6C - 0xC, 0x121, 0xD4, 0xFF);
-        func_80059B1C(D_800A1A6C - 8, 0x12A, 0xD4, 0xFF);
+      AddBrightnessSprite(D_800A1A6C - 0xC, 0x121, 0xD4, 0xFF);
+        AddBrightnessSprite(D_800A1A6C - 8, 0x12A, 0xD4, 0xFF);
         AddSetTexpagePrim(0);
       }
     }

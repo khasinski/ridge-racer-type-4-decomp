@@ -24,7 +24,7 @@ typedef uint32_t u32; typedef int32_t s32;
 ''' + header + '''
 RrChannelControlRow36 test_rows[32];
 u16 test_masks[0x10010 / 2];
-u16 D_80110118;
+u16 SvmVoiceIndex;
 #define _svm_voice test_rows
 #define D_8010F90C ((u8 *)&test_rows + 4)
 #define D_8010F925 ((u8 *)&test_rows + 0x1D)
@@ -47,7 +47,7 @@ u16 D_80110118;
         cls.library = C.CDLL(str(directory / 'function.so'))
         cls.rows = (C.c_uint8 * (32 * 0x36)).in_dll(cls.library, 'test_rows')
         cls.masks = (C.c_uint16 * (0x10010 // 2)).in_dll(cls.library, 'test_masks')
-        cls.selected = C.c_uint16.in_dll(cls.library, 'D_80110118')
+        cls.selected = C.c_uint16.in_dll(cls.library, 'SvmVoiceIndex')
         cls.function = cls.library._SsVmKeyOffNow
         cls.function.argtypes = [C.c_int32]
         cls.function.restype = None

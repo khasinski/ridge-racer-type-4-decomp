@@ -5,9 +5,9 @@
 #include "types.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_80112750 (*(char (*)[])&D_80112750)
+#define StLastReadyLoc (*(char (*)[])&StLastReadyLoc)
 
-#undef D_80112750
+#undef StLastReadyLoc
 
 extern s32 CdReadyCallback();
 

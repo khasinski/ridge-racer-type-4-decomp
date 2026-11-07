@@ -11,7 +11,7 @@ struct P12 { int a, b, c; };
 typedef struct { int a, b, c; } T;
 
 extern int SetDrawArea();
-extern char D_800ADAF0[];
+extern char FrameEnvs[];
 
 void *AddDrawAreaPrim(u32 *a0, void *cursor, int a2, int a3, int a4, int a5);
 T *AddDrawModePrim(u32 *a0, T *a1, unsigned short a2);
@@ -21,7 +21,7 @@ void *AddTileGrid2x2(u32 *a0, void *a1, int a2, int a3, int a4, int a5, int a6, 
 void *AddDrawAreaPrim(u32 *a0, void *cursor, int a2, int a3, int a4, int a5) {
     struct P12 *a1=cursor;
     short sp[4];
-    char *p = D_800ADAF0;
+    char *p = FrameEnvs;
     int t;
     sp[0] = a2;
     if (*(short *)(p + 0x5E) == *(short *)(p + 0x227D6)) {

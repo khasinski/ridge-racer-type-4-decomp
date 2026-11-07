@@ -6,13 +6,13 @@
 #include "game/race/raceinit.h"
 #include "rr/bios_devices.h"
 #include "rr/overlay667_course_initializer.h"
-extern int func_800293D0();
+extern int InitReplayBuffers();
 extern Car PlayerCars[];
 extern short D_800AC3FC;
 extern short NumCars;
 extern int CarTable[];
 extern int TrackLength;
-extern short D_80107178;
+extern short PlayerCount;
 extern int SavedRaceState;
 extern int TotalRaceTime;
 
@@ -23,31 +23,31 @@ void InitRaceCars(int a0)
     int *s0;
     D_800AC3FC = 0;
     InitCarTable();
-    D_800ABEC4 = 0;
+    CarDrawSlotOffset = 0;
     switch (a0) {
     case 0:
     default:
         i = 0;
         InitPlayerCar(PlayerCars, i, i);
-        func_800293D0(0, 0);
+        InitReplayBuffers(0, 0);
         break;
     case 1:
         InitPlayerCar(PlayerCars, 0, 7);
         InitComCars(7);
-        func_800293D0(0, 0);
+        InitReplayBuffers(0, 0);
         break;
     case 2:
         i = 0;
         InitPlayerCar(PlayerCars, i, i);
         i = 1;
         InitPlayerCar(PlayerCars + 1, i, i);
-        func_800293D0(1, 0);
+        InitReplayBuffers(1, 0);
         break;
     case 3:
         InitPlayerCar(PlayerCars, 0, NumCars - 2);
         InitPlayerCar(PlayerCars + 1, 1, NumCars - 1);
         InitComCars(NumCars - 2);
-        func_800293D0(1, 0);
+        InitReplayBuffers(1, 0);
         break;
     case 4:
         s1 = 0;
@@ -70,19 +70,19 @@ void InitRaceCars(int a0)
                 s1++;
             } while (s1 < NumCars);
         }
-        D_80107178 = s2;
-        func_800293D0(2, 0);
+        PlayerCount = s2;
+        InitReplayBuffers(2, 0);
         break;
     case 5:
-        func_80096434(PlayerCars, 0x320);
+        PsyqBzero(PlayerCars, 0x320);
         InitComCars(7);
-        func_800293D0(1, 0);
+        InitReplayBuffers(1, 0);
         SavedRaceState = 2;
         break;
     case 6:
         InitPlayerCar(PlayerCars, 0, 1);
         InitComCars(1);
-        func_800293D0(0, 0);
+        InitReplayBuffers(0, 0);
         break;
     }
     TotalRaceTime = 0;

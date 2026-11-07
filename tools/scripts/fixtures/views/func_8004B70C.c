@@ -44,6 +44,6 @@ typedef struct {
 
 extern Pad PlayerControllers[2];
 
-int func_8004B70C(int i) {
+int GetControllerWarning(int i) {
     return PlayerControllers[i].f54;
 }

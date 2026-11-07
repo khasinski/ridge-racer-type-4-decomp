@@ -69,7 +69,7 @@ void InitParticles(void) {
     SetupDrawDispEnvs(0, 0, 0, 3);
     VSyncThreshold = 0x80;
     ParticleSystem.a = 0;
-    func_80096434(&ParticleSystem, 0x32C);
+    PsyqBzero(&ParticleSystem, 0x32C);
     ParticleSystem.b = 0x100;
 }
 
@@ -328,7 +328,7 @@ void DrawParticle(int a0) {
         rect.y = e->y0E - (s16)e->u16 / 2 - 0x10;
         rect.w = s3;
         rect.h = 0x10;
-        func_8004CD88(&rect, 0, &D_800A0CF0, &c[2], 0x41);
+        AddSlantedGradientRect(&rect, 0, &D_800A0CF0, &c[2], 0x41);
 
         rect.x = s1;
         rect.y = e->y0E - (s16)e->u16 / 2;
@@ -346,7 +346,7 @@ void DrawParticle(int a0) {
         rect.y = e->y0E + (s16)e->u16 / 2;
         rect.w = s3;
         rect.h = 0x10;
-        func_8004CD88(&rect, 1, &c[2], &D_800A0CF0, 0x41);
+        AddSlantedGradientRect(&rect, 1, &c[2], &D_800A0CF0, 0x41);
 
         if (sp30 > 0) {
             rect.x = s7;

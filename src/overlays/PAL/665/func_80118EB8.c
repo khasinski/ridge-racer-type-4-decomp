@@ -14,7 +14,7 @@ void ovl665_func_80118EB8(void) {
   case 3:ovl665_func_80115820();break;
   case 4:ovl665_func_80115CFC();break;
   case 5:StartAttractDemo(1);break;
-  case 6:ModeGroup=1;D_800F3A26=3;D_800F4D8A=0;break;
+  case 6:ModeGroup=1;ModeId=3;ModeSubState=0;break;
   }
   break;
  }

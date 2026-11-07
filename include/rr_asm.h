@@ -65,10 +65,10 @@
 #define RR_GTE_MVMVA_LLM_BK_LDV0(p) do { __asm__ volatile ("lwc2 $0, 0(%0); lwc2 $1, 4(%0)" : : "r"(p)); __asm__ volatile ("nop; nop"); __asm__ volatile (".word 0x4A4A2012"); } while (0)
 #define RR_GTE_SWC2_IR3(p) __asm__ volatile ("swc2 $11, 0(%0)" : : "r"(p) : "memory")
 #define RR_GTE_TR_FROM_IR() __asm__ volatile ("mfc2 $12, $9; mfc2 $13, $10; mfc2 $14, $11; ctc2 $12, $5; ctc2 $13, $6; ctc2 $14, $7" : : : "$12", "$13", "$14")
-/* func_8001C14C: RR_GTE_LWC2_IR(p): load IR1..IR3 ($9-$11) from 3 words at p; RR_GTE_INTPL(): two nops then INTPL. */
+/* StepIntroScene: RR_GTE_LWC2_IR(p): load IR1..IR3 ($9-$11) from 3 words at p; RR_GTE_INTPL(): two nops then INTPL. */
 #define RR_GTE_LWC2_IR(p) __asm__ volatile ("lwc2 $9, 0(%0); lwc2 $10, 4(%0); lwc2 $11, 8(%0)" : : "r"(p) : "memory")
 #define RR_GTE_INTPL() __asm__ volatile ("nop; nop; .word 0x4A980011")
-/* func_8001C14C: RR_GTE_SETFC_P(p): far colour from 3 words at p via $t2-$t4; RR_COPY16_T(dst, src, off): copy 16 bytes src+off -> dst via $t2-$t4 (3 loads, 3 stores, 4th word last). */
+/* StepIntroScene: RR_GTE_SETFC_P(p): far colour from 3 words at p via $t2-$t4; RR_COPY16_T(dst, src, off): copy 16 bytes src+off -> dst via $t2-$t4 (3 loads, 3 stores, 4th word last). */
 #define RR_GTE_SETFC_P(p) __asm__ volatile ( \
     "lw $10, 0(%0); lw $11, 4(%0); lw $12, 8(%0); ctc2 $10, $21; ctc2 $11, $22; ctc2 $12, $23" \
     : : "r"(p) : "$10", "$11", "$12")
@@ -88,7 +88,7 @@
 #define RR_GTE_MTC2_IR1(x) __asm__ volatile ("mtc2 %0, $9" : : "r"(x))
 #define RR_GTE_CTC2_FCR(x) __asm__ volatile ("ctc2 %0, $21" : : "r"(x))
 #define RR_GTE_SWC2_IR1(p) __asm__ volatile ("swc2 $9, 0(%0)" : : "r"(p) : "memory")
-/* func_80014068 GTE helpers (one macro per distinct instruction/sequence). */
+/* EmitRroLitQuadsG4 GTE helpers (one macro per distinct instruction/sequence). */
 #define RR_GTE14_LWC2_V012(p) __asm__ volatile ("lwc2 $0, 0(%0); lwc2 $1, 4(%0); lwc2 $2, 8(%0); lwc2 $3, 12(%0); lwc2 $4, 16(%0); lwc2 $5, 20(%0)" : : "r"(p) : "memory")
 #define RR_GTE14_LWC2_V0(p) __asm__ volatile ("lwc2 $0, 0(%0); lwc2 $1, 4(%0)" : : "r"(p) : "memory")
 #define RR_GTE14_LWC2_V0_V1_V2(a, b, c) __asm__ volatile ("lwc2 $0, 0(%0); lwc2 $1, 4(%0); lwc2 $2, 0(%1); lwc2 $3, 4(%1); lwc2 $4, 0(%2); lwc2 $5, 4(%2)" : : "r"(a), "r"(b), "r"(c) : "memory")

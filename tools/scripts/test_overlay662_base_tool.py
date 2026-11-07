@@ -45,7 +45,7 @@ void TriggerSfx(s32 program,s32 level,s32 pan,s32 pitch,s32 voice){
  assert(expected_sound==1&&sound_calls++==0);assert(program==1&&level==127&&pan==64&&pitch==0x1E00&&voice==-1);
  assert(memcmp(&world,&sound_checkpoint,sizeof(world))==0);sound_effect(&world);
 }
-s32 func_80090758(s32 squared){assert(expected_root==1&&root_calls++==0&&squared==root_argument);assert(memcmp(&world,&root_checkpoint,sizeof(world))==0);root_effect(&world);return root_result;}
+s32 CordicSqrt(s32 squared){assert(expected_root==1&&root_calls++==0&&squared==root_argument);assert(memcmp(&world,&root_checkpoint,sizeof(world))==0);root_effect(&world);return root_result;}
 static void reference(s32 mode){unsigned j;
  if(mode<0){expected.garage.optionIndices98.flat[0]=4;return;}
  if(mode>0){

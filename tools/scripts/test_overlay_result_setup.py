@@ -34,7 +34,7 @@ class OverlayResultSetupTest(unittest.TestCase):
 #include "rr/menu_selection.h"
 #include "rr/standings.h"
 #include "rr/save_progress.h"
-RrMenuTextRow60 D_800FFC48[55];
+RrMenuTextRow60 SharedWorkBuffer[55];
 struct State {
  u32 guard[4];RrSaveProgressRecord7C save;RrMenuChoice4 choice;
  s32 frame,counter,bank666,labels666[33],match,standings[6],first660,second660,labels660[55],uiMode,screenFlag;
@@ -51,7 +51,7 @@ static unsigned scenario,mutation,overlay;
 #define ovl666_result_labels w->state.labels666
 #define TotalRaceTime w->state.match
 #define LapTimes w->state.standings
-#define D_800AC1A0 w->state.first
+#define BestLapIndex w->state.first
 #define ovl660_race_record_rank w->state.first660
 #define ovl660_lap_record_rank w->state.second660
 #define ovl660_result_labels w->state.labels660
@@ -89,7 +89,7 @@ static s32 event(s32 kind,s32 a,s32 b,s32 c,s32 d,s32 e) {
  return (s32)((scenario+n)%7);
 }
 s32 InitMenuTextRows(RrMenuTextRow60 *rows) {
- assert(rows==D_800FFC48 && (uintptr_t)rows>UINT32_MAX);
+ assert(rows==SharedWorkBuffer && (uintptr_t)rows>UINT32_MAX);
  return event(0,0,0,0,0,0);
 }
 void SetMenuTextRow(s32 row,s32 position,s32 group,s32 mode,s32 label) {

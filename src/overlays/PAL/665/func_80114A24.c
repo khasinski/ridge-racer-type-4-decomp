@@ -19,8 +19,8 @@ void ovl665_func_80114A24(void) {
         ovl665_D_80119768.selection08=5;
         RaceContext.mode18=0;
     }
-    D_800AC5D0=64;
+    MenuFadeTimer=64;
     RaceLoadReset();
     SeqStartTrack(0);
-    D_800AC590->b4=-1;
+    DialogueState->b4=-1;
 }

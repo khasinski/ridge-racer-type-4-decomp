@@ -30,7 +30,7 @@ struct State {u32 guard[4];RrMenuSettings2C settings;RrMenuTextRow60 rows[48];
 static struct World {struct State s;unsigned calls;struct {s32 service,a[5];u32 hash;} event[32];} actual,expected,initial,*w;
 static unsigned scenario,mutation;
 #define SelectionState w->s.settings
-#define D_800FFC48 w->s.rows
+#define SharedWorkBuffer w->s.rows
 #define MenuTextRows w->s.published
 #define MenuTextRowCount w->s.count
 #define ovl659_result_labels w->s.labels
@@ -55,7 +55,7 @@ static void event(s32 service,s32 a,s32 b,s32 c,s32 d,s32 e){
  w->calls++;if(mutation)effect(n);
 }
 void ovl659_rank_standings(void){event(1,0,0,0,0,0);}
-void func_80096434(void *destination,u32 bytes){
+void PsyqBzero(void *destination,u32 bytes){
  assert(destination==w->s.rows && bytes<=sizeof(w->s.rows));
  event(2,(s32)bytes,0,0,0,0);memset(destination,0,bytes);
 }
@@ -72,7 +72,7 @@ static void reference(void){
  ovl659_rank_standings();bytes=(u32)w->s.count*60U;
  /* Normalize the expected published pointer to the actual allocation. Its
   * full native value is part of every following service-state snapshot. */
- w->s.published=actual.s.rows;func_80096434(w->s.rows,bytes);
+ w->s.published=actual.s.rows;PsyqBzero(w->s.rows,bytes);
  w->s.flag=0;w->s.mode=2;offset=w->s.settings.mode1A==4?0:11;
  for(i=0;i<11;i++){
   s32 index=(s32)i+offset;

@@ -76,8 +76,8 @@ void ComSlotSetupBank(RrAudioSetupArg *arg0) {
         SoundState.bank30 = -1;
     }
 
-    func_80096434(&SoundState.slots38[2], 0x620);
-    func_80096434(&SoundState.slots38[3], 0x620);
+    PsyqBzero(&SoundState.slots38[2], 0x620);
+    PsyqBzero(&SoundState.slots38[3], 0x620);
 
     if (arg0->bank00 != -1) {
         SoundState.bank30 = SsVabOpenHeadSticky(arg0->bank00, -1, 0x5D000);

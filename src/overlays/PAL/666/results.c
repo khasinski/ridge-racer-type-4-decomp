@@ -5,7 +5,7 @@ void ovl666_init_results(void) {
     s32 base;
 
     /* The selected label bank is0..2; the two progress selectors are0..3. */
-    InitMenuTextRows(D_800FFC48);
+    InitMenuTextRows(SharedWorkBuffer);
     MenuCursor = 0;
     MenuItemCount = 3;
     if (ovl666_result_kind == 0) {
@@ -29,10 +29,10 @@ void ovl666_init_results(void) {
 }
 
 s32 ovl666_update_retry_choice(s32 mode) {
-    func_80041320(MenuCursor + 37, 0, 0);
+    SetMenuTextRowCursor(MenuCursor + 37, 0, 0);
     StepMenuValue(0, 2, (char *)&MenuCursor, 3, 0);
-    func_80041320(MenuCursor + 37, 1, 1);
-    if (D_800F3A60) {
+    SetMenuTextRowCursor(MenuCursor + 37, 1, 1);
+    if (MenuConfirmPressed) {
         PlaySfx(1);
         return MenuCursor;
     }
@@ -48,20 +48,20 @@ void ovl666_update_results(void) {
 
     ModeFrame = (s32)((u32)ModeFrame + 1U);
     ScreenFrame++;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         if (TotalRaceTime == -1) {
             group = 1;
             if (MenuTextRows[11].signedBytes[2] >= 2) {
-                D_800F4D8A = 3;
+                ModeSubState = 3;
             }
         } else {
             group = 0;
             if (MenuTextRows[5].signedBytes[3] >= 21) {
                 SetMenuFrameOptions(1, 1, 0);
-                if (D_800F3A60 != 0) {
+                if (MenuConfirmPressed != 0) {
                     PlaySfx(1);
-                    D_800F4D8A = 3;
+                    ModeSubState = 3;
                     SetMenuFrameOptions(0, 1, 0);
                 }
             }
@@ -80,46 +80,46 @@ void ovl666_update_results(void) {
             if (ovl666_update_retry_choice(0) >= 0) {
                 ResetScreenCounters();
                 InitMenuArenas();
-                D_800AC5D0 = 64;
-                D_800F4D8A = MenuCursor + 4;
+                MenuFadeTimer = 64;
+                ModeSubState = MenuCursor + 4;
             }
         }
         break;
     case 4:
         SetMenuFrameOptions(0, 1, 0);
-        timer = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = timer;
+        timer = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = timer;
         AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (64 - timer) * 4, 69);
         group = 3;
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             ovl666_result_kind = 1;
             MenuScriptId = 0;
             ModeGroup = 1;
-            D_800F3A26 = 35;
-            D_800F4D8A = 0;
+            ModeId = 35;
+            ModeSubState = 0;
         }
         break;
     case 5:
         SetMenuFrameOptions(0, 1, 0);
-        timer = (u16)D_800AC5D0 - 2;
-        D_800AC5D0 = timer;
+        timer = (u16)MenuFadeTimer - 2;
+        MenuFadeTimer = timer;
         AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (64 - timer) * 4, 69);
         group = 3;
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             group = -1;
-            D_800F4D8A = 8;
+            ModeSubState = 8;
         }
         break;
     case 6:
         SetMenuFrameOptions(0, 1, 0);
-        timer = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = timer;
+        timer = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = timer;
         AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (64 - timer) * 4, 69);
         group = -1;
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
-            D_800F3A26 = 3;
-            D_800F4D8A = 0;
+            ModeId = 3;
+            ModeSubState = 0;
         }
         break;
     case 8:
@@ -128,8 +128,8 @@ void ovl666_update_results(void) {
             SeqStartTrack(0);
             ovl666_init_menu();
             ModeGroup = ready;
-            D_800F3A26 = 79;
-            D_800F4D8A = 0;
+            ModeId = 79;
+            ModeSubState = 0;
         }
         return;
     default:

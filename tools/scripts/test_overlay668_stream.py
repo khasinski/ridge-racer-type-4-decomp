@@ -30,16 +30,16 @@ static World actual,reference,initial,*w;
 static u8 pixels[3][2][64],resource[0x19B00];
 static RrStrStreamPrefix streams[3];
 RrStrContextPrefix RaceContext;
-RrStrStreamPrefix *D_800AC708;
+RrStrStreamPrefix *StrStreamState;
 static unsigned scenario,mutation;
-#define D_801102DC w->s.flag
+#define StCdIntrFlag w->s.flag
 #define VSyncThreshold w->s.setting
 #define ModeFrame w->s.frame
 #define D_800AD558 w->s.volume
 ''' + bodies + r'''
 static u32 next(void){u32 x=w->s.rng;x^=x<<13;x^=x>>17;x^=x<<5;return w->s.rng=x;}
 static s16 half(u32 v){u16 a=v;s16 b;memcpy(&b,&a,2);return b;}
-static void roots(void){RaceContext.activeB8=&w->s.players[w->s.active];D_800AC708=&streams[w->s.stream];}
+static void roots(void){RaceContext.activeB8=&w->s.players[w->s.active];StrStreamState=&streams[w->s.stream];}
 static void change(void){unsigned i,j;
  w->s.active=next()%3;w->s.stream=next()%3;w->s.flag=(s32)next();w->s.setting=(s32)next();w->s.frame=(s32)next();w->s.volume=next();
  RaceContext.phaseB4=(s32)next();RaceContext.counterC4=(s32)next();

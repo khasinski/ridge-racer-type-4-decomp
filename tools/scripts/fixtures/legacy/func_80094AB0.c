@@ -14,7 +14,7 @@ void _ctl(u32 command) {
     index = command >> 24;
     /* ASM_BARRIER: finish the port write before binding the history address. */
     __asm__ volatile("" : "=r"(index) : "0"(index) : "$1", "memory");
-    /* PAL RAM mapping: D_801127D0 is base plus 0x27D0. */
+    /* PAL RAM mapping: GpuCtlBuf is base plus 0x27D0. */
     base = (u8 *)0x80110000U;
     /* ASM_BARRIER: retain the base-plus-index byte store in the return delay slot. */
     __asm__("" : "=r"(base) : "0"(base));

@@ -2,7 +2,7 @@
 #include "scratchpad.h"
 #include "rr_asm.h"
 #include "rr/menu_overlay_runtime.h"
-void func_80019C90(a0) int a0;
+void SetSineLightColors(a0) int a0;
 {
     int *p; 
     register int x asm("$17"); /* ASM_BARRIER: pin to s-reg like the original saves */

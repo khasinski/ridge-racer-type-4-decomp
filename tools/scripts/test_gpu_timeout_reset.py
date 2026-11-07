@@ -24,7 +24,7 @@ typedef uint8_t u8;typedef uint16_t u16;typedef int16_t s16;typedef uint32_t u32
 ''' + headers + '''
 u32 ports[8];u16 mask_storage,*I_MASK=&mask_storage;
 volatile u32 *GPU_STATUS=&ports[0],*DMA2_MADR=&ports[1],*DMA2_CHCR=&ports[2],*DPCR=&ports[3];
-s32 _qin,D_800ABBF8,GpuTimeoutDeadline,GpuAlarmCount;
+s32 _qin,SavedIntrMask,GpuTimeoutDeadline,GpuAlarmCount;
 volatile s32 _qout;
 char GpuTimeoutFmt[]="GPU timeout:que=%d,stat=%08x,chcr=%08x,madr=%08x\\n";
 s32 test_now,test_diag_calls,test_read_count,test_time_calls;
@@ -59,12 +59,12 @@ void test_dma(volatile u32 *p,u32 value) {*p=value;event(6,p==&ports[2]?2:5,valu
 void test_config(volatile u32 *p) {*p|=0x800;event(7,p==&ports[3]?3:6,*p);}
 void test_gpu(volatile u32 *p,u32 value) {
  *p=value;event(8,p==&ports[0]?0:(p==&ports[4]?4:7),value);
- if(test_swap_write && value==0x02000000){GPU_STATUS=&ports[7];D_800ABBF8=0x1234;}
+ if(test_swap_write && value==0x02000000){GPU_STATUS=&ports[7];SavedIntrMask=0x1234;}
 }
 void test_reset(void) {
  u32 i;for(i=0;i<8;i++)ports[i]=0xA5000000+i;
  GPU_STATUS=&ports[0];DMA2_MADR=&ports[1];DMA2_CHCR=&ports[2];DPCR=&ports[3];
- _qin=70;_qout=5;D_800ABBF8=-1;GpuTimeoutDeadline=100;GpuAlarmCount=0;
+ _qin=70;_qout=5;SavedIntrMask=-1;GpuTimeoutDeadline=100;GpuAlarmCount=0;
  mask_storage=0xF123;test_now=101;
  test_diag_calls=test_read_count=test_time_calls=test_mask_calls=test_tail_reads=test_event_count=0;
  test_mutate_diag=test_mutate_mask=test_swap_write=0;
@@ -85,7 +85,7 @@ void test_reset(void) {
                                     '            test_read(gpu),*DMA2_CHCR,*DMA2_MADR);')
                 replacements = {
                     'saved=SetIntrMask(0);': 'saved=test_exchange(0);',
-                    'SetIntrMask(D_800ABBF8);': 'test_exchange(D_800ABBF8);',
+                    'SetIntrMask(SavedIntrMask);': 'test_exchange(SavedIntrMask);',
                     '_qin=_qout;': '_qin=test_tail();',
                     '*DMA2_CHCR=0x401;': 'test_dma(DMA2_CHCR,0x401);',
                     '*DPCR|=0x800;': 'test_config(DPCR);',
@@ -148,7 +148,7 @@ void test_reset(void) {
             (4, 0, 0xF123), (5, 0, 0), (6, 2, 0x401), (7, 3, 0xA5000803),
             (8, 0, 0x02000000), (8, 0, 0x01000000), (4, 0xF123, 0)])
         self.assertEqual((self.scalar('_qin').value, self.scalar('_qout').value), (0, 0))
-        self.assertEqual(self.scalar('D_800ABBF8').value, 0xF123)
+        self.assertEqual(self.scalar('SavedIntrMask').value, 0xF123)
         self.assertEqual(C.c_uint16.in_dll(self.lib, 'mask_storage').value, 0xF123)
         self.assertEqual(list(self.ports)[1:], [0xA5000001, 0x401, 0xA5000803,
                                                0xA5000004, 0xA5000005, 0xA5000006, 0xA5000007])

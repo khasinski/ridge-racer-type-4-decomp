@@ -10,7 +10,7 @@ typedef union {
     RrRaceVehicleControlView parts;
 } RrRaceVehicleViews;
 extern s32 RaceState,TrackLength;
-extern s16 ReverseCourse,D_800AC5D0;
+extern s16 ReverseCourse,MenuFadeTimer;
 void SoundSetMasterVolume(s16 first,s16 second);
 void ovl660_func_80117084(RrRaceVehicleViews *player);
 RR_ASSERT_SIZE(RrRaceVehicleViews,0x320);

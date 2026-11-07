@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void func_8007B460();
+void DispatchCardMenuStep();
 
 #endif /* RR_GAME_MENU_MENUSTEP_H */

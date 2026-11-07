@@ -11,13 +11,13 @@ extern int MenuStepDirection;
 extern char SelectionState[];
 extern short D_800AD520;
 extern int ModeFrame;
-extern short D_800F3A26;
-extern unsigned short D_800F3A42;
-extern int D_800F3A60;
+extern short ModeId;
+extern unsigned short Pad0RepeatButtons;
+extern int MenuConfirmPressed;
 extern T3 *BadgeRows;
 extern short ModeGroup;
 extern char *UiRows;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern signed char *GlyphRows;
 extern char *Dialogue;
 
@@ -31,14 +31,14 @@ void func_800417EC()
     int t = SelectionRows[0];
     D_800AD520 = t;
     UiRows[t + 0xC] = 0;
-    if (D_800F3A42 & 0x2000) {
+    if (Pad0RepeatButtons & 0x2000) {
         if (D_800AD520 < 3) {
             D_800AD520 = (unsigned short)D_800AD520 + 1;
             MenuStepDirection = 2;
             goto L_a8;
         }
     }
-    if (D_800F3A42 & 0x8000) {
+    if (Pad0RepeatButtons & 0x8000) {
         if (D_800AD520 > 0) {
             D_800AD520 = (unsigned short)D_800AD520 - 1;
             MenuStepDirection = 1;
@@ -62,7 +62,7 @@ L_a8:
 L_54:
     q = UiRows + 0xC;
     q[D_800AD520] = 2;
-    if (D_800F3A60 != 0) {
+    if (MenuConfirmPressed != 0) {
         s0 = BadgeRows->s10;
         if (s0 == 3) {
             PlaySfx(1);
@@ -74,8 +74,8 @@ L_54:
             BadgeRows->s10 = 4;
             UiRows[0x14] = s0;
             ModeGroup = 1;
-            D_800F3A26 = 0xB;
-            D_800F4D8A = 0;
+            ModeId = 0xB;
+            ModeSubState = 0;
         }
     }
 }
@@ -86,7 +86,7 @@ L_54:
 int AllocMenuGridRecords(int a, int n) {
     int sz = n * 56;
     MenuGridRecords = a;
-    func_80096434(a, sz);
+    PsyqBzero(a, sz);
     return sz;
 }
 

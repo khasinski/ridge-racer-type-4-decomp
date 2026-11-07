@@ -53,7 +53,7 @@ typedef struct {
     u32 value;
 } __attribute__((packed)) RrLibPackedWord;
 
-/* Partial layout of the 0x20-byte entries referenced by D_80110310. */
+/* Partial layout of the 0x20-byte entries referenced by StRingHeaders. */
 typedef struct {
     u16 state;
     u8 pad02[6];
@@ -64,10 +64,10 @@ typedef struct {
     RrLibPackedWord word1C;
 } RrLibQueueRecord32;
 
-extern RrLibQueueRecord32 *D_80110310;
+extern RrLibQueueRecord32 *StRingHeaders;
 void StSetRing(RrLibQueueRecord32 *first, s32 second);
 void StSetStream(s32 a, s32 b, s32 c, s32 d, s32 e);
-extern s32 D_801102FC, StEndFrame, D_80110314;
+extern s32 StRingReadIndex, StEndFrame, StRingSize;
 /* Buffer must contain the configured header table and its 0x7E0-byte payload slots. */
 s32 StGetNext(u8 **data, RrLibQueueRecord32 **header);
 
@@ -79,7 +79,7 @@ RR_ASSERT_OFFSET(RrLibQueueRecord32, height12, 0x12);
 RR_ASSERT_OFFSET(RrLibQueueRecord32, word1C, 0x1C);
 
 /* Prefix at D_800ABAC2. Width/height also have assembler aliases
- * D_800ABAC4 and D_800ABAC6, used by drawing-area coordinate helpers. */
+ * D_800ABAC4 and GpuVramHeight, used by drawing-area coordinate helpers. */
 typedef struct {
     u8 level,mode;
     s16 width,height;
@@ -212,9 +212,9 @@ void SsSepClose(s32 bank);
 /* Callback entry points use full argument registers; selectors narrow inside. */
 typedef void (*RrLibControllerCallback)(s32 bank, s32 row, s32 value);
 typedef void (*RrLibControllerResetCallback)(s32 bank, s32 row);
-extern RrLibControllerCallback SsCtrlHandlerCC6, D_8010EFE4, D_8010EFE8, D_8010EFEC;
-extern RrLibControllerCallback SsCtrlHandlerCC64, SsCtrlHandlerCC98, D_8010EFF8, D_8010EFFC;
-extern RrLibControllerCallback D_8010F000, D_8010F004;
+extern RrLibControllerCallback SsCtrlHandlerCC6, SsCtrlHandlerCC7, SsCtrlHandlerCC10, SsCtrlHandlerCC11;
+extern RrLibControllerCallback SsCtrlHandlerCC64, SsCtrlHandlerCC98, SsCtrlHandlerCC99, SsCtrlHandlerCC100;
+extern RrLibControllerCallback SsCtrlHandlerCC101, SsCtrlHandlerCC91;
 extern RrLibControllerCallback _SsMarkCallback[][16];
 extern RrLibControllerResetCallback SsCtrlHandlerCC121;
 extern void _SsContMainVol(s32 bank, s32 row, s32 value);

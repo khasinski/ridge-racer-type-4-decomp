@@ -31,7 +31,7 @@ static const s32 budgets[18]={INT32_MIN,INT32_MIN+1,INT32_MAX-1,INT32_MAX,-1000,
 static u8 *labels[7]={StrPlayerLabel,StrNowAcceptingEntries,EntryAcceptedStr,StrStarPleaseWait,StrNoPlayer,SecondsUntilCloseText,D_80010674};
 static const unsigned sizes[7]={12,28,20,16,12,28,4};
 #define LinkEntryState (w->s.status)
-#define D_800AD508 (w->s.flags)
+#define LinkRoleSlot (w->s.flags)
 #define RaceTimeRemaining (w->s.budget)
 static s32 word(u32 u){s32 n;memcpy(&n,&u,4);return n;}
 static s16 half(u16 u){s16 n;memcpy(&n,&u,2);return n;}

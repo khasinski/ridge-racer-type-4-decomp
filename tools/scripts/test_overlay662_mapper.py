@@ -42,7 +42,7 @@ static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
 static s16 half(u32 x){u16 n=(u16)x;s16 v;memcpy(&v,&n,2);return v;}
 static s32 word(u32 x){s32 v;memcpy(&v,&x,4);return v;}
 static void effect(struct World*w){w->work.points.first20=(RrGaragePoint){half(variant),half(variant*251U)};w->work.points.second24=(RrGaragePoint){half(variant*73U),half(variant*127U)};w->garage.current60=word(0x87654321U^variant);w->work.points.distance2C=-123;w->garage.selectorsB8[0]=-1;w->garage.options78.flat[0]=tables[7];}
-s32 func_80090758(s32 value){assert(calls++==0&&value==argument);assert(memcmp(&world,&checkpoint,sizeof(world))==0);effect(&world);return root_result;}
+s32 CordicSqrt(s32 value){assert(calls++==0&&value==argument);assert(memcmp(&world,&checkpoint,sizeof(world))==0);effect(&world);return root_result;}
 static s32 floor_half(s32 n){return n>=0?n/2:-((-n+1)/2);}
 static void reference(void){s32 target=tables[group][row].destinations[col];RrGarageRectangle *ptr=expected.table[target];unsigned n=(unsigned)(ptr-world.rects);s32 x,y,w,h;int64_t dx,dy,sum;
  assert(n<46);x=half(expected.rects[n][0]);y=half(expected.rects[n][1]);w=half(expected.rects[n][2]);h=half(expected.rects[n][3]);expected.work.points.second24.x=half((u32)(x+floor_half(w)));expected.work.points.second24.y=half((u32)(y+floor_half(h)));

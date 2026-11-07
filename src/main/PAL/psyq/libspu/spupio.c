@@ -57,7 +57,7 @@ void _spu_FwriteByIO(const u16 *source,u32 size) {
                     if(count>0xF00) {
                         /* ASM_BARRIER: Prepare the diagnostic format in its original argument register. */
                         /* ASM_BARRIER: Keep the restore-timeout diagnostic format in its argument register. */
-                    register const char *format __asm__("$4")=D_80011698;
+                    register const char *format __asm__("$4")=SpuTimeoutFmt;
                         /* ASM_BARRIER: Prepare the mapped diagnostic reason in its original argument register. */
                         /* ASM_BARRIER: Keep the restore-timeout reason in its argument register. */
                     register const char *reason __asm__("$5");
@@ -104,7 +104,7 @@ void _spu_FwriteByIO(const u16 *source,u32 size) {
             do {
                 if(count>0xF00) {
                     /* ASM_BARRIER: Keep the restore-timeout diagnostic format in its argument register. */
-                    register const char *format __asm__("$4")=D_80011698;
+                    register const char *format __asm__("$4")=SpuTimeoutFmt;
                     /* ASM_BARRIER: Keep the restore-timeout reason in its argument register. */
                     register const char *reason __asm__("$5");
                     /* ASM_BARRIER: Finish the second format before forming its mapped reason page. */

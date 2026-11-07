@@ -23,9 +23,9 @@
 #include "game/gfx/polygt4.h"
 #include "game/gfx/drawbuf.h"
 
-#define G D_8010BF78
+#define G IntroSceneState
 #define H BadgeRows
-#define K D_800AC590
+#define K DialogueState
 #define SPP (*(struct P **)SCRATCHPAD)
 #define SPO (*(struct P **)(SCRATCHPAD + 0x4))
 #define SPAD ((int *)SCRATCHPAD)
@@ -111,7 +111,7 @@ extern int ClearScreenOverlayState();
 extern int UpdateDialogue();
 extern int ResetScreenCounters();
 extern int InitMenuArenas();
-extern int func_8003B934();
+extern int LoadDialogueTableStep();
 extern int InitBadgeRow();
 extern int UpdateBadgeRowAnim();
 extern int LoadTimImage();
@@ -121,17 +121,17 @@ extern int CdAudioBeginPlay();
 extern int CdAudioFade();
 extern int SetupViewport();
 extern int SetGeomOffset();
-extern struct GS *D_8010BF78;
+extern struct GS *IntroSceneState;
 extern struct HS *BadgeRows;
-extern struct KS *D_800AC590;
-extern short D_800AC5D0;
+extern struct KS *DialogueState;
+extern short MenuFadeTimer;
 extern char *LoadCursor;
 extern char ScreenFadeState;
-extern short D_800F3A26;
+extern short ModeId;
 extern short MenuScriptId;
 extern short ModeGroup;
-extern int D_800F4CA8;
-extern short D_800F4D8A;
+extern int DialogueContext;
+extern short ModeSubState;
 extern short D_8009E4EC;
 extern char *CdDirectoryBuffer;
 extern char D_800101EC[];
@@ -140,10 +140,10 @@ extern char D_8009E520[];
 extern char D_8009E530[];
 extern char D_8009E540[];
 
-void func_8001C14C();
+void StepIntroScene();
 void EmitSpriteGrid(u32 intensity,RrSpriteGridClock *state);
 
-void func_8001C14C() {
+void StepIntroScene() {
     int temp_s5;
     register struct GS *g asm("$2"); /* ASM_BARRIER: pin G reload pointer to $v0 */
     register struct GS *g_a0 asm("$4"); /* ASM_BARRIER: pin G reload pointer to $a0 in case 0x2F */
@@ -218,55 +218,55 @@ void func_8001C14C() {
     register struct P *temp_t1 asm("$9"); /* ASM_BARRIER: pin packet pointer to $t1 */
     struct SPD *spd, *spd2;
     int col;
-    temp_s5 = func_800534B4();
-    if (D_8010BF7C < 5) {
+    temp_s5 = GetCdAudioPosition();
+    if (TitleSceneStage < 5) {
         goto block_9;
     }
-    if (D_800AC5D0 == 0) {
+    if (MenuFadeTimer == 0) {
         goto block_7;
     }
-    if (D_800AC5D0 != 4) {
+    if (MenuFadeTimer != 4) {
         goto block_4;
     }
     CdAudioFade(0, 0x40);
     goto block_6;
 block_4:
-    if (D_800AC5D0 < 0x100) {
+    if (MenuFadeTimer < 0x100) {
         goto block_6;
     }
-    D_800F4CA8 = 0;
+    DialogueContext = 0;
     MenuScriptId = 1;
     ModeGroup = 1;
-    D_800F3A26 = 0x23;
-    D_800F4D8A = 0;
+    ModeId = 0x23;
+    ModeSubState = 0;
 block_6:
-    AddScreenFadeTiles(CurrentDrawBuf + 0x70, D_800AC5D0, 0x45);
-    D_800AC5D0 = (u16) D_800AC5D0 + 4;
+    AddScreenFadeTiles(CurrentDrawBuf + 0x70, MenuFadeTimer, 0x45);
+    MenuFadeTimer = (u16) MenuFadeTimer + 4;
     goto block_9;
 block_7:
     if (!(Pad0Buttons & 0x800)) {
         goto block_9;
     }
-    D_800AC5D0 = 4;
+    MenuFadeTimer = 4;
 block_9:
-    if ((u32) D_8010BF7C >= 0x36U) {
+    if ((u32) TitleSceneStage >= 0x36U) {
         goto block_224;
     }
-    switch (D_8010BF7C) {
+    switch (TitleSceneStage) {
 case 0x0:
     LoadCursor = CdDirectoryBuffer;
     ClearScreenOverlayState();
     ScreenFadeState = 2;
     InitMenuArenas();
     ResetScreenCounters();
-    D_800F4CA8 = 4;
+    DialogueContext = 4;
     InitBadgeRow(0, 0xC, 0x130, 0x128, 0x58, 0, 0);
-    D_8010BF7C = 1;
+    TitleSceneStage = 1;
 case 0x1:
     if (CdFileReadStart(GetR4FileIndex(0, 0x13), LoadCursor) == 0) {
         goto block_248;
     }
-    D_8010BF7C = 2;
+    TitleSceneStage = 2;
 case 0x2:
     temp_v0 = CdFileBytesLoaded();
     if (temp_v0 == 0) {
@@ -278,24 +278,24 @@ case 0x2:
     LoadTimImage(LoadCursor + ((int *)LoadCursor)[3]);
     LoadTimImage(temp_s0);
     RegisterModelBank(temp_s1, 4);
-    D_800AC64C = temp_s2;
+    SkyCommandList = temp_s2;
     RelocateOffsetTable(temp_s2);
-    D_8010BF7C = 3;
+    TitleSceneStage = 3;
     LoadCursor += temp_v0;
 case 0x3:
-    if (func_8003B934() == 0) {
+    if (LoadDialogueTableStep() == 0) {
         goto block_248;
     }
     CdAudioInit();
     CdAudioSelectTrack(0, 0);
     CdAudioBeginPlay(0);
-    func_8001B308();
-    D_8010BF7C = 4;
+    InitIntroSceneLights();
+    TitleSceneStage = 4;
 case 0x4:
     if (temp_s5 < 0) {
         goto block_248;
     }
-    D_8010BF7C = 5;
+    TitleSceneStage = 5;
     G->s48 = 0x80;
     G->s9C = 0x1000;
     G->s4A = 0;
@@ -341,7 +341,7 @@ block_38:
     }
     G->p40 = (s16 *) (temp_a1 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 6;
+    TitleSceneStage = 6;
     G->s44 = 0;
 case 0x6:
     if (G->s44 < 0x20) {
@@ -349,7 +349,7 @@ case 0x6:
     }
     PsyqMemset((SCRATCHPAD + 0x18), 0, 0x10);
     src = D_8009E540;
-    st = &D_8010BF7C;
+    st = &TitleSceneStage;
     __asm__ volatile("" ::: "$8", "$9"); /* ASM_BARRIER: reserve $t0-$t1 so sp2 allocates to $t5 */
     sp2 = (int *)(SCRATCHPAD + 0x8);
     RR_COPY16_T(sp2, src, 16);
@@ -389,7 +389,7 @@ block_47:
     goto block_199;
 block_49:
     G->s44 = 0;
-    D_8010BF7C = 8;
+    TitleSceneStage = 8;
 case 0x8:
     temp_a1_2 = G->p40;
     if (G->s46 < *temp_a1_2) {
@@ -397,7 +397,7 @@ case 0x8:
     }
     G->p40 = (s16 *) (temp_a1_2 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 9;
+    TitleSceneStage = 9;
     G->s74 = -4;
     G->s76 = -4;
     G->s78 = -4;
@@ -419,7 +419,7 @@ case 0x9:
     G->sAA = 0;
     G->s74 = 4;
     G->s44 = 0;
-    D_8010BF7C = 0xA;
+    TitleSceneStage = 0xA;
 case 0xA:
     temp_v1_2 = G->s44;
     if (temp_v1_2 >= 0x38) {
@@ -444,7 +444,7 @@ block_59:
     goto block_201;
 block_61:
     G->s44 = 0;
-    D_8010BF7C = 0xB;
+    TitleSceneStage = 0xB;
 case 0xB:
     temp_a1_3 = G->p40;
     if (G->s46 < *temp_a1_3) {
@@ -452,7 +452,7 @@ case 0xB:
     }
     G->p40 = (s16 *) (temp_a1_3 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0xC;
+    TitleSceneStage = 0xC;
     G->s74 = -4;
     G->s76 = -4;
     G->s78 = -4;
@@ -474,7 +474,7 @@ case 0xC:
     G->sAE = 0;
     G->s74 = 4;
     G->s44 = 0;
-    D_8010BF7C = 0xD;
+    TitleSceneStage = 0xD;
 case 0xD:
     temp_v1_3 = G->s44;
     if (temp_v1_3 >= 0x50) {
@@ -511,7 +511,7 @@ block_75:
     goto block_203;
 block_77:
     G->s44 = 0;
-    D_8010BF7C = 0xE;
+    TitleSceneStage = 0xE;
 case 0xE:
     temp_a1_4 = G->p40;
     if (G->s46 < *temp_a1_4) {
@@ -519,7 +519,7 @@ case 0xE:
     }
     G->p40 = (s16 *) (temp_a1_4 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0xF;
+    TitleSceneStage = 0xF;
     G->s74 = -4;
     G->s76 = -4;
     G->s78 = -4;
@@ -548,7 +548,7 @@ case 0xF:
     G->s6C = 0;
     G->s74 = 4;
     G->s44 = 0;
-    D_8010BF7C = 0x10;
+    TitleSceneStage = 0x10;
 case 0x10:
     temp_a0_2 = G->s44;
     if (temp_a0_2 >= 0x38) {
@@ -584,7 +584,7 @@ block_90:
 block_92:
     G->sA6 = 0xFFF;
     G->s44 = 0;
-    D_8010BF7C = 0x11;
+    TitleSceneStage = 0x11;
 case 0x11:
     temp_a1_5 = G->p40;
     if (G->s46 < *temp_a1_5) {
@@ -592,10 +592,10 @@ case 0x11:
     }
     G->p40 = (s16 *) (temp_a1_5 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0x12;
+    TitleSceneStage = 0x12;
 case 0x12:
     G->sA6 = 0;
-    D_8010BF7C = 0x13;
+    TitleSceneStage = 0x13;
     G->uA2 = 1;
     G->s44 = 0;
     goto block_205;
@@ -606,9 +606,9 @@ case 0x13:
     }
     G->p40 = (s16 *) (temp_a1_6 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0x14;
+    TitleSceneStage = 0x14;
 case 0x14:
-    D_8010BF7C = 0x15;
+    TitleSceneStage = 0x15;
     G->sA6 = 1;
     G->uA2 = 2;
     G->s44 = 0;
@@ -620,10 +620,10 @@ case 0x15:
     }
     G->p40 = (s16 *) (temp_a1_7 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0x16;
+    TitleSceneStage = 0x16;
 case 0x16:
     G->sA6 = 0;
-    D_8010BF7C = 0x17;
+    TitleSceneStage = 0x17;
     G->uA2 = 0U;
     G->s44 = 0;
     goto block_205;
@@ -639,13 +639,13 @@ case 0x17:
     G->s92 = -0x40;
     G->s94 = -0x40;
     G->s44 = 0;
-    D_8010BF7C = 0x18;
+    TitleSceneStage = 0x18;
 case 0x18:
     if (G->s44 < 0x20) {
         goto block_206;
     }
     G->s44 = 0;
-    D_8010BF7C = 0x1B;
+    TitleSceneStage = 0x1B;
 case 0x1B:
     temp_a1_8 = G->p40;
     if (G->s46 < *temp_a1_8) {
@@ -653,7 +653,7 @@ case 0x1B:
     }
     G->p40 = (s16 *) (temp_a1_8 + 1);
     K->b4 = K->b4 + 1;
-    st = &D_8010BF7C;
+    st = &TitleSceneStage;
     g = G;
     *st = 0x19;
     g->s56 = 0x100;
@@ -688,7 +688,7 @@ block_111:
     }
     G->p40 = (s16 *) (temp_a1_9 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0x1C;
+    TitleSceneStage = 0x1C;
     G->s90 = 0x40;
     G->s44 = 0;
 case 0x1C:
@@ -715,7 +715,7 @@ block_118:
     goto block_210;
 block_120:
     G->s44 = 0;
-    D_8010BF7C = 0x1D;
+    TitleSceneStage = 0x1D;
 case 0x1D:
     temp_a1_10 = G->p40;
     if (G->s46 < *temp_a1_10) {
@@ -723,7 +723,7 @@ case 0x1D:
     }
     G->p40 = (s16 *) (temp_a1_10 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0x1E;
+    TitleSceneStage = 0x1E;
     G->s92 = 0x40;
     G->s44 = 0;
 case 0x1E:
@@ -750,7 +750,7 @@ block_128:
     goto block_210;
 block_130:
     G->s44 = 0;
-    D_8010BF7C = 0x1F;
+    TitleSceneStage = 0x1F;
 case 0x1F:
     temp_a1_11 = G->p40;
     if (G->s46 < *temp_a1_11) {
@@ -758,7 +758,7 @@ case 0x1F:
     }
     G->p40 = (s16 *) (temp_a1_11 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0x20;
+    TitleSceneStage = 0x20;
     G->s94 = 0x40;
     G->s44 = 0;
 case 0x20:
@@ -785,7 +785,7 @@ block_138:
     goto block_210;
 block_140:
     G->s44 = 0;
-    D_8010BF7C = 0x21;
+    TitleSceneStage = 0x21;
 case 0x21:
     temp_a1_12 = G->p40;
     if (G->s46 < *temp_a1_12) {
@@ -793,7 +793,7 @@ case 0x21:
     }
     G->p40 = (s16 *) (temp_a1_12 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0x22;
+    TitleSceneStage = 0x22;
     G->s74 = -4;
     G->s76 = -4;
     G->s78 = -4;
@@ -812,7 +812,7 @@ case 0x22:
     G->s9E = 5;
     G->sA0 = 0x1000;
     G->s44 = 0;
-    D_8010BF7C = 0x23;
+    TitleSceneStage = 0x23;
 case 0x23:
     if (G->s44 < 0x20) {
         goto block_210;
@@ -822,7 +822,7 @@ case 0x23:
     G->s5E = 0;
     G->s74 = 4;
     G->s44 = 0;
-    D_8010BF7C = 0x24;
+    TitleSceneStage = 0x24;
 case 0x24:
     temp_v1_7 = G->s44;
     if (temp_v1_7 >= 0x44) {
@@ -847,7 +847,7 @@ block_152:
     goto block_212;
 block_154:
     G->s44 = 0;
-    D_8010BF7C = 0x25;
+    TitleSceneStage = 0x25;
 case 0x25:
     temp_a1_13 = G->p40;
     if (G->s46 < *temp_a1_13) {
@@ -855,7 +855,7 @@ case 0x25:
     }
     G->p40 = (s16 *) (temp_a1_13 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0x26;
+    TitleSceneStage = 0x26;
     G->s74 = -4;
     G->s76 = -4;
     G->s78 = -4;
@@ -869,7 +869,7 @@ case 0x26:
     G->s9E = 6;
     G->sA0 = 0x1000;
     G->s44 = 0;
-    D_8010BF7C = 0x28;
+    TitleSceneStage = 0x28;
 case 0x28:
     if (G->s44 < 0x20) {
         goto block_212;
@@ -879,7 +879,7 @@ case 0x28:
     G->s5E = 0;
     G->s74 = 4;
     G->s44 = 0;
-    D_8010BF7C = 0x29;
+    TitleSceneStage = 0x29;
 case 0x29:
     temp_v1_8 = G->s44;
     if (temp_v1_8 >= 0x44) {
@@ -904,7 +904,7 @@ block_166:
     goto block_214;
 block_168:
     G->s44 = 0;
-    D_8010BF7C = 0x2A;
+    TitleSceneStage = 0x2A;
 case 0x2A:
     temp_a1_14 = G->p40;
     if (G->s46 < *temp_a1_14) {
@@ -912,7 +912,7 @@ case 0x2A:
     }
     G->p40 = (s16 *) (temp_a1_14 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0x2B;
+    TitleSceneStage = 0x2B;
     G->s74 = -4;
     G->s76 = -4;
     G->s78 = -4;
@@ -926,7 +926,7 @@ case 0x2B:
     G->s9E = 7;
     G->sA0 = 0x1000;
     G->s44 = 0;
-    D_8010BF7C = 0x2C;
+    TitleSceneStage = 0x2C;
 case 0x2C:
     if (G->s44 < 0x20) {
         goto block_216;
@@ -936,7 +936,7 @@ case 0x2C:
     G->s5E = 0;
     G->s74 = 4;
     G->s44 = 0;
-    D_8010BF7C = 0x2D;
+    TitleSceneStage = 0x2D;
 case 0x2D:
     temp_v1_9 = G->s44;
     if (temp_v1_9 >= 0x44) {
@@ -961,7 +961,7 @@ block_180:
     goto block_216;
 block_182:
     G->s44 = 0;
-    D_8010BF7C = 0x2E;
+    TitleSceneStage = 0x2E;
 case 0x2E:
     temp_a1_15 = G->p40;
     if (G->s46 < *temp_a1_15) {
@@ -969,7 +969,7 @@ case 0x2E:
     }
     G->p40 = (s16 *) (temp_a1_15 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0x2F;
+    TitleSceneStage = 0x2F;
     G->s74 = -4;
     G->s76 = -4;
     G->s78 = -4;
@@ -995,7 +995,7 @@ case 0x2F:
     __asm__ volatile("" ::: "memory"); /* ASM_BARRIER: force G reload after s96 store */
     g_a0 = G;
     __asm__ volatile("" : "+r"(g_a0) :: "$8", "$9"); /* ASM_BARRIER: emit G reload before state lui and reserve $t0-$t1 for sp2 in $t5 */
-    st_v1 = &D_8010BF7C;
+    st_v1 = &TitleSceneStage;
     sp2 = (int *)(SCRATCHPAD + 0x8);
     RR_COPY16_T(sp2, src, 128);
     *st_v1 = 0x30;
@@ -1005,7 +1005,7 @@ case 0x30:
         goto block_219;
     }
     G->s44 = 0;
-    D_8010BF7C = 0x31;
+    TitleSceneStage = 0x31;
 case 0x31:
     temp_a1_16 = G->p40;
     if (G->s46 < *temp_a1_16) {
@@ -1013,7 +1013,7 @@ case 0x31:
     }
     G->p40 = (s16 *) (temp_a1_16 + 1);
     K->b4 = K->b4 + 1;
-    D_8010BF7C = 0x32;
+    TitleSceneStage = 0x32;
     G->s74 = -4;
     G->s76 = -4;
     G->s82 = -8;
@@ -1027,11 +1027,11 @@ case 0x32:
     sp4[6] = 0x400;
     sp4[7] = 0;
     sp4[8] = 0;
-    __asm__ volatile("" : "=r"(st) :: "memory"); /* ASM_BARRIER: clobber $a0 so %hi(D_8010BF78) stays in $a1 across sp4 stores */
+    __asm__ volatile("" : "=r"(st) :: "memory"); /* ASM_BARRIER: clobber $a0 so %hi(IntroSceneState) stays in $a1 across sp4 stores */
     src = D_8009E540;
     g_v1 = G;
     __asm__ volatile("" : "+r"(src), "+r"(g_v1) :: "$8", "$9"); /* ASM_BARRIER: emit src and G reload before state lui and reserve $t0-$t1 for sp2 in $t5 */
-    st = &D_8010BF7C;
+    st = &TitleSceneStage;
     sp2 = (int *)(SCRATCHPAD + 0x8);
     RR_COPY16_T(sp2, src, 144);
     *st = 0x33;
@@ -1048,13 +1048,13 @@ case 0x33:
         goto block_222;
     }
     G->s44 = 0;
-    D_8010BF7C = 0x34;
+    TitleSceneStage = 0x34;
 case 0x34:
     if (G->s46 < *G->p40) {
         goto block_222;
     }
-    D_800AC5D0 = 4;
-    D_8010BF7C = 0x35;
+    MenuFadeTimer = 4;
+    TitleSceneStage = 0x35;
     goto block_221;
 block_197:
     func_8001B8B0(G->s48, G->s9C);
@@ -1066,14 +1066,14 @@ block_199:
     EmitPresetSprite(G->s48, 2);
     EmitPresetSprite(G->s4A, 3);
     EmitPresetSprite(G->s4C, 4);
-    func_8001BBC4(G->s56, G->s5E, 0x6C0018, 0x78);
+    EmitFadeTile(G->s56, G->s5E, 0x6C0018, 0x78);
     goto block_225;
 block_200:
 block_201:
     EmitPresetSprite(G->s48, 5);
     EmitPresetSprite(G->s4A, 6);
     EmitPresetSprite(G->s4C, 7);
-    func_8001BBC4(G->s56, G->s5E, 0x6C0018, 0x78);
+    EmitFadeTile(G->s56, G->s5E, 0x6C0018, 0x78);
     goto block_225;
 block_202:
 block_203:
@@ -1082,7 +1082,7 @@ block_203:
     EmitPresetSprite(G->s4C, 0xA);
     EmitPresetSprite(G->s4E, 0xB);
     EmitPresetSprite(G->s50, 0xC);
-    func_8001BBC4(G->s56, G->s5E, 0x6C0018, 0x78);
+    EmitFadeTile(G->s56, G->s5E, 0x6C0018, 0x78);
     goto block_225;
 block_205:
 block_206:
@@ -1094,7 +1094,7 @@ block_206:
 block_208:
     EmitPresetSprite(G->s48, 0xD);
     EmitPresetSprite(G->s48, 0xE);
-    func_8001BBC4(G->s56, G->s5E, 0x680010, 0x120);
+    EmitFadeTile(G->s56, G->s5E, 0x680010, 0x120);
     EmitPresetSprite(G->s4A, 0xF);
     EmitPresetSprite(G->s4A, 0x10);
     EmitPresetSprite(G->s4A, 0x11);
@@ -1110,9 +1110,9 @@ block_210:
     EmitPresetSprite(G->s50, 0x15);
     EmitPresetSprite(G->s52, 0x16);
     EmitPresetSprite(G->s54, 0x17);
-    func_8001BBC4(G->s56, G->s5E, 0xB0001C, 0x28);
-    func_8001BBC4(G->s58, G->s60, 0xB00070, 0x28);
-    func_8001BBC4(G->s5A, G->s62, 0xB000E0, 0x28);
+    EmitFadeTile(G->s56, G->s5E, 0xB0001C, 0x28);
+    EmitFadeTile(G->s58, G->s60, 0xB00070, 0x28);
+    EmitFadeTile(G->s5A, G->s62, 0xB000E0, 0x28);
     goto block_218;
 block_211:
 block_212:
@@ -1120,32 +1120,32 @@ block_212:
     EmitPresetSprite(G->s48, 0x19);
     EmitPresetSprite(G->s4A, 0x1A);
     EmitPresetSprite(G->s4C, 0x1B);
-    func_8001BBC4(G->s56, G->s5E, 0xE0008C, 0x28);
+    EmitFadeTile(G->s56, G->s5E, 0xE0008C, 0x28);
     goto block_218;
 block_213:
 block_214:
     EmitPresetSprite(G->s48, 0x1C);
     EmitPresetSprite(G->s4A, 0x1D);
     EmitPresetSprite(G->s4C, 0x1E);
-    func_8001BBC4(G->s56, G->s5E, 0xE0008C, 0x28);
+    EmitFadeTile(G->s56, G->s5E, 0xE0008C, 0x28);
     goto block_218;
 block_215:
 block_216:
     EmitPresetSprite(G->s48, 0x1F);
     EmitPresetSprite(G->s4A, 0x20);
     EmitPresetSprite(G->s4C, 0x21);
-    func_8001BBC4(G->s56, G->s5E, 0xE0008C, 0x28);
+    EmitFadeTile(G->s56, G->s5E, 0xE0008C, 0x28);
 block_218:
     EmitPresetSprite(0x80, 0xD);
     EmitPresetSprite(0x80, 0xE);
-    func_8001BBC4(0x100, 0x1000, 0x680010, 0x120);
+    EmitFadeTile(0x100, 0x1000, 0x680010, 0x120);
     goto block_220;
 block_219:
     EmitPresetSprite(G->s48, 0xD);
     EmitPresetSprite(G->s48, 0xE);
     EmitPresetSprite(G->s4A, 0x22);
     EmitPresetSprite(G->s4A, 0x23);
-    func_8001BBC4(G->s56, G->s5E, 0x680010, 0x120);
+    EmitFadeTile(G->s56, G->s5E, 0x680010, 0x120);
 block_220:
     goto block_225;
 case 0x35:
@@ -1214,7 +1214,7 @@ block_227:
     }
     SetLightColorsFromAngle(temp_a0_4);
     G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(0, G->uA2 & 1));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(1, G->uA2 & 2, D_8010BF78));
+    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(1, G->uA2 & 2, IntroSceneState));
 block_229:
     temp_a0_5 = G->s68;
     if (temp_a0_5 == 0) {
@@ -1222,7 +1222,7 @@ block_229:
     }
     SetLightColorsFromAngle(temp_a0_5);
     G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(2, G->uA2 & 4));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(3, G->uA2 & 8, D_8010BF78));
+    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(3, G->uA2 & 8, IntroSceneState));
 block_231:
     temp_a0_6 = G->s6A;
     if (temp_a0_6 == 0) {
@@ -1230,9 +1230,9 @@ block_231:
     }
     SetLightColorsFromAngle(temp_a0_6);
     G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(4, G->uA2 & 0x10));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(5, G->uA2 & 0x20, D_8010BF78));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(6, G->uA2 & 0x40, D_8010BF78));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(7, G->uA2 & 0x80, D_8010BF78));
+    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(5, G->uA2 & 0x20, IntroSceneState));
+    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(6, G->uA2 & 0x40, IntroSceneState));
+    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(7, G->uA2 & 0x80, IntroSceneState));
 block_233:
     temp_a0_7 = G->s6C;
     if (temp_a0_7 == 0) {
@@ -1311,12 +1311,12 @@ block_clamp:
     spd2->ot->h.b.len = 0;
     temp_t1++;
     spd2->cur = temp_t1;
-    func_80041BF0(0, &spd2->ot->h, 1, c_800060);
+    DrawMenuGridMesh(0, &spd2->ot->h, 1, c_800060);
 block_247:
     H->s2 = 1;
     UpdateBadgeRowAnim(0);
     K->b4 = 0U;
-    UpdateDialogue(H->s4 + 0xA, H->s6 + 0x28, D_800AC590);
+    UpdateDialogue(H->s4 + 0xA, H->s6 + 0x28, DialogueState);
     UpdateScreenFade(0x1001C);
 block_248:
     return;

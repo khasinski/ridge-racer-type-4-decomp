@@ -3,7 +3,7 @@
 #include "rr/library.h"
 
 s32 StGetNext(u8 **data,RrLibQueueRecord32 **header) {
-    RrLibQueueRecord32 *selected=D_80110310+(u32)D_801102FC;
+    RrLibQueueRecord32 *selected=StRingHeaders+(u32)StRingReadIndex;
     /* ASM_BARRIER: Keep the status word in the original common return register. */
     register s32 result __asm__("$2");
     if(selected->state==1) {
@@ -17,7 +17,7 @@ s32 StGetNext(u8 **data,RrLibQueueRecord32 **header) {
         __asm__("" : "=r"(page) : "0"(page));
         page[0x2FC/4]=0;
         if(reset) selected->state=0;
-        selected=D_80110310+(u32)D_801102FC;
+        selected=StRingHeaders+(u32)StRingReadIndex;
     }
     /* ASM_BARRIER: Re-read queue state on every path after the index reset gate. */
     __asm__ volatile("" : : : "memory");
@@ -27,7 +27,7 @@ s32 StGetNext(u8 **data,RrLibQueueRecord32 **header) {
         /* ASM_BARRIER: Publish acquisition before reading the payload location. */
         __asm__ volatile("" : : : "memory");
         result=0;
-        *data=(u8 *)D_80110310+(u32)D_80110314*sizeof(RrLibQueueRecord32)+(u32)D_801102FC*0x7E0;
+        *data=(u8 *)StRingHeaders+(u32)StRingSize*sizeof(RrLibQueueRecord32)+(u32)StRingReadIndex*0x7E0;
         *header=selected;
     }
 out:

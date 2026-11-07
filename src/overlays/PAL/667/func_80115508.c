@@ -4,7 +4,7 @@ extern s32 TrackLength;
 extern s32 NumLaps;
 extern s32 RaceState;
 extern s32 TotalRaceTime;
-extern s16 D_800AC5D0;
+extern s16 MenuFadeTimer;
 extern void SaveCarSnapshots(s32);
 extern void SoundSetMasterVolume(s16, s16);
 extern void *SoundQueueEnqueue(s32, s32);
@@ -21,7 +21,7 @@ void ovl667_func_80115508(RrRaceCheckpointVehicle *arg0) {
                 if (RaceState < 4) {
                     TotalRaceTime = 1;
                     RaceState = 4;
-                    D_800AC5D0 = 75;
+                    MenuFadeTimer = 75;
                     SoundSetMasterVolume(0, 71);
                     SoundQueueEnqueue(19, 1);
                 }

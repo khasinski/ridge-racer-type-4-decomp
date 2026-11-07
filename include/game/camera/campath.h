@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-extern int D_800F7620;
-void func_8005AA2C(void);
+extern int MotionSequenceIndex;
+void DrawMarkerBitmapGrid(void);
 void InitMotionTrack(int a0);
 void RestartMotionSequence(void);
 

@@ -30,10 +30,10 @@ static struct World {u32 guard[4];s32 frame,counter,bank;s16 current,limit,selec
 #define RR_GPU_PROJECTION_SCRATCH (&world.scratch)
 #define ModeFrame world.frame
 #define ScreenFrame world.counter
-#define D_800AC5D4 world.bank
+#define SelectionPlayer world.bank
 #define MenuCursor world.current
 #define MenuItemCount world.limit
-#define D_800AC648 world.selected
+#define CourseMenuSelection world.selected
 #define CourseIndex world.mapped
 #define ReverseCourse world.flag
 #define D_8010C068 world.modeCounter
@@ -45,7 +45,7 @@ static struct World {u32 guard[4];s32 frame,counter,bank;s16 current,limit,selec
 #define LoadCursor world.published
 #define ComCars world.scene
 static u8 codes[8]={''' + ','.join(map(str,table)) + r'''};
-#define D_8009F64C codes
+#define CourseIndexMap codes
 ''' + lookup + reset + body + fixed + r'''
 static u32 seed=0x17350,scenario,random_value[2];
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}

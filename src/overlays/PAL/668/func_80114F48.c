@@ -5,9 +5,9 @@ void ovl668_func_80114F48(void) {
     RrGpuRectangleFields sp10;
     u32 prev2C;
 
-    if (D_801102DC != 0) {
+    if (StCdIntrFlag != 0) {
         StCdInterrupt();
-        D_801102DC = 0;
+        StCdIntrFlag = 0;
     }
     prev2C = STR_STATE->display24.word08;
     sp10 = STR_STATE->display24.rectangles[2];
@@ -24,5 +24,5 @@ void ovl668_func_80114F48(void) {
         STR_STATE->display24.rectangles[2].x = STR_STATE->display24.rectangles[STR_STATE->display24.alternate04].x;
         STR_STATE->display24.rectangles[2].y = STR_STATE->display24.rectangles[STR_STATE->display24.alternate04].y;
     }
-    LoadImage(&sp10, D_800AC708->buffers18[prev2C]);
+    LoadImage(&sp10, StrStreamState->buffers18[prev2C]);
 }

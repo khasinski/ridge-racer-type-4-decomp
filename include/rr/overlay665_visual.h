@@ -12,7 +12,7 @@
 #include "rr/overlay665_visual_types.h"
 extern RrOverlay665VisualState ovl665_D_80119768;
 extern u8 ovl665_D_8011973C[4];
-extern s32 D_800F4CA8;
+extern s32 DialogueContext;
 void ovl665_func_80114918(void);
 /* Signed32 angles are normalized by the actual trig helpers. Each result lies
  * in[-4096,4096], so multiplication by40 and negation are signed32-safe.

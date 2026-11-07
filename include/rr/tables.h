@@ -3,7 +3,7 @@
 
 #include "rr/layout.h"
 
-/* Partial entry layout for D_800A4258 (8-byte stride). */
+/* Partial entry layout for MenuStateTable (8-byte stride). */
 
 typedef struct {
     char p[4];

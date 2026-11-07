@@ -10,19 +10,19 @@ from c_functions import source_owners
 
 # Constructor, command code, read callback, write callback, parameter globals.
 CASES = [
-    ('8009D198', 7, '8009D118', '8009C610', ('D_8011472C',)),
+    ('8009D198', 7, '8009D118', '8009C610', ('CardCmdValue',)),
     ('8009D348', 8, '8009D3E8', '8009C610', ('CardCmdSector',)),
     ('8009D5B4', 100, '8009D65C', '8009D680', ('CardCmdResultPtrA', 'CardCmdResultPtrB')),
     ('8009D700', 12, '8009D7A0', '8009D7C4', ('CardCmdBuffer',)),
     ('8009DD88', 101, '8009DE30', '8009DE54', ('CardCmdResultPtrA', 'CardCmdResultPtrB')),
-    ('8009D238', 13, '8009D2E0', '8009C610', ('CardCmdSector', 'D_80114728')),
+    ('8009D238', 13, '8009D2E0', '8009C610', ('CardCmdSector', 'CardVarRxLength')),
     ('8009CB84', 14, '8009CC44', '8009CCF0', ('CardCmdSector', 'CardCmdBuffer', 'CardCmdResultPtrA')),
-    ('8009D068', 6, '8009D118', '8009C610', ('CardCmdSector', 'D_80114728')),
+    ('8009D068', 6, '8009D118', '8009C610', ('CardCmdSector', 'CardVarRxLength')),
     ('8009CDFC', 15, '8009CEBC', '8009CF94', ('CardCmdSector', 'CardCmdBuffer', 'CardCmdResultPtrA')),
     ('8009C638', 3, '8009C6D8', '8009C6F8', ('CardCmdBuffer',)),
 ]
-SCALARS = ['D_800ABDE8', 'CardCommandRequest', 'CardReceiveIndex', 'CardRxCount',
-           'CardCmdSector', 'D_80114728', 'D_8011472C', 'D_80114730', 'CardCurrentCommand']
+SCALARS = ['CardTxCount', 'CardCommandRequest', 'CardReceiveIndex', 'CardRxCount',
+           'CardCmdSector', 'CardVarRxLength', 'CardCmdValue', 'CardBytesRemaining', 'CardCurrentCommand']
 POINTERS = ['CardCmdBuffer', 'CardCmdResultPtrA', 'CardCmdResultPtrB', 'CardCommandReader', 'CardWriteHandler']
 
 
@@ -55,7 +55,7 @@ u8 *CardCmdBuffer;
 void *CardCmdResultPtrA;
 u32 *CardCmdResultPtrB;
 s32 test_callback_calls;
-''' + '\n'.join('s32 ' + name + ';' for name in SCALARS if name not in ('D_8011472C', 'CardCmdSector')) + '''
+''' + '\n'.join('s32 ' + name + ';' for name in SCALARS if name not in ('CardCmdValue', 'CardCmdSector')) + '''
 s32 (*CardCommandReader)(void);
 s32 (*CardWriteHandler)(s32);
 '''
@@ -69,7 +69,7 @@ s32 (*CardWriteHandler)(s32);
         source = prefix + header + serial + asm_header + '''
 RrSerialPortRegisters test_serial_ports[2];
 RrSerialPortRegisters *volatile CardCmdSioRegs = &test_serial_ports[0];
-RrCommandParameter D_8011472C;
+RrCommandParameter CardCmdValue;
 s32 test_validation_calls;
 s32 test_validation_results[2];
 s32 test_validation_modes[2], test_validation_values[2];
@@ -101,7 +101,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
         cls.serial_pointer = C.c_void_p.in_dll(cls.library, 'CardCmdSioRegs')
         cls.ram = (C.c_uint32 * 0x4000).in_dll(cls.library, 'test_ram')
         cls.parameter_page = (C.c_int32 * 0x4000).in_dll(cls.library, 'test_parameter_page')
-        cls.parameter = Parameter.in_dll(cls.library, 'D_8011472C')
+        cls.parameter = Parameter.in_dll(cls.library, 'CardCmdValue')
         cls.scalars = {name: C.c_int32.from_buffer(cls.parameter_page, 0x4724) if name == 'CardCmdSector' else C.c_int32.in_dll(cls.library, name) for name in SCALARS}
         cls.validated_start = cls.library._cardCmd59ParamBegin
         cls.validated_start.argtypes = [C.c_int32, C.c_int32, C.c_void_p]
@@ -163,10 +163,10 @@ s32 func_8009DF14(s32 mode, s32 value) {
                                           (-2147483648, 0x12345678, -77),
                                           (65536, -2, 128)]:
                 self.initialize(1)
-                self.scalars['D_800ABDE8'].value = phase
+                self.scalars['CardTxCount'].value = phase
                 self.scalars['CardCmdSector'].value = first
                 self.parameter.value = second
-                self.scalars['D_80114728'].value = third
+                self.scalars['CardVarRxLength'].value = third
                 before = self.snapshot(), bytes(self.parameter_page), bytes(self.parameter)
                 expected = {2: 0x5D, 4: first, 5: second, 6: third}.get(phase, 0)
                 self.assertEqual(reader(), expected)
@@ -183,7 +183,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
                              C.cast(self.library._cardCmd5DTx, C.c_void_p).value)
             reader = C.CFUNCTYPE(C.c_int32)(self.pointers['CardCommandReader'].value)
             for phase, value in expected.items():
-                self.scalars['D_800ABDE8'].value = phase
+                self.scalars['CardTxCount'].value = phase
                 before = self.snapshot(), bytes(self.parameter_page), bytes(self.parameter)
                 self.assertEqual(reader(), value)
                 self.assertEqual((self.snapshot(), bytes(self.parameter_page), bytes(self.parameter)), before)
@@ -202,7 +202,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
                 expected = bytearray(before)
                 ram, scalars, pointers = self.snapshot()
                 if phase == 5:
-                    scalars['D_80114730'] = byte
+                    scalars['CardBytesRemaining'] = byte
                 elif phase == 10:
                     expected[4] = (byte - 1) & 255
                 elif phase >= 6:
@@ -227,7 +227,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
             elif phase >= 6:
                 expected[phase - 6] = value & 255
         self.assertEqual(bytes(self.buffer), bytes(expected))
-        self.assertEqual(self.scalars['D_80114730'].value, 0xAB)
+        self.assertEqual(self.scalars['CardBytesRemaining'].value, 0xAB)
         self.assertEqual(self.calls.value, 0)
 
     def test_serial_payload_response_constructor_length_completion_and_bytes(self):
@@ -244,14 +244,14 @@ s32 func_8009DF14(s32 mode, s32 value) {
                 self.serial_ports[0] = count
                 expected = bytearray(self.buffer)
                 self.assertEqual(writer(-1), 0)
-                self.assertEqual(self.scalars['D_80114728'].value, count)
+                self.assertEqual(self.scalars['CardVarRxLength'].value, count)
                 self.assertEqual(self.pointers['CardCmdBuffer'].value, base)
                 self.scalars['CardRxCount'].value = count + 4
                 self.serial_ports[0] = received
                 self.assertEqual(writer(-2147483648), 0)
                 self.assertEqual(self.pointers['CardCmdBuffer'].value, first)
                 self.assertEqual(self.parameter.value, 1)
-                self.assertEqual(self.scalars['D_80114730'].value, received + 1)
+                self.assertEqual(self.scalars['CardBytesRemaining'].value, received + 1)
                 self.assertEqual(bytes(self.buffer), bytes(expected))
                 serial_before = bytes(self.serial_ports)
                 for index in range(32):
@@ -276,10 +276,10 @@ s32 func_8009DF14(s32 mode, s32 value) {
                 self.pointers['CardCmdBuffer'].value = None
                 self.serial_pointer.value = None
                 self.scalars['CardRxCount'].value = phase
-                self.scalars['D_80114728'].value = 200
+                self.scalars['CardVarRxLength'].value = 200
                 ram, scalars, pointers = self.snapshot()
                 if name == '8009C6F8' and phase == 5:
-                    scalars['D_80114730'] = 0
+                    scalars['CardBytesRemaining'] = 0
                 self.assertEqual(writer(-2147483648), 0)
                 self.assertEqual(self.snapshot(), (ram, scalars, pointers))
                 self.assertIsNone(self.serial_pointer.value)
@@ -295,7 +295,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
             before, union = self.snapshot(), bytes(self.parameter)
             serial_before = bytes(self.serial_ports), self.serial_pointer.value
             ram, scalars, pointers = before
-            scalars['D_80114728'] = byte
+            scalars['CardVarRxLength'] = byte
             self.assertEqual(writer(-2147483648), 0)
             self.assertEqual(self.snapshot(), (ram, scalars, pointers))
             self.assertEqual(bytes(self.parameter), union)
@@ -307,14 +307,14 @@ s32 func_8009DF14(s32 mode, s32 value) {
         writer.restype = C.c_int32
         for byte in range(256):
             self.initialize(1)
-            self.scalars['D_80114728'].value = 7
+            self.scalars['CardVarRxLength'].value = 7
             self.scalars['CardRxCount'].value = 11
             self.serial_ports[0] = byte
             ram, scalars, pointers = self.snapshot()
             union = bytearray(self.parameter)
             union[:4] = (1).to_bytes(4, 'little')
-            scalars['D_8011472C'] = 1
-            scalars['D_80114730'] = byte + 1
+            scalars['CardCmdValue'] = 1
+            scalars['CardBytesRemaining'] = byte + 1
             pointers['CardCmdBuffer'] = pointers['CardCmdResultPtrA']
             serial_before = bytes(self.serial_ports), self.serial_pointer.value
             self.assertEqual(writer(0x12345678), 0)
@@ -332,7 +332,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
                     continue
                 self.initialize(1)
                 self.serial_pointer.value = None
-                self.scalars['D_80114728'].value = count
+                self.scalars['CardVarRxLength'].value = count
                 self.scalars['CardRxCount'].value = phase
                 before = self.snapshot(), bytes(self.parameter), bytes(self.serial_ports)
                 self.assertEqual(writer(-1), 0)
@@ -350,14 +350,14 @@ s32 func_8009DF14(s32 mode, s32 value) {
         self.scalars['CardRxCount'].value = 3
         self.serial_ports[0] = 2
         self.assertEqual(writer(123), 0)
-        self.assertEqual(self.scalars['D_80114728'].value, 2)
+        self.assertEqual(self.scalars['CardVarRxLength'].value, 2)
         self.assertEqual(self.pointers['CardCmdBuffer'].value, buffer)
         self.scalars['CardRxCount'].value = 6
         self.serial_ports[0] = 255
         self.assertEqual(writer(-1), 0)
         self.assertEqual(self.pointers['CardCmdBuffer'].value, first)
-        self.assertEqual(self.scalars['D_8011472C'].value, 1)
-        self.assertEqual(self.scalars['D_80114730'].value, 256)
+        self.assertEqual(self.scalars['CardCmdValue'].value, 1)
+        self.assertEqual(self.scalars['CardBytesRemaining'].value, 256)
         self.assertEqual(self.calls.value, 0)
 
     def test_buffer_writer_counter_wrap_and_inactive_phases_need_no_buffer(self):
@@ -367,13 +367,13 @@ s32 func_8009DF14(s32 mode, s32 value) {
         for count in (-2147483648, -1, 0, 1, 255, 2147483647):
             self.initialize(1)
             self.pointers['CardCmdBuffer'].value = None
-            self.scalars['D_80114728'].value = count
+            self.scalars['CardVarRxLength'].value = count
             for phase in (-2147483648, -1, *range(11)):
                 self.scalars['CardRxCount'].value = phase
                 ram, scalars, pointers = self.snapshot()
                 union, before_buffer = bytes(self.parameter), bytes(self.buffer)
                 if phase == 9:
-                    scalars['D_80114730'] = C.c_int32((count & 0xFFFFFFFF) + 1).value
+                    scalars['CardBytesRemaining'] = C.c_int32((count & 0xFFFFFFFF) + 1).value
                 self.assertEqual(writer(-1), 0)
                 self.assertEqual(self.snapshot(), (ram, scalars, pointers))
                 self.assertEqual((bytes(self.parameter), bytes(self.buffer)), (union, before_buffer))
@@ -405,14 +405,14 @@ s32 func_8009DF14(s32 mode, s32 value) {
         writer = C.CFUNCTYPE(C.c_int32, C.c_int32)(self.pointers['CardWriteHandler'].value)
         self.scalars['CardRxCount'].value = 9
         self.assertEqual(writer(123), 0)
-        self.assertEqual(self.scalars['D_80114730'].value, 4)
+        self.assertEqual(self.scalars['CardBytesRemaining'].value, 4)
         for phase, value, offset in [(11, 0x123456AB, 0), (74, -1, 63)]:
             self.scalars['CardRxCount'].value = phase
             expected = bytearray(self.buffer)
             expected[offset] = value & 255
             self.assertEqual(writer(value), 0)
             self.assertEqual(bytes(self.buffer), bytes(expected))
-            self.assertEqual(self.scalars['D_80114730'].value, 4)
+            self.assertEqual(self.scalars['CardBytesRemaining'].value, 4)
             self.assertEqual(self.scalars['CardRxCount'].value, phase)
         self.assertEqual(self.calls.value, 0)
 
@@ -433,7 +433,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
                     ram, scalars, pointers = self.snapshot()
                     expected_ram = bytearray(ram)
                     expected_ram[0xBDE4:0xBDE8] = (2).to_bytes(4, 'little')
-                    for field in ('D_800ABDE8', 'CardReceiveIndex', 'CardRxCount', 'D_80114730'):
+                    for field in ('CardTxCount', 'CardReceiveIndex', 'CardRxCount', 'CardBytesRemaining'):
                         scalars[field] = 0
                     scalars['CardCommandRequest'] = value
                     scalars['CardCurrentCommand'] = code
@@ -443,9 +443,9 @@ s32 func_8009DF14(s32 mode, s32 value) {
                     for field, argument in zip(fields, arguments):
                         (pointers if field in POINTERS else scalars)[field] = argument
                     if n in ('8009CB84', '8009CDFC'):
-                        scalars['D_80114728'] = scalars['D_8011472C'] = 0
+                        scalars['CardVarRxLength'] = scalars['CardCmdValue'] = 0
                     if n == '8009D068':
-                        scalars['D_8011472C'] = 0
+                        scalars['CardCmdValue'] = 0
                     before_buffer, before_words = bytes(self.buffer), bytes(self.words)
                     self.assertEqual(self.functions[n](value, *arguments), 1)
                     self.assertEqual(self.snapshot(), (bytes(expected_ram), scalars, pointers))
@@ -487,7 +487,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
             self.assertEqual(self.scalars['CardCommandRequest'].value, -77)
             self.assertEqual(self.scalars['CardCurrentCommand'].value, 2)
             self.assertEqual(self.ram[0xBDE4 // 4], 2)
-            for name in ('D_800ABDE8', 'CardReceiveIndex', 'CardRxCount', 'D_80114730'):
+            for name in ('CardTxCount', 'CardReceiveIndex', 'CardRxCount', 'CardBytesRemaining'):
                 self.assertEqual(self.scalars[name].value, 0)
             for field, target in [('CardCommandReader', '8009C55C'), ('CardWriteHandler', '8009C610')]:
                 self.assertEqual(self.pointers[field].value, C.cast(getattr(self.library, NA(target)), C.c_void_p).value)
@@ -526,9 +526,9 @@ s32 func_8009DF14(s32 mode, s32 value) {
                 ram, scalars, pointers = self.snapshot()
                 expected_ram = bytearray(ram)
                 expected_ram[0xBDE4:0xBDE8] = (2).to_bytes(4, 'little')
-                for name in ('D_800ABDE8', 'CardReceiveIndex', 'CardRxCount', 'D_80114730'):
+                for name in ('CardTxCount', 'CardReceiveIndex', 'CardRxCount', 'CardBytesRemaining'):
                     scalars[name] = 0
-                scalars.update(CardCommandRequest=-77, CardCmdSector=sector, D_80114728=count,
+                scalars.update(CardCommandRequest=-77, CardCmdSector=sector, CardVarRxLength=count,
                                CardCurrentCommand=4 + mode)
                 pointers['CardCmdBuffer'] = C.addressof(self.buffer)
                 read, write = ('8009C87C', '8009C91C') if mode == 0 else ('8009CA8C', '8009CB50')

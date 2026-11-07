@@ -13,8 +13,8 @@ void ovl662_func_80114998(void)
     InitUiRow(2,118,256,68,32,0,0,1,0,85);
     SetupRenderer(5);
     ovl662_D_801272FC=0;
-    LoadCursor=D_800F4D40;
-    MenuArenas.first=D_800F4D40;
+    LoadCursor=MenuArenaBase;
+    MenuArenas.first=MenuArenaBase;
     for(i=0;i<4;i++) {
         ovl662_D_801272D8[i]=0;
         for(j=0;j<4;j++) {

@@ -27,33 +27,33 @@ extern int LinkWriteHandle;
 extern int ClearScreenOverlayState();
 extern int VSyncThreshold;
 extern int ModeFrame;
-extern short D_800F3A26;
+extern short ModeId;
 extern short ModeGroup;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern short LinkState;
 extern int SetMenuFrameOptions();
 extern int ExitOnLinkLost();
 extern int UpdateLinkHandshake();
 extern s16 MenuScriptId;
 extern char D_800ABEBE[];
-extern char D_800AC648[];
+extern char CourseMenuSelection[];
 extern char D_800ACBD8[];
 extern char CourseIndex[];
 extern char NumLaps[];
 extern char D_800F4DA0[];
 extern char D_8010C0A0[];
-extern short D_800AD50A;
-extern short D_800FFC10;
+extern short SceneId;
+extern short MenuDispMode;
 extern int AddTextSprites();
 extern int AddDrawModePrim();
 extern int AddTilePrim();
 extern int AddScreenFadeTiles();
 extern char StrLinkError[];
 extern char PressStartStr[];
-extern short D_800AC5D0;
-extern int D_800F3A60;
+extern short MenuFadeTimer;
+extern int MenuConfirmPressed;
 extern char StrLinkBattleEnd[];
-extern char D_800106A4[];
+extern char PressStartText[];
 extern int SoundSetMasterVolume();
 extern s32 MaskBitSetting;
 extern int func_801150CC();
@@ -78,8 +78,8 @@ void LinkErrorModeUpdate();
 void LinkBattleEndModeUpdate(void);
 void StopRaceRumble(void);
 void StopRaceAudioAndRumble(void);
-void func_80036098(void);
-void func_80036174(void);
+void RaceExitToMenuStep(void);
+void SetupSceneByRaceType(void);
 void func_80036270(void);
 void func_80036330(void);
 void SortRaceRankTable(void);
@@ -109,7 +109,7 @@ void DrawLinkEntryScreen(s32 mode) {
             labelY=row*194+64;
             waitY=row*194+150;
             statusY=row*194+120;
-            text[0]=row+((s32)((u32)(D_800AD508^1)<<16)>>15)+49;
+            text[0]=row+((s32)((u32)(LinkRoleSlot^1)<<16)>>15)+49;
             DrawBigFontString(12,labelY,StrPlayerLabel);
             DrawBigFontString(88,labelY,text);
             status=LinkEntryState[1-mode][row];
@@ -138,12 +138,12 @@ void DrawLinkEntryScreen(s32 mode) {
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800AD508 (*(short (*))&D_800AD508)
+#define LinkRoleSlot (*(short (*))&LinkRoleSlot)
 
 int LinkExchange(a0, a1, a2, a3) int a0, a1, a2, a3;
 {
     int r;
-    if (D_800AD508 != 0) {
+    if (LinkRoleSlot != 0) {
         r = -1;
         if (FileWrite(LinkWriteHandle) == a2) {
             if (a3 != 0) {
@@ -164,7 +164,7 @@ zero:
     return 0;
 }
 
-#undef D_800AD508
+#undef LinkRoleSlot
 
 /* legacy typing of shared globals in this part of the unit */
 #define LinkEntryState (*(char (*)[])&LinkEntryState)
@@ -181,24 +181,24 @@ void LinkWaitModeEnter(void) {
     RaceTimeRemaining = 0x1F4;
     ModeFrame = 0;
     VSyncThreshold = 0x80;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     LinkState = 0;
     a = ((unsigned)_sio_control(0, 0, 0) >> 7) & 3;
     if (a == 3) {
         ModeGroup = 1;
-        D_800F3A26 = a;
-        D_800F4D8A = 0;
+        ModeId = a;
+        ModeSubState = 0;
     } else {
         ModeGroup = 1;
-        D_800F3A26 = 0x1E;
-        D_800F4D8A = 0;
+        ModeId = 0x1E;
+        ModeSubState = 0;
     }
 }
 
 #undef LinkEntryState
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800AD508 (*(s16 (*))&D_800AD508)
+#define LinkRoleSlot (*(s16 (*))&LinkRoleSlot)
 
 void LinkWaitModeUpdate(void) {
     ModeFrame += 1;
@@ -206,10 +206,10 @@ void LinkWaitModeUpdate(void) {
         if (UpdateLinkHandshake(0) != 0) {
             MenuScriptId = 8;
             ModeGroup = 1;
-            D_800F3A26 = 0x23;
-            D_800F4D8A = 0;
+            ModeId = 0x23;
+            ModeSubState = 0;
         }
-        DrawLinkEntryScreen(D_800AD508);
+        DrawLinkEntryScreen(LinkRoleSlot);
         AddPartialLine(CurrentDrawBuf + 0x70, 8, 0xF0, 0x138, 0xF0, ModeFrame * 8, 1, 8, 8, 8, 0);
         AddPartialLine(CurrentDrawBuf + 0x70, 8, 0x10C, 0x138, 0x10C, ModeFrame * 8, 1, 8, 8, 8, 0);
         SetMenuFrameOptions(1, 1, 1);
@@ -217,7 +217,7 @@ void LinkWaitModeUpdate(void) {
     }
 }
 
-#undef D_800AD508
+#undef LinkRoleSlot
 
 void LinkExchangeModeUpdate(void) {
     int s = LinkState;
@@ -242,7 +242,7 @@ st1:
     if (LinkExchange(D_800F4DA0, D_800F4DA0 - 8, 8, 1) == -1) { LinkState = 3; return; }
     if (LinkExchange(D_800ACBD8, D_800ACBD8 - 8, 8, 1) == -1) { LinkState = 3; return; }
     if (LinkExchange(CourseIndex, CourseIndex, 2, 0) == -1) { LinkState = 3; return; }
-    if (LinkExchange(D_800AC648, D_800AC648, 2, 0) == -1) { LinkState = 3; return; }
+    if (LinkExchange(CourseMenuSelection, CourseMenuSelection, 2, 0) == -1) { LinkState = 3; return; }
     if (LinkExchange(NumLaps, NumLaps, 4, 0) == -1) { LinkState = 3; return; }
     LinkState = 2;
     CloseLinkSerial();
@@ -250,29 +250,29 @@ st1:
     return;
 st2:
     _sio_control(3, 0, 0);
-    D_800FFC10 = 0;
+    MenuDispMode = 0;
     MenuScriptId = 0xA;
-    D_800AD50A = 0x11A;
+    SceneId = 0x11A;
     ModeGroup = 1;
-    D_800F3A26 = 0x23;
-    D_800F4D8A = 0;
+    ModeId = 0x23;
+    ModeSubState = 0;
     return;
 other:
     CloseLinkSerial();
     SetDispMask(1);
     ModeGroup = 1;
-    D_800F3A26 = 0x2C;
-    D_800F4D8A = 0;
+    ModeId = 0x2C;
+    ModeSubState = 0;
 }
 
 /* legacy typing of shared globals in this part of the unit */
 #define ModeFrame (*(unsigned int (*))&ModeFrame)
-#define D_800F3A26 (*(unsigned short (*))&D_800F3A26)
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeId (*(unsigned short (*))&ModeId)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 
 void LinkErrorModeUpdate()
 {
-  int s3 = D_800F4D8A;
+  int s3 = ModeSubState;
   unsigned int new_var;
   int *g;
   switch (s3)
@@ -283,12 +283,12 @@ void LinkErrorModeUpdate()
       VSyncThreshold = 0x80;
       StopRaceAudioAndRumble();
       ModeFrame = 0;
-      D_800F4D8A += 1;
+      ModeSubState += 1;
       return;
 
     case 1:
       SetDispMask(1);
-      D_800F4D8A += 1;
+      ModeSubState += 1;
       return;
 
     case 2:
@@ -297,29 +297,29 @@ void LinkErrorModeUpdate()
       g = (int *) SCRATCHPAD;
       new_var = *g;
       *g = AddDrawModePrim(CurrentDrawBuf + 0x70, AddTilePrim(CurrentDrawBuf + 0x70, AddTextSprites(CurrentDrawBuf + 0x70, AddTextSprites(CurrentDrawBuf + 0x70, new_var, 0x78, 0x100, StrLinkError, 0x7F38, 0, 1), 0x78, 0x114, PressStartStr, 0x7F38, 0, 1), 0, 0, 0x140, 0x200, 0x80, 0, 0), 0x5E);
-      if (D_800F3A60 == 0)
+      if (MenuConfirmPressed == 0)
     {
       if (ModeFrame < 0xFB)
       {
         return;
       }
     }
-      D_800F4D8A = 3;
-      D_800AC5D0 = 0x20;
+      ModeSubState = 3;
+      MenuFadeTimer = 0x20;
       return;
 
     case 3:
-      if (D_800AC5D0 > 0)
+      if (MenuFadeTimer > 0)
     {
-      D_800AC5D0 = ((unsigned short) D_800AC5D0) - 1;
+      MenuFadeTimer = ((unsigned short) MenuFadeTimer) - 1;
     }
-      AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x20 - D_800AC5D0) * 8, 0x45);
-      *((int *) SCRATCHPAD) = AddTilePrim(CurrentDrawBuf + 0x74, *((int *) SCRATCHPAD), 0, 0, 0x140, 0x200, (0x20 - D_800AC5D0) * 4, 0, 0);
-      if (D_800AC5D0 <= 0)
+      AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x20 - MenuFadeTimer) * 8, 0x45);
+      *((int *) SCRATCHPAD) = AddTilePrim(CurrentDrawBuf + 0x74, *((int *) SCRATCHPAD), 0, 0, 0x140, 0x200, (0x20 - MenuFadeTimer) * 4, 0, 0);
+      if (MenuFadeTimer <= 0)
     {
       ModeGroup = 1;
-      D_800F3A26 = s3;
-      D_800F4D8A = 0;
+      ModeId = s3;
+      ModeSubState = 0;
     }
       break;
 
@@ -328,16 +328,16 @@ void LinkErrorModeUpdate()
 }
 
 #undef ModeFrame
-#undef D_800F3A26
-#undef D_800F4D8A
+#undef ModeId
+#undef ModeSubState
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 #define ModeFrame (*(unsigned int (*))&ModeFrame)
 
 void LinkBattleEndModeUpdate(void)
 {
-  int s = D_800F4D8A;
+  int s = ModeSubState;
   int new_var;
   switch (s)
   {
@@ -346,40 +346,40 @@ void LinkBattleEndModeUpdate(void)
       SetupDrawDispEnvs(0, 0, 0, 3);
       VSyncThreshold = 0x80;
       ModeFrame = 0;
-      D_800F4D8A++;
+      ModeSubState++;
       return;
 
     case 1:
       SetDispMask(1);
-      D_800F4D8A++;
+      ModeSubState++;
       return;
 
     case 2:
       ModeFrame++;
       new_var = *((int *) SCRATCHPAD);
-      *((int *) SCRATCHPAD) = AddDrawModePrim(CurrentDrawBuf + 0x70, AddTextSprites(CurrentDrawBuf + 0x70, AddTextSprites(CurrentDrawBuf + 0x70, new_var, 0x78, 0x100, StrLinkBattleEnd, 0x7F38, 0, 1), 0x78, 0x114, D_800106A4, 0x7F38, 0, 1), 0x3E);
-      if (D_800F3A60 == 0)
+      *((int *) SCRATCHPAD) = AddDrawModePrim(CurrentDrawBuf + 0x70, AddTextSprites(CurrentDrawBuf + 0x70, AddTextSprites(CurrentDrawBuf + 0x70, new_var, 0x78, 0x100, StrLinkBattleEnd, 0x7F38, 0, 1), 0x78, 0x114, PressStartText, 0x7F38, 0, 1), 0x3E);
+      if (MenuConfirmPressed == 0)
     {
       if (ModeFrame < 0xFB)
       {
         return;
       }
     }
-      D_800AC5D0 = 0x20;
-      D_800F4D8A = 3;
+      MenuFadeTimer = 0x20;
+      ModeSubState = 3;
       return;
 
     case 3:
-      if (D_800AC5D0 > 0)
+      if (MenuFadeTimer > 0)
     {
-      D_800AC5D0 = D_800AC5D0 - 1;
+      MenuFadeTimer = MenuFadeTimer - 1;
     }
-      AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x20 - D_800AC5D0) * 8, 0x45);
-      if (D_800AC5D0 <= 0)
+      AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x20 - MenuFadeTimer) * 8, 0x45);
+      if (MenuFadeTimer <= 0)
     {
       ModeGroup = 1;
-      D_800F3A26 = s;
-      D_800F4D8A = 0;
+      ModeId = s;
+      ModeSubState = 0;
     }
       break;
 
@@ -387,7 +387,7 @@ void LinkBattleEndModeUpdate(void)
 
 }
 
-#undef D_800F4D8A
+#undef ModeSubState
 #undef ModeFrame
 
 void StopRaceRumble(void) {
@@ -404,58 +404,58 @@ void StopRaceAudioAndRumble(void) {
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 
-void func_80036098(void) {
-    if (D_800F4D8A == 0) {
+void RaceExitToMenuStep(void) {
+    if (ModeSubState == 0) {
         SetDispMask(0);
         StopRaceAudioAndRumble();
         VSyncThreshold = 0x80;
-        D_800F4D8A = 1;
-    } else if (D_800F4D8A == 1) {
-        D_800F4D8A = 2;
-    } else if (D_800F4D8A == 2) {
+        ModeSubState = 1;
+    } else if (ModeSubState == 1) {
+        ModeSubState = 2;
+    } else if (ModeSubState == 2) {
         MenuScriptId = 6;
         ModeGroup = 1;
-        D_800F3A26 = 0x23;
-        D_800F4D8A = 0;
+        ModeId = 0x23;
+        ModeSubState = 0;
     }
     *(int *)SCRATCHPAD = AddTilePrim(CurrentDrawBuf + 0x70, *(int *)SCRATCHPAD, 0, 0, 0x140, 0x100, 8, 8, 8);
 }
 
-#undef D_800F4D8A
+#undef ModeSubState
 
-void func_80036174(void) {
+void SetupSceneByRaceType(void) {
     SetupDrawDispEnvs(0, 0, 0, 2);
     VSyncThreshold = 0x80;
     ModeFrame = 0;
     D_8010C0E0 = 0;
     ScreenFadeState = 2;
     SoundCloseVabsAndReset();
-    switch (D_800F4D44) {
+    switch (RaceType) {
     case 1:
         func_801150CC();
-        D_800AD50A = 0x130;
+        SceneId = 0x130;
         break;
     case 2:
     case 3:
         func_80117C78();
-        D_800AD50A = 0x13A;
+        SceneId = 0x13A;
         break;
     case 0:
         func_801154D8();
-        D_800AD50A = 0x136;
+        SceneId = 0x136;
         break;
     case 4:
         func_80118634();
-        D_800AD50A = 0x13E;
+        SceneId = 0x13E;
         break;
     case 6:
         func_80115388();
-        D_800AD50A = 0x153;
+        SceneId = 0x153;
         break;
     default:
-        D_800AD50A = 0x103;
+        SceneId = 0x103;
         break;
     }
 }
@@ -469,7 +469,7 @@ void func_80036270(void) {
     ModeFrame += 1;
     UpdateScreenFade(1);
     if ((u32) ModeFrame < 0x1C2U) {
-        if (D_800F3A60 != 0) {
+        if (MenuConfirmPressed != 0) {
             goto block_2;
         }
         goto block_5;
@@ -483,12 +483,12 @@ block_2:
 block_5:
     temp_s0 = D_8010C0E0;
     if (temp_s0 == 1) {
-        if (D_800F3A60 != 0) {
+        if (MenuConfirmPressed != 0) {
             ModeFrame = 0;
             ResetScreenCounters();
             ModeGroup = (s16) temp_s0;
-            D_800F3A26 = 0xB;
-            D_800F4D8A = 0;
+            ModeId = 0xB;
+            ModeSubState = 0;
         }
     }
 }
@@ -547,7 +547,7 @@ void SortRaceRankTable(void) {
             }
         }
     }
-    if (D_800F4D44 == 1) {
+    if (RaceType == 1) {
         func_80036330();
     }
 }
@@ -557,14 +557,14 @@ void SortRaceRankTable(void) {
 
 void EnterRaceResultScreen(void) {
     struct w3g2s *p;
-    if (D_800F4D44 == 1) {
+    if (RaceType == 1) {
         p = &SelectionState;
         if (p->c > D_8009F72C[p->a / 2]) p->d = 5;
         else p->d = 4;
     }
     ModeGroup = 1;
-    D_800F3A26 = 0x17;
-    D_800F4D8A = 0;
+    ModeId = 0x17;
+    ModeSubState = 0;
 }
 
 #undef SelectionState

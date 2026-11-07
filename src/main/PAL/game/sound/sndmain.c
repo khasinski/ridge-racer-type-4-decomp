@@ -51,7 +51,7 @@ void SoundListenerUpdate(void)
                 W(0x18CC) = v0;
                 *(V4 *)(b + 0x18D4) = *(V4 *)(SCRATCHPAD + 0x18);
                 SoundFindNearestCars(1);
-                func_800523C8(0);
+                UpdateNearCarSound(0);
             } else {
                 v0 = g[2];
                 if (v0 < 0) v0 += 3;
@@ -65,8 +65,8 @@ void SoundListenerUpdate(void)
                 v0 = q5 >> 2;
                 W(0x18CC) = v0;
                 *(V4 *)(b + 0x18D4) = *(V4 *)(SCRATCHPAD + 0x18);
-                func_800523C8(0);
-                func_800523C8(1);
+                UpdateNearCarSound(0);
+                UpdateNearCarSound(1);
 neg:
                 S16(0x18F0) = -1;
                 S16(0x190C) = -1;

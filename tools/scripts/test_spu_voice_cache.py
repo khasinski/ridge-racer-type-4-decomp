@@ -50,7 +50,7 @@ class SpuVoiceCacheTest(unittest.TestCase):
             static RrSpuProgram *program_ptr;
             static u8 *tone_ptr;
             #define AT(t,o) (*(t *)(page+(o)))
-            #define D_80110118 AT(u16,280)
+            #define SvmVoiceIndex AT(u16,280)
             #define _svm_envx_hist ((u32 *)(page-64))
             #define D_80110116 ((s16 *)(page+278))
             #define D_80110107 ((s8 *)(page+263))

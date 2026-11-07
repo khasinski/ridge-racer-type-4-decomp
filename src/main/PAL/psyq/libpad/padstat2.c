@@ -57,7 +57,7 @@ void _padSendAtLoadInfo(u8 *channel) {
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABC6C (*(void (*(*))(struct S *))&D_800ABC6C)
+#define PadResetChannelFn (*(void (*(*))(struct S *))&PadResetChannelFn)
 
 int _padRecvAtLoadInfo(a0) struct S *a0; {
     struct S2 *q;
@@ -108,7 +108,7 @@ int _padRecvAtLoadInfo(a0) struct S *a0; {
         a0->sc = t;
         if ((unsigned char)n < a0->ca) goto r0;
         if (_padGetActSize(a0) >= 0x81) {
-            D_800ABC6C(a0);
+            PadResetChannelFn(a0);
             a0->st = 0xFE;
             a0->f49 = 2;
             goto r0;
@@ -132,7 +132,7 @@ r1:
     return 1;
 }
 
-#undef D_800ABC6C
+#undef PadResetChannelFn
 
 int _padGetActSize(s) struct S_1 *s; {
     int a = s->a, b = s->b, c = s->c;

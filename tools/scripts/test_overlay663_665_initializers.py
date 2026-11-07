@@ -45,7 +45,7 @@ static u8 resources[3][0x2D100],original_resources[3][0x2D100];
 #define UiRows world.ui
 #define MenuFrameState world.work32.words[0]
 #define ScreenFadeState world.work12.words[0]
-void func_80096434(void *data,s32 size);
+void PsyqBzero(void *data,s32 size);
 ''' + clear + reset + bodies + r'''
 static u32 seed=0x148d8,scenario;static unsigned variant;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -78,7 +78,7 @@ static void observe(struct World *v,s32 kind,const s32 a[10],void *data){
  e->frame=v->frame;e->counter=v->counter;e->c4=v->c4;e->c8=v->c8;e->condition=v->condition;e->selection=v->selection;e->limit=v->limit;
  e->flag1=v->flag1;e->flag2=v->flag2;e->half20=v->rows[ui_id(v)][0].half20;effect(v,kind,a);
 }
-void func_80096434(void *data,s32 size){
+void PsyqBzero(void *data,s32 size){
  unsigned step=world.calls;s32 a[10]={size};
  assert(step<2 && data==(step?(void*)world.work12.words:(void*)world.work32.words) && size==(step?12:32));
  memset(data,0,size);observe(&world,step,a,data);

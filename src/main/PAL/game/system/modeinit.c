@@ -24,34 +24,34 @@
 extern int SeqMuteVolume();
 extern int CdDirectoryBuffer;
 extern char StrMainMenu0Log[];
-extern short D_800AC5D0;
-extern int D_800AC5D4;
+extern short MenuFadeTimer;
+extern int SelectionPlayer;
 extern short PlayerCourseChoices[];
-extern int D_800ACBF8;
+extern int DrawSubOtFlag;
 extern int LoadCursor;
-extern short D_800AD508;
+extern short LinkRoleSlot;
 extern short ReverseCourse;
 extern int MaskBitSetting;
 extern unsigned short D_800F3974;
-extern short D_800F3A26;
+extern short ModeId;
 extern short MenuScriptId;
 extern short ModeGroup;
-extern int D_800F4CA8;
-extern int D_800F4D40;
-extern unsigned short D_800F4D44;
-extern short D_800F4D8A;
+extern int DialogueContext;
+extern int MenuArenaBase;
+extern unsigned short RaceType;
+extern short ModeSubState;
 extern short LinkState;
 extern int D_8010BFB8;
 extern int InitBadgeRow();
 extern char StrInitMainMenu0[];
 extern char LinkEntryState[];
-extern char *D_800AC590;
+extern char *DialogueState;
 extern int VSyncThreshold;
 extern short MenuCursor;
-extern short D_800AD50A;
+extern short SceneId;
 extern int ModeFrame;
 extern short *BadgeRows;
-extern int D_800F3A60;
+extern int MenuConfirmPressed;
 extern void UpdateDialogue();
 extern void ResetScreenCounters();
 extern void UpdateBadgeRowAnim();
@@ -71,10 +71,10 @@ void TitleModeEnter() {
     a2 = 0;
     a1 = SelectionRows;
     a0 = PlayerCourseChoices;
-    D_800AD508 = -1;
+    LinkRoleSlot = -1;
     LinkState = 0;
-    D_800AC5D0 = 0;
-    D_800AC5D4 = 0;
+    MenuFadeTimer = 0;
+    SelectionPlayer = 0;
     D_8010BFB8 = 0;
     ReverseCourse = 0;
     do {
@@ -85,19 +85,19 @@ void TitleModeEnter() {
         a2++;
         a0 += 2;
     } while (a2 < 4);
-    D_800F4CA8 = 2;
+    DialogueContext = 2;
     MenuScriptId = 4;
     ModeGroup = 1;
-    D_800F3A26 = 0x23;
-    D_800F4D8A = 0;
+    ModeId = 0x23;
+    ModeSubState = 0;
     LoadCursor = CdDirectoryBuffer;
-    D_800F4D40 = CdDirectoryBuffer;
-    if ((unsigned)(D_800F4D44 - 2) < 3U) BackupSaveData(CdDirectoryBuffer, a1, a2);
-    D_800F4D44 = 0;
+    MenuArenaBase = CdDirectoryBuffer;
+    if ((unsigned)(RaceType - 2) < 3U) BackupSaveData(CdDirectoryBuffer, a1, a2);
+    RaceType = 0;
     _sio_control(1, 1, 0);
-    D_800ACBF8 = 0;
+    DrawSubOtFlag = 0;
     MaskBitSetting = 0;
-    D_800F4CD0 = (D_800F3974 & 1) + 7;
+    MainMenuLastIndex = (D_800F3974 & 1) + 7;
     DebugPrintStub(StrMainMenu0Log);
 }
 
@@ -113,19 +113,19 @@ void TitleMenuInit()
   ModeFrame = 0;
   ScreenFrame = 0;
   VSyncThreshold = 0x80;
-  D_800F4D2C = 0;
+  ModeMenuCursorSaved = 0;
   MenuCursor = -1;
   LinkEntryState[3] = 0;
   LinkEntryState[2] = 0;
   LinkEntryState[1] = 0;
   LinkEntryState[0] = 0;
-  D_800AD50A = 0x104;
-  while (i < (D_800F4CD0 + 1))
+  SceneId = 0x104;
+  while (i < (MainMenuLastIndex + 1))
   {
     v = i;
-    if (D_800F4CD0 == c7)
+    if (MainMenuLastIndex == c7)
     {
-      if (i == D_800F4CD0)
+      if (i == MainMenuLastIndex)
       {
         v = 8;
       }
@@ -136,9 +136,9 @@ void TitleMenuInit()
 
   if (CountProgressFlags() == 0x140)
   {
-    D_800F3970 = 1;
+    AllProgressComplete = 1;
   }
-  D_800AC590[7] = 2;
+  DialogueState[7] = 2;
   InitBadgeRow(0, 0xC, 0x130, 0x128, 0x58, 0, 0);
   BadgeRows[1] = 1;
   _sio_control(1, 1, 0);
@@ -147,9 +147,9 @@ void TitleMenuInit()
 
 /* legacy typing of shared globals in this part of the unit */
 #define ScreenFrame (*(unsigned (*))&ScreenFrame)
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 #define BadgeRows ((W7C0_F *)BadgeRows)
-#define D_800AC590 ((unsigned char *)D_800AC590)
+#define DialogueState ((unsigned char *)DialogueState)
 #define UiRows ((unsigned char *)UiRows)
 #define InitBadgeRow ((void (*)())InitBadgeRow)
 #define _sio_control ((void (*)())_sio_control)
@@ -165,32 +165,32 @@ void TitleMenuUpdate(void)
 
     ModeFrame = ModeFrame + 1;
     ScreenFrame = ScreenFrame + 1;
-    s0 = func_8002F0E0();
-    switch (D_800F4D8A) {
+    s0 = RunIntroScriptStep();
+    switch (ModeSubState) {
     case 0:
     case 10:
         _sio_control(1, 1, 0);
-        if (D_800F4BE0 > 0) {
+        if (SaveNoticeFlags > 0) {
             UpdateBadgeRowAnim(0);
             if (BadgeRows->s10 == 3) {
-                if (D_800F3A60 == 0 && D_800F4D8A != 0 && (signed char)D_800AC590[6] != 4)
+                if (MenuConfirmPressed == 0 && ModeSubState != 0 && (signed char)DialogueState[6] != 4)
                     goto call;
-                if (D_800F4D8A != 0xA)
+                if (ModeSubState != 0xA)
                     goto els;
                 PlaySfx(3);
-                D_800AC590[4] = D_800AC590[4] + 1;
+                DialogueState[4] = DialogueState[4] + 1;
                 goto c8;
             set:
-                D_800AC590[4] = v1;
+                DialogueState[4] = v1;
                 goto call;
             els:
-                D_800F4D8A = 0xA;
+                ModeSubState = 0xA;
             c8:
-                v1 = (signed char)D_800AC590[4];
+                v1 = (signed char)DialogueState[4];
                 if (v1 < 4) {
                     c3 = 3;
                     c4 = 4;
-                    a1 = D_800F4BE0;
+                    a1 = SaveNoticeFlags;
                     a0 = BadgeRows;
                     do {
                         if ((a1 >> v1) & 1)
@@ -201,16 +201,16 @@ void TitleMenuUpdate(void)
                     } while (v1 < 4);
                 }
             call:
-                UpdateDialogue(BadgeRows->s8 + 0xA, BadgeRows->sA + 0x28, D_800AC590);
+                UpdateDialogue(BadgeRows->s8 + 0xA, BadgeRows->sA + 0x28, DialogueState);
                 return;
             } else if (BadgeRows->s10 == 0xB) {
-                D_800F4D8A = 1;
-                D_800F4BE0 = 0;
+                ModeSubState = 1;
+                SaveNoticeFlags = 0;
                 ScreenFrame = 0;
                 return;
             }
         } else {
-            D_800F4D8A = 1;
+            ModeSubState = 1;
             ScreenFrame = 0;
             return;
         }
@@ -219,70 +219,70 @@ void TitleMenuUpdate(void)
         _sio_control(1, 1, 0);
         if (Pad0Buttons & 0x800) {
             if (s0 == 0)
-                func_8005C7A4();
+                InitSceneFade();
             PlaySfx(1);
             func_8005CA04();
             MenuCursor = 0;
-            func_80034E14();
-            D_800F4D8A = 2;
+            EnableLinkSioTx();
+            ModeSubState = 2;
             InitBadgeRow(0, 0x10, 0x1B6, 0x40, 0x22, 0, 0xF00);
             BadgeRows->s2 = 1;
         }
         if (ScreenFrame >= 0x2EE)
-            D_800F4D8A = 5;
+            ModeSubState = 5;
         return;
     case 2:
-        func_80034E14();
+        EnableLinkSioTx();
         s0b = MenuCursor;
         if (UiRows[0x14] == 2) {
             if (ModeSelectMenuStep() != 0) {
-                D_800F4D8A = 3;
-                D_800AC5D0 = 0x40;
+                ModeSubState = 3;
+                MenuFadeTimer = 0x40;
                 ResetScreenCounters();
-                func_8005C8D8(D_800F4D2C);
+                StartSceneFadeIn(ModeMenuCursorSaved);
                 BadgeRows->s10 = 4;
             }
         }
         if (s0b != MenuCursor)
             ScreenFrame = 0;
         if (ScreenFrame >= 0xBB8)
-            D_800F4D8A = 5;
+            ModeSubState = 5;
         DrawModeSelectRows();
         UpdateBadgeRowAnim(0);
         return;
     case 3:
-        if (D_800AC5D0 <= 0) {
-            if (func_8003A9E8() == 1) {
-                D_800F4D8A = 0;
+        if (MenuFadeTimer <= 0) {
+            if (LoadSelectedModeFileStep() == 1) {
+                ModeSubState = 0;
                 ModeGroup = PendingModeId >> 8;
-                D_800F3A26 = PendingModeId & 0xFF;
+                ModeId = PendingModeId & 0xFF;
             }
         } else {
-            D_800AC5D0 = D_800AC5D0 - 1;
+            MenuFadeTimer = MenuFadeTimer - 1;
         }
         DrawModeSelectRows();
         UpdateBadgeRowAnim(0);
         return;
     case 5:
         _sio_control(1, 1, 0);
-        if (D_8010BFBC & 1) {
+        if (AttractCycleCounter & 1) {
             ModeGroup = 2;
-            D_800F3A26 = 3;
-            D_800F4D8A = 0;
+            ModeId = 3;
+            ModeSubState = 0;
         } else {
             StartAttractDemo(0);
         }
-        D_8010BFBC = D_8010BFBC + 1;
-        if (D_8010BFBC >= 0x64)
-            D_8010BFBC = 0;
+        AttractCycleCounter = AttractCycleCounter + 1;
+        if (AttractCycleCounter >= 0x64)
+            AttractCycleCounter = 0;
         return;
     }
 }
 
 #undef ScreenFrame
-#undef D_800F4D8A
+#undef ModeSubState
 #undef BadgeRows
-#undef D_800AC590
+#undef DialogueState
 #undef UiRows
 #undef InitBadgeRow
 #undef _sio_control

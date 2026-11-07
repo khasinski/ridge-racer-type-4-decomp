@@ -64,8 +64,8 @@ static s32 eventResult,queryResult,writeResult;
 #define ovl667_D_80118F10 w->s.rx
 #define ovl667_D_80118F80 w->s.tx
 #define ovl667_D_80118F20 w->s.ring
-#define D_800F3AF0 w->s.payload
-#define D_800ACBE0 w->s.incoming
+#define LinkLocalInputs w->s.payload
+#define LinkRemoteInputs w->s.incoming
 #define D_800ACBF0 w->s.outgoing
 static const u32 edges[]={0,1,2,0xFFFFFFFFU,0x7FFFFFFFU,0x80000000U};
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}

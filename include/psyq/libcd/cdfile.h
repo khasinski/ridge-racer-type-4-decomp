@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-extern int D_800A67A0;
+extern int DS_cachedDir;
 
 #endif /* RR_PSYQ_LIBCD_CDFILE_H */

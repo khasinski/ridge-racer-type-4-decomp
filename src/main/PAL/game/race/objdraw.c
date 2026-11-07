@@ -130,7 +130,7 @@ typedef struct { unsigned short h[16]; } MH;
 
 extern void func_8001A52C(s32);
 extern void func_8001ADA0(s32, s32);
-extern void func_8005F0D0(void *, s32, s32, s32);
+extern void SubmitModel(void *, s32, s32, s32);
 extern void SubmitCourseModel2(void *, s32);
 extern void SelectModelBank(s32);
 extern void EmitSemiTransG3List(Poly38 *, s32, s32);
@@ -148,19 +148,19 @@ extern void PsyqMemset(void *, s32, s32);
 extern s32 D_800A3CDC[];
 extern s32 D_800A3D18[];
 extern SVec CourseLightColors[];
-extern CVec D_800A4088[];
+extern CVec CourseColorTable[];
 extern S_ABEA4 *TrackNodes;
 extern Mat32 LightMatrix;
 extern s32 ReplayState;
 extern s32 ModeFrame;
 extern s16 CourseIndex;
 extern s8 RacePaused;
-extern S_F4D90 *D_800F4D90;
+extern S_F4D90 *TrackLightTable;
 extern s32 RaceState;
-extern s32 D_8010E840;
-extern s32 D_8010E848[];
-extern Vec16 D_8010E8C8;
-extern Vec16 D_8010E8E8[];
+extern s32 TrackObjSoundPrevDist;
+extern s32 ObjSfxLastFrame[];
+extern Vec16 ObjSoundPrevPos;
+extern Vec16 ObjTrailHistory[];
 extern S_ECAC *TrackObjectKeyframes;
 extern S_ECB0 *TrackObjectDefs;
 extern S_ECB4 *TrackObjectStates;
@@ -170,8 +170,8 @@ extern int BuildRotMatrixX();
 extern int MulMatrix2();
 extern int CameraViewMatrix[];
 extern int *D_8010E8D8;
-extern int *D_8010E8DC;
-extern int D_8010E8E0;
+extern int *TrackObjectDefsPtr;
+extern int TrackObjectStatesBase;
 
 void DrawTrackObjects(s32 arg0);
 void BuildObjectMatrix(int unused, short *p, M *out, int flag);
@@ -236,30 +236,30 @@ void DrawTrackObjects(s32 arg0) {
             sp38 = LightMatrix;
             if (CourseIndex == 7 || CourseIndex == 3 || CourseIndex == 2) {
                 for (j = 0; j < 3; j++) {
-                    LightMatrix.m[j][0] = D_800F4D90->light_dir[j].vx;
-                    LightMatrix.m[j][1] = -D_800F4D90->light_dir[j].vy;
-                    LightMatrix.m[j][2] = D_800F4D90->light_dir[j].vz;
+                    LightMatrix.m[j][0] = TrackLightTable->light_dir[j].vx;
+                    LightMatrix.m[j][1] = -TrackLightTable->light_dir[j].vy;
+                    LightMatrix.m[j][2] = TrackLightTable->light_dir[j].vz;
                     sp78.m[0][j] = CourseLightColors[CourseIndex * 3 + j].vx;
                     sp78.m[1][j] = CourseLightColors[CourseIndex * 3 + j].vy;
                     sp78.m[2][j] = CourseLightColors[CourseIndex * 3 + j].vz;
                 }
             } else {
                 for (j = 0; j < 3; j++) {
-                    LightMatrix.m[j][0] = D_800F4D90->light_dir[j].vx;
-                    LightMatrix.m[j][1] = D_800F4D90->light_dir[j].vy;
-                    LightMatrix.m[j][2] = D_800F4D90->light_dir[j].vz;
+                    LightMatrix.m[j][0] = TrackLightTable->light_dir[j].vx;
+                    LightMatrix.m[j][1] = TrackLightTable->light_dir[j].vy;
+                    LightMatrix.m[j][2] = TrackLightTable->light_dir[j].vz;
                     sp78.m[0][j] = CourseLightColors[CourseIndex * 3 + j].vx;
                     sp78.m[1][j] = CourseLightColors[CourseIndex * 3 + j].vy;
                     sp78.m[2][j] = CourseLightColors[CourseIndex * 3 + j].vz;
                 }
             }
-            SetBackColor(D_800F4D90->ambient.r, D_800F4D90->ambient.g, D_800F4D90->ambient.b);
+            SetBackColor(TrackLightTable->ambient.r, TrackLightTable->ambient.g, TrackLightTable->ambient.b);
             SetColorMatrix(&sp78);
             MulMatrix0(&LightMatrix, &sp18, &sp58);
             SetLightMatrix(&sp58);
             SetTrackObjectTransform(i, &sp18, 0);
             SelectModelBank(4);
-            func_8005F0D0(SCRATCH_BASE, TrackObjectDefs[i].f00, 0, 0);
+            SubmitModel(SCRATCH_BASE, TrackObjectDefs[i].f00, 0, 0);
             break;
 
         case 2:
@@ -271,20 +271,20 @@ void DrawTrackObjects(s32 arg0) {
             continue;
 
         case 4:
-            func_8001A8DC(TrackObjectDefs[i].f00);
+            DrawTrackObjectFlashQuads(TrackObjectDefs[i].f00);
             continue;
 
         case 5:
-            if (ReplayState == 2 && D_800F4D44 == 1 && D_800AC1A2 < 6) {
+            if (ReplayState == 2 && RaceType == 1 && D_800AC1A2 < 6) {
                 continue;
             }
             if (TrackObjectStates[i].f08 != 0) {
                 if (TrackObjectStates[i].f04 + 100 == TrackObjectStates[i].f00) {
-                    if (RacePaused == 0 && D_800F4D44 != 5) {
+                    if (RacePaused == 0 && RaceType != 5) {
                         PlaySfxVolPan(0x27, 0x7F, 0x40, -1);
                     }
                 }
-                func_80070BA4(SCRATCH_BASE, TrackObjectDefs[i].f00, RacePaused == 0);
+                UpdateTrackObjectParticles(SCRATCH_BASE, TrackObjectDefs[i].f00, RacePaused == 0);
                 SetDrawMode(SCRATCH_PRIM, 0, 1, 0x2A, 0);
                 AddPrim(SCRATCH_OT + 0x900, SCRATCH_PRIM);
                 SCRATCH_PRIM += 0xC;
@@ -303,7 +303,7 @@ void DrawTrackObjects(s32 arg0) {
             s3[0x00 / 4] = (TrackObjectStates[i].f0C - SCRATCH_CAMX) >> 4;
             s3[0x04 / 4] = (TrackObjectStates[i].f10 - SCRATCH_CAMY) >> 4;
             s3[0x08 / 4] = (TrackObjectStates[i].f14 - SCRATCH_CAMZ) >> 4;
-            dist = func_80090758((s3[0x00 / 4] * s3[0x00 / 4] + s3[0x04 / 4] * s3[0x04 / 4] + s3[0x08 / 4] * s3[0x08 / 4]) >> 12);
+            dist = CordicSqrt((s3[0x00 / 4] * s3[0x00 / 4] + s3[0x04 / 4] * s3[0x04 / 4] + s3[0x08 / 4] * s3[0x08 / 4]) >> 12);
             if (dist < 0) {
                 dist = -dist;
             }
@@ -321,17 +321,17 @@ void DrawTrackObjects(s32 arg0) {
             SetLightMatrix(&sp58);
             SetTrackObjectTransform(i, &sp18, 0);
             SelectModelBank(4);
-            func_8005F0D0(SCRATCH_BASE, 1, 0, 0);
+            SubmitModel(SCRATCH_BASE, 1, 0, 0);
             if (TrackObjectDefs[i].f08 != 14) {
                 v = (0x898 - dist) / 20;
                 if (dist >= 0x899) {
                     v = 0;
                 }
-                s3[0x00 / 4] = D_8010E8C8.vx - SCRATCH_CAMX;
-                s3[0x04 / 4] = D_8010E8C8.vy - SCRATCH_CAMY;
-                s3[0x08 / 4] = D_8010E8C8.vz - SCRATCH_CAMZ;
-                s3[0x10 / 4] = func_80090758((s3[0x00 / 4] * s3[0x00 / 4] + s3[0x04 / 4] * s3[0x04 / 4] + s3[0x08 / 4] * s3[0x08 / 4]) >> 10) >> 2;
-                if (dist < D_8010E840) {
+                s3[0x00 / 4] = ObjSoundPrevPos.vx - SCRATCH_CAMX;
+                s3[0x04 / 4] = ObjSoundPrevPos.vy - SCRATCH_CAMY;
+                s3[0x08 / 4] = ObjSoundPrevPos.vz - SCRATCH_CAMZ;
+                s3[0x10 / 4] = CordicSqrt((s3[0x00 / 4] * s3[0x00 / 4] + s3[0x04 / 4] * s3[0x04 / 4] + s3[0x08 / 4] * s3[0x08 / 4]) >> 10) >> 2;
+                if (dist < TrackObjSoundPrevDist) {
                     s3[0x10 / 4] = -s3[0x10 / 4];
                 }
                 {
@@ -340,8 +340,8 @@ void DrawTrackObjects(s32 arg0) {
                         SoundLoopSet(5, t, v, 0x40);
                     }
                 }
-                D_8010E8C8 = *(Vec16 *)(fp + 8);
-                D_8010E840 = dist;
+                ObjSoundPrevPos = *(Vec16 *)(fp + 8);
+                TrackObjSoundPrevDist = dist;
             }
             break;
 
@@ -394,8 +394,8 @@ void DrawTrackObjects(s32 arg0) {
                     : : "r"(one)
                 );
             }
-            func_8001AFB8(TrackObjectDefs[i].f00 + 1, 1);
-            func_8001AFB8(TrackObjectDefs[i].f00 + 2, 0);
+            DrawTrackObjectModel(TrackObjectDefs[i].f00 + 1, 1);
+            DrawTrackObjectModel(TrackObjectDefs[i].f00 + 2, 0);
             if (TrackObjectDefs[i].f08 != 5) {
                 v = (0xDB6 - dist) / 13;
                 if (dist >= 0xDB7 || RacePaused != 0) {
@@ -476,14 +476,14 @@ void DrawTrackObjects(s32 arg0) {
             if (pan >= 0x80) {
                 pan = 0x7F;
             }
-            if ((u32)((u16)D_800F4D44 - 2) < 3U) {
-                if (D_8010E848[i] == ModeFrame) {
+            if ((u32)((u16)RaceType - 2) < 3U) {
+                if (ObjSfxLastFrame[i] == ModeFrame) {
                     SetSoundChannelVolLR(1, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
                 } else {
                     SetSoundChannelVolLR(0, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
                     SetSoundChannelVolLR(1, 0, 0);
                 }
-                D_8010E848[i] = ModeFrame;
+                ObjSfxLastFrame[i] = ModeFrame;
             } else {
                 SetSoundChannelVolLR(0, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
             }
@@ -506,14 +506,14 @@ void DrawTrackObjects(s32 arg0) {
             if (v < 0) {
                 v = 0;
             }
-            if ((u32)((u16)D_800F4D44 - 2) < 3U) {
-                if (D_8010E848[i] == ModeFrame) {
+            if ((u32)((u16)RaceType - 2) < 3U) {
+                if (ObjSfxLastFrame[i] == ModeFrame) {
                     SetSoundChannelVolLR(1, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
                 } else {
                     SetSoundChannelVolLR(0, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
                     SetSoundChannelVolLR(1, 0, 0);
                 }
-                D_8010E848[i] = ModeFrame;
+                ObjSfxLastFrame[i] = ModeFrame;
             } else {
                 SetSoundChannelVolLR(0, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
             }
@@ -647,18 +647,18 @@ void DrawTrackObjects(s32 arg0) {
                 for (j = 0; j < 2; j++) {
                     s3[0x30 / 4] = k * 2 + j;
                     s3[0x34 / 4] = s3[0x28 / 4] * 16 + s3[0x28 / 4] * 4 + k + 1;
-                    sp638[s3[0x30 / 4]].v0.vx = D_8010E8E8[s3[0x34 / 4]].vx;
-                    sp638[s3[0x30 / 4]].v0.vy = D_8010E8E8[s3[0x34 / 4]].vy - s3[0x2C / 4] * j;
-                    sp638[s3[0x30 / 4]].v0.vz = D_8010E8E8[s3[0x34 / 4]].vz - s3[0x2C / 4] * (1 - j);
-                    sp638[s3[0x30 / 4]].v1.vx = D_8010E8E8[s3[0x34 / 4]].vx;
-                    sp638[s3[0x30 / 4]].v1.vy = D_8010E8E8[s3[0x34 / 4]].vy + s3[0x2C / 4] * j;
-                    sp638[s3[0x30 / 4]].v1.vz = D_8010E8E8[s3[0x34 / 4]].vz + s3[0x2C / 4] * (1 - j);
-                    sp638[s3[0x30 / 4]].v2.vx = D_8010E8E8[s3[0x34 / 4] + 1].vx;
-                    sp638[s3[0x30 / 4]].v2.vy = D_8010E8E8[s3[0x34 / 4] + 1].vy - j * 10;
-                    sp638[s3[0x30 / 4]].v2.vz = D_8010E8E8[s3[0x34 / 4] + 1].vz - (1 - j) * 10;
-                    sp638[s3[0x30 / 4]].v3.vx = D_8010E8E8[s3[0x34 / 4] + 1].vx;
-                    sp638[s3[0x30 / 4]].v3.vy = D_8010E8E8[s3[0x34 / 4] + 1].vy + j * 10;
-                    sp638[s3[0x30 / 4]].v3.vz = D_8010E8E8[s3[0x34 / 4] + 1].vz + (1 - j) * 10;
+                    sp638[s3[0x30 / 4]].v0.vx = ObjTrailHistory[s3[0x34 / 4]].vx;
+                    sp638[s3[0x30 / 4]].v0.vy = ObjTrailHistory[s3[0x34 / 4]].vy - s3[0x2C / 4] * j;
+                    sp638[s3[0x30 / 4]].v0.vz = ObjTrailHistory[s3[0x34 / 4]].vz - s3[0x2C / 4] * (1 - j);
+                    sp638[s3[0x30 / 4]].v1.vx = ObjTrailHistory[s3[0x34 / 4]].vx;
+                    sp638[s3[0x30 / 4]].v1.vy = ObjTrailHistory[s3[0x34 / 4]].vy + s3[0x2C / 4] * j;
+                    sp638[s3[0x30 / 4]].v1.vz = ObjTrailHistory[s3[0x34 / 4]].vz + s3[0x2C / 4] * (1 - j);
+                    sp638[s3[0x30 / 4]].v2.vx = ObjTrailHistory[s3[0x34 / 4] + 1].vx;
+                    sp638[s3[0x30 / 4]].v2.vy = ObjTrailHistory[s3[0x34 / 4] + 1].vy - j * 10;
+                    sp638[s3[0x30 / 4]].v2.vz = ObjTrailHistory[s3[0x34 / 4] + 1].vz - (1 - j) * 10;
+                    sp638[s3[0x30 / 4]].v3.vx = ObjTrailHistory[s3[0x34 / 4] + 1].vx;
+                    sp638[s3[0x30 / 4]].v3.vy = ObjTrailHistory[s3[0x34 / 4] + 1].vy + j * 10;
+                    sp638[s3[0x30 / 4]].v3.vz = ObjTrailHistory[s3[0x34 / 4] + 1].vz + (1 - j) * 10;
                     sp638[s3[0x30 / 4]].c0 = sp638[s3[0x30 / 4]].c1 = (k == 0) ? sp128[0] : sp128[k - 1];
                     sp638[s3[0x30 / 4]].c2 = sp638[s3[0x30 / 4]].c3 = sp128[k];
                 }
@@ -682,23 +682,23 @@ void DrawTrackObjects(s32 arg0) {
 
         case 3:
             for (k = 0; k < 38; k++) {
-                sp128[k].r = (k < 21) ? D_800A4088[CourseIndex - 4].r : D_800A4088[CourseIndex - 4].r - (D_800A4088[CourseIndex - 4].r * (k - 20)) / 17;
-                sp128[k].g = (k < 21) ? D_800A4088[CourseIndex - 4].g : D_800A4088[CourseIndex - 4].g - (D_800A4088[CourseIndex - 4].g * (k - 20)) / 17;
-                sp128[k].b = (k < 21) ? D_800A4088[CourseIndex - 4].b : D_800A4088[CourseIndex - 4].b - (D_800A4088[CourseIndex - 4].b * (k - 20)) / 17;
+                sp128[k].r = (k < 21) ? CourseColorTable[CourseIndex - 4].r : CourseColorTable[CourseIndex - 4].r - (CourseColorTable[CourseIndex - 4].r * (k - 20)) / 17;
+                sp128[k].g = (k < 21) ? CourseColorTable[CourseIndex - 4].g : CourseColorTable[CourseIndex - 4].g - (CourseColorTable[CourseIndex - 4].g * (k - 20)) / 17;
+                sp128[k].b = (k < 21) ? CourseColorTable[CourseIndex - 4].b : CourseColorTable[CourseIndex - 4].b - (CourseColorTable[CourseIndex - 4].b * (k - 20)) / 17;
                 for (j = 0; j < 2; j++) {
                     s3[0x38 / 4] = k * 2 + j;
-                    sp638[s3[0x38 / 4]].v0.vx = D_8010E8E8[k + 1].vx;
-                    sp638[s3[0x38 / 4]].v0.vy = D_8010E8E8[k + 1].vy;
-                    sp638[s3[0x38 / 4]].v0.vz = D_8010E8E8[k + 1].vz;
-                    sp638[s3[0x38 / 4]].v1.vx = D_8010E8E8[k + 1].vx;
-                    sp638[s3[0x38 / 4]].v1.vy = D_8010E8E8[k + 1].vy - (k * 2 + 25) + (k * 4 + 50) * (1 - j);
-                    sp638[s3[0x38 / 4]].v1.vz = D_8010E8E8[k + 1].vz;
-                    sp638[s3[0x38 / 4]].v2.vx = D_8010E8E8[k + 2].vx;
-                    sp638[s3[0x38 / 4]].v2.vy = D_8010E8E8[k + 2].vy;
-                    sp638[s3[0x38 / 4]].v2.vz = D_8010E8E8[k + 2].vz;
-                    sp638[s3[0x38 / 4]].v3.vx = D_8010E8E8[k + 2].vx;
-                    sp638[s3[0x38 / 4]].v3.vy = D_8010E8E8[k + 2].vy - (k * 2 + 25) + (k * 4 + 50) * (1 - j);
-                    sp638[s3[0x38 / 4]].v3.vz = D_8010E8E8[k + 2].vz;
+                    sp638[s3[0x38 / 4]].v0.vx = ObjTrailHistory[k + 1].vx;
+                    sp638[s3[0x38 / 4]].v0.vy = ObjTrailHistory[k + 1].vy;
+                    sp638[s3[0x38 / 4]].v0.vz = ObjTrailHistory[k + 1].vz;
+                    sp638[s3[0x38 / 4]].v1.vx = ObjTrailHistory[k + 1].vx;
+                    sp638[s3[0x38 / 4]].v1.vy = ObjTrailHistory[k + 1].vy - (k * 2 + 25) + (k * 4 + 50) * (1 - j);
+                    sp638[s3[0x38 / 4]].v1.vz = ObjTrailHistory[k + 1].vz;
+                    sp638[s3[0x38 / 4]].v2.vx = ObjTrailHistory[k + 2].vx;
+                    sp638[s3[0x38 / 4]].v2.vy = ObjTrailHistory[k + 2].vy;
+                    sp638[s3[0x38 / 4]].v2.vz = ObjTrailHistory[k + 2].vz;
+                    sp638[s3[0x38 / 4]].v3.vx = ObjTrailHistory[k + 2].vx;
+                    sp638[s3[0x38 / 4]].v3.vy = ObjTrailHistory[k + 2].vy - (k * 2 + 25) + (k * 4 + 50) * (1 - j);
+                    sp638[s3[0x38 / 4]].v3.vz = ObjTrailHistory[k + 2].vz;
                     sp638[s3[0x38 / 4]].c0 = sp638[s3[0x38 / 4]].c2 = (k == 0) ? sp128[0] : sp128[k - 1];
                     sp638[s3[0x38 / 4]].c1 = sp638[s3[0x38 / 4]].c3 = sp128[37];
                 }
@@ -710,12 +710,12 @@ void DrawTrackObjects(s32 arg0) {
                 sp638[j + 76].v1.vx = TrackObjectStates[i].f0C >> 3;
                 sp638[j + 76].v1.vy = TrackObjectStates[i].f10 >> 3;
                 sp638[j + 76].v1.vz = TrackObjectStates[i].f14 >> 3;
-                sp638[j + 76].v2.vx = D_8010E8E8[1].vx;
-                sp638[j + 76].v2.vy = D_8010E8E8[1].vy;
-                sp638[j + 76].v2.vz = D_8010E8E8[1].vz;
-                sp638[j + 76].v3.vx = D_8010E8E8[1].vx;
-                sp638[j + 76].v3.vy = D_8010E8E8[1].vy - 25 + 50 * (1 - j);
-                sp638[j + 76].v3.vz = D_8010E8E8[1].vz;
+                sp638[j + 76].v2.vx = ObjTrailHistory[1].vx;
+                sp638[j + 76].v2.vy = ObjTrailHistory[1].vy;
+                sp638[j + 76].v2.vz = ObjTrailHistory[1].vz;
+                sp638[j + 76].v3.vx = ObjTrailHistory[1].vx;
+                sp638[j + 76].v3.vy = ObjTrailHistory[1].vy - 25 + 50 * (1 - j);
+                sp638[j + 76].v3.vz = ObjTrailHistory[1].vz;
                 sp638[j + 76].c0 = sp638[j + 76].c2 = sp128[1];
                 sp638[j + 76].c1 = sp638[j + 76].c3 = sp128[37];
             }
@@ -736,13 +736,13 @@ void DrawTrackObjects(s32 arg0) {
             {
                 s32 dx = (TrackObjectStates[i].f0C - SCRATCH_CAMX) >> 4;
                 s32 dz = (TrackObjectStates[i].f14 - SCRATCH_CAMZ) >> 4;
-                s3[0x00 / 4] = func_80090758((dx * dx + dz * dz) >> 12);
+                s3[0x00 / 4] = CordicSqrt((dx * dx + dz * dz) >> 12);
             }
-            if ((u32)((u16)D_800F4D44 - 2) < 3U) {
-                if (D_8010E848[i] != ModeFrame && RacePaused == 0) {
+            if ((u32)((u16)RaceType - 2) < 3U) {
+                if (ObjSfxLastFrame[i] != ModeFrame && RacePaused == 0) {
                     TrackObjectStates[i].f08 = (TrackObjectStates[i].f08 + (((i & 1) == 0) ? 0x20 : 0xFE0)) % 0x1000;
                 }
-                D_8010E848[i] = ModeFrame;
+                ObjSfxLastFrame[i] = ModeFrame;
             } else if (RacePaused == 0) {
                 TrackObjectStates[i].f08 = (TrackObjectStates[i].f08 + (((i & 1) == 0) ? 0x20 : 0xFE0)) % 0x1000;
             }
@@ -942,16 +942,16 @@ int LoadTrackObjects(int *a, int b) {
     int n = *a;
     int s;
     a++;
-    D_8010E8DC = a;
+    TrackObjectDefsPtr = a;
     TrackObjectDefs = a;
-    D_8010E8E0 = b;
+    TrackObjectStatesBase = b;
     TrackObjectStates = b;
     a = a + n * 12;
     TrackObjectCount = n;
     D_8010E8D8 = a;
     s = n * 0x2C;
     TrackObjectKeyframes = a;
-    func_80096434(b, s);
+    PsyqBzero(b, s);
     return s;
 }
 

@@ -38,9 +38,9 @@ void _padStartCom(void) {
     *(u32 *)((u8 *)p+RR_FIELD_OFFSET(RrInterruptRegisters,mask))=mask|1;
     ChangeClearRCnt(3,0);
     ExitCriticalSection();
-    D_800ABC6C(PadChannelRecords);
-    D_800ABC6C(PadChannelRecords+1);
-    counters=D_80114428;
+    PadResetChannelFn(PadChannelRecords);
+    PadResetChannelFn(PadChannelRecords+1);
+    counters=PadPortTimeoutCounts;
     counters[1]=0;counters[0]=0;
     PadComActive=1;
     /* ASM_BARRIER: Restore saved registers only after publishing the enabled state. */

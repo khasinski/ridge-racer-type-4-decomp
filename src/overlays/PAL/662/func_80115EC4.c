@@ -3,8 +3,8 @@
 void ovl662_func_80115EC4(s32 arg0) {
     s32 i;
     ovl662_D_801272C0 = 0;
-    D_800F3826 = 0;
-    D_800F4D99 = 0;
+    CourseListIndex = 0;
+    CourseListSavedIndex = 0;
     for (i = 0; i < 4; i++) {
         /* Unsigned addition wraps; the PAL signed-word conversion keeps its bits. */
         GlyphRows[arg0 + i].phase18 = (s32)((u32)GlyphRows[i].phase18 + 0x30000U);
@@ -19,6 +19,6 @@ void ovl662_func_80115EC4(s32 arg0) {
         );
     }
     InitBadgeRow(0, 108, 336, 112, 34, 0, 0x401);
-    InitUiRow(0, 40, 72, 192, 32, 0, 0, 4, 3, D_800F3826 + 4);
+    InitUiRow(0, 40, 72, 192, 32, 0, 0, 4, 3, CourseListIndex + 4);
     BadgeRows[0].half02 = 1;
 }

@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-int func_8006EDA4();
+int PrepareRearViewFrame();
 int GetViewTrackNode();
 
 #endif /* RR_GAME_CAMERA_VIEWCAM_H */

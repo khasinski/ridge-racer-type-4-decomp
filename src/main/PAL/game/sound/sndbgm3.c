@@ -15,7 +15,7 @@ extern char Options[];
 extern int SetVoiceVolumeScaled();
 extern int SsUtKeyOnV();
 
-void func_800512C4(int a0, int a1, int a2);
+void SetLoopVoiceVolumes(int a0, int a1, int a2);
 void SetSoundChannelVolLR(int a0, s16 a1, s16 a2);
 
 void func_80051248(int a0) {
@@ -41,9 +41,9 @@ void func_80051248(int a0) {
 /* legacy typing of shared globals in this part of the unit */
 #define SoundState (*(struct { char pad[0x1998]; struct EE_1 e[2]; } (*))&SoundState)
 
-void func_800512C4(int a0, int a1, int a2) {
+void SetLoopVoiceVolumes(int a0, int a1, int a2) {
     int i;
-    if (D_800AD55A == 0) {
+    if (SoundMonoFlag == 0) {
         SoundState.e[a0].d[0] = a1;
         SoundState.e[a0].d[1] = a2;
     } else {
@@ -102,7 +102,7 @@ void UpdateLoopVoices() {
 /* legacy typing of shared globals in this part of the unit */
 #define SoundState (*(struct { char pad[0x19BC]; s16 a[2]; s16 b[2]; s32 c, d; } (*))&SoundState)
 
-void func_800514FC(void) {
+void ResetSoundChannelVolLR(void) {
     int i;
     for (i = 0; i < 2; i++) {
         SoundState.a[i] = 0;

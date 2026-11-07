@@ -22,7 +22,7 @@ Compiler: gcc 2.8.1 (PSX) `-O2 -G0 -mips1 -mcpu=3000 -funsigned-char` via `tools
 5. If the object contains `.rodata` (string literals, jump tables from `switch`, float constants) fd.py prints a line
    `/* RODATA 0x800105C8 0x30 */` - paste it at the top of the C file (fd.py finds the location in the original rodata block).
    `.data`/`.sdata`/`.bss` (initialised or static data) is not supported yet: skip such functions.
-   Prefer extern symbols (`extern char D_80010874[];`) over string literals when the asm uses a symbol that lives in rodata:
+   Prefer extern symbols (`extern char StrSizeEqLdFmt[];`) over string literals when the asm uses a symbol that lives in rodata:
    a literal creates *new* rodata, an extern does not. Use literals only if the string really belongs to this function's unit.
 
 ## Rules
@@ -244,7 +244,7 @@ Units with inline asm are acceptable; no hand-written `.s` replacements.
 - `typedef struct { int x, y; } __attribute__((packed)) T;` gives the lwl/lwr/swl/swr pair copy; plain aligned struct assignment gives paired lw/sw.
 - Three separate int locals passed by `&` get their stores deleted; declare `int sp50[3]` and pass `sp50` to keep them.
 - m2c can scale a `u32 *` walk wrongly (stride 16 vs 4 bytes): check the asm stride.
-- Around 0x80061384-0x8006D4FC (sizes 0x40/0x50/0x54/0x5c/0xa8) and 0x800678A8-0x8006A3D0 are hand-written polygon-packet fragments; func_8005F0D0/F3D0/F434/FC74 are interpreter fragments: skip.
+- Around 0x80061384-0x8006D4FC (sizes 0x40/0x50/0x54/0x5c/0xa8) and 0x800678A8-0x8006A3D0 are hand-written polygon-packet fragments; SubmitModel/F3D0/F434/FC74 are interpreter fragments: skip.
 
 ## More tricks (wave 3, lib 1)
 - Adjacent SDK symbols that are really one object: declare one struct (`extern struct { u8 f[0x20]; struct {short a,b;char pad[12];} e[24]; } _svm_sreg_dirty;`); gcc 2.7.2 then keeps the original memory-op order. Save the loaded byte in a temp (`t = f[i]; ... f[i] = t|3`).
@@ -374,7 +374,7 @@ Units with inline asm are acceptable; no hand-written `.s` replacements.
 - 2.8.1 splits pointer biv into extra address bivs; index struct array by loop counter (`b[i].c`) to avoid.
 - Pin temps to $2/$3 for v0/v1 allocation; don't pin pointers the loop strength-reduces.
 - Near-miss scoring: normalized difflib diff of fd.py original-vs-mine disassembly.
-- Everything from func_8005F0D0 on is hand-written fragments (except UpdateScrollTrack).
+- Everything from SubmitModel on is hand-written fragments (except UpdateScrollTrack).
 
 ## More tricks (wave 4, c9)
 - `r = const; if (volatile_global != x) r = 0; return r;` : pin r to $2 and loaded value to $4, make global volatile (keeps unfilled `beq; nop` and early `li`). Matched _cardCmd58Tx/D7A0/DE30.
@@ -397,7 +397,7 @@ Units with inline asm are acceptable; no hand-written `.s` replacements.
 
 ## More tricks (wave 4, c7)
 - Symbol address kept in one reg: `T *p = SYM; __asm__("" : "=r"(p) : "0"(p));` (2.7.2 rejects "+r").
-- `static inline int f(int x){return x != 0;}` in a condition changes CSE/regalloc (permuter found it, func_8007B460).
+- `static inline int f(int x){return x != 0;}` in a condition changes CSE/regalloc (permuter found it, DispatchCardMenuStep).
 - K&R definitions with `short` params reproduce libsnd extra t-reg param copies.
 - `unsigned short *` stores give `ori 0xC000`; `off + (int)ptr` gives offset-first addu.
 - `for(;;)` + `break` hoists loop-invariant constants; `return` inside the loop does not.
@@ -406,7 +406,7 @@ Units with inline asm are acceptable; no hand-written `.s` replacements.
 ## More tricks (wave 5, c4)
 - Pin ONE variable only (_SsSetNrpnVabAttr1: just the `a12` copy to $17); pinning all broke it.
 - Strength-reduced index: `P = (Ch*)(i*0xB0 + (int)*q)` and `i++` after last use of P (_SsClose).
-- Compute struct ptr inside `if` body (`s0 = &s1->b;`), use `s1 = &D[s2];` in loop instead of `s1++` to avoid strength reduction to `s1+574` (func_8004A474).
+- Compute struct ptr inside `if` body (`s0 = &s1->b;`), use `s1 = &D[s2];` in loop instead of `s1++` to avoid strength reduction to `s1+574` (UpdateComCarTrackProjections).
 - Load order of scratch fields changes schedule; load `v = s1->s1D8;` before `<0` test fixes v0/v1 split.
 - Forced copy `__asm__("" : "=r"(bk) : "0"(back));` before 2nd compare gives `addu v0,a0,zero` in branch delay slot (UpdateCarTrackNode). Run perm.sh first on big near-misses, finish by hand.
 - fd.py writes build/fd/<stem>.o: use unique file stems.
@@ -528,9 +528,9 @@ Fill of a branch delay slot from an earlier independent instruction (look-back 1
 - (w7c2) `*(short*)&ushort_var = -1` gives `addiu -1` (plain const store gives `ori 0xFFFF`). Operand order via `(char*)x + (i<<2)` or `k + (int)tb`; `(idx<<4) + (int)base` with int globals matches `(arg0*0x10)+D`.
 - (w7c2) Shared goto labels for a common store (`s2:`/`m1:`) reproduce `j` into a shared `sh`. Plain `_svm_cur.fXX` struct members reproduce negative-offset addressing from CSE'd base regs.
 - (w8c3) `/* CC1_FLAGS: -fno-strength-reduce */` stops constant field offset being folded into a walking loop pointer (UpdateLoopVoices) — then pin pointer + put `i = 0;` before `s5 = Options;` for prologue order.
-- (w8c3) GTE: empty-asm copy of `p+8` before the final scratchpad store forces the computation after the stores (func_80044BA0).
+- (w8c3) GTE: empty-asm copy of `p+8` before the final scratchpad store forces the computation after the stores (AddShadowDiscPrims).
 - (w8c4) `a0 = (int)&D_x; return *(short *)a0;` forces original reg use; fake struct with big padding then `buf[0x160]` then pointer reproduces global accesses; `unsigned char` byte macros (signed gives `addiu -128`); local copy `q = P`; struct `{int p; int a[8];}` with descending fill loop for addressing.
-- (w8c0) Empty function with frame: `asm volatile("":::"memory")` makes cc1 emit `j $31; addu sp` -> maspsx `jr; addiu sp` (func_8001F400).
+- (w8c0) Empty function with frame: `asm volatile("":::"memory")` makes cc1 emit `j $31; addu sp` -> maspsx `jr; addiu sp` (DrawTextStub).
 - (w8c0) Pin loop constant to a t-reg (`register int k asm("$25")`, declared WITHOUT initializer, assigned before loop) fixes hoist order + register.
 - (w8c0) GPU packet header as bitfield `{unsigned addr:24; unsigned len:8;}`; `p->addr = ot->addr; ot->addr = (unsigned)p;` reproduces masks/hoist order. Pass `p++` as arg for `addu a1,p,zero; addiu p,p,N`.
 - (w8c0) cc1 2.8.1 fails on pinned register vars with initializers, mixed declarations, anonymous unions.
@@ -570,7 +570,7 @@ Makes $at allocatable: cc1 emits `lui $1,%hi(sym); sw v,%lo(sym)($1)` itself and
 - (w9c2) 3-element loop reading a stride-4 table with one walking pointer + offsets 0,1,2 in the original: write `T[i*4+k]`/`T[i][k]`, not `*s++`. Empty-asm launder on a pointer inside a loop (`asm volatile("" : "=r"(p) : "0"(p))`) makes cc1 recompute `p + i*2` each iteration (matches `sll v1,t0,1; addu v1,s0,v1`). `"=r"(f) : "r"(e)` form does NOT copy; use `"0"`.
 - (w9c2) The original may pass an unused 4th arg (kept-live pointer, e.g. `$a3` loop-end) to a callee: K&R call with extra arg.
 - (w9c5) Reusing one variable as both table index and loop counter raises its register priority (fixes regalloc); base-pointer vars (`base = D; p = base + D2;`) fix load order; `b0 + (a0 & 0xFF)` base form; clear loop `do { *pp-- = 0; } while (--i >= 0)`.
-- (w9c3) 6-case switch (func_8004EA8C): `case` labels inside nested `if` bodies, `return v;` at end of each case group (plain `if (v==0) return v` folds to `return 0`); separate local per use; sum of two globals in separate statements; needs `/* RODATA addr size */` line.
+- (w9c3) 6-case switch (LoadIntroSceneStep): `case` labels inside nested `if` bodies, `return v;` at end of each case group (plain `if (v==0) return v` folds to `return 0`); separate local per use; sum of two globals in separate statements; needs `/* RODATA addr size */` line.
 - (w9c3) Hand-built goto loop for first loop + real `do {} while` for second with induction value (`r = k + (int)tab`) computed at body top; K&R callee declarations (raw-result callee declared `int`).
 - (w9c1) 3-level loop as gotos + inner do/while + one pin; separate var (`w2`) for second use of a product so `x/65536` quotient isn't shared; one reused `int s` avoids an `andi` mask; `i != one` / `sel = i == 1` for compare chains; early hoist of a global by reading it first.
 

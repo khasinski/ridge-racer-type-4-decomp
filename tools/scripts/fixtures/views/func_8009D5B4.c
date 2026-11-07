@@ -16,7 +16,7 @@
 #undef CardWriteHandler
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_8011472C (*(char (*))&D_8011472C)
+#define CardCmdValue (*(char (*))&CardCmdValue)
 
 #define CardCmdBuffer ((char *)CardCmdBuffer)
 
@@ -24,7 +24,7 @@
 
 #define CardWriteHandler ((int *)CardWriteHandler)
 
-#undef D_8011472C
+#undef CardCmdValue
 
 #undef CardCmdBuffer
 

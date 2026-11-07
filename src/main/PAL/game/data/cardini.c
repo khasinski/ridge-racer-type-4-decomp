@@ -27,13 +27,13 @@ extern int SwCardEvIoe;
 extern int SwCardEvError;
 extern int SwCardEvTimeout;
 extern int SwCardEvNew;
-extern unsigned char D_800F3A24[];
-extern char D_800FFC48[];
+extern unsigned char CardSlotState[];
+extern char SharedWorkBuffer[];
 extern int CardPortTimer[];
 extern char StrCardDirPatternFmt[];
 extern char CardDirEntries[];
 extern char *nextfile();
-extern char D_800113E4[];
+extern char CardFilePathFmt[];
 extern int CardFileHandle;
 extern int FileSeek();
 extern int _card_info();
@@ -80,9 +80,9 @@ void CardSystemInit()
     EnableEvent(SwCardEvError);
     EnableEvent(SwCardEvTimeout);
     EnableEvent(SwCardEvNew);
-    D_800F3A24[1] = 0x5A;
-    D_800F3A24[0] = 0x5A;
-    SaveBuffer = (int)D_800FFC48;
+    CardSlotState[1] = 0x5A;
+    CardSlotState[0] = 0x5A;
+    SaveBuffer = (int)SharedWorkBuffer;
 }
 
 void CardSystemShutdown(void) {
@@ -212,7 +212,7 @@ int a0, a1, a2, a3, a4;
     int r;
     int v;
     int ret;
-    PsyqSprintf(sp, D_800113E4, a0, a1, a2);
+    PsyqSprintf(sp, CardFilePathFmt, a0, a1, a2);
     v = a4 << 13;
     r = FileOpen(sp, 0x8001);
     if (r != -1) {
@@ -231,7 +231,7 @@ int a0, a1, a2, a3, a4;
 int CardReadFileAt(int a0, int a1, int a2, int a3, int a4, int a5) {
     char sp18[32];
     int h; register int r asm("$17"); int t;
-    PsyqSprintf(sp18, D_800113E4, a0, a1, a2);
+    PsyqSprintf(sp18, CardFilePathFmt, a0, a1, a2);
     t = a4;
     h = FileOpen(sp18, 0x8001);
     /* ASM_BARRIER: loads -1 into r after the call, not hoisted before it */
@@ -258,7 +258,7 @@ int a0, a1, a2, a3, a4, a5;
     int r;
     int v;
     int ret;
-    PsyqSprintf(sp, D_800113E4, a0, a1, a2);
+    PsyqSprintf(sp, CardFilePathFmt, a0, a1, a2);
     if (a5 == 1) {
         r = FileOpen(sp, (a4 << 16) | 0x200);
         if (r == -1) {
@@ -284,7 +284,7 @@ int a0, a1, a2, a3, a4, a5;
 int CardWriteFileAt(int a0, int a1, int a2, int a3, int a4, int a5) {
     char sp18[32];
     int h; register int r asm("$17"); int t;
-    PsyqSprintf(sp18, D_800113E4, a0, a1, a2);
+    PsyqSprintf(sp18, CardFilePathFmt, a0, a1, a2);
     t = a4;
     h = FileOpen(sp18, 0x8002);
     /* ASM_BARRIER: loads -1 into r after the call, not hoisted before it */

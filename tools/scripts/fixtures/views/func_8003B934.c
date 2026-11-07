@@ -6,11 +6,11 @@
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
 
-#define D_800F4D2C (*(unsigned char (*))&D_800F4D2C)
+#define ModeMenuCursorSaved (*(unsigned char (*))&ModeMenuCursorSaved)
 
 #undef LoadIndex
 
-#undef D_800F4D2C
+#undef ModeMenuCursorSaved
 
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
@@ -28,9 +28,9 @@
 #undef LoadIndex
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F3B24 (*(int (*))&D_800F3B24)
+#define CarClutData (*(int (*))&CarClutData)
 
-#undef D_800F3B24
+#undef CarClutData
 
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
@@ -62,7 +62,7 @@ extern int CdFileReadStart();
 
 extern int CdFileBytesLoaded();
 
-extern char D_800FFC48[];
+extern char SharedWorkBuffer[];
 
 extern int CdFileReadRange();
 
@@ -72,15 +72,15 @@ extern int SetupDialogueTable();
 
 extern int LoadTimImage();
 
-extern int D_800F4CA8;
+extern int DialogueContext;
 
 extern int D_800AD564;
 
 extern char D_80104DB0[];
 
-extern Z *D_800AC590;
+extern Z *DialogueState;
 
-int func_8003B934(void) {
+int LoadDialogueTableStep(void) {
     int r = 0;
     char *s;
     int a1;
@@ -89,24 +89,24 @@ int func_8003B934(void) {
         LoadState = 1;
         LoadIndex = 0;
     case 1:
-        if (CdFileReadStart(GetR4FileIndex(1, 0x42), D_800FFC48)) {
+        if (CdFileReadStart(GetR4FileIndex(1, 0x42), SharedWorkBuffer)) {
             LoadState = 2;
         }
         break;
     case 2:
         if (CdFileBytesLoaded()) {
-            s = D_800FFC48;
+            s = SharedWorkBuffer;
             LoadTimImage(s);
             s += 0x4E20;
             LoadState = 3;
-            D_800AC590 = (Z *)s;
+            DialogueState = (Z *)s;
             InitDialogueState(s);
     case 3:
-            if (D_800F4CA8 == 2) {
+            if (DialogueContext == 2) {
                 a1 = 0x44;
-            } else if (D_800F4CA8 == 4) {
+            } else if (DialogueContext == 4) {
                 a1 = 0x46;
-                D_800AC590->b = 2;
+                DialogueState->b = 2;
             } else {
                 a1 = 0x45;
             }

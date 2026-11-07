@@ -29,27 +29,27 @@ typedef struct {
     u8 pad19[0x22778 - 0x19];
 } Ovl667FrameStorage;
 
-extern s16 D_80107178;
-extern s32 D_80107190;
+extern s16 PlayerCount;
+extern s32 RaceIntroWipeY;
 extern char *CurrentDrawBuf;
 extern u32 ModeFrame;
 extern s32 RaceState;
 extern s32 TotalRaceTime;
-extern s16 D_800AC5D0;
+extern s16 MenuFadeTimer;
 extern s16 NumCars;
 extern s32 RaceTimeRemaining;
 extern s32 ScreenFrame;
-extern s16 D_800AD508;
+extern s16 LinkRoleSlot;
 extern u16 Pad0Buttons;
 extern s8 RacePaused;
 extern s8 PauseCursor;
-extern s16 D_800F4D44;
-extern s16 D_800F4C70[];
-extern s16 D_800F2AB4[];
-extern u16 D_8010C0C8[];
+extern s16 RaceType;
+extern s16 EngineRevDisplay[];
+extern s16 EngineThrottleOn[];
+extern u16 FinalCarRanks[];
 extern Ovl667Vehicle PlayerCars[];
 extern Ovl667Vehicle *CarTable[];
-extern Ovl667FrameStorage D_800ADAF0[2];
+extern Ovl667FrameStorage FrameEnvs[2];
 
 extern s32 ovl667_D_80118ED4;
 extern s32 ovl667_D_80118ECC;
@@ -63,13 +63,13 @@ extern char *AddDrawAreaPrim();
 extern char *AddTilePrim();
 extern void AddScreenFadeTiles();
 extern void SubmitRaceHudPackets();
-extern void func_800211A4();
+extern void DrawHudFrameSprites();
 extern void DrawHudRotatingQuad();
 extern void DrawHudNumber3();
 extern void DrawHudNumber5();
 extern void DrawHudDigitMod10();
 extern void UpdateHudRankDisplay();
-extern void func_80021C00();
+extern void UpdateFinalLapIndicator();
 extern void DrawLapCounter();
 extern void DrawRaceMinimap();
 extern void DrawSteeringIndicator();
@@ -101,7 +101,7 @@ extern void CdAudioBeginPlay();
 extern void BuildCameraMatrices();
 extern void SetupPlayerView();
 extern void SetupViewport();
-extern void func_80070734();
+extern void DrawRearViewMirror();
 extern void UpdateTrackObjects();
 extern void DrawTrackObjects();
 extern void SetDispMask();
@@ -123,7 +123,7 @@ void ovl667_func_80115640(void) {
     s32 state;
     u16 buttons;
 
-    split = (D_80107178 != 2) << 1;
+    split = (PlayerCount != 2) << 1;
     if (split == 0) {
         frame = CurrentDrawBuf + 0x70;
     } else {
@@ -154,28 +154,28 @@ void ovl667_func_80115640(void) {
             }
             RaceState = 2;
             CdAudioBeginPlay(1);
-            D_800AC5D0 = 30;
+            MenuFadeTimer = 30;
         }
     } else if (RaceState >= 4) {
         fade = 37;
         if (TotalRaceTime == -1) {
             fade = 69;
         }
-        if (D_800AC5D0 < 25) {
-            AddScreenFadeTiles(frame, (25 - D_800AC5D0) * 10, fade);
+        if (MenuFadeTimer < 25) {
+            AddScreenFadeTiles(frame, (25 - MenuFadeTimer) * 10, fade);
             SCRATCH_CURSOR = AddDrawAreaPrim(frame, SCRATCH_CURSOR, 0, 0, 320, 256);
         }
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             if (ovl667_D_80118ED4 != 3) {
                 ovl667_func_80114A40();
             }
             for (i = 0; i < NumCars; i++) {
-                D_8010C0C8[i] = CarTable[i]->rank1EE;
+                FinalCarRanks[i] = CarTable[i]->rank1EE;
             }
             FinishRace();
             _sio_control(1, 1, 3);
         } else {
-            D_800AC5D0--;
+            MenuFadeTimer--;
         }
     } else if (ModeFrame >= 51 && RaceState == 0) {
         AddScreenFadeTiles(frame, (ModeFrame - 50) * 10, 37);
@@ -189,7 +189,7 @@ void ovl667_func_80115640(void) {
 
     if (ovl667_D_80118F8D != ovl667_D_80118F8C) {
         buttons = Pad0Buttons;
-        ovl667_D_80118EEC = (buttons & 0x800) && D_800AC5D0 == 0;
+        ovl667_D_80118EEC = (buttons & 0x800) && MenuFadeTimer == 0;
         ovl667_D_80118EEC |= (buttons & 0x1000) ? 2 : 0;
         ovl667_D_80118EEC |= (buttons & 0x4000) ? 4 : 0;
         state = RaceState;
@@ -198,9 +198,9 @@ void ovl667_func_80115640(void) {
                 RacePaused ^= 1;
                 ovl667_D_80118ECC = ovl667_D_80118F8D;
                 if (RacePaused == 0) {
-                    D_800AC5D0 = 10;
+                    MenuFadeTimer = 10;
                     SoundResume();
-                    ApplyPauseMenuChoice(D_800F4D44);
+                    ApplyPauseMenuChoice(RaceType);
                     if (PauseCursor != 0) {
                         ovl667_func_80114A40();
                         StopRaceAudioAndRumble();
@@ -210,8 +210,8 @@ void ovl667_func_80115640(void) {
                     SoundPause();
                 }
                 PauseCursor = 0;
-            } else if (D_800AC5D0 > 0 && state < 4) {
-                D_800AC5D0--;
+            } else if (MenuFadeTimer > 0 && state < 4) {
+                MenuFadeTimer--;
             }
         }
         if (RacePaused == 0) {
@@ -220,7 +220,7 @@ void ovl667_func_80115640(void) {
             if ((u32)(RaceState - 2) < 2) {
                 if (--RaceTimeRemaining <= 0) {
                     RaceState = 5;
-                    D_800AC5D0 = 75;
+                    MenuFadeTimer = 75;
                     SoundSetMasterVolume(0, 33);
                 }
             }
@@ -266,12 +266,12 @@ void ovl667_func_80115640(void) {
                 if (PlayerCars[i].active1E8 == -1) {
                     continue;
                 }
-                DrawHudRotatingQuad(D_800F4C70[i], i);
+                DrawHudRotatingQuad(EngineRevDisplay[i], i);
                 DrawRaceMinimap(0);
                 DrawLapCounter(0, PlayerCars[i].lap2AA);
                 DrawSteeringIndicator(frame, 0);
             } else {
-                DrawHudNumber5(D_800F4C70[i], i);
+                DrawHudNumber5(EngineRevDisplay[i], i);
                 DrawRaceMinimap(i + 1);
                 DrawLapCounter(i + 1, PlayerCars[i].lap2AA);
                 DrawSteeringIndicator(frame, i + 1);
@@ -280,12 +280,12 @@ void ovl667_func_80115640(void) {
             DrawHudDigitMod10(PlayerCars[i].half27A, i);
             UpdateHudRankDisplay((s16)PlayerCars[i].rank1EE, i);
             DrawTimeRemainingForPlayer(RaceTimeRemaining, i);
-            func_80021C00(i + 1);
+            UpdateFinalLapIndicator(i + 1);
             if (i == 1) {
                 DrawSplitScreenDivider(0);
             }
         }
-        func_800211A4(split);
+        DrawHudFrameSprites(split);
         SubmitRaceHudPackets(3);
     }
 
@@ -302,7 +302,7 @@ void ovl667_func_80115640(void) {
             ovl667_D_80118E88[i] = *(Ovl667Vector16 *)0x1F800018;
             ovl667_D_80118EA8[i] = *(Ovl667Vector16 *)0x1F800008;
             BuildCameraMatrices();
-            DrawCars(i + ((s16)(D_800AD508 ^ 1) + 1) * 2);
+            DrawCars(i + ((s16)(LinkRoleSlot ^ 1) + 1) * 2);
             if (PlayerCars[i].flag1EA != 0 && RacePaused == 0) {
                 func_800225DC(n == 1 ? 0 : i + 1);
             }
@@ -311,22 +311,22 @@ void ovl667_func_80115640(void) {
             DrawTrackObjects(0);
             DrawTrackSceneryForPlayer(i + 1);
             if (n == 1) {
-                func_80070734(ScreenFrame);
+                DrawRearViewMirror(ScreenFrame);
             }
             if (RaceState == 0 && n == 1) {
-                D_800ADAF0[1].enable18 = n;
-                D_800ADAF0[0].enable18 = n;
-                SCRATCH_CURSOR = AddDrawAreaPrim(frame + 0xAF8, SCRATCH_CURSOR, 0, D_80107190, 320,
-                                               256 - (D_80107190 << n));
+                FrameEnvs[1].enable18 = n;
+                FrameEnvs[0].enable18 = n;
+                SCRATCH_CURSOR = AddDrawAreaPrim(frame + 0xAF8, SCRATCH_CURSOR, 0, RaceIntroWipeY, 320,
+                                               256 - (RaceIntroWipeY << n));
                 if (i == 0) {
-                    if ((D_80107190 -= 16) < 0) {
-                        D_80107190 = 0;
-                        D_800ADAF0[1].enable18 = 0;
-                        D_800ADAF0[0].enable18 = 0;
+                    if ((RaceIntroWipeY -= 16) < 0) {
+                        RaceIntroWipeY = 0;
+                        FrameEnvs[1].enable18 = 0;
+                        FrameEnvs[0].enable18 = 0;
                     }
                 }
             }
-            SlotSetLevelProgram(D_800F4C70[i], D_800F2AB4[i], i);
+            SlotSetLevelProgram(EngineRevDisplay[i], EngineThrottleOn[i], i);
             if (i == 0) {
                 ovl667_func_801151E0();
             }

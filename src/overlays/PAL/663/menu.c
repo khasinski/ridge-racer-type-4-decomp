@@ -28,8 +28,8 @@ void ovl663_init_scene(void) {
     SetDispMask(0);
     SetupDrawDispEnvs(0, 0, 0, 2);
     ModeGroup = 1;
-    D_800F3A26 = 74;
-    D_800F4D8A = 0;
+    ModeId = 74;
+    ModeSubState = 0;
     DebugPrintStub(ovl663_scene_name);
     ovl663_available_course_count = 0;
     for (i = 0; i < 9; i++) {
@@ -65,7 +65,7 @@ void ovl663_update_menu(void) {
 
     ModeFrame = (s32)((u32)ModeFrame + 1U);
     ScreenFrame = (s32)((u32)ScreenFrame + 1U);
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         i = 0;
         if (UiRows->byte14 == 2) {
@@ -88,8 +88,8 @@ void ovl663_update_menu(void) {
                         PlaySfx(1);
                         closingMode = 2;
                         ResetScreenCounters();
-                        D_800F4D8A = 3;
-                        LoadCursor = D_800F4D40;
+                        ModeSubState = 3;
+                        LoadCursor = MenuArenaBase;
                     } else {
                         PlaySfx(4);
                     }
@@ -98,13 +98,13 @@ void ovl663_update_menu(void) {
                     PlaySfx(1);
                     closingMode = 2;
                     ovl663_record_kind = selected;
-                    D_800F4D8A = 4;
+                    ModeSubState = 4;
                     goto chosen;
                 } else if (selected == 2) {
                     PlaySfx(1);
                     ovl663_record_kind = selected;
                     closingMode = 2;
-                    D_800F4D8A = 5;
+                    ModeSubState = 5;
                     goto chosen;
                 } else {
                     if (selected != 3)
@@ -117,14 +117,14 @@ void ovl663_update_menu(void) {
                 if (PlayerControllers[0].b != 0) {
                 cancel:
                     PlaySfx(cancelSound);
-                    D_800F4D8A = 8;
+                    ModeSubState = 8;
                     closingMode = 1;
                 }
             }
         chosen:
             if (closingMode > 0) {
                 SetMenuFrameOptions(0, 1, 1);
-                D_800AC5D0 = 0x40;
+                MenuFadeTimer = 0x40;
                 i = 0;
 
                 do {
@@ -134,7 +134,7 @@ void ovl663_update_menu(void) {
                             UiRows[i].byte14 = 7U;
                         } else {
                             UiRows[i].byte14 = 3U;
-                            SeqFadeVolume(0, (s16)(D_800AC5D0 - 4));
+                            SeqFadeVolume(0, (s16)(MenuFadeTimer - 4));
                         }
                     }
                     i += 1;
@@ -144,18 +144,18 @@ void ovl663_update_menu(void) {
         }
         break;
     case 3:
-        if ((s16)D_800AC5D0 > 0) {
-            D_800AC5D0 = (u16)D_800AC5D0 - 1;
+        if ((s16)MenuFadeTimer > 0) {
+            MenuFadeTimer = (u16)MenuFadeTimer - 1;
         }
-        AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (0x40 - (s16)D_800AC5D0) * 4, 0x45);
+        AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (0x40 - (s16)MenuFadeTimer) * 4, 0x45);
         i = 0;
-        if ((s16)D_800AC5D0 <= 0) {
-            loaded = func_8003BEA8(ovl663_available_courses[0]);
+        if ((s16)MenuFadeTimer <= 0) {
+            loaded = LoadCoursePreviewStep(ovl663_available_courses[0]);
             if (loaded == 1) {
                 ovl663_init_preview();
                 ModeGroup = loaded;
-                D_800F3A26 = 0x4C;
-                D_800F4D8A = 0;
+                ModeId = 0x4C;
+                ModeSubState = 0;
                 return;
             }
             break;
@@ -163,27 +163,27 @@ void ovl663_update_menu(void) {
         break;
     case 4:
     case 5:
-        closingTimer = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = (u16)closingTimer;
+        closingTimer = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = (u16)closingTimer;
         AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (0x40 - closingTimer) * 4, 0x45);
         i = 0;
-        if ((s16)D_800AC5D0 <= 0) {
+        if ((s16)MenuFadeTimer <= 0) {
             ovl663_init_selection(ovl663_record_kind);
             ModeGroup = 1;
-            D_800F3A26 = 75;
-            D_800F4D8A = 0;
+            ModeId = 75;
+            ModeSubState = 0;
         }
         break;
     case 8:
-        cancelTimer = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = (u16)cancelTimer;
+        cancelTimer = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = (u16)cancelTimer;
         AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (0x40 - cancelTimer) * 4, 0x45);
         i = 0;
-        if ((s16)D_800AC5D0 <= 0) {
+        if ((s16)MenuFadeTimer <= 0) {
             SeqMuteVolume();
             ModeGroup = 1;
-            D_800F3A26 = 3;
-            D_800F4D8A = 0;
+            ModeId = 3;
+            ModeSubState = 0;
         }
         break;
     default:
@@ -201,7 +201,7 @@ void ovl663_init_selection(s32 mode) {
     s32 one = 1;
     ModeFrame = 0;
     ScreenFrame = 0;
-    D_800AC648 = 0;
+    CourseMenuSelection = 0;
     CourseIndex = 0;
     MenuCursor = 0;
     ovl663_selected_record = 0;

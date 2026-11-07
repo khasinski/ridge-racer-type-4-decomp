@@ -8,26 +8,26 @@
 #undef LightMatrix
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_80060C70 ((int (*)())func_80060C70)
+#define RunCourseDrawChain ((int (*)())RunCourseDrawChain)
 
-#define func_8006E834 ((int (*)())func_8006E834)
+#define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 
 #define func_80071348 ((int (*)())func_80071348)
 
-#undef func_80060C70
+#undef RunCourseDrawChain
 
-#undef func_8006E834
+#undef BuildViewSegmentObjectList
 
 #undef func_80071348
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_8006E834 ((int (*)())func_8006E834)
+#define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 
-#define func_80060C70 ((int (*)())func_80060C70)
+#define RunCourseDrawChain ((int (*)())RunCourseDrawChain)
 
-#undef func_8006E834
+#undef BuildViewSegmentObjectList
 
-#undef func_80060C70
+#undef RunCourseDrawChain
 
 typedef struct {
     s16 f0;
@@ -64,13 +64,13 @@ extern s16 D_800A3C10[];
 
 extern S_800A3C20 D_800A3C20[][7];
 
-extern s32 D_800AC5D8;
+extern s32 CurrentViewIndex;
 
 extern s32 CurrentDrawBuf;
 
 extern s32 DrawBufIndex;
 
-extern s32 D_800F4CE0;
+extern s32 RearViewMirrorOffsetY;
 
 extern void SetGeomOffset(s32, s32);
 
@@ -97,7 +97,7 @@ void SetupViewport(s32 a0) {
     /* ASM_BARRIER: Materialize $s2 = 0x1F800000 at start of prologue. */
     __asm__("" : "=r"(s2) : "0"(s2));
     s3 = s2->f00;
-    D_800AC5D8 = a0;
+    CurrentViewIndex = a0;
     s1 = (a0 == 1);
     SetGeomOffset(ViewOffsetX[a0], ViewOffsetY[a0]);
     s5 = (a0 == 1);
@@ -105,13 +105,13 @@ void SetupViewport(s32 a0) {
     s2->f6C = D_800A3BE0[a0];
     v1 = D_800A3BF0[a0];
     if (s1) {
-        v1 += D_800F4CE0;
+        v1 += RearViewMirrorOffsetY;
     }
     s2->f6E = v1;
     s2->f70 = D_800A3C00[a0];
     v1 = D_800A3C10[a0];
     if (s1) {
-        v1 += D_800F4CE0;
+        v1 += RearViewMirrorOffsetY;
     }
     s2->f72 = v1;
     p = &D_800A3C20[DrawBufIndex][a0];
@@ -119,7 +119,7 @@ void SetupViewport(s32 a0) {
         s2->f64 = 0;
     } else {
         s2->f64 = 1;
-        a0_val = D_800F4CE0;
+        a0_val = RearViewMirrorOffsetY;
         if (a0_val < 0) {
             a0_val = 0;
         }

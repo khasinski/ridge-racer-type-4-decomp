@@ -11,24 +11,24 @@ typedef struct { int a, b, c, d, e, f, g, h; } w3g6_32;
 
 typedef struct { int x, y; } __attribute__((packed)) w3g6_U;
 
-extern w3g6_32 D_800A3B00;
+extern w3g6_32 DefaultColorMatrix;
 extern w3g6_U D_800A3B20[];
 extern w3g6_U D_800A3B28[];
 extern w3g6_U D_800A3B30[];
 extern int CourseFarColorTable[];
 extern w3g6_32 ColorMatrix;
-extern short D_800AD5BC[];
-extern w3g6_U D_800F38F8[];
-extern int D_8010718C;
-extern char D_800F4C38[];
-extern unsigned int *D_800ADAD0;
-extern int D_800F2EB4;
-extern unsigned int D_8010E290[];
-extern unsigned int *D_8010E690;
+extern short LightDirMagnitude[];
+extern w3g6_U LightAngles[];
+extern int ViewUsesCarTrackNode;
+extern char ViewSegmentIndices[];
+extern unsigned int *SegmentViewTablePtr;
+extern int RelFileViewRecords;
+extern unsigned int ViewSegmentObjects[];
+extern unsigned int *ViewSegmentObjectList;
 
 void InitViewLighting(void);
-void func_8006E834(void);
-void func_8006E8F8();
+void BuildViewSegmentObjectList(void);
+void AddUniqueViewSegmentRecords();
 void func_8006E9CC(void);
 void func_8006E9D4(void);
 
@@ -37,13 +37,13 @@ void InitViewLighting(void)
     int *t;
     int *b;
     int i;
-    ColorMatrix = D_800A3B00;
-    D_800F38F8[0] = D_800A3B20[0];
-        D_800F38F8[1] = D_800A3B28[0];
-    D_800F38F8[2] = D_800A3B30[0];
-    D_800AD5BC[0] = 0x1000;
-    D_800AD5BC[1] = 0x1000;
-    D_800AD5BC[2] = 0x1000;
+    ColorMatrix = DefaultColorMatrix;
+    LightAngles[0] = D_800A3B20[0];
+        LightAngles[1] = D_800A3B28[0];
+    LightAngles[2] = D_800A3B30[0];
+    LightDirMagnitude[0] = 0x1000;
+    LightDirMagnitude[1] = 0x1000;
+    LightDirMagnitude[2] = 0x1000;
     BackColorR = 0x13;
     BackColorG = 0x1D;
     BackColorB = 0x1C;
@@ -55,12 +55,12 @@ void InitViewLighting(void)
     FarColorB = t[2];
 }
 
-void func_8006E794(void) {
+void InitViewState(void) {
     int i;
     char *p;
     char *g = (char *)SCRATCHPAD;
     InitViewLighting();
-    D_8010718C = 1;
+    ViewUsesCarTrackNode = 1;
     D_800AD5B8 = 0x1400;
     *(int *)(g + 0x78) = 0;
     *(short *)(g + 0x5E) = 0;
@@ -70,37 +70,37 @@ void func_8006E794(void) {
         }
     }
     i = 0x1F;
-    p = D_800F4C38 + i;
+    p = ViewSegmentIndices + i;
     do {
         *p-- = 0;
         i--;
     } while (i >= 0);
 }
 
-void func_8006E834(void) {
+void BuildViewSegmentObjectList(void) {
     unsigned int *t;
     unsigned int i;
-    D_8010E690 = D_8010E290;
-    t = func_8006F288();
-    D_800ADAD0 = t;
-    D_8010E290[0] = *t;
-    if (D_8010E290[0] >= 0x100) {
-        D_8010E290[0] = 0xFF;
+    ViewSegmentObjectList = ViewSegmentObjects;
+    t = GetSegmentViewTable();
+    SegmentViewTablePtr = t;
+    ViewSegmentObjects[0] = *t;
+    if (ViewSegmentObjects[0] >= 0x100) {
+        ViewSegmentObjects[0] = 0xFF;
     }
     t++;
     i = 0;
-    if (D_8010E290[0] != 0) {
+    if (ViewSegmentObjects[0] != 0) {
         do {
-            D_8010E290[i + 1] = D_800F2EB4 + ((unsigned short *)t)[i] * 0x50;
+            ViewSegmentObjects[i + 1] = RelFileViewRecords + ((unsigned short *)t)[i] * 0x50;
             i++;
-        } while (i < D_8010E290[0]);
+        } while (i < ViewSegmentObjects[0]);
     }
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4C38 (*(unsigned char (*)[])&D_800F4C38)
+#define ViewSegmentIndices (*(unsigned char (*)[])&ViewSegmentIndices)
 
-void func_8006E8F8() {
+void AddUniqueViewSegmentRecords() {
     int *t1;
     int v;
     int t0;
@@ -109,27 +109,27 @@ void func_8006E8F8() {
     int off;
     unsigned char *pb;
 
-    t1 = (int *)D_8010E690;
+    t1 = (int *)ViewSegmentObjectList;
     t2 = *t1;
     off = t2 << 2;
     t1 = (int *)((char *)t1 + (off + 4));
-    for (t0 = 0; t0 < D_800F4C38[0]; t0++) {
-        v = D_800F2EB4 + (pb = D_800F4C38 + t0)[1] * 0x50;
-        for (i = 0; i < *D_8010E690; i++) {
-            if (v == D_8010E690[i + 1]) {
+    for (t0 = 0; t0 < ViewSegmentIndices[0]; t0++) {
+        v = RelFileViewRecords + (pb = ViewSegmentIndices + t0)[1] * 0x50;
+        for (i = 0; i < *ViewSegmentObjectList; i++) {
+            if (v == ViewSegmentObjectList[i + 1]) {
                 break;
             }
         }
-        if (i == *D_8010E690) {
+        if (i == *ViewSegmentObjectList) {
             *t1 = v;
             t1++;
             t2++;
         }
     }
-    *D_8010E690 = t2;
+    *ViewSegmentObjectList = t2;
 }
 
-#undef D_800F4C38
+#undef ViewSegmentIndices
 
 void func_8006E9CC(void) {
 }

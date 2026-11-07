@@ -2,7 +2,7 @@
 #include "rr/overlay662_garage.h"
 #include "rr/menu_setup.h"
 extern const char ovl662_D_80114900[];
-extern s16 ModeGroup,D_800F3A26,D_800F4D8A;
+extern s16 ModeGroup,ModeId,ModeSubState;
 void InitUiRow(s32,s32,s32,s32,s32,s32,s32,s32,s32,s32,...);
 void ovl662_func_8011A988(void) {
     DebugPrintStub(ovl662_D_80114900);
@@ -15,6 +15,6 @@ void ovl662_func_8011A988(void) {
     InitUiRow(0, 140, 136, 28, 32, 0, 0, 1, 0, 104);
     InitUiRow(1, 140, 176, 28, 32, 0, 0, 1, 0, 105);
     ModeGroup = 3;
-    D_800F3A26 = 4;
-    D_800F4D8A = 0;
+    ModeId = 4;
+    ModeSubState = 0;
 }

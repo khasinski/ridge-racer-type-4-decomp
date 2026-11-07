@@ -23,12 +23,12 @@ static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorking
 #define PlayerControllers world.input
 #define UiRows world.row
 #define BadgeRows world.badge
-#define D_800AC590 world.text
-#define D_800F3A60 world.accept
+#define DialogueState world.text
+#define MenuConfirmPressed world.accept
 #define ovl662_D_801272E8 world.exit
-#define D_800F3A26 world.scene
+#define ModeId world.scene
 #define ModeGroup world.enable
-#define D_800F4D8A world.state
+#define ModeSubState world.state
 '''+s+r'''
 static struct Event {unsigned kind;s32 a;struct World before;} events[4];
 static unsigned count,seen,serial,scenario,profile,coverage[4];static int reference_run;

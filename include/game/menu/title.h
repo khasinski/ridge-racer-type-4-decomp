@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern int D_800ABFE8;
+extern int ViewCarTrackNode;
 extern int D_8010E270[];
 
 #endif /* RR_GAME_MENU_TITLE_H */

@@ -574,7 +574,7 @@ void StepCarStateSpinOut(a0) P *a0; {
         q->s74 = q->s74 - 0x30;
         q->s74 = q->s74 - q->sAE * 2;
         if (q->sAC < 0x80) q->s74 = q->s74 - 0x30;
-        if (D_800F4D44 != 4) {
+        if (RaceType != 4) {
             s2 = q->s74 >> 10;
             s0 = q->s9C;
             if ((PsyqRand() & 3) >= 2) q->s9C = s0 + s2;

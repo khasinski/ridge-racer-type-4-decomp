@@ -21,7 +21,7 @@ _Static_assert(sizeof(RrGlyphPacket28)==28,"complete output pair");
 _Static_assert(sizeof(RrSpritePacketSignedClut)==20,"sprite layout");
 _Static_assert(sizeof(RrGlyphCommand8)==8,"mode layout");
 _Static_assert(sizeof(RrUiUvRect)==4,"descriptor layout");
-RrUiUvRect D_800A1090[50],HudGlyphUvRects[40];
+RrUiUvRect HudGlyphUvRectsBank0[50],HudGlyphUvRects[40];
 RrIconSpriteContext *CurrentDrawBuf;
 static RrGpuScratchPointers scratch;
 #undef RR_GLYPH_SCRATCH
@@ -40,7 +40,7 @@ void setup(unsigned n){which=n;if(!frame){frame=malloc(FRAME_BYTES);reference=ma
  memset(frame,0xA5,FRAME_BYTES);memset(script,0x5A,sizeof(script));memset(order,0x3C,sizeof(order));
  color=(n&32)?(s32[]){INT32_MIN,INT32_MAX,-1,0,1,127,128,255,256}[n%9]:word(n*0x9e3779b9U);bank=(s32[]){0,1,-1,INT32_MIN,INT32_MAX}[(n/17)%5];count=(n/5)%(MAX_GLYPHS+1);
  script[0]=half(n);script[1]=(n&64)?(s16[]){INT16_MIN,INT16_MAX,-1,0,1,127,128,255}[n%8]:half((n*137U)>>3);
- for(unsigned i=0;i<50;i++)D_800A1090[i]=(RrUiUvRect){(u8)(n+i),(u8)(n/256+i*7),(u8)(n+i*11),(u8)(n/7+i*17)};
+ for(unsigned i=0;i<50;i++)HudGlyphUvRectsBank0[i]=(RrUiUvRect){(u8)(n+i),(u8)(n/256+i*7),(u8)(n+i*11),(u8)(n/7+i*17)};
  for(unsigned i=0;i<40;i++)HudGlyphUvRects[i]=(RrUiUvRect){(u8)(n+i*3),(u8)(n/256+i*11),(u8)(n+i*13),(u8)(n/7+i*19)};
  for(unsigned i=0;i<count;i++){unsigned high=(n+i)&1;script[2+i*2]=high?0x400+(n/11+i)%40:(n/13+i)%(bank?40:50);script[3+i*2]=((n+i)&4)?(s16[]){INT16_MIN,INT16_MAX,-1,0,1,127,128,255}[(n/8+i)%8]:half(n*31U+i*97);}
  script[2+count*2]=half(0x8000U|(n&0x7FFF));memcpy(script_before,script,sizeof(script));
@@ -52,7 +52,7 @@ void setup(unsigned n){which=n;if(!frame){frame=malloc(FRAME_BYTES);reference=ma
  memcpy(reference,frame,FRAME_BYTES);
 }
 static void expected(void){u32 x=(u32)(s32)script[0];s32 y=script[1];u32 old=getword(reference+contextOffset+0x70);u32 clut=bank?0x7E38:0x7F78;
- for(unsigned i=0;i<count;i++){s32 glyph=script[2+2*i];const RrUiUvRect *uv=glyph>=0x400?&HudGlyphUvRects[glyph-0x400]:bank?&HudGlyphUvRects[glyph]:&D_800A1090[glyph];u8 *p=reference+cursorOffset+i*28;
+ for(unsigned i=0;i<count;i++){s32 glyph=script[2+2*i];const RrUiUvRect *uv=glyph>=0x400?&HudGlyphUvRects[glyph-0x400]:bank?&HudGlyphUvRects[glyph]:&HudGlyphUvRectsBank0[glyph];u8 *p=reference+cursorOffset+i*28;
  putword(p,0x04000000U|(old&0xFFFFFFU));p[4]=p[5]=p[6]=(u8)color;p[7]=0x66;putshort(p+8,(u16)x);putshort(p+10,(u16)y);p[12]=uv->u;p[13]=uv->v;putshort(p+14,clut);putshort(p+16,uv->w);putshort(p+18,uv->h);
  u32 sprite=(u32)(uintptr_t)(frame+cursorOffset+i*28)&0xFFFFFFU;putword(p+20,0x01000000U|sprite);putword(p+24,0xE1000200U|((bank||glyph>=0x400)?0x25:0x3E));
  old=(old&0xFF000000U)|((u32)(uintptr_t)(frame+cursorOffset+i*28+20)&0xFFFFFFU);
@@ -61,10 +61,10 @@ static void expected(void){u32 x=(u32)(s32)script[0];s32 y=script[1];u32 old=get
  putword(reference+contextOffset+0x70,old);
 }
 void run(void){DrawGlyphList(script,color,bank);assert(scratch.cursor==frame+cursorOffset+count*28&&scratch.order==order&&CurrentDrawBuf==(RrIconSpriteContext*)(frame+contextOffset));assert(!memcmp(script,script_before,sizeof(script)));}
-void *get_frame(void){return frame;}void *get_script(void){return script;}void *get_order(void){return order;}void *get_primary(void){return D_800A1090;}void *get_secondary(void){return HudGlyphUvRects;}
+void *get_frame(void){return frame;}void *get_script(void){return script;}void *get_order(void){return order;}void *get_primary(void){return HudGlyphUvRectsBank0;}void *get_secondary(void){return HudGlyphUvRects;}
 u32 get_count(void){return count;}u32 get_cursor(void){return cursorOffset;}u32 get_context(void){return contextOffset;}s32 get_color(void){return color;}s32 get_bank(void){return bank;}
 #ifndef RR_NATIVE_SHARED
-int main(void){for(unsigned n=0;n<131072;n++){setup(n);RrUiUvRect primary[50],secondary[40];memcpy(primary,D_800A1090,sizeof(primary));memcpy(secondary,HudGlyphUvRects,sizeof(secondary));expected();run();assert(!memcmp(frame,reference,FRAME_BYTES));assert(!memcmp(primary,D_800A1090,sizeof(primary))&&!memcmp(secondary,HudGlyphUvRects,sizeof(secondary)));}puts("131072 native oracle cases; full frame/script/font guards passed");}
+int main(void){for(unsigned n=0;n<131072;n++){setup(n);RrUiUvRect primary[50],secondary[40];memcpy(primary,HudGlyphUvRectsBank0,sizeof(primary));memcpy(secondary,HudGlyphUvRects,sizeof(secondary));expected();run();assert(!memcmp(frame,reference,FRAME_BYTES));assert(!memcmp(primary,HudGlyphUvRectsBank0,sizeof(primary))&&!memcmp(secondary,HudGlyphUvRects,sizeof(secondary)));}puts("131072 native oracle cases; full frame/script/font guards passed");}
 #endif
 '''
 if __name__=='__main__':

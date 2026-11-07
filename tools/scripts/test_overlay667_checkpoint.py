@@ -42,7 +42,7 @@ static void *SoundQueueEnqueue(s32 a,s32 b){service(2,a,b);return 0;}
 #define NumLaps (actual.target)
 #define RaceState (actual.state)
 #define TotalRaceTime (actual.flag)
-#define D_800AC5D0 (actual.timer)
+#define MenuFadeTimer (actual.timer)
 '''+body+r'''
 static void model(void){
  int old=expected.vehicle.control.steering94.count22;

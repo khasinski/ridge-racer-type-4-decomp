@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern short *D_800ACBE8;
+extern short *TrackNodeGrid;
 void UpdateWheelBumps();
 void SetTrackNodeData(char *a);
 

@@ -12,7 +12,7 @@ typedef struct {
     u32 commandIndex20;
     RrStrDisplayConfig display24;
 } RrStrPlaybackState;
-extern s32 D_801102DC,VSyncThreshold,ModeFrame;
+extern s32 StCdIntrFlag,VSyncThreshold,ModeFrame;
 extern u8 D_800AD558;
 void SetDispMask(s32);
 void SsSetSerialAttr(s8,s8,s8);

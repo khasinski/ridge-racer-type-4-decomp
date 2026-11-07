@@ -32,7 +32,7 @@ class ChannelResetTest(unittest.TestCase):
 static union {uint64_t alignment;u8 bytes[0x4000];} ram;
 #define _svm_voice (*(RrChannelControlRow36 (*)[24])(ram.bytes+0x1908))
 #define _snd_ev_flag (*(s32 *)(ram.bytes+0x105C))
-#define D_80110118 (*(u16 *)(ram.bytes+0x2118))
+#define SvmVoiceIndex (*(u16 *)(ram.bytes+0x2118))
 ''' + body + r'''
 static int voice,fast_calls,ordinary_calls,dynamic;
 static u8 snapshot[sizeof(ram)],expected[sizeof(ram)];
@@ -59,7 +59,7 @@ static void callback(void) {
 }
 void vmNoiseOff(u8 index) {assert(index==voice);fast_calls++;callback();}
 void _SsVmKeyOffNow(s32 unused) {
-    assert(unused==0&&D_80110118==voice);ordinary_calls++;callback();
+    assert(unused==0&&SvmVoiceIndex==voice);ordinary_calls++;callback();
 }
 static void prepare(int selected,int lock,s16 bank,s16 program,s16 instrument,s16 group,s16 kind,int live) {
     memset(ram.bytes,0xA5,sizeof(ram.bytes));

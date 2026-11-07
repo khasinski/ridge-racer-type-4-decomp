@@ -22,7 +22,7 @@ class Overlay662FrameStepTest(unittest.TestCase):
 static struct World{u32 head[4];RrGarageSelectionPrefix garage;u32 buffers[4][8];RrGarageTimBytes tim[4];u32 clock;s32 pulse;u32*image;RrGarageTimBytes*file;u32 tail[4];}world,expected,checkpoints[8];
 static unsigned scenario,calls;static u32 rng=0x1AAF4;
 #define ovl662_D_801276A8 world.garage
-#define D_800F4D38 world.clock
+#define PlayTimeFrames world.clock
 #define ScreenFrame world.pulse
 #define D_800F39A0 world.image
 #define D_800F399C world.file

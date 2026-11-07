@@ -30,8 +30,8 @@ extern int TrackEventSfxEnabled;
 extern int ReplayState;
 extern int D_800AC538;
 extern char PlayerCars[];
-extern short func_80022848(void);
-extern void func_800172DC();
+extern short IsCarFacingBackward(void);
+extern void ResetCarSlotBuffers();
 
 void ComputeWheelOffsets(char *a0);
 void UpdatePlayerCar(char *a0, int a1);
@@ -76,7 +76,7 @@ char *a0; int a1; int a2;
     int i, t;
     s2 = a0 + 0x1F4;
     s3 = CarRecordPtrs[a1];
-    func_80096434(a0, 0x320);
+    PsyqBzero(a0, 0x320);
     H(s2, 0x84) = SelectionRows[a1][3] & 1;
     H(a0, 0x1E6) = a1 * 2;
     W(s2, 0x24) = a1;
@@ -117,7 +117,7 @@ void UpdatePlayerCar(char *a0, int a1)
   int *pp = pad;
   if (RaceState > 0)
   {
-    *((short *) (a0 + 0x1EA)) = func_80022848();
+    *((short *) (a0 + 0x1EA)) = IsCarFacingBackward();
     UpdateCarGear(a0, a1);
     UpdatePlayerSteering(a0, a1);
     UpdateCarEngine(a0);
@@ -136,9 +136,9 @@ void UpdatePlayerCar(char *a0, int a1)
   else
     if (RaceState == 0)
   {
-    func_800512C4(a1 & 1, 0, 0);
+    SetLoopVoiceVolumes(a1 & 1, 0, 0);
   }
-  if (D_800AD508 < 0)
+  if (LinkRoleSlot < 0)
   {
     if (GetMappedPadButtons(a1 & 1) != 0)
     {
@@ -147,7 +147,7 @@ void UpdatePlayerCar(char *a0, int a1)
         unsigned short t = (*((unsigned short *) (a0 + 0x1E4))) ^ 0x100;
         D_800AC538 ^= 1;
         *((unsigned short *) (a0 + 0x1E4)) = t;
- do { func_800172DC(t); } while (0);
+ do { ResetCarSlotBuffers(t); } while (0);
       }
     }
   }

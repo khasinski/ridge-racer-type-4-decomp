@@ -59,35 +59,35 @@ extern struct {
     char *f55C;
 } RaceContext;
 extern short D_800AD520;
-extern int D_800F2FD8;
+extern int ModelBankFormat;
 extern short CourseIndex;
 extern void SetGteObjectTransform();
 extern void SelectModelBank();
-extern void func_8005F0D0();
+extern void SubmitModel();
 extern void BuildCameraMatrices();
 extern void ApplyMatrix();
 extern void SetGeomScreen();
 extern void RotMatrixZYX();
-extern void func_800172DC();
+extern void ResetCarSlotBuffers();
 extern int D_800AC6B0;
 extern Elem28 (*D_800ACBA4)[16];
-extern short D_800F4D44;
+extern short RaceType;
 extern M2C_UNK D_800AC6D8;
 extern void AddScreenFadeTiles();
 extern void SlotsStartForRace();
 extern void CdAudioSelectTrack();
 extern void CdAudioBeginPlay();
 extern void CdAudioFade();
-extern void func_80059E40();
+extern void OpeningScriptStep();
 extern int PsyqRand();
-extern int D_800AC6EC;
+extern int RaceIntroDone;
 extern signed char SelectionState[];
 extern signed char Options[];
-extern int D_8010718C;
+extern int ViewUsesCarTrackNode;
 
 void func_80044EC4(void);
 void ApplyCameraState(int *a);
-int func_800452CC(Arg0Struct *a0, int a1, int a2);
+int InterpCameraKeyframes(Arg0Struct *a0, int a1, int a2);
 int func_80045868(char *arg0);
 
 void func_80044EC4(void) {
@@ -99,7 +99,7 @@ void func_80044EC4(void) {
 
     s5 = g[0x18];
     s2 = RaceContext.f55C + (D_800AD520 << 7);
-    func_80044920(s2, sp10);
+    SetupLightMatrices(s2, sp10);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), s2, sp10);
     s1 = RotTransPersOrigin(sp10, s2);
     if (s1 > 0) {
@@ -112,18 +112,18 @@ void func_80044EC4(void) {
         SelectModelBank(8);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), s2, sp10);
         g[0x1E] = 0;
-        func_8005F0D0(SCRATCHPAD, D_800F2FD8 < 1, 0, 0);
+        SubmitModel(SCRATCHPAD, ModelBankFormat < 1, 0, 0);
         s1 >>= s5;
         s1 += 0x6E;
         if (s1 > 0) {
-            func_80044BA0(s1 + 1);
+            AddShadowDiscPrims(s1 + 1);
             ((P_TAG *)g[1])->addr = ((P_TAG *)&DRAWBUF->ot[s1])->addr;
             ((P_TAG *)&DRAWBUF->ot[s1])->addr = g[1] + 0x578;
         }
     }
     if (D_8009FE60[CourseIndex] == 7) {
         s2 = RaceContext.f55C + (D_800AD520 << 7) + 0x40;
-        func_80044920(s2, sp10);
+        SetupLightMatrices(s2, sp10);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), s2, sp10);
         s1 = RotTransPersOrigin(sp10, s2);
         if (s1 > 0) {
@@ -136,11 +136,11 @@ void func_80044EC4(void) {
             SelectModelBank(9);
             SetGteObjectTransform((SCRATCHPAD + 0x7C), s2, sp10);
             *(int *)(SCRATCHPAD + 0x78) = 0;
-            func_8005F0D0(SCRATCHPAD, D_800F2FD8 < 1, 0, 0);
+            SubmitModel(SCRATCHPAD, ModelBankFormat < 1, 0, 0);
             s1 >>= s5;
             s1 += 0x6E;
             if (s1 > 0) {
-                func_80044BA0(s1 + 1);
+                AddShadowDiscPrims(s1 + 1);
                 ((P_TAG *)g[1])->addr = ((P_TAG *)&DRAWBUF->ot[s1])->addr;
                 ((P_TAG *)&DRAWBUF->ot[s1])->addr = g[1] + 0x578;
             }
@@ -177,7 +177,7 @@ void ApplyCameraState(int *a) {
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(Context650 (*))&RaceContext)
 
-int func_800452CC(Arg0Struct *a0, int a1, int a2) {
+int InterpCameraKeyframes(Arg0Struct *a0, int a1, int a2) {
     int pad[4];
     V4 sp20;
     V4 sp30;
@@ -201,7 +201,7 @@ int func_800452CC(Arg0Struct *a0, int a1, int a2) {
         return 1;
     }
     if (RaceContext.fA4 != s3) {
-        func_800172DC();
+        ResetCarSlotBuffers();
         RaceContext.fA4 = s3;
     }
     t1 = (s2[s0].f24 - s2[s3].f24) * 5;
@@ -236,8 +236,8 @@ int func_800452CC(Arg0Struct *a0, int a1, int a2) {
         RaceContext.f80 = s2[s0].f20;
     }
     ApplyCameraState(&D_800AC6B0);
-    if (D_800F4D44 == 1) {
-        func_80044B5C();
+    if (RaceType == 1) {
+        InitRaceContextBuffers();
         func_80044EC4();
     }
     return 0;
@@ -246,7 +246,7 @@ int func_800452CC(Arg0Struct *a0, int a1, int a2) {
 #undef RaceContext
 
 void func_80045830(void) {
-    func_80096434(&D_800AC6D8, 0x20);
+    PsyqBzero(&D_800AC6D8, 0x20);
     M2C_FIELD(&D_800AC6D8, s32 *, 0x1C) = -1;
 }
 
@@ -317,7 +317,7 @@ int func_80045868(char *arg0)
   {
     if (s0 == 1)
     {
-      func_8005A90C();
+      ResetOpeningFadeTimer();
       if (gB[0x94 / 4] == s0)
       {
         CdAudioBeginPlay(0);
@@ -348,7 +348,7 @@ int func_80045868(char *arg0)
       __asm__("" : "+r"(s0) : "r"(x)); /* ASM_BARRIER: keep 0x100 in s0 and prioritize x in v0 */
       s0 -= d;
     }
-    func_80059E40(0x1C2);
+    OpeningScriptStep(0x1C2);
     {
       int w, low, high;
       low = 0xFFFFFF;
@@ -383,7 +383,7 @@ int func_80045868(char *arg0)
   gC = RaceContext;
   if (gC[0x94 / 4] == 0)
   {
-    if ((D_800F4D44 == 1) && (SelectionState[SelectionState[0x17] + 8] >= 3))
+    if ((RaceType == 1) && (SelectionState[SelectionState[0x17] + 8] >= 3))
     {
       s0 = 1;
       gL = gC;
@@ -413,7 +413,7 @@ int func_80045868(char *arg0)
   switch (gD[0x94 / 4])
   {
     case 1:
-      func_800452CC(arg0, gD[0x88 / 4], D_800AD520);
+      InterpCameraKeyframes(arg0, gD[0x88 / 4], D_800AD520);
       if (Pad0Buttons & 0x800)
     {
       if (gD[0x88 / 4] >= 0x1A)
@@ -440,7 +440,7 @@ int func_80045868(char *arg0)
       gT[0x88 / 4] = gT[0x98 / 4];
       gT[0x9C / 4] = 1;
     }
-      D_8010718C = 0;
+      ViewUsesCarTrackNode = 0;
       break;
 
     case 2:
@@ -493,21 +493,21 @@ int func_80045868(char *arg0)
   {
     SlotsStartForRace();
     v = g[0x9C / 4];
-    D_800ACBF8 = 1;
+    DrawSubOtFlag = 1;
     if (v == 1)
     {
       if (g[0x94 / 4] == v)
       {
-        if (D_800F765C == 0)
+        if (RaceBgmListIndex == 0)
         {
           CdAudioSelectTrack(0, (PsyqRand() % 14) + 0xB);
         }
         else
         {
-          CdAudioSelectTrack(0, D_800A0C9C[D_800F765C - 1]);
+          CdAudioSelectTrack(0, BgmNumberToCdTrack[RaceBgmListIndex - 1]);
         }
       }
-      D_800AC6EC = 2;
+      RaceIntroDone = 2;
     }
     s0 = 0;
     p = RaceContext;
@@ -523,9 +523,9 @@ int func_80045868(char *arg0)
   }
   else
   {
-    D_800ACBF8 = 0;
+    DrawSubOtFlag = 0;
   }
-  return D_800AC6EC;
+  return RaceIntroDone;
 }
 
 #undef RaceContext

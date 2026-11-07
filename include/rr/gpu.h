@@ -9,11 +9,11 @@ s32 GPU_CheckVersion(s32 mode);
 
 /* GPU DMA channel and queue timeout state. Queue tail is interrupt-visible. */
 extern volatile u32 *DMA2_MADR, *DMA2_BCR, *DMA2_CHCR;
-extern s32 _qin, D_800ABBF8, GpuTimeoutDeadline, GpuAlarmCount;
+extern s32 _qin, SavedIntrMask, GpuTimeoutDeadline, GpuAlarmCount;
 extern volatile s32 _qout;
 
 /* Drawing limits and packed E3/E4 drawing-area coordinate commands. */
-extern s16 D_800ABAC4, D_800ABAC6;
+extern s16 D_800ABAC4, GpuVramHeight;
 u32 get_cs(s32 x, s32 y);
 u32 get_ce(s32 x, s32 y);
 

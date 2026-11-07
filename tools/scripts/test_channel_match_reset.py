@@ -27,7 +27,7 @@ typedef uint32_t u32;typedef int32_t s32;
 ''' + header + '''
 RrChannelControlRow36 test_rows[320];
 u16 test_masks[0x10010/2];
-s8 spuVmMaxVoice;u16 D_80110118;u32 _snd_vmask;
+s8 spuVmMaxVoice;u16 SvmVoiceIndex;u32 _snd_vmask;
 #define _svm_voice test_rows
 #define D_8010F90C ((u8 *)test_rows+4)
 #define D_8010F925 ((u8 *)test_rows+0x1D)
@@ -42,14 +42,14 @@ void test_simple(u8 index) {
  vmNoiseOff(index);if(test_hook)test_hook(index,0);
 }
 void test_selected(s32 mode) {
- s32 index=D_80110118;
+ s32 index=SvmVoiceIndex;
  test_indices[test_calls]=index;test_kinds[test_calls++]=mode+1;
  _SsVmKeyOffNow(mode);if(test_hook)test_hook(index,1);
 }
 void test_reset(void) {
  memset(test_rows,0xA5,sizeof(test_rows));memset(test_masks,0,sizeof(test_masks));
  _svm_okon1=_svm_okon2=0xFFFF;
- spuVmMaxVoice=24;D_80110118=31;_snd_vmask=0;test_calls=0;test_hook=0;
+ spuVmMaxVoice=24;SvmVoiceIndex=31;_snd_vmask=0;test_calls=0;test_hook=0;
 }
 '''
         for name in ('80088D64','80088DA4','8008A644','80088340','80089E1C'):
@@ -82,7 +82,7 @@ void test_reset(void) {
         cls.masks = (C.c_uint16*(0x10010//2)).in_dll(cls.lib,'test_masks')
         cls.count = C.c_int8.in_dll(cls.lib,'spuVmMaxVoice')
         cls.blocked = C.c_uint32.in_dll(cls.lib,'_snd_vmask')
-        cls.selected = C.c_uint16.in_dll(cls.lib,'D_80110118')
+        cls.selected = C.c_uint16.in_dll(cls.lib,'SvmVoiceIndex')
         cls.calls = C.c_int32.in_dll(cls.lib,'test_calls')
         cls.indices = (C.c_int32*128).in_dll(cls.lib,'test_indices')
         cls.kinds = (C.c_int32*128).in_dll(cls.lib,'test_kinds')

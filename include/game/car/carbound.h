@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void func_8002E868();
+void SetupCarGridSlot();
 
 #endif /* RR_GAME_CAR_CARBOUND_H */

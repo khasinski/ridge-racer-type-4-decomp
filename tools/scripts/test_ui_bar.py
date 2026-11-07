@@ -45,8 +45,8 @@ typedef struct {
 static World actual,expected;
 static Entry actual_log[32780],expected_log[32780];
 static int actual_count,expected_count,selected_style,mutation;
-#define D_8009F968 actual.descriptors
-#define D_8009F94C actual.glyphs
+#define UiBarDescriptors actual.descriptors
+#define UiBarGlyphRects actual.glyphs
 ''' + body + r'''
 static s32 wrap(u32 value) {s32 result;memcpy(&result,&value,4);return result;}
 static RrSpritePacket *next_cursor(int sequence) {

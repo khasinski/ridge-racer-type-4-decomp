@@ -34,8 +34,8 @@ static unsigned scenario;
 #define ovl662_D_801273A3 world.b
 #define ovl662_D_801273A0 world.c
 #define ModeGroup world.mode
-#define D_800F3A26 world.scene
-#define D_800F4D8A world.timer
+#define ModeId world.scene
+#define ModeSubState world.timer
 #define SaveProgress world.save
 #define ovl662_D_801273A8 world.name
 #define BadgeRows world.root

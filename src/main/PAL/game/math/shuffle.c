@@ -3,11 +3,11 @@
 extern struct { int p; int a[8]; } SlotOrder;
 extern int D_8010E264;
 extern int PsyqRand();
-extern int func_80096474();
+extern int PsyqSrand();
 void ShuffleSlotOrder()
 {
     int i, a, b, x, y, t;
-    func_80096474(FrameCounter);
+    PsyqSrand(FrameCounter);
     for (i = 7; i >= 0; i--)
         SlotOrder.a[i] = i;
     i = 0;

@@ -31,12 +31,12 @@ int _padIntPad(void) {
         page[-0x4330/4]=enabled;
     }
     if(condition) {
-        s32 *counter=D_80114428;
+        s32 *counter=PadPortTimeoutCounts;
         s32 value=*counter;
         if(value<150)*counter=value+1;
     }
-    if(!D_800ABCBC) {
-        s32 *counter=D_80114428+1;
+    if(!PadLastChannel) {
+        s32 *counter=PadPortTimeoutCounts+1;
         s32 value=*counter;
         if(value<150)*counter=value+1;
     }
@@ -44,24 +44,24 @@ int _padIntPad(void) {
     first=PadFirstChannel;
     /* Stage 15 times the index; quotient/remainder preserve native record sizes. */
     shifted=(u32)first<<4;
-    if(D_800ABCBC<first)goto out;
+    if(PadLastChannel<first)goto out;
     PadRecvStage=0;
     PadActiveChannel=first;
     if(!_padInitSioMode((RrChannelRecordF0 *)((unsigned long)PadChannelRecords+(long)(s32)((shifted-(u32)first)*(sizeof(RrChannelRecordF0)/15)+(u32)first*(sizeof(RrChannelRecordF0)%15)))))PadAdvanceChannelFn(65535);
-    D_800ABCB0=0;
-    while(PadActiveChannel<=D_800ABCBC)_padSioStageStep(PadChannelRecords+PadActiveChannel);
+    PadActuatorPowerUsed=0;
+    while(PadActiveChannel<=PadLastChannel)_padSioStageStep(PadChannelRecords+PadActiveChannel);
     PadSio0Base->baud=0x88;
 out:
     return 0;
 }
 
 s32 _padChkVsync(void) {
-    s32 previous = D_800ABCD0;
+    s32 previous = PadChkVsyncFlag;
     /* ASM_BARRIER: use the original assembler temporary for the store address. */
     register s32 *base __asm__("$1");
     /* ASM_BARRIER: load the prior value before materializing the store address. */
     __asm__ volatile("" : "=r"(previous) : "0"(previous) : "$1");
-    /* PAL RAM mapping: D_800ABCD0 is base plus the signed offset below. */
+    /* PAL RAM mapping: PadChkVsyncFlag is base plus the signed offset below. */
     base = (s32 *)0x800B0000U;
     /* ASM_BARRIER: expose a register-relative store so it can occupy the return slot. */
     __asm__("" : "=r"(base) : "0"(base));
@@ -93,9 +93,9 @@ void _padStartCom(void) {
     *(u32 *)((u8 *)p+RR_FIELD_OFFSET(RrInterruptRegisters,mask))=mask|1;
     ChangeClearRCnt(3,0);
     ExitCriticalSection();
-    D_800ABC6C(PadChannelRecords);
-    D_800ABC6C(PadChannelRecords+1);
-    counters=D_80114428;
+    PadResetChannelFn(PadChannelRecords);
+    PadResetChannelFn(PadChannelRecords+1);
+    counters=PadPortTimeoutCounts;
     counters[1]=0;counters[0]=0;
     PadComActive=1;
     /* ASM_BARRIER: Restore saved registers only after publishing the enabled state. */

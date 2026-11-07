@@ -21,15 +21,15 @@ extern int TrackNodes;
 extern int TrackNodeCount;
 extern void ApplyMatrix();
 extern void RotMatrixZYX();
-extern void *D_800ACBA0;
+extern void *TrackEntries;
 extern int func_80055330();
 extern int func_8005534C();
 extern int D_800ACBA8;
-extern char D_8010B2E0[];
+extern char CarSlotBuffers[];
 
 int func_80043C14();
 void GetTrackLaneWorldPos();
-void func_80043ED4(short *a, short b, int c);
+void SetCamAnglesRotateNegZ(short *a, short b, int c);
 void RotateNegZByEulerZYX(short *a, short b, int c);
 short LerpAngleWrap4096(short *p, int t);
 s32 CountTrackEntries(void);
@@ -47,7 +47,7 @@ int *a1;
     d[0] = (RaceContext.f20 / 4 - a1[0]) / 4;
     d[1] = (RaceContext.f24 / 4 - a1[1]) / 4;
     d[2] = (RaceContext.f28 / 4 - a1[2]) / 4;
-    s = func_80090758(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]) * 2;
+    s = CordicSqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]) * 2;
     if (RaceContext.f1C != 0) {
         t = s >> 2;
         RaceContext.f3C = t;
@@ -97,7 +97,7 @@ void GetTrackLaneWorldPos(a0, a1, a2) char *a0; int *a1; int *a2; {
     a1[1] = a1[1] + (a2[1] << 2);
 }
 
-void func_80043ED4(short *a, short b, int c) {
+void SetCamAnglesRotateNegZ(short *a, short b, int c) {
     int m[8];
     unsigned short v[3];
     short r[3];
@@ -144,7 +144,7 @@ s32 CountTrackEntries(void) {
     s32 var_a1;
     void *var_a0;
 
-    var_a0 = D_800ACBA0;
+    var_a0 = TrackEntries;
     var_a1 = 0;
     if (M2C_FIELD(var_a0, s16 *, 0x32) != -1) {
         do {
@@ -179,7 +179,7 @@ void func_800440A0(int a0) {
         func_8005534C(0, x);
         v1 = 7;
     }
-    v0 = (int *)D_8010B2E0;
+    v0 = (int *)CarSlotBuffers;
     v0 = (int *)((char *)v0 + 0x578);
     do {
         v0[0x70 / 4] = s2;

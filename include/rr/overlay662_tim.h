@@ -5,7 +5,7 @@
 #include "rr/palette16.h"
 typedef struct {u32 header[5];RrPalette16 palette;u32 imageHeader[3];u32 pixels[512];} RrGarageTimLayout;
 typedef union {RrGarageTimBytes file;u32 words[528];RrGarageTimLayout layout;} RrGarageTimImage;
-extern RrGarageTimImage D_800F3B28;
+extern RrGarageTimImage SaveDataBackup;
 /* Select side0/1. Source TIM and destination are complete2112-byte owners;
  * struct copy requires disjoint owners or the exact same owner. Palette is a
  * genuine32-byte RrPalette16 owner. Image input covers512 words and may alias

@@ -29,7 +29,7 @@ static u32 heads[704],arena[4096];static unsigned scenario,bank,mutation,seenTra
 #define RaceRecords w->s.banks[0]
 #define LapRecords w->s.banks[1]
 #define BadgeRows (w->s.badges[w->s.root])
-#define D_800AC648 w->s.group
+#define CourseMenuSelection w->s.group
 #define CourseIndex w->s.track
 #define ScreenFrame w->s.tick
 #define ovl663_selected_record w->s.selected

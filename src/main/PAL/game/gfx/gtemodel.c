@@ -11,10 +11,10 @@ typedef struct { int a, b, c, d; } V16;
 
 typedef struct { int a, b; } __attribute__((packed)) V8;
 
-extern int func_8001AC24();
+extern int EmitModelTrisG3();
 extern int RotMatrixZ();
 extern int CameraViewMatrix[];
-extern int D_8009E46C[];
+extern int FlashingLightColorTable[];
 extern int SetupRenderer();
 extern int InitMenuGrid();
 extern int ApplyMatrixSV();
@@ -23,14 +23,14 @@ extern V8 D_800101BC;
 extern V16 D_800101C4;
 extern V16 D_800101D4;
 extern V16 D_8009E540;
-extern int D_800FFC48;
+extern int SharedWorkBuffer;
 extern char *MenuGridRecords;
-extern char *D_8010BF78;
+extern char *IntroSceneState;
 extern void BuildCameraMatrices();
 
 void func_8001ADA0();
-void func_8001AFB8(int a0, int a1);
-void func_8001B308(void);
+void DrawTrackObjectModel(int a0, int a1);
+void InitIntroSceneLights(void);
 void func_8001B640(void);
 
 void func_8001ADA0(a0, a1) int a0; int a1;
@@ -133,7 +133,7 @@ void func_8001ADA0(a0, a1) int a0; int a1;
             if (t > 0) {
                 if (sx < s4) {
                     RR_GTE_TR_FROM_IR();
-                    a2 = func_8001AC24(m, s5 + sx * 4 + *(signed char *)s0 * 4, a2);
+                    a2 = EmitModelTrisG3(m, s5 + sx * 4 + *(signed char *)s0 * 4, a2);
                 }
             }
             s0 += 8;
@@ -142,7 +142,7 @@ void func_8001ADA0(a0, a1) int a0; int a1;
     *(int *)SCRATCHPAD = a2;
 }
 
-void func_8001AFB8(int a0, int a1) {
+void DrawTrackObjectModel(int a0, int a1) {
     /* ASM_BARRIER: keep scratch pointer (SCRATCHPAD + 0x7C) in $a2 */
     register int *m __asm__("$6") = (int *)(SCRATCHPAD + 0x7C);
     /* ASM_BARRIER: keep SCRATCHPAD base / index temp in $a1 */
@@ -278,7 +278,7 @@ void func_8001AFB8(int a0, int a1) {
                     RR_GTE_RTPS_LDV(r_v0);
 
                     if (m[0x54 / 4] != 0) {
-                        cval = D_8009E46C[(ScreenFrame + ({
+                        cval = FlashingLightColorTable[(ScreenFrame + ({
                             /* ASM_BARRIER: extend %hi(ScreenFrame) lifetime for loop invariant hoisting */
                             __asm__ volatile("");
                             /* ASM_BARRIER: extend %hi(ScreenFrame) lifetime for loop invariant hoisting */
@@ -292,7 +292,7 @@ void func_8001AFB8(int a0, int a1) {
                             *(signed char *)(t2 + 0x18);
                         })) & 0x1F];
                     } else {
-                        cval = D_8009E46C[0];
+                        cval = FlashingLightColorTable[0];
                     }
                     r_v0 = cval;
 
@@ -341,25 +341,25 @@ void func_8001AFB8(int a0, int a1) {
     *(int *)SCRATCHPAD = (int)t7;
 }
 
-void func_8001B308(void) {
+void InitIntroSceneLights(void) {
     V8 sp18;
     short *a = (short *)(SCRATCHPAD + 0x7C);
     short *b = (short *)(SCRATCHPAD + 0x84);
     short *p, *q;
     int i;
 
-    D_8010BF78 = LoadCursor;
+    IntroSceneState = LoadCursor;
     LoadCursor += 0xBC;
     SetupRenderer(1);
     sp18 = D_800101BC;
     ClearImage2(&sp18, 0, 0, 0);
     *(V16 *)(SCRATCHPAD + 0x18) = D_800101C4;
     *(V16 *)(SCRATCHPAD + 0x8) = D_8009E540;
-    *(int *)(D_8010BF78 + 0x24) = 0xFAAB;
-    *(int *)(D_8010BF78 + 0x28) = 0xFAAB0000;
-    *(int *)(D_8010BF78 + 0x20) = 0;
-    *(int *)(D_8010BF78 + 0x2C) = 0;
-    *(int *)(D_8010BF78 + 0x30) = -0x555;
+    *(int *)(IntroSceneState + 0x24) = 0xFAAB;
+    *(int *)(IntroSceneState + 0x28) = 0xFAAB0000;
+    *(int *)(IntroSceneState + 0x20) = 0;
+    *(int *)(IntroSceneState + 0x2C) = 0;
+    *(int *)(IntroSceneState + 0x30) = -0x555;
     b[2] = -0x555;
     b[1] = 0;
     b[0] = 0;
@@ -367,18 +367,18 @@ void func_8001B308(void) {
     a[1] = 0x200;
     a[2] = 0;
     RotMatrix((SCRATCHPAD + 0x7C), (SCRATCHPAD + 0x8C));
-    ApplyMatrixSV((SCRATCHPAD + 0x8C), (SCRATCHPAD + 0x84), D_8010BF78);
+    ApplyMatrixSV((SCRATCHPAD + 0x8C), (SCRATCHPAD + 0x84), IntroSceneState);
     a[0] = 0x400;
     a[1] = 0x400;
     a[2] = 0;
     RotMatrix((SCRATCHPAD + 0x7C), (SCRATCHPAD + 0x8C));
-    ApplyMatrixSV((SCRATCHPAD + 0x8C), (SCRATCHPAD + 0x84), D_8010BF78 + 6);
+    ApplyMatrixSV((SCRATCHPAD + 0x8C), (SCRATCHPAD + 0x84), IntroSceneState + 6);
     a[0] = 0x400;
     a[1] = 0x400;
     a[2] = 0;
     RotMatrix((SCRATCHPAD + 0x7C), (SCRATCHPAD + 0x8C));
-    ApplyMatrixSV((SCRATCHPAD + 0x8C), (SCRATCHPAD + 0x84), D_8010BF78 + 0xC);
-    p = (short *)D_8010BF78;
+    ApplyMatrixSV((SCRATCHPAD + 0x8C), (SCRATCHPAD + 0x84), IntroSceneState + 0xC);
+    p = (short *)IntroSceneState;
     i = 7;
     q = p + 7;
     p[0x24] = 0;
@@ -435,7 +435,7 @@ void func_8001B308(void) {
         i--;
         q--;
     } while (i >= 0);
-    AllocMenuGridRecords(&D_800FFC48, 1);
+    AllocMenuGridRecords(&SharedWorkBuffer, 1);
     InitMenuGrid(0, 1, 3, 0xB4, 0x60);
     PsyqMemset(MenuGridRecords + 0x1C, 0, 0x10);
     *(V16 *)(MenuGridRecords + 0xC) = D_800101D4;

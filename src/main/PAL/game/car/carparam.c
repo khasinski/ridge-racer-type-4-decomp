@@ -93,13 +93,13 @@ extern int PadSetRumbleParams();
 extern int rcos();
 extern int PsyqRand();
 extern char PlayerCars[];
-extern int D_800AD568;
+extern int MirrorMode;
 extern char *CarRecordPtrs[];
 extern char PlayerControllers[];
 extern int RaceState;
 extern unsigned char CarInputs[][4];
-extern short D_800F4C70[];
-extern short D_800F2AB4[];
+extern short EngineRevDisplay[];
+extern short EngineThrottleOn[];
 extern int AngleDiffAbs();
 extern void StepCarStateNormal();
 extern void StepCarStateSlide();
@@ -163,7 +163,7 @@ int arg1;
     if (sw == 0x20)
     {
       s2 = ((*((short *) (((char *) (*((char **) (((char *) s1) + 0x1C)))) + 8))) * 0x1400) / 1000;
-      if (D_800AD568 != 0)
+      if (MirrorMode != 0)
       {
         p1 = a1 & 1;
         p0 = a1 & 2;
@@ -216,7 +216,7 @@ int arg1;
     {
       s2 = ((*((short *) (((char *) (*((char **) (((char *) s1) + 0x1C)))) + 8))) * 0x1800) / 1000;
       a0 = (s2 * (*((signed char *) (((char *) a2) + 0)))) / 127;
-      d0 = D_800AD568;
+      d0 = MirrorMode;
       *((int *) (((char *) s1) + 0xC)) = a0;
       if (d0 != 0)
       {
@@ -243,7 +243,7 @@ int arg1;
     {
       s2 = ((*((short *) (((char *) (*((char **) (((char *) s1) + 0x1C)))) + 8))) * 0x1800) / 1000;
       a0 = (s2 * (*((signed char *) (((char *) a2) + 0)))) / 127;
-      d1 = D_800AD568;
+      d1 = MirrorMode;
       *((int *) (((char *) s1) + 0xC)) = a0;
       if (d1 != 0)
       {
@@ -270,7 +270,7 @@ int arg1;
     {
       s2 = ((*((short *) (((char *) (*((char **) (((char *) s1) + 0x1C)))) + 8))) * 0x1400) / 1000;
       a0 = (s2 * (*((signed char *) (((char *) a2) + 0)))) / 127;
-      d2 = D_800AD568;
+      d2 = MirrorMode;
       *((int *) (((char *) s1) + 0xC)) = a0;
       if (d2 != 0)
       {
@@ -868,7 +868,7 @@ P *a0;
   }
   if ((((char *) a0) == PlayerCars) || (((char *) a0) == (PlayerCars + 0x320)))
   {
-    d1 = D_800F4C70[q->s24 & 1];
+    d1 = EngineRevDisplay[q->s24 & 1];
     k2 = a0->s1DE;
     if (k2 > 0)
     {
@@ -882,12 +882,12 @@ P *a0;
     {
       k2 = 1;
     }
-    D_800F4C70[q->s24 & 1] = d1 + (((q->s88 - d1) * 0x14) / k2);
-    if (D_800F4C70[q->s24 & 1] < 0x1F5)
+    EngineRevDisplay[q->s24 & 1] = d1 + (((q->s88 - d1) * 0x14) / k2);
+    if (EngineRevDisplay[q->s24 & 1] < 0x1F5)
     {
-      D_800F4C70[q->s24 & 1] += 0x1F4 - ((PsyqRand() * 0x64) / 32767);
+      EngineRevDisplay[q->s24 & 1] += 0x1F4 - ((PsyqRand() * 0x64) / 32767);
     }
-    D_800F2AB4[q->s24 & 1] = (q->sAC >= 0x41) && (q->s38 == 0);
+    EngineThrottleOn[q->s24 & 1] = (q->sAC >= 0x41) && (q->s38 == 0);
   }
 }
 

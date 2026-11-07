@@ -28,18 +28,18 @@ static World actual,expected;
 static RrChannelRecordF0 external_record;
 static union {void *align;u8 bytes[0x4388];} callback_page;
 #define PadChannelRecordArray actual.records
-#define D_80114448 actual.buffers_a
+#define PadPacketBuffers actual.buffers_a
 #define PadTxBuffers actual.buffers_b
 #define PadPacketDoneCallback (*(RrChannelUpdateCallback *)(callback_page.bytes+8))
 RrChannelRecordF0 *PadChannelRecords;
 RrChannelErrorCallback PadAdvanceChannelFn;
-RrChannelUpdateCallback D_800ABC6C,D_800ABC74;
+RrChannelUpdateCallback PadResetChannelFn,PadAllocGatesFn;
 u32 (*PadTxByteCallback)(const RrChannelTransferView *);
 s32 (*PadChannelToPortFn)(void *);
-RrChannelRecordCallback D_800ABC7C;
+RrChannelRecordCallback PadPortToChannelPtr;
 void (*PadSaveCommandCallback)(RrChannelTransferView *);
-RrChannelStatusCallback D_800ABC80,PadChannelBusyFn;
-s32 PadComActive,D_800ABCB4;
+RrChannelStatusCallback PadChannelDispatchPtr,PadChannelBusyFn;
+s32 PadComActive,PadMultitapEnabled;
 static int stage,seed;
 void _padAdvanceChannel(s32 n) {(void)n;}
 void _padResetChannel(void *p) {(void)p;}
@@ -53,26 +53,26 @@ s32 _padChannelBusy(void *p) {(void)p;return 0;}
 void _padPacketDone(void *p) {(void)p;}
 '''+registrar+r'''
 static void check_callbacks(void) {
- assert(PadAdvanceChannelFn==_padAdvanceChannel && D_800ABC6C==_padResetChannel);
- assert(PadTxByteCallback==_padGetTxByte && D_800ABC74==_padAllocGates);
- assert(PadChannelToPortFn==_padChannelToPort && D_800ABC7C==_padPortToChannel);
+ assert(PadAdvanceChannelFn==_padAdvanceChannel && PadResetChannelFn==_padResetChannel);
+ assert(PadTxByteCallback==_padGetTxByte && PadAllocGatesFn==_padAllocGates);
+ assert(PadChannelToPortFn==_padChannelToPort && PadPortToChannelPtr==_padPortToChannel);
  assert(PadSaveCommandCallback==_padSaveCommand);
- assert(D_800ABC80==_padChannelDispatch && PadChannelBusyFn==_padChannelBusy && PadPacketDoneCallback==_padPacketDone);
+ assert(PadChannelDispatchPtr==_padChannelDispatch && PadChannelBusyFn==_padChannelBusy && PadPacketDoneCallback==_padPacketDone);
 }
 void _padInitDirSeq(void) {
- assert(stage==0 && PadComActive==0 && D_800ABCB4==0);
- native_registrar();stage=1;PadComActive=-17;D_800ABCB4=seed;
+ assert(stage==0 && PadComActive==0 && PadMultitapEnabled==0);
+ native_registrar();stage=1;PadComActive=-17;PadMultitapEnabled=seed;
 }
-void func_80096434(void *p,s32 length) {
+void PsyqBzero(void *p,s32 length) {
  assert(stage==1 && p==actual.records && length==sizeof(actual.records));
- assert(PadChannelRecords==actual.records && PadComActive==-17 && D_800ABCB4==seed);
+ assert(PadChannelRecords==actual.records && PadComActive==-17 && PadMultitapEnabled==seed);
  check_callbacks();memset(p,0,length);
  actual.records[0].responseE8=seed;actual.records[1].responseE8=seed+1;
  /* The local arena pointer must survive an opaque helper replacing this global. */
  PadChannelRecords=&external_record;stage=2;
 }
 void _padSetVsyncParam(void) {
- assert(stage==2 && PadComActive==-17 && D_800ABCB4==seed);
+ assert(stage==2 && PadComActive==-17 && PadMultitapEnabled==seed);
  assert(!memcmp(&actual,&expected,sizeof(actual)));
  check_callbacks();PadComActive=-42;stage=3;
 }
@@ -114,9 +114,9 @@ int main(void) {
   memset(&callback_page,0xA5,sizeof(callback_page));
   memcpy(&expected,&actual,sizeof(actual));first=input(a);second=input(b);
   reference(first,second);
-  PadComActive=123;D_800ABCB4=456;PadChannelRecords=0;
+  PadComActive=123;PadMultitapEnabled=456;PadChannelRecords=0;
   PadInitDirect(first,second);
-  assert(stage==3 && PadComActive==1 && D_800ABCB4==seed);
+  assert(stage==3 && PadComActive==1 && PadMultitapEnabled==seed);
   assert(PadChannelRecords==&external_record);
   assert(!memcmp(&actual,&expected,sizeof(actual)));
   for(j=0;j<sizeof(external_record);j++)assert(((u8 *)&external_record)[j]==0xB7);

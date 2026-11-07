@@ -39,7 +39,7 @@ extern int RaceLoadCursor;
 
 extern int RaceLoadSubState;
 
-extern s32 D_800A0218;
+extern s32 RaceLoadPhase;
 
 extern s32 RaceLoadStepIndex;
 
@@ -49,6 +49,6 @@ void RaceLoadReset(void) {
     RaceLoadStepIndex = 0;
     RaceLoadState = 0;
     RaceLoadSubState = 0;
-    D_800A0218 = 0;
+    RaceLoadPhase = 0;
     RaceLoadCursor = LoadCursor;
 }

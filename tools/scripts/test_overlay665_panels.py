@@ -40,10 +40,10 @@ static World world,initial,expected;static u16 textData[32];static unsigned scen
 #define ovl665_D_80119760 world.s.local
 #define ScreenFadeState world.s.work
 #define BadgeRows world.s.badges[world.s.badgeRoot]
-#define D_800AC590 (&world.s.text[world.s.textRoot])
+#define DialogueState (&world.s.text[world.s.textRoot])
 #define CurrentDrawBuf ((RrIconSpriteContext*)&world.s.frames[world.s.frameRoot])
-#define D_800F3A60 world.s.accept
-#define D_800AC5D0 world.s.fade
+#define MenuConfirmPressed world.s.accept
+#define MenuFadeTimer world.s.fade
 #define ovl665_D_80119028 world.s.uv
 #undef RR_PROJECTION_SCRATCH
 #define RR_PROJECTION_SCRATCH (&world.s.scratch)
@@ -104,7 +104,7 @@ void DrawHudDigit(s32 glyph,s32 x,s32 y,s32 color){
  world.s.pairCalls++;change();world.s.scratch.pointers.cursor=pair_cursor();
 }
 void UpdateBadgeRowAnim(s32 row){event(12)->args[0]=row;change();}
-void UpdateDialogue(s32 x,s32 y,RrMenuTextState *text){Event *e=event(13);assert(text==D_800AC590);e->args[0]=x;e->args[1]=y;change();}
+void UpdateDialogue(s32 x,s32 y,RrMenuTextState *text){Event *e=event(13);assert(text==DialogueState);e->args[0]=x;e->args[1]=y;change();}
 void UpdateScreenFade(s32 flags){event(14)->args[0]=flags;change();}
 static void command(RrGpuSingleCommandPacket *p,u32 value){
  u32 *head=world.s.frames[world.s.frameRoot].ordering70;u32 old=*head;
@@ -130,8 +130,8 @@ static void reference(void){unsigned i;State *s=&world.s;
  }
  for(i=0;i<8;i++){DrawHudDigit(0,28+36*i,192,128);DrawHudDigit(i+1,34+36*i,192,128);}
  command((RrGpuSingleCommandPacket*)s->scratch.pointers.cursor,0xE1000238U);
- D_800AC590->b4=27;UpdateBadgeRowAnim(0);
- if(BadgeRows[0].state10==3){s32 x=BadgeRows[0].x04,y=BadgeRows[0].y06;UpdateDialogue(x+10,y+40,D_800AC590);}
+ DialogueState->b4=27;UpdateBadgeRowAnim(0);
+ if(BadgeRows[0].state10==3){s32 x=BadgeRows[0].x04,y=BadgeRows[0].y06;UpdateDialogue(x+10,y+40,DialogueState);}
  UpdateScreenFade(65660);
 }
 int main(void){unsigned i,j;

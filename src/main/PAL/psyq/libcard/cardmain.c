@@ -4,7 +4,7 @@
 #include "rr_asm.h"
 
 s32 _cardCmdStep(void) {
-    register s32 initial=D_800ABDE8;
+    register s32 initial=CardTxCount;
     s32 one;
     /* ASM_BARRIER: Keep each common-return result in the ABI result register. */
     register s32 answer __asm__("$2");
@@ -25,12 +25,12 @@ s32 _cardCmdStep(void) {
         __asm__ __volatile__("" : "+r"(one));
         header=*(u8 *)&CardCommandRequest;
         count=CardReceiveIndex;
-        D_801147D8[0]=(header&15)-0x7F;
+        CardTxTrace[0]=(header&15)-0x7F;
         CardReceiveIndex=count+1;
         answer=0;goto done;
     }
     {
-        register u32 remaining=D_80114730;
+        register u32 remaining=CardBytesRemaining;
         register RrCommandReadCallback reader=CardCommandReader;
         /* ASM_BARRIER: Publish the real remaining-count store in the reader call delay slot. */
         register s32 *page __asm__("$1");
@@ -47,7 +47,7 @@ s32 _cardCmdStep(void) {
         register s32 *count=&CardReceiveIndex;
         u32 index;
         index=*count;
-        D_801147D8[index]=byte;
+        CardTxTrace[index]=byte;
         *count=index+1;
         value=_cardXferByte(byte);
     }
@@ -64,13 +64,13 @@ s32 _cardCmdStep(void) {
         value=writer(byte);
     }
     if(value) {answer=(u32)value-2000;goto done;}
-    if(D_80114730!=one) {answer=0;goto done;}
+    if(CardBytesRemaining!=one) {answer=0;goto done;}
     if(CardCurrentCommand==14) goto special;
     /* ASM_BARRIER: Retain the separate fresh subtype read for the second comparison. */
     __asm__("" : : : "$2", "$3", "memory");
     if(CardCurrentCommand!=15) goto wait;
 special:
-    if((u32)CardRxCount==(u32)D_80114728+4) goto final_byte;
+    if((u32)CardRxCount==(u32)CardVarRxLength+4) goto final_byte;
 wait:
     {
         RrSerialPortRegisters *port=CardCmdSioRegs;
@@ -86,11 +86,11 @@ final_byte:
         register u32 raw;
         RrSerialPortRegisters *port;
         register RrCommandWriteCallback writer;
-        tick=D_800ABDE8;
-        remaining=D_80114730;
-        D_800ABDE8=tick+1;
+        tick=CardTxCount;
+        remaining=CardBytesRemaining;
+        CardTxCount=tick+1;
         port=CardCmdSioRegs;
-        D_80114730=remaining-1;
+        CardBytesRemaining=remaining-1;
         raw=port->data;
         /* ASM_BARRIER: Read the device byte before loading the fresh receive index. */
         __asm__("" : "+r"(raw) : : "$3", "memory");

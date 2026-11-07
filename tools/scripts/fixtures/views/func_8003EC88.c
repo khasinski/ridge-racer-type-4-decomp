@@ -66,9 +66,9 @@ extern s32 rsin();
 
 extern s32 rcos();
 
-extern char D_80010924[];
+extern char StrOne[];
 
-extern char D_80010928[];
+extern char StrDigit2[];
 
 extern char StrPleaseWait[];
 
@@ -86,7 +86,7 @@ extern FontGlyph4 D_8009FCDC[];
 
 extern s8 D_8009FD00[];
 
-extern s16 D_800ABEC8;
+extern s16 SelectedCarIndex;
 
 extern s16 NumCars;
 
@@ -94,7 +94,7 @@ extern s32 CurrentDrawBuf;
 
 extern s16 ReverseCourse;
 
-extern s16 D_800F3826;
+extern s16 CourseListIndex;
 
 extern u8 SaveProgress[];
 
@@ -233,7 +233,7 @@ s32 DrawUiRow(s32 arg0) {
         }
         fp = 0;
         if (s6 == 7) {
-            s0 = D_800ABEC8 + 1;
+            s0 = SelectedCarIndex + 1;
         }
         s2 = 0;
         /* fallthrough */
@@ -277,7 +277,7 @@ s32 DrawUiRow(s32 arg0) {
             }
             s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, &UiFontGlyphs[s0], 0x7FF8, 0);
         } else if ((u32)(s6 - 8) < 2U) {
-            s3 = AddTextSprites(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, (s6 == 8) ? D_80010924 : D_80010928, fp | 0x7FF8, 0, s2);
+            s3 = AddTextSprites(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, (s6 == 8) ? StrOne : StrDigit2, fp | 0x7FF8, 0, s2);
         }
         break;
     case 2:
@@ -332,7 +332,7 @@ s32 DrawUiRow(s32 arg0) {
         }
         break;
     case 12:
-        if (SaveProgress[D_800F3826 + 0x5C] == 1) {
+        if (SaveProgress[CourseListIndex + 0x5C] == 1) {
             s2 = 8;
         } else {
             s2 = 7;

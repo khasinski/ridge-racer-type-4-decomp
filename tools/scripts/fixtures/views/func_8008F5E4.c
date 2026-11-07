@@ -5,19 +5,19 @@
 #include "rr/library.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_80112750 (*(char (*)[])&D_80112750)
+#define StLastReadyLoc (*(char (*)[])&StLastReadyLoc)
 
-#undef D_80112750
+#undef StLastReadyLoc
 
-extern int D_801102F8;
+extern int StRingStartIndex;
 
 extern int StRingWriteIndex;
 
-extern int D_801102EC;
+extern int StDataReadyPending;
 
 extern s32 D_80112754;
 
-extern RrLibPackedWord D_80112750;
+extern RrLibPackedWord StLastReadyLoc;
 
 extern void (*StDataReadyFunc)(void);
 
@@ -28,9 +28,9 @@ void data_ready_callback(void)
     register s32 next __asm__("$3");
     /* ASM_BARRIER: Retain the original indirect-call register while publishing queue state. */
     register void (*callback)(void) __asm__("$4");
-    RrLibQueueRecord32 *p = D_80110310 + D_801102F8;
+    RrLibQueueRecord32 *p = StRingHeaders + StRingStartIndex;
     p->state = 2;
-    D_80112750 = p->word1C;
+    StLastReadyLoc = p->word1C;
     value = p->value08;
     next = StRingWriteIndex;
     callback = StDataReadyFunc;
@@ -40,12 +40,12 @@ void data_ready_callback(void)
         register u8 *base __asm__("$1");
         /* ASM_BARRIER: Read callback and next index before publishing state and materializing its address. */
         __asm__ volatile("" : : "r"(next), "r"(callback) : "$1", "memory");
-        /* PAL mapping: base + 0x2F8 is &D_801102F8. */
+        /* PAL mapping: base + 0x2F8 is &StRingStartIndex. */
         base = (u8 *)0x80110000U;
         /* ASM_BARRIER: Expose the index publication in the callback-test branch delay slot. */
         __asm__("" : "=r"(base) : "0"(base));
         *(s32 *)(base + 0x2F8) = next;
     }
     if (callback != 0) callback();
-    D_801102EC = 0;
+    StDataReadyPending = 0;
 }

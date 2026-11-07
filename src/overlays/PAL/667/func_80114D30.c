@@ -11,8 +11,8 @@ s32 ovl667_func_80114D30(void) {
     }
     csum = 0;
     i = 0;
-    ovl667_D_80118F80.packet.first04 = D_800F3AF0.choices[0];
-    ovl667_D_80118F80.packet.second08 = D_800F3AF0.choices[1];
+    ovl667_D_80118F80.packet.first04 = LinkLocalInputs.choices[0];
+    ovl667_D_80118F80.packet.second08 = LinkLocalInputs.choices[1];
     do {
         csum ^= ((u8 *)&ovl667_D_80118F80)[i + 4];
         i++;

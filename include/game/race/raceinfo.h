@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-extern int D_8010BFC8;
+extern int TrackPreviewTick;
 
 #endif /* RR_GAME_RACE_RACEINFO_H */

@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void func_80034E14(void);
+void EnableLinkSioTx(void);
 int IsLinkPeerPresent(void);
 void OpenLinkSerial(void);
 void CloseLinkSerial(void);

@@ -33,7 +33,7 @@ void vmNoiseOn(s32 arg0) {
         register s32 v1 __asm__("$3");
         /* ASM_BARRIER: keep f4[0x18] in a0 */
         register s32 f18 __asm__("$4");
-        /* ASM_BARRIER: keep D_80110114 pointer in t0 */
+        /* ASM_BARRIER: keep SvmLastChannel pointer in t0 */
         register s8 *p __asm__("$8");
         u32 a3;
         u32 vol;
@@ -51,10 +51,10 @@ void vmNoiseOn(s32 arg0) {
         /* ASM_BARRIER: save arg0 in s3 before loading globals */
         __asm__("" : "+r"(s3));
         f4 = _svm_vh;
-        /* ASM_BARRIER: load _svm_vh into v0 before D_80110114 */
+        /* ASM_BARRIER: load _svm_vh into v0 before SvmLastChannel */
         __asm__("" : "+r"(f4), "+r"(s3));
-        p = (s8 *)&D_80110114;
-        /* ASM_BARRIER: preserve D_80110114 and _svm_vh base pointers */
+        p = (s8 *)&SvmLastChannel;
+        /* ASM_BARRIER: preserve SvmLastChannel and _svm_vh base pointers */
         __asm__("" : "+r"(f4), "+r"(p));
         f18 = f4[0x18];
         v1 = p[-0x10];
@@ -129,8 +129,8 @@ void vmNoiseOn(s32 arg0) {
             right = left;
         }
     }
-    p2 = (s8 *)&D_80110114;
-    /* ASM_BARRIER: preserve D_80110114 base pointer in register */
+    p2 = (s8 *)&SvmLastChannel;
+    /* ASM_BARRIER: preserve SvmLastChannel base pointer in register */
     __asm__("" : "+r"(p2));
     if (*(s16 *)p2 != 0x21) {
         left = (left * left) / 16383U;

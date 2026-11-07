@@ -18,10 +18,10 @@ typedef struct {
 extern struct S *TrackNodes;
 extern s32 TrackNodeCount;
 
-void func_80026A20(int a, int b, short *c);
+void GetTrackSegmentAndYaw(int a, int b, short *c);
 int FindTrackNode(s32 *pos, s32 startIdx, s32 maxIter);
 
-void func_80026A20(int a, int b, short *c)
+void GetTrackSegmentAndYaw(int a, int b, short *c)
 {
   int q = a / 5;
   int k = 0x800 - (&TrackNodes[a])->x;

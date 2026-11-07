@@ -18,7 +18,7 @@ s32 _SsVmGetSeqLVol(s32 input) {
     __asm__("" : "=r"(table) : "0"(table));
     table += (s32)(offset / sizeof(*table));
     record = table[-0xF98 / 4];
-    D_80110114 = channel;
+    SvmLastChannel = channel;
     /* ASM_BARRIER: record the channel id before decoding its row number. */
     __asm__ volatile("" : "=r"(channel) : "0"(channel) : "memory");
     group = (channel & 0xFF00) >> 8;

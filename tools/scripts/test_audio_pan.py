@@ -36,7 +36,7 @@ static Entry entries[2],saved[2];
 static int count;
 #define PanGainTable (w->table)
 #define Options (w->settings)
-#define D_800F4DD0 (w->gain)
+#define SoundGain (w->gain)
 #define D_800F4DDC (w->banks[0])
 #define D_800F4DDE (w->banks[1])
 #define D_800F4DEA (w->banks[2])

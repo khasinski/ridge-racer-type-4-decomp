@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-extern int D_801102D8;
+extern int StRgb24;
 extern int D_801102E0;
-extern int D_801102E8;
+extern int StExpectedChannel;
 
 #endif /* RR_PSYQ_LIBCD_DSSTRM2_H */

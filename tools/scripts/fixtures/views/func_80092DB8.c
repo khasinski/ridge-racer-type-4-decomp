@@ -168,7 +168,7 @@
 
 extern char StrRectFmt[];
 
-extern char D_80011EC8[];
+extern char GpuLabelColonFmt[];
 
 void checkRECT(const char *name,RrGpuRectangle *rectangle) {
     const char *label=name;
@@ -207,7 +207,7 @@ invalid:
         format+=0x1EA8;
         goto report;
     case 2:
-        format=D_80011EC8;
+        format=GpuLabelColonFmt;
 report:
         GPU_printf(format,label);
         {

@@ -60,8 +60,8 @@ typedef struct {
 
 extern Context650 RaceContext;
 extern int D_800AC698;
-extern int D_8010718C;
-extern void func_800172DC(int, int);
+extern int ViewUsesCarTrackNode;
+extern void ResetCarSlotBuffers(int, int);
 extern void UpdateRaceChaseCamera(void *);
 extern void BuildCameraMatrices(void);
 extern int Atan2Table(int, int);
@@ -83,14 +83,14 @@ extern B D_800AE660[];
 extern s32 rsin();
 extern s32 rcos();
 
-void func_8004417C(int arg0, void *arg1);
+void UpdateRaceCamera(int arg0, void *arg1);
 void func_800448EC(void);
-void func_80044920();
+void SetupLightMatrices();
 void RotTransPersOrigin(void);
-void func_80044B5C(void);
-u8 *func_80044BA0(s32 a0);
+void InitRaceContextBuffers(void);
+u8 *AddShadowDiscPrims(s32 a0);
 
-void func_8004417C(int arg0, void *arg1) {
+void UpdateRaceCamera(int arg0, void *arg1) {
     int sp10[4];
     int sp20[4];
     unsigned short sp30[4];
@@ -108,19 +108,19 @@ void func_8004417C(int arg0, void *arg1) {
     if (arg0 >= 2) {
         s2 = RaceContext.f550;
         s2 += a0;
-        D_8010718C = 0;
+        ViewUsesCarTrackNode = 0;
         arg0 = s2->f30 & 0xF;
     }
     RaceContext.f1C = 0;
     a1 = RaceContext.f48 + 1;
     RaceContext.f48 = a1;
     if (a0 != RaceContext.f4C) {
-        if (D_800F4D44 == 5 || a1 >= 0x1A) {
+        if (RaceType == 5 || a1 >= 0x1A) {
             RaceContext.f1C = 1;
             RaceContext.f4C = a0;
             RaceContext.f48 = 0;
         }
-        func_800172DC(a0, a1);
+        ResetCarSlotBuffers(a0, a1);
     }
     switch (arg0) {
     case 0:
@@ -138,7 +138,7 @@ void func_8004417C(int arg0, void *arg1) {
         sp10[2] = RaceContext.f28 - scratch[4];
         sp10[1] = RaceContext.f24 - scratch[3];
         scratch[7] = 0x400 - Atan2Table(sp10[0], sp10[2]);
-        scratch[6] = 0x400 - Atan2Table(sp10[1], func_80090758(sp10[0] * sp10[0] + sp10[2] * sp10[2]) >> 6);
+        scratch[6] = 0x400 - Atan2Table(sp10[1], CordicSqrt(sp10[0] * sp10[0] + sp10[2] * sp10[2]) >> 6);
         scratch[8] = LerpAngleWrap4096(s2, RaceContext.f48);
         SetGeomScreen(s2->f28);
         break;
@@ -169,7 +169,7 @@ void func_8004417C(int arg0, void *arg1) {
         sp10[2] = RaceContext.f28 - scratch[4];
         sp10[1] = RaceContext.f24 - scratch[3];
         scratch[7] = 0x400 - Atan2Table(sp10[0], sp10[2]);
-        scratch[6] = 0x400 - Atan2Table(sp10[1], func_80090758(sp10[0] * sp10[0] + sp10[2] * sp10[2]) >> 6);
+        scratch[6] = 0x400 - Atan2Table(sp10[1], CordicSqrt(sp10[0] * sp10[0] + sp10[2] * sp10[2]) >> 6);
         scratch[8] = LerpAngleWrap4096(s2, RaceContext.f48);
         break;
     case 3:
@@ -203,7 +203,7 @@ void func_8004417C(int arg0, void *arg1) {
         sp10[2] = RaceContext.f28 - scratch[4];
         sp10[1] = RaceContext.f24 - scratch[3];
         scratch[7] = 0x400 - Atan2Table(sp10[0], sp10[2]);
-        scratch[6] = 0x400 - Atan2Table(sp10[1], func_80090758(sp10[0] * sp10[0] + sp10[2] * sp10[2]) >> 6);
+        scratch[6] = 0x400 - Atan2Table(sp10[1], CordicSqrt(sp10[0] * sp10[0] + sp10[2] * sp10[2]) >> 6);
         scratch[8] = LerpAngleWrap4096(s2, RaceContext.f48);
         SetGeomScreen(s2->f28);
         break;
@@ -212,7 +212,7 @@ void func_8004417C(int arg0, void *arg1) {
         sp38[0] = s2->f10;
         sp38[1] = s2->f14;
         sp38[2] = s2->f18;
-        func_80043ED4(sp38, s2->f2C, &scratch[2]);
+        SetCamAnglesRotateNegZ(sp38, s2->f2C, &scratch[2]);
         scratch[8] = LerpAngleWrap4096(s2, RaceContext.f48);
         scratch[2] += RaceContext.f20;
         scratch[3] += RaceContext.f24;
@@ -229,7 +229,7 @@ void func_8004417C(int arg0, void *arg1) {
         sp10[2] = RaceContext.f28 - scratch[4];
         sp10[1] = RaceContext.f24 - scratch[3];
         scratch[7] = 0x400 - Atan2Table(sp10[0], sp10[2]);
-        scratch[6] = 0x400 - Atan2Table(sp10[1], func_80090758(sp10[0] * sp10[0] + sp10[2] * sp10[2]) >> 6);
+        scratch[6] = 0x400 - Atan2Table(sp10[1], CordicSqrt(sp10[0] * sp10[0] + sp10[2] * sp10[2]) >> 6);
         scratch[8] = LerpAngleWrap4096(s2, RaceContext.f48);
         SetGeomScreen(s2->f28);
         break;
@@ -247,7 +247,7 @@ void func_800448EC(void) {
     D_800AC548[6] = 0;
 }
 
-void func_80044920(a0, a1) A0 *a0; V8 *a1;
+void SetupLightMatrices(a0, a1) A0 *a0; V8 *a1;
 {
     struct { V8 m10; V8 m30; V8 m50; } s;
     struct { short a[3][3]; short pad[7]; } t70;
@@ -296,7 +296,7 @@ void RotTransPersOrigin(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(S (*))&RaceContext)
 
-void func_80044B5C(void) {
+void InitRaceContextBuffers(void) {
     int i;
     for (i = 0; i < 2; i++) {
         RaceContext.e[i].a = (int)&D_800AE660[i];
@@ -306,7 +306,7 @@ void func_80044B5C(void) {
 
 #undef RaceContext
 
-u8 *func_80044BA0(s32 a0) {
+u8 *AddShadowDiscPrims(s32 a0) {
     w3t1_G *g = (w3t1_G *)(SCRATCHPAD + 0x7C);
     u8 *p = *(u8 **)SCRATCHPAD;
     s32 i;

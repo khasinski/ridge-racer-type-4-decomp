@@ -4,11 +4,11 @@
 #include "types.h"
 
 extern volatile u8 *CD_REG0_STRM;
-extern int D_801102EC;
+extern int StDataReadyPending;
 extern int StRingWriteIndex;
-extern int D_801102F8;
+extern int StRingStartIndex;
 extern int StRingBase;
-extern int D_80110308;
+extern int StMaskEnabled;
 void StCdInterrupt(void);
 
 #endif /* RR_PSYQ_LIBCD_DSSTRM32_H */

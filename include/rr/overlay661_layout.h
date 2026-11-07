@@ -11,7 +11,7 @@
 #include "rr/ui.h"
 extern RrMenuArenas MenuArenas;
 extern u8 *CdDirectoryBuffer;
-extern void *D_800F4D40,*LoadCursor;
+extern void *MenuArenaBase,*LoadCursor;
 extern s32 ModeFrame,ScreenFrame;
 extern s16 MenuCursor,MenuItemCount,ovl661_D_80118438;
 extern s16 ovl661_D_80118440[2][2],ovl661_D_8011844C[2],ovl661_D_80118450[2];

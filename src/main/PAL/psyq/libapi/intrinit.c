@@ -9,7 +9,7 @@ extern int _96_remove();
 extern int HookEntryInt();
 extern int ExitCriticalSection();
 extern unsigned short D_800A52C8;
-extern char D_800A5304[];
+extern char IntrStackArea[];
 extern int *IntrDriverTablePtr;
 extern unsigned short *I_STAT;
 extern unsigned short *I_MASK;
@@ -26,7 +26,7 @@ char *startIntr()
         *DPCR_Intr = 0x33333333;
         memclr(q, 0x41A);
         if (PsyqSetjmp((char *)q + 0x38)) trapIntr();
-        p = D_800A5304;
+        p = IntrStackArea;
         *(char **)p = p + 0xFDC;
         HookEntryInt(p - 4);
         *(short *)(p - 0x3C) = 1;

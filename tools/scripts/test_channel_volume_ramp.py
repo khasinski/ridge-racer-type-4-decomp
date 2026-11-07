@@ -52,7 +52,7 @@ static void check(const World *a,const World *e){unsigned i;
  for(i=0;i<SLOTS;i++)assert((uintptr_t)a->slots[i]-(uintptr_t)&actual == (uintptr_t)e->slots[i]-(uintptr_t)&expected);
 }
 #define _ss_score (actual.slots)
-#define D_80110114 (actual.last)
+#define SvmLastChannel (actual.last)
 '''+getter+r'''
 static void snapshot(unsigned kind,s32 id,u16 left,u16 right){Event *e;assert(eventCount<3);
  e=&events[eventCount++];memcpy(&e->state,&expected,sizeof(expected));e->kind=kind;e->id=id;e->left=left;e->right=right;}

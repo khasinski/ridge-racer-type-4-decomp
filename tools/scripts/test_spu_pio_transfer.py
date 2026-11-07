@@ -32,7 +32,7 @@ s32 _spu_transMode,_spu_mem_mode_plus,_spu_inTransfer;
 void (*volatile _spu_transferCallback)(void);
 void test_completion(void) {}
 char test_rom[0x10000];
-#define D_80011698 (test_rom+0x1698)
+#define SpuTimeoutFmt (test_rom+0x1698)
 u16 (*test_status_hook)(void *);
 void (*test_data_hook)(void *,u16),(*test_control_hook)(void *,u16);
 void (*test_delay_hook)(void),(*test_diagnostic_hook)(void *,void *);

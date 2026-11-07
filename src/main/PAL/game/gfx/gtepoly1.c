@@ -108,25 +108,25 @@ extern int D_8009E0B0[];
 extern int D_8009E0E0[];
 extern char D_8009E124[];
 extern void *CarBoundsTable[];
-extern s16 D_800F4D44;
-extern u8 D_8010B2E0[];
+extern s16 RaceType;
+extern u8 CarSlotBuffers[];
 
-void *func_80013D48(char *a0_in, int *a1_in, int a2_in);
-void *func_80014068(char *a0_in, int *a1_in, int a2_in);
-void *func_8001446C(char *a0_in, int *a1_in, int a2_in);
+void *EmitRroQuadsFT4(char *a0_in, int *a1_in, int a2_in);
+void *EmitRroLitQuadsG4(char *a0_in, int *a1_in, int a2_in);
+void *EmitRroEnvMapQuads(char *a0_in, int *a1_in, int a2_in);
 void SetModelTexturePage(s32 arg0);
-int func_80014A98(int a0, int a1, int a2, int a3);
-void func_80014C3C(char *a0_in, char *a1_in, s32 a2_in);
+int DrawRroModel(int a0, int a1, int a2, int a3);
+void DrawSparkLines(char *a0_in, char *a1_in, s32 a2_in);
 void func_80014F34(s32 *a0_in, char *a1_in);
 void func_80015110(s32 *a0_in, char *a1_in);
 void func_800153FC();
-void func_800155D8(char *a0, char *a1);
-int *func_8001577C(int *a0, int a1, char *a2);
+void DrawGlowFan(char *a0, char *a1);
+int *EmitModelQuadsFT4(int *a0, int a1, char *a2);
 void func_80015918(Tri0C *a0, int a1, char *a2);
 char *func_80015D00(char *a0_in, s32 a1_in, char *a2_in);
-void func_80015F68(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 arg5, s32 arg6);
+void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 arg5, s32 arg6);
 
-void *func_80013D48(char *a0_in, int *a1_in, int a2_in) {
+void *EmitRroQuadsFT4(char *a0_in, int *a1_in, int a2_in) {
     /* ASM_BARRIER: keep temp in $v0 */
     register int r_v0 __asm__("$2");
     /* ASM_BARRIER: keep temp in $v1 */
@@ -382,7 +382,7 @@ void *func_80013D48(char *a0_in, int *a1_in, int a2_in) {
     return t7;
 }
 
-void *func_80014068(char *a0_in, int *a1_in, int a2_in) {
+void *EmitRroLitQuadsG4(char *a0_in, int *a1_in, int a2_in) {
     /* ASM_BARRIER: keep temp in $v0 */
     register int r_v0 __asm__("$2");
     /* ASM_BARRIER: keep temp in $v1 */
@@ -687,7 +687,7 @@ void *func_80014068(char *a0_in, int *a1_in, int a2_in) {
     return t8;
 }
 
-void *func_8001446C(char *a0_in, int *a1_in, int a2_in) {
+void *EmitRroEnvMapQuads(char *a0_in, int *a1_in, int a2_in) {
     /* ASM_BARRIER: keep temp in $v0 */
     register int r_v0 __asm__("$2");
     /* ASM_BARRIER: keep temp in $v1 */
@@ -1188,7 +1188,7 @@ void SetModelTexturePage(s32 arg0) {
     ModelTexturePage = arg0;
 }
 
-int func_80014A98(int a0, int a1, int a2, int a3)
+int DrawRroModel(int a0, int a1, int a2, int a3)
 {
   int *s0 = (int *) (SCRATCHPAD + 0x7C);
   int *p;
@@ -1236,12 +1236,12 @@ int func_80014A98(int a0, int a1, int a2, int a3)
         break;
 
       case 2:
-        p = (int *) func_80014068(p, s0, t);
+        p = (int *) EmitRroLitQuadsG4(p, s0, t);
         break;
 
       case 3:
         asm volatile("mtc2 %0, $6" : : "r"(0x3C808080));
-        p = (int *) func_8001446C(p, s0, t);
+        p = (int *) EmitRroEnvMapQuads(p, s0, t);
         break;
 
       default:
@@ -1254,7 +1254,7 @@ int func_80014A98(int a0, int a1, int a2, int a3)
   return 1;
 }
 
-void func_80014C3C(char *a0_in, char *a1_in, s32 a2_in) {
+void DrawSparkLines(char *a0_in, char *a1_in, s32 a2_in) {
     s32 sp[6];
     /* ASM_BARRIER: PsyQ-style register allocation */
     register s32 v0 __asm__("$2");
@@ -2006,7 +2006,7 @@ void func_800153FC(a0, a1) char *a0; char *a1;
         n--;
     } while (n > 0);
     a2 = *(short *)(*(int *)(a1 + 0x90) + 0x1D8);
-    func_80014C3C(*(int *)(a0 + 0xC4), a1, a2 / 4);
+    DrawSparkLines(*(int *)(a0 + 0xC4), a1, a2 / 4);
     t = (ScreenFrame & 3) * 12 + 0x64;
     func_80015110(*(int *)a0 + t, a1);
     {
@@ -2024,7 +2024,7 @@ void func_800153FC(a0, a1) char *a0; char *a1;
 
 #undef PsyqRand
 
-void func_800155D8(char *a0, char *a1) {
+void DrawGlowFan(char *a0, char *a1) {
     int otz;
     int *p;
     int *dst;
@@ -2113,7 +2113,7 @@ void func_800155D8(char *a0, char *a1) {
     }
 }
 
-int *func_8001577C(int *a0, int a1, char *a2) {
+int *EmitModelQuadsFT4(int *a0, int a1, char *a2) {
     int verts = (int)(a2 + 0x1A0);
     volatile int *hw = (volatile int *)SCRATCHPAD;
     int shift = hw[0x60 / 4] + 4;
@@ -2547,9 +2547,9 @@ L_next:
     return t8;
 }
 
-void func_80015F68(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 arg5, s32 arg6) {
+void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 arg5, s32 arg6) {
     char *s2 = (char *)(SCRATCHPAD + 0x7C);
-    char *s4 = (char *)&D_8010B2E0[arg4 * 0x190];
+    char *s4 = (char *)&CarSlotBuffers[arg4 * 0x190];
     s32 s0;
     s32 a0;
     TrailEntry8 *a2;
@@ -2681,8 +2681,8 @@ void func_80015F68(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 
     RR_GTE_MVMVA_ROT_V0_NOCV(s2 + 0xC8);
     RR_GTE_SWC2_MAC123(s2 + 0x98);
 
-    if (*(u8 *)(SP->w[0x25] + 0xA) == 3 && D_800F4D44 == 0) {
-        func_800155D8(s4, s2);
+    if (*(u8 *)(SP->w[0x25] + 0xA) == 3 && RaceType == 0) {
+        DrawGlowFan(s4, s2);
         return;
     }
 
@@ -2697,8 +2697,8 @@ void func_80015F68(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 
         S4->w[0x17] = 2;
     }
 
-    if (*(u8 *)(SP->w[0x25] + 0xA) == 2 && (D_800F4D44 == 6 || D_800F4D44 == 0)) {
-        if (D_800AC5D8 != 6) {
+    if (*(u8 *)(SP->w[0x25] + 0xA) == 2 && (RaceType == 6 || RaceType == 0)) {
+        if (CurrentViewIndex != 6) {
             func_800153FC(s4, s2);
         }
     }
@@ -2869,7 +2869,7 @@ void func_80015F68(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 
             }
             SP->w[0x58] = 0x2E808080;
             p = *(s32 **)(S4->w[0] + 0x24);
-            func_8001577C(p + 1, *(volatile s32 *)p >> 16, s2);
+            EmitModelQuadsFT4(p + 1, *(volatile s32 *)p >> 16, s2);
             GTE_LWC2_IR0(s2 + 0xC0);
             RR_GTE14_NOP2();
             RR_GTE_OP(0x4A780010);
@@ -3007,7 +3007,7 @@ void func_80015F68(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 
             s32 c = S4->w[0x18];
             SP->w[0x58] = 0x2E000000 | (c << 16) | (c << 8) | c;
             p = *(s32 **)(S4->w[0] + 0x48);
-            func_8001577C(p + 1, *(volatile s32 *)p >> 16, s2);
+            EmitModelQuadsFT4(p + 1, *(volatile s32 *)p >> 16, s2);
         }
         {
             char *v0 = *(char **)(S4->w[0] + 0x28);
@@ -3027,7 +3027,7 @@ void func_80015F68(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 
             s32 c = S4->w[0x19];
             SP->w[0x58] = 0x2E000000 | (c << 16) | (c << 8) | c;
             p = *(s32 **)(S4->w[0] + 0x30);
-            func_8001577C(p + 1, *(volatile s32 *)p >> 16, s2);
+            EmitModelQuadsFT4(p + 1, *(volatile s32 *)p >> 16, s2);
         }
     }
 

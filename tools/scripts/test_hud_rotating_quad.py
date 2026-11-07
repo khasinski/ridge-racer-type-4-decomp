@@ -78,7 +78,7 @@ static s32 call_sin(s32 angle){return math_call(angle,0);}
 static s32 call_cos(s32 angle){return math_call(angle,1);}
 #define HudNumberTargets (actual.targets)
 #define DrawBufIndex (actual.bank)
-#define D_8009EE38 (actual.corners)
+#define HudQuadCorners (actual.corners)
 #undef RR_HUD_QUAD_SCRATCH
 #define RR_HUD_QUAD_SCRATCH (&actual.scratch)
 #define rsin call_sin

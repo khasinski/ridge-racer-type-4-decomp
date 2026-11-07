@@ -8,7 +8,7 @@
 extern short D_800AC0A4;
 extern unsigned short D_800AD598[];
 extern char CameraViewMatrix[];
-extern char D_800FF6B8[];
+extern char CameraPitchRollMatrix[];
 extern char D_800FF6D8[];
 extern void MulMatrix0();
 extern short AtanTable[];
@@ -102,16 +102,16 @@ void BuildCameraMatrices(void) {
     int *g = (int *)SCRATCHPAD;
     BuildRotMatrixY(SCRATCH_ROT_MATRIX, g[7]);
     BuildRotMatrixY(CameraViewMatrix, g[7]);
-    SetIdentityMatrix(D_800FF6B8);
+    SetIdentityMatrix(CameraPitchRollMatrix);
     BuildRotMatrixY(D_800FF6D8, g[7]);
     BuildRotMatrixX(sp10, g[6]);
     MulMatrix2(sp10, SCRATCH_ROT_MATRIX);
     MulMatrix2(sp10, CameraViewMatrix);
-    MulMatrix2(sp10, D_800FF6B8);
+    MulMatrix2(sp10, CameraPitchRollMatrix);
     BuildRotMatrixZ(sp10, g[8]);
     MulMatrix2(sp10, SCRATCH_ROT_MATRIX);
     MulMatrix2(sp10, CameraViewMatrix);
-    MulMatrix2(sp10, D_800FF6B8);
+    MulMatrix2(sp10, CameraPitchRollMatrix);
     BuildRotMatrixY(sp10, 0x800);
     MulMatrix0(sp10, SCRATCH_ROT_MATRIX, D_800AD598);
     BuildRotMatrixX(sp10, D_800AC0A4 * 2);

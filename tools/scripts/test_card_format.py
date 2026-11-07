@@ -43,7 +43,7 @@ static Entry entries[90],saved[90];
 static unsigned seed=0x6910FCAB;static int count,writes,fail_at,mutation;static s32 failure;
 #define CardFormatDirRecords (w->directory)
 #define D_801142D8 (w->broken)
-#define D_80114328 (w->scratch)
+#define CardFormatSectorBuf (w->scratch)
 static unsigned random32(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
 static void record(int kind,void *buffer,int size,int sector,s32 port){
  assert(count<90);Entry *p=&entries[count++];memset(p,0,sizeof(*p));
@@ -55,7 +55,7 @@ static void mutate_other(void *buffer,int size){
  /* Preserve bzero's exact postcondition and mutate only the other real owners. */
  for(size_t i=0;i<560;i++)if(i<low||i>=high)p[i]^=(u8)(count*17U+(unsigned)i*131U);
 }
-void func_80096434(void *buffer,s32 size){
+void PsyqBzero(void *buffer,s32 size){
  assert(size==32||size==128);record(0,buffer,size,0,0);memset(buffer,0,(size_t)size);mutate_other(buffer,size);
 }
 s32 _card_sector_write(s32 port,s32 sector,u8 *buffer){

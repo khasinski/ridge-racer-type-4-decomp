@@ -8,8 +8,8 @@ from tempfile import TemporaryDirectory
 import unittest
 
 Write = C.CFUNCTYPE(C.c_int32, C.c_int32)
-SCALARS = ('D_800ABDE8', 'CardCommandRequest', 'CardReceiveIndex', 'CardRxCount',
-           'CardCmdSector', 'D_80114728', 'D_80114730', 'CardCurrentCommand')
+SCALARS = ('CardTxCount', 'CardCommandRequest', 'CardReceiveIndex', 'CardRxCount',
+           'CardCmdSector', 'CardVarRxLength', 'CardBytesRemaining', 'CardCurrentCommand')
 POINTERS = ('CardCmdBuffer', 'CardCmdResultPtrA', 'CardCmdResultPtrB', 'CardCommandReader', 'CardWriteHandler')
 
 
@@ -32,7 +32,7 @@ s32 test_ram[0x4000];
 u8 *CardCmdBuffer;
 void *CardCmdResultPtrA;
 u32 *CardCmdResultPtrB;
-RrCommandParameter D_8011472C;
+RrCommandParameter CardCmdValue;
 RrCommandReadCallback CardCommandReader;
 RrCommandWriteCallback CardWriteHandler;
 s32 _cardCmd59Tx(void) { return 0; }
@@ -45,7 +45,7 @@ void test_initialize(void) {
  memset(test_results,0xA5,sizeof(test_results));
  CardCmdBuffer=(u8 *)&test_results[0][1];
  CardCmdResultPtrA=&test_results[0][3]; CardCmdResultPtrB=&test_results[1][11];
- D_8011472C.buffer=(u8 *)&test_results[0][2];
+ CardCmdValue.buffer=(u8 *)&test_results[0][2];
  CardCommandReader=_cardCmd59Tx; CardWriteHandler=0;
 }
 '''
@@ -104,7 +104,7 @@ void test_initialize(void) {
                         before, ram, scalars, pointers = self.snapshot()
                         expected = bytearray(before)
                         if phase == 3:
-                            scalars['D_80114730'] = byte
+                            scalars['CardBytesRemaining'] = byte
                         elif phase == 4:
                             struct.pack_into('<I', expected, 3 * 4, byte)
                         elif phase == 5:
@@ -123,7 +123,7 @@ void test_initialize(void) {
                 self.scalars['CardRxCount'].value = phase
                 before, ram, scalars, pointers = self.snapshot()
                 if phase == 3:
-                    scalars['D_80114730'] = 0xAB
+                    scalars['CardBytesRemaining'] = 0xAB
                 self.assertEqual(writer(0x123456AB), 0)
                 self.assertEqual(self.snapshot(), (before, ram, scalars, pointers))
 
@@ -151,7 +151,7 @@ void test_initialize(void) {
             self.scalars['CardRxCount'].value = phase
             self.assertEqual(callback(C.c_int32(value).value), 0)
         self.assertEqual(self.results[3], 0x7FFE)
-        self.assertEqual(self.scalars['D_80114730'].value, 0x55)
+        self.assertEqual(self.scalars['CardBytesRemaining'].value, 0x55)
 
     def test_real_pair_constructor_installs_writer_and_routes_two_results(self):
         C.c_int32.from_buffer(self.ram, 0xBDE4).value = 1
@@ -167,7 +167,7 @@ void test_initialize(void) {
             self.assertEqual(callback(C.c_int32(value).value), 0)
         self.assertEqual(self.results[3], 255)
         self.assertEqual(self.results[27], 127)
-        self.assertEqual(self.scalars['D_80114730'].value, 128)
+        self.assertEqual(self.scalars['CardBytesRemaining'].value, 128)
 
     def test_command101_all_bytes_phases_and_wrapped_accumulation(self):
         phases = [-0x80000000, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 255, 0x7FFFFFFF]
@@ -180,7 +180,7 @@ void test_initialize(void) {
                     before, ram, scalars, pointers = self.snapshot()
                     expected = bytearray(before)
                     if phase == 2:
-                        scalars['D_80114730'] = 8
+                        scalars['CardBytesRemaining'] = 8
                     elif phase in (7, 8, 9, 10):
                         index = 3 if phase in (7, 8) else 27
                         old = self.results[index]
@@ -223,7 +223,7 @@ void test_initialize(void) {
             self.scalars['CardRxCount'].value = phase
             self.assertEqual(callback(byte), 0)
         self.assertEqual((self.results[3], self.results[27]), (0xFEDC, 0xBA98))
-        self.assertEqual(self.scalars['D_80114730'].value, 8)
+        self.assertEqual(self.scalars['CardBytesRemaining'].value, 8)
 
 
 if __name__ == '__main__':

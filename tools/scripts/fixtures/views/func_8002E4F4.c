@@ -8,12 +8,12 @@
 
 struct V { int a, b, c, d; };
 
-extern int func_80096434();
+extern int PsyqBzero();
 
 void ResetCarState(RrRaceVehicle *a)
 {
     int *p = (int *)a;
-    func_80096434(a, sizeof(RrRaceVehicle));
+    PsyqBzero(a, sizeof(RrRaceVehicle));
     SetCarBounds(a);
     a->ang80 = (unsigned short)a->rot50;
     a->ang82 = (unsigned short)a->rot54;

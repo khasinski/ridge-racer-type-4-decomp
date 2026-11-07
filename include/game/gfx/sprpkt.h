@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void func_8003BFC8();
+void DrawSplitTimeHud();
 
 #endif /* RR_GAME_GFX_SPRPKT_H */

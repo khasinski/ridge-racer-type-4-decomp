@@ -12,11 +12,11 @@ struct E { s16 a, h; };
 
 extern struct { char pad[0x24C]; char *p24c; char pad2[0x560 - 0x250]; int v560; } RaceContext;
 extern int PlayerCars;
-extern int D_800F2FD8;
+extern int ModelBankFormat;
 extern void DrawPreviewCar();
-extern void func_8002E5A0();
+extern void PrepareCarDrawPose();
 extern void SetupObjectLightMatrices();
-extern void func_8005F0D0();
+extern void SubmitModel();
 extern void BuildRotMatrixY();
 extern void BuildRotMatrixX();
 extern void SetGteObjectTransform();
@@ -45,7 +45,7 @@ void func_80055C84(void)
     SelectModelBank(8);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), RaceContext.p24c, L.m18);
     g[0x1E] = 0;
-    func_8005F0D0(SCRATCHPAD, D_800F2FD8 < 1, 0, 0);
+    SubmitModel(SCRATCHPAD, ModelBankFormat < 1, 0, 0);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), RaceContext.p24c, L.m18);
     DrawMeshPrimList(RaceContext.v560, 0, 0);
     TransformPoint(L.m38, RaceContext.p24c, RaceContext.p24c + 0x18, L.v80, L.m58);
@@ -53,16 +53,16 @@ void func_80055C84(void)
     MulMatrix2(L.m18, L.m58);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), L.v80, L.m58);
     g[0x1E] = 0;
-    func_8005F0D0(SCRATCHPAD, 1, 0, 0);
+    SubmitModel(SCRATCHPAD, 1, 0, 0);
     TransformPoint(L.m38, RaceContext.p24c, RaceContext.p24c + 0x30, L.v80, L.m58);
     BuildRotMatrixY(L.m58, -*(short *)(RaceContext.p24c + 0x42));
     MulMatrix2(L.m18, L.m58);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), L.v80, L.m58);
     a1 = 1;
     g[0x1E] = 0;
-    if (D_800F2FD8 >= 3)
+    if (ModelBankFormat >= 3)
         a1 = 2;
-    func_8005F0D0(SCRATCHPAD, a1, 0, 0);
+    SubmitModel(SCRATCHPAD, a1, 0, 0);
     TransformPoint(L.m38, RaceContext.p24c, RaceContext.p24c + 0x60, L.v80, L.m58);
     BuildRotMatrixX(L.m58, -*(short *)(RaceContext.p24c + 0x70));
     MulMatrix2(L.m18, L.m58);
@@ -78,7 +78,7 @@ void func_80055C84(void)
     L.c90[1] = 0x80;
     L.c90[2] = 0x80;
     g[1] = CurrentDrawBuf + 0xB70;
-    func_8002E5A0(&PlayerCars);
+    PrepareCarDrawPose(&PlayerCars);
     DrawPreviewCar(&PlayerCars, *(int *)L.c90, 0x80, 1);
     t = RotTransPersOrigin(L.m18, (char *)&PlayerCars + 0x20);
     t = (t >> 3) + 0x64;

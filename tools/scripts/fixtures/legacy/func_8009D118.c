@@ -2,11 +2,11 @@
 #include "rr/commands.h"
 s32 _cardCmd5DTx(void) {
     s32 result;
-    switch(D_800ABDE8) {
+    switch(CardTxCount) {
     case 2: result=0x5D; break;
     case 4: result=CardCmdSector; break;
-    case 5: result=D_8011472C.value; break;
-    case 6: result=D_80114728; break;
+    case 5: result=CardCmdValue.value; break;
+    case 6: result=CardVarRxLength; break;
     default: result=0; break;
     }
     return result;

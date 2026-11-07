@@ -3,7 +3,7 @@
 #include "rr/overlay665_panels.h"
 #include "rr/frame_storage_types.h"
 #include "rr/diagnostics.h"
-extern RrFrameStorage D_800ADAF0[2];
+extern RrFrameStorage FrameEnvs[2];
 extern RrUiUvRect ovl665_D_80119018[2],ovl665_D_80119020[2];
 extern const char ovl665_D_801148B4[];
 void ovl665_func_80115798(void);

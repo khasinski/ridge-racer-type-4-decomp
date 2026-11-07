@@ -5,7 +5,7 @@ extern u8 ovl662_D_80126234[4];
 extern u8 ovl662_D_80126238[4];
 extern u8 ovl662_D_8012623C[3];
 extern s32 ovl662_D_801272F0[3];
-extern s16 D_800F4D3C;
+extern s16 SaveSlotIndex;
 extern RrUiUvRect UiFontGlyphs[];
 void FormatDecimalDigits(char *output, s32 value, s32 digitsMinusOne);
 void CopyStringClearTail(char *destination, char *source);
@@ -52,7 +52,7 @@ void *ovl662_func_801183C0(u32 *ord, void *cur, s32 row)
         } else {
             cur = AddTilePrim(ord, cur, x + ovl662_D_80126234[1], y + ovl662_D_80126238[i + 1] + 8, 36, 2, 255, 255, 255);
         }
-        if (i == D_800F4D3C) {
+        if (i == SaveSlotIndex) {
             cur = AddTileSemiTransPrim(ord, cur, BadgeRows[row].x04, y + ovl662_D_80126238[i + 1] - 4, width, 24, 32, 32, 32);
         }
     }

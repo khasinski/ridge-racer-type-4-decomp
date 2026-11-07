@@ -19,7 +19,7 @@ extern int FrameCounter;
 
 extern char *CurrentDrawBuf;
 
-extern struct Buf D_800ADAF0[];
+extern struct Buf FrameEnvs[];
 
 extern struct {
     char pad0[0x3E0];
@@ -275,9 +275,9 @@ int IntroScriptStep(void) {
     *(int *)0x1F800000 = AddTileGrid2x2(CurrentDrawBuf + 0xB6C, *(int *)0x1F800000, 0, 0, 0x140, 0x200,
                                        RaceContext.f3F0, RaceContext.f3F1, RaceContext.f3F2);
     for (i = 0; i < 2; i++) {
-        D_800ADAF0[i].r = RaceContext.f3F0;
-        D_800ADAF0[i].g = RaceContext.f3F1;
-        D_800ADAF0[i].b = RaceContext.f3F2;
+        FrameEnvs[i].r = RaceContext.f3F0;
+        FrameEnvs[i].g = RaceContext.f3F1;
+        FrameEnvs[i].b = RaceContext.f3F2;
     }
 
     RaceContext.f3E4++;

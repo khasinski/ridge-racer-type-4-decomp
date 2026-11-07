@@ -41,13 +41,13 @@ void ovl662_func_80121074(s32 mode) {
                 if (ovl662_D_801276A8.fade00 == 0) {
                     ovl662_D_80127668.words[0] = (s32) (ovl662_D_80127668.words[0] & ~9);
                     ovl662_D_801276A8.fade00 = -1;
-                    ModeGroup=1;D_800F3A26=0x27;D_800F4D8A=0;return;
+                    ModeGroup=1;ModeId=0x27;ModeSubState=0;return;
                 }
             } else {
                 phase = UiRows[0].byte14;
                 switch ((s32) phase) {
                 case 2:
-                    if ((BadgeRows->state10 == 3) && (ovl662_D_801276A8.flagsD1 = (u8) (capturedFlags | 4), (D_800AC590->st == 4))) {
+                    if ((BadgeRows->state10 == 3) && (ovl662_D_801276A8.flagsD1 = (u8) (capturedFlags | 4), (DialogueState->st == 4))) {
                         if (PlayerControllers[0].type01 != 0x12) {
                             if (PlayerControllers[0].buttons0A & 0x1000) {
                                 if (ovl662_D_801276A8.stateD2 != 0) {
@@ -61,7 +61,7 @@ block_32:
                                     PlaySfx(0);
                                 }
                             }
-                            if (D_800F3A60 != 0) {
+                            if (MenuConfirmPressed != 0) {
                                 ovl662_D_801276A8.stateD2 = (u8) (ovl662_D_801276A8.stateD2 + 2);
                                 PlaySfx(1);
                             }
@@ -105,8 +105,8 @@ block_32:
                 case 9:
                     if (ovl662_D_801276A8.fade00 == 0) {
                         ModeGroup = 1;
-                        D_800F3A26 = 0x27;
-                        D_800F4D8A = 0;
+                        ModeId = 0x27;
+                        ModeSubState = 0;
                         return;
                     }
                     break;
@@ -132,9 +132,9 @@ block_32:
                 ovl662_D_801276A8.fade00 = 0x40;
                 return;
             }
-            D_800AC590->b4 = 7;
-            D_800AC590->b5 = -1;
-            D_800AC590->st = 0;
+            DialogueState->b4 = 7;
+            DialogueState->b5 = -1;
+            DialogueState->st = 0;
             ovl662_D_801276A8.flagsD1 = 3U;
             BadgeRows->half02 = 1;
             BadgeRows->state10 = 0;

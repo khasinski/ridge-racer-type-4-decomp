@@ -17,8 +17,8 @@ s32 _cardCmd5BVarBegin(s32 request, s32 parameter, u8 *buffer, u8 *first) {
     CardCmdSector = parameter;
     CardCmdBuffer = buffer;
     CardCmdResultPtrA = first;
-    D_80114728 = 0;
-    D_8011472C.value = 0;
+    CardVarRxLength = 0;
+    CardCmdValue.value = 0;
     {
         /* ASM_BARRIER: preserve the original assembler temporary for the mapped store. */
         register s32 *base __asm__("$1");

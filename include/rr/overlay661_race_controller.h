@@ -13,7 +13,7 @@ typedef struct {RrGpuScratchPointers pointers;Rr661FrameVector16 position08,rota
 extern Rr661FrameVector16 D_801183D0[2],D_801183F0[2];
 extern s32 TotalRaceTime;
 extern s16 ovl661_D_80118448[2];
-void DrawHudNumber5(s32,s32);void UpdateHudRankDisplay(s32,s32);void DrawLapCounter(s32,s32);void func_80021C00(s32);void DrawSplitScreenDivider(s32);void DrawTimeRemainingForPlayer(s32,s32);void SoundSetMasterVolume(s16,s16);
+void DrawHudNumber5(s32,s32);void UpdateHudRankDisplay(s32,s32);void DrawLapCounter(s32,s32);void UpdateFinalLapIndicator(s32);void DrawSplitScreenDivider(s32);void DrawTimeRemainingForPlayer(s32,s32);void SoundSetMasterVolume(s16,s16);
 void ovl661_func_80114924(RrRaceCheckpointVehicle *);
 /* The hardware view has two full CPU pointers followed by two four-word
  * vectors. Native builds grow the pointer prefix; vector and tail offsets

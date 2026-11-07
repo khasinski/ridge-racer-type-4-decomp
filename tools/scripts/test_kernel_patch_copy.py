@@ -27,7 +27,7 @@ u32 test_destination[34];
         replacements = {
             '0xDF80U': '(unsigned long)(test_destination+2)',
             '(unsigned long)StopCARD2+0x10': '(unsigned long)(test_source+4)',
-            '(unsigned long)func_80095E74': '(unsigned long)(test_source+32)',
+            '(unsigned long)_copy_memcard_patch_end': '(unsigned long)(test_source+32)',
         }
         for old, new in replacements.items():
             if body.count(old) != 1:

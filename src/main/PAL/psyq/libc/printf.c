@@ -8,7 +8,7 @@ typedef unsigned short u16;
 typedef int s32;
 typedef unsigned int u32;
 
-extern s32 func_80096D14(const s8 *);
+extern s32 PsyqStrlen(const s8 *);
 extern s8 *PsyqMemchr(const s8 *, s32, s32);
 extern void *PsyqMemmove(void *, const void *, s32);
 
@@ -26,7 +26,7 @@ typedef struct {
     s32 prec;
 } FmtState;
 
-extern FmtState D_800ABC20;
+extern FmtState PrintfFmtState;
 extern const s8 HexDigitsUpper[];
 extern const s8 StrHexDigitsLower[];
 
@@ -59,12 +59,12 @@ s32 PsyqSprintf(s8 *dst, const s8 *fmt, ...) {
                 goto literal;
             }
             {
-                register FmtState *pst asm("a1"); /* ASM_BARRIER: pin &D_800ABC20 to a1 */
+                register FmtState *pst asm("a1"); /* ASM_BARRIER: pin &PrintfFmtState to a1 */
                 register s32 w0 asm("v0"); /* ASM_BARRIER: pin struct copy w0 to v0 */
                 register s32 w1 asm("v1"); /* ASM_BARRIER: pin struct copy w1 to v1 */
                 register s32 w2 asm("a0"); /* ASM_BARRIER: pin struct copy w2 to a0 */
-                pst = &D_800ABC20;
-                __asm__ volatile("" : "+r"(pst)); /* ASM_BARRIER: materialize &D_800ABC20 in a1 */
+                pst = &PrintfFmtState;
+                __asm__ volatile("" : "+r"(pst)); /* ASM_BARRIER: materialize &PrintfFmtState in a1 */
                 w0 = ((s32 *)pst)[0];
                 w1 = ((s32 *)pst)[1];
                 w2 = ((s32 *)pst)[2];
@@ -323,7 +323,7 @@ s32 PsyqSprintf(s8 *dst, const s8 *fmt, ...) {
                             len = st.prec;
                         }
                     } else if (!st.has_prec) {
-                        len = func_80096D14(p);
+                        len = PsyqStrlen(p);
                     } else {
                         s8 *end = PsyqMemchr(p, 0, st.prec);
                         len = end - p;

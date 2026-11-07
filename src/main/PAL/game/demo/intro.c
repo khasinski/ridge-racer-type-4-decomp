@@ -29,7 +29,7 @@ struct Buf {
 
 extern struct Entry IntroTimeline[];
 extern int FrameCounter;
-extern struct Buf D_800ADAF0[];
+extern struct Buf FrameEnvs[];
 extern struct {
     char pad0[0x3E0];
     int f3E0;
@@ -70,9 +70,9 @@ extern int AddTileGrid2x2(char *, int, int, int, int, int, int, int, int);
 extern int RaceLoadReset();
 extern s32 CdDirectoryBuffer;
 extern M2C_UNK D_800ACA94;
-extern s16 D_800F3A26;
+extern s16 ModeId;
 extern s16 ModeGroup;
-extern s16 D_800F4D8A;
+extern s16 ModeSubState;
 
 int IntroScriptStep(void);
 void IntroInit(void);
@@ -280,9 +280,9 @@ int IntroScriptStep(void) {
     *(int *)SCRATCHPAD = AddTileGrid2x2(CurrentDrawBuf + 0xB6C, *(int *)SCRATCHPAD, 0, 0, 0x140, 0x200,
                                        RaceContext.f3F0, RaceContext.f3F1, RaceContext.f3F2);
     for (i = 0; i < 2; i++) {
-        D_800ADAF0[i].r = RaceContext.f3F0;
-        D_800ADAF0[i].g = RaceContext.f3F1;
-        D_800ADAF0[i].b = RaceContext.f3F2;
+        FrameEnvs[i].r = RaceContext.f3F0;
+        FrameEnvs[i].g = RaceContext.f3F1;
+        FrameEnvs[i].b = RaceContext.f3F2;
     }
 
     RaceContext.f3E4++;
@@ -321,12 +321,12 @@ int IntroScriptStep(void) {
 
 void IntroInit(void) {
     SetDispMask(0);
-    func_80096434(&D_800ACA94, 0x78);
+    PsyqBzero(&D_800ACA94, 0x78);
     func_8005C13C(0);
     func_8005C988(0);
     LoadCursor = CdDirectoryBuffer;
     RaceLoadReset();
     ModeGroup = 2;
-    D_800F3A26 = 6;
-    D_800F4D8A = 0;
+    ModeId = 6;
+    ModeSubState = 0;
 }

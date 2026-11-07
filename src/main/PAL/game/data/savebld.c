@@ -10,11 +10,11 @@ extern int CourseBestLapTimes[2][8][3];
 extern Struct7C SaveProgress;
 extern Struct840 *D_800F399C;
 extern Struct840 *D_800F39A0;
-extern int D_800F3B28[];
-extern int D_800F4D38;
-extern unsigned short D_800F4D3C;
+extern int SaveDataBackup[];
+extern int PlayTimeFrames;
+extern unsigned short SaveSlotIndex;
 extern Struct10 LapRecords[2][8][5];
-extern Struct2C D_8010B258[3];
+extern Struct2C SaveSlotSelectionsBackup[3];
 
 void BuildSaveData(int arg0) {
     SaveBuf *s3;
@@ -39,13 +39,13 @@ void BuildSaveData(int arg0) {
             s3->f33C[a3] = CourseChoiceTable.f24[a3];
         }
         for (a3 = 0; a3 < 3; a3++) {
-            D_8010B258[a3].f10 = 0;
+            SaveSlotSelectionsBackup[a3].f10 = 0;
             t1 = 0;
             for (t0 = 0; (unsigned int)t0 < 0x16; t0++) {
-                t1 += ((short *)&D_8010B258[a3])[t0];
+                t1 += ((short *)&SaveSlotSelectionsBackup[a3])[t0];
             }
-            D_8010B258[a3].f10 = t1;
-            s3->f360[a3] = D_8010B258[a3];
+            SaveSlotSelectionsBackup[a3].f10 = t1;
+            s3->f360[a3] = SaveSlotSelectionsBackup[a3];
         }
         if (arg0 == 3) {
             SelectionState.f10 = 0;
@@ -54,7 +54,7 @@ void BuildSaveData(int arg0) {
                 t1 += ((short *)&SelectionState)[t0];
             }
             SelectionState.f10 = t1;
-            s3->f360[(short)((short)D_800F4D3C % 3)] = SelectionState;
+            s3->f360[(short)((short)SaveSlotIndex % 3)] = SelectionState;
         }
         for (a3 = 0; a3 < 2; a3++) {
             for (t0 = 0; t0 < 8; t0++) {
@@ -68,7 +68,7 @@ void BuildSaveData(int arg0) {
             }
         }
         for (a3 = 0; a3 < 0x210; a3++) {
-            s3->fEA4[a3] = D_800F3B28[a3];
+            s3->fEA4[a3] = SaveDataBackup[a3];
         }
         t1 = 0;
         for (a3 = 0; (unsigned int)a3 < 0x6A9; a3++) {
@@ -79,12 +79,12 @@ void BuildSaveData(int arg0) {
     case 6:
         s3 = SaveBuffer;
         for (a3 = 0; a3 < 0x210; a3++) {
-            s3->fEA4[a3] = D_800F3B28[a3];
+            s3->fEA4[a3] = SaveDataBackup[a3];
         }
         /* fallthrough */
     case 17:
         p = (SaveBuf11 *)SaveBuffer;
-        p->f280 = D_800F4D38;
+        p->f280 = PlayTimeFrames;
         for (t0 = 0; t0 < 2; t0++) {
             for (a3 = 0; a3 < 0x840; a3++) {
                 if (t0 == 0) {

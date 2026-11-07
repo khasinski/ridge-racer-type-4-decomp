@@ -11,7 +11,7 @@
 
 typedef struct { unsigned char a, b, c, d; } T;
 
-extern short D_800ABEC8;
+extern short SelectedCarIndex;
 extern void *LoadCursor;
 extern short D_800AD520;
 extern short CourseIndex;
@@ -35,7 +35,7 @@ int LoadTrackStep()
         }
         break;
     case 2:
-        r3 = LoadCarSpecStep(CourseIndex, D_800AD520, D_800ABEC8);
+        r3 = LoadCarSpecStep(CourseIndex, D_800AD520, SelectedCarIndex);
         goto chk;
     case 3:
         r3 = func_8004D994(CourseIndex, D_800AD520);

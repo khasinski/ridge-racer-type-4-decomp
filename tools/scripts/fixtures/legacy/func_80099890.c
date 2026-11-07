@@ -15,7 +15,7 @@ RR_ASSERT_OFFSET(RrTransferState, packet, 0x3C);
 extern s32 (*PadTxByteCallback)(RrTransferState *, s32);
 extern s32 _padSioRW2(RrTransferState *, u8);
 
-s32 func_80099890(RrTransferState *state) {
+s32 _padTxByteChkAck(RrTransferState *state) {
     s32 mode = 0;
     s32 result;
 

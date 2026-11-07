@@ -14,17 +14,17 @@ void ovl665_func_80115CFC(void) {
         if(BadgeRows[0].state10==3)ovl665_D_80119768.layout0C=2;
         break;
     case 2:
-        if(D_800F3A60) {
+        if(MenuConfirmPressed) {
             PlaySfx(1);
             BadgeRows[0].state10=4;
-            D_800AC5D0=64;
+            MenuFadeTimer=64;
             ovl665_D_80119768.layout0C=(s32)((u32)ovl665_D_80119768.layout0C+1U);
         }
         break;
     case 3:
-        D_800AC5D0--;
-        AddScreenFadeTiles(((RrFrameOrderingPrefix*)CurrentDrawBuf)->ordering70,(64-D_800AC5D0)*4,69);
-        if(D_800AC5D0<=0 && BadgeRows[0].state10==11) {
+        MenuFadeTimer--;
+        AddScreenFadeTiles(((RrFrameOrderingPrefix*)CurrentDrawBuf)->ordering70,(64-MenuFadeTimer)*4,69);
+        if(MenuFadeTimer<=0 && BadgeRows[0].state10==11) {
             ovl665_func_80114A24();
             ovl665_D_80119768.layout0C=0;
             ovl665_D_80119768.scene00=(s32)((u32)ovl665_D_80119768.scene00-1U);
@@ -64,10 +64,10 @@ void ovl665_func_80115CFC(void) {
         packet++;
         RR_PROJECTION_SCRATCH->pointers.cursor=(u8*)packet;
     }
-    D_800AC590->b4=27;
+    DialogueState->b4=27;
     UpdateBadgeRowAnim(0);
     if(BadgeRows[0].state10==3) {
-        UpdateDialogue(BadgeRows[0].x04+10,BadgeRows[0].y06+40,D_800AC590);
+        UpdateDialogue(BadgeRows[0].x04+10,BadgeRows[0].y06+40,DialogueState);
     }
     UpdateScreenFade(0x1007C);
 }

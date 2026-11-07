@@ -46,7 +46,7 @@ RrMeshQuadG4 *DrawMeshQuadG4(RrMeshQuadG4 *p, s32 *s);
 RrMeshQuadF4 *DrawMeshQuadF4(RrMeshQuadF4 *p, s32 *s);
 void DrawMeshPrimList(int arg0, int arg1, int arg2);
 
-int func_800578D8(int a0)
+int StepCarPreviewDrive(int a0)
 {
   int sp10[2];
   int s1;
@@ -54,7 +54,7 @@ int func_800578D8(int a0)
   RaceContext.p->f100 = (RaceContext.p->fA0 - s1) - (CarBoundsTable->f8 + ((short) (((short) PlayerCars.f10E) / 3)));
   s1 = func_8005642C(&PlayerCars, RaceContext.p->f104, a0, sp10);
   UpdateSparkEffects();
-  func_8002E828(2, SCRATCH_ROT_MATRIX);
+  ScaleMatrixRow1(2, SCRATCH_ROT_MATRIX);
   func_80055C84();
   RaceContext.p->f104 = RaceContext.p->f104 + 1;
   RaceContext.p->f108 = RaceContext.p->f108 + 1;

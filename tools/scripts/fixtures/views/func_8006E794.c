@@ -1,26 +1,26 @@
 #include "types.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4C38 (*(unsigned char (*)[])&D_800F4C38)
+#define ViewSegmentIndices (*(unsigned char (*)[])&ViewSegmentIndices)
 
-#undef D_800F4C38
+#undef ViewSegmentIndices
 
 extern short CourseIndex;
 
 extern int func_80070934();
 
-extern int D_8010718C;
+extern int ViewUsesCarTrackNode;
 
 extern int D_800AD5B8;
 
-extern char D_800F4C38[];
+extern char ViewSegmentIndices[];
 
-void func_8006E794(void) {
+void InitViewState(void) {
     int i;
     char *p;
     char *g = (char *)0x1F800000;
     InitViewLighting();
-    D_8010718C = 1;
+    ViewUsesCarTrackNode = 1;
     D_800AD5B8 = 0x1400;
     *(int *)(g + 0x78) = 0;
     *(short *)(g + 0x5E) = 0;
@@ -30,7 +30,7 @@ void func_8006E794(void) {
         }
     }
     i = 0x1F;
-    p = D_800F4C38 + i;
+    p = ViewSegmentIndices + i;
     do {
         *p-- = 0;
         i--;

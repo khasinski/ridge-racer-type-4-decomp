@@ -1,7 +1,7 @@
 /* GCC_VERSION: 2.7.2 */
-extern int D_800ABDE8, CardCmdSector, D_80114728;
+extern int CardTxCount, CardCmdSector, CardVarRxLength;
 int _cardCmd5ETx() {
-    int v = D_800ABDE8;
+    int v = CardTxCount;
     int r;
     if (v == 4) goto c4;
     if (v < 5) {
@@ -19,7 +19,7 @@ c4:
     r = CardCmdSector;
     goto end;
 c5:
-    r = D_80114728;
+    r = CardVarRxLength;
 end:
     return r;
 }

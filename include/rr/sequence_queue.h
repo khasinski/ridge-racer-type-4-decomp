@@ -16,7 +16,7 @@ extern RrSequenceQueueState SoundState;
 /* Existing SoundSequenceTable..PanGainTable storage:25 two-pointer rows. */
 enum {RR_SEQUENCE_TABLE_COUNT=25};
 extern s16 *SoundSequenceTable[RR_SEQUENCE_TABLE_COUNT][2];
-extern s32 D_800F6784;
+extern s32 SoundSequenceSet;
 
 /* The table id must be valid. Each selected list ends at its first nonpositive
  * halfword, or is the pointer sentinel -1. Reset/initialization requires at most

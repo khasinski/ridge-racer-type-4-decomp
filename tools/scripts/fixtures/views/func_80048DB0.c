@@ -163,7 +163,7 @@ tail:
         }
         CONTROL_VOL(steering288.gain30) = gain;
         CONTROL_VOL(steering288.gain30) = (s32) ((s32)((u32)CONTROL_VOL(steering288.gain30) * 96U) / 128);
-if (D_800F4D44 == 6 && D_800F3826 == 0) {
+if (RaceType == 6 && CourseListIndex == 0) {
             shortRange = angleDifference < 0x201;
             CONTROL_VOL(steering288.gain30) = 0;
         } else {

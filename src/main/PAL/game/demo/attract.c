@@ -20,16 +20,16 @@ extern int SlotOrder[];
 extern char D_800ACB0C[];
 extern int D_800A2124[];
 extern short CourseIndex;
-extern unsigned short D_800A2134;
-extern unsigned short D_800A2138[];
-extern short D_800FFC10;
+extern unsigned short AttractCourseButtonMask;
+extern unsigned short DemoCourseButtonMap[];
+extern short MenuDispMode;
 extern short MenuScriptId;
 extern short ModeGroup;
-extern short D_800F3A26;
-extern short D_800F4D8A;
+extern short ModeId;
+extern short ModeSubState;
 extern int MaskBitSetting;
 extern char RaceContext[];
-extern short D_800AD50A;
+extern short SceneId;
 extern int PsyqRand();
 extern int func_80055300();
 extern int func_80055330();
@@ -37,7 +37,7 @@ extern int func_8005534C();
 extern int ResetScreenCounters();
 
 void StartAttractDemo(int a0);
-void func_8005DD8C(void);
+void AttractDemoRaceEnter(void);
 
 void StartAttractDemo(int a0) {
     int sp[4];
@@ -70,7 +70,7 @@ void StartAttractDemo(int a0) {
         ShuffleSlotOrder();
         SlotOrder[0] = 0;
     }
-    func_80096434(D_800ACB0C, 0x80);
+    PsyqBzero(D_800ACB0C, 0x80);
     *(int *)(D_800ACB0C + 0xC) = a0;
     i = 3;
     q = sp + 3;
@@ -117,10 +117,10 @@ void StartAttractDemo(int a0) {
     } while (i < 4);
     CourseIndex = -1;
     if (a0 == 1) {
-        m = D_800F3A3A & D_800A2134;
+        m = D_800F3A3A & AttractCourseButtonMask;
         if (m != 0) {
             i = 0;
-            e = D_800A2138;
+            e = DemoCourseButtonMap;
             do {
                 if (m == e[0])
                     CourseIndex = e[1];
@@ -139,20 +139,20 @@ void StartAttractDemo(int a0) {
         if (n >= 8)
             ShuffleSlotOrder();
     }
-    func_80059314(0, 0);
-    D_800F4D44 = 5;
-    D_800FFC10 = 0;
+    OpeningInit(0, 0);
+    RaceType = 5;
+    MenuDispMode = 0;
     MenuScriptId = 0xA;
     ModeGroup = 1;
-    D_800F3A26 = 0x23;
-    D_800F4D8A = 0;
+    ModeId = 0x23;
+    ModeSubState = 0;
     if (a0 == 0) {
-        func_8005C8D8(-1);
-        D_800F765C = D_800A19E0[CourseIndex] + 1;
+        StartSceneFadeIn(-1);
+        RaceBgmListIndex = CourseBgmChoiceTable2[CourseIndex] + 1;
     } else {
         func_8005C13C(0);
         func_8005C988(2);
-        D_800F765C = 1;
+        RaceBgmListIndex = 1;
     }
     func_80055300();
     c = RaceContext;
@@ -180,17 +180,17 @@ void StartAttractDemo(int a0) {
     *(int *)(c2 + 0x514) = 0x122;
     SoundReverbOffAll();
     ClearTrackObjectStates(0);
-    D_800AD50A = 0x209;
+    SceneId = 0x209;
 }
 
-void func_8005DD8C(void) {
+void AttractDemoRaceEnter(void) {
     SetDispMask(0);
     ResetScreenCounters();
     MenuScriptId = 8;
     ModeGroup = 1;
-    D_800F3A26 = 0x23;
-    D_800F4D8A = 0;
+    ModeId = 0x23;
+    ModeSubState = 0;
     func_8005C13C(0);
     func_8005C988(1);
-    D_800ACBF8 = 0;
+    DrawSubOtFlag = 0;
 }

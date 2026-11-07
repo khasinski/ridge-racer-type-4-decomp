@@ -56,10 +56,10 @@ static u8 seenCounts[10];
 #define ovl663_available_courses w->s.ids
 #define ovl663_course_unlock_levels w->s.values
 #define ovl663_available_course_count w->s.count
-#define D_800AC648 w->s.setting
+#define CourseMenuSelection w->s.setting
 #define ModeGroup w->s.mode
-#define D_800F3A26 w->s.position
-#define D_800F4D8A w->s.timer
+#define ModeId w->s.position
+#define ModeSubState w->s.timer
 #define ModelTexturePage w->s.driverSetting
 #define ovl660_title format660
 #define ovl662_D_8011487C format662

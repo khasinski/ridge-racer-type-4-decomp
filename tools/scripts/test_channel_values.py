@@ -36,7 +36,7 @@ typedef int32_t s32;
 ''' + header + '''
 RrChannelValueRecordB0 *test_pointer_ram[0x4100];
 RrChannelValueRecordB0 test_records[256][256];
-s16 D_80110114;
+s16 SvmLastChannel;
 void test_initialize(void) {
     unsigned bank, row;
     memset(test_records, 0xA5, sizeof(test_records));
@@ -48,7 +48,7 @@ void test_initialize(void) {
             test_records[bank][row].value5A = (bank * 31 + row * 251) ^ 0xFFFF;
         }
     }
-    D_80110114 = -123;
+    SvmLastChannel = -123;
 }
 '''
         body = (root / 'tools/scripts/fixtures/legacy/vmchval.c').read_text()
@@ -64,7 +64,7 @@ void test_initialize(void) {
         cls.library = C.CDLL(str(directory / 'functions.so'))
         cls.records = (Record * (256 * 256)).in_dll(cls.library, 'test_records')
         cls.pointers = (C.c_void_p * 0x4100).in_dll(cls.library, 'test_pointer_ram')
-        cls.selected = C.c_int16.in_dll(cls.library, 'D_80110114')
+        cls.selected = C.c_int16.in_dll(cls.library, 'SvmLastChannel')
         cls.left = cls.library._SsVmGetSeqLVol
         cls.right = cls.library._SsVmGetSeqRVol
         for function in (cls.left, cls.right):

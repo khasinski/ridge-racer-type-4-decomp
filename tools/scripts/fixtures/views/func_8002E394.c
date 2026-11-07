@@ -11,7 +11,7 @@ typedef struct {
     s16 height06;
 } RrVehicleBounds08;
 
-extern short D_800AD508;
+extern short LinkRoleSlot;
 
 extern RrVehicleBounds08 *CarBoundsTable[];
 
@@ -20,7 +20,7 @@ void SetCarBounds(RrRaceVehicle *a)
     int n;
     RrVehicleBounds08 **pp;
     int b;
-    if (D_800AD508 != 0) {
+    if (LinkRoleSlot != 0) {
         n = a != PlayerCars;
     } else {
         n = 3;

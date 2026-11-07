@@ -29,7 +29,7 @@ extern s32 _spu_rev_offsetaddr;
 
 extern s32 _spu_rev_startaddr[];
 
-extern RrSpuRegisterPatch D_800A4E78[];
+extern RrSpuRegisterPatch SpuReverbPresetTable[];
 
 extern void _spu_FsetRXX();
 
@@ -84,7 +84,7 @@ s32 SpuSetReverbModeParam(SpuReverbAttr *attr) {
         mode_set = 1;
         _spu_rev_attr.mode = mode;
         _spu_rev_offsetaddr = tbl[_spu_rev_attr.mode];
-        copy((u8 *)&patch, (u8 *)&D_800A4E78[_spu_rev_attr.mode], 0x44);
+        copy((u8 *)&patch, (u8 *)&SpuReverbPresetTable[_spu_rev_attr.mode], 0x44);
         switch (_spu_rev_attr.mode) {
         case 7:
             _spu_rev_attr.feedback = 0x7F;
@@ -106,7 +106,7 @@ s32 SpuSetReverbModeParam(SpuReverbAttr *attr) {
         s32 d;
         delay_set = 1;
         if (!mode_set) {
-            copy((u8 *)&patch, (u8 *)&D_800A4E78[_spu_rev_attr.mode], 0x44);
+            copy((u8 *)&patch, (u8 *)&SpuReverbPresetTable[_spu_rev_attr.mode], 0x44);
             patch.mask = 0x0C011C00;
         }
         _spu_rev_attr.delay = attr->delay;
@@ -123,7 +123,7 @@ s32 SpuSetReverbModeParam(SpuReverbAttr *attr) {
         fb_set = 1;
         if (!mode_set) {
             if (!delay_set) {
-                copy((u8 *)&patch, (u8 *)&D_800A4E78[_spu_rev_attr.mode], 0x44);
+                copy((u8 *)&patch, (u8 *)&SpuReverbPresetTable[_spu_rev_attr.mode], 0x44);
                 patch.mask = 0x80;
             } else {
                 patch.mask |= 0x80;

@@ -29,5 +29,5 @@ void ovl668_func_801156FC(void) {
     dz = (s32)(((u32)sp28[2] - (u32)sp18[2]) << 2);
     sp38[2] = dz;
     sp38[1] = (s32)((u32)sp28[1] - (u32)sp18[1]);
-    RaceContext.pitch460 = 1024 - Atan2Table(sp38[1], func_80090758((s32)((u32)dx * (u32)dx + (u32)dz * (u32)dz)) >> 6);
+    RaceContext.pitch460 = 1024 - Atan2Table(sp38[1], CordicSqrt((s32)((u32)dx * (u32)dx + (u32)dz * (u32)dz)) >> 6);
 }

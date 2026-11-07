@@ -7,7 +7,7 @@
 /* The panel uses the second ordering head after the shared context prefix. */
 typedef struct {RrIconSpriteContext prefix;u32 head74;} RrPanelContext;
 typedef void *(*RrPanelDraw)(u32 *,void *,s32);
-extern RrPanelDraw D_8009F984[];
+extern RrPanelDraw PanelDrawCallbacks[];
 
 /* The selected row and signed high-byte callback index must name accessible
  * entries; index*row size must fit signed32. FFFF status emits nothing.

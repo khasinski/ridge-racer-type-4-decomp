@@ -4,7 +4,7 @@ void ovl659_init_preview(void) {
     s32 index;
     s32 *scratch;
 
-    if (D_800F4D8A == 0) {
+    if (ModeSubState == 0) {
         ModeFrame = 0;
         ScreenFrame = 0;
         MenuCursor = 0;
@@ -13,7 +13,7 @@ void ovl659_init_preview(void) {
         ResetScreenCounters();
         ClearScreenOverlayState();
         InitMenuArenas();
-        LoadCursor = D_800F4D74;
+        LoadCursor = LoadCursorBase;
         InitUiRow(0, 0xC, 0x40, 0x44, 0x20, 0, 0, 1, 0, 0x54);
         InitUiRow(1, 0xC, 0x68, 0x44, 0x20, 0, 0, 1, 1, 0xC);
         InitUiRow(2, 0xC, 0x90, 0x44, 0x20, 0, 0, 1, 0, 0x1D);
@@ -44,17 +44,17 @@ void ovl659_init_preview(void) {
         PlayerCars[0].pos20[1] = 0xA;
         PlayerCars[0].pos20[2] = 0x134;
         PlayerCars[0].rot54 = 0xA00;
-        D_800F4D8A = 1;
-    } else if (D_800F4D8A == 1) {
+        ModeSubState = 1;
+    } else if (ModeSubState == 1) {
         if (LoadTrackNodesStep() == 1) {
-            D_800F4D8A = 2;
+            ModeSubState = 2;
         }
-    } else if (D_800F4D8A == 2) {
+    } else if (ModeSubState == 2) {
         CdAudioInit();
         CdAudioSelectTrack(0, 2);
         ModeGroup = 1;
-        D_800F3A26 = 0x12;
-        D_800F4D8A = 0;
+        ModeId = 0x12;
+        ModeSubState = 0;
     }
     UpdateScreenFade(0x1002E);
 }
@@ -77,14 +77,14 @@ void ovl659_update_preview(void) {
     ScreenFrame = (u32)ScreenFrame + 1;
     PlayerCars[0].rot54 = ((u32)PlayerCars[0].rot54 + 8) & 0xFFF;
     phase = SelectionState.phase17;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
     case 7:
         if (UiRows[0].byte14 == 2) {
-            if (D_800F4D8A == 0) {
+            if (ModeSubState == 0) {
                 CdAudioBeginPlay(1);
             }
-            D_800F4D8A = 1;
+            ModeSubState = 1;
             MenuCursor = 0;
             SetMenuFrameOptions(1, 1, 0);
         }
@@ -107,11 +107,11 @@ void ovl659_update_preview(void) {
                     }
                     row += 1;
                 } while (row < 4);
-                D_800AC5D0 = 0x40;
-                D_800F4D8A = 3;
+                MenuFadeTimer = 0x40;
+                ModeSubState = 3;
                 CdAudioFade(0, 0x3C);
             } else if (MenuCursor == 1) {
-                D_800F4D8A = 9;
+                ModeSubState = 9;
                 row = 0;
 
                 do {
@@ -119,21 +119,21 @@ void ovl659_update_preview(void) {
                     row += 1;
                 } while (row < 4);
             } else if (MenuCursor == 2) {
-                D_800AC5D0 = 0x40;
+                MenuFadeTimer = 0x40;
                 row = 0;
 
                 do {
                     UiRows[row].byte14 = 3;
                     row += 1;
                 } while (row < 4);
-                D_800F4D8A = 6;
-                CdAudioFade(0, D_800AC5D0 - 4);
+                ModeSubState = 6;
+                CdAudioFade(0, MenuFadeTimer - 4);
             }
         }
         break;
     case 9:
         if (UiRows[0].byte14 == 5) {
-            D_800F4D8A = 2;
+            ModeSubState = 2;
             InitPreviewImageRows();
             UiRows[6].byte14 = 0;
             goto draw_vehicle_preview;
@@ -149,12 +149,12 @@ void ovl659_update_preview(void) {
                 UiRows[4].byte14 = 0;
                 UiRows[5].byte14 = 0;
                 UiRows[6].cells[0] = 1;
-                D_800F4D8A = 4;
+                ModeSubState = 4;
             } else if (PlayerControllers[0].b != 0) {
                 PlaySfx(2);
                 UiRows[6].byte14 = 3;
                 ((s8 *)ImageRows)[1] = 3;
-                D_800F4D8A = 10;
+                ModeSubState = 10;
                 BadgeRows->state10 = 4;
             }
         }
@@ -174,7 +174,7 @@ void ovl659_update_preview(void) {
                 UiRows[4].byte14 = 3;
                 UiRows[5].byte14 = 3;
                 UiRows[6].byte14 = 3;
-                D_800F4D8A = 5;
+                ModeSubState = 5;
                 BadgeRows->state10 = 4;
             }
         }
@@ -186,33 +186,33 @@ void ovl659_update_preview(void) {
             UiRows[1].byte14 = 0;
             UiRows[2].byte14 = 0;
             UiRows[3].byte14 = 0;
-            D_800F4D8A = 7;
+            ModeSubState = 7;
         }
         goto draw_vehicle_preview;
     case 6:
-        timer6 = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = timer6;
+        timer6 = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = timer6;
         AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - timer6) * 4, 0x45);
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
-            D_800F3A26 = 3;
-            D_800F4D8A = 0;
+            ModeId = 3;
+            ModeSubState = 0;
         }
         goto draw_rows;
     case 3:
-        timer3 = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = timer3;
+        timer3 = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = timer3;
         AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - timer3) * 4, 0x45);
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             SelectionRows.choice = SelectionState.copies[0];
             MenuScriptId = 0;
             ModeGroup = 1;
-            D_800F3A26 = 0x23;
-            D_800F4D8A = 0;
+            ModeId = 0x23;
+            ModeSubState = 0;
         }
         break;
     }
-    func_80033368(phase, 0);
+    DrawCourseMapPreview(phase, 0);
     DrawCourseInfoPanel(phase, 0);
 draw_rows:
     for (row = 0; row < 4; row++) {
@@ -225,7 +225,7 @@ draw_vehicle_preview:
         BadgeRows->half02 = 1;
         UpdateBadgeRowAnim(0);
         DrawUiRow(6);
-        if ((u16)(D_800F4D8A - 4) < 2U) {
+        if ((u16)(ModeSubState - 4) < 2U) {
             DrawUiRow(4);
             DrawUiRow(5);
         }
@@ -234,7 +234,7 @@ draw_vehicle_preview:
         SetupMenuCarCamera(1);
         SetupViewport(6);
         DrawSelectionIconGrid(0);
-        func_8002E5A0(PlayerCars);
+        PrepareCarDrawPose(PlayerCars);
         if (((s8 *)ImageRows)[1] == 1) {
             s8 c = ~((ImageRows[2] * 0xFF) / 30);
             color.channels.r = c;

@@ -37,14 +37,14 @@ typedef struct {s32 op,args[10];u32 hash;} Event;
 typedef struct {State s;unsigned calls;Event events[24];} World;
 static World actual,reference,initial,*w;static unsigned scenario,mutation,kind;
 static u8 resources[3][0x2D100],storage[3][128];static u16 textData[32];
-RrIconSpriteContext *CurrentDrawBuf;RrUiRow24 *UiRows;RrMenuTextState *D_800AC590;
+RrIconSpriteContext *CurrentDrawBuf;RrUiRow24 *UiRows;RrMenuTextState *DialogueState;
 #define RaceContext w->s.context
 #define ovl665_D_80119768 w->s.visual
 #define PlayerControllers w->s.inputs
 #define MenuArenas w->s.arenas
 #define CdDirectoryBuffer w->s.resource
 #define LoadCursor w->s.published
-#define D_800AC5D0 w->s.fade
+#define MenuFadeTimer w->s.fade
 #define ScreenFrame w->s.pulse
 #define MenuScriptStep w->s.clear1
 #define LoadState w->s.clear2
@@ -55,7 +55,7 @@ static s32 wrap(int64_t x){return word((u32)(uint64_t)x);}
 static s16 half(s32 x){u16 n=(u16)(u32)x;s16 v;memcpy(&v,&n,2);return v;}
 static const s32 phases[]={0,1,2,-1,3,INT32_MIN,INT32_MAX};
 static const s16 fades[]={INT16_MIN,-1,0,1,2,63,64,INT16_MAX};
-static void roots(void){CurrentDrawBuf=(RrIconSpriteContext*)&w->s.frames[w->s.frameRoot];UiRows=w->s.rows[w->s.uiRoot];D_800AC590=&w->s.text[w->s.textRoot];}
+static void roots(void){CurrentDrawBuf=(RrIconSpriteContext*)&w->s.frames[w->s.frameRoot];UiRows=w->s.rows[w->s.uiRoot];DialogueState=&w->s.text[w->s.textRoot];}
 static void effect(void){unsigned i,j;static const u8 types[]={0x41,0x73,0x23,0xE3,0,0x12};
  w->s.frameRoot=next()%3;w->s.uiRoot=next()%3;w->s.textRoot=next()%3;w->s.fade=fades[next()%8];w->s.pulse=word(next());w->s.clear1=next();w->s.clear2=next();
  w->s.visual.scene00=word(next());w->s.visual.selection08=next()%8;w->s.visual.layout0C=phases[next()%7];w->s.visual.detail10=word(next());w->s.visual.exit34.word=word(next());w->s.context.mode18=phases[next()%7];
@@ -93,7 +93,7 @@ static void expected(void){State *s=&w->s;unsigned i;
  if(!kind){static const s32 group[]={8,9,1,1,1,1,0},label[]={19,19,25,20,21,18,85};
   ClearScreenOverlayState();s->clear1=0;s->clear2=0;s->pulse=0;s->arenas.second=s->resource+0x2D000;InitMenuArenas();s->published=s->arenas.second;SetupRenderer(5);
   for(i=0;i<7;i++)InitUiRow(i,94,96+40*i,112,32,0,0,1,group[i],label[i]);
-  SetMenuFrameOptions(1,1,1);if(s->context.mode18==1){s->visual.selection08=5;s->context.mode18=0;}s->fade=64;RaceLoadReset();SeqStartTrack(0);D_800AC590->b4=-1;return;
+  SetMenuFrameOptions(1,1,1);if(s->context.mode18==1){s->visual.selection08=5;s->context.mode18=0;}s->fade=64;RaceLoadReset();SeqStartTrack(0);DialogueState->b4=-1;return;
  }
  {s32 phase=s->visual.layout0C;
  if(phase==0){

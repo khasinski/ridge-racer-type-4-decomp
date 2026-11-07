@@ -75,7 +75,7 @@ void DrawHudSprite(int a0, int a1, int a2, int a3, int a4);
 void DrawHudDigit();
 void func_80057138(int a0, int a1);
 void func_800572A8();
-void func_8005748C();
+void DrawSparkHudOverlay();
 
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(Context650 (*))&RaceContext)
@@ -355,7 +355,7 @@ int a1;
   int i;
   int c;
   unsigned short ua;
-  s1 = D_800A0F20[*((int *) (D_800AC89C + 0x13C))];
+  s1 = D_800A0F20[*((int *) (SparkCarState + 0x13C))];
   do { c = a0 * 4;
   if (a0 >= 0x20) {
     if (a1 < a0) c = 0x80 - ((a0 - a1) * 4);
@@ -384,7 +384,7 @@ int a1;
   }
 }
 
-void func_8005748C(a0, a1, a2) int a0, a1, a2; {
+void DrawSparkHudOverlay(a0, a1, a2) int a0, a1, a2; {
     int s4 = 0x80;
     int s5 = 0;
     int s0 = 0;

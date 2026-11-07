@@ -1,7 +1,7 @@
 /* GCC_VERSION: 970318 */
 /* RODATA 0x800121a0 0x3c */
 extern int CardRxCount;
-extern int D_80114730;
+extern int CardBytesRemaining;
 extern char *CardCmdBuffer;
 int _cardCmd5ARx(a0) int a0; {
     int v;
@@ -9,7 +9,7 @@ int _cardCmd5ARx(a0) int a0; {
     char *c;
     switch (CardRxCount) {
     case 3:
-        D_80114730 = a0 & 0xFF;
+        CardBytesRemaining = a0 & 0xFF;
         break;
     case 4:
         CardCmdBuffer[1] = a0;

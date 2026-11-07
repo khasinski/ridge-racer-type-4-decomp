@@ -23,7 +23,7 @@ class CdReadBeginTest(unittest.TestCase):
         body = re.sub(r'\s+__asm__\("\$\d+"\)', '', body)
         body = re.sub(r',?\s*"\$\d+"', '', body)
         # Global PAL aliases address members of the same full native record.
-        body = body.replace('extern volatile u32 D_800A67BC;', '')
+        body = body.replace('extern volatile u32 DsSavedCdMode;', '')
         decoder = (ROOT/'tools/scripts/fixtures/legacy/func_8008C6A4.c').read_text()
         decoder = re.sub(r'^#include[^\n]*\n', '', decoder, flags=re.M)
         decoder = decoder.replace('CdPosToInt', 'actual_decode')
@@ -73,7 +73,7 @@ static void cb2(void){callback_effect^=4;}
 const char StrCdReadShellOpen[]="CdRead: Shell open...\n";
 const char StrCdReadRetry[]="CdRead: retry...\n";
 #define CdReadState actual.state
-#define D_800A67BC actual.state.mode0C
+#define DsSavedCdMode actual.state.mode0C
 #define CD_read_dma_mode actual.flags
 ''' + body + '\n' + decoder + r'''
 enum {SET0,SET1,SET2,STATUS,CLOCK,LOG,CONTROL,RESET,MODE,PACKET,DECODE,TRANSFER};
@@ -190,7 +190,7 @@ RrLibCompletionCallback CdReadyCallback(RrLibCompletionCallback c){return set(0,
 RrLibCompletionCallback CdDataCallback(RrLibCompletionCallback c){return set(0,2,c);}
 u8 CdStatus(void){return status(0);}
 s32 VSync(s32 a){return clock_tick(0,a);}
-s32 func_800963DC(const char *s,...){return diagnostic(0,s);}
+s32 PsyqPuts(const char *s,...){return diagnostic(0,s);}
 u8 *CdLastPos(void){return packet(0);}
 s32 CdControl(s32 c,const u8 *p,u8 *r){return control(0,c,p,r);}
 void CdFlush(void){reset(0);}

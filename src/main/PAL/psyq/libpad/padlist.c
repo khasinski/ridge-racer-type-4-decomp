@@ -40,7 +40,7 @@ void _padAdvanceChannel(s32 command)
     register s32 mode __asm__("$5") = command;
     register RrChannelRecordF0 *base = PadChannelRecordArray;
     register s32 skip = -9;
-    register s32 *flags = D_800ABCC0;
+    register s32 *flags = PadChannelPendingPackets;
     register s32 current;
     /* ASM_BARRIER: retain the control pointer in v0 until its halfword store. */
     register u16 *control __asm__("$2");
@@ -66,7 +66,7 @@ void _padAdvanceChannel(s32 command)
         /* ASM_BARRIER: finish control publication before reading the live bound. */
         __asm__("" : : : "memory");
         {
-            register s32 bound = D_800ABCBC;
+            register s32 bound = PadLastChannel;
             current++;
             PadActiveChannel = current;
             if (bound >= current) {

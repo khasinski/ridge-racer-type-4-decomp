@@ -12,10 +12,10 @@ extern int CdAudioSetVolumeRaw();
 extern int SeqSetVolume();
 extern char SoundState[];
 
-void func_8004C098(int i);
+void EnablePadAnalogMode(int i);
 void HsvToRgb(const RrHsvColor input,RrRgbColor output);
 
-void func_8004C098(int i) {
+void EnablePadAnalogMode(int i) {
     if (PlayerControllers[i].f1c != 0) {
         PadSetMainMode(i * 16, 1, 0);
     }
@@ -25,7 +25,7 @@ void ApplySoundVolumes(void) {
     char *p = SoundState;
     CdAudioSetVolumeRaw(*(unsigned short *)(p + 0x26C4));
     SeqSetVolume(*(short *)(p + 0x2888));
-    SetCdMixMode(D_800AD55A);
+    SetCdMixMode(SoundMonoFlag);
 }
 
 void HsvToRgb(const RrHsvColor input,RrRgbColor output) {

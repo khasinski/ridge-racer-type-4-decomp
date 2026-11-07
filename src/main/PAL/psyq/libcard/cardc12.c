@@ -21,16 +21,16 @@ s32 _cardCmd5CVarRx(s32 unused) {
         port=CardCmdSioRegs;
         RR_NOP_DEP_ON(port);
         while(!(port->status & 2)) { }
-        D_80114728=CardCmdSioRegs->data;
+        CardVarRxLength=CardCmdSioRegs->data;
     } else if(CardRxCount>=4) {
-        if((u32)CardRxCount==(u32)D_80114728+4) {
+        if((u32)CardRxCount==(u32)CardVarRxLength+4) {
             port=CardCmdSioRegs;
             RR_NOP_DEP_ON(port);
             while(!(port->status & 2)) { }
             received=CardCmdSioRegs->data;
             CardCmdBuffer=CardCmdResultPtrA;
-            D_8011472C.value=1;
-            D_80114730=received+1;
+            CardCmdValue.value=1;
+            CardBytesRemaining=received+1;
         }
     }
     result=0;
@@ -48,8 +48,8 @@ s32 _cardCmd5DBegin(s32 request, s32 parameter, s32 count) {
     CardWriteHandler = _cardRxStatusByte;
     active = 2;
     CardCmdSector = parameter;
-    D_80114728 = count;
-    D_8011472C.value = 0;
+    CardVarRxLength = count;
+    CardCmdValue.value = 0;
     {
         /* ASM_BARRIER: preserve the original assembler temporary for the mapped store. */
         register s32 *base __asm__("$1");
@@ -66,11 +66,11 @@ s32 _cardCmd5DBegin(s32 request, s32 parameter, s32 count) {
 
 s32 _cardCmd5DTx(void) {
     s32 result;
-    switch(D_800ABDE8) {
+    switch(CardTxCount) {
     case 2: result=0x5D; break;
     case 4: result=CardCmdSector; break;
-    case 5: result=D_8011472C.value; break;
-    case 6: result=D_80114728; break;
+    case 5: result=CardCmdValue.value; break;
+    case 6: result=CardVarRxLength; break;
     default: result=0; break;
     }
     return result;
@@ -86,7 +86,7 @@ s32 _cardCmd5DValueBegin(s32 request, s32 parameter) {
     CardCommandReader = _cardCmd5DTx;
     CardWriteHandler = _cardRxStatusByte;
     active = 2;
-    D_8011472C.value = parameter;
+    CardCmdValue.value = parameter;
     {
         /* ASM_BARRIER: preserve the original assembler temporary for the mapped store. */
         register s32 *base __asm__("$1");
@@ -112,7 +112,7 @@ s32 _cardCmd5EBegin(s32 request, s32 parameter, s32 count) {
     CardWriteHandler = _cardRxStatusByte;
     active = 2;
     CardCmdSector = parameter;
-    D_80114728 = count;
+    CardVarRxLength = count;
     {
         /* ASM_BARRIER: preserve the original assembler temporary for the mapped store. */
         register s32 *base __asm__("$1");
@@ -128,7 +128,7 @@ s32 _cardCmd5EBegin(s32 request, s32 parameter, s32 count) {
 }
 
 int _cardCmd5ETx() {
-    int v = D_800ABDE8;
+    int v = CardTxCount;
     int r;
     if (v == 4) goto c4;
     if (v < 5) {
@@ -146,7 +146,7 @@ c4:
     r = CardCmdSector;
     goto end;
 c5:
-    r = D_80114728;
+    r = CardVarRxLength;
 end:
     return r;
 }
@@ -177,7 +177,7 @@ s32 _cardCmd5FBegin(s32 request, s32 parameter) {
 }
 
 int _cardCmd5FTx() {
-    switch (D_800ABDE8) {
+    switch (CardTxCount) {
     case 2: return 0x5F;
     case 4: return CardCmdSector;
     }

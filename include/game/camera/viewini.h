@@ -3,9 +3,9 @@
 
 #include "types.h"
 
-void func_8006E794(void);
-void func_8006E834(void);
-void func_8006E8F8();
+void InitViewState(void);
+void BuildViewSegmentObjectList(void);
+void AddUniqueViewSegmentRecords();
 int func_8006E9D4();
 
 #endif /* RR_GAME_CAMERA_VIEWINI_H */

@@ -29,12 +29,12 @@ extern unsigned char CourseLapCounts[2][8];
 extern int CourseBestLap[2][8];
 extern Struct10 RaceRecords[2][8][5];
 extern int CourseBestLapTimes[2][8][3];
-extern int D_800F3B00[8];
+extern int CourseBestLapRecords[8];
 extern Struct10 LapRecords[2][8][5];
 extern char CourseChoiceTable[];
 extern unsigned short D_8009EA80[];
 extern unsigned char SaveDataWork[];
-extern unsigned char D_800F3B28[];
+extern unsigned char SaveDataBackup[];
 /* extern */
 /* extern */
 /* extern */
@@ -44,11 +44,11 @@ extern M2C_UNK D_800103B8;
 extern s32 VSyncThreshold;
 extern s32 LoadCursor;
 extern s32 ModeFrame;
-extern s16 D_800F3A26;
+extern s16 ModeId;
 extern s16 ModeGroup;
 extern s8 LoadState;
-extern s16 D_800F4D8A;
-extern s16 D_800FFC18;
+extern s16 ModeSubState;
+extern s16 MenuResultCode;
 extern int SetCdMixMode();
 
 void InitDefaultTimeRecords(void);
@@ -58,7 +58,7 @@ void RestoreSaveData(void);
 void func_8001F2CC(void);
 void SplashModeEnter(void);
 void SplashModeUpdate(void);
-void func_8001F400(void);
+void DrawTextStub(void);
 
 void InitDefaultTimeRecords(void) {
     int i, j, k;
@@ -66,7 +66,7 @@ void InitDefaultTimeRecords(void) {
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 8; j++) {
             int c = 0x2FD;
-            D_800F3B00[j] = DefaultCourseTimes[0][j];
+            CourseBestLapRecords[j] = DefaultCourseTimes[0][j];
             CourseBestTotalTimes[j] = (DefaultCourseTimes[0][j] - 0x2FD) * CourseLapCounts[1][j] + (CourseLapCounts[1][j] * 1000 + c);
             CourseBestLap[i][j] = DefaultCourseTimes[1][j];
             CourseBestTotal[i][j] = (DefaultCourseTimes[1][j] - 0x2FD) * CourseLapCounts[0][j] + (CourseLapCounts[0][j] * 1000 + c);
@@ -109,8 +109,8 @@ void InitCourseChoices(void)
     short *t3;
     char *a1;
     unsigned short u;
-    func_80096434(CourseChoiceTable, 0x90);
-    func_80096434(CourseChoiceTable + 0x24, 0x90);
+    PsyqBzero(CourseChoiceTable, 0x90);
+    PsyqBzero(CourseChoiceTable + 0x24, 0x90);
     t4 = 0;
     e = 8;
     t6 = D_8009EA80;
@@ -145,14 +145,14 @@ loop:
 void BackupSaveData(void) {
     int i;
     for (i = 0; i < 0x840; i++) {
-        D_800F3B28[i] = SaveDataWork[i];
+        SaveDataBackup[i] = SaveDataWork[i];
     }
 }
 
 void RestoreSaveData(void) {
     int i;
     for (i = 0; i < 0x840; i++) {
-        SaveDataWork[i] = D_800F3B28[i];
+        SaveDataWork[i] = SaveDataBackup[i];
     }
 }
 
@@ -164,18 +164,18 @@ void SplashModeEnter(void) {
     SetDispMask(0);
     DebugPrintStub(&D_800103B8);
     LoadCursor = CdDirectoryBuffer;
-    func_80071440();
-    D_800FFC18 = 0;
+    SplashLogoInit();
+    MenuResultCode = 0;
     LoadSaveFromCardStep(0);
     VSyncThreshold = 0x80;
     ModeFrame = 0;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     LoadState = 0;
-    D_8010BFBC = 0;
+    AttractCycleCounter = 0;
     PendingModeId = 0x203;
     ModeGroup = 1;
-    D_800F3A26 = 2;
-    D_800F4D8A = 0;
+    ModeId = 2;
+    ModeSubState = 0;
 }
 
 /* legacy typing of shared globals in this part of the unit */
@@ -185,14 +185,14 @@ void SplashModeEnter(void) {
 void SplashModeUpdate(void) {
     s32 temp_v0;
 
-    temp_v0 = func_8003BBBC();
+    temp_v0 = LoadSplashAssetsStep();
     if (temp_v0 == 1) {
         ModeFrame += 1;
         if (SplashLogoUpdate(LoadSaveFromCardStep(1) == 1) == temp_v0) {
-            SetCdMixMode(D_800AD55A);
-            D_800F4D8A = 0;
+            SetCdMixMode(SoundMonoFlag);
+            ModeSubState = 0;
             ModeGroup = (s16) ((u16) PendingModeId >> 8);
-            D_800F3A26 = PendingModeId & 0xFF;
+            ModeId = PendingModeId & 0xFF;
         }
     }
 }
@@ -200,6 +200,6 @@ void SplashModeUpdate(void) {
 #undef LoadSaveFromCardStep
 #undef PendingModeId
 
-void func_8001F400(void){ int a[6];
+void DrawTextStub(void){ int a[6];
 /* ASM_BARRIER: empty-frame function needs jr/addiu sp delay-slot epilogue form */
 asm volatile("" ::: "memory"); }

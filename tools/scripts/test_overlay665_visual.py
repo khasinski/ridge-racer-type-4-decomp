@@ -40,10 +40,10 @@ static u8 arenas[3][256];static u32 ordering[3][704];
 #define ScreenFrame world.s.counter
 #define LoadState world.s.flag1
 #define MenuScriptStep world.s.flag2
-#define D_800F4CA8 world.s.mode
+#define DialogueContext world.s.mode
 #define ModeGroup world.s.selector
-#define D_800F3A26 world.s.scene
-#define D_800F4D8A world.s.phase
+#define ModeId world.s.scene
+#define ModeSubState world.s.phase
 ''' + reset + body + r'''
 static u32 seed=0x14918,scenario;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -60,7 +60,7 @@ static void observe(struct World *v,s32 kind,s32 a,s32 b,s32 c,s32 d){Event *e;u
 }
 void SetDispMask(s32 mode){assert(world.calls==0 && mode==0);observe(&world,0,mode,0,0,0);}
 void SetupDrawDispEnvs(s32 r,s32 g,s16 b,u32 flags){assert(world.calls==1 && r==0 && g==0 && b==0 && flags==2);observe(&world,1,r,g,b,(s32)flags);}
-void func_80096434(void *buffer,s32 size){assert(world.calls==2 && buffer==&world.s.visual && size==160);observe(&world,2,size,0,0,0);}
+void PsyqBzero(void *buffer,s32 size){assert(world.calls==2 && buffer==&world.s.visual && size==160);observe(&world,2,size,0,0,0);}
 static void reference(void){unsigned i,j;State *s=&expected.s;static const s16 directions[3][3]={{4500,-4096,-8000},{8000,8000,-8000},{-2637,1602,2694}};static const u8 colors[3]={192,128,0};
  observe(&expected,0,0,0,0,0);observe(&expected,1,0,0,0,2);observe(&expected,2,160,0,0,0);
  for(i=0;i<3;i++)for(j=0;j<3;j++){s->visual.lighting4C.matrix.bytes[i*4+j]=colors[i];s->visual.lighting4C.matrix.signedHalves[6+i*4+j]=directions[i][j];}

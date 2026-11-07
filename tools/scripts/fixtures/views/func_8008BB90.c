@@ -4,9 +4,9 @@
 
 #include "rr/library.h"
 
-extern int D_800A63C4;
+extern int DmaChannelRegsBase;
 
-extern char D_80011878[];
+extern char DmaBusErrorFmt[];
 
 extern char DmaMadrDebugFmt[];
 
@@ -37,10 +37,10 @@ void trapIntrDMA(void) {
         } while (s1 != 0);
     }
     if ((*DICR_VSync & 0xFF000000) == 0x80000000 || (*DICR_VSync & 0x8000)) {
-        DebugPrintStub(D_80011878, *DICR_VSync);
+        DebugPrintStub(DmaBusErrorFmt, *DICR_VSync);
         i = 0;
         do {
-            DebugPrintStub(DmaMadrDebugFmt, i, *(int *)(i * 16 + D_800A63C4));
+            DebugPrintStub(DmaMadrDebugFmt, i, *(int *)(i * 16 + DmaChannelRegsBase));
             i++;
         } while (i < 7);
     }

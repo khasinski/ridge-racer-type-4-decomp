@@ -52,9 +52,9 @@ static s32 result;
 #define ovl667_D_80118EED w->received
 #define ovl667_D_80118EEE w->sent
 #define ovl667_D_80118F20 w->ring
-#define D_800ACBE0 w->incoming
+#define LinkRemoteInputs w->incoming
 #define D_800ACBF0 w->outgoing
-#define D_800F3AF0 w->payload
+#define LinkLocalInputs w->payload
 static const u32 edges[]={0,1,2,3,4,7,0x7FFFFFFF,0x80000000U,0xFFFFFFFFU,0x80000001U};
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 static s32 inc(s32 n){uint64_t b=(uint64_t)(u32)n+1;return word((u32)b);}

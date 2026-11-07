@@ -8,14 +8,14 @@
 #include "rr/menu_state_types.h"
 #include "game/menu/menuwork.h"
 
-extern s32 MenuStepDirection, D_800F3A60;
-extern void *LoadCursor, *D_800F4D40;
+extern s32 MenuStepDirection, MenuConfirmPressed;
+extern void *LoadCursor, *MenuArenaBase;
 extern RrMenuSettings2C SelectionState;
-extern s16 D_800F3826;
-extern u16 D_800F3A42;
+extern s16 CourseListIndex;
+extern u16 Pad0RepeatButtons;
 extern RrMenuGlyphRow1C *GlyphRows;
 extern RrMenuChoice4 SelectionRows;
-extern u8 D_800F4D99; /* Alias of SelectionRows.bytes[1]. */
+extern u8 CourseListSavedIndex; /* Alias of SelectionRows.bytes[1]. */
 extern u8 *Dialogue;
 void PlaySfx(s32 mode);
 void ResetScreenCounters(void);
@@ -26,7 +26,7 @@ void SetMenuFrameOptions(s32 first, s32 second, s32 third);
  * may change selection, backing pointers and records. Acceptance uses captured
  * state3 but fresh row/UI pointers after the sound helper. Publishes the fresh
  * full buffer pointer after both state helpers. */
-void func_80036D40(void);
+void UpdateCourseListChoice(void);
 RR_ASSERT_SIZE(RrMenuChoice4, 4);
 RR_ASSERT_SIZE(RrMenuSettings2C, 0x2C);
 RR_ASSERT_OFFSET(RrMenuSettings2C, retries08, 8);

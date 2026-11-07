@@ -1,13 +1,13 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "rr/library.h"
-extern const char D_80011F38[];
+extern const char DrawOTagFmt[];
 extern RrLibGraphicsDriverPrefix *GpuFuncTable;
 void DrawOTag(s32 ordering_table) {
     /* ASM_BARRIER: Keep the third dispatch argument distinct from the final constant zero. */
     register s32 second;
     register s32 third;
     RrLibGraphicsDriverPrefix *driver;
-    if (D_800ABAC2.level >= 2) GPU_printf(D_80011F38, ordering_table);
+    if (D_800ABAC2.level >= 2) GPU_printf(DrawOTagFmt, ordering_table);
     second = ordering_table;
     driver = GpuFuncTable;
     /* ASM_BARRIER: Load the current driver before preparing the dispatch zeros. */

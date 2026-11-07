@@ -76,7 +76,7 @@ int _spu_init(s32 warm)
     u16 *entry;
     *SPU_DPCR |= 0xB0000;
     _spu_transMode=0;
-    D_800A47F8=0;
+    _spu_addrMode=0;
     _spu_tsa=0;
     bank=BANK;
     bank->halves[192]=0;
@@ -93,7 +93,7 @@ int _spu_init(s32 warm)
         count++;
         do {
             if(count>0xF00) {
-                DebugPrintStub(D_80011698,SpuWaitResetStr);
+                DebugPrintStub(SpuTimeoutFmt,SpuWaitResetStr);
                 break;
             }
             count++;
@@ -164,7 +164,7 @@ int _spu_init(s32 warm)
     _spu_inTransfer=1;
     end->halves[213]=0xC000;
     _spu_transferCallback=0;
-    D_800A4814=0;
+    _spu_IRQCallback=0;
     /* ASM_BARRIER: Finish reset stores before the return phase. */
     __asm__("" : : "r"(result) : "memory");
     return result; }

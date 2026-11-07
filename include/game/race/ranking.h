@@ -7,6 +7,6 @@ int InitDefaultTimeRecords();
 void InitCourseChoices(void);
 int BackupSaveData();
 void RestoreSaveData(void);
-int func_8001F400();
+int DrawTextStub();
 
 #endif /* RR_GAME_RACE_RANKING_H */

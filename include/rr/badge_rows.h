@@ -7,8 +7,8 @@
 #include "rr/badge_row_types.h"
 
 extern RrBadgeRow1C *BadgeRows;
-extern s8 D_8009F108[];
-extern RrUiUvRect D_8009F074[];
+extern s8 BadgePatternTable[];
+extern RrUiUvRect BadgeUvTable[];
 
 /* The helpers thread full packet pointers. Coordinate arguments remain wide
  * until their wire16 stores, including sums of two signed16 row fields. */
@@ -25,7 +25,7 @@ void *AddDrawAreaPrim(u32 *, void *, s32, s32, s32, s32);
  * next cursor. Captures glyph/shift before the first helper, then reloads the
  * row/context pointers after every helper; UV bytes are read after the first.
  * Each helper input cursor and returned cursor must point into writable arenas. */
-void *func_80030BEC(void *cursor, s32 style, s32 index);
+void *DrawBadgePatternRows(void *cursor, s32 style, s32 index);
 
 RR_ASSERT_SIZE(RrBadgeRow1C, 0x1C);
 RR_ASSERT_OFFSET(RrBadgeRow1C, status00, 0);

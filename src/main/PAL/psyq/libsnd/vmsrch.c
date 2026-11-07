@@ -71,7 +71,7 @@ int _SsVmKeyOff(s32 a,s32 b,s32 c,u32 group) {
             /* ASM_BARRIER: Prepare the sentinel in the last match-comparison delay slot. */
             register s32 marker __asm__("$2")=255;
             if(((RrChannelControlRow36 *)((u8 *)_svm_voice+offset))->value00==marker) {count++;vmNoiseOff(i);}
-            else {D_80110118=(u8)index;_SsVmKeyOffNow(0);count++;}
+            else {SvmVoiceIndex=(u8)index;_SsVmKeyOffNow(0);count++;}
             }
 next:;
             index++;

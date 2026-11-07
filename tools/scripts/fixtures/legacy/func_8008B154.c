@@ -1,7 +1,7 @@
 /* CC1_FLAGS: -mno-split-addresses -fno-schedule-insns */
 extern volatile unsigned *GPUSTAT;
 extern volatile unsigned *RCNT1_VALUE;
-extern volatile unsigned VSyncRcnt1Last, D_800A5264;
+extern volatile unsigned VSyncRcnt1Last, VSyncLastVcount;
 #include "rr/timing.h"
 int VSync(a0) int a0; {
     volatile unsigned t;
@@ -18,11 +18,11 @@ int VSync(a0) int a0; {
     if (a0 < 0) return Vcount;
     if (a0 == 1) return s1;
     if (a0 > 0) {
-        v = D_800A5264;
+        v = VSyncLastVcount;
         v = v - 1;
         v = v + a0;
     } else {
-        v = D_800A5264;
+        v = VSyncLastVcount;
     }
     w = 0;
     if (a0 > 0) w = a0 - 1;
@@ -36,7 +36,7 @@ int VSync(a0) int a0; {
             } while (((s0 ^ *r) & 0x80000000) == 0);
         }
     }
-    D_800A5264 = Vcount;
+    VSyncLastVcount = Vcount;
     do {
         VSyncRcnt1Last = *RCNT1_VALUE;
     } while (VSyncRcnt1Last != *RCNT1_VALUE);

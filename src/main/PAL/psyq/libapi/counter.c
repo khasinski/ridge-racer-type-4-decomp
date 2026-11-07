@@ -3,8 +3,8 @@
 #include "rr/counters.h"
 #include "rr/spu_tick_control.h"
 
-extern int *D_800ABC30;
-extern int D_800ABC38[];
+extern int *I_STAT_RCnt;
+extern int RCntIntrMaskBits[];
 
 int SetRCnt(unsigned a0, unsigned short a1, int a2);
 int StartRCnt();
@@ -45,22 +45,22 @@ s32 GetRCnt(u32 id) {
 
 int StartRCnt(a0) unsigned int a0; {
   int v = a0 & 0xFFFF;
-  int *p = D_800ABC30;
-  p[1] |= D_800ABC38[v];
+  int *p = I_STAT_RCnt;
+  p[1] |= RCntIntrMaskBits[v];
   return v < 3;
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABC30 ((u32 *)D_800ABC30)
+#define I_STAT_RCnt ((u32 *)I_STAT_RCnt)
 
 s32 StopRCnt(u32 index) {
     u32 offset = (u32)(u16)index * 4;
     u32 *state;
     u8 *base;
-    state = D_800ABC30;
+    state = I_STAT_RCnt;
     /* ASM_BARRIER: load the register pointer before materializing the mask table base. */
     __asm__ volatile("" : : "r"(state), "r"(offset) : "$2");
-    /* PAL RAM mapping: D_800ABC38 is base minus 0x43C8. */
+    /* PAL RAM mapping: RCntIntrMaskBits is base minus 0x43C8. */
     base = (u8 *)0x800B0000U;
     /* ASM_BARRIER: preserve the explicit base-plus-offset table load. */
     __asm__("" : "=r"(base) : "0"(base));
@@ -74,7 +74,7 @@ s32 StopRCnt(u32 index) {
     return 1;
 }
 
-#undef D_800ABC30
+#undef I_STAT_RCnt
 
 int ResetRCnt(a0) unsigned int a0; {
   int v = a0 & 0xFFFF;

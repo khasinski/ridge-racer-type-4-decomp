@@ -1,11 +1,11 @@
 #include "rr/track_interpolation.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_80096424 ((void (*)())func_80096424)
+#define PsyqStrcpy ((void (*)())PsyqStrcpy)
 
 #define PasswordBytes (*(unsigned char (*)[])&PasswordBytes)
 
-#undef func_80096424
+#undef PsyqStrcpy
 
 #undef PasswordBytes
 

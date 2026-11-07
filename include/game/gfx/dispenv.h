@@ -5,7 +5,7 @@
 
 int func_80043C14();
 void GetTrackLaneWorldPos();
-void func_80043ED4(unsigned short *, int, int *);
+void SetCamAnglesRotateNegZ(unsigned short *, int, int *);
 void RotateNegZByEulerZYX(unsigned short *, int, int *);
 short LerpAngleWrap4096(short *p, int t);
 

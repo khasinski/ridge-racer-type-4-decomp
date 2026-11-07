@@ -16,7 +16,7 @@ void ovl662_func_80118ED8(void) {
     InitBadgeRow(1, 24, 232, 84, 34, 0, 0x501);
     SetupRenderer(5);
     ModeGroup = 1;
-    D_800F3A26 = 68;
-    LoadCursor = MenuArenas.first = D_800F4D40;
-    D_800F4D8A = 0;
+    ModeId = 68;
+    LoadCursor = MenuArenas.first = MenuArenaBase;
+    ModeSubState = 0;
 }

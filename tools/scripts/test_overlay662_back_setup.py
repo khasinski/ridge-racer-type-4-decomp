@@ -32,8 +32,8 @@ static struct World {struct State s;unsigned calls;struct {s32 kind,arg[10];u32 
 static unsigned scenario,mutation,kind;
 #define ovl662_D_801276A8 w->s.garage
 #define ModeGroup w->s.row
-#define D_800F3A26 w->s.position
-#define D_800F4D8A w->s.selection
+#define ModeId w->s.position
+#define ModeSubState w->s.selection
 #define ovl662_D_801148F0 save_message
 #define ovl662_D_80114900 load_message
 static void effect(unsigned n){

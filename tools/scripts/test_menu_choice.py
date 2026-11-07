@@ -48,19 +48,19 @@ static Entry entries[8],actual_entries[8];
 static int count,mutation;
 static unsigned seed;
 static uint64_t arena[32][8];
-#define D_800F4D99 (w->choice.bytes[1])
+#define CourseListSavedIndex (w->choice.bytes[1])
 #define SelectionRows (w->choice)
-#define D_800F3826 (w->selected)
-#define D_800F3A42 (w->buttons)
+#define CourseListIndex (w->selected)
+#define Pad0RepeatButtons (w->buttons)
 #define MenuStepDirection (w->event)
-#define D_800F3A60 (w->accepted)
+#define MenuConfirmPressed (w->accepted)
 #define SelectionState (w->settings)
 #define BadgeRows (&w->rows[w->rowbank])
 #define UiRows ((RrUiRow24 *)w->ui[w->uibank].bytes)
 #define GlyphRows (w->slots)
 #define Dialogue (w->highlight[w->hintbank])
 #define LoadCursor (w->current)
-#define D_800F4D40 (w->resource)
+#define MenuArenaBase (w->resource)
 '''
         reference=r'''
 static void emit(int kind,s32 a,s32 b,s32 c){
@@ -123,7 +123,7 @@ int main(void){
   actual.choice.bytes[1]=(u8)(k*17U);actual.buttons=(u16)k;actual.accepted=k&4;
   actual.rows[0].state10=k%5;actual.rows[1].state10=3;
   actual.resource=arena[k%32];actual.current=arena[(k+1)%32];expected=actual;
-  bind(&actual);func_80036D40();int actual_count=count;memcpy(actual_entries,entries,sizeof(entries));
+  bind(&actual);UpdateCourseListChoice();int actual_count=count;memcpy(actual_entries,entries,sizeof(entries));
   bind(&expected);reference();
   if(count!=actual_count || memcmp(entries,actual_entries,sizeof(entries)) || memcmp(&actual,&expected,sizeof(actual))){fprintf(stderr,"case%u mutation%d failed actual calls%d expected%d\n",k,mutation,actual_count,count);return 1;}
  }

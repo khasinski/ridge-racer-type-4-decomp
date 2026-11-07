@@ -29,10 +29,10 @@ RR_ASSERT_OFFSET(RrPulseState18, once_tick0A, 0xA);
 RR_ASSERT_OFFSET(RrPulseState18, repeat_step0C, 0xC);
 RR_ASSERT_OFFSET(RrPulseState18, once_step0E, 0xE);
 
-extern const RrPulseRow *D_8009FF80[], *D_8009FFA0[];
+extern const RrPulseRow *D_8009FF80[], *PadPulseRepeatRows[];
 extern RrMenuItemState5C PlayerControllers[];
 extern RrPulseState18 PadPulseState[];
-void func_8004B8A8(void);
+void PadStepPulse(void);
 s32 ovl665_func_8011629C(s32 index);
 
 #endif

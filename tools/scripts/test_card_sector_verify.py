@@ -31,8 +31,8 @@ s32 _card_write(s32 port,s32 sector,const u8 *buffer){return test_operation(1,po
 void _new_card(void){test_operation(0,0,0,0,0);}
 s32 _card_read(s32 port,s32 sector,u8 *buffer){return test_operation(4,port,sector,buffer,128);}
 s32 _card_status(s32 slot){return test_operation(2,slot,0,0,0);}
-void func_80096434(void *buffer,s32 size){memset(buffer,0,size);test_operation(3,0,0,buffer,size);}
-char D_80011FD8[64];
+void PsyqBzero(void *buffer,s32 size){memset(buffer,0,size);test_operation(3,0,0,buffer,size);}
+char CardReadErrorMsg[64];
 s32 DebugPrintStub(const char *format,...){return test_operation(5,0,0,(void *)format,0);}
 '''
         body = (root/'tools/scripts/fixtures/views/func_80096054.c').read_text()
@@ -52,7 +52,7 @@ s32 DebugPrintStub(const char *format,...){return test_operation(5,0,0,(void *)f
         cls.function.restype = C.c_int32
         exe=(root/'assets/PAL/main.exe').read_bytes();start=0x800+0x1FD8
         cls.message=exe[start:exe.index(b'\0',start)]
-        C.memmove(C.addressof((C.c_char*64).in_dll(cls.lib,'D_80011FD8')),cls.message+b'\0',len(cls.message)+1)
+        C.memmove(C.addressof((C.c_char*64).in_dll(cls.lib,'CardReadErrorMsg')),cls.message+b'\0',len(cls.message)+1)
 
     @staticmethod
     def checksum(data):

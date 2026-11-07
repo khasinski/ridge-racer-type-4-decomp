@@ -26,12 +26,12 @@ extern u32 *CdDirectoryBuffer;
 extern RrCdFileEntry CdFileTable[];
 extern int rsin();
 extern int rcos();
-extern int D_8009DFA0;
+extern int LoadingTriangleAngle;
 extern int LoadingTriangleFlip;
 extern struct P { int w0, w4; short x0, y0; int c1; short x1, y1; int c2; short x2, y2; } D_80109400[];
-extern struct P *D_80109438;
+extern struct P *LoadingTrianglePacket;
 
-int func_80012210(int a0, int a1, int a2, int a3);
+int GetCarFileIndex(int a0, int a1, int a2, int a3);
 int GetR4FileIndex(int a0, int a1);
 void DrawLoadingTriangle(void);
 
@@ -39,7 +39,7 @@ s32 func_80012208(s32 arg0) {
     return arg0 * 2;
 }
 
-int func_80012210(int a0, int a1, int a2, int a3) {
+int GetCarFileIndex(int a0, int a1, int a2, int a3) {
     int v = ((a1 * 4 + a0) * 0x14) + a2;
     if (a3 == 0) return v + 0x12;
     return v + 0x152;
@@ -119,26 +119,26 @@ void DrawLoadingTriangle(void)
     unsigned **g;
     register unsigned m asm("$5");
     unsigned h;
-    a = D_8009DFA0 + 0x10;
+    a = LoadingTriangleAngle + 0x10;
     v = LoadingTriangleFlip ^ 1;
     LoadingTriangleFlip = v;
-    D_8009DFA0 = a;
-    D_80109438 = &D_80109400[v];
-    D_80109438->x0 = (rsin(a) >> 7) + 0x50;
-    D_80109438->y0 = (rcos(D_8009DFA0) >> 7) + 0x80;
-    D_80109438->x1 = (rsin(D_8009DFA0 + 0x555) >> 7) + 0x50;
-    D_80109438->y1 = (rcos(D_8009DFA0 + 0x555) >> 7) + 0x80;
-    D_80109438->x2 = (rsin(D_8009DFA0 - 0x555) >> 7) + 0x50;
-    D_80109438->y2 = (rcos(D_8009DFA0 - 0x555) >> 7) + 0x80;
+    LoadingTriangleAngle = a;
+    LoadingTrianglePacket = &D_80109400[v];
+    LoadingTrianglePacket->x0 = (rsin(a) >> 7) + 0x50;
+    LoadingTrianglePacket->y0 = (rcos(LoadingTriangleAngle) >> 7) + 0x80;
+    LoadingTrianglePacket->x1 = (rsin(LoadingTriangleAngle + 0x555) >> 7) + 0x50;
+    LoadingTrianglePacket->y1 = (rcos(LoadingTriangleAngle + 0x555) >> 7) + 0x80;
+    LoadingTrianglePacket->x2 = (rsin(LoadingTriangleAngle - 0x555) >> 7) + 0x50;
+    LoadingTrianglePacket->y2 = (rcos(LoadingTriangleAngle - 0x555) >> 7) + 0x80;
     w = 0x300000FF;
     m = 0xFFFFFF;
     g = (unsigned **)SCRATCHPAD;
     h = 0xFF000000;
-    D_80109438->c1 = 0xFF00;
-    D_80109438->c2 = 0xFF0000;
-    D_80109438->w4 = w;
-    *((unsigned char *)D_80109438 + 3) = 6;
-    D_80109438->w0 = (D_80109438->w0 & h) | (**(g + 1) & m);
+    LoadingTrianglePacket->c1 = 0xFF00;
+    LoadingTrianglePacket->c2 = 0xFF0000;
+    LoadingTrianglePacket->w4 = w;
+    *((unsigned char *)LoadingTrianglePacket + 3) = 6;
+    LoadingTrianglePacket->w0 = (LoadingTrianglePacket->w0 & h) | (**(g + 1) & m);
     t = *(g + 1);
-    *t = (*t & h) | ((unsigned)D_80109438 & m);
+    *t = (*t & h) | ((unsigned)LoadingTrianglePacket & m);
 }

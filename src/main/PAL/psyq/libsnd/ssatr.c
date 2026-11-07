@@ -13,7 +13,7 @@
   int t0;
   _SsVmVSetUp(t1 >> 16, t2 >> 16);
   i = 0;
-  D_80110114 = c0;
+  SvmLastChannel = c0;
   s = 0;
   if (spuVmMaxVoice > 0) { t0 = c0 << 16; c0 = c3 & 0xFFFF; do { s += _SsVmPBVoice(i, t0 >> 16, t1 >> 16, t2 >> 16, c0); i++; } while (i < spuVmMaxVoice); }
   return s;

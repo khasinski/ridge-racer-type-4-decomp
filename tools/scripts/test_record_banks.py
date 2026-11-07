@@ -6,7 +6,7 @@ s=(ROOT/'tools/scripts/fixtures/views/func_800293D0.c').read_text()
 s=re.sub(r'^#include[^\n]*\n|extern[^;]*;','',s,flags=re.M)
 s=re.sub(r'\s+__asm__\("\$\d+"\)','',s);s=re.sub(r',?\s*"\$\d+"','',s)
 s,n=re.subn(r'\(u8\s*\*\)0x800B0000U','((u8*)&actual+offsetof(World,count_record)+offsetof(RrBankRecord320,value1E4)+0x3A64)',s);assert n==1
-cut=s.index('void func_800293D0');body=s[cut:]
+cut=s.index('void InitReplayBuffers');body=s[cut:]
 types=(ROOT/'include/rr/record_banks.h').read_text()
 types=re.sub(r'^#include[^\n]*\n|^RR_ASSERT_[^\n]*\n','',types,flags=re.M)
 types=re.sub(r'extern[^;]*;','',types)
@@ -37,7 +37,7 @@ static World actual,expected;
 #define NumCars actual.count_record.value1E4
 #define CarSnapshots actual.sources
 #define CarTable actual.destinations
-#define D_800FFC48 actual.arena.bytes
+#define SharedWorkBuffer actual.arena.bytes
 #define ReplayInputs actual.banks
 ''' + body + r'''
 static s32 bits(u32 x){s32 y;memcpy(&y,&x,4);return y;}
@@ -92,10 +92,10 @@ static void check(s32 layout,s32 mode,s16 count,u32 seed,int alias) {
  if(mode==2&&count<=0)for(unsigned i=0;i<8;i++)actual.sources[i]=actual.destinations[i]=0;
  memcpy(&expected,&actual,sizeof(actual));
  assert((uintptr_t)actual.arena.bytes>UINT32_MAX&&sizeof(void*)==sizeof(unsigned long));
- reference(layout,mode);func_800293D0(layout,mode);
+ reference(layout,mode);InitReplayBuffers(layout,mode);
  if(mode!=2) {
   actual.count_record.value1E4=expected.count_record.value1E4=(layout==1||layout==2)?4:8;
-  reference(layout,2);func_800293D0(layout,2);
+  reference(layout,2);InitReplayBuffers(layout,2);
  }
  if(memcmp(&actual,&expected,sizeof(actual))) {
   fprintf(stderr,"layout=%d mode=%d count=%d seed=%u alias=%d\n",layout,mode,count,seed,alias);assert(0);

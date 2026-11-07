@@ -18,7 +18,7 @@ s32 _SsVmGetSeqVol(s32 input, u16 *left, u16 *right) {
     __asm__("" : "=r"(table) : "0"(table));
     table += (s32)(offset / sizeof(*table));
     record = table[-0xF98 / 4];
-    last = &D_80110114;
+    last = &SvmLastChannel;
     *last = channel;
     
     group = (channel & 0xFF00) >> 8;

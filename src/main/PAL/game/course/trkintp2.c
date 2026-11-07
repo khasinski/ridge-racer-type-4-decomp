@@ -11,12 +11,12 @@ typedef struct { int x, y, z, w; } V4;
 typedef struct { int a, b, c, d; } V;
 
 extern unsigned char ChecksumBytes();
-extern int func_80096424();
+extern int PsyqStrcpy();
 extern int PsyqRand();
 extern char PasswordChars[];
 extern char PasswordBytes[];
 extern void DrawSync();
-extern char *D_800ACBA0;
+extern char *TrackEntries;
 extern int BuildRotMatrixZ();
 extern int BuildRotMatrixY();
 extern int BuildRotMatrixX();
@@ -30,7 +30,7 @@ int DecodeRecordPassword(int *a, int *b, int *c, int *d, int *e, int f);
 void LoadTimImage(int *p);
 void LoadTimList(int *p);
 int FindNearestTrackEntry();
-void func_800437D8();
+void SetCarAttachedCamera();
 void CarLocalToWorld(char *a, int b, int *c);
 void GetTrackPointAhead(RrRaceVehicle *vehicle, s32 *output, s32 distance);
 
@@ -59,7 +59,7 @@ L1:
     q = a0;
     i = 0;
     k = ((unsigned char)c % 11) & 0xFF;
-    tab = D_8009FE2C;
+    tab = PasswordCipherKey;
     do {
         unsigned char *t;
         r = (unsigned char *)(k + (int)tab);
@@ -99,17 +99,17 @@ int EncodeRecordPassword(a0, a1, a2, a3, a4, a5) int a0; int a1; int a2; int a3;
     PasswordBytes[5] = a4 & 0xF;
     EncodePasswordCode(PasswordBytes, PasswordChars);
     PasswordChars[0xD] = 0;
-    func_80096424(a5, PasswordChars);
+    PsyqStrcpy(a5, PasswordChars);
     return 0;
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_80096424 ((void (*)())func_80096424)
+#define PsyqStrcpy ((void (*)())PsyqStrcpy)
 #define PasswordBytes (*(unsigned char (*)[])&PasswordBytes)
 
 int DecodeRecordPassword(int *a, int *b, int *c, int *d, int *e, int f) {
     unsigned t;
-    func_80096424(PasswordChars, f);
+    PsyqStrcpy(PasswordChars, f);
     if (ValidateRecordPassword(PasswordBytes, PasswordChars) == 0) {
         *a = PasswordBytes[0] & 0xF;
         *b = (PasswordBytes[1] * 16 + (PasswordBytes[0] >> 4)) & 0x3FF;
@@ -122,7 +122,7 @@ int DecodeRecordPassword(int *a, int *b, int *c, int *d, int *e, int f) {
     return -1;
 }
 
-#undef func_80096424
+#undef PsyqStrcpy
 #undef PasswordBytes
 
 void LoadTimImage(int *p) {
@@ -164,7 +164,7 @@ int FindNearestTrackEntry(a0) char *a0;
 {
     int t2 = 0;
     int t1 = 0x7FFFFFFF;
-    char *a2 = D_800ACBA0;
+    char *a2 = TrackEntries;
     unsigned short a1 = *(unsigned short *)(a2 + 0x32);
     int a3 = 0;
     int a0v, v1, b;
@@ -185,7 +185,7 @@ int FindNearestTrackEntry(a0) char *a0;
     return t2;
 }
 
-void func_800437D8(a0, a1) char *a0; int *a1;
+void SetCarAttachedCamera(a0, a1) char *a0; int *a1;
 {
     struct { int m[16]; int n[8]; short c[4]; short d[4]; V4 e; V4 f; } s;
     int *g;

@@ -25,9 +25,9 @@ class Overlay667StatusTest(unittest.TestCase):
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
 #include "rr/overlay667_status.h"
-_Static_assert(__builtin_types_compatible_p(__typeof__(D_800AD50A),u16),"scene cell is unsigned16");
+_Static_assert(__builtin_types_compatible_p(__typeof__(SceneId),u16),"scene cell is unsigned16");
 static struct {u32 head;u16 before,marker,after,pad;s32 status;u32 tail;} world,snapshot;
-#define D_800AD50A world.marker
+#define SceneId world.marker
 #define ovl667_D_80118EE4 world.status
 ''' + '\n'.join(bodies) + r'''
 static u32 seed=0x1492C;

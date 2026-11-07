@@ -26,7 +26,7 @@ static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGpuRectangle 
 static RrFrameOrderingPrefix frames[3],original[3];
 #define ovl662_D_801276A8 world.garage
 #define CurrentDrawBuf world.context
-#define D_800AC590 world.text
+#define DialogueState world.text
 ''' + body + r'''
 static u32 seed=0x1CF8C,scenario,mutate;
 static const s32 fades[]={INT32_MIN,INT32_MIN+1,-1000000,-65,-2,-1,0,1,2,63,64,65,66,536870975,536870976,536870977,1073741888,INT32_MAX-1,INT32_MAX};

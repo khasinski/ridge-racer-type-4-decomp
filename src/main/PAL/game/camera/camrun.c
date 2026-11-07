@@ -79,10 +79,10 @@ extern struct {
 extern s32 VSyncThreshold;
 extern s16 D_800F7488;
 extern s16 D_800F7624;
-extern void func_8002E828(s32, s32);
+extern void ScaleMatrixRow1(s32, s32);
 extern void UpdateMotionTrack(s16 *);
 extern void UpdateCameraMotion(s16 *);
-extern void func_8005D544(s16 *);
+extern void UpdateMotionControllerPanel(s16 *);
 extern void UpdateScrollTrack(s16 *);
 extern void BuildCameraMatrices(void);
 extern void SetupViewport(s32);
@@ -129,9 +129,9 @@ void StepCameraScript(void) {
         break;
     case 1:
         if (a2 != 0) {
-            func_8005D500(RaceContext.q->f70);
+            InitMotionControllerPanel(RaceContext.q->f70);
         }
-        func_8005D544(s0);
+        UpdateMotionControllerPanel(s0);
         break;
     case 2:
         if (a2 != 0) {
@@ -154,23 +154,23 @@ void StepCameraScript(void) {
         if (RaceContext.q->f50 == 0) {
             SetupViewport(6);
             SetGeomOffset(0xA0, 0xE8);
-            func_8002E828(2, SCRATCH_ROT_MATRIX);
+            ScaleMatrixRow1(2, SCRATCH_ROT_MATRIX);
         }
         g->f60 = 5;
         g->p04 = (s32)&DRAWBUF->tailB70;
         if (RaceContext.q->f54 != 0) {
             switch (RaceContext.q->f6c) {
             case 0:
-                func_8005C024();
+                DrawCameraMotionModel();
                 break;
             case 1:
-                func_8005D820();
+                DrawMotionControllerPanel();
                 break;
             case 2:
                 DrawRingEffects();
                 break;
             case 3:
-                func_8005AA2C();
+                DrawMarkerBitmapGrid();
                 break;
             }
         }
@@ -228,7 +228,7 @@ void InitCameraMotion(int a0) {
     register char *t asm("$2");
     int v;
     char *t0;
-    func_80096434(Q(s1, 0x3D8) + 0x74, 0x70);
+    PsyqBzero(Q(s1, 0x3D8) + 0x74, 0x70);
     if (a0 < 4) {
         W(Q(s1, 0x3D8), 0x78) = 0;
         W(Q(s1, 0x3D8), 0x80) = (int)(D_800A1AA0 + a0 * 0x30);

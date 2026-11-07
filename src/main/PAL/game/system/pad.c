@@ -64,17 +64,17 @@ typedef struct { short s0, s2, s4, s6, s8, sA, sC, sE, s10, s12, s14, s16; } T_3
 extern Settings Options;
 extern Pad PlayerControllers[2];
 extern Port PadPorts[2];
-extern s32 D_800FFC08[2];
-extern s32 D_800AD590[2];
-extern s32 D_800F4CD8[2];
-extern s16 D_8009FFB8[4];
+extern s32 PadConnectState[2];
+extern s32 PadActiveHistory[2];
+extern s32 PadConnectTimer[2];
+extern s16 SteeringRangeTable[4];
 extern s16 PadRangeLimits[6];
-extern s32 D_8009FFCC[8];
-extern s32 D_800A016C[8];
+extern s32 WheelDeadzoneTable[8];
+extern s32 PadDeadzoneTable[8];
 extern s32 VSyncThreshold;
-extern s16 D_800F3824;
+extern s16 SteeringRangeIndex;
 int abs(int);
-void func_8004B8A8(void);
+void PadStepPulse(void);
 void PadUpdateRumble(void);
 void PadPollPort(s32);
 extern T_1 PadPulseState[];
@@ -83,7 +83,7 @@ extern char StrActuatorNoErrorFmt[];
 extern int DebugPrintStub();
 
 void PadUpdate(void);
-int func_8004B70C(int i);
+int GetControllerWarning(int i);
 void PadRangeCheckSet(unsigned a, unsigned b, short c, short d);
 void PadStartPulse(int i, int k, int v);
 void PadClearPulse(int i);
@@ -110,28 +110,28 @@ void PadUpdate(void) {
         states[i]->status00 = ports[i]->status00;
         states[i]->type01 = ports[i]->type01;
         if (ports[i]->status00 != 0) {
-            D_800FFC08[i] = 1;
-            D_800F4CD8[i] = 0x22;
-            D_800AD590[i] |= 0x10;
-        } else if (D_800F4CD8 != NULL) {
-            D_800F4CD8[i]--;
+            PadConnectState[i] = 1;
+            PadConnectTimer[i] = 0x22;
+            PadActiveHistory[i] |= 0x10;
+        } else if (PadConnectTimer != NULL) {
+            PadConnectTimer[i]--;
             if (ports[i]->type01 == 0x23) {
                 u16 btn = ~((ports[i]->data02 << 8) | ports[i]->data03);
                 if ((btn & 0x5000) == 0x5000 || (btn & 0xA000) == 0xA000 || (btn & 0x1C4)) {
-                    D_800FFC08[i] = 2;
-                    D_800F4CD8[i] = 0x22;
-                    D_800AD590[i] |= 0x10;
+                    PadConnectState[i] = 2;
+                    PadConnectTimer[i] = 0x22;
+                    PadActiveHistory[i] |= 0x10;
                 }
             }
         }
-        D_800AD590[i] >>= 1;
-        if (D_800AD590[i] != 0) {
+        PadActiveHistory[i] >>= 1;
+        if (PadActiveHistory[i] != 0) {
             Port *port = ports[i];
             Pad *pad = states[i];
             port->type01 = 0;
             pad->type01 = 0;
         } else {
-            D_800FFC08[i] = 0;
+            PadConnectState[i] = 0;
         }
         if (states[i]->type01 != 0 && states[i]->protocol10 < 0) {
             if (states[i]->type01 == 0x41) {
@@ -150,7 +150,7 @@ void PadUpdate(void) {
             states[i]->buttons02 = ~((ports[i]->data02 << 8) | ports[i]->data03);
             states[i]->pressed08 = states[i]->buttons02 & ~states[i]->previous04;
             states[i]->released06 = states[i]->previous04 & (states[i]->buttons02 ^ states[i]->previous04);
-            states[i]->steering20 = (((states[i]->buttons02 >> 13) & 1) - ((states[i]->buttons02 & 0x8000) ? 1 : 0)) * D_8009FFB8[D_800F3824] + 0x80;
+            states[i]->steering20 = (((states[i]->buttons02 >> 13) & 1) - ((states[i]->buttons02 & 0x8000) ? 1 : 0)) * SteeringRangeTable[SteeringRangeIndex] + 0x80;
             states[i]->pressure22 = (states[i]->buttons02 & 0x40) ? 0x6A : 0;
             states[i]->pressure24 = (states[i]->buttons02 & 0x80) ? 0x6A : 0;
             states[i]->pressure26 = (states[i]->buttons02 & 4) ? 0x6A : 0;
@@ -269,8 +269,8 @@ void PadUpdate(void) {
             states[i]->idleTick58 = 0;
             break;
         default:
-            if (D_800FFC08[i] == 0) {
-                D_800FFC08[i] = 2;
+            if (PadConnectState[i] == 0) {
+                PadConnectState[i] = 2;
             }
             states[i]->status00 = 1;
             states[i]->buttons02 = 0;
@@ -302,20 +302,20 @@ void PadUpdate(void) {
         case 0x23:
             val = states[i]->steering20 - (Options.p[i].center00 + 0x80);
             if (val > 0) {
-                val -= D_800A016C[Options.p[i].deadzone08];
+                val -= PadDeadzoneTable[Options.p[i].deadzone08];
                 if (val < 0) {
                     val = 0;
                 }
-                if (val > D_8009FFB8[Options.p[i].range0A]) {
-                    val = D_8009FFB8[Options.p[i].range0A];
+                if (val > SteeringRangeTable[Options.p[i].range0A]) {
+                    val = SteeringRangeTable[Options.p[i].range0A];
                 }
             } else {
-                val += D_800A016C[Options.p[i].deadzone08];
+                val += PadDeadzoneTable[Options.p[i].deadzone08];
                 if (val > 0) {
                     val = 0;
                 }
-                if (val < -D_8009FFB8[Options.p[i].range0A]) {
-                    val = -D_8009FFB8[Options.p[i].range0A];
+                if (val < -SteeringRangeTable[Options.p[i].range0A]) {
+                    val = -SteeringRangeTable[Options.p[i].range0A];
                 }
             }
             states[i]->steering3C = val;
@@ -323,7 +323,7 @@ void PadUpdate(void) {
         case 0xE3:
             val = states[i]->steering20;
             if (val > 0) {
-                val -= D_8009FFCC[Options.w[i].deadzone00];
+                val -= WheelDeadzoneTable[Options.w[i].deadzone00];
                 if (val < 0) {
                     val = 0;
                 }
@@ -331,7 +331,7 @@ void PadUpdate(void) {
                     val = PadRangeLimits[Options.w[i].range01];
                 }
             } else {
-                val += D_8009FFCC[Options.w[i].deadzone00];
+                val += WheelDeadzoneTable[Options.w[i].deadzone00];
                 if (val > 0) {
                     val = 0;
                 }
@@ -365,7 +365,7 @@ void PadUpdate(void) {
             states[i]->pressure26 = 0x6A;
         }
     }
-    func_8004B8A8();
+    PadStepPulse();
     PadUpdateRumble();
     for (i = 0; i < 2; i++) {
         PadPollPort(i);
@@ -375,7 +375,7 @@ void PadUpdate(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define PlayerControllers (*(T (*)[])&PlayerControllers)
 
-int func_8004B70C(int i) {
+int GetControllerWarning(int i) {
     return PlayerControllers[i].f54;
 }
 

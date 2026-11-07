@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void func_8001E378(void);
+void FrmTaskReset(void);
 
 #endif /* RR_GAME_SYSTEM_FRMTASK_H */

@@ -101,7 +101,7 @@ extern SpuTone20 *_svm_tn;
 
 extern s8 spuVmMaxVoice;
 
-extern s16 D_80110114;
+extern s16 SvmLastChannel;
 
 extern s32 _SsVmVSetUp();
 
@@ -131,7 +131,7 @@ s32 _SsVmSetVol(s32 a0, s16 a1, s16 a2, u16 a3, u16 a4)
   __asm__("" : "=r"(v1_tmp) : "0"(v1_tmp));
   rec = *(ChannelRecordB0 **)(a0_off + (s32)_ss_score) + (v1_tmp >> 8);
   _SsVmVSetUp(a1, a2);
-  D_80110114 = a0;
+  SvmLastChannel = a0;
   if (a4 == 0)
   {
     a4 = 1;

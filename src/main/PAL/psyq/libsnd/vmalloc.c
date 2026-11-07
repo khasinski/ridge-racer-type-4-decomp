@@ -281,7 +281,7 @@ s32 _SsVmAlloc(void) {
  * and tone slots remain full native pointers in the shared declarations. */
 void _SsVmDoAllocate(void) {
     register s32 i=0;
-    register u16 *initial=&D_80110118;
+    register u16 *initial=&SvmVoiceIndex;
     register u16 *selected;
     register u32 *mask;
     /* ASM_BARRIER: retain the loop shift unit in A3 independently of row scaling. */

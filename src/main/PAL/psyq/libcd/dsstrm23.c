@@ -3,4 +3,4 @@
 #include "psyq/libcd/dsstrm32.h"
 #include "game/data/globals.h"
 extern int StEndFrame;
-void StSetMask(int a, int b, int c) { D_80110308 = a; StStartFrame = b; StEndFrame = c; }
+void StSetMask(int a, int b, int c) { StMaskEnabled = a; StStartFrame = b; StEndFrame = c; }

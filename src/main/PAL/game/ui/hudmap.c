@@ -13,7 +13,7 @@ extern int FormatDecimalDigits();
 extern char StrTotalTimeLabel[];
 extern char LapTimeLabel[];
 extern char StrPressStart[];
-extern short D_800AC1A0;
+extern short BestLapIndex;
 extern int NumLaps;
 extern int TotalRaceTime;
 extern int LapTimes[];
@@ -28,7 +28,7 @@ extern struct B *TrackNodes;
 void DrawRaceTimesScreen(void);
 void func_800225DC(int a0);
 void AddPartialLine(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10);
-int func_80022848(struct A *a0);
+int IsCarFacingBackward(struct A *a0);
 
 void DrawRaceTimesScreen(void) {
     char sp18[8];
@@ -40,7 +40,7 @@ void DrawRaceTimesScreen(void) {
     int sel;
     *(int *)SCRATCHPAD = AddDrawAreaPrim(CurrentDrawBuf + 0x70, *(int *)SCRATCHPAD, 0, 0, 0x140, 0x100);
     i = 0;
-    sel = D_800AC1A0;
+    sel = BestLapIndex;
     if (NumLaps > 0) {
         y = 0x86;
         q = LapTimes;
@@ -67,7 +67,7 @@ void DrawRaceTimesScreen(void) {
         i -= 1;
         b -= 1;
     } while (i >= 0);
-    FormatDecimalDigits(sp18, D_800AC0E6 + 1, 1);
+    FormatDecimalDigits(sp18, PlayerFinishPlace + 1, 1);
     DrawFontStringCentered(0x78, 0x3C, sp18, 0x80, 0);
     DrawFontStringCentered(0x78, 0xC8, StrPressStart, 0x80, 0);
     AddSetTexpagePrim(0);
@@ -125,7 +125,7 @@ void AddPartialLine(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int 
 
 #undef CurrentDrawBuf
 
-int func_80022848(struct A *a0) {
+int IsCarFacingBackward(struct A *a0) {
     int t = 0x800 - TrackNodes[a0->idx].x;
     return (unsigned)(((a0->ang - t) & 0xFFF) - 0x401) < 0x7FF;
 }

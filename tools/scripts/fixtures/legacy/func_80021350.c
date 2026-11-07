@@ -32,7 +32,7 @@ void DrawHudRotatingQuad(s32 phase,s32 index) {
     angle=(s32)((u32)phase*0xA00U)/10000+0xE00;
     sine=rsin(angle);
     cosine=rcos(angle);
-    i=0;color=colors;corner=D_8009EE38;
+    i=0;color=colors;corner=HudQuadCorners;
     base=&HudNumberTargets;
     row=(unsigned long)index*sizeof(RrNumberTarget);
     target=(RrNumberTarget *)((u8 *)base+row);

@@ -20,7 +20,7 @@ static const RrPulseRow *repeat_owner[12],*once_owner[12];
 #define PlayerControllers actual.outputs
 #define PadPulseState actual.states
 #define Options actual.settings
-#define D_8009FFA0 (repeat_owner+4)
+#define PadPulseRepeatRows (repeat_owner+4)
 #define D_8009FF80 (once_owner+4)
 '''+body+r'''
 static const RrPulseRow *mapped(const RrPulseRow *row) {
@@ -36,7 +36,7 @@ static void reference(void) {
   if(expected.settings.controls.pulse[i].disabled02) {out->output19=out->output1A=0;continue;}
   if(state->repeat04) {
    int table_index=state->repeat04+(out->kind1C?-1:2);
-   row=mapped(D_8009FFA0[table_index]+state->repeat_step0C);
+   row=mapped(PadPulseRepeatRows[table_index]+state->repeat_step0C);
    if(out->kind1C){out->output19=row->first;out->output1A=row->second;}
    else {out->output19=64;out->output1A=row->first;}
    state->repeat_tick08++;
@@ -89,7 +89,7 @@ int main(void) {
    actual.states[0].repeat04=1;actual.states[0].repeat_step0C=0;actual.states[0].once06=0;
    repeat_owner[4]=(RrPulseRow *)((u8 *)actual.outputs+0x18);
   }
-  memcpy(&expected,&actual,sizeof(actual));reference();func_8004B8A8();
+  memcpy(&expected,&actual,sizeof(actual));reference();PadStepPulse();
   assert(!memcmp(&actual,&expected,sizeof(actual)));
  }
  puts("32768 two-port pulse cases passed with UBSan");return 0;

@@ -3,6 +3,6 @@
 #include "rr/overlay662_garage.h"
 
 /* Opaque saved word: resident code copies its 32 bits to/from buffer offset0x280. */
-extern u32 D_800F4D38;
+extern u32 PlayTimeFrames;
 void ovl662_func_8011A414(void);
 #endif

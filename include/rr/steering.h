@@ -9,7 +9,7 @@ s32 AngleDiffAbs(s32 first, s32 second);
 void BuildRateCurve(RrCurve24 *record, s32 displacement, s32 duration, s32 initialRate);
 s32 EvalRateCurve(const RrCurve24 *record, s32 time, s32 *output);
 extern s32 TrackNodeCount;
-extern s16 D_800F3826, D_800F4D44;
+extern s16 CourseListIndex, RaceType;
 
 RR_ASSERT_SIZE(RrCurve24, 0x18);
 RR_ASSERT_OFFSET(RrCurve24, duration, 4);

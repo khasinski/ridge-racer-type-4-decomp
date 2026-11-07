@@ -213,23 +213,23 @@ void UpdateTrackObjectActivation(void) {
             continue;
         }
         if (b0->f2C != 0x3F) {
-            if (D_800F4D44 == 1 && ReplayState < 2) {
+            if (RaceType == 1 && ReplayState < 2) {
                 if (!(b0->f2C & 1)) {
                     continue;
                 }
-            } else if (D_800F4D44 == 1 && ReplayState == 2) {
+            } else if (RaceType == 1 && ReplayState == 2) {
                 if (!(b0->f2C & 2)) {
                     continue;
                 }
-            } else if (D_800F4D44 == 0 && ReplayState < 2) {
+            } else if (RaceType == 0 && ReplayState < 2) {
                 if (!(b0->f2C & 4)) {
                     continue;
                 }
-            } else if (D_800F4D44 == 0 && ReplayState == 2) {
+            } else if (RaceType == 0 && ReplayState == 2) {
                 if (!(b0->f2C & 8)) {
                     continue;
                 }
-            } else if (D_800F4D44 == 6) {
+            } else if (RaceType == 6) {
                 if (b0->f2C == 0xA) {
                     if (ReplayState != 2) {
                         continue;
@@ -237,7 +237,7 @@ void UpdateTrackObjectActivation(void) {
                 } else if (!(b0->f2C & 0x10)) {
                     continue;
                 }
-            } else if (D_800F4D44 == 5) {
+            } else if (RaceType == 5) {
                 if (b0->f2C != 0x20) {
                     continue;
                 }
@@ -279,7 +279,7 @@ void UpdateTrackObjectActivation(void) {
         } else if (b0->f14 > 0 && b4->f24 == 0 && sp->f4 == sp->f0 && PlayerCars[0].unk1EA == 0 && ReverseCourse == 0) {
             b4->f24 = 1;
         }
-        if (D_800F4D44 == 2 || D_800F4D44 == 3) {
+        if (RaceType == 2 || RaceType == 3) {
             if (b0->f0 == 0 && (b0->f4 % 10) == 0) {
                 if (PlayerCars[0].sub1F4.unkB6 == 0) {
                     if (PlayerCars[1].sub1F4.unkB6 == 0) {
@@ -298,7 +298,7 @@ void UpdateTrackObjectActivation(void) {
                     b4->f24 = 0;
                 }
             }
-        } else if ((D_800F4D44 == 4 || D_800F4D44 == 5) &&
+        } else if ((RaceType == 4 || RaceType == 5) &&
                    (((b0->f4 % 10) == 0 && (b0->f0 == 0 || b0->f0 == 1)) ||
                     (b0->f8 == 0xA && b0->f4 == 0) ||
                     b0->fC == 4)) {

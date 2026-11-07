@@ -12,8 +12,8 @@ extern int SsVabTransCompleted();
 extern int func_800963C4();
 extern int DebugPrintStub();
 extern char VabOpenHeadErrorStr[];
-extern char D_800110F0[];
-extern s32 D_800F7650;
+extern char VabTransBodyErrorStr[];
+extern s32 SoundReverbDepth;
 
 void LoadVab(int *arg0, int arg1, int arg2);
 void SetReverb(int a0, int a1);
@@ -46,7 +46,7 @@ void LoadVab(int *arg0, int arg1, int arg2) {
     v2 = SsVabTransBody(arg0[1]);
     p[0x12] = v2;
     if (v2 == -1) {
-        DebugPrintStub(D_800110F0);
+        DebugPrintStub(VabTransBodyErrorStr);
         func_800963C4(1);
     }
     SsVabTransCompleted(1);
@@ -72,7 +72,7 @@ void ReverbReset(void) {
 #undef SoundState
 
 void SetReverbDepthBoth(s32 arg0) {
-    D_800F7650 = arg0;
+    SoundReverbDepth = arg0;
     SsUtSetReverbDepth((s16) arg0, (s16) arg0);
 }
 
@@ -148,12 +148,12 @@ void TriggerSfx(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         var_a0 = (s16) temp_v0;
         var_a1 = (s16) temp_v0;
     }
-    var_v1 = var_a0 * D_800F4DD0;
+    var_v1 = var_a0 * SoundGain;
     if (var_v1 < 0) {
         var_v1 += 0x7F;
     }
 
-    var_a0_2 = var_a1 * D_800F4DD0;
+    var_a0_2 = var_a1 * SoundGain;
     first_div=var_v1>>7;
     if (var_a0_2 < 0) {
         var_a0_2 += 0x7F;

@@ -2,26 +2,26 @@ LoadR4Directory 0x80012290 0x144
 DrawLoadingTriangle 0x80012408 0x170 
 PatchModelBankTexPages 0x80012ab4 0x1c8 
 PatchOffsetTableTexPages 0x80012c7c 0x218 
-func_80012E94 0x80012e94 0x188 
+BlitCarSlotTexturePatch 0x80012e94 0x188 
 AllocCarSlotBuffers 0x8001301c 0x1b4 
 SceneLoadStep 0x80013200 0x314 
 RequestCarLoad 0x80013514 0xa8  near-miss:src/failed/PAL/RequestCarLoad.c
 CarLoadStep 0x800135bc 0x1f4 
 SetupRenderer 0x80013890 0x74  near-miss:src/failed/PAL/SetupRenderer.c
-func_800197C8 0x800197c8 0x4c8 
+RenderSkyToRect 0x800197c8 0x4c8 
 EmitTiledRect 0x80019d5c 0x1c4 
-func_8001B308 0x8001b308 0x338 
+InitIntroSceneLights 0x8001b308 0x338 
 EmitPresetSprite 0x8001baf8 0xcc 
 func_8001BC84 0x8001bc84 0xbc  near-miss:src/failed/PAL/func_8001BC84.c
 EmitSpriteGrid 0x8001e1f0 0x154 
-func_8001E390 0x8001e390 0x2f4 
+FrmTaskModeUpdate 0x8001e390 0x2f4 
 MainLoop 0x8001e684 0x1c8 
 UploadCarClut 0x8001e854 0x134 
 SystemInit 0x8001e988 0x358 
 SetupDrawDispEnvs 0x8001ece8 0x1fc 
 InitDefaultTimeRecords 0x8001eee4 0x2b0 
 InitCourseChoices 0x8001f194 0xc0 
-func_8001F400 0x8001f400 0xc  near-miss:src/failed/PAL/func_8001F400.c
+DrawTextStub 0x8001f400 0xc  near-miss:src/failed/PAL/DrawTextStub.c
 DrawBigFontString 0x8001f40c 0x1a8 
 AddTextSprites 0x8001f5b4 0x254 
 DrawAnimatedGlyph 0x8001f808 0x240 
@@ -36,7 +36,7 @@ DrawDigitString12 0x80020cd4 0x158
 DrawDigitString8 0x80020e2c 0xf4 
 DrawDigitString16 0x80020f20 0x164 
 InitHudNumberTargets 0x80021084 0x120 
-func_800211A4 0x800211a4 0x1ac 
+DrawHudFrameSprites 0x800211a4 0x1ac 
 DrawHudRotatingQuad 0x80021350 0x218 
 DrawHudNumber3 0x80021684 0x14c 
 DrawHudNumber5 0x800217d0 0x1ec 

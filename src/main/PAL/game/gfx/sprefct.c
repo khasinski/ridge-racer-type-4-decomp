@@ -23,7 +23,7 @@ struct S32 *EmitPolyFT3(u32 *arg0, struct S32 *arg1, void *arg2, void *arg3, voi
 void *AddTileSemiTransPrim(s32 *arg0, void *arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
 struct P *GameQueueTileTrans(int a0, struct P *a1, short a2, short a3, int a4, int a5, int a6, int a7, int a8);
 struct P *AddLineF2SemiTrans(int a0, struct P *a1, short a2, short a3, int a4, int a5, int a6, int a7, int a8);
-RrPolyF3Packet *func_8002071C(u32 *ordering,RrPolyF3Packet *packet,s32 xy0,s32 xy1,s32 xy2,const u8 *rgb,s32 flags);
+RrPolyF3Packet *EmitPolyF3(u32 *ordering,RrPolyF3Packet *packet,s32 xy0,s32 xy1,s32 xy2,const u8 *rgb,s32 flags);
 
 /* legacy typing of shared globals in this part of the unit */
 #define AddDrawModePrim (*(u8 *(*)(u32 *,u8 *,u16))&AddDrawModePrim)
@@ -205,7 +205,7 @@ struct P *AddLineF2SemiTrans(int a0, struct P *a1, short a2, short a3, int a4, i
 /* legacy typing of shared globals in this part of the unit */
 #define AddPrim ((void (*)(u32 *,u32 *))AddPrim)
 
-RrPolyF3Packet *func_8002071C(u32 *ordering,RrPolyF3Packet *packet,s32 xy0,s32 xy1,s32 xy2,const u8 *rgb,s32 flags){
+RrPolyF3Packet *EmitPolyF3(u32 *ordering,RrPolyF3Packet *packet,s32 xy0,s32 xy1,s32 xy2,const u8 *rgb,s32 flags){
  SetPolyF3(packet);
  SetSemiTrans(packet,flags);
  packet->xy0=xy0;

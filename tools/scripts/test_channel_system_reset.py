@@ -51,8 +51,8 @@ s32 test_state[0x10000/4+1];
 unsigned long record_size=sizeof(RrChannelRecordF0);
 RrChannelRecordF0 channels_a[2],channels_b[2];
 RrChannelRecordF0 *PadChannelRecords=channels_a;
-RrChannelUpdateCallback D_800ABC6C;
-s32 D_80114428[2];u32 PadIntQueueEntry[4];
+RrChannelUpdateCallback PadResetChannelFn;
+s32 PadPortTimeoutCounts[2];u32 PadIntQueueEntry[4];
 struct {u32 guard0;RrInterruptRegisters irq;u32 guard1;} irq_units[2];
 RrInterruptRegisters *I_STAT_Pad=&irq_units[0].irq;
 struct Trace {s32 stage,enabled;uintptr_t arg0,arg1;u32 pending,mask;s32 counter0,counter1;} trace[64];
@@ -62,7 +62,7 @@ void stage(s32 kind,uintptr_t a,uintptr_t b) {
     struct Trace *t=&trace[trace_count++];
     t->stage=kind;t->enabled=PadComActive;t->arg0=a;t->arg1=b;
     t->pending=I_STAT_Pad->pending;t->mask=I_STAT_Pad->mask;
-    t->counter0=D_80114428[0];t->counter1=D_80114428[1];
+    t->counter0=PadPortTimeoutCounts[0];t->counter1=PadPortTimeoutCounts[1];
     if(on_stage)on_stage(kind);
 }
 s32 EnterCriticalSection(void) {stage(0,0,0);return -123;}
@@ -89,9 +89,9 @@ void test_write_mask(RrInterruptRegisters *p,u32 value) {op(2,p,value);p->mask=v
         assert C.c_ulong.in_dll(cls.lib,'record_size').value==cls.record_size
         cls.a=(C.c_uint8*(2*cls.record_size)).in_dll(cls.lib,'channels_a');cls.b=(C.c_uint8*(2*cls.record_size)).in_dll(cls.lib,'channels_b')
         cls.units=(Irq*2).in_dll(cls.lib,'irq_units')
-        cls.base=C.c_void_p.in_dll(cls.lib,'PadChannelRecords');cls.callback=C.c_void_p.in_dll(cls.lib,'D_800ABC6C')
+        cls.base=C.c_void_p.in_dll(cls.lib,'PadChannelRecords');cls.callback=C.c_void_p.in_dll(cls.lib,'PadResetChannelFn')
         cls.irq=C.c_void_p.in_dll(cls.lib,'I_STAT_Pad');cls.hook=C.c_void_p.in_dll(cls.lib,'on_stage')
-        cls.counters=(C.c_int32*2).in_dll(cls.lib,'D_80114428');cls.queue=(C.c_uint32*4).in_dll(cls.lib,'PadIntQueueEntry')
+        cls.counters=(C.c_int32*2).in_dll(cls.lib,'PadPortTimeoutCounts');cls.queue=(C.c_uint32*4).in_dll(cls.lib,'PadIntQueueEntry')
         cls.trace=(Trace*64).in_dll(cls.lib,'trace')
         cls.cb_a=C.cast(cls.lib.callback_a,C.c_void_p).value;cls.cb_b=C.cast(cls.lib.callback_b,C.c_void_p).value
 

@@ -14,7 +14,7 @@ extern volatile int *I_STAT_Pad;
 
 extern int PadActiveChannel;
 
-extern struct W D_800ABCC0[];
+extern struct W PadChannelPendingPackets[];
 
 extern void (*PadPacketDoneCallback)();
 
@@ -39,17 +39,17 @@ int _padInitSioMode(a0) struct A *a0; {
     t = 0x1003;
     if (PadActiveChannel != 0) t = 0x3003;
     hw->sA = t;
-    if ((cur = (&D_800ABCC0[PadActiveChannel])->x) >= 0) {
+    if ((cur = (&PadChannelPendingPackets[PadActiveChannel])->x) >= 0) {
         struct W *base;
         if (cur > 0) {
-            base = D_800ABCC0;
+            base = PadChannelPendingPackets;
         lp:
             v = base[PadActiveChannel].x - 1;
             base[PadActiveChannel].x = v;
             PadPacketDoneCallback(a0->f0C + v * 0xF0);
             if (base[PadActiveChannel].x > 0) goto lp;
         }
-        p = &D_800ABCC0[PadActiveChannel];
+        p = &PadChannelPendingPackets[PadActiveChannel];
         if (p->x == 0) {
             p->x = -1;
             PadPacketDoneCallback(a0);

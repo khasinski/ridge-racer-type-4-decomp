@@ -19,7 +19,7 @@
 
 #undef IntrDriverTablePtr
 
-extern s32 func_800963DC(const char *, ...);
+extern s32 PsyqPuts(const char *, ...);
 
 extern s32 ChangeClearPAD(s32), ChangeClearRCnt(s32,s32);
 
@@ -35,7 +35,7 @@ loop:
             char *page=(char *)0x80010000U;
             /* ASM_BARRIER: Materialize the message page before its call-delay offset. */
             __asm__("" : "=r"(page) : "0"(page));
-            func_800963DC(page+0x17F8);
+            PsyqPuts(page+0x17F8);
             ChangeClearPAD(0);
             ChangeClearRCnt(3, 0);
             return;

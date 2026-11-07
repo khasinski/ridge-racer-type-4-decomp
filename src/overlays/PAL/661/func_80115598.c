@@ -12,7 +12,7 @@ void ovl661_func_80115598(s32 mode) {
     ResetScreenCounters();
     MenuArenas.second=CdDirectoryBuffer+0x2D000;
     InitMenuArenas();
-    D_800AC5D4=mode;
+    SelectionPlayer=mode;
     LoadCursor=MenuArenas.second;
     InitUiRow(0,24,88,68,32,0,0,1,0,83);
     InitUiRow(1,24,128,68,32,0,0,1,0,54);
@@ -36,7 +36,7 @@ void ovl661_func_80115598(s32 mode) {
     InitUiRow(19,12,104,68,32,0,0,1,0,3);
     InitUiRow(20,12,144,68,32,0,0,1,1,13);
     InitUiRow(21,12,184,68,32,0,0,1,0,85);
-    InitUiRow(22,12,368,208,32,0,0,8,4,D_800AC648);
+    InitUiRow(22,12,368,208,32,0,0,8,4,CourseMenuSelection);
     InitUiRow(23,104,104,68,32,0,0,1,5,3);
     InitUiRow(24,104,144,68,32,0,0,1,6,23);
     InitUiRow(25,104,184,68,32,0,0,1,7,6);
@@ -47,10 +47,10 @@ void ovl661_func_80115598(s32 mode) {
     InitPreviewImageRows();
     /* Allocation metadata for the real pointer cell; emits no instruction. */
     __asm__("" : "+m"(LoadCursor));
-    arena=D_800F4D40;
+    arena=MenuArenaBase;
     ovl661_D_80118438=0;
     LoadCursor=arena;
-    if(!(D_800AC5D4&1))MenuArenas.first=arena;
+    if(!(SelectionPlayer&1))MenuArenas.first=arena;
     else LoadCursor=MenuArenas.first;
     i=0;y=10;z=308;vehicle=PlayerCars;
     scratch=RR_PROJECTION_SCRATCH;
@@ -75,8 +75,8 @@ void ovl661_func_80115598(s32 mode) {
     ovl661_D_80118440[1][0]=CountChoiceGlyphs(ovl661_D_80118458[1][0]);
     ovl661_D_80118440[1][1]=CountChoiceGlyphs(ovl661_D_80118458[1][1]);
     if(ovl661_D_80118440[mode&1][1]==0)ovl661_D_80118450[mode&1]=0;
-    if(ovl661_D_8011844C[D_800AC5D4&1]>=ovl661_D_80118440[D_800AC5D4&1][ovl661_D_80118450[D_800AC5D4&1]])ovl661_D_8011844C[D_800AC5D4&1]=0;
-    UnpackChoiceGlyph((s8*)&SelectionRows+D_800AC5D4*4,ovl661_D_80118458[D_800AC5D4&1][ovl661_D_80118450[D_800AC5D4&1]][ovl661_D_8011844C[D_800AC5D4&1]].glyph);
-    PlayerCourseChoices[D_800AC5D4].first=ovl661_D_80118458[D_800AC5D4&1][ovl661_D_80118450[D_800AC5D4&1]][ovl661_D_8011844C[D_800AC5D4&1]].first;
-    PlayerCourseChoices[D_800AC5D4].second=ovl661_D_80118458[D_800AC5D4&1][ovl661_D_80118450[D_800AC5D4&1]][ovl661_D_8011844C[D_800AC5D4&1]].second;
+    if(ovl661_D_8011844C[SelectionPlayer&1]>=ovl661_D_80118440[SelectionPlayer&1][ovl661_D_80118450[SelectionPlayer&1]])ovl661_D_8011844C[SelectionPlayer&1]=0;
+    UnpackChoiceGlyph((s8*)&SelectionRows+SelectionPlayer*4,ovl661_D_80118458[SelectionPlayer&1][ovl661_D_80118450[SelectionPlayer&1]][ovl661_D_8011844C[SelectionPlayer&1]].glyph);
+    PlayerCourseChoices[SelectionPlayer].first=ovl661_D_80118458[SelectionPlayer&1][ovl661_D_80118450[SelectionPlayer&1]][ovl661_D_8011844C[SelectionPlayer&1]].first;
+    PlayerCourseChoices[SelectionPlayer].second=ovl661_D_80118458[SelectionPlayer&1][ovl661_D_80118450[SelectionPlayer&1]][ovl661_D_8011844C[SelectionPlayer&1]].second;
 }

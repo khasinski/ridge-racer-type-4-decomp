@@ -2,14 +2,14 @@
 
 #include "types.h"
 
-extern int D_800A67CC[];
+extern int CdReadStartTime[];
 
 extern int VSync(), cd_read_retry(), CdReady();
 
 int CdReadSync(a0, a1) int a0, a1; {
     int s0;
-    int *p = D_800A67CC;
-    int *q = D_800A67CC + 2;
+    int *p = CdReadStartTime;
+    int *q = CdReadStartTime + 2;
     for (;;) {
         if (VSync(-1) > p[0] + 0x4B0) {
             s0 = -1;

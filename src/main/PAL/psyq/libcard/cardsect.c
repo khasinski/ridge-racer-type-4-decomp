@@ -1,6 +1,6 @@
 #include "rr/bios_devices.h"
 extern s32 DebugPrintStub(const char *format,...);
-extern char D_80011FD8[];
+extern char CardReadErrorMsg[];
 s32 _card_sector_write(s32 port,s32 sector,u8 *buffer) {
     u8 readback[128];
     s32 tries=0,count;
@@ -36,12 +36,12 @@ s32 _card_sector_write(s32 port,s32 sector,u8 *buffer) {
         _new_card();
         if(_card_write(port,sector,buffer)!=one) return 0;
         while(!(_card_status(port>>4)&1)) {}
-        func_80096434(scratch,128);
+        PsyqBzero(scratch,128);
         _new_card();
         if(_card_read(port,sector,scratch)!=one) {
             /* ASM_BARRIER: Form the failure message only after the read-result branch. */
             __asm__("" : : : "$4");
-            DebugPrintStub(D_80011FD8);
+            DebugPrintStub(CardReadErrorMsg);
         } else {
             while(!(_card_status(port>>4)&1)) {}
         }

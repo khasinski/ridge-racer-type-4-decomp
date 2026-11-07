@@ -30,7 +30,7 @@ class Overlay665RenderTest(unittest.TestCase):
         static const u32 *table[10];
         #define RR_PREVIEW_RENDER_SCRATCH (&w->s.scratch)
         #define ovl665_D_80119768 w->s.visual
-        #define D_800F2FD8 w->s.meshes
+        #define ModelBankFormat w->s.meshes
         #define LightMatrix w->s.basis
         static const s32 kinds[]={INT32_MIN,-1,0,1,2,3,4,INT32_MAX};
         static s32 word(u32 bits){s32 v;memcpy(&v,&bits,4);return v;}
@@ -139,7 +139,7 @@ class Overlay665RenderTest(unittest.TestCase):
          w->s.scratch.projection.word20=0;w->s.scratch.projection.word1C=0;w->s.scratch.projection.word18=0;
          BuildCameraMatrices();SetupViewport(6);
          SetGeomOffset((s16)w->s.visual.centerX38,(s16)w->s.visual.centerY3A);
-         func_8002E828(2,w->s.scratch.matrix28.halves);kind=w->s.visual.kind18;
+         ScaleMatrixRow1(2,w->s.scratch.matrix28.halves);kind=w->s.visual.kind18;
          if(kind>=0 && kind<=3) {
           setup(&first,&second);
           if(kind!=2)light(&first);

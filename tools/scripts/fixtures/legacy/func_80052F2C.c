@@ -16,7 +16,7 @@ typedef struct {
     unsigned short h26C0;
 } B;
 extern B SoundState;
-extern char D_800F7414[];
+extern char CdAudioStatusResult[];
 extern unsigned int CdAudioFadeState;
 extern int CdAudioSetVolumeRaw();
 extern int CdSync();
@@ -55,8 +55,8 @@ void CdAudioPlayStep()
         }
         break;
     case 3:
-        CdControl(1, 0, D_800F7414);
-        p = (B *)(D_800F7414 - 0x265C);
+        CdControl(1, 0, CdAudioStatusResult);
+        p = (B *)(CdAudioStatusResult - 0x265C);
         if (*((unsigned char *)p + 0x265C) & 0x20) {
             p->f2678 = p->f2678 + 1;
             break;

@@ -30,7 +30,7 @@ void global_a(void *p){
     RrChannelRecordF0 *c=p;trace(1,p);
     if(mutate){c->responseE8=0;c->status.phase=next_phase;c->status.update14=private_b;}
 }
-RrChannelUpdateCallback D_800ABC6C=global_a;
+RrChannelUpdateCallback PadResetChannelFn=global_a;
 '''
         owners=source_owners(root/'src/main/PAL')
         paths=dict.fromkeys(owners[name] for name in ('_padChannelDispatch','_padCmdParaMode','_padCmd45','_padCmd4C','_padCmd46','_padCmd47','_padCmd4B','_padSendAtLoadInfo'))

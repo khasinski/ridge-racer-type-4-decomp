@@ -45,7 +45,7 @@ extern struct {
     u8 volume31;
     s16 mono32;
 } Options;
-extern s16 D_800F4DD0;
+extern s16 SoundGain;
 extern int SsUtKeyOnV();
 extern void SetVoiceVolumeScaled();
 extern struct E SoundState[];
@@ -123,8 +123,8 @@ void UpdateSoundSlot(int a0) {
             a1 = a2;
         }
 
-        a1 = (a1 * D_800F4DD0) / 128;
-        a2 = (a2 * D_800F4DD0) / 128;
+        a1 = (a1 * SoundGain) / 128;
+        a2 = (a2 * SoundGain) / 128;
         a2 = (a2 * Options.volume31) / 16;
         a1 = (a1 * Options.volume31) / 16;
 

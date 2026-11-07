@@ -8,7 +8,7 @@
 extern void LoadTimList();
 extern unsigned char LoadState;
 
-int func_8003BEA8(int a) {
+int LoadCoursePreviewStep(int a) {
     int r = 0;
     switch (LoadState) {
     case 0:
@@ -30,7 +30,7 @@ int func_8003BEA8(int a) {
         break;
     case 4:
         if (CdFileBytesLoaded() != 0) {
-            D_800AC64C = LoadCursor;
+            SkyCommandList = LoadCursor;
             RelocateOffsetTable(LoadCursor);
             LoadState = 5;
     case 5:

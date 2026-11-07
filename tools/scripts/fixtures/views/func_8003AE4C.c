@@ -6,11 +6,11 @@
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
 
-#define D_800F4D2C (*(unsigned char (*))&D_800F4D2C)
+#define ModeMenuCursorSaved (*(unsigned char (*))&ModeMenuCursorSaved)
 
 #undef LoadIndex
 
-#undef D_800F4D2C
+#undef ModeMenuCursorSaved
 
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
@@ -28,9 +28,9 @@
 #undef LoadIndex
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F3B24 (*(int (*))&D_800F3B24)
+#define CarClutData (*(int (*))&CarClutData)
 
-#undef D_800F3B24
+#undef CarClutData
 
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
@@ -54,7 +54,7 @@ extern char LoadIndex;
 
 extern unsigned char LoadState;
 
-extern short D_800F4D44;
+extern short RaceType;
 
 extern int RequestCarLoad();
 
@@ -64,9 +64,9 @@ extern int UploadCarClut();
 
 extern struct { short a; short b; } PlayerCourseChoices[];
 
-extern char *D_800F3B24;
+extern char *CarClutData;
 
-extern char D_800F3B28[];
+extern char SaveDataBackup[];
 
 extern unsigned char SelectionRows[][4];
 
@@ -92,17 +92,17 @@ int LoadCarRangeStep(int arg0, int arg1) {
         arg0 += LoadIndex;
         a1 = PlayerCourseChoices[arg0].b;
         if (a1 >= 2) {
-            q3 = D_800F3B24;
+            q3 = CarClutData;
             a1 -= 2;
         } else {
             if (a1 == r) {
-                q3 = D_800F3B28 + (arg0 & 1) * 0x840;
+                q3 = SaveDataBackup + (arg0 & 1) * 0x840;
                 a1 = 0;
             } else {
                 a1 = -1;
             }
         }
-        if (D_800F4D44 != 1) {
+        if (RaceType != 1) {
             UploadCarClut(q3, a1, arg0);
         }
         LoadIndex++;

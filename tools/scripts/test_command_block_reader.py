@@ -21,21 +21,21 @@ class CommandBlockReaderTest(unittest.TestCase):
 #include <string.h>
 typedef uint8_t u8;typedef uint32_t u32;typedef int32_t s32;
 ''' + header + '''
-s32 CardCommandStatus,D_800ABDE8,CardCommandRequest,CardRetriesLeft,CardReceiveIndex,CardRxCount;
-s32 CardChecksum,CardCmdSector,D_80114728,D_80114730,CardCurrentCommand;
-RrCommandParameter D_8011472C;
+s32 CardCommandStatus,CardTxCount,CardCommandRequest,CardRetriesLeft,CardReceiveIndex,CardRxCount;
+s32 CardChecksum,CardCmdSector,CardVarRxLength,CardBytesRemaining,CardCurrentCommand;
+RrCommandParameter CardCmdValue;
 RrCommandReadCallback CardCommandReader;
 RrCommandWriteCallback CardWriteHandler;
 u8 CardRxTrace[160];
 s32 (*test_tick)(void),(*test_phase)(void);
-u8 D_80114714;
+u8 CardReadChecksum;
 void test_reset(void) {
  memset(CardRxTrace,0xA5,sizeof(CardRxTrace));
- CardCommandStatus=3;D_800ABDE8=2;CardCommandRequest=0x123;CardRetriesLeft=0;
- CardReceiveIndex=4;CardRxCount=6;D_80114730=9;
- D_80114714=0xB7;
+ CardCommandStatus=3;CardTxCount=2;CardCommandRequest=0x123;CardRetriesLeft=0;
+ CardReceiveIndex=4;CardRxCount=6;CardBytesRemaining=9;
+ CardReadChecksum=0xB7;
  CardChecksum=0x13579BDF;CardCmdSector=0x12345678;
- D_8011472C.value=-123;CardCurrentCommand=99;
+ CardCmdValue.value=-123;CardCurrentCommand=99;
  CardCommandReader=0;CardWriteHandler=0;
 }
 '''
@@ -46,8 +46,8 @@ void test_reset(void) {
             body = re.sub(r'"\$[0-9]+",\s*', '', body)
             body = re.sub(r':\s*"\$[0-9]+"(?:,\s*"\$[0-9]+")*(?=\))', '', body)
             if name == '8009D978':
-                assert body.count('D_800ABDE8') == 5
-                body = body.replace('D_800ABDE8', 'test_tick()')
+                assert body.count('CardTxCount') == 5
+                body = body.replace('CardTxCount', 'test_tick()')
             if name == '8009DB18':
                 assert body.count('CardRxCount') == 3
                 body = body.replace('CardRxCount', 'test_phase()')
@@ -69,15 +69,15 @@ void test_reset(void) {
         cls.writer = cls.lib._cardSectorRx
         cls.writer.argtypes = [C.c_int32]
         cls.writer.restype = C.c_int32
-        cls.checksum = C.c_uint8.in_dll(cls.lib, 'D_80114714')
-        cls.parameter = C.c_int32.in_dll(cls.lib, 'D_8011472C')
+        cls.checksum = C.c_uint8.in_dll(cls.lib, 'CardReadChecksum')
+        cls.parameter = C.c_int32.in_dll(cls.lib, 'CardCmdValue')
         cls.read_pointer = C.c_void_p.in_dll(cls.lib, 'CardCommandReader')
         cls.write_pointer = C.c_void_p.in_dll(cls.lib, 'CardWriteHandler')
 
     def setUp(self):
         self.lib.test_reset()
         self.errors = []
-        self.observe_tick(lambda: self.get('D_800ABDE8'))
+        self.observe_tick(lambda: self.get('CardTxCount'))
         self.observe_phase(lambda: self.get('CardRxCount'))
 
     def observe_tick(self, action):
@@ -123,7 +123,7 @@ void test_reset(void) {
         for retry in (0, 1, -1, -0x80000000):
             for phase in phases:
                 self.put('CardRetriesLeft', retry)
-                self.put('D_800ABDE8', phase)
+                self.put('CardTxCount', phase)
                 self.put('CardChecksum', 0x13579BDF)
                 self.put('CardCmdSector', -0x1234568)
                 self.parameter.value = -0x7654321
@@ -155,7 +155,7 @@ void test_reset(void) {
 
     def test_every_payload_position_byte_and_checksum_high_bits(self):
         for phase in range(7, 133):
-            self.put('D_800ABDE8', phase)
+            self.put('CardTxCount', phase)
             for byte in range(256):
                 checksum = C.c_int32(0x8000FF00 | (255-byte)).value
                 self.put('CardChecksum', checksum)
@@ -165,7 +165,7 @@ void test_reset(void) {
             self.trace[phase+3] = 0xA5
         self.assertEqual(bytes(self.trace), b'\xA5'*160)
         for phase in (133, 134):
-            self.put('D_800ABDE8', phase)
+            self.put('CardTxCount', phase)
             for checksum in (-0x80000000, -1, 0, 0x12345678, 0x7FFFFFFF):
                 for parameter in (-0x80000000, -1, 0, 1, 0x7FFFFFFF):
                     self.put('CardChecksum', checksum)
@@ -175,22 +175,22 @@ void test_reset(void) {
                     self.assertEqual(self.get('CardChecksum'), expected)
 
     def test_all_parameter_byte_pairs_and_full_transfer_checksum(self):
-        self.put('D_800ABDE8', 135)
+        self.put('CardTxCount', 135)
         for word in range(65536):
             self.put('CardCmdSector', C.c_int32(0xFEDC0000 | word).value)
             self.assertEqual(self.run_reader(), ((word >> 8) ^ word) & 255)
         for i in range(160):
             self.trace[i] = (i*43+17)&255
         self.parameter.value = 1
-        self.put('D_800ABDE8', 2)
+        self.put('CardTxCount', 2)
         self.assertEqual(self.run_reader(), 0x57)
         checksum = 0
         for phase in range(7, 134):
-            self.put('D_800ABDE8', phase)
+            self.put('CardTxCount', phase)
             byte = self.run_reader()
             checksum ^= byte
             self.assertEqual(self.get('CardChecksum'), checksum)
-        self.put('D_800ABDE8', 134)
+        self.put('CardTxCount', 134)
         self.assertEqual(self.run_reader(), checksum)
 
     def test_fresh_tick_reads_and_independent_signed_bounds(self):
@@ -221,13 +221,13 @@ void test_reset(void) {
                     if success:
                         self.assertEqual(self.get('CardCommandStatus'), 2)
                         self.assertEqual(self.get('CardCommandRequest'), -0x12345678)
-                        self.assertEqual([self.get(n) for n in ('D_800ABDE8','CardReceiveIndex','CardRxCount','D_80114730')], [0]*4)
+                        self.assertEqual([self.get(n) for n in ('CardTxCount','CardReceiveIndex','CardRxCount','CardBytesRemaining')], [0]*4)
                         self.assertEqual(self.parameter.value, int(mode != 0))
                         self.assertEqual(self.get('CardCurrentCommand'), 11)
                         self.assertEqual(self.get('CardRetriesLeft'), 1)
                         self.assertEqual(self.read_pointer.value, C.cast(self.reader, C.c_void_p).value)
                         self.assertEqual(self.write_pointer.value, C.cast(self.lib._cardSectorRx, C.c_void_p).value)
-                        self.put('D_800ABDE8', 2)
+                        self.put('CardTxCount', 2)
                         self.assertEqual(Poll(self.read_pointer.value)(), 0x52)
                     else:
                         self.assertEqual(self.get('CardCommandStatus'), state)
@@ -245,7 +245,7 @@ void test_reset(void) {
                 for byte in range(256):
                     value = C.c_int32(0xFEDCBA00 | byte).value
                     self.checksum.value = 0xB7
-                    self.put('D_80114730', -123)
+                    self.put('CardBytesRemaining', -123)
                     self.put('CardRetriesLeft', retry)
                     expected = 0
                     checksum = 0xB7
@@ -279,7 +279,7 @@ void test_reset(void) {
                             expected = 0 if byte == {3:0x5A,137:0x5D,138:0x47}[phase] else -phase
                     self.assertEqual(self.run_writer(value), expected, (retry, phase, byte))
                     self.assertEqual(self.checksum.value, checksum)
-                    self.assertEqual(self.get('D_80114730'), remaining)
+                    self.assertEqual(self.get('CardBytesRemaining'), remaining)
                     self.assertEqual(self.get('CardRetriesLeft'), next_retry)
         self.assertEqual(bytes(self.trace), b'\xA5'*160)
 
@@ -308,7 +308,7 @@ void test_reset(void) {
         writer = C.CFUNCTYPE(C.c_int32, C.c_int32)(self.write_pointer.value)
         self.put('CardRxCount', 2)
         self.assertEqual(writer(0), 0)
-        self.assertEqual(self.get('D_80114730'), 138)
+        self.assertEqual(self.get('CardBytesRemaining'), 138)
         self.assertEqual(self.get('CardRetriesLeft'), 1)
         for phase, byte in ((3,0x5A),(8,0x5D),(9,0),(10,5)):
             self.put('CardRxCount', phase)
@@ -327,7 +327,7 @@ void test_reset(void) {
         self.put('CardRxCount', 2)
         self.assertEqual(writer(8), 0)
         self.assertEqual(self.get('CardRetriesLeft'), 0)
-        self.assertEqual(self.get('D_80114730'), 1)
+        self.assertEqual(self.get('CardBytesRemaining'), 1)
         for phase, byte in ((3,0x5A),(137,0x5D),(138,0x47)):
             self.put('CardRxCount', phase)
             self.assertEqual(writer(byte), 0)

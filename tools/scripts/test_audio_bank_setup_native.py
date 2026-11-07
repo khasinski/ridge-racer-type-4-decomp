@@ -12,7 +12,7 @@ body=re.sub(r'((?:__asm__|asm)\(""\s*:\s*"\+r"\((\w+)\))',lambda m:'asm("" : : "
 body=re.sub(r'(?:__asm__|asm)\s*\(\s*""\s*:\s*:\s*:\s*"\$21"\s*,\s*"\$22"\s*,\s*"\$2"\s*,\s*"memory"\s*\)', 'asm("" : : : "memory")', body)
 # Physical MIPS FP clobber has no logical operation in the host C model.
 for reg in ['$30','$fp','fp']:body=body.replace('asm("" : : : "'+reg+'");','asm("" : : : "memory");')
-services=[('SsVabClose','s32',['s16']),('func_80096434','void',['void*','s32']),('SsVabOpenHeadSticky','s32',['const u8*','s32','s32']),('SsVabTransBody','s32',['const u16*','s32']),('SsVabTransCompleted','s32',['s32']),('SlotLoadCurves','void',['RrAudioProgramData*','s32']),('SsUtGetVagAtr','s32',['s32','s16','s32','u8*'])]
+services=[('SsVabClose','s32',['s16']),('PsyqBzero','void',['void*','s32']),('SsVabOpenHeadSticky','s32',['const u8*','s32','s32']),('SsVabTransBody','s32',['const u16*','s32']),('SsVabTransCompleted','s32',['s32']),('SlotLoadCurves','void',['RrAudioProgramData*','s32']),('SsUtGetVagAtr','s32',['s32','s16','s32','u8*'])]
 class Setup(C.Structure):_fields_=[('bank00',C.c_void_p),('data04',C.c_void_p),('group08',C.c_void_p),('slot0C',C.c_int32)]
 sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();pack=lambda x:struct.pack('<I',x&0xffffffff)
 with TemporaryDirectory(prefix='rr50bcc-')as td:
@@ -67,7 +67,7 @@ with TemporaryDirectory(prefix='rr50bcc-')as td:
   if name in ['SsVabOpenHeadSticky','SsVabTransBody']:normal.append(get(normal[0],32,native))
   if name=='SlotLoadCurves':normal.append(get(normal[0],0x5BC,native))
   event=(i,normal,snapshot(native));(observed if native else events).append(event);coverage.add(name)
-  if name=='func_80096434':assert normal[:2]==[A[0]+0x38+bankIndex*0x620,0x620];put(normal[0],b'\0'*0x620,native)
+  if name=='PsyqBzero':assert normal[:2]==[A[0]+0x38+bankIndex*0x620,0x620];put(normal[0],b'\0'*0x620,native)
   if name=='SlotLoadCurves':put(A[0]+0x74+normal[1]*0x620,get(normal[0],0x5BC,native),native)
   # Mutations stay in the complete canonical owner and can affect subsequent reloads.
   if case&1:

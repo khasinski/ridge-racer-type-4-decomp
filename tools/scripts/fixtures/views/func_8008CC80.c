@@ -18,7 +18,7 @@
 
 extern char *CD_comstr[];
 
-extern volatile u8 D_800A6764[];
+extern volatile u8 CdIntrStatusBytes[];
 
 extern u8 CD_syncResult[];
 
@@ -32,13 +32,13 @@ extern char *CD_intstr[];
 
 extern s32 CD_timeout_deadline;
 
-extern s32 D_80110334;
+extern s32 CD_timeout_count;
 
 extern const char *CdWaitCallerName[];
 
 static inline int check_alarm(char **ac, char **sc, volatile u8 *st) {
-    if (VSync(-1) > CD_timeout_deadline || D_80110334++ > 0x3C0000) {
-        func_800963DC(CdTimeoutPrefixStr);
+    if (VSync(-1) > CD_timeout_deadline || CD_timeout_count++ > 0x3C0000) {
+        PsyqPuts(CdTimeoutPrefixStr);
         {
             u8 s0_ = st[0];
             u8 s1_ = st[1];
@@ -83,11 +83,11 @@ s32 CD_sync(s32 mode, u8 *result) {
 
     s32 t = VSync(-1);
     CD_timeout_deadline = t + 0x3C0;
-    D_80110334 = 0;
+    CD_timeout_count = 0;
     CdWaitCallerName[0] = StrCdSync;
     ac = CD_comstr;
     sc = CD_intstr;
-    st = D_800A6764;
+    st = CdIntrStatusBytes;
     st1 = st + 1;
     do {
         if (check_alarm(ac, sc, st) != 0) {

@@ -2,8 +2,8 @@ SetupRenderer
 EmitPresetSprite
 InitUiRow
 SubmitModelTwoTri
-func_80060C70
-func_8007D1B8
+RunCourseDrawChain
+UpdateCardMenuDialogue
 _comp_mant
 __ltdf2
 __subdf3

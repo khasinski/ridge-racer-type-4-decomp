@@ -10,7 +10,7 @@ void *SoundQueueEnqueue(s32 id,s32 restart) {
     RrSequenceQueueState *last;
     /* ASM_BARRIER: address temporary dies before each copy/return value in v0. */
     register u8 *copybase __asm__("$2");
-    if(D_800F6784==0)input=SoundSequenceTable[id][0];
+    if(SoundSequenceSet==0)input=SoundSequenceTable[id][0];
     else input=SoundSequenceTable[id][1];
     if(input==(s16*)-1)return (void*)-1;
     state=&SoundState;

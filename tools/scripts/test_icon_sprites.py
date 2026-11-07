@@ -94,7 +94,7 @@ static void initialize(u32 seed) {
 }
 static void check(int variant,int index,s32 color) {
     memcpy(expected,actual,sizeof(*actual));reference(variant,index,color);
-    if(variant)func_80059D34(index,color);else func_80059C28(index,color);
+    if(variant)EmitIconSpriteRow128(index,color);else EmitIconSpriteRow120(index,color);
     assert(!memcmp(actual,expected,sizeof(*actual)));
 }
 int main(int argc,char **argv) {

@@ -1,16 +1,16 @@
 /* CC1_FLAGS: -mno-split-addresses */
 extern int SetIntrMask(), GPU_CheckVersion(), GPU_memset();
 #include "rr/gpu.h"
-extern int _qin, D_800ABBF8;
+extern int _qin, SavedIntrMask;
 extern int _qout;
-extern char D_801127D0[], D_801128D8[];
+extern char GpuCtlBuf[], GpuCmdQueue[];
 int _reset(a0)
 int a0;
 {
     int t;
     t = SetIntrMask(0);
     _qout = 0;
-    D_800ABBF8 = t;
+    SavedIntrMask = t;
     _qin = _qout;
     /* Ordinary register views retain the original reset scheduling. */
     switch (a0 & 7) {
@@ -19,8 +19,8 @@ int a0;
         *(u32 *)DMA2_CHCR = 0x401;
         *(u32 *)DPCR |= 0x800;
         *(u32 *)GPU_STATUS = 0;
-        GPU_memset(D_801127D0, 0, 0x100);
-        GPU_memset(D_801128D8, 0, 0x1800);
+        GPU_memset(GpuCtlBuf, 0, 0x100);
+        GPU_memset(GpuCmdQueue, 0, 0x1800);
         break;
     case 1:
     case 3:
@@ -30,7 +30,7 @@ int a0;
         *(u32 *)GPU_STATUS = 0x01000000;
         break;
     }
-    SetIntrMask(D_800ABBF8);
+    SetIntrMask(SavedIntrMask);
     if ((a0 & 7) == 0) return GPU_CheckVersion(a0);
     return 0;
 }

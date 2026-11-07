@@ -38,21 +38,21 @@ typedef struct {
 
 
 extern int ScaleMatrix();
-extern int D_8010E690;
+extern int ViewSegmentObjectList;
 extern struct S8 CameraViewMatrix;
-extern struct S8 D_800F39A8;
+extern struct S8 HalfTransViewMatrix;
 extern int SetLightMatrix();
 extern M2C_UNK ColorMatrix;
 extern char D_800ABF48[];
 extern short CourseIndex;
-extern void func_80060C70();
+extern void RunCourseDrawChain();
 extern unsigned short D_8010E280;
-extern unsigned int D_8010E290;
+extern unsigned int ViewSegmentObjects;
 extern int ApplyMatrix();
 extern int RotMatrixYXZ();
 extern short LightMatrix[][3];
-extern char D_800F38F8[][8];
-extern unsigned short D_800AD5BC[];
+extern char LightAngles[][8];
+extern unsigned short LightDirMagnitude[];
 extern s16 ViewOffsetX[];
 extern s16 ViewOffsetY[];
 extern s32 ViewScreenH[];
@@ -65,15 +65,15 @@ extern void SetGeomOffset(s32, s32);
 extern void SetGeomScreen(s32);
 extern void SetDrawArea(s32);
 extern void AddPrim(s32, s32);
-extern int D_8010718C;
+extern int ViewUsesCarTrackNode;
 extern Car PlayerCars[];
 
 void func_8006E9E8(int a0, int *a1);
 void SetupViewMatrix(void);
 void SetupViewLighting(void);
 void SetupPlayerView(int ignoredPlayer);
-void func_8006ED4C(void);
-void func_8006EDA4(void);
+void PrepareViewFrame(void);
+void PrepareRearViewFrame(void);
 void SetGteObjectTransform(short *a0, short *a1, int *a2);
 void BuildLightMatrix(void);
 void SetupViewport(s32 a0);
@@ -95,7 +95,7 @@ void func_8006E9E8(int a0, int *a1) {
         g[0x29] = w[1];
         g[0x2A] = w[2];
         ScaleMatrix((SCRATCHPAD + 0x108), x);
-        func_8006E9D4(D_8010E690, a0, a1);
+        func_8006E9D4(ViewSegmentObjectList, a0, a1);
     }
 }
 
@@ -110,13 +110,13 @@ void SetupViewMatrix(void) {
     CameraViewMatrix.w[5] = w[0];
     CameraViewMatrix.w[6] = w[1];
     CameraViewMatrix.w[7] = w[2];
-    D_800F39A8 = CameraViewMatrix;
+    HalfTransViewMatrix = CameraViewMatrix;
     v[0] = 0x20000 - g[0];
     v[1] = -g[1];
     v[2] = 0x20000 - g[2];
-    D_800F39A8.w[5] >>= 1;
-    D_800F39A8.w[6] >>= 1;
-    D_800F39A8.w[7] >>= 1;
+    HalfTransViewMatrix.w[5] >>= 1;
+    HalfTransViewMatrix.w[6] >>= 1;
+    HalfTransViewMatrix.w[7] >>= 1;
     ApplyMatrixLV(SCRATCH_ROT_MATRIX, v, w);
     h[15] = w[0];
     h[16] = w[1];
@@ -145,54 +145,54 @@ void SetupViewLighting(void) {
 
 void SetupPlayerView(int ignoredPlayer) {
     char *p = D_800ABF48;
-    func_8006E834();
+    BuildViewSegmentObjectList();
     func_80071348();
     SetupViewLighting();
     func_8006E9E8(p, p - 0x30);
     SetupViewMatrix();
-    func_80060C70(SCRATCHPAD, D_8010E690, CourseIndex);
+    RunCourseDrawChain(SCRATCHPAD, ViewSegmentObjectList, CourseIndex);
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_80060C70 ((int (*)())func_80060C70)
-#define func_8006E834 ((int (*)())func_8006E834)
+#define RunCourseDrawChain ((int (*)())RunCourseDrawChain)
+#define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 #define func_80071348 ((int (*)())func_80071348)
 
-void func_8006ED4C(void) {
-    func_8006E834();
-    func_8006E8F8();
+void PrepareViewFrame(void) {
+    BuildViewSegmentObjectList();
+    AddUniqueViewSegmentRecords();
     func_80071348();
     SetupViewLighting();
     SetupViewMatrix();
-    func_80060C70(SCRATCHPAD, D_8010E690, CourseIndex);
+    RunCourseDrawChain(SCRATCHPAD, ViewSegmentObjectList, CourseIndex);
 }
 
-#undef func_80060C70
-#undef func_8006E834
+#undef RunCourseDrawChain
+#undef BuildViewSegmentObjectList
 #undef func_80071348
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_8006E834 ((int (*)())func_8006E834)
-#define func_80060C70 ((int (*)())func_80060C70)
+#define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
+#define RunCourseDrawChain ((int (*)())RunCourseDrawChain)
 
-void func_8006EDA4(void) {
+void PrepareRearViewFrame(void) {
     short *g = (short *)SCRATCHPAD;
     unsigned int v; int pad[12];
     D_8010E280 = (unsigned short)g[0x2E];
     g[0x2E] = -1;
-    func_8006E834();
-    v = func_800713E0();
-    if (v < D_8010E290) {
-        D_8010E290 = v;
+    BuildViewSegmentObjectList();
+    v = GetOctantTableValue();
+    if (v < ViewSegmentObjects) {
+        ViewSegmentObjects = v;
     }
     SetupViewLighting();
     SetupViewMatrix();
-    func_80060C70(g, D_8010E690, CourseIndex);
+    RunCourseDrawChain(g, ViewSegmentObjectList, CourseIndex);
     g[0x2E] = (short)D_8010E280;
 }
 
-#undef func_8006E834
-#undef func_80060C70
+#undef BuildViewSegmentObjectList
+#undef RunCourseDrawChain
 
 void SetGteObjectTransform(short *a0, short *a1, int *a2) {
     short *g = (short *)SCRATCHPAD;
@@ -215,8 +215,8 @@ void BuildLightMatrix(void) {
     s.b = 0;
     s.a = 0;
     for (i = 0; i < 3; i++) {
-        s.c = -D_800AD5BC[i];
-        RotMatrixYXZ(D_800F38F8[i], m);
+        s.c = -LightDirMagnitude[i];
+        RotMatrixYXZ(LightAngles[i], m);
         SetRotMatrix(m);
         ApplyRotMatrix(&s, &r);
         LightMatrix[i][0] = r.x;
@@ -242,7 +242,7 @@ void SetupViewport(s32 a0) {
     /* ASM_BARRIER: Materialize $s2 = SCRATCHPAD at start of prologue. */
     __asm__("" : "=r"(s2) : "0"(s2));
     s3 = s2->f00;
-    D_800AC5D8 = a0;
+    CurrentViewIndex = a0;
     s1 = (a0 == 1);
     SetGeomOffset(ViewOffsetX[a0], ViewOffsetY[a0]);
     s5 = (a0 == 1);
@@ -250,13 +250,13 @@ void SetupViewport(s32 a0) {
     s2->f6C = D_800A3BE0[a0];
     v1 = D_800A3BF0[a0];
     if (s1) {
-        v1 += D_800F4CE0;
+        v1 += RearViewMirrorOffsetY;
     }
     s2->f6E = v1;
     s2->f70 = D_800A3C00[a0];
     v1 = D_800A3C10[a0];
     if (s1) {
-        v1 += D_800F4CE0;
+        v1 += RearViewMirrorOffsetY;
     }
     s2->f72 = v1;
     p = &D_800A3C20[DrawBufIndex][a0];
@@ -264,7 +264,7 @@ void SetupViewport(s32 a0) {
         s2->f64 = 0;
     } else {
         s2->f64 = 1;
-        a0_val = D_800F4CE0;
+        a0_val = RearViewMirrorOffsetY;
         if (a0_val < 0) {
             a0_val = 0;
         }
@@ -296,7 +296,7 @@ void SetupViewport(s32 a0) {
 }
 
 int GetViewTrackNode(int *a0, int a1) {
-    if (D_8010718C == 0) {
+    if (ViewUsesCarTrackNode == 0) {
         return FindTrackNodeAtXZ(a0[0], a0[2]);
     }
     return PlayerCars[a1].wF0;

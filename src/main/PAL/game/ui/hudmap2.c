@@ -122,22 +122,22 @@ typedef struct {
     void *p;
 } Scratch;
 
-extern s32 D_800A101C;
+extern s32 HudMapPulse;
 extern UvRect HudMapSpriteRects[];
 extern UvRect D_800A1028;
 extern UvRect D_800A102C;
 extern s16 D_800A1030[];
 extern s16 D_800A1040[];
-extern struct { u16 x, y; } D_800A1050[];
+extern struct { u16 x, y; } HudMapCourseOrigins[];
 extern s32 D_800A1070[];
 extern S3C *TrackNodes;
 extern s32 TrackNodeCount;
-extern s16 D_800AC648;
+extern s16 CourseMenuSelection;
 extern s16 CourseIndex;
 extern void CdAudioSelectTrack();
 extern int PsyqRand();
 extern short D_800AD520;
-extern short D_800F4D44;
+extern short RaceType;
 extern int CdAudioInit();
 extern signed char SelectionState[];
 extern int D_800F7660;
@@ -147,8 +147,8 @@ extern s16 *D_800A1950[];
 extern s16 *D_800A1984[];
 extern s16 *D_800A19C0[];
 extern s32 D_800A1A00[];
-extern s32 D_800A1A20[];
-extern s32 D_800A1A40[];
+extern s32 CourseBgmChoiceTable3[];
+extern s32 CourseBgmChoiceTable0[];
 extern struct {
     u8 unk0;
     u8 unk1;
@@ -166,12 +166,12 @@ void DrawMapBitmapIso(s32 arg0, u8 *arg1, s32 *arg2);
 void DrawTrackNodeMap(s32 *arg0);
 void SelectReplayBgmTrack(void);
 void CenterGlyphListX(short *a0, int a1);
-void func_80059314(s32 arg0, s32 arg1);
+void OpeningInit(s32 arg0, s32 arg1);
 void DrawGlyphList(s16 *stream,s32 color,s32 bank);
 void DrawGlyphListSloped();
-void func_80059B1C(unsigned char *a0x, int a1, int a2, int a3);
-void func_80059C28(s32 index,s32 color);
-void func_80059D34(s32 index,s32 color);
+void AddBrightnessSprite(unsigned char *a0x, int a1, int a2, int a3);
+void EmitIconSpriteRow120(s32 index,s32 color);
+void EmitIconSpriteRow128(s32 index,s32 color);
 
 /* legacy typing of shared globals in this part of the unit */
 #define CurrentDrawBuf ((u8 *)CurrentDrawBuf)
@@ -244,8 +244,8 @@ void DrawTrackNodeMap(s32 *arg0) {
     S3C *sec;
 
     tile = SCRATCH->p;
-    sp10.vx = D_800A1050[CourseIndex].x;
-    sp10.vy = D_800A1050[CourseIndex].y;
+    sp10.vx = HudMapCourseOrigins[CourseIndex].x;
+    sp10.vy = HudMapCourseOrigins[CourseIndex].y;
 
     for (i = 0; i < TrackNodeCount; i++) {
         sp18.vx = TrackNodes[i].c / 384;
@@ -266,7 +266,7 @@ void DrawTrackNodeMap(s32 *arg0) {
     }
     SCRATCH->p = tile;
 
-    if (D_800AC648 < 8) {
+    if (CourseMenuSelection < 8) {
         s1 = D_800A1030;
         s3 = &D_800A1028;
     } else {
@@ -334,20 +334,20 @@ void DrawTrackNodeMap(s32 *arg0) {
     sp18.vx += sp10.vx;
     sp18.vy += sp10.vy;
 
-    D_800A101C &= 0xFF;
-    if (D_800A101C & 0x80) {
-        D_800A101C &= 0x7F;
-        if (D_800A101C < 0x7A) {
-            D_800A101C = (D_800A101C + 6) | 0x80;
+    HudMapPulse &= 0xFF;
+    if (HudMapPulse & 0x80) {
+        HudMapPulse &= 0x7F;
+        if (HudMapPulse < 0x7A) {
+            HudMapPulse = (HudMapPulse + 6) | 0x80;
         } else {
-            D_800A101C = 0x7F;
+            HudMapPulse = 0x7F;
         }
     } else {
-        D_800A101C &= 0x7F;
-        if (D_800A101C >= 6) {
-            D_800A101C -= 6;
+        HudMapPulse &= 0x7F;
+        if (HudMapPulse >= 6) {
+            HudMapPulse -= 6;
         } else {
-            D_800A101C = 0x80;
+            HudMapPulse = 0x80;
         }
     }
 
@@ -358,9 +358,9 @@ void DrawTrackNodeMap(s32 *arg0) {
     sprt->v0 = HudMapSpriteRects[0].v;
     sprt->w = HudMapSpriteRects[0].w;
     sprt->h = HudMapSpriteRects[0].h;
-    sprt->r0 = D_800A101C & 0x7F;
-    sprt->g0 = D_800A101C & 0x7F;
-    sprt->b0 = D_800A101C & 0x7F;
+    sprt->r0 = HudMapPulse & 0x7F;
+    sprt->g0 = HudMapPulse & 0x7F;
+    sprt->b0 = HudMapPulse & 0x7F;
     sprt->x0 = sp18.vx - 4;
     sprt->y0 = sp18.vy - 8;
     sprt->code = (sprt->code | 2) & ~1;
@@ -380,7 +380,7 @@ void DrawTrackNodeMap(s32 *arg0) {
 #undef CurrentDrawBuf
 
 void SelectReplayBgmTrack(void) {
- int r, a1; if (D_800F4D44 == 1) { if (CourseIndex == 7) { a1 = D_800AD520 + 0x20; CdAudioSelectTrack(0, a1); return; } } r = PsyqRand(); a1 = r % 6 + 0x1A; CdAudioSelectTrack(0, a1);
+ int r, a1; if (RaceType == 1) { if (CourseIndex == 7) { a1 = D_800AD520 + 0x20; CdAudioSelectTrack(0, a1); return; } } r = PsyqRand(); a1 = r % 6 + 0x1A; CdAudioSelectTrack(0, a1);
 }
 
 /* legacy typing of shared globals in this part of the unit */
@@ -389,12 +389,12 @@ void SelectReplayBgmTrack(void) {
 void SelectCourseBgmTrack() {
     int a0, a1, v;
     CdAudioInit();
-    if (D_800F4D44 == 1) {
+    if (RaceType == 1) {
         a0 = SelectionState[SelectionState[0x17] + 8] < 3;
     } else {
         a0 = 1;
     }
-    if (D_800F3970 != 0 && D_800F4D44 != 1) {
+    if (AllProgressComplete != 0 && RaceType != 1) {
         D_800F7660 = 0x10;
     } else {
         D_800F7660 = 0xF;
@@ -402,11 +402,11 @@ void SelectCourseBgmTrack() {
     if (a0 == 0) {
         a1 = CourseIndex + 3;
         CdAudioSelectTrack(0, a1);
-    } else if (D_800F765C == 0) {
+    } else if (RaceBgmListIndex == 0) {
         a1 = PsyqRand() % 14 + 0xB;
         CdAudioSelectTrack(0, a1);
     } else {
-        a1 = D_800A0C9C[D_800F765C - 1];
+        a1 = BgmNumberToCdTrack[RaceBgmListIndex - 1];
         CdAudioSelectTrack(0, a1);
     }
 }
@@ -457,39 +457,39 @@ void CenterGlyphListX(short *a0, int a1)
 #undef HudGlyphUvRects
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800A1090 (*(u8 (*)[])&D_800A1090)
+#define HudGlyphUvRectsBank0 (*(u8 (*)[])&HudGlyphUvRectsBank0)
 #define HudGlyphUvRects (*(u8 (*)[])&HudGlyphUvRects)
 
-void func_80059314(s32 arg0, s32 arg1) {
+void OpeningInit(s32 arg0, s32 arg1) {
     s32 i;
 
-    D_8010E22C = arg0;
+    OpeningMode = arg0;
     D_8010E230 = arg1;
-    D_8010E228 = -1;
-    D_8010E234 = 0;
-    D_8010E238 = 0;
+    OpeningFadeTimer = -1;
+    OpeningBgmSelectState = 0;
+    OpeningSlideTimer = 0;
     SoundReverbOffAll();
 
-    if (D_800F4D44 != 1) {
-        D_800F765C = 0;
+    if (RaceType != 1) {
+        RaceBgmListIndex = 0;
     } else {
         switch (D_800AD520) {
         case 0:
-            D_800F765C = D_800A1A40[CourseIndex] + 1;
+            RaceBgmListIndex = CourseBgmChoiceTable0[CourseIndex] + 1;
             break;
         case 1:
-            D_800F765C = D_800A1A00[CourseIndex] + 1;
+            RaceBgmListIndex = D_800A1A00[CourseIndex] + 1;
             break;
         case 2:
-            D_800F765C = D_800A19E0[CourseIndex] + 1;
+            RaceBgmListIndex = CourseBgmChoiceTable2[CourseIndex] + 1;
             break;
         case 3:
-            D_800F765C = D_800A1A20[CourseIndex] + 1;
+            RaceBgmListIndex = CourseBgmChoiceTable3[CourseIndex] + 1;
             break;
         }
     }
 
-    switch (D_800F4D44) {
+    switch (RaceType) {
     case 0:
     case 2:
     case 3:
@@ -502,7 +502,7 @@ void func_80059314(s32 arg0, s32 arg1) {
         }
     case 1:
     case 5:
-        if (D_800F3970 != 0 && D_800F4D44 != 1) {
+        if (AllProgressComplete != 0 && RaceType != 1) {
             D_800F7660 = 0x10;
         } else {
             D_800F7660 = 0xF;
@@ -510,23 +510,23 @@ void func_80059314(s32 arg0, s32 arg1) {
         break;
     case 4:
     default:
-        D_8010E234 = -1;
-        SoundState.w28a4 = D_800A19E0[CourseIndex] + 1;
+        OpeningBgmSelectState = -1;
+        SoundState.w28a4 = CourseBgmChoiceTable2[CourseIndex] + 1;
         SoundState.w28a8 = 0;
         break;
     }
 
-    D_8010E220 = D_800F765C + 0xB;
+    D_8010E220 = RaceBgmListIndex + 0xB;
 
     for (i = 0; i < 8; i++) {
-        CenterGlyphListX(D_800A18F0[i], D_800A1090);
-        CenterGlyphListX(D_800A1910[i], D_800A1090);
-        CenterGlyphListX(D_800A1930[i], D_800A1090);
-        CenterGlyphListX(D_800A1950[i], D_800A1090);
+        CenterGlyphListX(D_800A18F0[i], HudGlyphUvRectsBank0);
+        CenterGlyphListX(D_800A1910[i], HudGlyphUvRectsBank0);
+        CenterGlyphListX(D_800A1930[i], HudGlyphUvRectsBank0);
+        CenterGlyphListX(D_800A1950[i], HudGlyphUvRectsBank0);
     }
 
     for (i = 0; i < 5; i++) {
-        CenterGlyphListX(D_800A1970[i], D_800A1090);
+        CenterGlyphListX(D_800A1970[i], HudGlyphUvRectsBank0);
     }
 
     for (i = 0; i < 8; i++) {
@@ -536,7 +536,7 @@ void func_80059314(s32 arg0, s32 arg1) {
     }
 
     for (i = 0; i < 7; i++) {
-        CenterGlyphListX(D_800A19A4[i], D_800A1090);
+        CenterGlyphListX(D_800A19A4[i], HudGlyphUvRectsBank0);
     }
 
     CenterGlyphListX(D_800A1818, HudGlyphUvRects);
@@ -547,7 +547,7 @@ void func_80059314(s32 arg0, s32 arg1) {
     }
 }
 
-#undef D_800A1090
+#undef HudGlyphUvRectsBank0
 #undef HudGlyphUvRects
 
 void DrawGlyphList(s16 *stream,s32 color,s32 bank)
@@ -579,7 +579,7 @@ void DrawGlyphList(s16 *stream,s32 color,s32 bank)
                 uv = (RrUiUvRect*)((u8 *)HudGlyphUvRects + offset);
             } else {
                 offset = glyph * 4;
-                if (bank == 0) uv = (RrUiUvRect*)((u8 *)D_800A1090 + offset);
+                if (bank == 0) uv = (RrUiUvRect*)((u8 *)HudGlyphUvRectsBank0 + offset);
                 else uv = (RrUiUvRect*)((u8 *)HudGlyphUvRects + offset);
             }
             spriteCode = 0x66;
@@ -610,7 +610,7 @@ void DrawGlyphList(s16 *stream,s32 color,s32 bank)
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800A1090 (*(char (*)[])&D_800A1090)
+#define HudGlyphUvRectsBank0 (*(char (*)[])&HudGlyphUvRectsBank0)
 #define HudGlyphUvRects (*(char (*)[])&HudGlyphUvRects)
 #define CurrentDrawBuf ((char *)CurrentDrawBuf)
 
@@ -646,7 +646,7 @@ s32 a2;
                 t0 = (u8 *)HudGlyphUvRects + v;
             } else {
                 v = e * 4;
-                if (a2 == 0) t0 = (u8 *)D_800A1090 + v;
+                if (a2 == 0) t0 = (u8 *)HudGlyphUvRectsBank0 + v;
                 else t0 = (u8 *)HudGlyphUvRects + v;
             }
             k = 0x66;
@@ -677,14 +677,14 @@ s32 a2;
     }
 }
 
-#undef D_800A1090
+#undef HudGlyphUvRectsBank0
 #undef HudGlyphUvRects
 #undef CurrentDrawBuf
 
 /* legacy typing of shared globals in this part of the unit */
 #define CurrentDrawBuf ((char *)CurrentDrawBuf)
 
-void func_80059B1C(unsigned char *a0x, int a1, int a2, int a3) {
+void AddBrightnessSprite(unsigned char *a0x, int a1, int a2, int a3) {
     register unsigned char *p asm("$10");
     int *g;
     unsigned hi;
@@ -736,10 +736,10 @@ void func_80059B1C(unsigned char *a0x, int a1, int a2, int a3) {
 
 #undef CurrentDrawBuf
 
-void func_80059C28(s32 index,s32 color) {
+void EmitIconSpriteRow120(s32 index,s32 color) {
     RR_ICON_SPRITE_BODY(120)
 }
 
-void func_80059D34(s32 index,s32 color) {
+void EmitIconSpriteRow128(s32 index,s32 color) {
     RR_ICON_SPRITE_BODY(128)
 }

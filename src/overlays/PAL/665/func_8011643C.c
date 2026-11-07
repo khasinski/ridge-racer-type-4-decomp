@@ -36,7 +36,7 @@ void ovl665_func_8011643C(void) {
     BuildCameraMatrices();
     SetupViewport(6);
     SetGeomOffset((s16)ovl665_D_80119768.centerX38, (s16)ovl665_D_80119768.centerY3A);
-    func_8002E828(2, scratch->matrix28.halves);
+    ScaleMatrixRow1(2, scratch->matrix28.halves);
     switch (ovl665_D_80119768.kind18) {
     case 0:
             temp_s1 = &ovl665_D_80119768.view74;
@@ -71,7 +71,7 @@ void ovl665_func_8011643C(void) {
     SelectModelBank(8);
     SetGteObjectTransform(scratch->tail7C.projection.halves, temp_s1_2->position00.halves, (s32 *)sp10.words);
     scratch->counter78 = 0;
-    var_a1 = D_800F2FD8 < 1;
+    var_a1 = ModelBankFormat < 1;
 SubmitModelTwoTri(scratch, var_a1, 0, 0);
  goto block_33;
 
@@ -93,7 +93,7 @@ temp_s4 = &ovl665_D_80119768.view74;
         SetGteObjectTransform(RR_PREVIEW_RENDER_SCRATCH->tail7C.projection.halves, temp_s4->position00.halves, (s32 *)sp30.words);
         var_a1_4 = 1;
         scratch->counter78 = 0;
-        if (D_800F2FD8 >= 3) {
+        if (ModelBankFormat >= 3) {
             var_a1_4 = 2;
         }
         SubmitModelTwoTri(RR_PREVIEW_RENDER_SCRATCH, var_a1_4, 0, 0);
@@ -102,7 +102,7 @@ temp_s4 = &ovl665_D_80119768.view74;
                 SetGteObjectTransform(RR_PREVIEW_RENDER_SCRATCH->tail7C.projection.halves, temp_s4->position00.halves, (s32 *)sp30.words);
                 var_a1_5 = 1;
                 scratch->counter78 = 0;
-                if (D_800F2FD8 >= 7) {
+                if (ModelBankFormat >= 7) {
                     var_a1_5 = 6;
                 }
                 SubmitModelTwoTri(RR_PREVIEW_RENDER_SCRATCH, var_a1_5, 0, 0);
@@ -115,7 +115,7 @@ temp_s4 = &ovl665_D_80119768.view74;
         SetGteObjectTransform(RR_PREVIEW_RENDER_SCRATCH->tail7C.projection.halves, temp_s5_2->position00.halves, (s32 *)sp30.words);
         var_a1_6 = 1;
         RR_PREVIEW_RENDER_SCRATCH->counter78 = 0;
-        if (D_800F2FD8 >= 4) {
+        if (ModelBankFormat >= 4) {
             var_a1_6 = 3;
         }
         SubmitModelTwoTri(RR_PREVIEW_RENDER_SCRATCH, var_a1_6, 0, 0);
@@ -124,7 +124,7 @@ temp_s4 = &ovl665_D_80119768.view74;
                 SetGteObjectTransform(RR_PREVIEW_RENDER_SCRATCH->tail7C.projection.halves, temp_s5_2->position00.halves, (s32 *)sp30.words);
                 var_a1 = 1;
                 RR_PREVIEW_RENDER_SCRATCH->counter78 = 0;
-                if (D_800F2FD8 >= 8) {
+                if (ModelBankFormat >= 8) {
                     var_a1 = 7;
                 }
                 SubmitModelTwoTri(RR_PREVIEW_RENDER_SCRATCH, var_a1, 0, 0);
@@ -148,7 +148,7 @@ temp_s5 = &ovl665_D_80119768.view74;
             SetGteObjectTransform(scratch->tail7C.projection.halves, temp_s5->position00.halves, (s32 *)sp10.words);
             var_a1_2 = 1;
             scratch->counter78 = 0;
-            if (D_800F2FD8 >= 5) {
+            if (ModelBankFormat >= 5) {
                 var_a1_2 = 4;
             }
             SubmitModelTwoTri(scratch, var_a1_2, 0, 0);
@@ -158,7 +158,7 @@ temp_s5 = &ovl665_D_80119768.view74;
             SetGteObjectTransform(scratch->tail7C.projection.halves, temp_s5->position00.halves, (s32 *)sp30.words);
             var_a1_3 = 1;
             scratch->counter78 = 0;
-            if (D_800F2FD8 >= 6) {
+            if (ModelBankFormat >= 6) {
                 var_a1_3 = 5;
             }
             SubmitModelTwoTri(scratch, var_a1_3, 0, 0);
@@ -168,7 +168,7 @@ temp_s5 = &ovl665_D_80119768.view74;
                         SetGteObjectTransform(scratch->tail7C.projection.halves, temp_s5->position00.halves, (s32 *)sp30.words);
                         var_a1 = 1;
                         scratch->counter78 = 0;
-                        if (D_800F2FD8 >= 9) {
+                        if (ModelBankFormat >= 9) {
                             var_a1 = 8;
                         }
                         SubmitModelTwoTri(scratch, var_a1, 0, 0);

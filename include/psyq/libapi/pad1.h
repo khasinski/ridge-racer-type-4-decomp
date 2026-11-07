@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern int D_801143E8;
+extern int PadVsyncIntRP;
 s32 ReadInitPadFlag(void);
 
 #endif /* RR_PSYQ_LIBAPI_PAD1_H */

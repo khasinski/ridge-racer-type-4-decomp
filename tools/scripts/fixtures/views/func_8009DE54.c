@@ -8,7 +8,7 @@ s32 _cardGetIdRx(s32 value) {
     /* ASM_BARRIER: Share the original result pointer register between accumulation cases. */
     register u32 *word __asm__("$2");
     switch (CardRxCount) {
-    case 2:D_80114730=8;break;
+    case 2:CardBytesRemaining=8;break;
     case 3:if ((value&255)!=0x5A) return -1;break;
     case 7:*(u32 *)CardCmdResultPtrA=value&255;break;
     case 8:word=CardCmdResultPtrA;goto append;

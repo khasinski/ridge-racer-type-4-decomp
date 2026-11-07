@@ -14,34 +14,34 @@ typedef struct { char p[0x184]; int a; int b; char q[0x62]; short n; } W10_O;
 void SaveCarSnapshots(s32);
 void *SoundQueueEnqueue(s32, s32);
 void SoundSetMasterVolume(s16, s16);
-extern u8 D_8009F910[];
-extern s16 D_800AC5D0;
+extern u8 GpQualifyRankLimits[];
+extern s16 MenuFadeTimer;
 extern s32 CourseBestLap[2][8];
 extern s16 ReverseCourse;
 extern s32 TrackLength;
 extern s32 CourseBestLapTimes[2][8][3];
 extern s16 CourseIndex;
 extern s32 NumLaps;
-extern s32 D_800F3B00[];
+extern s32 CourseBestLapRecords[];
 extern s32 LapFrameCounts[];
 extern s32 TotalRaceTime;
 extern s32 BestLapTime;
 extern s32 LapTimes[];
 extern s32 RaceState;
-extern s32 D_8010C0F8[3];
-extern s32 D_8010C120[3];
-extern s32 D_8010C12C;
-extern s16 D_8010C134;
-extern s32 D_8010C140[3];
+extern s32 BestSplitTimes[3];
+extern s32 SplitTimes[3];
+extern s32 NextSplitIndex;
+extern s16 LapAnnouncePending;
+extern s32 SplitDistances[3];
 extern short NumCars;
 extern W10_Q *RankTable[];
 extern W10_O *CarTable[];
 extern void SetupRace();
-extern unsigned short D_8009F914[];
+extern unsigned short GameTypeSceneIds[];
 
 void UpdateLapTiming(RrRaceVehicle *arg0);
 void UpdateRaceRanking(void);
-void func_8003CAB4(void);
+void SetupRaceAndScene(void);
 
 void UpdateLapTiming(RrRaceVehicle *arg0) {
     RrRaceVehicleControl *s0;
@@ -64,8 +64,8 @@ void UpdateLapTiming(RrRaceVehicle *arg0) {
             if (LapTimes[s0->steering94.count22 - 1] > 0x927BE) {
                 LapTimes[s0->steering94.count22 - 1] = 0x927BF;
             }
-            if (D_800F4D44 == 0) {
-                D_8010C120[D_8010C12C] = LapTimes[s0->steering94.count22 - 1];
+            if (RaceType == 0) {
+                SplitTimes[NextSplitIndex] = LapTimes[s0->steering94.count22 - 1];
             }
         }
     }
@@ -73,24 +73,24 @@ void UpdateLapTiming(RrRaceVehicle *arg0) {
         if (s0->steering94.count22 <= NumLaps) {
             s0->steering94.count22 = (u16)s0->steering94.count22 + 1;
             if (s0->steering94.count22 == 1) {
-                D_8010C114 = 0;
+                SplitDeltaTimer = 0;
             } else {
-                D_8010C114 = 0x3C;
+                SplitDeltaTimer = 0x3C;
             }
-            D_8010C108 = D_8010C120[D_8010C12C];
-            D_8010C10C = D_8010C0F8[D_8010C12C];
-            D_8010C104 = D_8010C12C;
-            D_8010C12C = 0;
-            D_8010C134 = 0;
+            ShownSplitTime = SplitTimes[NextSplitIndex];
+            LatchedBestSplitTime = BestSplitTimes[NextSplitIndex];
+            SplitDeltaIndex = NextSplitIndex;
+            NextSplitIndex = 0;
+            LapAnnouncePending = 0;
             if (BestLapTime > LapTimes[s0->steering94.count22 - 2]) {
                 if (s0->steering94.count22 != 1) {
                     SoundQueueEnqueue(9, 0);
                     BestLapTime = LapTimes[s0->steering94.count22 - 2];
                     s0->steering94.finish20 = (u16)s0->steering94.count22 - 2;
-                    if (D_800F4D44 == 0) {
-                        D_8010C0F8[0] = D_8010C120[0];
-                        D_8010C0F8[1] = D_8010C120[1];
-                        D_8010C0F8[2] = D_8010C120[2];
+                    if (RaceType == 0) {
+                        BestSplitTimes[0] = SplitTimes[0];
+                        BestSplitTimes[1] = SplitTimes[1];
+                        BestSplitTimes[2] = SplitTimes[2];
                     }
                 }
             }
@@ -103,15 +103,15 @@ void UpdateLapTiming(RrRaceVehicle *arg0) {
                 SaveCarSnapshots(0);
             } else if (s0->steering94.count22 > NumLaps) {
                 if (RaceState < 4) {
-                    D_8010C134 = -1;
+                    LapAnnouncePending = -1;
                     RaceState = 4;
-                    D_800AC5D0 = 0x4B;
+                    MenuFadeTimer = 0x4B;
                     SoundSetMasterVolume(0, 0x47);
                     msg = 0x13;
-                    if (D_800F4D44 == 1) {
+                    if (RaceType == 1) {
                         /* ASM_BARRIER: clobber msg on entry to mode-1 branch so CSE retains msg = 0x13 and frees $a0 for phase17 */
                         __asm__ volatile("" : "=r"(msg));
-                        if (arg0->half1EE <= D_8009F910[SelectionState.phase17 / 2]) {
+                        if (arg0->half1EE <= GpQualifyRankLimits[SelectionState.phase17 / 2]) {
                             msg = 0x13;
                         } else {
                             if (SelectionState.retries08[SelectionState.phase17] > 0) {
@@ -124,7 +124,7 @@ void UpdateLapTiming(RrRaceVehicle *arg0) {
                     if (msg >= 0) {
                         SoundQueueEnqueue(msg, 1);
                     }
-                    if (arg0->half1EE < 8 && D_800F4D44 < 2) {
+                    if (arg0->half1EE < 8 && RaceType < 2) {
                         msg = 0;
                         TotalRaceTime = 0;
                         if (NumLaps > 0) {
@@ -136,22 +136,22 @@ void UpdateLapTiming(RrRaceVehicle *arg0) {
                         if (TotalRaceTime > 0x927BE) {
                             TotalRaceTime = 0x927BF;
                         }
-                        if (D_800F4D44 == 0) {
+                        if (RaceType == 0) {
                             if (CourseBestTotal[ReverseCourse][CourseIndex] > TotalRaceTime) {
                                 CourseBestTotal[ReverseCourse][CourseIndex] = TotalRaceTime;
                             }
                             if (CourseBestLap[ReverseCourse][CourseIndex] > BestLapTime) {
                                 CourseBestLap[ReverseCourse][CourseIndex] = BestLapTime;
                             }
-                            CourseBestLapTimes[ReverseCourse][CourseIndex][0] = D_8010C0F8[0];
-                            CourseBestLapTimes[ReverseCourse][CourseIndex][1] = D_8010C0F8[1];
-                            CourseBestLapTimes[ReverseCourse][CourseIndex][2] = D_8010C0F8[2];
-                        } else if (D_800F4D44 == 1) {
+                            CourseBestLapTimes[ReverseCourse][CourseIndex][0] = BestSplitTimes[0];
+                            CourseBestLapTimes[ReverseCourse][CourseIndex][1] = BestSplitTimes[1];
+                            CourseBestLapTimes[ReverseCourse][CourseIndex][2] = BestSplitTimes[2];
+                        } else if (RaceType == 1) {
                             if (CourseBestTotalTimes[CourseIndex] > TotalRaceTime) {
                                 CourseBestTotalTimes[CourseIndex] = TotalRaceTime;
                             }
-                            if (D_800F3B00[CourseIndex] > BestLapTime) {
-                                D_800F3B00[CourseIndex] = BestLapTime;
+                            if (CourseBestLapRecords[CourseIndex] > BestLapTime) {
+                                CourseBestLapRecords[CourseIndex] = BestLapTime;
                             }
                         }
                     }
@@ -162,17 +162,17 @@ void UpdateLapTiming(RrRaceVehicle *arg0) {
         }
     } else {
 check_split:
-        if (D_8010C140[D_8010C12C] + TrackLength * (s0->steering94.count22 - 1) <= arg0->second + arg0->first) {
-            if (D_800F4D44 == 0) {
-                D_8010C114 = 0x3C;
-                D_8010C104 = D_8010C12C;
-                D_8010C108 = D_8010C120[D_8010C12C];
-                D_8010C10C = D_8010C0F8[D_8010C12C];
-                D_8010C12C += 1;
+        if (SplitDistances[NextSplitIndex] + TrackLength * (s0->steering94.count22 - 1) <= arg0->second + arg0->first) {
+            if (RaceType == 0) {
+                SplitDeltaTimer = 0x3C;
+                SplitDeltaIndex = NextSplitIndex;
+                ShownSplitTime = SplitTimes[NextSplitIndex];
+                LatchedBestSplitTime = BestSplitTimes[NextSplitIndex];
+                NextSplitIndex += 1;
             }
         }
     }
-    if (D_8010C134 == 0) {
+    if (LapAnnouncePending == 0) {
         msg = 9 - (NumLaps - s0->steering94.count22);
         if (msg == 9) {
             msg = 0xF;
@@ -180,7 +180,7 @@ check_split:
         if (msg >= 6) {
             SoundQueueEnqueue(msg, 0);
         }
-        D_8010C134 = -1;
+        LapAnnouncePending = -1;
     }
 }
 
@@ -215,7 +215,7 @@ void UpdateRaceRanking(void)
   }
 }
 
-void func_8003CAB4(void) {
+void SetupRaceAndScene(void) {
     SetupRace();
-    D_800AD50A = D_8009F914[D_800F4D44];
+    SceneId = GameTypeSceneIds[RaceType];
 }

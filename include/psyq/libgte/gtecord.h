@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-s32 func_80090758(s32);
+s32 CordicSqrt(s32);
 
 #endif /* RR_PSYQ_LIBGTE_GTECORD_H */

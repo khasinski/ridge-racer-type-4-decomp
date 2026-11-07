@@ -29,19 +29,19 @@ void ovl665_func_80115820(void) {
         } else if(PlayerControllers[0].accept30) {
             PlaySfx(1);
             BadgeRows[0].state10=4;
-            D_800AC5D0=64;
+            MenuFadeTimer=64;
             ovl665_D_80119768.layout0C=(s32)((u32)ovl665_D_80119768.layout0C+1U);
         }
         for(i=0;i<2;i++) {
-            D_800ADAF0[i].environment.screen.x=(s16)Options.display.x34;
-            D_800ADAF0[i].environment.screen.y=(s16)Options.display.y38;
+            FrameEnvs[i].environment.screen.x=(s16)Options.display.x34;
+            FrameEnvs[i].environment.screen.y=(s16)Options.display.y38;
         }
         break;
     case 3:
-        timer=(u16)D_800AC5D0-1;
-        D_800AC5D0=timer;
+        timer=(u16)MenuFadeTimer-1;
+        MenuFadeTimer=timer;
         AddScreenFadeTiles(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,(64-(s32)timer)*4,69);
-        if(D_800AC5D0<=0 && BadgeRows[0].state10==11) {
+        if(MenuFadeTimer<=0 && BadgeRows[0].state10==11) {
             ovl665_func_80114A24();
             ovl665_D_80119768.layout0C=0;
             ovl665_D_80119768.scene00=(s32)((u32)ovl665_D_80119768.scene00-1U);
@@ -65,8 +65,8 @@ void ovl665_func_80115820(void) {
     context->ordering70[0]=(context->ordering70[0]&0xFF000000U)|((u32)(unsigned long)packet&0xFFFFFFU);
     packet++;
     RR_PROJECTION_SCRATCH->pointers.cursor=(u8 *)packet;
-    D_800AC590->b4=26;
+    DialogueState->b4=26;
     UpdateBadgeRowAnim(0);
-    if(BadgeRows[0].state10==3)UpdateDialogue(BadgeRows[0].x04+10,BadgeRows[0].y06+40,D_800AC590);
+    if(BadgeRows[0].state10==3)UpdateDialogue(BadgeRows[0].x04+10,BadgeRows[0].y06+40,DialogueState);
     UpdateScreenFade(0x1007A);
 }

@@ -4,8 +4,8 @@
 
 typedef struct {u8 u,v,w,h;} RrUiUvRect;
 typedef struct {s16 glyph,count;} RrUiBarDescriptor;
-extern RrUiUvRect D_8009F94C[];
-extern RrUiBarDescriptor D_8009F968[];
+extern RrUiUvRect UiBarGlyphRects[];
+extern RrUiBarDescriptor UiBarDescriptors[];
 
 /* Emits a glyph, left cap, count-dependent middle pieces, right cap and white
  * underline through the existing GPU helpers. Style and glyph indices must

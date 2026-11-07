@@ -22,8 +22,8 @@ void DrawRaceMinimap(s32 arg0) {
     var_s4 = 0;
     if (arg0 == 0) {
         var_s3 = ((RrFrameStorage *)(void *)CurrentDrawBuf)->ordering.ordering70;
-        if (D_800AD508 >= 0) {
-            var_s2 = (s16)((u16)D_800AD508 ^ 1);
+        if (LinkRoleSlot >= 0) {
+            var_s2 = (s16)((u16)LinkRoleSlot ^ 1);
         } else {
             var_s2 = 0;
         }
@@ -32,8 +32,8 @@ void DrawRaceMinimap(s32 arg0) {
         if (arg0 == 1) {
             var_s4 = -0x80;
         }
-        if (D_800AD508 >= 0) {
-            {s32 step=((s32)(((u16)D_800AD508^1)<<16)>>15);step=step-1;var_s2=arg0+step;}
+        if (LinkRoleSlot >= 0) {
+            {s32 step=((s32)(((u16)LinkRoleSlot^1)<<16)>>15);step=step-1;var_s2=arg0+step;}
         } else {
             var_s2 = arg0 - 1;
         }
@@ -106,10 +106,10 @@ void DrawSteeringIndicator(u32 *ordering, s32 layout) {
     status = input->status10;
     if (status == 2) {
         if (input->buttons08 & 0x100) {
-            toggle = (u16 *)&D_8009EE68[player];
+            toggle = (u16 *)&SteeringGaugeVisible[player];
             *toggle ^= 1;
         }
-        i = func_8004B70C(player);
+        i = GetControllerWarning(player);
         if (i > 0) {
             if ((u32) (ScreenFrame & 3) < 2U) {
                 if (i == status) {
@@ -125,7 +125,7 @@ drawWarning:
             }
         }
         i = 0;
-        if (D_8009EE68[player] != 0) {
+        if (SteeringGaugeVisible[player] != 0) {
             cursor = RR_HUD_SCRATCH->cursor;
             widthBase = 2;
             heightBase = 6;
@@ -149,7 +149,7 @@ drawWarning:
 drawNeedle:
                 i = 0;
             }
-            shapeBase = D_8009EE5C;
+            shapeBase = SteeringNeedleShape;
             shapeOffset = 1;
             outputPoint = triangle.half;
             shapeX = shapeBase;
@@ -163,7 +163,7 @@ drawNeedle:
                 outputPoint[1] = (s16) ((s8) *shapeY + baselineY + 5);
                 outputPoint += 2;
             } while (i < 3);
-            RR_HUD_SCRATCH->cursor = (u8 *)func_8002071C(ordering, cursor, triangle.word[0], triangle.word[1], triangle.word[2], D_8009EE64, 0);
+            RR_HUD_SCRATCH->cursor = (u8 *)EmitPolyF3(ordering, cursor, triangle.word[0], triangle.word[1], triangle.word[2], D_8009EE64, 0);
         }
     }
 }

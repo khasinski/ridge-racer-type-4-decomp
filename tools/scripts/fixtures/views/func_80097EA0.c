@@ -23,12 +23,12 @@ s32 _padIntPad(void) {
         page[-0x4330/4]=enabled;
     }
     if(condition) {
-        s32 *counter=D_80114428;
+        s32 *counter=PadPortTimeoutCounts;
         s32 value=*counter;
         if(value<150)*counter=value+1;
     }
-    if(!D_800ABCBC) {
-        s32 *counter=D_80114428+1;
+    if(!PadLastChannel) {
+        s32 *counter=PadPortTimeoutCounts+1;
         s32 value=*counter;
         if(value<150)*counter=value+1;
     }
@@ -36,12 +36,12 @@ s32 _padIntPad(void) {
     first=PadFirstChannel;
     /* Stage 15 times the index; quotient/remainder preserve native record sizes. */
     shifted=(u32)first<<4;
-    if(D_800ABCBC<first)goto out;
+    if(PadLastChannel<first)goto out;
     PadRecvStage=0;
     PadActiveChannel=first;
     if(!_padInitSioMode((RrChannelRecordF0 *)((unsigned long)PadChannelRecords+(long)(s32)((shifted-(u32)first)*(sizeof(RrChannelRecordF0)/15)+(u32)first*(sizeof(RrChannelRecordF0)%15)))))PadAdvanceChannelFn(65535);
-    D_800ABCB0=0;
-    while(PadActiveChannel<=D_800ABCBC)_padSioStageStep(PadChannelRecords+PadActiveChannel);
+    PadActuatorPowerUsed=0;
+    while(PadActiveChannel<=PadLastChannel)_padSioStageStep(PadChannelRecords+PadActiveChannel);
     PadSio0Base->baud=0x88;
 out:
     return 0;

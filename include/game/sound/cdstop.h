@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-int func_800534B4();
+int GetCdAudioPosition();
 
 #endif /* RR_GAME_SOUND_CDSTOP_H */

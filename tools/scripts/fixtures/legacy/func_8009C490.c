@@ -23,7 +23,7 @@ s32 _cardCmd59ParamBegin(s32 request, s32 parameter, u8 *buffer) {
     /* ASM_BARRIER: Form command state 2 before callback materialization and parameter stores. */
     __asm__ volatile("" : "=r"(mode) : "0"(mode) : "$4", "memory");
     CardCommandReader = _cardCmd59ParamTx;
-    D_8011472C.buffer = buffer;
+    CardCmdValue.buffer = buffer;
     CardCmdBuffer = buffer;
     CardCurrentCommand = mode;
     CardWriteHandler = _cardRxStatusByte;

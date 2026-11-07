@@ -8,11 +8,11 @@ void ovl668_func_801149E8(void)
 
     SetDispMask(0);
     SetupDrawDispEnvs(0, 0, 0, 5);
-    state = D_800F4D40;
+    state = MenuArenaBase;
     LoadCursor = state;
     RaceContext.activeB8 = state;
     LoadCursor = (u8 *)state + sizeof(*state);
-    func_80096434(state, sizeof(*state));
+    PsyqBzero(state, sizeof(*state));
     ResetGraph(3);
     CdSync(0, 0);
     CdControl(9, 0, 0);
@@ -20,6 +20,6 @@ void ovl668_func_801149E8(void)
     RaceContext.stopD0 = 0;
     ovl668_func_80114910(RaceContext.resourceB0, &file, &sectors);
     ModeGroup = 2;
-    D_800F3A26 = 4;
-    D_800F4D8A = 0;
+    ModeId = 4;
+    ModeSubState = 0;
 }

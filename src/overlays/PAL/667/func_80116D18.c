@@ -1,17 +1,17 @@
 #include "rr/menu_overlay_runtime.h"
 
 /* Four-player selection: per-pair page, row and course group tables. */
-extern RrCourseChoice4 D_8010BFD8[2][2][9];
+extern RrCourseChoice4 CourseMenuChoices[2][2][9];
 extern s16 D_8010C0B8;
-extern s16 D_8010C0C0[2][2];
-extern s16 D_8010C0D0[2];
-extern s16 D_8010C0D8[2];
+extern s16 ChoiceGlyphCounts[2][2];
+extern s16 CourseMenuCursor[2];
+extern s16 CourseMenuPage[2];
 extern s8 LinkEntryState[];
 extern s32 UiRowCount;
 /* Resident word reached through its enclosing array object (aliases row stores). */
-extern s32 D_800F4CB8[1];
-extern s16 D_800FFC18;
-extern s16 D_800AD508;
+extern s32 MenuActivePlayerPlusOne[1];
+extern s16 MenuResultCode;
+extern s16 LinkRoleSlot;
 extern u8 ovl667_D_80118E10[4];
 extern s8 ovl667_D_80118E14[2][4];
 extern s8 ovl667_D_80118E1C[2][2][4];
@@ -45,48 +45,48 @@ void ovl667_func_80116D18(void) {
         return;
     }
     UpdateLinkHandshake(2);
-    PlayerCars[D_800AC5D4 & 1].rot54 = (PlayerCars[D_800AC5D4 & 1].rot54 + 8) & 0xFFF;
+    PlayerCars[SelectionPlayer & 1].rot54 = (PlayerCars[SelectionPlayer & 1].rot54 + 8) & 0xFFF;
     SetupMenuCarCamera(1);
     SetupViewport(6);
-    loadResult = LoadCarRangeStep(D_800AC5D4, 1);
+    loadResult = LoadCarRangeStep(SelectionPlayer, 1);
     if (loadResult != 1) {
         if ((s8)ImageRows[1] == 1) {
             ImageRows[1] = 0;
         }
         goto draw_rows;
     }
-    SetCarBounds(&PlayerCars[D_800AC5D4 & 1]);
+    SetCarBounds(&PlayerCars[SelectionPlayer & 1]);
     if ((s8)ImageRows[1] == 7) {
         ImageRows[1] = loadResult;
     }
     modelReady = 1;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 7:
-        row = ovl667_D_80118E1C[D_800AC5D4 & 1][(s16)(D_8010C0D8[D_800AC5D4 & 1] ^ 1)][0];
+        row = ovl667_D_80118E1C[SelectionPlayer & 1][(s16)(CourseMenuPage[SelectionPlayer & 1] ^ 1)][0];
         if (UiRows[row].byte14 == 5) {
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
     case 0:
         SetMenuFrameOptions(1, 1, 1);
-        previous = PackChoiceGlyph((s8 *)&SelectionRows + D_800AC5D4 * 4);
-        StepMenuValue(((D_800AC5D4 & 1) * 4) | 1, 2, (char *)&D_8010C0D0[D_800AC5D4 & 1],
-                      D_8010C0C0[D_800AC5D4 & 1][D_8010C0D8[D_800AC5D4 & 1]], 0);
-        UnpackChoiceGlyph((s8 *)&SelectionRows + D_800AC5D4 * 4,
-                      D_8010BFD8[D_800AC5D4 & 1][D_8010C0D8[D_800AC5D4 & 1]][D_8010C0D0[D_800AC5D4 & 1]].glyph);
-        if (((u32)previous << 16) != ((u32)PackChoiceGlyph((s8 *)&SelectionRows + D_800AC5D4 * 4) << 16)) {
+        previous = PackChoiceGlyph((s8 *)&SelectionRows + SelectionPlayer * 4);
+        StepMenuValue(((SelectionPlayer & 1) * 4) | 1, 2, (char *)&CourseMenuCursor[SelectionPlayer & 1],
+                      ChoiceGlyphCounts[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]], 0);
+        UnpackChoiceGlyph((s8 *)&SelectionRows + SelectionPlayer * 4,
+                      CourseMenuChoices[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][CourseMenuCursor[SelectionPlayer & 1]].glyph);
+        if (((u32)previous << 16) != ((u32)PackChoiceGlyph((s8 *)&SelectionRows + SelectionPlayer * 4) << 16)) {
             ResetScreenCounters();
             LoadCursor = MenuArenas.first;
-            UnpackChoiceGlyph((s8 *)&SelectionRows + D_800AC5D4 * 4,
-                          D_8010BFD8[D_800AC5D4 & 1][D_8010C0D8[D_800AC5D4 & 1]][D_8010C0D0[D_800AC5D4 & 1]].glyph);
-            PlayerCourseChoices[D_800AC5D4].first = D_8010BFD8[D_800AC5D4 & 1][D_8010C0D8[D_800AC5D4 & 1]][D_8010C0D0[D_800AC5D4 & 1]].first;
-            PlayerCourseChoices[D_800AC5D4].second = D_8010BFD8[D_800AC5D4 & 1][D_8010C0D8[D_800AC5D4 & 1]][D_8010C0D0[D_800AC5D4 & 1]].second;
+            UnpackChoiceGlyph((s8 *)&SelectionRows + SelectionPlayer * 4,
+                          CourseMenuChoices[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][CourseMenuCursor[SelectionPlayer & 1]].glyph);
+            PlayerCourseChoices[SelectionPlayer].first = CourseMenuChoices[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][CourseMenuCursor[SelectionPlayer & 1]].first;
+            PlayerCourseChoices[SelectionPlayer].second = CourseMenuChoices[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][CourseMenuCursor[SelectionPlayer & 1]].second;
             ImageRows[1] = 6;
         }
-        row = ovl667_D_80118E1C[D_800AC5D4 & 1][D_8010C0D8[D_800AC5D4 & 1]][MenuCursor];
+        row = ovl667_D_80118E1C[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][MenuCursor];
         UiRows[row].cells[0] = 0;
-        StepMenuValue((D_800AC5D4 & 1) * 4, 2, (char *)&MenuCursor,
-                      ovl667_D_80118E10[D_8010C0D8[D_800AC5D4 & 1]], 0);
-        row = ovl667_D_80118E1C[D_800AC5D4 & 1][D_8010C0D8[D_800AC5D4 & 1]][MenuCursor];
+        StepMenuValue((SelectionPlayer & 1) * 4, 2, (char *)&MenuCursor,
+                      ovl667_D_80118E10[CourseMenuPage[SelectionPlayer & 1]], 0);
+        row = ovl667_D_80118E1C[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][MenuCursor];
         UiRows[row].cells[0] = 2;
         state = UiRows[row].byte14;
         cancel = 0;
@@ -96,17 +96,17 @@ void ovl667_func_80116D18(void) {
         if (BadgeRows->state10 != 3) {
             break;
         }
-        if (PlayerControllers[D_800AC5D4 & 1].a != 0) {
+        if (PlayerControllers[SelectionPlayer & 1].a != 0) {
             PlaySfx(1);
             UiRows[row].cells[0] = 1;
-            if (MenuCursor == ovl667_D_80118E14[D_8010C0D8[D_800AC5D4 & 1]][0]) {
+            if (MenuCursor == ovl667_D_80118E14[CourseMenuPage[SelectionPlayer & 1]][0]) {
                 D_8010C0B8 = state;
-                D_800F4D8A = 4;
-            } else if (MenuCursor == ovl667_D_80118E14[D_8010C0D8[D_800AC5D4 & 1]][1] && D_8010BFD8[D_800AC5D4][1][0].glyph != -1) {
-                D_8010C0D0[D_800AC5D4 & 1] = 0;
+                ModeSubState = 4;
+            } else if (MenuCursor == ovl667_D_80118E14[CourseMenuPage[SelectionPlayer & 1]][1] && CourseMenuChoices[SelectionPlayer][1][0].glyph != -1) {
+                CourseMenuCursor[SelectionPlayer & 1] = 0;
                 MenuCursor = 0;
                 for (i = 0; i < 4; i++) {
-                    row = ovl667_D_80118E1C[D_800AC5D4 & 1][D_8010C0D8[D_800AC5D4 & 1]][i];
+                    row = ovl667_D_80118E1C[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][i];
                     if (row == -1) {
                         break;
                     }
@@ -115,28 +115,28 @@ void ovl667_func_80116D18(void) {
                     }
                 }
                 for (i = 0; i < 4; i++) {
-                    row = ovl667_D_80118E1C[D_800AC5D4 & 1][(s16)(D_8010C0D8[D_800AC5D4 & 1] ^ 1)][i];
+                    row = ovl667_D_80118E1C[SelectionPlayer & 1][(s16)(CourseMenuPage[SelectionPlayer & 1] ^ 1)][i];
                     if (row == -1) {
                         break;
                     }
                     UiRows[row].byte14 = 0;
                 }
-                D_800F4D8A = 7;
-                D_8010C0D8[D_800AC5D4 & 1] ^= 1;
-            } else if (MenuCursor == ovl667_D_80118E14[D_8010C0D8[D_800AC5D4 & 1]][2]) {
+                ModeSubState = 7;
+                CourseMenuPage[SelectionPlayer & 1] ^= 1;
+            } else if (MenuCursor == ovl667_D_80118E14[CourseMenuPage[SelectionPlayer & 1]][2]) {
                 cancel = 1;
-            } else if (MenuCursor == ovl667_D_80118E14[D_8010C0D8[D_800AC5D4 & 1]][3]) {
+            } else if (MenuCursor == ovl667_D_80118E14[CourseMenuPage[SelectionPlayer & 1]][3]) {
                 for (i = 0; i < UiRowCount; i++) {
                     if (UiRows[i].byte14 == 2) {
                         UiRows[i].byte14 = 3;
                     }
                 }
                 ImageRows[1] = 3;
-                D_800AC5D0 = 0x40;
-                D_800F4D8A = 10;
+                MenuFadeTimer = 0x40;
+                ModeSubState = 10;
                 BadgeRows->state10 = 4;
             }
-        } else if (PlayerControllers[D_800AC5D4 & 1].b != 0) {
+        } else if (PlayerControllers[SelectionPlayer & 1].b != 0) {
             PlaySfx(2);
             cancel = 1;
         }
@@ -147,35 +147,35 @@ void ovl667_func_80116D18(void) {
                 }
             }
             ImageRows[1] = 3;
-            D_800AC5D0 = 0x40;
-            D_800F4D8A = 8;
+            MenuFadeTimer = 0x40;
+            ModeSubState = 8;
             BadgeRows->state10 = 4;
             SeqFadeVolume(0, 0x3C);
         }
         break;
     case 3:
-        row = ovl667_D_80118E1C[(D_800AC5D4 - 1) & 1][1][3] + 1;
+        row = ovl667_D_80118E1C[(SelectionPlayer - 1) & 1][1][3] + 1;
         if (UiRows[row].byte14 == 5) {
             D_8010C0B8 = 1;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 4:
-        row = ovl667_D_80118E1C[D_800AC5D4 & 1][1][3] + 1;
+        row = ovl667_D_80118E1C[SelectionPlayer & 1][1][3] + 1;
         state = UiRows[row].byte14;
         if (state != 2) {
             break;
         }
-        UiRows[row + ((RrMenuChoice4 *)&SelectionRows)[D_800AC5D4].bytes[3]].cells[0] = 0;
-        StepMenuValue((D_800AC5D4 & 1) * 4, 1, (char *)&((RrMenuChoice4 *)&SelectionRows)[D_800AC5D4].bytes[3], 2, 0);
-        UiRows[row + ((RrMenuChoice4 *)&SelectionRows)[D_800AC5D4].bytes[3]].cells[0] = state;
-        if (PlayerControllers[D_800AC5D4 & 1].a != 0) {
+        UiRows[row + ((RrMenuChoice4 *)&SelectionRows)[SelectionPlayer].bytes[3]].cells[0] = 0;
+        StepMenuValue((SelectionPlayer & 1) * 4, 1, (char *)&((RrMenuChoice4 *)&SelectionRows)[SelectionPlayer].bytes[3], 2, 0);
+        UiRows[row + ((RrMenuChoice4 *)&SelectionRows)[SelectionPlayer].bytes[3]].cells[0] = state;
+        if (PlayerControllers[SelectionPlayer & 1].a != 0) {
             PlaySfx(1);
-            UiRows[row + ((RrMenuChoice4 *)&SelectionRows)[D_800AC5D4].bytes[3]].cells[0] = 1;
+            UiRows[row + ((RrMenuChoice4 *)&SelectionRows)[SelectionPlayer].bytes[3]].cells[0] = 1;
             UiRows[row].byte14 = 3;
             UiRows[row + 1].byte14 = 3;
             for (i = 0; i < 4; i++) {
-                row = ovl667_D_80118E1C[D_800AC5D4 & 1][D_8010C0D8[D_800AC5D4 & 1]][i];
+                row = ovl667_D_80118E1C[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][i];
                 if (row == -1) {
                     break;
                 }
@@ -185,8 +185,8 @@ void ovl667_func_80116D18(void) {
             }
             modelReady = 0;
             MenuArenas.first = LoadCursor;
-            if ((D_800AC5D4 & 1) > 0 || LinkEntryState[(1 - D_800AD508) * 2 + 1] != 1) {
-                D_800F4D8A = 5;
+            if ((SelectionPlayer & 1) > 0 || LinkEntryState[(1 - LinkRoleSlot) * 2 + 1] != 1) {
+                ModeSubState = 5;
                 for (i = 0; i < UiRowCount; i++) {
                     if (UiRows[i].byte14 == 2) {
                         UiRows[i].byte14 = 3;
@@ -196,32 +196,32 @@ void ovl667_func_80116D18(void) {
                 BadgeRows->state10 = 4;
                 break;
             }
-            D_800F4D8A = 3;
-            D_800AC5D4 = D_800AC5D4 + 1;
+            ModeSubState = 3;
+            SelectionPlayer = SelectionPlayer + 1;
             ovl667_func_80116BB4();
-        } else if (PlayerControllers[D_800AC5D4 & 1].b != 0) {
+        } else if (PlayerControllers[SelectionPlayer & 1].b != 0) {
             PlaySfx(2);
             UiRows[row].byte14 = 3;
             UiRows[row + 1].byte14 = 3;
-            D_800F4D8A = 6;
+            ModeSubState = 6;
         }
         break;
     case 5:
         SetMenuFrameOptions(0, 1, 1);
-        row = ovl667_D_80118E1C[D_800AC5D4 & 1][1][3] + 1;
+        row = ovl667_D_80118E1C[SelectionPlayer & 1][1][3] + 1;
         closing = UiRows[row].byte14;
         if (closing == 5 && (s8)ImageRows[1] == closing) {
             ResetScreenCounters();
             ovl667_func_80117EF8();
             ModeGroup = 1;
-            D_800F3A26 = 61;
-            D_800F4D8A = 0;
+            ModeId = 61;
+            ModeSubState = 0;
         }
         break;
     case 6:
-        row = ovl667_D_80118E1C[D_800AC5D4 & 1][1][3] + 1;
+        row = ovl667_D_80118E1C[SelectionPlayer & 1][1][3] + 1;
         if (UiRows[row].byte14 == 5) {
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             D_8010C0B8 = 1;
             UiRows[row].byte14 = 0;
             UiRows[row + 1].byte14 = 0;
@@ -230,25 +230,25 @@ void ovl667_func_80116D18(void) {
     case 8:
         SetModelTexturePage(-1);
         SetMenuFrameOptions(0, 1, 1);
-        D_800AC5D0 = (u16)D_800AC5D0 - 1;
-        AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - D_800AC5D0) * 4, 0x45);
-        if (D_800AC5D0 <= 0) {
+        MenuFadeTimer = (u16)MenuFadeTimer - 1;
+        AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - MenuFadeTimer) * 4, 0x45);
+        if (MenuFadeTimer <= 0) {
             SeqMuteVolume();
             ModeGroup = 1;
-            D_800F3A26 = 3;
-            D_800F4D8A = 0;
+            ModeId = 3;
+            ModeSubState = 0;
         }
         break;
     case 10:
         SetModelTexturePage(-1);
         SetMenuFrameOptions(0, 1, 1);
-        D_800AC5D0 = (u16)D_800AC5D0 - 1;
-        AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - D_800AC5D0) * 4, 0x45);
-        if (D_800AC5D0 <= 0) {
-            D_800FFC18 = 2;
+        MenuFadeTimer = (u16)MenuFadeTimer - 1;
+        AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - MenuFadeTimer) * 4, 0x45);
+        if (MenuFadeTimer <= 0) {
+            MenuResultCode = 2;
             ModeGroup = 1;
-            D_800F3A26 = 71;
-            D_800F4D8A = 0;
+            ModeId = 71;
+            ModeSubState = 0;
         }
         break;
     }
@@ -257,20 +257,20 @@ draw_rows:
         D_8010C0B8 = 1;
         BadgeRows->half02 = 1;
     }
-    if (D_800F4D8A == 3) {
-        player = (u16)D_800AC5D4 - 1;
+    if (ModeSubState == 3) {
+        player = (u16)SelectionPlayer - 1;
     } else {
-        player = D_800AC5D4;
+        player = SelectionPlayer;
     }
-    if (D_800F4D8A == 7) {
-        page = D_8010C0D8[player & 1];
+    if (ModeSubState == 7) {
+        page = CourseMenuPage[player & 1];
         other = page ^ 1;
         row = ovl667_D_80118E1C[player & 1][(s16)other][0];
         if (UiRows[row].byte14 == 5) {
             other = page;
         }
     } else {
-        other = D_8010C0D8[player & 1];
+        other = CourseMenuPage[player & 1];
     }
     for (i = 0; i < 4; i++) {
         row = ovl667_D_80118E1C[player & 1][(s16)other][i];
@@ -287,8 +287,8 @@ draw_rows:
     if ((u32)((u8)ImageRows[1] - 1) < 2U) {
         drawModel = modelReady;
         if (drawModel == 1) {
-            DrawSelectionIconGrid(D_800AC5D4);
-            func_8002E5A0(&PlayerCars[D_800AC5D4 & 1]);
+            DrawSelectionIconGrid(SelectionPlayer);
+            PrepareCarDrawPose(&PlayerCars[SelectionPlayer & 1]);
             scale = 0x100;
             if ((s8)ImageRows[1] == drawModel) {
                 brightness = ~((ImageRows[2] * 0xFF) / 30);
@@ -303,11 +303,11 @@ draw_rows:
                 color.channels.g = 0x80;
                 color.channels.b = 0x80;
             }
-            DrawPreviewCar(&PlayerCars[D_800AC5D4 & 1], color.argument, scale, drawFlags);
+            DrawPreviewCar(&PlayerCars[SelectionPlayer & 1], color.argument, scale, drawFlags);
         }
     }
     UpdateBadgeRowAnim(0);
     UpdateImageRow(0);
-    D_800F4CB8[0] = D_800AC5D4 + 1;
-    UpdateScreenFade(D_8010C0D8[D_800AC5D4 & 1] != 0 ? 0x10036 : 0x10032);
+    MenuActivePlayerPlusOne[0] = SelectionPlayer + 1;
+    UpdateScreenFade(CourseMenuPage[SelectionPlayer & 1] != 0 ? 0x10036 : 0x10032);
 }

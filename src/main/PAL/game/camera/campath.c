@@ -37,12 +37,12 @@ extern u16 D_800A1F90[];
 extern s32 SetupObjectLightMatrices();
 extern s32 ScaleMatrix();
 extern s32 SetGteObjectTransform();
-extern char D_800A1CE0[];
+extern char MotionTrackTable[];
 extern struct { char pad[0x250]; char pad2[0x3D8 - 0x250]; struct Q *q; } RaceContext;
 extern short D_800A1E60[];
-extern int *D_800A1F88[];
+extern int *MotionSequenceTable[];
 
-void func_8005AA2C(void);
+void DrawMarkerBitmapGrid(void);
 void InitMotionTrack(int a0);
 void InitMotionController(void);
 void RestartMotionSequence(void);
@@ -53,7 +53,7 @@ void func_8005B2F4(s32 arg0);
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(char (*)[])&RaceContext)
 
-void func_8005AA2C(void) {
+void DrawMarkerBitmapGrid(void) {
     w3t1_F f;
     char *b = RaceContext;
     char *c;
@@ -88,7 +88,7 @@ void func_8005AA2C(void) {
                 __asm__ volatile ("swc2 $8, 0(%0)\n\tcfc2 $12, $31\n\tnop\n\tsw $12, 0(%0)" : : "r"(&f.fl) : "$12", "memory");
                 __asm__ volatile ("mfc2 $12, $19\n\tnop\n\tsra $12, $12, 2\n\tsw $12, 0(%0)" : : "r"(&f.dep) : "$12", "memory");
                 f.dep = f.dep >> 3;
-                func_8005A91C(((s16 *)&f.sxy)[0], ((s16 *)&f.sxy)[1], f.dep);
+                EmitProjectedMarkerSprt(((s16 *)&f.sxy)[0], ((s16 *)&f.sxy)[1], f.dep);
             }
             j++;
             x += 0x90;
@@ -97,7 +97,7 @@ void func_8005AA2C(void) {
         i++;
         row++;
     } while (i < 16);
-    func_8005A9C4();
+    AddDrawModeTagToOt();
 }
 
 #undef RaceContext
@@ -107,9 +107,9 @@ void func_8005AA2C(void) {
 
 void InitMotionTrack(int a0) {
     int *p = (int *)(MotionController + 0x15C);
-    func_80096434(p, 0x2C);
+    PsyqBzero(p, 0x2C);
     p[1] = 0;
-    p[3] = (int)(D_800A1CE0 + (a0 << 5));
+    p[3] = (int)(MotionTrackTable + (a0 << 5));
     p[7] = 0x1000;
 }
 
@@ -221,11 +221,11 @@ void UpdateMotionTrack(RrMotionClock20 *clock) {
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_80096434 ((int (*)())func_80096434)
+#define PsyqBzero ((int (*)())PsyqBzero)
 
 void InitMotionController(void) {
     RaceContext.q = (struct Q *)((char *)&RaceContext + 0x250);
-    func_80096434(RaceContext.q, 0x188);
+    PsyqBzero(RaceContext.q, 0x188);
     RaceContext.q->f8 = -0x1388;
     RaceContext.q->f48 = 0x1B8;
     RaceContext.q->h2c = 0x1C1;
@@ -257,7 +257,7 @@ void InitMotionController(void) {
         InitCameraMotion(RaceContext.q->f70);
         break;
     case 1:
-        func_8005D500(RaceContext.q->f70);
+        InitMotionControllerPanel(RaceContext.q->f70);
         break;
     case 2:
         InitScrollTrack(RaceContext.q->f70);
@@ -268,7 +268,7 @@ void InitMotionController(void) {
     }
 }
 
-#undef func_80096434
+#undef PsyqBzero
 
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(struct { char pad[0x3D8]; struct Q_1 *q; } (*))&RaceContext)
@@ -277,7 +277,7 @@ void RestartMotionSequence(void) {
     RaceContext.q->f68 = 0;
     RaceContext.q->f6a = 0;
     RaceContext.q->f60 = 0;
-    RaceContext.q->f64 = D_800A1F88[D_800F7620];
+    RaceContext.q->f64 = MotionSequenceTable[MotionSequenceIndex];
     RaceContext.q->f6c = ((short *)RaceContext.q->f64)[RaceContext.q->f68 * 4];
     RaceContext.q->f70 = ((short *)RaceContext.q->f64)[RaceContext.q->f68 * 4 + 1];
     switch (RaceContext.q->f6c) {
@@ -285,7 +285,7 @@ void RestartMotionSequence(void) {
         InitCameraMotion(RaceContext.q->f70);
         break;
     case 1:
-        func_8005D500(RaceContext.q->f70);
+        InitMotionControllerPanel(RaceContext.q->f70);
         break;
     case 2:
         InitScrollTrack(RaceContext.q->f70);

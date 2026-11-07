@@ -25,7 +25,7 @@ static u32 rng=0x1DBD8;
 static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
 static s16 half(u32 bits){u16 h=(u16)bits;s16 v;memcpy(&v,&h,2);return v;}
 static s32 word(u32 bits){s32 v;memcpy(&v,&bits,4);return v;}
-s32 func_80090758(s32 squared){
+s32 CordicSqrt(s32 squared){
  assert(world.calls++==0&&squared==expected_argument);
  assert(memcmp(world.p,before.p,sizeof(world.p))==0);world.argument=squared;
  world.p[0].x=half(scenario+7);world.p[0].y=half(scenario*73U+17);

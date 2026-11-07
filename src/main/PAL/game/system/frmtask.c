@@ -19,10 +19,10 @@
 #include "rr/overlay668_playback_step.h"
 #include "rr/overlay668_stream.h"
 
-extern s16 D_800AC5D0;
-extern s32 D_8010BF84;
-extern short *D_8010BF80;
-extern int D_800F3A60;
+extern s16 MenuFadeTimer;
+extern s32 FrmTaskState;
+extern short *FrmTaskRecord;
+extern int MenuConfirmPressed;
 extern int CdAudioInit();
 extern int CdAudioSelectTrack();
 extern int CdAudioBeginPlay();
@@ -34,35 +34,35 @@ extern int EmitPresetSprite();
 extern int EmitSpriteGrid();
 extern void *PutDispEnv(void *);
 
-void func_8001E344(void);
-void func_8001E390(void);
+void FrmTaskModeEnter(void);
+void FrmTaskModeUpdate(void);
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F3A26 (*(s16 (*))&D_800F3A26)
+#define ModeId (*(s16 (*))&ModeId)
 #define ModeGroup (*(s16 (*))&ModeGroup)
 
-void func_8001E344(void) {
-    D_8010BF84 = 0;
-    D_800AC5D0 = -1;
+void FrmTaskModeEnter(void) {
+    FrmTaskState = 0;
+    MenuFadeTimer = -1;
     ModeGroup = 0;
-    D_800F3A26 = 6;
-    D_800F4D8A = 0;
+    ModeId = 6;
+    ModeSubState = 0;
 }
 
-#undef D_800F3A26
+#undef ModeId
 #undef ModeGroup
 
-void func_8001E378(void) {
-    D_8010BF84 = 0;
-    D_800AC5D0 = -1;
+void FrmTaskReset(void) {
+    FrmTaskState = 0;
+    MenuFadeTimer = -1;
 }
 
 /* legacy typing of shared globals in this part of the unit */
 #define CurrentDrawBuf (*(int (*))&CurrentDrawBuf)
 #define ModeGroup (*(short (*))&ModeGroup)
-#define D_800F3A26 (*(short (*))&D_800F3A26)
+#define ModeId (*(short (*))&ModeId)
 
-void func_8001E390(void) {
+void FrmTaskModeUpdate(void) {
     short *p;
     short *q;
     short *r;
@@ -71,16 +71,16 @@ void func_8001E390(void) {
     int *d_;
     int v;
 
-    switch (D_8010BF84) {
+    switch (FrmTaskState) {
     case 0:
         v = GetR4FileIndex(0, 0x15);
         if (CdFileReadStart(v, LoadCursor)) {
-            D_8010BF84 = 1;
+            FrmTaskState = 1;
         }
         return;
     case 1:
         if (CdFileBytesLoaded()) {
-            D_8010BF84 = 2;
+            FrmTaskState = 2;
         }
         return;
     case 2:
@@ -88,9 +88,9 @@ void func_8001E390(void) {
         CdAudioSelectTrack(0, 0x24);
         CdAudioBeginPlay(0);
         LoadTimList(LoadCursor);
-        D_8010BF84 = 7;
+        FrmTaskState = 7;
         q = (short *)LoadCursor;
-        D_8010BF80 = q;
+        FrmTaskRecord = q;
         LoadCursor = (int)q + 0x10;
         q[1] = 0;
         q[2] = 0;
@@ -101,7 +101,7 @@ void func_8001E390(void) {
         q[7] = 0;
         q[0] = 0;
     case 7:
-        r = D_8010BF80;
+        r = FrmTaskRecord;
         if (r[0] < 0x40) {
             if (r[0] == 8) {
                 r[4] = 4;
@@ -110,33 +110,33 @@ void func_8001E390(void) {
             }
             goto common;
         }
-        D_8010BF84 = 8;
+        FrmTaskState = 8;
     case 8:
         SetMenuFrameOptions(1, 1, 0);
-        if (D_800AC5D0 > 0) {
-            D_800AC5D0--;
-            AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - D_800AC5D0) * 4, 0x45);
-            if (D_800AC5D0 == 0) {
+        if (MenuFadeTimer > 0) {
+            MenuFadeTimer--;
+            AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - MenuFadeTimer) * 4, 0x45);
+            if (MenuFadeTimer == 0) {
                 ModeGroup = 1;
-                D_800F3A26 = 3;
-                D_800F4D8A = 0;
+                ModeId = 3;
+                ModeSubState = 0;
             }
-        } else if (D_800F3A60) {
-            D_800AC5D0 = 0x40;
+        } else if (MenuConfirmPressed) {
+            MenuFadeTimer = 0x40;
             CdAudioFade(0, 0x40);
         }
     case 3: case 4: case 5: case 6:
     default:
     common:
-        p = D_8010BF80;
+        p = FrmTaskRecord;
         RampValueToLimit(p + 1, p + 4, 0x80);
-        p = D_8010BF80;
+        p = FrmTaskRecord;
         RampValueToLimit(p + 2, p + 5, 0x80);
-        p = D_8010BF80;
+        p = FrmTaskRecord;
         RampValueToLimit(p + 3, p + 6, 0x80);
-        EmitPresetSprite(D_8010BF80[1], 0x2F);
-        EmitPresetSprite(D_8010BF80[2], 0x30);
-        p = D_8010BF80;
+        EmitPresetSprite(FrmTaskRecord[1], 0x2F);
+        EmitPresetSprite(FrmTaskRecord[2], 0x30);
+        p = FrmTaskRecord;
         EmitSpriteGrid(p[3]);
         g = (int *)SCRATCHPAD;
         *(int *)(g[0] + 4) = 0xE100022A;
@@ -148,13 +148,13 @@ void func_8001E390(void) {
         *(char *)(g[1] + 3) = 0;
         *(int *)SCRATCHPAD += 8;
         UpdateScreenFade(0x1000C);
-        D_8010BF80[0]++;
+        FrmTaskRecord[0]++;
     }
 }
 
 #undef CurrentDrawBuf
 #undef ModeGroup
-#undef D_800F3A26
+#undef ModeId
 
 void MainLoop(void) {
     s32 threshold;
@@ -171,8 +171,8 @@ void MainLoop(void) {
     SetDispMask(0);
     ModeFrame=0;
     ModeGroup=1;
-    D_800F3A26=1;
-    D_800F4D8A=0;
+    ModeId=1;
+    ModeSubState=0;
     FrameCounter=0;
     for (;;) {
         {
@@ -203,7 +203,7 @@ void MainLoop(void) {
         ClearOTagR((u32 *)(CurrentDrawBuf+0xB70),0x2C0);
         CdFileStep();
         SoundUpdate();
-        ModeFuncTable[ModeGroup][D_800F3A26]();
+        ModeFuncTable[ModeGroup][ModeId]();
         DrawSync(0);
         threshold=VSyncThreshold;
         do {} while (VSync(1)<threshold);
@@ -211,7 +211,7 @@ void MainLoop(void) {
         PutDispEnv(CurrentDrawBuf+0x5C);
         PutDrawEnv(CurrentDrawBuf);
         DrawOTag(CurrentDrawBuf+0xB6C);
-        if(D_800ACBF8) DrawOTag(CurrentDrawBuf+0x166C);
+        if(DrawSubOtFlag) DrawOTag(CurrentDrawBuf+0x166C);
         PadUpdate();
         FrameCounter++;
     }

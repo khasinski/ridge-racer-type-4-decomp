@@ -51,14 +51,14 @@ extern T PlayerControllers[];
 extern Settings4BC5C Options;
 extern s16 PadRangeLimits[];
 extern s32 VSyncThreshold;
-extern char D_8009FFDC[];
+extern char PadActAlignTable[];
 extern char PadActAlignBytes[];
 extern int PadGetState();
 extern int PadInfoMode();
 extern int PadInfoAct();
 extern int PadSetActAlign();
 extern int PadSetAct();
-extern int func_80096434();
+extern int PsyqBzero();
 
 void PadSetRumbleParams(int i, short a, char b);
 void PadRumbleStart(int i);
@@ -243,7 +243,7 @@ B:
   { int t = PadInfoMode(s2, 1, 0); v1 = PadInfoMode(s2, 2, 0); s0 = t; }
   if (s0 == 0xE && v1 == 0x300)
   {
-    func_80096434((char *)s1 + 0x40, 0x1C);
+    PsyqBzero((char *)s1 + 0x40, 0x1C);
     s1->c40 = 1;
     s1->w10 = 2;
     PadSetAct(s2, (char *)s1 + 0x44, 1);
@@ -270,7 +270,7 @@ B:
         s1->c40 = s3;
     }
     PadSetAct(s2, (char *)s1 + 0x19, 2);
-    if (PadSetActAlign(s2, D_8009FFDC) == 0)
+    if (PadSetActAlign(s2, PadActAlignTable) == 0)
       return;
     ((unsigned char *)s1)[0x1B] = 1;
     s1->h1E = 0;

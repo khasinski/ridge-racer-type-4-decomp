@@ -29,7 +29,7 @@ static u8 resources[3][0x2D100],original_resources[3][0x2D100];
 #define ScreenFrame world.counter
 #define MenuCursor world.current
 #define MenuItemCount world.limit
-#define D_800F3826 world.selected
+#define CourseListIndex world.selected
 #define LoadState world.flag1
 #define MenuScriptStep world.flag2
 #define MenuArenas world.arenas

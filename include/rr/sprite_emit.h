@@ -9,6 +9,6 @@ void *AddDrawModePrim(u32 *ordering,void *cursor,u16 page);
 RrSpritePacketSignedClut *GameQueueSprite(u32 *ordering,
     RrSpritePacketSignedClut *packet,s32 x,s32 y,s32 width,s32 height,
     s32 u,s32 v,s32 clut);
-RrPolyF3Packet *func_8002071C(u32 *ordering,RrPolyF3Packet *packet,
+RrPolyF3Packet *EmitPolyF3(u32 *ordering,RrPolyF3Packet *packet,
     s32 xy0,s32 xy1,s32 xy2,const u8 *rgb,s32 flags);
 #endif

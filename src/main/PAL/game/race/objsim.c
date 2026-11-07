@@ -85,18 +85,18 @@ typedef struct {
     int pad[10];
 } S_ABEA4;
 /* size 0x3C */
-extern int D_800A4090;
+extern int NodeLerpFraction;
 extern int ModeFrame;
 extern short CourseIndex;
 extern unsigned short PlayerControllers[];
 extern int RaceState;
-extern int D_8010E7A8;
-extern int D_8010E7AC;
-extern int D_8010E7B0;
-extern int D_8010E7B4;
-extern int D_8010E7B8;
+extern int NodeLerpFromIndex;
+extern int SelectionCountdown;
+extern int NodeLerpIndex;
+extern int NodeLerpStep;
+extern int NodeLerpPrevHeading;
 extern int D_8010E7C8[];
-extern S_E8E8 D_8010E8E8[];
+extern S_E8E8 ObjTrailHistory[];
 
 s32 InterpolateObjectKeyframe(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void UpdateTrackObjects(void);
@@ -182,7 +182,7 @@ void UpdateTrackObjects(void) {
             if (B4->f24 == 1) {
                 if (B0->f8 == 0xA) {
                     if (B4->f8 == 0) {
-                        if (D_800F4D44 != 1) {
+                        if (RaceType != 1) {
                             B4->f8 = 0xB;
                         } else if (CourseIndex == 7) {
                             if (D_800AC1A2 != 0) {
@@ -193,7 +193,7 @@ void UpdateTrackObjects(void) {
                         } else if (D_800AC1A2 <= 0 || (CourseIndex == 6 && D_800AC1A2 < 2)) {
                             B4->f8 = 0xB;
                         } else {
-                            switch (D_800AC0E6 + 1) {
+                            switch (PlayerFinishPlace + 1) {
                             case 1:
                                 B4->f8 = 0xC;
                                 break;
@@ -228,7 +228,7 @@ void UpdateTrackObjects(void) {
                         hw = (int *)SCRATCHPAD;
                         sp[0] = (B4->fC - hw[2]) >> 10;
                         sp[1] = (B4->f14 - hw[4]) >> 10;
-                        sp[2] = func_80090758((sp[0] * sp[0] + sp[1] * sp[1]) >> 8) >> 4;
+                        sp[2] = CordicSqrt((sp[0] * sp[0] + sp[1] * sp[1]) >> 8) >> 4;
                         B4->f4 = sp[2] - 0x46;
                     }
                     B4->f0++;
@@ -271,7 +271,7 @@ void UpdateTrackObjects(void) {
                                 B4->f4 = (B4->f4 == 0xF4) ? 0xC8 : B4->f4 + 1;
                             }
                         }
-                        if ((unsigned short)D_800F4D44 - 2 < 3U) {
+                        if ((unsigned short)RaceType - 2 < 3U) {
                             a2 = B4->f0;
                             B4->f0 = a2 + 1;
                             if (D_8010E7C8[i] == ModeFrame) {
@@ -316,33 +316,33 @@ void UpdateTrackObjects(void) {
                                     sp[1] = (sp[0] << 4) + (sp[0] << 2);
                                     if (B4->f0 == 1 || B4->f4 == 300) {
                                         for (a0 = 0; a0 < 20; a0++) {
-                                            D_8010E8E8[sp[1] + a0].a[0] = B4->fC >> 3;
-                                            D_8010E8E8[sp[1] + a0].a[1] = B4->f10 >> 3;
-                                            D_8010E8E8[sp[1] + a0].a[2] = B4->f14 >> 3;
+                                            ObjTrailHistory[sp[1] + a0].a[0] = B4->fC >> 3;
+                                            ObjTrailHistory[sp[1] + a0].a[1] = B4->f10 >> 3;
+                                            ObjTrailHistory[sp[1] + a0].a[2] = B4->f14 >> 3;
                                         }
                                     } else if (B4->f0 % 2 == 1) {
                                         for (a0 = 19; a0 > 0; a0--) {
-                                            D_8010E8E8[sp[1] + a0] = D_8010E8E8[sp[1] + a0 - 1];
+                                            ObjTrailHistory[sp[1] + a0] = ObjTrailHistory[sp[1] + a0 - 1];
                                         }
-                                        D_8010E8E8[sp[1]].a[0] = B4->fC >> 3;
-                                        D_8010E8E8[sp[1]].a[1] = B4->f10 >> 3;
-                                        D_8010E8E8[sp[1]].a[2] = B4->f14 >> 3;
+                                        ObjTrailHistory[sp[1]].a[0] = B4->fC >> 3;
+                                        ObjTrailHistory[sp[1]].a[1] = B4->f10 >> 3;
+                                        ObjTrailHistory[sp[1]].a[2] = B4->f14 >> 3;
                                     }
                                     break;
                                 case 3:
                                     if (B4->f0 == 1) {
                                         for (a0 = 0; a0 < 40; a0++) {
-                                            D_8010E8E8[a0].a[0] = B4->fC >> 3;
-                                            D_8010E8E8[a0].a[1] = B4->f10 >> 3;
-                                            D_8010E8E8[a0].a[2] = B4->f14 >> 3;
+                                            ObjTrailHistory[a0].a[0] = B4->fC >> 3;
+                                            ObjTrailHistory[a0].a[1] = B4->f10 >> 3;
+                                            ObjTrailHistory[a0].a[2] = B4->f14 >> 3;
                                         }
                                     } else if (B4->f0 % 12 == 1) {
                                         for (a0 = 39; a0 > 0; a0--) {
-                                            D_8010E8E8[a0] = D_8010E8E8[a0 - 1];
+                                            ObjTrailHistory[a0] = ObjTrailHistory[a0 - 1];
                                         }
-                                        D_8010E8E8[0].a[0] = B4->fC >> 3;
-                                        D_8010E8E8[0].a[1] = B4->f10 >> 3;
-                                        D_8010E8E8[0].a[2] = B4->f14 >> 3;
+                                        ObjTrailHistory[0].a[0] = B4->fC >> 3;
+                                        ObjTrailHistory[0].a[1] = B4->f10 >> 3;
+                                        ObjTrailHistory[0].a[2] = B4->f14 >> 3;
                                     }
                                     break;
                                 }
@@ -368,60 +368,60 @@ void UpdateTrackObjects(void) {
                                         }
                                         break;
                                     }
-                                    D_8010E7A8 = 0x37;
-                                    D_8010E7AC = 0x36;
-                                    D_8010E7B0 = 0x35;
-                                    D_8010E7B4 = 0x20;
+                                    NodeLerpFromIndex = 0x37;
+                                    SelectionCountdown = 0x36;
+                                    NodeLerpIndex = 0x35;
+                                    NodeLerpStep = 0x20;
                                     if (ModeFrame == 0xAF) {
                                         if (B4->f8 != 4) {
                                             B4->f24 = -1;
                                         }
                                     }
                                 } else {
-                                    D_800A4090 += D_8010E7B4;
-                                    if (D_800A4090 >= 0x80) {
-                                        D_800A4090 -= 0x80;
-                                        a0 = D_8010E7B0 - 1;
-                                        if (D_8010E7B0 <= 0) {
+                                    NodeLerpFraction += NodeLerpStep;
+                                    if (NodeLerpFraction >= 0x80) {
+                                        NodeLerpFraction -= 0x80;
+                                        a0 = NodeLerpIndex - 1;
+                                        if (NodeLerpIndex <= 0) {
                                             a0 += TrackNodeCount;
                                         }
-                                        D_8010E7B0 = a0;
-                                        v1 = D_8010E7AC - 1;
-                                        if (D_8010E7AC <= 0) {
+                                        NodeLerpIndex = a0;
+                                        v1 = SelectionCountdown - 1;
+                                        if (SelectionCountdown <= 0) {
                                             v1 += TrackNodeCount;
                                         }
-                                        D_8010E7AC = v1;
-                                        v1 = D_8010E7A8 - 1;
-                                        if (D_8010E7A8 <= 0) {
+                                        SelectionCountdown = v1;
+                                        v1 = NodeLerpFromIndex - 1;
+                                        if (NodeLerpFromIndex <= 0) {
                                             v1 += TrackNodeCount;
                                         }
-                                        D_8010E7A8 = v1;
+                                        NodeLerpFromIndex = v1;
                                     }
-                                    sp[2] = (((AB(D_8010E7AC)->f8 - AB(D_8010E7A8)->f8) * D_800A4090) >> 5) + AB(D_8010E7A8)->f8 * 4;
-                                    sp[3] = (((AB(D_8010E7AC)->f10 - AB(D_8010E7A8)->f10) * D_800A4090) >> 7) + AB(D_8010E7A8)->f10;
-                                    sp[4] = (((AB(D_8010E7AC)->fC - AB(D_8010E7A8)->fC) * D_800A4090) >> 5) + AB(D_8010E7A8)->fC * 4;
-                                    sp[5] = ((((AB(D_8010E7B0)->f8 - AB(D_8010E7AC)->f8) * D_800A4090) >> 5) + AB(D_8010E7AC)->f8 * 4) - sp[2];
-                                    sp[6] = ((((AB(D_8010E7B0)->f10 - AB(D_8010E7AC)->f10) * D_800A4090) >> 7) + AB(D_8010E7AC)->f10) - sp[3];
-                                    sp[7] = ((((AB(D_8010E7B0)->fC - AB(D_8010E7AC)->fC) * D_800A4090) >> 5) + AB(D_8010E7AC)->fC * 4) - sp[4];
+                                    sp[2] = (((AB(SelectionCountdown)->f8 - AB(NodeLerpFromIndex)->f8) * NodeLerpFraction) >> 5) + AB(NodeLerpFromIndex)->f8 * 4;
+                                    sp[3] = (((AB(SelectionCountdown)->f10 - AB(NodeLerpFromIndex)->f10) * NodeLerpFraction) >> 7) + AB(NodeLerpFromIndex)->f10;
+                                    sp[4] = (((AB(SelectionCountdown)->fC - AB(NodeLerpFromIndex)->fC) * NodeLerpFraction) >> 5) + AB(NodeLerpFromIndex)->fC * 4;
+                                    sp[5] = ((((AB(NodeLerpIndex)->f8 - AB(SelectionCountdown)->f8) * NodeLerpFraction) >> 5) + AB(SelectionCountdown)->f8 * 4) - sp[2];
+                                    sp[6] = ((((AB(NodeLerpIndex)->f10 - AB(SelectionCountdown)->f10) * NodeLerpFraction) >> 7) + AB(SelectionCountdown)->f10) - sp[3];
+                                    sp[7] = ((((AB(NodeLerpIndex)->fC - AB(SelectionCountdown)->fC) * NodeLerpFraction) >> 5) + AB(SelectionCountdown)->fC * 4) - sp[4];
                                     B4->fC += sp[2];
                                     B4->f10 += sp[3] - 0xFA;
                                     B4->f14 += sp[4];
                                     sp[8] = 0x400 - Atan2Table(sp[5], sp[7]);
-                                    if (sp[8] == D_8010E7B8) {
-                                        D_8010E7B4 += (D_8010E7B4 < 0x2C);
-                                    } else if ((sp[8] >> 4) == (D_8010E7B8 >> 4)) {
-                                        if (D_8010E7B4 < 0x26) {
-                                            D_8010E7B4++;
-                                        } else if (D_8010E7B4 >= 0x27) {
-                                            D_8010E7B4--;
+                                    if (sp[8] == NodeLerpPrevHeading) {
+                                        NodeLerpStep += (NodeLerpStep < 0x2C);
+                                    } else if ((sp[8] >> 4) == (NodeLerpPrevHeading >> 4)) {
+                                        if (NodeLerpStep < 0x26) {
+                                            NodeLerpStep++;
+                                        } else if (NodeLerpStep >= 0x27) {
+                                            NodeLerpStep--;
                                         }
                                     } else {
-                                        D_8010E7B4 -= (D_8010E7B4 >= 0x22);
+                                        NodeLerpStep -= (NodeLerpStep >= 0x22);
                                     }
                                     r6 = sp[8];
                                     B4->f1E = r6;
-                                    D_8010E7B8 = r6;
-                                    B4->f1C = 0x400 - Atan2Table(sp[6], func_80090758(sp[5] * sp[5] + sp[7] * sp[7]) >> 6);
+                                    NodeLerpPrevHeading = r6;
+                                    B4->f1C = 0x400 - Atan2Table(sp[6], CordicSqrt(sp[5] * sp[5] + sp[7] * sp[7]) >> 6);
                                     B4->f20 = 0;
                                 }
                             }

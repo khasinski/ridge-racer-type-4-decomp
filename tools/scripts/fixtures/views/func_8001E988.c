@@ -34,7 +34,7 @@ extern int _sio_control();
 
 extern int SetupRenderer();
 
-extern int func_80096434();
+extern int PsyqBzero();
 
 extern int CopyStringClearTail();
 
@@ -56,7 +56,7 @@ extern char StrTotalInitLog[];
 
 extern char DefaultPlayerName[];
 
-extern char D_8001030C[];
+extern char TeamNameDigRacingTeam[];
 
 extern char TeamAbbrevDRT[];
 
@@ -66,9 +66,9 @@ extern char TeamAbbrevMicroMouseMappy[];
 
 extern char StrPacRacingClub[];
 
-extern char D_80010364[];
+extern char TeamAbbrevPRC[];
 
-extern char D_8001036C[];
+extern char TeamNameSolvalu[];
 
 extern char TeamAbbrevRTS[];
 
@@ -86,11 +86,11 @@ extern int LoadDestCursor;
 
 extern int LoadCursor;
 
-extern int D_800AD568;
+extern int MirrorMode;
 
 extern signed char SelectionState[];
 
-extern short D_800AD508;
+extern short LinkRoleSlot;
 
 extern char RankEntries[];
 
@@ -98,9 +98,9 @@ extern char SaveDataWork[];
 
 extern char SaveProgress[];
 
-extern char D_800F39D8[];
+extern char PlayerNameSlots[];
 
-extern char D_800F3B28[];
+extern char SaveDataBackup[];
 
 extern char SelectionRows[];
 
@@ -108,9 +108,9 @@ extern signed char SaveSlotSelections[];
 
 extern int RankTable[];
 
-extern int D_800F2E08[];
+extern int TeamStringPtrTable[];
 
-extern int D_800F4BD0[];
+extern int RivalTeamNamePtrTable[];
 
 extern int NumLaps;
 
@@ -118,15 +118,15 @@ extern int D_800F4C24;
 
 extern int D_800F4C2C;
 
-extern int D_800F4CA8;
+extern int DialogueContext;
 
-extern int D_800F4D40;
+extern int MenuArenaBase;
 
-extern short D_800F4BE0;
+extern short SaveNoticeFlags;
 
-extern short D_800F4D44;
+extern short RaceType;
 
-extern char *D_800F3B20;
+extern char *DefaultCarClut;
 
 void SystemInit(void)
 {
@@ -157,22 +157,22 @@ void SystemInit(void)
     VSyncThreshold = 0x80;
     D_800F4C24 = 0;
     D_800F4C2C = 0;
-    D_800ACBF8 = 0;
+    DrawSubOtFlag = 0;
     NumLaps = 2;
-    D_800AD568 = 0;
-    func_80096434(SaveProgress, 0x7C);
-    func_80096434(SelectionRows, 0x20);
-    func_80096434(SelectionState, 0x2C);
+    MirrorMode = 0;
+    PsyqBzero(SaveProgress, 0x7C);
+    PsyqBzero(SelectionRows, 0x20);
+    PsyqBzero(SelectionState, 0x2C);
     SelectionState[0x17] = -1;
-    func_80096434(RankEntries, 0x40);
+    PsyqBzero(RankEntries, 0x40);
     i = 7;
     do {
         RankTable[i] = (int)(RankEntries + i * 8);
         i--;
     } while (i >= 0);
-    func_80096434(PlayerCars, 0x320);
-    func_80096434(PlayerCars + 0x320, 0x320);
-    D_800F4BE0 = 0;
+    PsyqBzero(PlayerCars, 0x320);
+    PsyqBzero(PlayerCars + 0x320, 0x320);
+    SaveNoticeFlags = 0;
     i = 0;
     c5 = 5;
     q = SaveProgress;
@@ -184,32 +184,32 @@ void SystemInit(void)
         i++;
         q += 4;
     } while (i < 4);
-    D_800AD508 = -1;
+    LinkRoleSlot = -1;
     CopyStringClearTail(SaveProgress, DefaultPlayerName);
-    CopyStringClearTail(D_800F39D8, SaveProgress);
-    CopyStringClearTail(D_800F39D8 + 0xC, SaveProgress);
-    CopyStringClearTail(D_800F39D8 + 0x18, SaveProgress);
-    CopyStringClearTail(D_800F39D8 + 0x24, SaveProgress);
-    D_800F2E08[0] = (int)D_8001030C;
-    D_800F2E08[4] = (int)TeamAbbrevDRT;
-    D_800F2E08[1] = (int)TeamNameMicroMouseMappy;
-    D_800F2E08[5] = (int)TeamAbbrevMicroMouseMappy;
-    D_800F2E08[2] = (int)StrPacRacingClub;
-    D_800F2E08[6] = (int)D_80010364;
-    D_800F2E08[3] = (int)D_8001036C;
-    D_800F2E08[7] = (int)TeamAbbrevRTS;
-    D_800F4BD0[0] = (int)TeamNameAssoluto;
-    D_800F4BD0[1] = (int)TeamNameLizard;
-    D_800F4BD0[2] = (int)StrTerrazi;
-    D_800F4BD0[3] = (int)StrAgeSolo;
+    CopyStringClearTail(PlayerNameSlots, SaveProgress);
+    CopyStringClearTail(PlayerNameSlots + 0xC, SaveProgress);
+    CopyStringClearTail(PlayerNameSlots + 0x18, SaveProgress);
+    CopyStringClearTail(PlayerNameSlots + 0x24, SaveProgress);
+    TeamStringPtrTable[0] = (int)TeamNameDigRacingTeam;
+    TeamStringPtrTable[4] = (int)TeamAbbrevDRT;
+    TeamStringPtrTable[1] = (int)TeamNameMicroMouseMappy;
+    TeamStringPtrTable[5] = (int)TeamAbbrevMicroMouseMappy;
+    TeamStringPtrTable[2] = (int)StrPacRacingClub;
+    TeamStringPtrTable[6] = (int)TeamAbbrevPRC;
+    TeamStringPtrTable[3] = (int)TeamNameSolvalu;
+    TeamStringPtrTable[7] = (int)TeamAbbrevRTS;
+    RivalTeamNamePtrTable[0] = (int)TeamNameAssoluto;
+    RivalTeamNamePtrTable[1] = (int)TeamNameLizard;
+    RivalTeamNamePtrTable[2] = (int)StrTerrazi;
+    RivalTeamNamePtrTable[3] = (int)StrAgeSolo;
     LoadCursor = CdDirectoryBuffer;
-    D_800F4D40 = CdDirectoryBuffer;
+    MenuArenaBase = CdDirectoryBuffer;
     InitMenuArenas();
     k = 0xAF000;
     m = -1;
     i = 2;
-    D_800F4CA8 = 0;
-    D_800F4D44 = 0;
+    DialogueContext = 0;
+    RaceType = 0;
     LoadDestCursor = CdDirectoryBuffer + k;
     r = SaveSlotSelections + i * 0x2C;
     do {
@@ -219,10 +219,10 @@ void SystemInit(void)
     } while (i >= 0);
     InitDefaultTimeRecords(k, i, r, m);
     InitCourseChoices();
-    InitTimTemplate(D_800F3B28);
-    InitTimTemplate(D_800F3B28 + 0x840);
+    InitTimTemplate(SaveDataBackup);
+    InitTimTemplate(SaveDataBackup + 0x840);
     InitTimTemplate(SaveDataWork);
-    D_800F3B20 = D_800F3B28;
+    DefaultCarClut = SaveDataBackup;
     ResetRankEntries();
     InitCarTable(1);
     ResetGraph(3);

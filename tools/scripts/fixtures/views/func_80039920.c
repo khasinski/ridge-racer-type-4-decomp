@@ -7,11 +7,11 @@
 /* legacy typing of shared globals in this part of the unit */
 #define PlayerCars (*(char (*)[])&PlayerCars)
 
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 
 #undef PlayerCars
 
-#undef D_800F4D8A
+#undef ModeSubState
 
 /* legacy typing of shared globals in this part of the unit */
 #define PlayerCars (*(char (*)[])&PlayerCars)
@@ -20,7 +20,7 @@
 
 #define ImageRows ((W7C0_S *)ImageRows)
 
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 
 #define UpdateScreenFade ((void (*)())UpdateScreenFade)
 
@@ -30,7 +30,7 @@
 
 #define DrawPreviewCar ((void (*)())DrawPreviewCar)
 
-#define func_8002E5A0 ((void (*)())func_8002E5A0)
+#define PrepareCarDrawPose ((void (*)())PrepareCarDrawPose)
 
 #define SetupMenuCarCamera ((void (*)())SetupMenuCarCamera)
 
@@ -46,7 +46,7 @@
 
 #undef ImageRows
 
-#undef D_800F4D8A
+#undef ModeSubState
 
 #undef UpdateScreenFade
 
@@ -56,7 +56,7 @@
 
 #undef DrawPreviewCar
 
-#undef func_8002E5A0
+#undef PrepareCarDrawPose
 
 #undef SetupMenuCarCamera
 

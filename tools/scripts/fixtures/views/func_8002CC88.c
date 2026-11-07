@@ -8,17 +8,17 @@
 #undef CarBoundsTable
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_80013904 ((s32 (*)(Vehicle2D784 *, s32))func_80013904)
+#define SetCarTrackLighting ((s32 (*)(Vehicle2D784 *, s32))SetCarTrackLighting)
 
-#define func_80015F68 ((void (*)(Vehicle2D784 *, Vec4 *, Mat8 *, Mat8 *, s32, s32, s32))func_80015F68)
+#define DrawWheelTrailEffects ((void (*)(Vehicle2D784 *, Vec4 *, Mat8 *, Mat8 *, s32, s32, s32))DrawWheelTrailEffects)
 
 #define func_80039494 ((s32 (*)(Vehicle2D784 *))func_80039494)
 
 #define CarBoundsTable (*(Bounds2D784 *(*)[])&CarBoundsTable)
 
-#undef func_80013904
+#undef SetCarTrackLighting
 
-#undef func_80015F68
+#undef DrawWheelTrailEffects
 
 #undef func_80039494
 
@@ -58,11 +58,11 @@ typedef struct {
     u8 bA;
 } Bounds2CC88;
 
-s32 func_80014A98(Vec4 *, Mat8 *, s32, s32);
+s32 DrawRroModel(Vec4 *, Mat8 *, s32, s32);
 
 void SetLightColorsScaled(s32);
 
-void func_8005F0D0(s32, s32, s32, s32);
+void SubmitModel(s32, s32, s32, s32);
 
 void BuildRotMatrixZ(Mat8 *, s32);
 
@@ -80,7 +80,7 @@ void MulMatrix(Mat8 *, Mat8 *);
 
 void MulMatrix2(Mat8 *, Mat8 *);
 
-extern u8 D_8009F02C[];
+extern u8 CarPartModelIds[];
 
 extern u8 D_8009F034[];
 
@@ -90,7 +90,7 @@ extern u8 D_8009F044[];
 
 extern s16 LightMatrix[];
 
-extern s32 D_800F2FD8;
+extern s32 ModelBankFormat;
 
 extern Bounds2CC88 *CarBoundsTable[];
 
@@ -183,14 +183,14 @@ void DrawPreviewCar(Vehicle2CC88 *arg0, s32 arg1, s32 arg2) {
 
     for (i = 0; i < 8; i++) {
         u8 s0_mode = D_8009F034[i];
-        if (s0_mode != 1 || func_80014A98(&sp158[D_8009F03C[i]], &sp98[D_8009F044[i]], D_8009F02C[i], 0) != s0_mode) {
+        if (s0_mode != 1 || DrawRroModel(&sp158[D_8009F03C[i]], &sp98[D_8009F044[i]], CarPartModelIds[i], 0) != s0_mode) {
             SetGteObjectTransform(0x1F80007C, &sp158[D_8009F03C[i]], &sp98[D_8009F044[i]]);
             *(s32 *)0x1F800078 = 0;
             a1_val = 1;
-            if (D_8009F02C[i] < D_800F2FD8) {
-                a1_val = D_8009F02C[i];
+            if (CarPartModelIds[i] < ModelBankFormat) {
+                a1_val = CarPartModelIds[i];
             }
-            func_8005F0D0(0x1F800000, a1_val, i != 0, 0);
+            SubmitModel(0x1F800000, a1_val, i != 0, 0);
         }
     }
 }

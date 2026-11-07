@@ -7,7 +7,7 @@ void ovl668_func_80115DFC(void) {
     SetDispMask(0);
     SetupDrawDispEnvs(0, 0, 0, 1);
     VSyncThreshold = 384;
-    func_8006E794();
+    InitViewState();
     SetupRenderer(5);
     BuildCameraMatrices();
     p = TrackNodes;
@@ -26,7 +26,7 @@ void ovl668_func_80115DFC(void) {
     RaceContext.offset488[1] = 0;
     RaceContext.offset488[2] = 0;
     RaceContext.angle490 = -96;
-    D_8010718C = 0;
+    ViewUsesCarTrackNode = 0;
     RaceContext.timer492 = 0;
     RaceContext.timer494 = 0;
     RaceContext.node498 = 320;

@@ -3,13 +3,13 @@
 #include "game/car/carspec1.h"
 #undef RaceContext
 
-extern char D_8010738C[];
+extern char ComCarsControl[];
 extern RrRaceSpecEntry30 *CarSpecTable;
 extern struct { char pad[0x544]; RrRaceSpecEntry30 *p[1]; } RaceContext;
 
 void BlendCarSpec(int a0, int a1, int a2, int a3) {
     RrRaceSpecEntry30 *t3 = &CarSpecTable[a0];
-    RrRaceVehicleControl *t2 = (RrRaceVehicleControl *)(D_8010738C + a1 * sizeof(RrRaceVehicle));
+    RrRaceVehicleControl *t2 = (RrRaceVehicleControl *)(ComCarsControl + a1 * sizeof(RrRaceVehicle));
     int lo, v, i, a;
     if (a2 < 0x401) {
         lo = a2 * t2->factor11E;

@@ -14,7 +14,7 @@ typedef struct {
     u8 b1C,b1D,b1E,b1F;
     s32 arr[0xC8];
 } RrMenuTextState;
-extern RrMenuTextState *D_800AC590;
+extern RrMenuTextState *DialogueState;
 void SkipDialoguePage(void *state);
 void UpdateDialogue(s32 x,s32 y,RrMenuTextState *state);
 RR_ASSERT_SIZE(RrMenuTextState,0x340);

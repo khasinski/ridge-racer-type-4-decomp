@@ -6,6 +6,6 @@
 int func_8005642C();
 int func_80057138();
 void func_800572A8();
-void func_8005748C();
+void DrawSparkHudOverlay();
 
 #endif /* RR_GAME_EFFECT_CARFX_H */

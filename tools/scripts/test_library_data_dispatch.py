@@ -26,7 +26,7 @@ typedef uint32_t u32; typedef int32_t s32;
 ''' + header + '''
 u8 test_ports[2];
 volatile u8 *CD_reg0;
-u8 D_800A6764[2];
+u8 CdIntrStatusBytes[2];
 RrLibDataCallback CD_cbsync,CD_cbready;
 u8 test_data_page[65536];
 s32 (*test_poll)(void);
@@ -51,7 +51,7 @@ s32 getintr(void) {return test_poll();}
         cls.function.restype = None
         cls.ports = (C.c_uint8 * 2).in_dll(cls.lib, 'test_ports')
         cls.port_pointer = C.c_void_p.in_dll(cls.lib, 'CD_reg0')
-        cls.selectors = (C.c_uint8 * 2).in_dll(cls.lib, 'D_800A6764')
+        cls.selectors = (C.c_uint8 * 2).in_dll(cls.lib, 'CdIntrStatusBytes')
         cls.page = (C.c_uint8 * 65536).in_dll(cls.lib, 'test_data_page')
         cls.callbacks = {flag: C.c_void_p.in_dll(cls.lib, name)
                          for flag, name in ((4, 'CD_cbready'), (2, 'CD_cbsync'))}

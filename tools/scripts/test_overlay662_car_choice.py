@@ -37,8 +37,8 @@ static World actual,reference,initial,*w;static unsigned mutation;
 #define PlayerCourseChoices w->s.points
 #define SelectionRows w->s.current
 #define ModeGroup w->s.mode
-#define D_800F3A26 w->s.position
-#define D_800F4D8A w->s.timer
+#define ModeId w->s.position
+#define ModeSubState w->s.timer
 #define ovl662_D_801272E4 w->s.index
 #define ovl662_D_801272BC w->s.first
 #define ovl662_D_801272E2 w->s.second

@@ -127,7 +127,7 @@ typedef struct {
     s32 col78;
 } Scratch2D784;
 
-void func_8005F0D0(s32, s32, s32, s32);
+void SubmitModel(s32, s32, s32, s32);
 void BuildRotMatrixZ(Mat8 *, s32);
 void BuildRotMatrixY(Mat8 *, s32);
 void BuildRotMatrixX(Mat8 *, s32);
@@ -136,16 +136,16 @@ void SelectModelBank(s32);
 void MulMatrix0(void *, Mat8 *, Mat8 *);
 void MulMatrix(Mat8 *, Mat8 *);
 void MulMatrix2(Mat8 *, Mat8 *);
-extern u8 D_8009F02C[];
+extern u8 CarPartModelIds[];
 extern u8 D_8009F034[];
 extern u8 D_8009F03C[];
 extern u8 D_8009F044[];
 extern s16 LightMatrix[];
-extern s32 D_800F2FD8;
+extern s32 ModelBankFormat;
 extern Bounds2CC88 *CarBoundsTable[];
 s32 func_80039494(Vehicle2D1B4 *);
-extern LightEntry2C *D_800F4D90;
-extern LodDist6 D_8009F04C[];
+extern LightEntry2C *TrackLightTable;
+extern LodDist6 CarLodThresholds[];
 
 int TriggerWheelBump(char *a, int b);
 void DrawPreviewCar(Vehicle2CC88 *arg0, s32 arg1, s32 arg2);
@@ -258,14 +258,14 @@ void DrawPreviewCar(Vehicle2CC88 *arg0, s32 arg1, s32 arg2) {
 
     for (i = 0; i < 8; i++) {
         u8 s0_mode = D_8009F034[i];
-        if (s0_mode != 1 || func_80014A98(&sp158[D_8009F03C[i]], &sp98[D_8009F044[i]], D_8009F02C[i], 0) != s0_mode) {
+        if (s0_mode != 1 || DrawRroModel(&sp158[D_8009F03C[i]], &sp98[D_8009F044[i]], CarPartModelIds[i], 0) != s0_mode) {
             SetGteObjectTransform((SCRATCHPAD + 0x7C), &sp158[D_8009F03C[i]], &sp98[D_8009F044[i]]);
             *(s32 *)(SCRATCHPAD + 0x78) = 0;
             a1_val = 1;
-            if (D_8009F02C[i] < D_800F2FD8) {
-                a1_val = D_8009F02C[i];
+            if (CarPartModelIds[i] < ModelBankFormat) {
+                a1_val = CarPartModelIds[i];
             }
-            func_8005F0D0(SCRATCHPAD, a1_val, i != 0, 0);
+            SubmitModel(SCRATCHPAD, a1_val, i != 0, 0);
         }
     }
 }
@@ -291,7 +291,7 @@ void DrawPlayerCar(Vehicle2D1B4 *arg0) {
 
     slot_half = arg0->slot1E6 >> 1;
     SelectModelBank(slot_half);
-    s5_val = func_80013904(arg0, func_80039494(arg0));
+    s5_val = SetCarTrackLighting(arg0, func_80039494(arg0));
     BuildRotMatrixY(&sp80, -arg0->rot54);
     BuildRotMatrixX(&sp40, -arg0->rot50);
     BuildRotMatrixZ(&sp60, -arg0->rot58);
@@ -354,8 +354,8 @@ void DrawPlayerCar(Vehicle2D1B4 *arg0) {
         sp168[i + 3].y += sp168[2].y;
         sp168[i + 3].z += sp168[2].z;
     }
-    s5_val = (s16)(D_800F4D90[s5_val].flags2 | D_800ABEF0);
-    slot_idx = arg0->slot1E6 + D_800ABEC4;
+    s5_val = (s16)(TrackLightTable[s5_val].flags2 | D_800ABEF0);
+    slot_idx = arg0->slot1E6 + CarDrawSlotOffset;
     if (arg0->flags1E4 & 0x10) {
         v0_drag = arg0->unk2A2;
     } else {
@@ -364,17 +364,17 @@ void DrawPlayerCar(Vehicle2D1B4 *arg0) {
     if (v0_drag > 0) {
         s5_val |= 2;
     }
-    func_80015F68(arg0, &sp168[1], &spA8[1], &sp80, slot_idx, s5_val, 0);
+    DrawWheelTrailEffects(arg0, &sp168[1], &spA8[1], &sp80, slot_idx, s5_val, 0);
     for (i = 0; i < 8; i++) {
         u8 s0_mode = D_8009F034[i];
-        if (s0_mode != 1 || func_80014A98(&sp168[D_8009F03C[i]], &spA8[D_8009F044[i]], D_8009F02C[i], 0) != s0_mode) {
+        if (s0_mode != 1 || DrawRroModel(&sp168[D_8009F03C[i]], &spA8[D_8009F044[i]], CarPartModelIds[i], 0) != s0_mode) {
             SetGteObjectTransform((SCRATCHPAD + 0x7C), &sp168[D_8009F03C[i]], &spA8[D_8009F044[i]]);
             *(s32 *)(SCRATCHPAD + 0x78) = 0;
             a1_val = 1;
-            if (D_8009F02C[i] < D_800F2FD8) {
-                a1_val = D_8009F02C[i];
+            if (CarPartModelIds[i] < ModelBankFormat) {
+                a1_val = CarPartModelIds[i];
             }
-            func_8005F0D0(SCRATCHPAD, a1_val, i != 0, 0);
+            SubmitModel(SCRATCHPAD, a1_val, i != 0, 0);
         }
     }
 }
@@ -382,8 +382,8 @@ void DrawPlayerCar(Vehicle2D1B4 *arg0) {
 #undef CarBoundsTable
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_80013904 ((s32 (*)(Vehicle2D784 *, s32))func_80013904)
-#define func_80015F68 ((void (*)(Vehicle2D784 *, Vec4 *, Mat8 *, Mat8 *, s32, s32, s32))func_80015F68)
+#define SetCarTrackLighting ((s32 (*)(Vehicle2D784 *, s32))SetCarTrackLighting)
+#define DrawWheelTrailEffects ((void (*)(Vehicle2D784 *, Vec4 *, Mat8 *, Mat8 *, s32, s32, s32))DrawWheelTrailEffects)
 #define func_80039494 ((s32 (*)(Vehicle2D784 *))func_80039494)
 #define CarBoundsTable (*(Bounds2D784 *(*)[])&CarBoundsTable)
 
@@ -407,7 +407,7 @@ void DrawOpponentCar(Vehicle2D784 *arg0, s32 arg1) {
 
     slot_half = arg0->slot1E6 >> 1;
     fp_val = (arg0->slot1E6 & 1) * 0x05000000;
-    slot_idx = arg0->slot1E6 + D_800ABEC4;
+    slot_idx = arg0->slot1E6 + CarDrawSlotOffset;
     SelectModelBank(slot_half);
 
     sp168[0].x = (arg0->x10 - G->x08) >> 2;
@@ -426,8 +426,8 @@ void DrawOpponentCar(Vehicle2D784 *arg0, s32 arg1) {
         if (arg1 == 1) {
             s7_val = -0x5A;
         }
-        s5_val = func_80013904(arg0, func_80039494(arg0));
-        s5_val = (s16)(D_800F4D90[s5_val].flags2 | D_800ABEF0);
+        s5_val = SetCarTrackLighting(arg0, func_80039494(arg0));
+        s5_val = (s16)(TrackLightTable[s5_val].flags2 | D_800ABEF0);
         if (arg0->flags1E4 & 0x10) {
             v0_drag = arg0->unk2A2;
         } else {
@@ -448,7 +448,7 @@ void DrawOpponentCar(Vehicle2D784 *arg0, s32 arg1) {
         MulMatrix(&sp80, &sp40);
         MulMatrix0(LightMatrix, &sp80, &sp60);
         RR_GTE_SETLLM(&sp60);
-        if (i < D_8009F04C[arg1].d0) {
+        if (i < CarLodThresholds[arg1].d0) {
             BuildRotMatrixY(&sp20, -arg0->rot54);
             MulMatrix2((Mat8 *)SCRATCH_ROT_MATRIX, &sp20);
             BuildRotMatrixX(&spA8[0], arg0->unk1A8 - arg0->rot50);
@@ -504,21 +504,21 @@ void DrawOpponentCar(Vehicle2D784 *arg0, s32 arg1) {
                 sp168[i + 3].y += sp168[2].y;
                 sp168[i + 3].z += sp168[2].z;
             }
-            func_80015F68(arg0, &sp168[1], &spA8[1], &sp80, slot_idx, s5_val, 0);
+            DrawWheelTrailEffects(arg0, &sp168[1], &spA8[1], &sp80, slot_idx, s5_val, 0);
             for (i = 0; i < 8; i++) {
                 u8 s0_mode = D_8009F034[i];
-                if (s0_mode != 1 || func_80014A98(&sp168[D_8009F03C[i]], &spA8[D_8009F044[i]], D_8009F02C[i], fp_val) != s0_mode) {
+                if (s0_mode != 1 || DrawRroModel(&sp168[D_8009F03C[i]], &spA8[D_8009F044[i]], CarPartModelIds[i], fp_val) != s0_mode) {
                     SetGteObjectTransform((SCRATCHPAD + 0x7C), &sp168[D_8009F03C[i]], &spA8[D_8009F044[i]]);
                     *(s32 *)(SCRATCHPAD + 0x78) = fp_val;
                     a1_val = 1;
-                    if (D_8009F02C[i] < D_800F2FD8) {
-                        a1_val = D_8009F02C[i];
+                    if (CarPartModelIds[i] < ModelBankFormat) {
+                        a1_val = CarPartModelIds[i];
                     }
-                    func_8005F0D0(SCRATCHPAD, a1_val, i != 0, 0);
+                    SubmitModel(SCRATCHPAD, a1_val, i != 0, 0);
                 }
             }
             return;
-        } else if (i < D_8009F04C[arg1].d2) {
+        } else if (i < CarLodThresholds[arg1].d2) {
             BuildRotMatrixY(&sp20, -arg0->rot54);
             MulMatrix2((Mat8 *)SCRATCH_ROT_MATRIX, &sp20);
             BuildRotMatrixX(&spA8[0], arg0->unk1A8 - arg0->rot50);
@@ -533,40 +533,40 @@ void DrawOpponentCar(Vehicle2D784 *arg0, s32 arg1) {
             BuildRotMatrixZ(&sp60, -arg0->ang84);
             MulMatrix(&spA8[1], &sp60);
             MulMatrix2(&sp20, &spA8[1]);
-            func_80015F68(arg0, &sp168[1], &spA8[1], &sp80, slot_idx, s5_val, s7_val);
+            DrawWheelTrailEffects(arg0, &sp168[1], &spA8[1], &sp80, slot_idx, s5_val, s7_val);
             SetGteObjectTransform((SCRATCHPAD + 0x7C), &sp168[0], &spA8[0]);
             G->col78 = 0;
             a1_val = 1;
-            if (D_800F2FD8 >= 4) {
+            if (ModelBankFormat >= 4) {
                 a1_val = 3;
             }
-            func_8005F0D0(SCRATCHPAD, a1_val, 0, s7_val);
-            if (func_80014A98(&sp168[1], &spA8[1], 1, fp_val) == 0) {
+            SubmitModel(SCRATCHPAD, a1_val, 0, s7_val);
+            if (DrawRroModel(&sp168[1], &spA8[1], 1, fp_val) == 0) {
                 SetGteObjectTransform((SCRATCHPAD + 0x7C), &sp168[1], &spA8[1]);
                 G->col78 = fp_val;
-                func_8005F0D0(SCRATCHPAD, 1, 1, s7_val);
+                SubmitModel(SCRATCHPAD, 1, 1, s7_val);
             }
             return;
-        } else if (i < D_8009F04C[arg1].d4) {
+        } else if (i < CarLodThresholds[arg1].d4) {
             MulMatrix0((void *)SCRATCH_ROT_MATRIX, &sp80, &spA8[0]);
             sp168[0].x = arg0->x10;
             sp168[0].y = arg0->y14;
             sp168[0].z = arg0->z18;
-            func_80015F68(arg0, &sp168[0], &spA8[0], &sp80, slot_idx, s5_val, s7_val);
+            DrawWheelTrailEffects(arg0, &sp168[0], &spA8[0], &sp80, slot_idx, s5_val, s7_val);
             SetGteObjectTransform((SCRATCHPAD + 0x7C), &sp168[0], &spA8[0]);
             *(s32 *)(SCRATCHPAD + 0x78) = fp_val;
             a1_val = 1;
-            if (D_800F2FD8 >= 3) {
+            if (ModelBankFormat >= 3) {
                 a1_val = 2;
             }
-            func_8005F0D0(SCRATCHPAD, a1_val, 1, s7_val);
+            SubmitModel(SCRATCHPAD, a1_val, 1, s7_val);
             return;
         }
     }
-    func_80015F68(arg0, 0, 0, 0, slot_idx, 0, 0);
+    DrawWheelTrailEffects(arg0, 0, 0, 0, slot_idx, 0, 0);
 }
 
-#undef func_80013904
-#undef func_80015F68
+#undef SetCarTrackLighting
+#undef DrawWheelTrailEffects
 #undef func_80039494
 #undef CarBoundsTable

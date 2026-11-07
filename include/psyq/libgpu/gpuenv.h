@@ -5,7 +5,7 @@
 
 extern char StrStoreImage[];
 extern char MoveImageNameStr[];
-extern const char D_80011F38[];
+extern const char DrawOTagFmt[];
 char *SetDefDrawEnv(char *p, int a, int b, int c, int d);
 s32 SetGraphDebug(s32 enabled);
 void ClearImage2(int a, int b, int c, int d);
