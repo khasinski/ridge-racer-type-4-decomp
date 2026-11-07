@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 s32 garage_cursor_outside_rect(s32 raw_x,s32 raw_y,s32 raw_w,s32 raw_h){
  s32 px=garage_logo_work.halves[10];
  s16 x=raw_x,y=raw_y;

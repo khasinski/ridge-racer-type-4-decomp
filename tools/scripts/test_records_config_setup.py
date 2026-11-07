@@ -6,7 +6,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay663ConfigSetupTest(unittest.TestCase):
+class RecordsConfigSetupTest(unittest.TestCase):
     def test_word_mode_and_fresh_second_badge(self):
         root=Path(__file__).resolve().parents[2]
         body=read_c_source(root/'src/overlays/PAL/records/func_80115028.c')

@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 #include "rr/trig.h"
 void garage_update_selection_pulse(void)
 {

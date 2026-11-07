@@ -1,4 +1,4 @@
-#include "rr/overlay661_race_controller.h"
+#include "rr/versus_select_race_controller.h"
 void versus_select_update_race(void) {
     s32 var_a2;
     s32 var_a2_2;
@@ -22,14 +22,14 @@ void versus_select_update_race(void) {
     s8 temp_v1;
     RrRaceVehicle *temp_s0;
     RrRaceVehicle *temp_s0_3;
-    Rr661FrameVector16 *temp_v0;
-    Rr661FrameVector16 *temp_v0_2;
-    Rr661FrameVector16 *temp_v0_4;
-    Rr661FrameVector16 *temp_v0_5;
-    Rr661FrameVector16 *temp_v1_2;
-    Rr661FrameVector16 *temp_v1_3;
-    Rr661FrameVector16 *temp_v1_4;
-    Rr661FrameVector16 *temp_v1_5;
+    RrVersusSelectFrameVector16 *temp_v0;
+    RrVersusSelectFrameVector16 *temp_v0_2;
+    RrVersusSelectFrameVector16 *temp_v0_4;
+    RrVersusSelectFrameVector16 *temp_v0_5;
+    RrVersusSelectFrameVector16 *temp_v1_2;
+    RrVersusSelectFrameVector16 *temp_v1_3;
+    RrVersusSelectFrameVector16 *temp_v1_4;
+    RrVersusSelectFrameVector16 *temp_v1_5;
 
     ModeFrame=(u32)ModeFrame+1;
     if (((u32) ((u32)RaceState - 1) < 2U) && (PlayerControllers[0].buttons08 & 0x800)) {
@@ -83,11 +83,11 @@ block_7:
         do {
             var_v1 = var_s2 * 0x10;
             __asm__("" :: "r"(var_v1));
-            temp_v0 = (Rr661FrameVector16 *)((u8 *)D_801183D0+var_v1);
-            temp_v1_2 = (Rr661FrameVector16 *)((u8 *)D_801183F0+var_v1);
+            temp_v0 = (RrVersusSelectFrameVector16 *)((u8 *)versus_select_player_camera_angles+var_v1);
+            temp_v1_2 = (RrVersusSelectFrameVector16 *)((u8 *)versus_select_player_camera_positions+var_v1);
 __asm__("" : : "r"(temp_v0),"r"(temp_v1_2));
-        RR_661_FRAME_SCRATCH->rotation18 = *temp_v0;
-        RR_661_FRAME_SCRATCH->position08 = *temp_v1_2;
+        RR_VERSUS_SELECT_FRAME_SCRATCH->rotation18 = *temp_v0;
+        RR_VERSUS_SELECT_FRAME_SCRATCH->position08 = *temp_v1_2;
             __asm__("" : "+r"(var_s2));
         SetupViewport(var_s2 + 2);
             if (RaceState == 0) {
@@ -104,11 +104,11 @@ block_22:
                 UpdateRaceChaseCamera((struct w3g2p *)((unsigned long)((((var_a0+var_s2)*8)+var_s2)<<5)+(unsigned long)PlayerCars));
                 var_v1_2 = var_s2 * 0x10;
             }
-            temp_v0_2 = (Rr661FrameVector16 *)((u8 *)D_801183D0+var_v1_2);
-            temp_v1_3 = (Rr661FrameVector16 *)((u8 *)D_801183F0+var_v1_2);
+            temp_v0_2 = (RrVersusSelectFrameVector16 *)((u8 *)versus_select_player_camera_angles+var_v1_2);
+            temp_v1_3 = (RrVersusSelectFrameVector16 *)((u8 *)versus_select_player_camera_positions+var_v1_2);
 __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
-        *temp_v0_2 = RR_661_FRAME_SCRATCH->rotation18;
-        *temp_v1_3 = RR_661_FRAME_SCRATCH->position08;
+        *temp_v0_2 = RR_VERSUS_SELECT_FRAME_SCRATCH->rotation18;
+        *temp_v1_3 = RR_VERSUS_SELECT_FRAME_SCRATCH->position08;
             temp_s0_2 = var_s2 + 1;
             BuildCameraMatrices();
             DrawCars(var_s2 + 2);
@@ -151,7 +151,7 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
             }
             if (MenuFadeTimer < 0x19) {
                 AddScreenFadeTiles(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, (0x19 - MenuFadeTimer) * 0xA, var_a2);
-                RR_661_FRAME_SCRATCH->pointers.cursor = AddDrawAreaPrim(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, RR_661_FRAME_SCRATCH->pointers.cursor, 0, 0, 0x140, 0x100);
+                RR_VERSUS_SELECT_FRAME_SCRATCH->pointers.cursor = AddDrawAreaPrim(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, RR_VERSUS_SELECT_FRAME_SCRATCH->pointers.cursor, 0, 0, 0x140, 0x100);
             }
             if (MenuFadeTimer <= 0) {
                 versus_select_finish_ranks[0] = (u16) PlayerCars[0].half1EE;
@@ -172,7 +172,7 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
             } else if ((u32)ModeFrame < 25U) {
                 AddScreenFadeTiles(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70,(25U-(u32)ModeFrame)*10U,69);
             }
-            RR_661_FRAME_SCRATCH->pointers.cursor = AddDrawAreaPrim(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, RR_661_FRAME_SCRATCH->pointers.cursor, 0, 0, 0x140, 0x100);
+            RR_VERSUS_SELECT_FRAME_SCRATCH->pointers.cursor = AddDrawAreaPrim(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, RR_VERSUS_SELECT_FRAME_SCRATCH->pointers.cursor, 0, 0, 0x140, 0x100);
         }
     }
     versus_select_update_lap_progress((RrRaceCheckpointVehicle *)(void *)&PlayerCars[0]);
@@ -213,11 +213,11 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
     do {
         var_v1_3 = var_s2 * 0x10;
         __asm__("" :: "r"(var_v1_3));
-        temp_v0_4 = (Rr661FrameVector16 *)((u8 *)D_801183D0+var_v1_3);
-        temp_v1_4 = (Rr661FrameVector16 *)((u8 *)D_801183F0+var_v1_3);
+        temp_v0_4 = (RrVersusSelectFrameVector16 *)((u8 *)versus_select_player_camera_angles+var_v1_3);
+        temp_v1_4 = (RrVersusSelectFrameVector16 *)((u8 *)versus_select_player_camera_positions+var_v1_3);
 __asm__("" : : "r"(temp_v0_4),"r"(temp_v1_4));
-        RR_661_FRAME_SCRATCH->rotation18 = *temp_v0_4;
-        RR_661_FRAME_SCRATCH->position08 = *temp_v1_4;
+        RR_VERSUS_SELECT_FRAME_SCRATCH->rotation18 = *temp_v0_4;
+        RR_VERSUS_SELECT_FRAME_SCRATCH->position08 = *temp_v1_4;
         __asm__("" : "+r"(var_s2));
         SetupViewport(var_s2 + 2);
         if (RaceState == 0) {
@@ -234,11 +234,11 @@ block_66:
             UpdateRaceChaseCamera((struct w3g2p *)((unsigned long)((((var_a0_2+var_s2)*8)+var_s2)<<5)+(unsigned long)PlayerCars));
             var_v1_4 = var_s2 * 0x10;
         }
-        temp_v0_5 = (Rr661FrameVector16 *)((u8 *)D_801183D0+var_v1_4);
-        temp_v1_5 = (Rr661FrameVector16 *)((u8 *)D_801183F0+var_v1_4);
+        temp_v0_5 = (RrVersusSelectFrameVector16 *)((u8 *)versus_select_player_camera_angles+var_v1_4);
+        temp_v1_5 = (RrVersusSelectFrameVector16 *)((u8 *)versus_select_player_camera_positions+var_v1_4);
 __asm__("" : : "r"(temp_v0_5),"r"(temp_v1_5));
-        *temp_v0_5 = RR_661_FRAME_SCRATCH->rotation18;
-        *temp_v1_5 = RR_661_FRAME_SCRATCH->position08;
+        *temp_v0_5 = RR_VERSUS_SELECT_FRAME_SCRATCH->rotation18;
+        *temp_v1_5 = RR_VERSUS_SELECT_FRAME_SCRATCH->position08;
         temp_s1 = var_s2 * 2;
         BuildCameraMatrices();
         __asm__("" : : "r"(temp_s1));
@@ -246,7 +246,7 @@ __asm__("" : : "r"(temp_v0_5),"r"(temp_v1_5));
         if (((RrRaceVehicle *)((unsigned long)((((temp_s1+var_s2)*8)+var_s2)<<5)+(unsigned long)PlayerCars))->half1EA != 0) {
             DrawWrongWaySprite(var_s2 + 1);
         }
-        RR_661_FRAME_SCRATCH->mode5E = 1;
+        RR_VERSUS_SELECT_FRAME_SCRATCH->mode5E = 1;
         SetupPlayerView(var_s2);
         UpdateTrackObjects(0);
         DrawTrackObjects(0);

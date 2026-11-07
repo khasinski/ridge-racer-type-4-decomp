@@ -1,4 +1,4 @@
-#include "rr/overlay661_course_menu.h"
+#include "rr/versus_select_course_menu.h"
 
 void versus_select_update_course_select(void) {
     s32 var_a0_3;
@@ -58,7 +58,7 @@ void versus_select_update_course_select(void) {
                             var_s0 += 1;
                         } while (var_s0 < 4);
                         {
-                            u8 *parameterTable = D_80118374;
+                            u8 *parameterTable = versus_select_selection_parameters;
                             RrSelectionRows *choice = &SelectionRows;
                             u8 first = choice->primary;
                             u8 second = choice->variant;

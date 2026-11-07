@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay667PacketTest(unittest.TestCase):
+class SerialLinkPacketTest(unittest.TestCase):
     def test_packet_and_driver_write_boundaries(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/serial_link/func_80114D30.c').read_text()
@@ -18,9 +18,9 @@ class Overlay667PacketTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay667_packet.h"
-RrOverlay667SerialStorage serial_link_tx_packet;
-RrOverlay667ChoicePair LinkLocalInputs;
+#include "rr/serial_link_packet.h"
+RrSerialLinkSerialStorage serial_link_tx_packet;
+RrSerialLinkChoicePair LinkLocalInputs;
 u8 serial_link_tx_sequence,serial_link_checksum_error;
 s32 RaceState,serial_link_local_menu_buttons,LinkWriteHandle;
 static u8 expected[12],after[12],choice_after[8];

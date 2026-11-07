@@ -1,4 +1,4 @@
-#include "rr/overlay662_gradient.h"
+#include "rr/garage_gradient.h"
 
 RrPolyG4Storage *garage_add_gradient_rect(u32 *ordering, RrPolyG4Storage *packet, u32 x, u32 y, u32 w, u32 h, u32 r0, u32 g0, u32 b0, u32 r1, u32 g1, u32 b1) {
     u16 baseX = garage_logo_state.halfC8;

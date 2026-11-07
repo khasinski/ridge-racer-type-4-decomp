@@ -1,6 +1,6 @@
 #include "types.h"
 #include "m2c_macros.h"
-#include "rr/overlay668_stream.h"
+#include "rr/movie_playback_stream.h"
 #include "rr/cd.h"
 
 #define D SoundState

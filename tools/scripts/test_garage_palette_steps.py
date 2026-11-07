@@ -5,7 +5,7 @@ import re
 import subprocess
 import unittest
 
-class Overlay662PaletteStepsTest(unittest.TestCase):
+class GaragePaletteStepsTest(unittest.TestCase):
     def test_all_palette_words_gates_and_fresh_captured_entry(self):
         root=Path(__file__).resolve().parents[2]
         paths=['8011E6C8','8011E7C0','8011E7DC','8011D120','8012349C','801235F4','80123750','801238AC','80123A0C','80123B68']
@@ -21,8 +21,8 @@ class Overlay662PaletteStepsTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_palette_edit.h"
-#include "rr/overlay662_tool_action.h"
+#include "rr/garage_palette_edit.h"
+#include "rr/garage_tool_action.h"
 #include "rr/audio_pan.h"
 static struct World {u32 head[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;u32 image[4][512];RrPalette16 palette[2];RrGarageButton buttons[46];RrGarageRectangle *table[46];u32 tail[4];} world,expected,checkpoint;
 #define garage_logo_state world.garage

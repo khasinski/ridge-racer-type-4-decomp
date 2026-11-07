@@ -1,4 +1,4 @@
-#include "rr/overlay662_confirm.h"
+#include "rr/garage_confirm.h"
 
 void garage_load_dialog(s32 mode) {
     if (mode < 0) {

@@ -1,4 +1,4 @@
-#include "rr/overlay662_init.h"
+#include "rr/garage_init.h"
 void garage_init_editor_state(void){
  PlayTimeFrames=0;
  garage_logo_state.fade00=-1;

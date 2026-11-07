@@ -1,4 +1,4 @@
-#include "rr/overlay662_pixel_dispatch.h"
+#include "rr/garage_pixel_dispatch.h"
 
 void garage_canvas_input(s32 actionCode)
 {

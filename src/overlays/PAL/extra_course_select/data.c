@@ -1,4 +1,4 @@
-#include "rr/overlay666.h"
+#include "rr/extra_course_select.h"
 
 u32 extra_course_select_module_id __attribute__((section(".extra_course_select.header"))) = 15;
 

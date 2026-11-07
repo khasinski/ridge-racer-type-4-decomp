@@ -1,4 +1,4 @@
-#include "rr/overlay666.h"
+#include "rr/extra_course_select.h"
 
 void extra_course_select_init_results(void) {
     s32 i;

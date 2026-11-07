@@ -7,7 +7,7 @@
 #include "rr/string_tail_copy.h"
 extern RrCourseChoice4 CourseChoiceTable[2][9];
 void SeqStartTrack(s32 mode);
-#include "rr/overlay662_progress_init.h"
+#include "rr/garage_progress_init.h"
 extern const char garage_scene_name[];
 void SetModelTexturePage(s32 mode);
 void garage_enter_main_menu(void) {

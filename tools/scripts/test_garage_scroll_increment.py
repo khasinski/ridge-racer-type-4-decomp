@@ -6,7 +6,7 @@ import struct
 import subprocess
 import unittest
 
-class Overlay662ScrollIncrementTest(unittest.TestCase):
+class GarageScrollIncrementTest(unittest.TestCase):
     def test_all_halfwords_and_input_gates(self):
         root=Path(__file__).resolve().parents[2]
         blob=(root/'disc/PAL/R4.BIN').read_bytes();sector=struct.unpack_from('<I',blob,4+662*4)[0]
@@ -25,7 +25,7 @@ class Overlay662ScrollIncrementTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_scroll_actions.h"
+#include "rr/garage_scroll_actions.h"
 #include "rr/audio_pan.h"
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;RrGarageButton buttons[46];RrGarageRectangle *table[46];u32 tail[4];} world,expected,checkpoint;
 static u8 zoom;

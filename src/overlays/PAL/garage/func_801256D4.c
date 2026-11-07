@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 void PlaySfx(s32 mode);
 void garage_alt_undo_toggle(void)
 {

@@ -1,4 +1,4 @@
-#include "rr/overlay668_stream.h"
+#include "rr/movie_playback_stream.h"
 extern s32 CdRead2(s32);
 
 void movie_playback_kick_cd(u8 *location) {

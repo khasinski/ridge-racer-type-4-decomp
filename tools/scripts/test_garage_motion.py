@@ -19,7 +19,7 @@ class GarageMotionTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 #include "rr/tables.h"
 static struct World {u32 guard[4]; RrMenuItemState5C rows[3]; RrGaragePoint out; u32 tail[4];} w,e;
 #define PlayerControllers w.rows

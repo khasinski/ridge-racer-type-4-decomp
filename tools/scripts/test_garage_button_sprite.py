@@ -5,7 +5,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay662ButtonSpriteTest(unittest.TestCase):
+class GarageButtonSpriteTest(unittest.TestCase):
     def test_signed_timers_and_original_button_records(self):
         root=Path(__file__).resolve().parents[2]
         blob=(root/'disc/PAL/R4.BIN').read_bytes()
@@ -33,7 +33,7 @@ class Overlay662ButtonSpriteTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_buttons.h"
+#include "rr/garage_buttons.h"
 static struct World {u32 guard[4];RrGpuScratchPointers scratch;RrGarageButton buttons[46];RrGarageRectangle *table[46];RrGarageSpriteRecord records[72];RrGarageSpriteRecord *lookup[72];u32 order[704];RrSpritePacket packets[4];u32 tail[4];} world,expected;
 #define RR_GPU_SCRATCH (&world.scratch)
 #define garage_logo_buttons world.table

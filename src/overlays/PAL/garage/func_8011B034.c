@@ -1,4 +1,4 @@
-#include "rr/overlay662_primitives.h"
+#include "rr/garage_primitives.h"
 
 RrGpuTilePacket *garage_add_tile(u32 *ordering, RrGpuTilePacket *packet, u32 x, u32 y, u32 w, u32 h, u32 r, u32 g, u32 b)
 {

@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -fno-strength-reduce */
-#include "rr/overlay665_matrix.h"
+#include "rr/options_matrix.h"
 
 void options_set_preview_light_matrix(const RrPreviewMatrixWorkspace *arg0, const RrPreviewLightInput36 *input) {
     RrPreviewMatrixWorkspace mat[2];

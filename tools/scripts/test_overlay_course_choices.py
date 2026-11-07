@@ -28,7 +28,7 @@ class CourseChoicesTest(unittest.TestCase):
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
 #include "rr/course_choices.h"
 #include "rr/race.h"
-#include "rr/overlay665_render_types.h"
+#include "rr/options_render_types.h"
 static u8 arenas[4][4096];static u32 heads[4][256];
 struct State {
  u32 guards[4];RrMenuArenas arenas;void *current,*backing;

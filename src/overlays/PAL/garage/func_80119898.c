@@ -1,4 +1,4 @@
-#include "rr/overlay662_image_fade.h"
+#include "rr/garage_image_fade.h"
 #ifndef RR_GPU_SCRATCH
 #define RR_GPU_SCRATCH ((RrGpuScratchPointers *)0x1F800000U)
 #endif

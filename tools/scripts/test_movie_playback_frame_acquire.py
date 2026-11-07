@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay668FrameAcquireTest(unittest.TestCase):
+class MoviePlaybackFrameAcquireTest(unittest.TestCase):
     def test_headers_retries_aliases_and_clear_callbacks(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/movie_playback/func_80115164.c').read_text()
@@ -18,7 +18,7 @@ class Overlay668FrameAcquireTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay668_frame_acquire.h"
+#include "rr/movie_playback_frame_acquire.h"
 typedef struct {u32 guard[4];RrStrContextPrefix context;RrStrPlaybackState players[2];RrLibQueueRecord32 headers[2];RrStrDisplayConfig config;u32 tail[4];} State;
 typedef struct {State s;RrFrameStorage frames[2];unsigned polls,clears;RrGpuRectangleFields clear;u32 beforeClear;u8 *result;} World;
 static World world,initial,actual;

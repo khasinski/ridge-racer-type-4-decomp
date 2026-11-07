@@ -1,5 +1,5 @@
-#include "rr/overlay662_palette_edit.h"
-#include "rr/overlay662_tool_action.h"
+#include "rr/garage_palette_edit.h"
+#include "rr/garage_tool_action.h"
 
 void garage_palette_green_down(void) {
     u16 *pal = (u16 *)((RrPaletteAddress)(RrPalette16 *)garage_logo_state.palette48[garage_logo_state.active21]+(garage_logo_state.config22*2));

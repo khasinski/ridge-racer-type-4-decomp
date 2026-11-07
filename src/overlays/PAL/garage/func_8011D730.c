@@ -1,4 +1,4 @@
-#include "rr/overlay662_input.h"
+#include "rr/garage_input.h"
 
 void garage_read_analog_repeat(u32 *output)
 {

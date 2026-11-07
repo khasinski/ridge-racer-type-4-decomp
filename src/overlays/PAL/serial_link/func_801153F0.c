@@ -1,4 +1,4 @@
-#include "rr/overlay667_reset.h"
+#include "rr/serial_link_reset.h"
 void serial_link_check_link_lost(void){
  if(serial_link_tx_fail_count>=7 || serial_link_rx_miss_count>=7 || serial_link_checksum_error==1){
   serial_link_tx_fail_count=0;serial_link_rx_miss_count=0;serial_link_rx_count=0;

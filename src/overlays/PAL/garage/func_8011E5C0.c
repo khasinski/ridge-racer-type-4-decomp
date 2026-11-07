@@ -1,6 +1,6 @@
 /* CC1_FLAGS: -fno-schedule-insns */
-#include "rr/overlay662_options.h"
-#include "rr/overlay662_distance.h"
+#include "rr/garage_options.h"
+#include "rr/garage_distance.h"
 
 void garage_navigate_to_option(s32 mode) {
     RrGarageOptionRecord *options;

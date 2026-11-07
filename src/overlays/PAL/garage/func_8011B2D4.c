@@ -1,4 +1,4 @@
-#include "rr/overlay662_sprites.h"
+#include "rr/garage_sprites.h"
 #ifndef RR_GPU_SCRATCH
 #define RR_GPU_SCRATCH ((RrGpuScratchPointers *)0x1F800000)
 #endif

@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay663ResultPreviewTest(unittest.TestCase):
+class RecordsResultPreviewTest(unittest.TestCase):
     def test_states_roots_and_all_fade_timers(self):
         root=Path(__file__).resolve().parents[2]
         body=read_c_source(root/'src/overlays/PAL/records/func_80115C34.c')
@@ -19,7 +19,7 @@ class Overlay663ResultPreviewTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay663_result_preview.h"
+#include "rr/records_result_preview.h"
 _Static_assert(sizeof(RrPreviewRgb3)==4&&__alignof__(RrPreviewRgb3)==4,"color word ABI");
 typedef struct {
  u32 guard[4];RrRaceVehicle cars[2];RrCurrentSelection choice;RrUiRow24 ui[2][4];RrBadgeRow1C badges[2][2];u8 modes[2][3];

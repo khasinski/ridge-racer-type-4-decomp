@@ -1,4 +1,4 @@
-#include "rr/overlay662_scroll_actions.h"
+#include "rr/garage_scroll_actions.h"
 
 void garage_scroll_right_button(void) {
     s32 limit = 64 - 64 / (garage_logo_zoom >> 1);

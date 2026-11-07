@@ -3,7 +3,7 @@
 #include "psyq/libcd/s_1.h"
 #include "game/sound/cdpos.h"
 #include "rr/cd.h"
-#include "rr/overlay668_stream.h"
+#include "rr/movie_playback_stream.h"
 #include "rr/menu_overlay_runtime.h"
 
 extern int CdSearchFile();

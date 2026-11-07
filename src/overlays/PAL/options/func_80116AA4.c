@@ -1,4 +1,4 @@
-#include "rr/overlay665_strokes.h"
+#include "rr/options_strokes.h"
 
 void options_draw_button_guides(const RrStrokeStep4 *const *paths,s32 factor) {
     u16 xy[4];

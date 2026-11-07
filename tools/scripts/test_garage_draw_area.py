@@ -5,7 +5,7 @@ import re
 import subprocess
 import unittest
 
-class Overlay662DrawAreaTest(unittest.TestCase):
+class GarageDrawAreaTest(unittest.TestCase):
     def test_geometry_shift_links_and_real_constructor(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/garage/func_8011ABB4.c').read_text()
@@ -23,7 +23,7 @@ class Overlay662DrawAreaTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_draw_area.h"
+#include "rr/garage_draw_area.h"
 _Static_assert(sizeof(RrFrameStorage)==0x22778,"real frame stride");
 _Static_assert(offsetof(RrFrameEnvironment,display.y)==0x5E,"comparison halfword");
 RrFrameStorage FrameEnvs[2];static RrFrameStorage expected_frames[2];

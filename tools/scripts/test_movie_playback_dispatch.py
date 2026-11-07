@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay668DispatchTest(unittest.TestCase):
+class MoviePlaybackDispatchTest(unittest.TestCase):
     def test_phase_and_mutating_boundaries(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/movie_playback/func_80114AA8.c').read_text()
@@ -18,7 +18,7 @@ class Overlay668DispatchTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay668_dispatch.h"
+#include "rr/movie_playback_dispatch.h"
 s32 RaceContextMoviePhase;
 void *LoadCursor;
 static u8 resources[2][259],before[2][259];

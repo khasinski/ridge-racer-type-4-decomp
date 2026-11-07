@@ -1,4 +1,4 @@
-#include "rr/overlay662_primitives.h"
+#include "rr/garage_primitives.h"
 
 RrGpuDrawModePacket *garage_add_draw_mode(u32 *ordering,RrGpuDrawModePacket *packet,u32 x,u32 y)
 {

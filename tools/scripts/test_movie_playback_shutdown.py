@@ -25,7 +25,7 @@ class OverlayShutdownTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay668_decode.h"
+#include "rr/movie_playback_decode.h"
 #include "rr/cd.h"
 #include "rr/frame_loop.h"
 typedef struct {s32 kind,argument;RrLibInterruptCallback callback;} Event;

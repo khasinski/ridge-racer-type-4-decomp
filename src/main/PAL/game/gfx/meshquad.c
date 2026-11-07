@@ -7,7 +7,7 @@
 #include "game/camera/camview.h"
 #include "game/effect/spark.h"
 #include "game/gfx/meshquad.h"
-#include "rr/overlay665_render.h"
+#include "rr/options_render.h"
 #include "game/gfx/gfxotag.h"
 #include "game/effect/carfx.h"
 #define RTPT() RR_GTE_RTPT_MEM()

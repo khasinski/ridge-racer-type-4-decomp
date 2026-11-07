@@ -1,4 +1,4 @@
-#include "rr/overlay662_name_controller.h"
+#include "rr/garage_name_controller.h"
 
 void garage_update_name_entry(void) {
     s16 fadeStep;

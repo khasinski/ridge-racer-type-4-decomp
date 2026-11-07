@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay662ScalePanelTest(unittest.TestCase):
+class GarageScalePanelTest(unittest.TestCase):
     def test_scale_coordinates_and_mutating_services(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/garage/func_8011C610.c').read_text()
@@ -18,7 +18,7 @@ class Overlay662ScalePanelTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_scale_panel.h"
+#include "rr/garage_scale_panel.h"
 typedef struct {u32 guard[4];RrGarageSelectionPrefix garage;RrGpuScratchPointers scratch;u32 tail[4];} State;
 typedef struct {unsigned kind,cursor,bank,head;u32 args[10],hash;} Event;
 typedef struct {State s;Event events[6];unsigned calls;} World;

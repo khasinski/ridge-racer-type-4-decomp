@@ -1,4 +1,4 @@
-#include "rr/overlay668_playback_init.h"
+#include "rr/movie_playback_playback_init.h"
 
 void movie_playback_init(void)
 {

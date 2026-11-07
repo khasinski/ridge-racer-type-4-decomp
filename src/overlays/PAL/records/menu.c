@@ -1,4 +1,4 @@
-#include "rr/overlay663.h"
+#include "rr/records.h"
 
 void records_init_menu(void) {
     ModeFrame = 0;

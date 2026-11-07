@@ -1,4 +1,4 @@
-#include "rr/overlay662_car_choice.h"
+#include "rr/garage_car_choice.h"
 
 void garage_enter_car_select(void) {
     s16 v0 = CourseChoiceTable[1][garage_car_index].first;

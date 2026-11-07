@@ -15,7 +15,7 @@
 #include "rr/matrix_workspace.h"
 #include "rr/audio_loop.h"
 #include "rr/memory.h"
-#include "rr/overlay661_init.h"
+#include "rr/versus_select_init.h"
 #include "rr/hud_number.h"
 #include "rr/relative_file.h"
 #include "rr/frame_environment.h"

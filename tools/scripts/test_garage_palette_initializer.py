@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay662PaletteInitializerTest(unittest.TestCase):
+class GaragePaletteInitializerTest(unittest.TestCase):
     def test_mapping_and_fresh_roots(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/garage/func_80119B44.c').read_text()
@@ -18,7 +18,7 @@ class Overlay662PaletteInitializerTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_palette_initializer.h"
+#include "rr/garage_palette_initializer.h"
 typedef struct {
  u32 guard[4];RrSaveProgressRecord7C save;RrCourseChoice4 courses[2][9];RrBadgeRow1C badges[2][2];
  RrMenuArenas arenas;void *published,*palette0,*palette1;

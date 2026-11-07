@@ -1,4 +1,4 @@
-#include "rr/overlay662_character_grid.h"
+#include "rr/garage_character_grid.h"
 
 void garage_draw_name_char_grid(u32 *order, void *cursor, s32 row)
 {

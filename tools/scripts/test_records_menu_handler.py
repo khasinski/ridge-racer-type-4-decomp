@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay663MenuHandlerTest(unittest.TestCase):
+class RecordsMenuHandlerTest(unittest.TestCase):
     def test_phases_and_mutations(self):
         root=Path(__file__).resolve().parents[2]
         body=read_c_source(root/'src/overlays/PAL/records/func_80115964.c')
@@ -19,7 +19,7 @@ class Overlay663MenuHandlerTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay663_menu_handler.h"
+#include "rr/records_menu_handler.h"
 #include "rr/frame_storage_types.h"
 typedef struct {u32 guard[4];RrUiRow24 rows[2][4];s32 selection,limit,accepted;u16 phase,scene;s16 timer,nextScene;unsigned root,bank;u32 tail[4];} State;
 typedef struct {s32 kind,args[7];u32 hash;} Event;

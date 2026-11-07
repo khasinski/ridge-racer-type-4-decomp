@@ -5,7 +5,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay662ProgressInitializerTest(unittest.TestCase):
+class GarageProgressInitializerTest(unittest.TestCase):
     def test_counts_and_fresh_resource_publication(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/garage/func_80114998.c').read_text()
@@ -20,7 +20,7 @@ class Overlay662ProgressInitializerTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_progress_init.h"
+#include "rr/garage_progress_init.h"
 typedef struct {u32 guard[4];s32 frame,counter;s16 current,limit;s8 flag1,flag2;RrMenuArenas arenas;u8 *base;void *published,*saved;RrSaveProgressRecord7C save;u16 counts[4][4],rows[4],total;u32 tail[4];} State;
 typedef struct {s32 kind,args[10];State state;} Event;
 static struct World {State s;u32 calls;Event events[5];u32 guard[4];} world,expected;

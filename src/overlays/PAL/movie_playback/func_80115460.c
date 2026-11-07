@@ -1,4 +1,4 @@
-#include "rr/overlay668_track_project.h"
+#include "rr/movie_playback_track_project.h"
 /* The initializer supplies its position pointer; this body uses globals. */
 void movie_playback_camera_locate_track(s32 *unused_position) {
     RrTrackOffsetArgument offsets[2];

@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 s32 garage_is_layer_empty(void)
 {
     u32 mode=garage_logo_state.layer23;

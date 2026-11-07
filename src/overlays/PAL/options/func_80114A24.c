@@ -1,4 +1,4 @@
-#include "rr/overlay665_menu.h"
+#include "rr/options_menu.h"
 
 void options_init_main_menu(void) {
     ClearScreenOverlayState();

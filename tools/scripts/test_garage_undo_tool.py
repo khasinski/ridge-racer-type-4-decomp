@@ -5,7 +5,7 @@ import re
 import subprocess
 import unittest
 
-class Overlay662UndoToolTest(unittest.TestCase):
+class GarageUndoToolTest(unittest.TestCase):
     def test_navigation_and_fresh_pointer_pair_swaps(self):
         root=Path(__file__).resolve().parents[2]
         paths=['src/overlays/PAL/garage/func_8011E734.c','src/overlays/PAL/garage/func_8011E694.c','src/overlays/PAL/garage/func_8011D120.c','tools/scripts/fixtures/views/func_8004F218.c','tools/scripts/fixtures/views/func_8004F24C.c','src/overlays/PAL/garage/func_801207C8.c']
@@ -21,7 +21,7 @@ class Overlay662UndoToolTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_tool_action.h"
+#include "rr/garage_tool_action.h"
 #include "rr/audio_pan.h"
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;RrGarageButton buttons[46];RrGarageRectangle *table[46];u32 pool[4096],palettes[2][8],tail[4];} world,expected,map_checkpoint,sound_checkpoint;
 typedef union {u32 words[528];RrGarageTimBytes tim;} TimOwner;

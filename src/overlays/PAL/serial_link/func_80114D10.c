@@ -1,4 +1,4 @@
-#include "rr/overlay667_events.h"
+#include "rr/serial_link_events.h"
 
 s32 serial_link_error_callback(void) {
     union {u32 bits;s32 value;} count;

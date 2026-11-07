@@ -7,7 +7,7 @@
 #include "game/gfx/dispenv.h"
 #include "psyq/libgte/gtemat7.h"
 #include "rr/audio_loop.h"
-#include "rr/overlay662_distance.h"
+#include "rr/garage_distance.h"
 #include "rr/fade_sprite.h"
 
 typedef struct {

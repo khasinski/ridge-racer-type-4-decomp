@@ -1,4 +1,4 @@
-#include "rr/overlay668_camera.h"
+#include "rr/movie_playback_camera.h"
 
 void movie_playback_credits_init(void) {
     s32 i;
@@ -40,6 +40,6 @@ void movie_playback_credits_init(void) {
     SetSceneColorParams(0, 144, 144, 144);
     SetSceneOverlayEnabled(1);
     MaskBitSetting = 1;
-    D_80127E90 = 16000;
-    D_80127E94 = movie_playback_credits_scroll_speeds[(s32)((u32)GameLanguage * 4U + (u32)(s32)SelectedTeamIndex)];
+    movie_playback_credits_scroll_pos = 16000;
+    movie_playback_credits_scroll_step = movie_playback_credits_scroll_speeds[(s32)((u32)GameLanguage * 4U + (u32)(s32)SelectedTeamIndex)];
 }

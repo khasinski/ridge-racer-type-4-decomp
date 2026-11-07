@@ -15,10 +15,10 @@ PREFIX=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_transition.h"
+#include "rr/garage_transition.h"
 '''
 
-class Overlay662TransitionTest(unittest.TestCase):
+class GarageTransitionTest(unittest.TestCase):
     def run_native(self,root,source):
         with TemporaryDirectory() as temp:
             p=Path(temp);(p/'test.c').write_text(source)

@@ -15,11 +15,11 @@ source=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay665_calibration.h"
+#include "rr/options_calibration.h"
 typedef struct {u32 words[5];} SpriteStorage;
 typedef struct {SpriteStorage sprites[4];RrGpuSingleCommandPacket command;u32 tail[4];} PacketStream;
 typedef struct {
- u32 guard[4];RrOverlay665VisualState visual;RrProjectionScratchPrefix scratch;
+ u32 guard[4];RrOptionsVisualState visual;RrProjectionScratchPrefix scratch;
  RrFrameStorage frames[2];RrRuntimeSettings settings;RrMenuItemState5C input[2];
  RrBadgeRow1C badges[2][2];RrMenuTextState text[2];RrUiUvRect regions[2][2];PacketStream streams[3];
  s16 timer;unsigned frameRoot,badgeRoot,textRoot,arena,sprites;u32 tail[4];

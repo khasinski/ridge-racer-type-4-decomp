@@ -1,4 +1,4 @@
-#include "rr/overlay662_history_labels.h"
+#include "rr/garage_history_labels.h"
 
 void garage_draw_team_count_label(u32 *order, void *cursor, s32 row)
 {

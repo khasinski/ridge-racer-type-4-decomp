@@ -1,4 +1,4 @@
-#include "rr/overlay665_calibration.h"
+#include "rr/options_calibration.h"
 void options_update_screen_adjust(void) {
     s32 i;
     void *cursor;

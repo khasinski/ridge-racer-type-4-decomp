@@ -1,0 +1,4 @@
+#ifndef RR_TIME_ATTACK_COURSE_SELECT_COURSE_LAYOUT_H
+#define RR_TIME_ATTACK_COURSE_SELECT_COURSE_LAYOUT_H
+#include "rr/time_attack_course_select.h"
+#endif

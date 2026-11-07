@@ -15,8 +15,8 @@
 #include "game/race/objclr.h"
 #include "game/race/objsim.h"
 #include "game/race/objdraw.h"
-#include "rr/overlay662_distance.h"
-#include "rr/overlay661_init.h"
+#include "rr/garage_distance.h"
+#include "rr/versus_select_init.h"
 #include "rr/audio_loop.h"
 #include "rr/bios_devices.h"
 

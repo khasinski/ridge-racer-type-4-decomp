@@ -1,4 +1,4 @@
-#include "rr/overlay662_scroll_drag.h"
+#include "rr/garage_scroll_drag.h"
 
 void garage_drag_hscrollbar(void) {
     s32 imageTravel;

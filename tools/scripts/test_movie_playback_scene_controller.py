@@ -15,7 +15,7 @@ head=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay668_camera.h"
+#include "rr/movie_playback_camera.h"
 #include "rr/icon_sprites.h"
 #include "rr/tables.h"
 typedef struct {s32 key,action;} RrReplayEvent;
@@ -26,8 +26,8 @@ static struct State{u32 guard[4];RrReplayCameraContextPrefix camera;RrReplayEven
 #define movie_playback_credits_events w->events
 #define PlayerControllers w->input
 #define CurrentDrawBuf (&w->contexts[w->root])
-#define D_80127E90 w->textPosition
-#define D_80127E94 w->textDelta
+#define movie_playback_credits_scroll_pos w->textPosition
+#define movie_playback_credits_scroll_step w->textDelta
 #define ModeGroup w->enable
 #define ModeId w->scene
 #define ModeSubState w->phase

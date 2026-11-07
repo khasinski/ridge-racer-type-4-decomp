@@ -1,4 +1,4 @@
-"""Guarded native oracle for the overlay666 menu controller."""
+"""Guarded native oracle for the extra_course_select menu controller."""
 from overlay_units import read_c_source
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -21,7 +21,7 @@ source = r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay666_menu_controller.h"
+#include "rr/extra_course_select_menu_controller.h"
 _Static_assert(sizeof(RrUiRow24)==36,"UI stride");
 _Static_assert(sizeof(RrMenuGlyphRow1C)==28,"glyph stride");
 _Static_assert(sizeof(RrMenuItemState5C)==92,"input stride");

@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay663PreviewDrawTest(unittest.TestCase):
+class RecordsPreviewDrawTest(unittest.TestCase):
     def test_angles_matrix_and_mutating_abi(self):
         root=Path(__file__).resolve().parents[2]
         body=read_c_source(root/'src/overlays/PAL/records/func_801158B4.c')
@@ -20,7 +20,7 @@ class Overlay663PreviewDrawTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay663_preview_draw.h"
+#include "rr/records_preview_draw.h"
 RrRaceVehicle PlayerCars[2];RrFrameStorage *CurrentDrawBuf;
 static RrFrameOrderingPrefix frames[3],frames_before[3];
 static RrRaceVehicle untouched,final_car;

@@ -13,7 +13,7 @@ source=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_car_bars.h"
+#include "rr/garage_car_bars.h"
 #include "rr/badge_rows.h"
 #include "rr/sprite_emit.h"
 #include "rr/menu_choice_types.h"

@@ -18,7 +18,7 @@ class GarageSpriteClipTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_primitives.h"
+#include "rr/garage_primitives.h"
 #include "rr/animated_sprite_grid.h"
 typedef union {u8 bytes[128];u32 words[32];RrSpritePacket packets[6];} Buffer;
 typedef struct {u8 *cursor,*published;u32 *ordering,*root;u32 args[6];} Event;

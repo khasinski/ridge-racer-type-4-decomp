@@ -1,4 +1,4 @@
-#include "rr/overlay662_palette_edit.h"
+#include "rr/garage_palette_edit.h"
 
 void garage_palette_red_slider(void) {
     u16 val;

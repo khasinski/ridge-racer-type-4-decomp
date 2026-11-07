@@ -34,7 +34,7 @@ class SaveInitializersTest(unittest.TestCase):
 #include "rr/save_progress.h"
 #include "rr/course_choice_types.h"
 #include "rr/menu_glyph.h"
-#include "rr/overlay662_progress_init.h"
+#include "rr/garage_progress_init.h"
 static const char format660[]="course",format662[]="garage",format663[]="records";
 struct State {
  u32 guard[4];RrSaveProgressRecord7C save;RrCourseChoice4 choices[2][9];

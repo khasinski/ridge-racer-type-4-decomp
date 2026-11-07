@@ -4,7 +4,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay667StatusTest(unittest.TestCase):
+class SerialLinkStatusTest(unittest.TestCase):
     def test_word_arguments_and_canonical_storage_widths(self):
         root=Path(__file__).resolve().parents[2]
         bodies=[]
@@ -24,7 +24,7 @@ class Overlay667StatusTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay667_status.h"
+#include "rr/serial_link_status.h"
 _Static_assert(__builtin_types_compatible_p(__typeof__(SceneId),u16),"scene cell is unsigned16");
 static struct {u32 head;u16 before,marker,after,pad;s32 status;u32 tail;} world,snapshot;
 #define SceneId world.marker

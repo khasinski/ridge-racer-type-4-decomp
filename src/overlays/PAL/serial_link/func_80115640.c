@@ -17,17 +17,17 @@ typedef struct {
     u8 pad27C[0x2AA - 0x27C];
     s16 lap2AA;
     u8 pad2AC[0x320 - 0x2AC];
-} Ovl667Vehicle;
+} SerialLinkVehicle;
 
 typedef struct {
     s32 words[4];
-} Ovl667Vector16;
+} SerialLinkVector16;
 
 typedef struct {
     u32 pad00[6];
     u8 enable18;
     u8 pad19[0x22778 - 0x19];
-} Ovl667FrameStorage;
+} SerialLinkFrameStorage;
 
 extern s16 PlayerCount;
 extern s32 RaceIntroWipeY;
@@ -47,16 +47,16 @@ extern s16 RaceType;
 extern s16 EngineRevDisplay[];
 extern s16 EngineThrottleOn[];
 extern u16 FinalCarRanks[];
-extern Ovl667Vehicle PlayerCars[];
-extern Ovl667Vehicle *CarTable[];
-extern Ovl667FrameStorage FrameEnvs[2];
+extern SerialLinkVehicle PlayerCars[];
+extern SerialLinkVehicle *CarTable[];
+extern SerialLinkFrameStorage FrameEnvs[2];
 
 extern s32 serial_link_shutdown_state;
 extern s32 serial_link_pause_sequence;
 extern u8 serial_link_rx_cursor, serial_link_last_rx_cursor;
 extern u8 serial_link_local_menu_buttons, serial_link_remote_menu_buttons, serial_link_sent_menu_buttons;
-extern Ovl667Vector16 serial_link_player_camera_angles[];
-extern Ovl667Vector16 serial_link_player_camera_positions[];
+extern SerialLinkVector16 serial_link_player_camera_angles[];
+extern SerialLinkVector16 serial_link_player_camera_positions[];
 
 extern void SetModelTexturePage();
 extern char *AddDrawAreaPrim();
@@ -291,16 +291,16 @@ void serial_link_update_race(void) {
 
     for (i = 0; i < n; i++) {
         if (PlayerCars[i].active1E8 != -1) {
-            *(Ovl667Vector16 *)0x1F800018 = serial_link_player_camera_angles[i];
-            *(Ovl667Vector16 *)0x1F800008 = serial_link_player_camera_positions[i];
+            *(SerialLinkVector16 *)0x1F800018 = serial_link_player_camera_angles[i];
+            *(SerialLinkVector16 *)0x1F800008 = serial_link_player_camera_positions[i];
             SetupViewport(split + i);
             if (RaceState == 0 && ModeFrame < 75) {
                 UpdateRaceIntroCamera(&PlayerCars[i], ModeFrame);
             } else {
                 UpdateRaceChaseCamera(&PlayerCars[i]);
             }
-            serial_link_player_camera_angles[i] = *(Ovl667Vector16 *)0x1F800018;
-            serial_link_player_camera_positions[i] = *(Ovl667Vector16 *)0x1F800008;
+            serial_link_player_camera_angles[i] = *(SerialLinkVector16 *)0x1F800018;
+            serial_link_player_camera_positions[i] = *(SerialLinkVector16 *)0x1F800008;
             BuildCameraMatrices();
             DrawCars(i + ((s16)(LinkRoleSlot ^ 1) + 1) * 2);
             if (PlayerCars[i].flag1EA != 0 && RacePaused == 0) {

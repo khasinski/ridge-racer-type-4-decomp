@@ -25,7 +25,7 @@ C=r'''
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
 #define RR_GARAGE_GTE_LERP(f,s,d) interpolate(f,s,d)
-#include "rr/overlay662_garage_fade.h"
+#include "rr/garage_garage_fade.h"
 typedef struct {u8 pre[16];RrGarageWorkingStorage work;RrMenuItemState5C pads[2];u8 post[16];} World;
 static World actual;
 static unsigned scenario,sound_calls,gte_calls;

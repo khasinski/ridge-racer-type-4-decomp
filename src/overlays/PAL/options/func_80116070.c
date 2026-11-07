@@ -1,4 +1,4 @@
-#include "rr/overlay665_menu.h"
+#include "rr/options_menu.h"
 void options_init_controller_config(void) {
     ClearScreenOverlayState();
     InitUiRow(0,56,160,64,32,0,0,0,1,22);

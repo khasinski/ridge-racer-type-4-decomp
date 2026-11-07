@@ -5,7 +5,7 @@ import re
 import subprocess
 import unittest
 
-class Overlay662MapperTest(unittest.TestCase):
+class GarageMapperTest(unittest.TestCase):
     def test_every_original_grid_cell_and_root_side_effects(self):
         root=Path(__file__).resolve().parents[2]
         paths=['8011D278','8011DC74','8011DBD8','8011E5C0']
@@ -20,8 +20,8 @@ class Overlay662MapperTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_options.h"
-#include "rr/overlay662_distance.h"
+#include "rr/garage_options.h"
+#include "rr/garage_distance.h"
 static struct World {u32 head[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;RrGarageRectangle rects[46];RrGarageRectangle *table[46];u32 tail[4];}world,expected,checkpoint;
 #define garage_logo_state world.garage
 #define garage_logo_work world.work

@@ -13,7 +13,7 @@ class OverlayControlTest(unittest.TestCase):
         path = Path(cls.temp.name)
         root = Path(__file__).resolve().parents[2]
         bodies = '\n'.join((root / f'src/overlays/PAL/movie_playback/func_{name}.c').read_text()
-                           .replace('#include "rr/overlay668_control.h"', '')
+                           .replace('#include "rr/movie_playback_control.h"', '')
                            for name in ('801163FC', '80116478', '80116498', '801164D4', '80116510'))
         resident = (root / 'tools/scripts/fixtures/legacy/func_8008B3C4.c').read_text()
         resident = resident.replace('#include "rr/library.h"', '')
@@ -29,7 +29,7 @@ class OverlayControlTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay668_control.h"
+#include "rr/movie_playback_control.h"
 static struct World {
  u32 before[8];RrStrCommandHeader header;u32 output[64],status;
  s32 input_result,output_result;u32 mutate;

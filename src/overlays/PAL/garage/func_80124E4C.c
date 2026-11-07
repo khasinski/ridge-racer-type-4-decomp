@@ -1,4 +1,4 @@
-#include "rr/overlay662_pixel_dispatch.h"
+#include "rr/garage_pixel_dispatch.h"
 
 void garage_fill_at_cursor(void)
 {

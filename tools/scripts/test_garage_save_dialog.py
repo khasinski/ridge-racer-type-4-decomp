@@ -13,10 +13,10 @@ source=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay662_save_dialog.h"
-#include "rr/overlay662_modal.h"
-#include "rr/overlay662_tool_action.h"
-#include "rr/overlay662_tim.h"
+#include "rr/garage_save_dialog.h"
+#include "rr/garage_modal.h"
+#include "rr/garage_tool_action.h"
+#include "rr/garage_tim.h"
 #include "rr/menu_text_state.h"
 #include "rr/tables.h"
 static struct Assets {RrGarageTimBytes tim[2];u32 image[2][512],palette[2][8];} assets;

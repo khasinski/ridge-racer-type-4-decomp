@@ -5,7 +5,7 @@
 #include "game/ui/uipart1.h"
 #include "game/data/ldscn1.h"
 #include "game/race/raceinfo.h"
-#include "rr/overlay662_distance.h"
+#include "rr/garage_distance.h"
 #include "rr/matrix_workspace.h"
 #include "game/race/raceset.h"
 #include "game/gfx/drawbuf.h"

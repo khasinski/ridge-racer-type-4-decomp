@@ -29,7 +29,7 @@ class GarageColorPanelTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_palette.h"
+#include "rr/garage_palette.h"
 typedef union {u8 bytes[512];u32 words[128];struct {RrGpuTilePacket tile;RrSpritePacket sprites[2];u8 digits[456];} sequence;} Arena;
 typedef struct {s32 channel,value;u8 *cursor;u32 *order;} Event;
 static struct World {u32 guard[4];RrGpuScratchPointers scratch;RrGarageSelectionPrefix state;RrGaragePalette palettes[3];RrGarageSpriteRecord records[72];RrGarageSpriteRecord *lookup[72];u32 order[704];Arena arena;u32 calls;Event events[3];u32 tail[4];} world,expected;

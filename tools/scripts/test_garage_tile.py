@@ -18,7 +18,7 @@ class GarageTileTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_primitives.h"
+#include "rr/garage_primitives.h"
 typedef union {RrGpuTilePacket packets[3];u32 words[12];} PacketOwner;
 typedef union {RrGarageSelectionPrefix state;struct {u8 pad[offsetof(RrGarageSelectionPrefix,halfC8)-8];PacketOwner storage;} view;} GarageOwner;
 static struct World {u32 guard[4];GarageOwner garage;PacketOwner storage;u32 ordering;u32 tail[4];} world,e;

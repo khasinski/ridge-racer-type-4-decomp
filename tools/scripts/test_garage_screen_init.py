@@ -5,7 +5,7 @@ import re
 import subprocess
 import unittest
 
-class Overlay662ScreenInitTest(unittest.TestCase):
+class GarageScreenInitTest(unittest.TestCase):
     def test_real_reset_and_mutating_setup(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/garage/func_80118ED8.c').read_text()
@@ -20,7 +20,7 @@ class Overlay662ScreenInitTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_screen_init.h"
+#include "rr/garage_screen_init.h"
 static u8 arenas[3][0x2D001];
 typedef struct {s32 a[10];void *published;RrMenuArenas arenas;u16 mode;s16 scene,counter;} Event;
 static struct World {

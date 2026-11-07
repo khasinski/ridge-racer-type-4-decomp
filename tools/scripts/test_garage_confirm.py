@@ -6,7 +6,7 @@ import struct
 import subprocess
 import unittest
 
-class Overlay662ConfirmTest(unittest.TestCase):
+class GarageConfirmTest(unittest.TestCase):
     def test_navigation_handshake_and_post_audio_roots(self):
         root=Path(__file__).resolve().parents[2]
         blob=(root/'disc/PAL/R4.BIN').read_bytes();sector=struct.unpack_from('<I',blob,4+662*4)[0]
@@ -25,7 +25,7 @@ class Overlay662ConfirmTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_confirm.h"
+#include "rr/garage_confirm.h"
 #include "rr/audio_pan.h"
 _Static_assert(sizeof(RrGarageButton)==16,"complete button owner");
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;RrGarageButton buttons[46];RrGarageRectangle *table[46];RrMenuTextState text[3],*textroot;RrBadgeRow1C badges[3][2],*badgeroot;RrMenuItemState5C items[2];s16 pending,scene,latch;u16 transition;u32 tail[4];} world,expected,map_checkpoint,sound_checkpoint;

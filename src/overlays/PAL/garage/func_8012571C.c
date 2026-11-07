@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 
 #define SEL garage_logo_state
 #define CUR garage_logo_work.points.cursor14

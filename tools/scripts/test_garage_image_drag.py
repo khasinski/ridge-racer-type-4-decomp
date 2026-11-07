@@ -5,7 +5,7 @@ import re
 import subprocess
 import unittest
 
-class Overlay662ImageDragTest(unittest.TestCase):
+class GarageImageDragTest(unittest.TestCase):
     def test_start_continue_cancel_and_all_relative_shifts(self):
         root=Path(__file__).resolve().parents[2]
         paths=['8011E6C8','8011E7C0','8011D120','80125DE0','801251AC']
@@ -20,7 +20,7 @@ class Overlay662ImageDragTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_image_drag.h"
+#include "rr/garage_image_drag.h"
 static struct World {
  u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;RrGaragePoint anchor;
  u32 images[4][512],palettes[2][8];u32 tail[4];

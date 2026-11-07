@@ -1,4 +1,4 @@
-#include "rr/overlay665_visual.h"
+#include "rr/options_visual.h"
 void options_draw_angle_marker(s32 arg0)
 {
     u16 pts[4];

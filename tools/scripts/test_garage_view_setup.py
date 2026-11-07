@@ -18,7 +18,7 @@ class GarageViewSetupTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_setup.h"
+#include "rr/garage_setup.h"
 typedef struct {s32 args[10];RrMenuGlyphRow1C *glyph;RrBadgeRow1C *badge;s32 frame,counter,word;s16 half,setting,selected;u8 choice;} Event;
 static struct World {u32 guard[4];s32 frame,counter,word;s16 half,setting,selected;RrMenuChoice4 choice;RrMenuGlyphRow1C *glyph;RrBadgeRow1C *badge;RrMenuGlyphRow1C glyphs[3][4];RrBadgeRow1C badges[3];u32 calls;Event events[7];u32 tail[4];} world,expected;
 #define ModeFrame world.frame

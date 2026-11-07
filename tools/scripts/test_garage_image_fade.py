@@ -14,7 +14,7 @@ source=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_image_fade.h"
+#include "rr/garage_image_fade.h"
 static struct World {u32 guard[4];RrGpuScratchPointers scratch;RrIconSpriteContext contexts[3];RrIconSpriteContext *context;s16 phase;u16 pad;s32 clock;u32 arena[256];u32 tail[4];} world,expected;
 static struct Event {unsigned id;u32 args[12];u8 *cursor;u32 *head;struct World before;} events[5];
 static unsigned count,seen,scenario;static int ref;static s32 sineReturns[2];static unsigned sineIndex;static s32 geometry[4][4];static u16 expectedShade;

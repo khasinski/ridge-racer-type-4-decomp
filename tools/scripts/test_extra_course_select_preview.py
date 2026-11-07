@@ -6,7 +6,7 @@ import unittest
 import subprocess
 import re
 
-class Overlay666PreviewTest(unittest.TestCase):
+class ExtraCourseSelectPreviewTest(unittest.TestCase):
     def test_initialization_and_fresh_selection_roots(self):
         root=Path(__file__).resolve().parents[2]
         paths=['tools/scripts/fixtures/legacy/func_8003A198.c','tools/scripts/fixtures/legacy/func_80037040.c','src/overlays/PAL/extra_course_select/func_80115A88.c']
@@ -21,7 +21,7 @@ class Overlay666PreviewTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay666_preview.h"
+#include "rr/extra_course_select_preview.h"
 static struct World {u32 head[4];RrRaceVehicle cars[2];RrProjectionScratchPrefix scratch;RrBadgeRow1C badges[3][2],*root;RrCourseChoice4 table[4][9];RrCurrentSelection choice;RrMenuGridPoint grid[4];void*base,*published;s32 frame,pulse,local;RrMenuSelectionWord32 index;s16 row,mode,flag;s8 clear1,clear2;u32 tail[4];} world,expected,checkpoint[6];
 static unsigned scenario,calls,reference_calls;static u8 arenas[3][64],packets[64];static u32 orders[32];
 #define PlayerCars world.cars

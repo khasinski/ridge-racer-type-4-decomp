@@ -27,8 +27,8 @@ class CarLayoutsTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay660_course_layout.h"
-#include "rr/overlay662_car_layout.h"
+#include "rr/time_attack_course_select_course_layout.h"
+#include "rr/garage_car_layout.h"
 typedef struct {
  u32 guard[4];RrRaceVehicle cars[2];RrProjectionScratchPrefix scratch;
  RrMenuArenas arenas;RrMenuChoice4 choice;RrMenuGridPoint grid[4];RrCourseChoice4 table[2][9];

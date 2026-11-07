@@ -1,4 +1,4 @@
-#include "rr/overlay659.h"
+#include "rr/race_results.h"
 
 void race_results_init_preview(void) {
     s32 index;

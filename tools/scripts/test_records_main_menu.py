@@ -1,4 +1,4 @@
-"""Guarded native state and service oracle for overlay663 main-menu handling."""
+"""Guarded native state and service oracle for records main-menu handling."""
 from overlay_units import read_c_source
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -15,7 +15,7 @@ source=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay663_menu_handler.h"
+#include "rr/records_menu_handler.h"
 #include "rr/tables.h"
 void SeqFadeVolume(s32,s32);void SeqMuteVolume(void);void records_init_preview(void);
 static RrFrameStorage contexts[2];static u8 buffers[3][32];

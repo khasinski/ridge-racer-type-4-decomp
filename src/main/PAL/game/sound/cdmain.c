@@ -4,7 +4,7 @@
 #include "psyq/libsnd/ssmvol.h"
 #include "psyq/libsnd/ssvolset.h"
 #include "game/sound/cdmain.h"
-#include "rr/overlay668_stream.h"
+#include "rr/movie_playback_stream.h"
 #include "rr/library.h"
 #include "rr/bios_devices.h"
 

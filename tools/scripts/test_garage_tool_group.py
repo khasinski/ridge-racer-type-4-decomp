@@ -5,7 +5,7 @@ import re
 import subprocess
 import unittest
 
-class Overlay662ToolGroupTest(unittest.TestCase):
+class GarageToolGroupTest(unittest.TestCase):
     def test_all_five_actions_modes_and_byte_transitions(self):
         root=Path(__file__).resolve().parents[2]
         names=['80120004','8012019C','8012031C','8012049C','80120648']
@@ -21,7 +21,7 @@ class Overlay662ToolGroupTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_tool_action.h"
+#include "rr/garage_tool_action.h"
 #include "rr/audio_pan.h"
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;RrGarageButton buttons[46];RrGarageRectangle *table[46];u32 tail[4];} world,expected,map_checkpoint,sound_checkpoint;
 static unsigned scenario,family,slot,initial_byte,expected_map,expected_sound,map_calls,sound_calls,seen[5][256];static s32 mapped_mode;

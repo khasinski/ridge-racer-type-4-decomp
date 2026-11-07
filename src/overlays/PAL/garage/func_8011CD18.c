@@ -1,4 +1,4 @@
-#include "rr/overlay662_palette_refresh.h"
+#include "rr/garage_palette_refresh.h"
 
 void garage_upload_editor_vram(void)
 {

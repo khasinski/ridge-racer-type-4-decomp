@@ -1,4 +1,4 @@
-#include "rr/overlay662_transition.h"
+#include "rr/garage_transition.h"
 
 void garage_enter_color_select(void) {
     garage_init_color_select();

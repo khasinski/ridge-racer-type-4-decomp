@@ -14,7 +14,7 @@ class StrokePathsTest(unittest.TestCase):
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
-#include "rr/overlay665_strokes.h"
+#include "rr/options_strokes.h"
 typedef struct {u32 guard[4];RrStrokeStep4 banks[10][9];u8 selected[5];RrStrokeColor4 color;u16 origins[5][2];u32 rng,tail[4];} State;
 typedef struct {State before;u16 xy[4];u8 rgba[4];s32 blend,depth;} Event;
 typedef struct {State s;const RrStrokeStep4 *paths[5];Event events[80];unsigned count;} World;

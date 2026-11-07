@@ -1,4 +1,4 @@
-#include "rr/overlay662_options.h"
+#include "rr/garage_options.h"
 void garage_init_option_tables(s32 mode)
 {
  if(mode<0){

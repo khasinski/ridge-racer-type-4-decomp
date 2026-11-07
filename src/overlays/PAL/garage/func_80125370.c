@@ -1,4 +1,4 @@
-#include "rr/overlay662_color_pick.h"
+#include "rr/garage_color_pick.h"
 
 
 void garage_pick_color(void) {

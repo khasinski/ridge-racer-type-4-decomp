@@ -9,7 +9,7 @@ import subprocess
 import unittest
 
 
-class Overlay667SerialStepTest(unittest.TestCase):
+class SerialLinkSerialStepTest(unittest.TestCase):
     def test_ring_branches_retry_capture_and_wrapping_counters(self):
         root = Path(__file__).resolve().parents[2]
         bodies = '\n'.join((root / f'src/overlays/PAL/serial_link/func_{a}.c').read_text()
@@ -24,13 +24,13 @@ class Overlay667SerialStepTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay667_packet.h"
+#include "rr/serial_link_packet.h"
 static struct World {
  u32 guard[4];
  s32 peer,local,halt,command,rxcount,timeout,txcount,failures,pending,phase,serial;
  u8 read,write,selected,received,sent;
- RrOverlay667SerialRing ring;
- RrOverlay667ChoicePair incoming,outgoing,payload;
+ RrSerialLinkSerialRing ring;
+ RrSerialLinkChoicePair incoming,outgoing,payload;
  u32 tail[4]; unsigned calls;u32 checkpoint;unsigned service;
 } actual,expected,initial,*w;
 static unsigned scenario,mutation;
@@ -124,8 +124,8 @@ static void reference_send(void) {
 int main(void) {
  unsigned i,kind,r;
  static const s32 results[]={0,1,2,-1,INT32_MIN,INT32_MAX};
- _Static_assert(sizeof(RrOverlay667SerialPacket)==12,"wire record");
- _Static_assert(_Alignof(RrOverlay667SerialPacket)==1,"unaligned wire data");
+ _Static_assert(sizeof(RrSerialLinkSerialPacket)==12,"wire record");
+ _Static_assert(_Alignof(RrSerialLinkSerialPacket)==1,"unaligned wire data");
  for(scenario=0;scenario<65536;scenario++)for(mutation=0;mutation<2;mutation++) {
   for(i=0;i<sizeof(initial);i++)((u8*)&initial)[i]=(u8)(scenario*13+i*29);
   initial.peer=word(edges[(scenario>>1)%10]);

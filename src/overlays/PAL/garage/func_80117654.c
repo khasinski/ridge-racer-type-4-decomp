@@ -1,4 +1,4 @@
-#include "rr/overlay662_history_labels.h"
+#include "rr/garage_history_labels.h"
 
 void garage_draw_car_number_label(u32 *arg0, void *arg1, s32 arg2) {
     char buf[8];

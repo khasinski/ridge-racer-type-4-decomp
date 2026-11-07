@@ -22,7 +22,7 @@ C=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay668_frame_submit.h"
+#include "rr/movie_playback_frame_submit.h"
 static struct {u8 pre[16];RrStrDisplayConfig c;u8 post[16];} cfg;
 static struct {u8 pre[16];RrStrStreamPrefix s[3];u8 post[16];} streams, saved;
 static u8 backing[3][6][64],saved_backing[3][6][64];

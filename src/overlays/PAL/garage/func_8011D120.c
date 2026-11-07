@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 void garage_save_undo_copy(void)
 {
     s32 i;

@@ -9,7 +9,7 @@
 #include "psyq/other/dpadd.h"
 #include "psyq/other/dpcmp.h"
 #include "psyq/other/dpmul.h"
-#include "rr/overlay662_palette_refresh.h"
+#include "rr/garage_palette_refresh.h"
 #include "psyq/other/dpsub.h"
 
 #define G ((Scratch *)SCRATCHPAD)

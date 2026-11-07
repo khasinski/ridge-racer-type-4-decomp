@@ -27,7 +27,7 @@ typedef struct {
 } RrStrCreditContext;
 
 extern RrStrCreditContext *CurrentDrawBuf;
-extern s32 D_80127E90;
+extern s32 movie_playback_credits_scroll_pos;
 const s32 movie_playback_credits_tpages[2] = {0x35, 0x36};
 const s32 movie_playback_credits_clut = 0x7F94;
 s32 movie_playback_credits_row_fade(s16 arg0);
@@ -48,7 +48,7 @@ void movie_playback_draw_credits_row(s32 line, s32 unused) {
 
     page = line / 31;
     v = (line % 31) * 8;
-    y = D_80127E90 / 100 + line * 8;
+    y = movie_playback_credits_scroll_pos / 100 + line * 8;
     color[1] = v;
     if ((u32)(y - 1) < 239) {
         top = movie_playback_credits_row_fade(y) * 160 / 256;

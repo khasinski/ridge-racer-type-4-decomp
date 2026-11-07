@@ -23,7 +23,7 @@ class OverlayDmaTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay668_dma.h"
+#include "rr/movie_playback_dma.h"
 static struct World { u32 before[8],words[64],map[7],calls,after[8];
  const void *input_address;void *output_address;const char *message; } world,expected;
 u32 *movie_playback_dma_dpcr,*movie_playback_mdec_in_dma_bcr,*movie_playback_mdec_in_dma_chcr;

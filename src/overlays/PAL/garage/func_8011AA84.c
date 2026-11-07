@@ -1,4 +1,4 @@
-#include "rr/overlay662_transition.h"
+#include "rr/garage_transition.h"
 
 void garage_update_editor_intro(void) {
     garage_draw_animated_panels();

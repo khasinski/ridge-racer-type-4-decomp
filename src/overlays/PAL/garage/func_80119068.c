@@ -1,4 +1,4 @@
-#include "rr/overlay662_course_controller.h"
+#include "rr/garage_course_controller.h"
 extern s16 garage_logo_number;
 extern s32 garage_returned_from_logo_editor;
 void garage_init_car_info(void);

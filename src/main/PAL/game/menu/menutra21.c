@@ -60,10 +60,10 @@ extern int AddScreenFadeTiles();
 extern int LoadDialogueTableStep();
 extern int ClearScreenOverlayState();
 extern int SeqMuteVolume();
-extern int func_80114920();
-extern int func_80115598();
-extern int func_801161A8();
-extern int func_8011512C();
+extern int time_attack_course_select_init_menu();
+extern int versus_select_init_selection_screen();
+extern int serial_link_init_car_select();
+extern int garage_init_car_info();
 extern w8c5S SaveSlotSelections[];
 extern w8c5S SaveSlotSelectionsBackup[];
 extern struct { char pad[0x500]; unsigned char b500; } *UiRows;
@@ -75,7 +75,7 @@ extern unsigned short MenuReturnModeCode;
 extern unsigned short RaceType;
 extern int DialogueContext;
 extern short SaveSlotIndex;
-extern int D_801272F0[];
+extern int garage_slot_file_times[];
 extern s16 MenuStateBranchTargets[][2];
 extern char *SaveBuffer;
 extern int SaveSlotLoadUnusedFlag;
@@ -301,7 +301,7 @@ void MenuStepExitToNextMode(void) {
         break;
     case 1:
         if (MenuReturnModeCode == 0x132) {
-            func_80114920();
+            time_attack_course_select_init_menu();
             ModeSubState = 0;
             ModeGroup = MenuReturnModeCode >> 8;
             ModeId = MenuReturnModeCode & 0xFF;
@@ -309,13 +309,13 @@ void MenuStepExitToNextMode(void) {
         break;
     case 2:
         if ((unsigned)(RaceType - 2) < 2) {
-            func_80115598(SelectionPlayer);
+            versus_select_init_selection_screen(SelectionPlayer);
             ModeGroup = 1;
             ModeId = 0x38;
             ModeSubState = 0;
         } else if ((short)RaceType == 4) {
             if (LinkState != -1) {
-                func_801161A8(SelectionPlayer);
+                serial_link_init_car_select(SelectionPlayer);
                 ModeGroup = 1;
                 ModeId = 0x3C;
             } else {
@@ -332,7 +332,7 @@ void MenuStepExitToNextMode(void) {
         ModeSubState = 0;
         break;
     case 5:
-        func_8011512C();
+        garage_init_car_info();
         ModeGroup = 1;
         ModeId = 0x40;
         ModeSubState = 0;
@@ -364,9 +364,9 @@ void MenuStepScanSaveFiles()
 {
     short t;
     if (ModeSubState == 0) {
-        D_801272F0[0] = -1;
-        D_801272F0[1] = -1;
-        D_801272F0[2] = -1;
+        garage_slot_file_times[0] = -1;
+        garage_slot_file_times[1] = -1;
+        garage_slot_file_times[2] = -1;
         SaveSlotIndex = 0;
         LoadCardTargetFileStep(0, 0);
         ModeSubState = 1;

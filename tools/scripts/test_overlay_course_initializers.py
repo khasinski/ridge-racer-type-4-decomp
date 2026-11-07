@@ -16,7 +16,7 @@ class CourseInitializersTest(unittest.TestCase):
             body = read_c_source(root / f'src/overlays/PAL/{OVN(index)}/func_{address}.c')
             body = re.sub(r'^extern[^\n]*\n', '', body, flags=re.M)
             # The fixture owns both existing views of the same selection storage.
-            body = body.replace('#include "rr/overlay666_preview.h"',
+            body = body.replace('#include "rr/extra_course_select_preview.h"',
                                 '#include "rr/course_choice_types.h"')
             bodies.append(body)
         helpers = '\n'.join(read_c_source(root / f'tools/scripts/fixtures/views/func_{a}.c')

@@ -17,7 +17,7 @@ class ScrollDragTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_scroll_drag.h"
+#include "rr/garage_scroll_drag.h"
 static struct World {u32 guard[4];RrGarageSelectionPrefix g;RrGarageWorkingStorage w;s32 metrics[4];u16 grab,pad;u32 tail[4];} world,expected;
 static struct Event {unsigned id; s32 args[4];struct World before;} events[2];
 static unsigned count,seen,n,profile;static int reference_run;

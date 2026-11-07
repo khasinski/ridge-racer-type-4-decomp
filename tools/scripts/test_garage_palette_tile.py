@@ -5,7 +5,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay662PaletteTileTest(unittest.TestCase):
+class GaragePaletteTileTest(unittest.TestCase):
     def test_complete_color_domain_and_both_palette_banks(self):
         root=Path(__file__).resolve().parents[2]
         blob=(root/'disc/PAL/R4.BIN').read_bytes()
@@ -30,7 +30,7 @@ class Overlay662PaletteTileTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_palette_tile.h"
+#include "rr/garage_palette_tile.h"
 typedef struct {RrGpuTilePacket tile;RrSpritePacket highlight;} Stream;
 static struct World {u32 guard[4];RrGarageSelectionPrefix state;RrGpuScratchPointers scratch;RrPalette16 palettes[2];RrGarageRectangle rectangles[46];RrGarageRectangle *table[46];RrGarageSpriteRecord records[72];RrGarageSpriteRecord *lookup[72];u32 order[704];Stream stream;u32 tail[4];} world,expected;
 #define garage_logo_state world.state

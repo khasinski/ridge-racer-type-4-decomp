@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -fno-cse-follow-jumps -fno-rerun-cse-after-loop */
-#include "rr/overlay662_scrollbar.h"
+#include "rr/garage_scrollbar.h"
 
 void garage_get_scrollbar_thumb(s32 arg0, RrGpuRectangleFields *arg1)
 {

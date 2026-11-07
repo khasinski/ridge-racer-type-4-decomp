@@ -4,8 +4,8 @@
 #include "game/data/savedat.h"
 #include "game/data/savetype.h"
 #include "rr/menu_selection.h"
-#include "rr/overlay662_frame_step.h"
-#include "rr/overlay668_playback_step.h"
+#include "rr/garage_frame_step.h"
+#include "rr/movie_playback_playback_step.h"
 #include "game/race/raceset.h"
 typedef struct { char b[0x80]; } B;
 
@@ -27,9 +27,9 @@ extern Struct10 LapRecords[2][8][5];
 extern Struct2C SaveSlotSelectionsBackup[3];
 extern Struct48 CourseMenuChoices[2];
 extern StructC PlayerNames[];
-extern StructC D_80118420[];
-extern Struct48 D_80118458[2];
-extern int D_801272F0[];
+extern StructC versus_select_player_names[];
+extern Struct48 versus_select_choice_tables[2];
+extern int garage_slot_file_times[];
 extern int StoreImage();
 extern char StrFmtPercentS[];
 extern short SaveStoreRect[];
@@ -101,8 +101,8 @@ int ApplySaveData(int arg0) {
         if (s3->f1AA4 == a1) {
             for (s0 = 0; s0 < 9; s0++) {
                 if (RaceType == 2 || RaceType == 3) {
-                    D_80118458[SelectionPlayer & 1].f24[s0] = s3->f33C[s0];
-                    CopyStringClearTail(&D_80118420[SelectionPlayer & 1], &s3->f280);
+                    versus_select_choice_tables[SelectionPlayer & 1].f24[s0] = s3->f33C[s0];
+                    CopyStringClearTail(&versus_select_player_names[SelectionPlayer & 1], &s3->f280);
                 } else if (RaceType == 4) {
                     CourseMenuChoices[SelectionPlayer & 1].f24[s0] = s3->f33C[s0];
                     CopyStringClearTail(&PlayerNames[SelectionPlayer], &s3->f280);
@@ -116,12 +116,12 @@ int ApplySaveData(int arg0) {
         break;
     case 0x10:
         v10 = *(int *)SaveBuffer;
-        D_801272F0[SaveSlotIndex] = v10;
+        garage_slot_file_times[SaveSlotIndex] = v10;
         a2 = 1;
         break;
     case 0x11:
         v11 = (p = (SaveBuf11 *)SaveBuffer)->f280;
-        PlayTimeFrames = D_801272F0[SaveSlotIndex] = v11;
+        PlayTimeFrames = garage_slot_file_times[SaveSlotIndex] = v11;
         for (t0 = 0; t0 < 2; t0++) {
             for (s0 = 0; s0 < 0x840; s0++) {
                 if (t0 == 0) {

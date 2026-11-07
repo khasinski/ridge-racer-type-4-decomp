@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay665DispatchTest(unittest.TestCase):
+class OptionsDispatchTest(unittest.TestCase):
     def test_scene_capture_and_modular_increment(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/options/func_80118EB8.c').read_text()
@@ -18,8 +18,8 @@ class Overlay665DispatchTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay665_dispatch.h"
-typedef struct {u32 guard[4];RrOverlay665VisualState visual;u16 scene;s16 next,phase;u16 pad;u32 tail[4];} State;
+#include "rr/options_dispatch.h"
+typedef struct {u32 guard[4];RrOptionsVisualState visual;u16 scene;s16 next,phase;u16 pad;u32 tail[4];} State;
 typedef struct {s32 kind,arg;State before;} Event;
 typedef struct {State s;Event events[8];unsigned calls;} World;
 static World actual,reference,initial,*w;

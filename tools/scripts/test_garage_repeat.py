@@ -18,7 +18,7 @@ class GarageRepeatTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_input.h"
+#include "rr/garage_input.h"
 typedef union {RrMenuItemState5C rows[3];u32 words[69];} ControllerOwner;
 static struct World {u32 guard[4];ControllerOwner controller;u32 counters[8];u32 mask;RrGaragePoint out;u32 tail[4];} w,e;
 #define PlayerControllers w.controller.rows

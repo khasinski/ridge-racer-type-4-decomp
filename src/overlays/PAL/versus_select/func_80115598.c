@@ -1,4 +1,4 @@
-#include "rr/overlay661_layout.h"
+#include "rr/versus_select_layout.h"
 void versus_select_init_selection_screen(s32 mode) {
     s32 i,y,z;
     RrRaceVehicle *vehicle;

@@ -2,7 +2,7 @@
 /* MASPSX_FLAGS: --assembler-profile=gnu */
 #include "types.h"
 #include "psyq/libgte/gtecolo4.h"
-#include "rr/overlay662_distance.h"
+#include "rr/garage_distance.h"
 
 s32 csqrt_1(s32 arg0);
 

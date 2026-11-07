@@ -4,14 +4,14 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay668FadeTest(unittest.TestCase):
+class MoviePlaybackFadeTest(unittest.TestCase):
     def test_complete_signed16_domain(self):
         root=Path(__file__).resolve().parents[2]
         source=r'''
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
-#include "rr/overlay668_fade.h"
+#include "rr/movie_playback_fade.h"
 ''' + (root/'src/overlays/PAL/movie_playback/func_8011596C.c').read_text() + r'''
 static s32 reference(s32 frame){
  int64_t left=16*((int64_t)frame-48),right=16*(156-(int64_t)frame),level=256;

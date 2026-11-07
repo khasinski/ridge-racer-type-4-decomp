@@ -4,7 +4,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay667EventsTest(unittest.TestCase):
+class SerialLinkEventsTest(unittest.TestCase):
     def test_fresh_handles_callbacks_and_scalar_driver_arguments(self):
         root=Path(__file__).resolve().parents[2]
         self.assertEqual((root/'build/overlays/667.bin').read_bytes()[4:9],b'sio:\0')
@@ -19,7 +19,7 @@ class Overlay667EventsTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay667_events.h"
+#include "rr/serial_link_events.h"
 typedef struct {u32 head[4];s32 counter,status,pending;u32 event0,event1;s32 file0,file1;u32 tail[4];} State;
 typedef struct {s32 kind;u32 args[3];const char *name;RrBiosEventCallback callback;State state;} Event;
 static struct World {State s;u32 calls;RrBiosEventCallback registered;Event events[6];u32 guard[4];} world,expected;

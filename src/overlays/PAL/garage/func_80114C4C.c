@@ -1,4 +1,4 @@
-#include "rr/overlay662_progress_controller.h"
+#include "rr/garage_progress_controller.h"
 #include "rr/course_choice_types.h"
 
 extern RrCourseChoice4 CourseChoiceTable[2][9];

@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay665RenderTest(unittest.TestCase):
+class OptionsRenderTest(unittest.TestCase):
     def test_modes_and_service_mutations(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/options/func_8011643C.c').read_text()
@@ -20,8 +20,8 @@ class Overlay665RenderTest(unittest.TestCase):
         #undef RR_ASSERT_OFFSET
         #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
         #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-        #include "rr/overlay665_render.h"
-        struct State {u32 guard[4];RrOverlay665VisualState visual;RrPreviewRenderScratch scratch;
+        #include "rr/options_render.h"
+        struct State {u32 guard[4];RrOptionsVisualState visual;RrPreviewRenderScratch scratch;
          RrPreviewMatrixWorkspace basis;s32 meshes;u32 tail[4];};
         struct Event {s32 kind,args[3];u32 hash,first[8],second[8];};
         static struct World {struct State s;unsigned calls;struct Event events[64];} actual,expected,initial,*w;

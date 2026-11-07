@@ -1,4 +1,4 @@
-#include "rr/overlay662_palette_initializer.h"
+#include "rr/garage_palette_initializer.h"
 void garage_init_color_select(void) {
  s32 i;s16 val;RrBadgeRow1C *badge;
  ModeFrame=0;ScreenFrame=0;garage_color_preview_state=0;garage_select_arrows_unused_arg=0;MenuCursor=0;

@@ -5,7 +5,7 @@ import re
 import subprocess
 import unittest
 
-class Overlay662BaseToolTest(unittest.TestCase):
+class GarageBaseToolTest(unittest.TestCase):
     def test_modes_snapshot_fresh_cursor_and_final_distance_store(self):
         root=Path(__file__).resolve().parents[2]
         paths=['src/overlays/PAL/garage/func_8011E734.c','src/overlays/PAL/garage/func_8011E694.c','tools/scripts/fixtures/views/func_8004F218.c','tools/scripts/fixtures/views/func_8004F24C.c','src/overlays/PAL/garage/func_8011FE84.c']
@@ -20,7 +20,7 @@ class Overlay662BaseToolTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_tool_action.h"
+#include "rr/garage_tool_action.h"
 #include "rr/audio_pan.h"
 _Static_assert(sizeof(RrGarageWorkingStorage)==64,"complete work owner");
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;RrGarageRectangle rects[46],*table[46];u32 tail[4];} world,expected,map_checkpoint,sound_checkpoint,root_checkpoint;

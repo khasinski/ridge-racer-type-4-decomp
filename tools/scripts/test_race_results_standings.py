@@ -9,7 +9,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 
 
-class Overlay659StandingsTest(unittest.TestCase):
+class RaceResultsStandingsTest(unittest.TestCase):
     def test_standings_with_native_ubsan(self):
         body = read_c_source(ROOT / 'src/overlays/PAL/race_results/func_801158B4.c')
         body = re.sub(r'^#include[^\n]*\n', '', body, flags=re.M)

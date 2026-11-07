@@ -18,8 +18,8 @@ class RotateTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_buttons.h"
-#include "rr/overlay662_options.h"
+#include "rr/garage_buttons.h"
+#include "rr/garage_options.h"
 #include "rr/menu_choice.h"
 static struct World {u32 guard[4];RrGarageSelectionPrefix g;RrGarageWorkingStorage w;RrGarageButton buttons[2];RrGarageRectangle *table[2];u32 images[4][512];u32 tail[4];} world,expected;
 static struct Event {unsigned id;int arg;struct World before;} events[5];

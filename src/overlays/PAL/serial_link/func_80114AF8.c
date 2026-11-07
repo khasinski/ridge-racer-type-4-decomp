@@ -1,4 +1,4 @@
-#include "rr/overlay667_packet.h"
+#include "rr/serial_link_packet.h"
 void serial_link_init_connection(unsigned long configuration) {
     s32 work;
     u32 *base;

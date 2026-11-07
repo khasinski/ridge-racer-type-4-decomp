@@ -1,4 +1,4 @@
-#include "rr/overlay662_rotate.h"
+#include "rr/garage_rotate.h"
 void garage_rotate_tool_action(s32 arg0) {
     RrGarageSelectionPrefix *selection;
     s32 mode;

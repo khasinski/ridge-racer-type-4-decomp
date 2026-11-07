@@ -1,4 +1,4 @@
-#include "rr/overlay668_display.h"
+#include "rr/movie_playback_display.h"
 void movie_playback_set_buffers(u8 *base){
  ((RrStrBufferSet*)RaceContext.activeB8)->buffers[0]=base;
  base+=0xa000;

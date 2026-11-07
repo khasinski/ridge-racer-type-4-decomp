@@ -1,4 +1,4 @@
-#include "rr/overlay668_frame_submit.h"
+#include "rr/movie_playback_frame_submit.h"
 
 s32 movie_playback_next_vlc(RrStrDisplayConfig *config) {
     register u8 *data __asm__("$16");

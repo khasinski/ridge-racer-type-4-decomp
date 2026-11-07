@@ -1,4 +1,4 @@
-#include "rr/overlay662_primitives.h"
+#include "rr/garage_primitives.h"
 
 RrGpuLineF4Packet *garage_add_rect_outline(u32 *ordering, RrGpuLineF4Packet *packet, u32 x, u32 y, u32 w, u32 h, u32 r, u32 g, u32 b)
 {

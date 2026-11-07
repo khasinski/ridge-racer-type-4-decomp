@@ -21,7 +21,7 @@ class GaragePacketBuildersTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_primitives.h"
+#include "rr/garage_primitives.h"
 typedef union {
  RrGpuPolyFT4Packet quads[3];RrGpuLineF4Packet frames[3];
  RrGpuTilePacket lines[3];

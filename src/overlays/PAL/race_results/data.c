@@ -1,4 +1,4 @@
-#include "rr/overlay659.h"
+#include "rr/race_results.h"
 
 u32 race_results_module_id __attribute__((section(".race_results.header"))) = 10;
 

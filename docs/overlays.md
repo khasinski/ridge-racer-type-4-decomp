@@ -94,7 +94,7 @@ executable return and delay slot are at `0x80116CA0` and `0x80116CA4`.
 Data starts at `0x80116CA8`: initial state, the twenty-word camera lookup at
 `0x80116CC0`, quantization commands at `0x80116D10`, and the matrix command at
 `0x80116D94`. The command layouts are independently used by the implemented
-helpers and declared in `include/rr/overlay668_decode.h`.
+helpers and declared in `include/rr/movie_playback_decode.h`.
 
 The decoder at `0x80116958` loads two data bases, `0x80117690` and
 `0x80127690`, into `a2` and `a3`. At `0x80116B3C` it indexes the first with
@@ -218,7 +218,7 @@ on-disc alias of 659.
 
 The manifests in `configs/PAL/overlays/` assign each function to exactly one TU
 and fix the original addresses of code, generated jump tables and typed data.
-`include/rr/overlay659.h`, `overlay663.h` and `overlay666.h` expose module APIs;
+`include/rr/race_results.h`, `records.h` and `extra_course_select.h` expose module APIs;
 `menu_overlay_runtime.h` gives these modules one consistent resident interface.
 Local globals have module names and real C definitions. The shared selection
 buffer has explicit choice, selection-list and entry views in one union.
@@ -257,7 +257,7 @@ units: `course_menu.c`, `results.c`, `preview.c`, and `race.c`. The 660 manifest
 records function ownership and local-global addresses. It is a code-layout
 manifest; complete-image builders remain available for 659, 663 and 666.
 
-`rr/overlay660.h` is the module interface. Historical per-function headers
+`rr/time_attack_course_select.h` is the module interface. Historical per-function headers
 forward to it. Resident objects use the shared menu runtime types, including
 full frame storage, course records, selection storage and race vehicles.
 Module-local declarations have descriptive names and one declaration per

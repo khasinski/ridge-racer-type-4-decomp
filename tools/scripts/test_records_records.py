@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay663RecordsTest(unittest.TestCase):
+class RecordsRecordsTest(unittest.TestCase):
     def test_live_records_widths_and_captured_footer(self):
         root=Path(__file__).resolve().parents[2]
         bodies='\n'.join(read_c_source(root/f'src/overlays/PAL/records/func_{a}.c') for a in ['8011602C','801163B8'])
@@ -20,7 +20,7 @@ class Overlay663RecordsTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay663_records.h"
+#include "rr/records_records.h"
 typedef struct {u32 guard[4];RrTimeRecord16 banks[2][2][8][5];RrBadgeRow1C badges[2][8];RrUiUvRect glyphs[5],footer[2];u8 widths[2][4],text[10];s16 group,track;s32 tick,selected;unsigned root;u32 tail[4];} State;
 typedef struct {s32 kind,args[9];unsigned cursor;u8 data[10];u32 hash;} Event;
 typedef struct {State s;Event events[40];unsigned calls;void *result;} World;

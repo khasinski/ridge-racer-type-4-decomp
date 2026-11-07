@@ -6,7 +6,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay666PulseTest(unittest.TestCase):
+class ExtraCourseSelectPulseTest(unittest.TestCase):
     def test_real_sine_and_context_reload_after_first_emitter(self):
         root=Path(__file__).resolve().parents[2]
         body=read_c_source(root/'src/overlays/PAL/extra_course_select/func_801152B0.c')
@@ -23,7 +23,7 @@ class Overlay666PulseTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay666_pulse.h"
+#include "rr/extra_course_select_pulse.h"
 typedef union {u8 bytes[256];u32 words[64];} Arena;
 typedef struct {u32 *ordering;void *cursor;RrFrameStorage *context;RrUiUvRect *region;s32 x,y,flags;u16 clut,page;u8 *published;} Event;
 static struct World {u32 guard[4];RrGpuScratchPointers scratch;RrFrameStorage *context;RrFrameStorage frames[3];Arena arenas[3];s32 phase;RrUiUvRect region;u32 calls;Event events[2];u32 tail[4];} world,expected;

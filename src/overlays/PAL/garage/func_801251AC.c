@@ -1,4 +1,4 @@
-#include "rr/overlay662_image_drag.h"
+#include "rr/garage_image_drag.h"
 
 void garage_move_layer_drag(void) {
     u32 *src;

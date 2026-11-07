@@ -1,4 +1,4 @@
-#include "rr/overlay662_action_loop.h"
+#include "rr/garage_action_loop.h"
 
 void garage_update_actions(s32 mode)
 {

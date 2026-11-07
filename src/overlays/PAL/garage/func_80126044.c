@@ -1,4 +1,4 @@
-#include "rr/overlay662_tim.h"
+#include "rr/garage_tim.h"
 
 void garage_build_save_tim(void) {
     u32 *p;

@@ -16,10 +16,10 @@ PREFIX=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay665_visual.h"
+#include "rr/options_visual.h"
 '''
 
-class Overlay665VisualTest(unittest.TestCase):
+class OptionsVisualTest(unittest.TestCase):
     def run_native(self,root,source):
         with TemporaryDirectory() as temp:
             p=Path(temp);(p/'test.c').write_text(source)
@@ -31,7 +31,7 @@ class Overlay665VisualTest(unittest.TestCase):
         reset=re.sub(r'^extern[^\n]*;\n','',(root/'tools/scripts/fixtures/legacy/func_8003A198.c').read_text(),flags=re.M)
         body=(root/'src/overlays/PAL/options/func_80114918.c').read_text()
         source=PREFIX+r'''
-typedef struct {u32 guard[4];RrOverlay665VisualState visual;RrProjectionScratchPrefix scratch;s32 counter;s8 flag1,flag2;s32 mode;u16 selector;s16 scene,phase;u32 tail[4];} State;
+typedef struct {u32 guard[4];RrOptionsVisualState visual;RrProjectionScratchPrefix scratch;s32 counter;s8 flag1,flag2;s32 mode;u16 selector;s16 scene,phase;u32 tail[4];} State;
 typedef struct {s32 kind,args[4];void *buffer;State state;} Event;
 static struct World {State s;u32 calls;Event events[3];u32 guard[4];} world,expected;
 static u8 arenas[3][256];static u32 ordering[3][704];
@@ -69,9 +69,9 @@ static void reference(void){unsigned i,j;State *s=&expected.s;static const s16 d
  s->counter=0;s->flag1=0;s->flag2=0;s->mode=2;s->selector=2;s->scene=2;s->phase=0;
 }
 int main(void){unsigned k,i;
- _Static_assert(sizeof(RrOverlay665VisualState)==160 && offsetof(RrOverlay665VisualState,lighting4C)==0x4C,"real scalar visual owner");
- _Static_assert(offsetof(RrOverlay665VisualState,lighting4C)+offsetof(RrPreviewLightInputFields36,vectors)==0x58,"original direction rows");
- _Static_assert(offsetof(RrOverlay665VisualState,lighting4C)+offsetof(RrPreviewLighting40,ambient)==0x70,"original ambient bytes");
+ _Static_assert(sizeof(RrOptionsVisualState)==160 && offsetof(RrOptionsVisualState,lighting4C)==0x4C,"real scalar visual owner");
+ _Static_assert(offsetof(RrOptionsVisualState,lighting4C)+offsetof(RrPreviewLightInputFields36,vectors)==0x58,"original direction rows");
+ _Static_assert(offsetof(RrOptionsVisualState,lighting4C)+offsetof(RrPreviewLighting40,ambient)==0x70,"original ambient bytes");
  for(k=0;k<65536;k++){
   for(i=0;i<sizeof(world);i++)((u8*)&world)[i]=(u8)next();scenario=k;world.calls=0;world.s.scratch.pointers.cursor=arenas[k%3]+32;world.s.scratch.pointers.order=ordering[(k+1)%3];
   assert((uintptr_t)world.s.scratch.pointers.cursor>UINT32_MAX && (uintptr_t)world.s.scratch.pointers.order>UINT32_MAX);
@@ -90,8 +90,8 @@ int main(void){unsigned k,i;
         trig=(root/'tools/scripts/fixtures/legacy/trig_sine.c').read_text()+(root/'tools/scripts/fixtures/legacy/func_800904F4.c').read_text()
         body=(root/'src/overlays/PAL/options/func_801169BC.c').read_text()
         source=PREFIX+r'''
-typedef struct {u16 points[4];u8 rgb[3];u8 pad;const u8 *color;s32 blend,depth;RrOverlay665VisualState before;} Event;
-static struct World {u32 guard[4];RrOverlay665VisualState visual;u8 color[4];u32 calls;Event event;u32 tail[4];} world,expected;
+typedef struct {u16 points[4];u8 rgb[3];u8 pad;const u8 *color;s32 blend,depth;RrOptionsVisualState before;} Event;
+static struct World {u32 guard[4];RrOptionsVisualState visual;u8 color[4];u32 calls;Event event;u32 tail[4];} world,expected;
 #define options_menu_state world.visual
 #define options_marker_line_color world.color
 static const s16 rom[4097]={''' + ','.join(map(str,table)) + r'''};

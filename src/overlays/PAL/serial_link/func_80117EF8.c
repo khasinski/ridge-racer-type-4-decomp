@@ -1,4 +1,4 @@
-#include "rr/overlay667_init.h"
+#include "rr/serial_link_init.h"
 #ifndef RR_GPU_PROJECTION_SCRATCH
 #define RR_GPU_PROJECTION_SCRATCH ((RrProjectionScratchPrefix *)0x1F800000)
 #endif

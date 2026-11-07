@@ -4,7 +4,7 @@
 #include "game/car/carsp.h"
 #include "rr_asm.h"
 #include "rr/menu_overlay_runtime.h"
-#include "rr/overlay668_camera.h"
+#include "rr/movie_playback_camera.h"
 
 typedef struct Node {
     char pad0[8];

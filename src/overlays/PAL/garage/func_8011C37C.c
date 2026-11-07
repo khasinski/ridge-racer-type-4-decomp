@@ -1,4 +1,4 @@
-#include "rr/overlay662_scroll_panel.h"
+#include "rr/garage_scroll_panel.h"
 #ifndef RR_GPU_SCRATCH
 #define RR_GPU_SCRATCH ((RrGpuScratchPointers *)0x1F800000U)
 #endif

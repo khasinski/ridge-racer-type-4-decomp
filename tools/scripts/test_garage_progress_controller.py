@@ -20,7 +20,7 @@ class ProgressControllerTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_progress_controller.h"
+#include "rr/garage_progress_controller.h"
 typedef struct {
  u32 guards[4],rng; s32 frame,tick,resource;
  s16 phase,timer,nextScene,mode;u16 scene;RrMenuChoice4 choice;

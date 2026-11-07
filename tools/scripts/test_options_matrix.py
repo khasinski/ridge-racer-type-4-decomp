@@ -10,7 +10,7 @@ import subprocess
 import unittest
 
 
-class Overlay665MatrixTest(unittest.TestCase):
+class OptionsMatrixTest(unittest.TestCase):
     def test_matrix_capture_order_halfword_input_and_aliasing(self):
         root = Path(__file__).resolve().parents[2]
         body = (root / 'src/overlays/PAL/options/func_80116358.c').read_text()
@@ -24,7 +24,7 @@ class Overlay665MatrixTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay665_matrix.h"
+#include "rr/options_matrix.h"
 typedef union {
  RrPreviewMatrixWorkspace matrix;
  RrPreviewLightInput36 input;

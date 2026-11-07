@@ -1,4 +1,4 @@
-#include "rr/overlay662_car_bars.h"
+#include "rr/garage_car_bars.h"
 
 #ifndef RR_GPU_SCRATCH
 #define RR_GPU_SCRATCH ((RrGpuScratchPointers *)0x1F800000U)

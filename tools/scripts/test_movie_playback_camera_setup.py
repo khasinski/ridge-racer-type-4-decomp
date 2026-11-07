@@ -14,7 +14,7 @@ class ReplaySetupTest(unittest.TestCase):
 #include <string.h>
 #include <stdio.h>
 #include <limits.h>
-#include "rr/overlay668_camera.h"
+#include "rr/movie_playback_camera.h"
 typedef struct {u32 before[4];RrTrackSample3C samples[321];u32 after[4];} Track;
 typedef struct {u32 before[4];RrReplayCameraContextPrefix camera;
  u32 cameraGuard[4];Track tracks[2];s32 lookup[20];RrTrackSample3C *root;
@@ -69,8 +69,8 @@ static void call11(s32 enabled){assert(enabled==1);service(11);}
 #define VSyncThreshold (actual.draw)
 #define ViewUsesCarTrackNode (actual.clock)
 #define MaskBitSetting (actual.ready)
-#define D_80127E90 (actual.delay)
-#define D_80127E94 (actual.selected)
+#define movie_playback_credits_scroll_pos (actual.delay)
+#define movie_playback_credits_scroll_step (actual.selected)
 #define GameLanguage (actual.bank)
 #define SelectedTeamIndex (actual.row)
 #define movie_playback_credits_scroll_speeds (actual.lookup)

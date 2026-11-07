@@ -1,4 +1,4 @@
-"""Guarded native oracle for the two-player overlay667 selection initializer."""
+"""Guarded native oracle for the two-player serial_link selection initializer."""
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import re,subprocess,sys,os,json,hashlib

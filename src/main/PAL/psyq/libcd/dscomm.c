@@ -7,7 +7,7 @@
 #include "psyq/libcd/s_2.h"
 #include "psyq/libcd/s_3.h"
 #include "psyq/libcd/dsread2.h"
-#include "rr/overlay668_stream.h"
+#include "rr/movie_playback_stream.h"
 
 #define RR_READ_OWNER_OFFSET \
     (sizeof(RrLibReadRequestState)-sizeof(RrLibReadRestoreTail))

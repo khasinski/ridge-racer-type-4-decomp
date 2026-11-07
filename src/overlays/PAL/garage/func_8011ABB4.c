@@ -1,4 +1,4 @@
-#include "rr/overlay662_draw_area.h"
+#include "rr/garage_draw_area.h"
 u8 *garage_add_draw_area(u32 *ordering, u32 *pkt, u32 x, u32 y, u16 w, u16 h) {
     RrGpuRectangleFields rect;
     s16 py;

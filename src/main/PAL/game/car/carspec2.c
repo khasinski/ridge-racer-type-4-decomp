@@ -1,4 +1,4 @@
-#include "rr/overlay661_init.h"
+#include "rr/versus_select_init.h"
 #include "game/car/carspec2.h"
 typedef struct { char p[0xF8]; int f0, f4; unsigned short a[6]; unsigned short b[6]; short c, d; char pad[0x320 - 0x11C]; } T;
 

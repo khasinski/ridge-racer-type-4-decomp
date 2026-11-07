@@ -1,6 +1,6 @@
 /* GCC_VERSION: 2.7.2 */
 /* MASPSX_FLAGS: --assembler-profile=gnu */
-#include "rr/overlay668_dma.h"
+#include "rr/movie_playback_dma.h"
 void movie_playback_mdec_out(void *output,u32 words)
 {
     movie_playback_mdec_out_sync();

@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 #include "rr/tables.h"
 extern RrMenuItemState5C PlayerControllers[];
 extern void *PsyqMemset(void *, s32, u32);

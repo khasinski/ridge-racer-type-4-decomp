@@ -1,4 +1,4 @@
-"""Guarded native oracle for overlay665 audio options and mixed-width selection."""
+"""Guarded native oracle for options audio options and mixed-width selection."""
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import re
@@ -19,16 +19,16 @@ source = r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay665_audio_options.h"
+#include "rr/options_audio_options.h"
 _Static_assert(sizeof(RrUiRow24)==36,"UI stride");
-_Static_assert(sizeof(RrOverlay665VisualState)==160,"visual owner");
-_Static_assert(offsetof(RrOverlay665VisualState,exit34)==52,"selection offset");
+_Static_assert(sizeof(RrOptionsVisualState)==160,"visual owner");
+_Static_assert(offsetof(RrOptionsVisualState,exit34)==52,"selection offset");
 _Static_assert(sizeof(RrMenuSelectionWord32)==4,"selection word");
 _Static_assert(sizeof(RrRuntimeSettings)==60,"settings owner");
 _Static_assert(offsetof(RrAudioSettings,mono32)==50,"mono offset");
 _Static_assert(sizeof(RrFrameOrderingPrefix)==0xB70,"complete frame");
 typedef struct {
- u32 guard[4];RrOverlay665VisualState visual;RrRuntimeSettings settings;
+ u32 guard[4];RrOptionsVisualState visual;RrRuntimeSettings settings;
  s32 music,effects; s16 timer,gain;RrMenuItemState5C input[2];
  RrUiRow24 rows[2][8];RrFrameOrderingPrefix frames[2];
  unsigned rowRoot,frameRoot;u32 tail[4];

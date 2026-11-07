@@ -1,4 +1,4 @@
-#include "rr/overlay662_arena_init.h"
+#include "rr/garage_arena_init.h"
 
 void garage_init_editor_buffers(void)
 {

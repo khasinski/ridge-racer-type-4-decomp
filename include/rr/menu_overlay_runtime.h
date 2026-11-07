@@ -95,12 +95,12 @@ extern s16 LapAnnouncePending;
 #include "game/race/raceset.h"
 #include "game/sound/sndctrl.h"
 #include "game/ui/hudctrl.h"
-typedef RrRaceFrameScratch RrOvl659Scratch;
-#ifndef RR_659_SCRATCH
-#define RR_659_SCRATCH ((RrOvl659Scratch *)0x1F800000U)
+typedef RrRaceFrameScratch RrRaceResultsScratch;
+#ifndef RR_RACE_RESULTS_SCRATCH
+#define RR_RACE_RESULTS_SCRATCH ((RrRaceResultsScratch *)0x1F800000U)
 #endif
-#ifndef RR_666_SCRATCH
-#define RR_666_SCRATCH ((RrGpuScratchPointers *)0x1F800000U)
+#ifndef RR_EXTRA_COURSE_SELECT_SCRATCH
+#define RR_EXTRA_COURSE_SELECT_SCRATCH ((RrGpuScratchPointers *)0x1F800000U)
 #endif
 #ifndef RR_MENU_PREVIEW_SCRATCH_WORDS
 #define RR_MENU_PREVIEW_SCRATCH_WORDS ((s32 *)0x1F800000U)

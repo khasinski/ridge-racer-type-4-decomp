@@ -25,7 +25,7 @@ class GarageSetupTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_primitives.h"
+#include "rr/garage_primitives.h"
 #include "rr/animated_sprite_grid.h"
 typedef union {RrGpuDrawModePacket packets[16];u32 words[48];} Owner;
 typedef struct {u8 *cursor;u32 *order;void *packet;u32 args[5];} Event;

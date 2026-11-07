@@ -5,7 +5,7 @@ import re
 import subprocess
 import unittest
 
-class Overlay662ColorPickTest(unittest.TestCase):
+class GarageColorPickTest(unittest.TestCase):
     def test_all_pixels_color_pairs_zoom_and_gates(self):
         root=Path(__file__).resolve().parents[2]
         paths=['src/overlays/PAL/garage/func_8011E6C8.c','tools/scripts/fixtures/views/func_8004F218.c','tools/scripts/fixtures/views/func_8004F24C.c','src/overlays/PAL/garage/func_80125370.c']
@@ -20,7 +20,7 @@ class Overlay662ColorPickTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_color_pick.h"
+#include "rr/garage_color_pick.h"
 #include "rr/audio_pan.h"
 RrGarageSelectionPrefix garage_logo_state;RrGarageWorkingStorage garage_logo_work;
 static RrGarageSelectionPrefix expected;static RrGarageWorkingStorage expected_work;

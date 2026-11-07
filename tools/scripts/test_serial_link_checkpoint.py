@@ -13,7 +13,7 @@ class CheckpointTest(unittest.TestCase):
 #include <string.h>
 #include <stdio.h>
 #include <limits.h>
-#include "rr/overlay667_checkpoint.h"
+#include "rr/serial_link_checkpoint.h"
 typedef struct {u32 prefix[4];RrRaceCheckpointVehicle vehicle;u32 suffix[4];
  s32 length,target,state,flag;s16 timer;u16 pad;u32 tail[4];} Environment;
 static Environment actual,expected,pre[3];

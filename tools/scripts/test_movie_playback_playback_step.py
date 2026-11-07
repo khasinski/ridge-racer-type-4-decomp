@@ -20,7 +20,7 @@ class PlaybackStepTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay668_playback_step.h"
+#include "rr/movie_playback_playback_step.h"
 typedef struct {u32 guard[4],rng;RrStrContextPrefix context;RrMenuItemState5C controllers[2];s32 timer;u32 tail[4];} State;
 typedef struct {s32 kind,args[4];u32 hash;} Event;
 typedef struct {State s;Event events[64];unsigned count,queries;} World;

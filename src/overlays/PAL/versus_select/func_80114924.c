@@ -1,4 +1,4 @@
-#include "rr/overlay661_checkpoint.h"
+#include "rr/versus_select_checkpoint.h"
 
 extern s32 TrackLength;
 extern s32 NumLaps;

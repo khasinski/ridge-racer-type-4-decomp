@@ -1,4 +1,4 @@
-#include "rr/overlay662_cursor_control.h"
+#include "rr/garage_cursor_control.h"
 
 void garage_update_cursor(void) {
     RrGaragePoint movement;

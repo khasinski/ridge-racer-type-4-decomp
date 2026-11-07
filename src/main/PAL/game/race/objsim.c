@@ -6,9 +6,9 @@
 #include "game/gfx/poly1.h"
 #include "game/race/objclr.h"
 #include "game/race/objsim.h"
-#include "rr/overlay662_distance.h"
-#include "rr/overlay661_init.h"
-#include "rr/overlay668_camera.h"
+#include "rr/garage_distance.h"
+#include "rr/versus_select_init.h"
+#include "rr/movie_playback_camera.h"
 #include "rr/audio_loop.h"
 
 #define B4 ((S_ECB4 *)(i * 0x2C + (int)TrackObjectStates))

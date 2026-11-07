@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay662DistanceTest(unittest.TestCase):
+class GarageDistanceTest(unittest.TestCase):
     def test_modular_argument_and_nonnegative_root_contract(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/garage/func_8011DBD8.c').read_text()
@@ -18,7 +18,7 @@ class Overlay662DistanceTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_distance.h"
+#include "rr/garage_distance.h"
 static struct World {u32 guard[4];RrGaragePoint p[2];unsigned calls;s32 argument;u32 tail[4];} world,before,expected;
 static s32 expected_argument,root_result;static unsigned scenario;
 static u32 rng=0x1DBD8;

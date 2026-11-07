@@ -1,4 +1,4 @@
-#include "rr/overlay662_name_init.h"
+#include "rr/garage_name_init.h"
 void garage_init_name_entry(void) {
     ModeFrame = 0;
     ScreenFrame = 0;

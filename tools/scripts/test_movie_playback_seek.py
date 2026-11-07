@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay668SeekTest(unittest.TestCase):
+class MoviePlaybackSeekTest(unittest.TestCase):
     def test_retry_schedules(self):
         root = Path(__file__).resolve().parents[2]
         body = (root/'src/overlays/PAL/movie_playback/func_801153F0.c').read_text()

@@ -6,7 +6,7 @@
 #include "rr/spu_tick_control.h"
 #include "m2c_macros.h"
 #include "rr/interrupts.h"
-#include "rr/overlay668_stream.h"
+#include "rr/movie_playback_stream.h"
 
 extern volatile unsigned *GPUSTAT;
 extern volatile unsigned *RCNT1_VALUE;

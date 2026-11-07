@@ -1,4 +1,4 @@
-#include "rr/overlay668_display.h"
+#include "rr/movie_playback_display.h"
 void movie_playback_sync(RrStrDisplayConfig *config,s32 mode)
 {
     u32 ready=config->ready0C;

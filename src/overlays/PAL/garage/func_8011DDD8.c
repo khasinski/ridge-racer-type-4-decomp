@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 s32 garage_step_button_repeat(s32 mode)
 {
     if(mode){

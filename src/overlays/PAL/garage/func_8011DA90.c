@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage_fade.h"
+#include "rr/garage_garage_fade.h"
 
 void garage_update_cursor_glide(void)
 {

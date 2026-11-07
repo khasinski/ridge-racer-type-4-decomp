@@ -2,7 +2,7 @@
 #include "rr/menu_choice.h"
 #include "game/ui/uipart1.h"
 #include "game/race/raceset.h"
-#include "rr/overlay661_init.h"
+#include "rr/versus_select_init.h"
 #include "rr/audio_loop.h"
 #include "rr/menu_transition.h"
 #include "game/race/raceset.h"

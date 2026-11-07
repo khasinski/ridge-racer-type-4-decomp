@@ -1,7 +1,7 @@
 /* CC1_FLAGS: -fno-schedule-insns */
 
 
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 RrGaragePoint garage_get_button_center(s32 index)
 {
     RrGaragePoint point;

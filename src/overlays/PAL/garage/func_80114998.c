@@ -1,4 +1,4 @@
-#include "rr/overlay662_progress_init.h"
+#include "rr/garage_progress_init.h"
 
 void garage_init_main_menu(void)
 {

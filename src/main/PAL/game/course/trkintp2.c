@@ -3,7 +3,7 @@
 #include "game/ui/uicode.h"
 #include "game/ui/uicnt.h"
 #include "game/course/trkintp2.h"
-#include "rr/overlay662_palette_refresh.h"
+#include "rr/garage_palette_refresh.h"
 #include "rr/matrix_workspace.h"
 
 typedef struct { int x, y, z, w; } V4;

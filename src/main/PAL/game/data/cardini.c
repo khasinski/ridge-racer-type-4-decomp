@@ -12,7 +12,7 @@
 #include "game/data/cardini.h"
 #include "rr/bios_events.h"
 #include "rr/serial_handles.h"
-#include "rr/overlay667_packet.h"
+#include "rr/serial_link_packet.h"
 #include "rr/card_format.h"
 #include "game/data/globals.h"
 

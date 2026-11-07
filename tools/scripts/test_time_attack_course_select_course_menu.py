@@ -1,5 +1,5 @@
 from overlay_units import read_c_source
-"""Independent guarded native oracle for the overlay660 course menu."""
+"""Independent guarded native oracle for the time_attack_course_select course menu."""
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import re,subprocess
@@ -133,7 +133,7 @@ int main(void){assert(sizeof(void*)==8);u16 endian=1;assert(*(u8*)&endian==1);
  puts("1179648 cases passed; complete phase/timer/course sweeps, four choices, three exits, full-word readiness, fresh roots/counts and exact pre-service state");
 }
 '''
-if use_public:source=source.replace('#include \"controller.h\"','#include \"rr/overlay660_menu_controller.h\"')
+if use_public:source=source.replace('#include \"controller.h\"','#include \"rr/time_attack_course_select_menu_controller.h\"')
 with TemporaryDirectory() as d:
  c=Path(d)/'test.c';exe=Path(d)/'test';c.write_text(source)
  subprocess.run(['cc','-std=gnu11','-O2','-funsigned-char','-fsanitize=undefined,bounds','-fno-sanitize-recover=all',*(['-I'+str(stage/'include'),'-I'+str(stage)] if not use_public else []),'-I'+str(root/'include'),str(c),'-o',str(exe)],check=True)

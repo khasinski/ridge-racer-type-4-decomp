@@ -1,4 +1,4 @@
-#include "rr/overlay662_modal.h"
+#include "rr/garage_modal.h"
 
 void garage_car_color_dialog(s32 mode) {
     u8 phase;

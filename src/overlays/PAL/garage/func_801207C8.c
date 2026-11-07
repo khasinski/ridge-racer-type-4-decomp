@@ -1,4 +1,4 @@
-#include "rr/overlay662_tool_action.h"
+#include "rr/garage_tool_action.h"
 
 void garage_swap_layers_action(s32 action)
 {

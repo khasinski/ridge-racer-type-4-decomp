@@ -87,8 +87,8 @@ extern s16 CourseListIndex;
 extern u8 SaveProgress[];
 extern s32 NumLaps;
 extern UiElem24 *UiRows;
-extern s32 D_80119754;
-extern s32 D_80119758;
+extern s32 options_music_volume_setting;
+extern s32 options_sfx_volume_setting;
 extern Q ImageRowTemplates[];
 extern int UpdateRect16Row();
 extern int AddSpriteWithDrawMode();
@@ -316,9 +316,9 @@ s32 DrawUiRow(s32 arg0) {
         s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, &OptionVolumeBarGlyphs[0], 0x7FF8, 0);
         s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4 + 0x44, s7 + 8, &OptionVolumeBarGlyphs[1], 0x7FF8, 0);
         if (s6 == 10) {
-            s0 = D_80119754;
+            s0 = options_music_volume_setting;
         } else {
-            s0 = D_80119758;
+            s0 = options_sfx_volume_setting;
         }
         for (s1 = 0; s1 < s0; s1++) {
             s3 = AddTilePrim(CurrentDrawBuf + 0x70, s3, s4 + 0x12 + s1 * 3, s7 + 8, 2, 0x10, 0xFF, 0xFF, 0xFF);

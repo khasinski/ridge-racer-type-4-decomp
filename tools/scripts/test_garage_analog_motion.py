@@ -18,7 +18,7 @@ class GarageAnalogMotionTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_input.h"
+#include "rr/garage_input.h"
 typedef union {s16 halves[2];RrGaragePoint point;} Accumulator;
 typedef union {RrMenuItemState5C rows[3];RrGaragePoint points[69];} Controller;
 static struct World {u32 guard[4];Controller controller;Accumulator accumulator;RrGaragePoint out;u32 tail[4];} w,e;

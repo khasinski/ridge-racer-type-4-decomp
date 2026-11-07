@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 /* Overlay-local storage; the same RAM can have another meaning in another image. */
 void garage_set_cursor_bounds(s32 a, s32 b, s32 c, s32 d)
 {

@@ -1,4 +1,4 @@
-#include "rr/overlay662_transition.h"
+#include "rr/garage_transition.h"
 
 void garage_reload_car_preview(void)
 {

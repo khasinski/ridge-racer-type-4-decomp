@@ -5,7 +5,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay661ChoiceInitTest(unittest.TestCase):
+class VersusSelectChoiceInitTest(unittest.TestCase):
     def test_random_calls_word_result_and_projection_fields(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/versus_select/func_80117350.c').read_text()
@@ -23,8 +23,8 @@ class Overlay661ChoiceInitTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay661_init.h"
-#include "rr/overlay667_init.h"
+#include "rr/versus_select_init.h"
+#include "rr/serial_link_init.h"
 typedef struct {s32 frame,counter,bank;s16 current,limit,selected,mapped,flag;RrMenuGridPoint points[4];RrMenuArenas arenas;void *published;RrProjectionScratchPrefix scratch;RrSceneStatePrefix scene;s32 args[3];} Event;
 static struct World {u32 guard[4];s32 frame,counter,bank;s16 current,limit,selected,mapped,flag,modeCounter,selectionCounter;s8 flag1,flag2;RrMenuGridPoint points[4];RrMenuArenas arenas;void *published;RrProjectionScratchPrefix scratch;RrSceneStatePrefix scene;u32 calls;Event events[3];u8 arena[3][64];u32 order[16];u32 tail[4];} world,expected;
 #define RR_GPU_PROJECTION_SCRATCH (&world.scratch)

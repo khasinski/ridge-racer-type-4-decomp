@@ -24,7 +24,7 @@ class GarageDrawModeTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_primitives.h"
+#include "rr/garage_primitives.h"
 typedef union {RrGpuDrawModePacket packets[4];u32 words[12];RrGpuRectangleFields windows[6];} Owner;
 static struct World {u32 guard[4];Owner storage;RrGpuRectangleFields window;u32 order;u32 tail[4];} world,expected;
 ''' + page + window + builder + mode + r'''

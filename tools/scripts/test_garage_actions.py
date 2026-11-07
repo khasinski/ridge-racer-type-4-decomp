@@ -24,7 +24,7 @@ class OverlayGarageActionsTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_actions.h"
+#include "rr/garage_actions.h"
 typedef struct {s32 kind,id,code,index,args[5];RrGarageActionPrefix *record;} Event;
 static struct World {
  u32 before[8];RrGarageSelectionPrefix state;

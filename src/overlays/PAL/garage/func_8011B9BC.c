@@ -1,5 +1,5 @@
-#include "rr/overlay662_primitives.h"
-#include "rr/overlay662_line.h"
+#include "rr/garage_primitives.h"
+#include "rr/garage_line.h"
 #ifndef RR_GPU_SCRATCH
 #define RR_GPU_SCRATCH ((RrGpuScratchPointers *)0x1F800000)
 #endif

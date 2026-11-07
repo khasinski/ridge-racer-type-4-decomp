@@ -19,7 +19,7 @@ class OverlaySerialResetTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay667_reset.h"
+#include "rr/serial_link_reset.h"
 typedef struct {s32 word00;u8 pad04[3],flag07;s32 unused08,unused0C,word10,word14,word18,word1C;} Serial;
 static struct World {
  u32 before[8];Serial serial;s32 frames;u16 screen,step;s16 counter;

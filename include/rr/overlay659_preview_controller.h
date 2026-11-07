@@ -1,4 +1,0 @@
-#ifndef RR_OVERLAY659_PREVIEW_CONTROLLER_H
-#define RR_OVERLAY659_PREVIEW_CONTROLLER_H
-#include "rr/overlay659.h"
-#endif

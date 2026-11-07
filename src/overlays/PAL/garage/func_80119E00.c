@@ -1,4 +1,4 @@
-#include "rr/overlay662_palette_controller.h"
+#include "rr/garage_palette_controller.h"
 
 void garage_update_color_select(void) {
     s32 badgePhase;

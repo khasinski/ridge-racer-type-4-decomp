@@ -6,7 +6,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay666ViewLayoutTest(unittest.TestCase):
+class ExtraCourseSelectViewLayoutTest(unittest.TestCase):
     def test_fresh_glyph_and_selected_value_after_layout_calls(self):
         root=Path(__file__).resolve().parents[2]
         body=read_c_source(root/'src/overlays/PAL/extra_course_select/func_801148D4.c')

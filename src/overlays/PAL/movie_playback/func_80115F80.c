@@ -1,4 +1,4 @@
-#include "rr/overlay668_replay_controller.h"
+#include "rr/movie_playback_replay_controller.h"
 void movie_playback_credits_update(void) {
     s32 temp_a1;
     s32 temp_s1;
@@ -73,7 +73,7 @@ RrReplayCameraContextPrefix *ctx;
         if (temp_v1 != 0) {
             if (temp_v1 == 1) {
                 var_s0 = 0;
-                D_80127E90 = (u32)D_80127E90 - (u32)D_80127E94;
+                movie_playback_credits_scroll_pos = (u32)movie_playback_credits_scroll_pos - (u32)movie_playback_credits_scroll_step;
                 for(;var_s0<62;var_s0++)movie_playback_draw_credits_row(var_s0,160);
             }
         }

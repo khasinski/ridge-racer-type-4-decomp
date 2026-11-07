@@ -1,4 +1,4 @@
-#include "rr/overlay662_car_layout.h"
+#include "rr/garage_car_layout.h"
 void garage_init_car_info(void) {
     s32 i;
     RrRaceVehicle *vehicle;

@@ -1,4 +1,4 @@
-#include "rr/overlay667_course_initializer.h"
+#include "rr/serial_link_course_initializer.h"
 typedef struct {s8 first,second;} Pair;
 void serial_link_init_scene(void){
  s32 i;s32 j;register s32 offset __asm__("$7");s32 pos;

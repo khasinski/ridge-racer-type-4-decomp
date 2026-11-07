@@ -1,4 +1,4 @@
-#include "rr/overlay659.h"
+#include "rr/race_results.h"
 
 void race_results_exit_race(void) {
     SetupRaceAndScene();
@@ -45,7 +45,7 @@ void race_results_update_race(void) {
         SubmitRaceHudPackets(RaceType);
         BuildCameraMatrices();
         DrawCars(0);
-        RR_659_SCRATCH->word78 = TrackViewScratch78Value;
+        RR_RACE_RESULTS_SCRATCH->word78 = TrackViewScratch78Value;
         SetupPlayerView(0);
         DrawTrackObjects(0);
         DrawTrackSceneryForPlayer(0);
@@ -137,18 +137,18 @@ void race_results_update_race(void) {
     if (PlayerCars[0].half1EA != ReverseCourse) {
         DrawWrongWaySprite(0);
     }
-    RR_659_SCRATCH->word78 = TrackViewScratch78Value;
+    RR_RACE_RESULTS_SCRATCH->word78 = TrackViewScratch78Value;
     SetupPlayerView(0);
     DrawTrackObjects(0);
     DrawTrackSceneryForPlayer(0);
     DrawRearViewMirror(ScreenFrame);
     if (RaceState == 0) {
-        RR_659_SCRATCH->pointers.cursor = AddDrawAreaPrim(
-            CurrentDrawBuf->ordering.ordering70 + 2, RR_659_SCRATCH->pointers.cursor, 0, 0, 320, 256);
+        RR_RACE_RESULTS_SCRATCH->pointers.cursor = AddDrawAreaPrim(
+            CurrentDrawBuf->ordering.ordering70 + 2, RR_RACE_RESULTS_SCRATCH->pointers.cursor, 0, 0, 320, 256);
         FrameEnvs[1].environment.rgb24 = 1;
         FrameEnvs[0].environment.rgb24 = 1;
-        RR_659_SCRATCH->pointers.cursor =
-            AddDrawAreaPrim(CurrentDrawBuf->ordering.ordering70 + 702, RR_659_SCRATCH->pointers.cursor, 0,
+        RR_RACE_RESULTS_SCRATCH->pointers.cursor =
+            AddDrawAreaPrim(CurrentDrawBuf->ordering.ordering70 + 702, RR_RACE_RESULTS_SCRATCH->pointers.cursor, 0,
                           RaceIntroWipeY, 320, (s32)(256U - (u32)RaceIntroWipeY * 2U));
         if ((RaceIntroWipeY = (s32)((u32)RaceIntroWipeY - 16U)) < 0) {
             RaceIntroWipeY = 0;

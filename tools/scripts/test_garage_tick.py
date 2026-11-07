@@ -20,7 +20,7 @@ class OverlayTickTest(unittest.TestCase):
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 static struct World {u32 before[8];RrGarageWorkingStorage storage;u32 after[8];} world,expected;
 #define garage_logo_work world.storage
 ''' + bodies + r'''

@@ -1,4 +1,4 @@
-"""Guarded native oracle for the three-state overlay659 preview initializer."""
+"""Guarded native oracle for the three-state race_results preview initializer."""
 from overlay_units import read_c_source
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -18,7 +18,7 @@ source = r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay659_preview_init.h"
+#include "rr/race_results_preview_init.h"
 _Static_assert(sizeof(RrRaceVehicle)==0x320,"vehicle layout");
 _Static_assert(sizeof(RrMenuSettings2C)==0x2C,"settings layout");
 _Static_assert(sizeof(RrUiRow24)==0x24,"UI layout");

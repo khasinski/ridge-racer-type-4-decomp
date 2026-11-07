@@ -647,7 +647,7 @@ Makes $at allocatable: cc1 emits `lui $1,%hi(sym); sw v,%lo(sym)($1)` itself and
 
 PAL `DebugPrintStub` is an eight-byte assembly entry that ignores its arguments
 and returns 1. Callers pass diagnostic format strings, not callback addresses;
-for example overlay662's `801148F0` and `80114900` are `enter SaveBack\n` and
+for example garage's `801148F0` and `80114900` are `enter SaveBack\n` and
 `enter LoadBack\n`. Use `rr/diagnostics.h` for newly recovered callers.
 The entry stays in original assembly because both stock GCC versions emit
 argument-home stores for a variadic C definition. It is excluded from recovered

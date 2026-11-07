@@ -9,7 +9,7 @@ import subprocess
 import unittest
 
 
-class Overlay667SerialInitTest(unittest.TestCase):
+class SerialLinkSerialInitTest(unittest.TestCase):
     def test_word_clear_service_order_callback_width_and_loop_exits(self):
         root = Path(__file__).resolve().parents[2]
         body = (root / 'src/overlays/PAL/serial_link/func_80114AF8.c').read_text()
@@ -28,13 +28,13 @@ class Overlay667SerialInitTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay667_packet.h"
+#include "rr/serial_link_packet.h"
 struct State {
  s32 command,peer,halt,pending,serial,rxcount,timeout,txcount,failures,event,phase;
  u8 error,read,write,selected,limit,received,sent;
- RrOverlay667SerialRing ring;
- RrOverlay667SerialStorage rx,tx;
- RrOverlay667ChoicePair payload,incoming,outgoing;
+ RrSerialLinkSerialRing ring;
+ RrSerialLinkSerialStorage rx,tx;
+ RrSerialLinkChoicePair payload,incoming,outgoing;
 };
 struct Event {s32 kind,command,operation;unsigned long argument;u32 hash;};
 static struct World {
@@ -133,7 +133,7 @@ static void reference(unsigned long configuration) {
 int main(void) {
  unsigned i;u32 endian=1;
  assert(*(u8*)&endian==1);assert(sizeof(unsigned long)==sizeof(void*));
- _Static_assert(sizeof(RrOverlay667SerialRing)==96,"genuine ring span");
+ _Static_assert(sizeof(RrSerialLinkSerialRing)==96,"genuine ring span");
  for(scenario=0;scenario<65536;scenario++)for(mutation=0;mutation<2;mutation++) {
   unsigned long configuration;
   memset(&initial,0,sizeof(initial));

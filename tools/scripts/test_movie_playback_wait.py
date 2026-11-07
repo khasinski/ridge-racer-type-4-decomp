@@ -23,7 +23,7 @@ class OverlayWaitTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay668_wait.h"
+#include "rr/movie_playback_wait.h"
 static struct World { u32 before[8],input,output,calls,after[8];
  const char *message; } world,expected;
 u32 *movie_playback_mdec_ctrl_reg,*movie_playback_mdec_out_dma_chcr;

@@ -1,4 +1,4 @@
-#include "rr/overlay667_packet.h"
+#include "rr/serial_link_packet.h"
 s32 serial_link_send_packet(void) {
     u8 csum;
     u32 i;

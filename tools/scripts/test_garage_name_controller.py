@@ -14,7 +14,7 @@ source=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay662_name_controller.h"
+#include "rr/garage_name_controller.h"
 #include "rr/menu_transition.h"
 #include "rr/menu_choice.h"
 #include "rr/save_progress.h"

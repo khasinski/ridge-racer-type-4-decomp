@@ -1,4 +1,4 @@
-#include "rr/overlay662_setup.h"
+#include "rr/garage_setup.h"
 
 void garage_init_maker_select(s32 arg0) {
     s32 i;

@@ -1,4 +1,4 @@
-#include "rr/overlay660.h"
+#include "rr/time_attack_course_select.h"
 
 void time_attack_course_select_set_scene_id(void) { SceneId = 0x131; }
 

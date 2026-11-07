@@ -6,7 +6,7 @@
 typedef struct {
     s16 x00, y02;
     s32 words04[4];
-} Ovl665View14;
+} OptionsView14;
 
 typedef struct {
     s32 scene00, reserved04, selection08;
@@ -16,7 +16,7 @@ typedef struct {
     s16 course2A;
     s32 ready2C;
     u8 pad30[8];
-    Ovl665View14 view38;
+    OptionsView14 view38;
     u8 pad4C[0x3A];
     u16 rotation86;
     u8 pad88[4];
@@ -24,7 +24,7 @@ typedef struct {
     u8 pad92[2];
     s16 offset94, offset96, offset98;
     u8 pad9A[6];
-} Ovl665CarState;
+} OptionsCarState;
 
 typedef struct {
     u8 byte00, course01;
@@ -40,19 +40,19 @@ typedef struct {
     u8 ready40;
     s8 tilt41;
     u8 pad42[0x1A];
-} Ovl665Pad5C;
+} OptionsPad5C;
 
 typedef struct {
     struct { s16 car00, colour02; } a[2];
     struct { s16 h[8]; } b[2];
     struct { s8 c[4]; } c[2];
-} Ovl665Settings;
+} OptionsSettings;
 
 typedef struct {
     u8 pad00[4];
     u8 b4, b5, b6, b7;
     u8 pad08[0x20];
-} Ovl665Entry28;
+} OptionsEntry28;
 
 typedef struct {
     u8 byte00, byte01;
@@ -60,55 +60,55 @@ typedef struct {
     s16 x04, y06;
     u8 pad08[8];
     s16 state10;
-} Ovl665Panel;
+} OptionsPanel;
 
 typedef struct {
     u8 pad00[0xC];
     u8 cells[8];
     u8 byte14, byte15, byte16;
     u8 pad17[0xD];
-} Ovl665Row24;
+} OptionsRow24;
 
 typedef struct {
     u8 pad00[4];
     u8 b4;
-} Ovl665Text;
+} OptionsText;
 
 typedef struct {
     u8 pad00[0x70];
     u32 ordering70;
-} Ovl665Frame;
+} OptionsFrame;
 
 typedef struct {
     u32 tag;
     u32 command;
-} Ovl665Packet;
+} OptionsPacket;
 
 typedef struct {
     u8 a, pad1, b, pad3;
-} Ovl665Colour4;
+} OptionsColour4;
 
 typedef struct {
     s16 x0, y0, x1, y1;
-} Ovl665Line;
+} OptionsLine;
 
-extern Ovl665CarState options_menu_state;
+extern OptionsCarState options_menu_state;
 extern s32 options_pad_mode_ready;
-extern Ovl665Pad5C PlayerControllers[2];
-extern Ovl665Settings Options;
-extern Ovl665Entry28 PadPorts[];
-extern Ovl665Panel *BadgeRows;
-extern Ovl665Row24 *UiRows;
-extern Ovl665Text *DialogueState;
-extern Ovl665Frame *CurrentDrawBuf;
+extern OptionsPad5C PlayerControllers[2];
+extern OptionsSettings Options;
+extern OptionsEntry28 PadPorts[];
+extern OptionsPanel *BadgeRows;
+extern OptionsRow24 *UiRows;
+extern OptionsText *DialogueState;
+extern OptionsFrame *CurrentDrawBuf;
 extern s16 MenuFadeTimer;
 extern s32 SelectionPlayer;
 extern s32 MenuActivePlayerPlusOne;
 extern u8 ScreenFadeState;
-extern Ovl665View14 options_controller_view_presets[];
-extern Ovl665Colour4 options_pad_layout_colors[][5];
-extern Ovl665Colour4 options_negcon_layout_colors[][5];
-extern Ovl665Colour4 options_jogcon_layout_colors[][5];
+extern OptionsView14 options_controller_view_presets[];
+extern OptionsColour4 options_pad_layout_colors[][5];
+extern OptionsColour4 options_negcon_layout_colors[][5];
+extern OptionsColour4 options_jogcon_layout_colors[][5];
 extern void *options_pad_button_guides[][5];
 extern void *options_negcon_button_guides[][5];
 extern void *options_dualshock_button_guides[][5];
@@ -151,9 +151,9 @@ extern void UpdateScreenFade(s32);
 
 typedef struct {
     void *cursor;
-} Ovl665Scratch;
+} OptionsScratch;
 
-#define SCRATCH ((Ovl665Scratch *)0x1F800000)
+#define SCRATCH ((OptionsScratch *)0x1F800000)
 #define CURSOR (*(void **)0x1F800000)
 
 #define CLOSE_ROWS(n)                                   \
@@ -174,7 +174,7 @@ typedef struct {
 /* Links a texture-page command packet into the frame ordering list. */
 #define LINK_PACKET()                                                       \
     {                                                                       \
-        Ovl665Frame *frame;                                                 \
+        OptionsFrame *frame;                                                 \
         packet = SCRATCH->cursor;                                           \
         ((u8 *)&packet->tag)[3] = 1;                                        \
         frame = CurrentDrawBuf;                                                 \
@@ -186,8 +186,8 @@ typedef struct {
     }
 
 void options_update_controller_config(s32 player) {
-    Ovl665Colour4 *src;
-    Ovl665Entry28 *entry;
+    OptionsColour4 *src;
+    OptionsEntry28 *entry;
     s32 changed;
     s32 i;
     s32 kind;
@@ -199,8 +199,8 @@ void options_update_controller_config(s32 player) {
     s32 arg;
     s16 timer;
     void *cursor;
-    Ovl665Line line;
-    Ovl665Packet *packet;
+    OptionsLine line;
+    OptionsPacket *packet;
 
     ST.buttons28 = PlayerControllers[player].buttons08;
     entry = &PadPorts[player];

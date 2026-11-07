@@ -1,4 +1,4 @@
-#include "rr/overlay662_mirror.h"
+#include "rr/garage_mirror.h"
 void garage_mirror_tool_action(s32 arg0) {
     s32 last;
     s32 temp_a1;

@@ -1,4 +1,4 @@
-#include "rr/overlay665_panels.h"
+#include "rr/options_panels.h"
 void options_update_brightness_test(void) {
     s32 i,x;
     const RrUiUvRect *glyph;

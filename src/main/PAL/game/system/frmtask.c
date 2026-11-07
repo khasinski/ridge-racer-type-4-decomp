@@ -16,8 +16,8 @@
 #include "rr/course_choices.h"
 #include "rr/menu_background.h"
 #include "rr/driver_control.h"
-#include "rr/overlay668_playback_step.h"
-#include "rr/overlay668_stream.h"
+#include "rr/movie_playback_playback_step.h"
+#include "rr/movie_playback_stream.h"
 
 extern s16 MenuFadeTimer;
 extern s32 FrmTaskState;

@@ -1,4 +1,4 @@
-#include "rr/overlay668_camera.h"
+#include "rr/movie_playback_camera.h"
 
 void movie_playback_camera_apply(void) {
     RrPreviewMatrixWorkspace sp10;

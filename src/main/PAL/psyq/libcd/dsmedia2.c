@@ -9,7 +9,7 @@
 #include "psyq/libcd/dsmedia2.h"
 #include "psyq/libcd/dsstrm32.h"
 #include "rr/cd.h"
-#include "rr/overlay668_stream.h"
+#include "rr/movie_playback_stream.h"
 
 extern s32 CdDataCallback();
 extern s32 EnterCriticalSection();

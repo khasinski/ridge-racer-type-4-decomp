@@ -1,4 +1,4 @@
-#include "rr/overlay667_packet.h"
+#include "rr/serial_link_packet.h"
 void serial_link_update_send(void) {
     s32 state;
     if (serial_link_stop_race_state == RaceState && serial_link_stop_race_state >= 4) {

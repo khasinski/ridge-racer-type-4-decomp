@@ -6,7 +6,7 @@
 #include "rr/driver_control.h"
 
 extern char CardSaveFileName[], CardTargetFileName[24];
-extern s32 SelectionPlayer, ScreenFadeLayout, DialogueContext, D_801272F0[3];
+extern s32 SelectionPlayer, ScreenFadeLayout, DialogueContext, garage_slot_file_times[3];
 extern s16 MenuPlayerIndex, MenuStateIndex, SaveSlotSelect, ModeGroup;
 extern s16 SaveSlotIndex, RaceType, LinkState, CardSlot, MenuResultCode;
 extern s16 CardLoadSucceeded, MenuChoiceIndex, MenuChoiceValues[3];

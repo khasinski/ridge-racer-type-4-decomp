@@ -4,7 +4,7 @@
 #include "game/gfx/model.h"
 #include "game/gfx/poly1.h"
 #include "rr/menu_overlay_runtime.h"
-#include "rr/overlay668_camera.h"
+#include "rr/movie_playback_camera.h"
 #include "game/data/globals.h"
 
 typedef struct { int a, b, c, d, e, f, g, h; } w3g6_32;

@@ -1,4 +1,4 @@
-#include "rr/overlay662_progress_controller.h"
+#include "rr/garage_progress_controller.h"
 
 void garage_update_collection_select(void)
 {

@@ -1,4 +1,4 @@
-#include "rr/overlay662_scroll_actions.h"
+#include "rr/garage_scroll_actions.h"
 
 void garage_scroll_up_button(void) {
     if (garage_logo_work.words[0] & 8) {

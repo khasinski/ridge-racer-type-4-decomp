@@ -20,7 +20,7 @@ class CalibrationSetupTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay665_calibration.h"
+#include "rr/options_calibration.h"
 static const char format[]="calibration";
 typedef struct {u32 guard[4],rng;RrRuntimeSettings settings;RrBadgeRow1C rows[3][8];s32 root;s16 flag;u32 tail[4];} State;
 typedef struct {s32 op,args[7];u32 hash;} Event;

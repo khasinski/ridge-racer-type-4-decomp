@@ -1,5 +1,5 @@
 #include "rr/cd.h"
-#include "rr/overlay668_stream.h"
+#include "rr/movie_playback_stream.h"
 
 extern s32 PsyqStrncmp(const void *,const void *,u32);
 extern s32 DebugPrintStub(const char *,...);

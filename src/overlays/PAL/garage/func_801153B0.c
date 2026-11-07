@@ -1,4 +1,4 @@
-#include "rr/overlay662_car_choice.h"
+#include "rr/garage_car_choice.h"
 
 void garage_enter_car_info(void) {
     SetDispMask(0);

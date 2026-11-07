@@ -1,4 +1,4 @@
-#include "rr/overlay665_audio_options.h"
+#include "rr/options_audio_options.h"
 
 void options_update_audio_menu(void) {
     s16 openingTimer;

@@ -1,4 +1,4 @@
-#include "rr/overlay662_history_labels.h"
+#include "rr/garage_history_labels.h"
 
 void garage_draw_maker_count_label(u32 *arg0, void *arg1, s32 arg2) {
     s32 i;

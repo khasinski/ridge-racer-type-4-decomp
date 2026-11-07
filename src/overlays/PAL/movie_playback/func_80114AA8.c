@@ -1,4 +1,4 @@
-#include "rr/overlay668_dispatch.h"
+#include "rr/movie_playback_dispatch.h"
 void movie_playback_update(void) {
     switch (RaceContextMoviePhase) {
     case 0:

@@ -1,4 +1,4 @@
-#include "rr/overlay665_menu.h"
+#include "rr/options_menu.h"
 void options_update_main_menu(void) {
     s32 i;
     /* Preserve the original signed two-stage range check. */

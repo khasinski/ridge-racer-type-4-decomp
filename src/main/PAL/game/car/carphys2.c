@@ -8,7 +8,7 @@
 #include "game/car/carphys2.h"
 #include "rr/steering.h"
 #include "rr/audio_loop.h"
-#include "rr/overlay661_init.h"
+#include "rr/versus_select_init.h"
 
 struct A
 {

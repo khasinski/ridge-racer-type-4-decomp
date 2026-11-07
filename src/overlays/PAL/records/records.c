@@ -1,4 +1,4 @@
-#include "rr/overlay663.h"
+#include "rr/records.h"
 
 u8 *records_format_time(s32 milliseconds) {
     s32 seconds = milliseconds / 1000;

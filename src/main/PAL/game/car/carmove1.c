@@ -7,7 +7,7 @@
 #include "game/car/carwheel.h"
 #include "game/car/carmove1.h"
 #include "rr/menu_overlay_runtime.h"
-#include "rr/overlay668_camera.h"
+#include "rr/movie_playback_camera.h"
 
 #define W9C w8c[4]
 #define WAC w8c[8]

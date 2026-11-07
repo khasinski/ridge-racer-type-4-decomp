@@ -5,7 +5,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay662LineTest(unittest.TestCase):
+class GarageLineTest(unittest.TestCase):
     def test_packet_bits_links_aliases_and_native_cursor(self):
         root=Path(__file__).resolve().parents[2]
         # Remove only target register-placement metadata for the native compiler.
@@ -20,7 +20,7 @@ class Overlay662LineTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_line.h"
+#include "rr/garage_line.h"
 static struct World {u32 head[4];RrGarageSelectionPrefix garage;RrGpuLineF2Packet packets[5];u32 order[4];u32 tail[4];} world,expected;
 #define garage_logo_state world.garage
 ''' + body + r'''

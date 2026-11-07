@@ -1,4 +1,4 @@
-#include "rr/overlay662_frame_step.h"
+#include "rr/garage_frame_step.h"
 
 void garage_update_editor_frame(void) {
     ScreenFrame=(s32)((u32)ScreenFrame+1U);

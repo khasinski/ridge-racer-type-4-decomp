@@ -1,4 +1,4 @@
-#include "rr/overlay667_course_menu.h"
+#include "rr/serial_link_course_menu.h"
 
 void serial_link_update_course_select(void) {
     s32 previewIndex;

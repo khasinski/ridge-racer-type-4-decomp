@@ -4,7 +4,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay662UpdateTest(unittest.TestCase):
+class GarageUpdateTest(unittest.TestCase):
     def test_mutating_dispatch_and_full_word_fades(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/garage/func_8011CF8C.c').read_text()
@@ -20,7 +20,7 @@ class Overlay662UpdateTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_update.h"
+#include "rr/garage_update.h"
 typedef struct {s32 kind,args[3];const void *pointer;RrGarageSelectionPrefix garage;RrGpuRectangle *context;RrMenuTextState *text;} Event;
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGpuRectangle *context;RrMenuTextState *text;RrMenuTextState texts[3];u32 calls;Event events[8];u32 tail[4];} world,expected;
 static RrFrameOrderingPrefix frames[3],original[3];

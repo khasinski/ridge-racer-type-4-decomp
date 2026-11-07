@@ -5,7 +5,7 @@ import struct
 import subprocess
 import unittest
 
-class Overlay662ModeButtonTest(unittest.TestCase):
+class GarageModeButtonTest(unittest.TestCase):
     def test_modes_timer_pairs_and_real_button_owners(self):
         root=Path(__file__).resolve().parents[2]
         blob=(root/'disc/PAL/R4.BIN').read_bytes();sector=struct.unpack_from('<I',blob,4+662*4)[0];offset=sector*2048-0x80114878
@@ -27,7 +27,7 @@ class Overlay662ModeButtonTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_buttons.h"
+#include "rr/garage_buttons.h"
 static struct World {
  u32 guard[4];RrGpuScratchPointers scratch;RrGarageSelectionPrefix garage;
  RrGarageButton buttons[46];RrGarageRectangle *table[46];

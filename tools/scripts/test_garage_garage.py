@@ -9,7 +9,7 @@ class OverlayGarageTest(unittest.TestCase):
     def test_native_garage_helpers(self):
         root = Path(__file__).resolve().parents[2]
         bodies = '\n'.join((root / f'src/overlays/PAL/garage/func_{name}.c').read_text()
-                           .replace('#include "rr/overlay662_garage.h"', '')
+                           .replace('#include "rr/garage_garage.h"', '')
                            for name in ('8011E694', '8011E6C8', '8011E734', '8011E7DC'))
         source = r'''
 #include <stdint.h>
@@ -22,7 +22,7 @@ class OverlayGarageTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 /* Each overlapping source is a genuine four-halfword array in a union view. */
 typedef union {
  RrGarageWorkingStorage storage;

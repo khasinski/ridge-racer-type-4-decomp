@@ -4,7 +4,7 @@
 #include "game/sound/sndown.h"
 #include "game/sound/sndcmd.h"
 #include "rr/bios_devices.h"
-#include "rr/overlay662_distance.h"
+#include "rr/garage_distance.h"
 
 #define REC(b, i, o) (*(s32 *)((b) + (i) * 28 + (o)))
 #define RECH(b, i, o) (*(s16 *)((b) + (i) * 28 + (o)))

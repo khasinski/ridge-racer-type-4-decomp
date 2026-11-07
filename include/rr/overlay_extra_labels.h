@@ -3,7 +3,7 @@
 #include "rr/menu_label_render.h"
 extern RrUiUvRect records_record_label;
 extern s32 records_selected_record,records_course_unlock_levels[9];
-#include "rr/overlay662_name_state.h"
+#include "rr/garage_name_state.h"
 extern s32 ScreenFrame;
 s32 rcos(s32);
 /* Row index names an accessible badge. The current unlock index is0..8 and

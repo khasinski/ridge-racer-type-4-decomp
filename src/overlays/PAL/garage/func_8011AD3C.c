@@ -1,4 +1,4 @@
-#include "rr/overlay662_primitives.h"
+#include "rr/garage_primitives.h"
 
 RrGpuTilePacket *garage_add_hline_double(u32 *ordering, RrGpuTilePacket *packet, u32 x0, u32 y, u32 x1, u32 r, u32 g, u32 b)
 {

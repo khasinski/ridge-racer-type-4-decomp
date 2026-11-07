@@ -13,7 +13,7 @@ class OverlayPixelsTest(unittest.TestCase):
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
-#include "rr/overlay662_pixels.h"
+#include "rr/garage_pixels.h"
 static struct World {u32 before[8],pixels[1024],after[8];} world,expected;
 static u32 seed=0x25f60;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}

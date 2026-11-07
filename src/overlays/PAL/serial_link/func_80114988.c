@@ -1,4 +1,4 @@
-#include "rr/overlay667_events.h"
+#include "rr/serial_link_events.h"
 
 s32 serial_link_open_sio(void) {
     serial_link_rx_event = OpenEvent(0xF000000B, 0x400, 0x2000, 0);

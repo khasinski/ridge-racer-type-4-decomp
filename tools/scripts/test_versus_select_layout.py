@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 import unittest
 
 
-class Overlay661LayoutTest(unittest.TestCase):
+class VersusSelectLayoutTest(unittest.TestCase):
     def test_native_layouts(self):
         root = Path(__file__).resolve().parents[2]
         bodies = (root / 'src/overlays/PAL/versus_select/func_80115598.c').read_text()
@@ -25,7 +25,7 @@ class Overlay661LayoutTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay661_layout.h"
+#include "rr/versus_select_layout.h"
 typedef struct {
  u32 guard[4];RrRaceVehicle cars[2];RrProjectionScratchPrefix scratch;
  RrMenuArenas arenas;RrSelectionRows choice;RrMenuGridPoint grid[4];RrCourseChoice4 table[2][2][9];s16 counts[2][2],groups[2],courses[2];s32 player;

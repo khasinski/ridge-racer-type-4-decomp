@@ -1,4 +1,4 @@
-#include "rr/overlay662_course_controller.h"
+#include "rr/garage_course_controller.h"
 void garage_update_car_info(void) {
     union {RrPreviewRgb3 rgb; u8 channel[3];} color;
     s32 var_a3;

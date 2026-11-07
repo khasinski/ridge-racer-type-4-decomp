@@ -1,4 +1,4 @@
-#include "rr/overlay662_save_dialog.h"
+#include "rr/garage_save_dialog.h"
 
 void garage_save_dialog(s32 mode) {
     u8 phase;

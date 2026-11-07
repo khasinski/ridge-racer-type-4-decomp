@@ -4,7 +4,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay662GradientQuadTest(unittest.TestCase):
+class GarageGradientQuadTest(unittest.TestCase):
     def test_geometry_colors_links_and_complete_packet_owners(self):
         root=Path(__file__).resolve().parents[2]
         source=r'''
@@ -17,7 +17,7 @@ class Overlay662GradientQuadTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_gradient.h"
+#include "rr/garage_gradient.h"
 static struct World {u32 head[4];RrGarageSelectionPrefix state;RrPolyG4Storage packets[5];u32 ordering[4];u32 tail[4];} world,expected;
 #define garage_logo_state world.state
 ''' + (root/'src/overlays/PAL/garage/func_8011B0CC.c').read_text() + r'''

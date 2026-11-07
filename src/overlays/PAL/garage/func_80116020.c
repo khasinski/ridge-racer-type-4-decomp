@@ -1,4 +1,4 @@
-#include "rr/overlay662_setup.h"
+#include "rr/garage_setup.h"
 
 void garage_init_team_select(void)
 {

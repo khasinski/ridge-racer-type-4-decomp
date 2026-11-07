@@ -6,7 +6,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay666SelectionTest(unittest.TestCase):
+class ExtraCourseSelectSelectionTest(unittest.TestCase):
     def test_flags_priorities_and_full_signed_callback_selection(self):
         root=Path(__file__).resolve().parents[2]
         body=read_c_source(root/'src/overlays/PAL/extra_course_select/func_80115148.c')

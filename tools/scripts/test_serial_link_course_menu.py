@@ -1,4 +1,4 @@
-"""Independent guarded native oracle for overlay667 course/card menu."""
+"""Independent guarded native oracle for serial_link course/card menu."""
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import subprocess
@@ -18,7 +18,7 @@ source=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay667_course_menu.h"
+#include "rr/serial_link_course_menu.h"
 _Static_assert(sizeof(RrUiRow24)==36,"UI stride");
 _Static_assert(sizeof(RrMenuItemState5C)==92,"input stride");
 _Static_assert(offsetof(RrUiRow24,cells)==12,"cells");

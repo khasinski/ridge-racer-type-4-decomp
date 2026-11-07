@@ -2,7 +2,7 @@
 
 /* GCC_VERSION: 2.7.2 */
 
-#include "rr/overlay668_wait.h"
+#include "rr/movie_playback_wait.h"
 s32 movie_playback_mdec_in_sync(void)
 {
     volatile s32 counter = 0x100000;

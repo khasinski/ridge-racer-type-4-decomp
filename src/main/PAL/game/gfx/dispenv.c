@@ -1,7 +1,7 @@
 #include "types.h"
 #include "scratchpad.h"
 #include "m2c_macros.h"
-#include "rr/overlay662_distance.h"
+#include "rr/garage_distance.h"
 
 struct S {
     char p0[0x1C];

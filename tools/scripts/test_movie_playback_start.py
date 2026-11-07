@@ -9,7 +9,7 @@ import subprocess
 import unittest
 
 
-class Overlay668StartTest(unittest.TestCase):
+class MoviePlaybackStartTest(unittest.TestCase):
     def test_fresh_stream_root_callback_and_service_order(self):
         root = Path(__file__).resolve().parents[2]
         body = (root / 'src/overlays/PAL/movie_playback/func_80114EE8.c').read_text()
@@ -23,7 +23,7 @@ class Overlay668StartTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay668_decode.h"
+#include "rr/movie_playback_decode.h"
 static RrStrStreamPrefix streams[3];
 static RrLibQueueRecord32 queues[3][4];
 RrStrStreamPrefix *StrStreamState;

@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 s32 garage_cursor_outside_button(s32 index){
  RrGarageRectangle *p=garage_logo_buttons[index];
  s32 px=garage_logo_work.halves[10],py;

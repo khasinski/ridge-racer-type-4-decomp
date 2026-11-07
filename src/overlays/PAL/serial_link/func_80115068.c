@@ -1,4 +1,4 @@
-#include "rr/overlay667_packet.h"
+#include "rr/serial_link_packet.h"
 
 void serial_link_update_receive(void) {
     if (serial_link_shutdown_state > 0) {

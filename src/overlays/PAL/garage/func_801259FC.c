@@ -1,4 +1,4 @@
-#include "rr/overlay662_image_stroke.h"
+#include "rr/garage_image_stroke.h"
 
 /* Address of the byte holding 4bpp pixel (x, y); rows are 32 bytes. */
 #define PIXEL_BYTE(x, y) (&((u8 *)((y) * 32 + (s32)image))[(x) / 2])

@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay663PreviewTest(unittest.TestCase):
+class RecordsPreviewTest(unittest.TestCase):
     def test_mutating_boundaries_and_complete_owners(self):
         root=Path(__file__).resolve().parents[2]
         body=read_c_source(root/'src/overlays/PAL/records/func_801157B8.c')
@@ -19,7 +19,7 @@ class Overlay663PreviewTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay663_preview.h"
+#include "rr/records_preview.h"
 typedef struct {s32 args[10],local,frame,position[3],rotation[3],scratch[7];s8 flag;RrBadgeRow1C *root;u8 *cursor;u32 *order;} Event;
 static struct World {
  u32 guard[4];RrRaceVehicle cars[2];RrProjectionScratchPrefix scratch;

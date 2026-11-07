@@ -20,7 +20,7 @@ class PanelsTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay665_panels.h"
+#include "rr/options_panels.h"
 typedef struct {u32 words[5];} GlyphStorage;
 typedef struct {u32 words[7];} PairStorage;
 typedef struct {
@@ -28,7 +28,7 @@ typedef struct {
  PairStorage pairs[16];RrGpuSingleCommandPacket second;u32 tail[4];
 } PacketStream;
 typedef struct {
- u32 guard[4],rng;RrOverlay665VisualState visual;RrProjectionScratchPrefix scratch;
+ u32 guard[4],rng;RrOptionsVisualState visual;RrProjectionScratchPrefix scratch;
  PacketStream streams[3];RrFrameOrderingPrefix frames[3];RrBadgeRow1C badges[3][8];RrMenuTextState text[3];
  RrUiUvRect uv;s32 arena,frameRoot,badgeRoot,textRoot,accept,local;
  s16 fade;u8 work[12];unsigned glyphCalls,pairCalls;u32 tail[4];

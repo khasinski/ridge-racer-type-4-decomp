@@ -13,7 +13,7 @@ class OverlayDecodeTest(unittest.TestCase):
         path = Path(cls.temp.name)
         root = Path(__file__).resolve().parents[2]
         bodies = '\n'.join((root / f'src/overlays/PAL/movie_playback/func_{name}.c').read_text()
-                           .replace('#include "rr/overlay668_decode.h"', '')
+                           .replace('#include "rr/movie_playback_decode.h"', '')
                            for name in ('80116298', '801162CC', '80116358', '801163F0', '80116534'))
         import re
         bodies = re.sub(r'\s+(?:asm|__asm__)\("\$\d+"\)', '', bodies)
@@ -31,7 +31,7 @@ class OverlayDecodeTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay668_decode.h"
+#include "rr/movie_playback_decode.h"
 typedef union {
  u32 words[192];
  struct {

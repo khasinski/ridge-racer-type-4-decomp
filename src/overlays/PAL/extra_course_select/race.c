@@ -1,4 +1,4 @@
-#include "rr/overlay666.h"
+#include "rr/extra_course_select.h"
 
 void extra_course_select_update_checkpoint(RrRaceCheckpointVehicle *vehicle) {
     RrRaceVehicleControl *control;
@@ -131,8 +131,8 @@ void extra_course_select_update_race(void) {
         }
         if (MenuFadeTimer < 25) {
             AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (25 - MenuFadeTimer) * 10, a2);
-            RR_666_SCRATCH->cursor = AddDrawAreaPrim(&CurrentDrawBuf->ordering.ordering70[0],
-                                                   RR_666_SCRATCH->cursor, 0, 0, 320, 256);
+            RR_EXTRA_COURSE_SELECT_SCRATCH->cursor = AddDrawAreaPrim(&CurrentDrawBuf->ordering.ordering70[0],
+                                                   RR_EXTRA_COURSE_SELECT_SCRATCH->cursor, 0, 0, 320, 256);
         }
         if (MenuFadeTimer <= 0) {
             if (RaceState == 4 && (extra_course_select_result_kind = PlayerCars[0].half1EE) == 0) {
@@ -155,8 +155,8 @@ void extra_course_select_update_race(void) {
             FrameEnvs[1].environment.rgb24 = 1;
             FrameEnvs[0].environment.rgb24 = 1;
         }
-        RR_666_SCRATCH->cursor = AddDrawAreaPrim(&CurrentDrawBuf->ordering.ordering70[0],
-                                               RR_666_SCRATCH->cursor, 0, 0, 320, 256);
+        RR_EXTRA_COURSE_SELECT_SCRATCH->cursor = AddDrawAreaPrim(&CurrentDrawBuf->ordering.ordering70[0],
+                                               RR_EXTRA_COURSE_SELECT_SCRATCH->cursor, 0, 0, 320, 256);
     }
 
     extra_course_select_update_checkpoint((RrRaceCheckpointVehicle *)(void *)PlayerCars);

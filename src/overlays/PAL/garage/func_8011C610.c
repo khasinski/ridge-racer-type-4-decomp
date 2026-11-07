@@ -1,4 +1,4 @@
-#include "rr/overlay662_scale_panel.h"
+#include "rr/garage_scale_panel.h"
 void garage_draw_preview_window(s32 renderArgument) {
  s32 width=64/(((volatile RrGarageSelectionPrefix*)&garage_logo_state)->config1C>>1);
  s32 height;

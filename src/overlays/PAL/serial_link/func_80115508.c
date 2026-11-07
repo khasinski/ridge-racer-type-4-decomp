@@ -1,4 +1,4 @@
-#include "rr/overlay667_checkpoint.h"
+#include "rr/serial_link_checkpoint.h"
 
 extern s32 TrackLength;
 extern s32 NumLaps;

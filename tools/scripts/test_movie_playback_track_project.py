@@ -18,7 +18,7 @@ C=r'''
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include "rr/overlay668_track_project.h"
+#include "rr/movie_playback_track_project.h"
 static struct {u8 pre[16];RrReplayCameraContextPrefix c;u8 post[16];} camera;
 static struct {u8 pre[16];RrTrackSample3C table[3][8];u8 post[16];} samples,saved;
 #define RaceContext camera.c

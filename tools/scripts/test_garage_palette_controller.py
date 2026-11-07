@@ -14,7 +14,7 @@ source=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay662_palette_controller.h"
+#include "rr/garage_palette_controller.h"
 static struct State {
  u32 guard[4];s32 frame,tick,mode; s16 scene,state,selection,count,current,key,phase,fade,total;u16 enable;
  RrMenuItemState5C input[2];RrUiRow24 rows[2][4];RrBadgeRow1C badges[2][2];

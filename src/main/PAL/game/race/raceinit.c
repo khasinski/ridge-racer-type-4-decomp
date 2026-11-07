@@ -5,7 +5,7 @@
 #include "game/race/racesamp.h"
 #include "game/race/raceinit.h"
 #include "rr/bios_devices.h"
-#include "rr/overlay667_course_initializer.h"
+#include "rr/serial_link_course_initializer.h"
 extern int InitReplayBuffers();
 extern Car PlayerCars[];
 extern short PlayerCar1Flags;

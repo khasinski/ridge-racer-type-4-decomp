@@ -13,7 +13,7 @@ class OverlayStrDisplayTest(unittest.TestCase):
         path = Path(cls.temp.name)
         root = Path(__file__).resolve().parents[2]
         bodies = '\n'.join((root / f'src/overlays/PAL/movie_playback/func_{name}.c').read_text()
-                           .replace('#include "rr/overlay668_display.h"', '')
+                           .replace('#include "rr/movie_playback_display.h"', '')
                            for name in ('80114E48', '80114E90'))
         source = r'''
 #include <stddef.h>
@@ -26,7 +26,7 @@ class OverlayStrDisplayTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay668_display.h"
+#include "rr/movie_playback_display.h"
 #define PREFIX(j) (offsetof(RrStrContextPrefix,activeB8)-offsetof(RrStrBufferSet,buffers)-(j)*sizeof(void*))
 typedef union {
  RrStrContextPrefix context;

@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay662PaletteEditTest(unittest.TestCase):
+class GaragePaletteEditTest(unittest.TestCase):
     def test_all_cursor_halfwords_start_gates_and_backup(self):
         root=Path(__file__).resolve().parents[2]
         paths=['8011E6C8','8011E7C0','8011D120','80124258','801243DC','80124560']
@@ -19,7 +19,7 @@ class Overlay662PaletteEditTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_palette_edit.h"
+#include "rr/garage_palette_edit.h"
 static struct World {u32 head[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;u32 image[4][512];RrPalette16 palette[2];s32 changed[3];u16 original[3];u32 tail[4];} world,expected;
 #define garage_logo_state world.garage
 #define garage_logo_work world.work

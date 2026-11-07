@@ -56,11 +56,11 @@ extern char StrLinkBattleEnd[];
 extern char PressStartText[];
 extern int SoundSetMasterVolume();
 extern s32 MaskBitSetting;
-extern int func_801150CC();
-extern int func_80117C78();
-extern int func_801154D8();
-extern int func_80118634();
-extern int func_80115388();
+extern int race_results_init_results();
+extern int versus_select_init_results();
+extern int time_attack_course_select_init_results();
+extern int serial_link_init_results();
+extern int extra_course_select_init_results();
 extern int SceneAdvanceStep;
 extern char ScreenFadeState;
 extern int ResetScreenCounters();
@@ -434,24 +434,24 @@ void SetupSceneByRaceType(void) {
     SoundCloseVabsAndReset();
     switch (RaceType) {
     case 1:
-        func_801150CC();
+        race_results_init_results();
         SceneId = 0x130;
         break;
     case 2:
     case 3:
-        func_80117C78();
+        versus_select_init_results();
         SceneId = 0x13A;
         break;
     case 0:
-        func_801154D8();
+        time_attack_course_select_init_results();
         SceneId = 0x136;
         break;
     case 4:
-        func_80118634();
+        serial_link_init_results();
         SceneId = 0x13E;
         break;
     case 6:
-        func_80115388();
+        extra_course_select_init_results();
         SceneId = 0x153;
         break;
     default:

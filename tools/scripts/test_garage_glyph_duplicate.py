@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay662GlyphDuplicateTest(unittest.TestCase):
+class GarageGlyphDuplicateTest(unittest.TestCase):
     def test_phase_wrap_aliasing_and_typed_layout_calls(self):
         root=Path(__file__).resolve().parents[2]
         body=(root/'src/overlays/PAL/garage/func_80115EC4.c').read_text()
@@ -18,7 +18,7 @@ class Overlay662GlyphDuplicateTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_setup.h"
+#include "rr/garage_setup.h"
 typedef struct {s32 args[10],phases[12],local;s16 selected;RrMenuChoice4 choice;RrMenuGlyphRow1C *root;RrBadgeRow1C *badge;} Event;
 static struct World {
  u32 guard[4];RrMenuGlyphRow1C glyphs[3][12],*root;RrBadgeRow1C badges[3][2],*badge;

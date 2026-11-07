@@ -15,7 +15,7 @@ class CheckpointTest(unittest.TestCase):
 #include <string.h>
 #include <stdio.h>
 #include <limits.h>
-#include "rr/overlay666_checkpoint.h"
+#include "rr/extra_course_select_checkpoint.h"
 typedef struct {u32 prefix[4];RrRaceCheckpointVehicle vehicle;u32 suffix[4];
  s32 length,target,state,flag;s16 timer,pending;u16 mode,pad;u32 tail[4];} Environment;
 typedef struct {Environment pre;unsigned id;s32 a,b;} Event;

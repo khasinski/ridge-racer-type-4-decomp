@@ -17,7 +17,7 @@ class ScrollPanelTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_scroll_panel.h"
+#include "rr/garage_scroll_panel.h"
 static struct World {u32 guard[4];RrGpuScratchPointers scratch;u32 orders[3][256];u32 arena[256];u32 tail[4];} world,expected;
 static struct Event {unsigned kind;u32 args[10];u8 *cursor;struct World before;} events[4];
 static unsigned count,seen,scenario;static int reference_run;static u32 *captured;

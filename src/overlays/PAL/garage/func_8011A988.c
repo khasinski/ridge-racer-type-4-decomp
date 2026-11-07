@@ -1,5 +1,5 @@
 #include "rr/diagnostics.h"
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 #include "rr/menu_setup.h"
 extern const char garage_enter_load_back_message[];
 extern s16 ModeGroup,ModeId,ModeSubState;

@@ -5,7 +5,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay662ImageScrollTest(unittest.TestCase):
+class GarageImageScrollTest(unittest.TestCase):
     def test_all_coordinate_differences_and_overlapping_images(self):
         root=Path(__file__).resolve().parents[2]
         # Preserve the executable C; remove only MIPS register-placement metadata.
@@ -14,7 +14,7 @@ class Overlay662ImageScrollTest(unittest.TestCase):
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
-#include "rr/overlay662_image_scroll.h"
+#include "rr/garage_image_scroll.h"
 static struct {u32 head[8];u32 words[2048];u32 tail[8];} world,expected;
 ''' + body + r'''
 static u32 seed=0x25DE0;

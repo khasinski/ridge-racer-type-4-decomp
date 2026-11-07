@@ -21,7 +21,7 @@ class GarageArenaInitTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_arena_init.h"
+#include "rr/garage_arena_init.h"
 typedef struct {
  u32 guard[4],rng;RrGarageSelectionPrefix garage;RrGpuRectangle rects[2];
  u8 *root;void *cursor,*first,*second;s32 stage;s16 phase,nextScene;u16 scene;u32 tail[4];

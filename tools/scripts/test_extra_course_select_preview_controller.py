@@ -116,7 +116,7 @@ void UpdateScreenFade(s32 a){record(19,a,0,-1,0,0,0,0,0);effect(19);}
 s32 DecodeCourseIndex(s32 a){record(20,a,0,0,0,0,0,0,0);effect(20);if(referenceRun){w->highCourse=a>=8;return w->courseMap[a&7];}return actual_course(a);}
 void SeqMuteVolume(void){record(21,0,0,0,0,0,0,0,0);effect(21);}
 void SeqFadeVolume(s32 a,s32 b){record(22,a,b,0,0,0,0,0,0);effect(22);}
-/* Independent control flow transcribed from original overlay666 MIPS.
+/* Independent control flow transcribed from original extra_course_select MIPS.
  * All services record complete pre-call worlds before deterministic callbacks. */
 static void closeTwo(void){for(int i=3;i<5;i++)if(w->rows[w->root][i].byte14==2)w->rows[w->root][i].byte14=3;}
 static void expected(void){int ready=0;w->frame=word((u32)w->frame+1);w->player=word((u32)w->player+1);w->vehicles[0].rot54=((u32)w->vehicles[0].rot54+8)&4095;

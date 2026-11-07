@@ -1,4 +1,4 @@
-#include "rr/overlay668_decode.h"
+#include "rr/movie_playback_decode.h"
 #include "rr/cd.h"
 void StUnSetRing(void);
 #include "rr/frame_loop.h"

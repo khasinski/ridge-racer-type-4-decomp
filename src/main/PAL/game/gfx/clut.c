@@ -1,5 +1,5 @@
 #include "psyq/libgpu/gpuenv.h"
-#include "rr/overlay662_palette_refresh.h"
+#include "rr/garage_palette_refresh.h"
 struct R { short x, y, w, h; };
 
 extern int DrawSync();

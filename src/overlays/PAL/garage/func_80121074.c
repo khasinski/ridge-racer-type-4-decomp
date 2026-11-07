@@ -1,4 +1,4 @@
-#include "rr/overlay662_exit_dialog.h"
+#include "rr/garage_exit_dialog.h"
 
 void garage_exit_dialog(s32 mode) {
     u8 capturedFlags;

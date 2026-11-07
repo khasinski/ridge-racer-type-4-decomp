@@ -15,7 +15,7 @@ source=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay662_cursor_control.h"
+#include "rr/garage_cursor_control.h"
 static void action0(s32);static void action1(s32);static void action2(s32);static void action3(s32);
 static RrGarageActionPrefix actionObjects[4]={{action0},{action1},{action2},{action3}};
 static struct {u32 guard[4];RrGarageButton banks[2][46];u32 tail[4];} fixed;

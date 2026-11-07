@@ -19,7 +19,7 @@ class OverlayCopyTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 static struct World {u32 before[8];RrGarageSelectionPrefix state;u32 words[2048],after[8];} world,expected;
 #define garage_logo_state world.state
 ''' + body + r'''

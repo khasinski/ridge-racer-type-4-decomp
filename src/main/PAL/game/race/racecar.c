@@ -2,7 +2,7 @@
 #include "game/car/carmove1.h"
 #include "game/car/carparam.h"
 #include "game/car/carsetup.h"
-#include "rr/overlay662_distance.h"
+#include "rr/garage_distance.h"
 #include "game/car/aipath.h"
 #include "game/car/carphys2.h"
 #include "game/car/aipath2.h"

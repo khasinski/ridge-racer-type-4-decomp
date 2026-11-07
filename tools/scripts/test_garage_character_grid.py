@@ -21,7 +21,7 @@ class CharacterGridTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_character_grid.h"
+#include "rr/garage_character_grid.h"
 typedef struct {u32 guard[4],rng;RrBadgeRow1C rows[4];RrUiUvRect uv[128];s32 selection,tick;u32 tail[4];} State;
 typedef struct {s32 op,args[9];size_t cursor;u32 hash;u8 text[4];} Event;
 typedef struct {State s;Event e[128];unsigned count;} World;

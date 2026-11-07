@@ -1,4 +1,4 @@
-#include "rr/overlay660.h"
+#include "rr/time_attack_course_select.h"
 
 void time_attack_course_select_check_race_end(RrRaceVehicleViews *player){
  RrRaceVehicleControl *control=&player->parts.control;
@@ -63,7 +63,7 @@ update_pause_timer:
         BuildCameraMatrices();
         SetupViewport(0);
         DrawCars(0);
-        RR_660_FRAME_SCRATCH->word78 = TrackViewScratch78Value;
+        RR_TIME_ATTACK_COURSE_SELECT_FRAME_SCRATCH->word78 = TrackViewScratch78Value;
         SetupPlayerView(0);
         DrawTrackObjects(0);
         DrawTrackSceneryForPlayer(0);
@@ -111,7 +111,7 @@ update_pause_timer:
                 FrameEnvs[1].environment.rgb24 = 1;
                 FrameEnvs[0].environment.rgb24 = 1;
             }
-            RR_660_FRAME_SCRATCH->pointers.cursor = AddDrawAreaPrim(CurrentDrawBuf->ordering.ordering70, RR_660_FRAME_SCRATCH->pointers.cursor, 0, 0, 0x140, 0x100);
+            RR_TIME_ATTACK_COURSE_SELECT_FRAME_SCRATCH->pointers.cursor = AddDrawAreaPrim(CurrentDrawBuf->ordering.ordering70, RR_TIME_ATTACK_COURSE_SELECT_FRAME_SCRATCH->pointers.cursor, 0, 0, 0x140, 0x100);
     }
     UpdateLapTiming(PlayerCars);
     DrawSplitTimeHud(0);
@@ -151,7 +151,7 @@ draw_vehicle:
             DrawWrongWaySprite(0);
         }
     }
-    RR_660_FRAME_SCRATCH->word78 = (s32) TrackViewScratch78Value;
+    RR_TIME_ATTACK_COURSE_SELECT_FRAME_SCRATCH->word78 = (s32) TrackViewScratch78Value;
     SetupPlayerView(0);
     DrawTrackObjects(0);
     DrawTrackSceneryForPlayer(0);

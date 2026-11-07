@@ -1,4 +1,4 @@
-#include "rr/overlay662_preview_drag.h"
+#include "rr/garage_preview_drag.h"
 
 void garage_drag_preview_viewport(void) {
     u16 *grab;

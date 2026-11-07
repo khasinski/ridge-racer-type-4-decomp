@@ -1,4 +1,4 @@
-#include "rr/overlay663.h"
+#include "rr/records.h"
 
 u32 records_module_id __attribute__((section(".records.header"))) = 13;
 

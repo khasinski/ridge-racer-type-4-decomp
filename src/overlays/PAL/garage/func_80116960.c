@@ -1,4 +1,4 @@
-#include "rr/overlay662_available_cars.h"
+#include "rr/garage_available_cars.h"
 
 void garage_init_car_list(void){
  u8 parts[3];

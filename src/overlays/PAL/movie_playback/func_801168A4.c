@@ -1,5 +1,5 @@
 /* GCC_VERSION: 2.7.2 */
-#include "rr/overlay668_dma.h"
+#include "rr/movie_playback_dma.h"
 #include "rr/diagnostics.h"
 extern const char movie_playback_mdec_timeout_fmt[];
 s32 movie_playback_mdec_timeout(const char *message) {

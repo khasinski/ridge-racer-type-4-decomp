@@ -1,5 +1,5 @@
-#ifndef RR_OVERLAY667_SELECTION_INIT_H
-#define RR_OVERLAY667_SELECTION_INIT_H
+#ifndef RR_SERIAL_LINK_SELECTION_INIT_H
+#define RR_SERIAL_LINK_SELECTION_INIT_H
 #include "rr/ui.h"
 #include "rr/race_types.h"
 #include "rr/menu_arena_types.h"

@@ -1,4 +1,4 @@
-#include "rr/overlay662_time.h"
+#include "rr/garage_time.h"
 u8 *garage_format_time_mm_ss(s32 value){
  if(value>=0){
   s32 seconds=value/3000;

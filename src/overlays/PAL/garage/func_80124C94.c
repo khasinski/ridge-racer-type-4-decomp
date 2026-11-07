@@ -1,4 +1,4 @@
-#include "rr/overlay662_image_stroke.h"
+#include "rr/garage_image_stroke.h"
 
 void garage_line_stroke(void) {
     u32 *img;

@@ -13,7 +13,7 @@ class OverlayTimeTest(unittest.TestCase):
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
-#include "rr/overlay662_time.h"
+#include "rr/garage_time.h"
 static struct World {u32 before[8];u8 text[6];u32 after[8];} world,expected;
 #define garage_time_text world.text
 ''' + body + r'''

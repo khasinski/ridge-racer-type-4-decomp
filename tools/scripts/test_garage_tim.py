@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay662TimTest(unittest.TestCase):
+class GarageTimTest(unittest.TestCase):
     def test_headers_full_copy_palette_and_live_compositor_aliases(self):
         root=Path(__file__).resolve().parents[2]
         bodies='\n'.join((root/f'src/overlays/PAL/garage/func_{a}.c').read_text() for a in ['80125F60','80126044'])
@@ -18,7 +18,7 @@ class Overlay662TimTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_tim.h"
+#include "rr/garage_tim.h"
 typedef union {RrGarageTimImage tim;struct{u8 prefix;RrGarageTimBytes file;}at1;struct{u8 prefix[2];RrGarageTimBytes file;}at2;struct{u8 prefix[3];RrGarageTimBytes file;}at3;} SourceViews;
 static struct World{u32 head[4];RrGarageSelectionPrefix garage;RrGarageTimImage output;SourceViews source[2];RrPalette16 palette[2];u32 images[2][512];u32 tail[4];}world,expected;
 #define garage_logo_state world.garage

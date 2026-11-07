@@ -2,7 +2,7 @@
 #include "rr/camera_motion.h"
 #include "rr/cpu_md_leaf.h"
 #include "game/camera/cammove.h"
-#include "rr/overlay665_render.h"
+#include "rr/options_render.h"
 
 #define W_ADD(a,b) ((s32)((u32)(a)+(u32)(b)))
 #define W_SUB(a,b) ((s32)((u32)(a)-(u32)(b)))

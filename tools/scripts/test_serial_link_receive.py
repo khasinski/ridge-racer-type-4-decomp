@@ -10,7 +10,7 @@ import subprocess
 import unittest
 
 
-class Overlay667ReceiveTest(unittest.TestCase):
+class SerialLinkReceiveTest(unittest.TestCase):
     def test_checksum_queue_retry_and_real_serial_state_machines(self):
         root = Path(__file__).resolve().parents[2]
         bodies = '\n'.join((root / f'src/overlays/PAL/serial_link/func_{a}.c').read_text()
@@ -25,14 +25,14 @@ class Overlay667ReceiveTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay667_packet.h"
+#include "rr/serial_link_packet.h"
 struct State {
  u32 guard[4],handle;
  s32 halt,request,pending,serial,rxcount,timeouts,txcount,failures,command,peer,phase,local,reader,writer;
  u8 read,write,selected,error,remote,received,sent;
- RrOverlay667SerialStorage rx,tx;
- RrOverlay667SerialRing ring;
- RrOverlay667ChoicePair payload,incoming,outgoing;
+ RrSerialLinkSerialStorage rx,tx;
+ RrSerialLinkSerialRing ring;
+ RrSerialLinkChoicePair payload,incoming,outgoing;
  u32 tail[4];
 };
 struct Event {s32 kind,args[3];u32 hash;};
@@ -70,7 +70,7 @@ static s32 eventResult,queryResult,writeResult;
 static const u32 edges[]={0,1,2,0xFFFFFFFFU,0x7FFFFFFFU,0x80000000U};
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 static s32 inc(s32 n){return word((u32)((uint64_t)(u32)n+1));}
-static u8 checksum(const RrOverlay667SerialPacket *p) {
+static u8 checksum(const RrSerialLinkSerialPacket *p) {
  unsigned i;u8 sum=0;
  for(i=0;i<4;i++)sum^=p->first04.bytes[i]^p->second08.bytes[i];
  return sum;

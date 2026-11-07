@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import subprocess
 import unittest
 
-class Overlay662NameInitTest(unittest.TestCase):
+class GarageNameInitTest(unittest.TestCase):
     def test_real_string_copy_and_mutating_badge_roots(self):
         root=Path(__file__).resolve().parents[2]
         copy=(root/'tools/scripts/fixtures/views/func_8002B75C.c').read_text()
@@ -19,7 +19,7 @@ class Overlay662NameInitTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_name_init.h"
+#include "rr/garage_name_init.h"
 typedef struct {s32 args[7],frame,counter,local;s8 a,b,c;u16 mode;s16 scene,timer,first,second;u8 name[12];RrBadgeRow1C *root;} Event;
 static struct World {
  u32 guard[4];s32 frame,counter,local;s8 a,b,c;u16 mode;s16 scene,timer;

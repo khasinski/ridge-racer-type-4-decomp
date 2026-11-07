@@ -1,4 +1,4 @@
-#include "rr/overlay668_stream.h"
+#include "rr/movie_playback_stream.h"
 #define STR_STATE ((RrStrPlaybackState *)RaceContext.activeB8)
 
 void movie_playback_start(u8 *arg0) {

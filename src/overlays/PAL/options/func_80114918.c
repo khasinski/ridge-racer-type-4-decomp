@@ -1,10 +1,10 @@
-#include "rr/overlay665_visual.h"
+#include "rr/options_visual.h"
 #ifndef RR_PROJECTION_SCRATCH
 #define RR_PROJECTION_SCRATCH ((RrProjectionScratchPrefix *)0x1F800000)
 #endif
 void options_init_menu_state(void)
 {
-    RrOverlay665VisualState *state;
+    RrOptionsVisualState *state;
     RrProjectionScratchPrefix *scratch;
     SetDispMask(0);
     SetupDrawDispEnvs(0,0,0,2);

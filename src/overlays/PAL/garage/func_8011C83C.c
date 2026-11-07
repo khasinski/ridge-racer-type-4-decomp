@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 #include "rr/animated_sprite_grid.h"
 
 #define RR_GARAGE_SCRATCH ((RrGpuScratchPointers *)0x1F800000U)

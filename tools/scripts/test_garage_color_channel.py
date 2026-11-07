@@ -6,7 +6,7 @@ import struct
 import subprocess
 import unittest
 
-class Overlay662ColorChannelTest(unittest.TestCase):
+class GarageColorChannelTest(unittest.TestCase):
     def test_three_sprites_all_width_halves_and_color_values(self):
         root=Path(__file__).resolve().parents[2]
         blob=(root/'disc/PAL/R4.BIN').read_bytes();sector=struct.unpack_from('<I',blob,4+662*4)[0]
@@ -27,7 +27,7 @@ class Overlay662ColorChannelTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_palette.h"
+#include "rr/garage_palette.h"
 _Static_assert(sizeof(RrSpritePacket)==20,"native packet size");
 static struct World {
  u32 guard[4];RrGpuScratchPointers scratch;RrGarageSpriteRecord records[72];

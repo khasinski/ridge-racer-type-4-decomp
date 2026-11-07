@@ -1,4 +1,4 @@
-#include "rr/overlay662_image_scroll.h"
+#include "rr/garage_image_scroll.h"
 
 void garage_shift_image_wrap(u32 *source,u32 *destination,s32 x,s32 y)
 {

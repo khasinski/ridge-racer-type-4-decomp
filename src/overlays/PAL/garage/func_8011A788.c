@@ -1,4 +1,4 @@
-#include "rr/overlay662_garage.h"
+#include "rr/garage_garage.h"
 void garage_reset_editor_state(s32 mode){
  u16 x,y;
  garage_logo_state.fade00=-1;

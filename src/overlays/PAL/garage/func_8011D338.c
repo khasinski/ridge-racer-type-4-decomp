@@ -1,4 +1,4 @@
-#include "rr/overlay662_input.h"
+#include "rr/garage_input.h"
 void garage_read_analog_motion(RrGaragePoint *output)
 {
     RrGaragePoint point;

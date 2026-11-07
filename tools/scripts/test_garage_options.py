@@ -19,7 +19,7 @@ class OverlayOptionsTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_options.h"
+#include "rr/garage_options.h"
 /* Fixture payloads are opaque to the implementation; only identity matters. */
 /* Record schema is now shared with the real mapper. */
 static struct World {u32 before[8];RrGarageSelectionPrefix state;

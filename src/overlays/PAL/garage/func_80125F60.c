@@ -1,4 +1,4 @@
-#include "rr/overlay662_pixels.h"
+#include "rr/garage_pixels.h"
 void garage_blend_image_nibbles(const u32 *source,u32 *destination)
 {
     s32 i;

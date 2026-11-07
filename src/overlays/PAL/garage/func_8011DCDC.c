@@ -1,4 +1,4 @@
-#include "rr/overlay662_actions.h"
+#include "rr/garage_actions.h"
 void garage_dispatch_direction_input(u32 flags){
  if(flags)PlaySfx(0);
  if(flags&1)garage_logo_actions[garage_logo_state.current60]->callback(1);

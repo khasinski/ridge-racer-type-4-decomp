@@ -1,4 +1,4 @@
-#include "rr/overlay662_primitives.h"
+#include "rr/garage_primitives.h"
 
 RrGpuPolyFT4Packet *garage_add_textured_rect(u32 *ordering, RrGpuPolyFT4Packet *packet, u32 x, u32 y, u32 w, u32 h, u32 u, u32 v, u32 uw, u32 vh, u32 clut, u32 tpage)
 {

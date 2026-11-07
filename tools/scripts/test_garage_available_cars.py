@@ -18,7 +18,7 @@ class AvailableCarsTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4||sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4||offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay662_available_cars.h"
+#include "rr/garage_available_cars.h"
 static u8 resources[2][0x2D100];
 static struct World {u32 guard[4];s32 frame,clock;s16 phase,pick,count,row,layout,scene,state;u16 enabled;u8 *resource;void *ui,*screen;RrMenuArenas arenas;RrMenuChoice4 choice;RrSaveProgressRecord7C save;RrCourseChoice4 courses[2][9];s16 status[20];RrGarageAvailableCar cars[20];RrMenuGridPoint grid[4];u32 tail[4];} world,expected;
 static struct Event {unsigned id;u32 args[10];struct World before;} events[350];

@@ -5,7 +5,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
-class Overlay663TimeFormatterTest(unittest.TestCase):
+class RecordsTimeFormatterTest(unittest.TestCase):
     def test_signed32_values_and_original_template(self):
         root=Path(__file__).resolve().parents[2]
         blob=(root/'build/overlays/663.bin').read_bytes()
@@ -15,7 +15,7 @@ class Overlay663TimeFormatterTest(unittest.TestCase):
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
-#include "rr/overlay663_time.h"
+#include "rr/records_time.h"
 static struct {u32 before[4];u8 text[10];u8 padding[6];u32 after[4];} buffer,expected;
 #define records_time_text buffer.text
 ''' + read_c_source(root/'src/overlays/PAL/records/func_80115EE8.c') + r'''

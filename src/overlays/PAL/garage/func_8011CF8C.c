@@ -1,4 +1,4 @@
-#include "rr/overlay662_update.h"
+#include "rr/garage_update.h"
 
 void garage_update_editor_overlays(void)
 {

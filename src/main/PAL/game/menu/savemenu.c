@@ -30,7 +30,7 @@ extern short SaveSlotIndex;
 extern char CardTargetFileName[];
 extern short MenuResultCode;
 extern Struct2C SaveSlotSelectionsBackup[3];
-extern int D_801272F0[];
+extern int garage_slot_file_times[];
 
 int CardSaveStep(a0, a1)
 short a0;
@@ -109,7 +109,7 @@ int a1;
                 case 6:
                 case 7:
                     p = SaveBuffer;
-                    D_801272F0[SaveSlotIndex] = *(int *)((char *)p + 0x280);
+                    garage_slot_file_times[SaveSlotIndex] = *(int *)((char *)p + 0x280);
                     break;
                 }
             } else {

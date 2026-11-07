@@ -1,4 +1,4 @@
-#include "rr/overlay661_init.h"
+#include "rr/versus_select_init.h"
 #ifndef RR_GPU_PROJECTION_SCRATCH
 #define RR_GPU_PROJECTION_SCRATCH ((RrProjectionScratchPrefix *)0x1F800000)
 #endif

@@ -29,7 +29,7 @@ class GarageSpriteTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_sprites.h"
+#include "rr/garage_sprites.h"
 typedef union {u32 words[704];struct {u32 prefix[128];RrSpritePacket packets[64];} view;} Ordering;
 typedef union {RrGarageSpriteRecord records[4];struct {u32 prefix;RrSpritePacket packets[3];} view;u32 words[20];} Aliased;
 static struct World {u32 guard[4];RrGpuScratchPointers scratch;RrGarageSpriteRecord records[72];RrGarageSpriteRecord *lookup[72];Ordering order;Aliased alias;RrSpritePacket packets[4];u32 tail[4];} world,expected;

@@ -13,9 +13,9 @@ source=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n)
 #define RR_ASSERT_OFFSET(t,f,n)
-#include "rr/overlay662_exit_dialog.h"
-#include "rr/overlay662_modal.h"
-#include "rr/overlay662_tool_action.h"
+#include "rr/garage_exit_dialog.h"
+#include "rr/garage_modal.h"
+#include "rr/garage_tool_action.h"
 #include "rr/menu_text_state.h"
 #include "rr/tables.h"
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage working;RrMenuItemState5C input[2];RrUiRow24 rows[2][2];RrUiRow24 *row;RrBadgeRow1C badges[2];RrBadgeRow1C *badge;RrMenuTextState texts[2];RrMenuTextState *text;s32 accept,exit;s16 scene,enable,state;u32 tail[4];} world,expected;

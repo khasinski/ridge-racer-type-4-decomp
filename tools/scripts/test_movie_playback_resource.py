@@ -19,7 +19,7 @@ C=r'''
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
-#include "rr/overlay668_resource.h"
+#include "rr/movie_playback_resource.h"
 typedef struct {u8 header[0x130];RrStrArchiveEntry entries[16];u8 tail[16];} Archive;
 typedef struct {RrStrContextPrefix prefix;u8 tail[0x4B8-0xD4];} Context;
 typedef struct {

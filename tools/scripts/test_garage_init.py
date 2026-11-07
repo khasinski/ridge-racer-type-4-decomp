@@ -19,7 +19,7 @@ class OverlayInitTest(unittest.TestCase):
 #undef RR_ASSERT_OFFSET
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"target size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
-#include "rr/overlay662_init.h"
+#include "rr/garage_init.h"
 static struct World {u32 before[8],saved_word;RrGarageSelectionPrefix state;
  RrGarageWorkingStorage work;u32 after[8];} world,expected;
 #define PlayTimeFrames world.saved_word

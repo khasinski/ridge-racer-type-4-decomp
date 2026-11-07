@@ -23,7 +23,7 @@ SAMPLES = [(659, 0x801148CC, 60), (660, 0x80114910, 16),
            (663, 0x80115BA0, 148), (665, 0x80115C8C, 112),
            (666, 0x801166D0, 96), (667, 0x80115048, 16),
            (668, 0x8011688C, 24)]
-# Additional completed owners, including the second function of overlay659.
+# Additional completed owners, including the second function of race_results.
 # Duplicate disc sites share one source owner and count once.
 EXTRA_FUNCTIONS = [
     (667, 0x801161A8, 1904),

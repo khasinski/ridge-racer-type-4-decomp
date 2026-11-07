@@ -14,7 +14,7 @@
 #include "psyq/libsnd/vmsel.h"
 #include "psyq/libsnd/vmvinit.h"
 #include "rr/library.h"
-#include "rr/overlay665_audio_options.h"
+#include "rr/options_audio_options.h"
 
 struct E { char pad[0x38]; u32 flags; char r[1568 - 0x3C]; };
 

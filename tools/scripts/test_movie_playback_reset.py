@@ -27,7 +27,7 @@ static u32 read_port(u32 *);
 static void write_port(u32 *,u32);
 #define RR_STR_READ32(port) read_port(port)
 #define RR_STR_WRITE32(port,value) write_port(port,value)
-#include "rr/overlay668_dma.h"
+#include "rr/movie_playback_dma.h"
 #include "rr/diagnostics.h"
 static const char invalid[]="invalid mode %d",recover[]="recover %s",message[]="timeout";
 typedef struct {

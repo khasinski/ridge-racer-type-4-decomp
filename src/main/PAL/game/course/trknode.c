@@ -1,5 +1,5 @@
 #include "game/car/carphys2.h"
-#include "rr/overlay668_camera.h"
+#include "rr/movie_playback_camera.h"
 #define W(p,o) (*(int *)((char *)(p) + (o)))
 #define H(p,o) (*(short *)((char *)(p) + (o)))
 

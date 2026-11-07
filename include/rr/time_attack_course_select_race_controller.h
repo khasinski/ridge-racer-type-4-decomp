@@ -1,0 +1,4 @@
+#ifndef RR_TIME_ATTACK_COURSE_SELECT_RACE_CONTROLLER_H
+#define RR_TIME_ATTACK_COURSE_SELECT_RACE_CONTROLLER_H
+#include "rr/time_attack_course_select.h"
+#endif

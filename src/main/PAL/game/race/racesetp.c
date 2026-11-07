@@ -23,8 +23,8 @@ void SetupRace(void)
     s32 *vector;
     if (RaceType == 4)
     {
-        func_80114988();
-        func_80114AF8(0x7E900);
+        serial_link_open_sio();
+        serial_link_init_connection(0x7E900);
     }
     DrawSync(0);
     ApplyOptionsPadButtonMaps();
