@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern int D_800F7620;
+extern int MotionSequenceIndex;
 void func_8005AA2C(void);
 void InitMotionTrack(int a0);
 void RestartMotionSequence(void);

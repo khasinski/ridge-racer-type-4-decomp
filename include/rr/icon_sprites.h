@@ -15,7 +15,7 @@ extern u16 D_8001121C[];
  * with 28 writable bytes, and accessible context heads on both captures.
  * Emits a 24x16 sprite at x148,y120/128, then draw-mode command E100023E.
  * Color uses its low byte. Each insertion preserves the head's high byte. */
-void func_80059C28(s32 index,s32 color);
+void EmitIconSpriteRow120(s32 index,s32 color);
 void func_80059D34(s32 index,s32 color);
 RR_ASSERT_SIZE(RrIconSpriteContext, 0x74);
 RR_ASSERT_OFFSET(RrIconSpriteContext, head70, 0x70);

@@ -1,4 +1,4 @@
-func_80018D44
+EmitSkyLitGT4
 func_800293D0
 SoundQueueEnqueue
 EmitTexturedPanel

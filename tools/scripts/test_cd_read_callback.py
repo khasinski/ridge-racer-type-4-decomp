@@ -212,7 +212,7 @@ s32 CdGetSector(u8 *p,u32 n){return read_data(0,0,p,n);}
 s32 CdGetSector2(u8 *p,u32 n){return read_data(0,1,p,n);}
 void CdDataSync(s32 mode){sync_transfer(0,mode);}
 s32 CdPosToInt(void *p){return decode(0,p);}
-s32 func_800963DC(const char *s,...){return diagnostic(0,s);}
+s32 PsyqPuts(const char *s,...){return diagnostic(0,s);}
 s32 VSync(s32 mode){return clock_tick(0,mode);}
 s32 cd_read_retry(s32 mode){return restart(0,mode);}
 s32 CdControlF(s32 c,const u8 *p){return command(0,c,p);}

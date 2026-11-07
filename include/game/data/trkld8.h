@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-int func_8004EA8C(void);
+int LoadIntroSceneStep(void);
 void SoundSystemInit();
 
 #endif /* RR_GAME_DATA_TRKLD8_H */

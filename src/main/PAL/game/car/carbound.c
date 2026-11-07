@@ -57,10 +57,10 @@ void DrawCars(a0) int a0; {
             DrawPlayerCar(CarTable[0], z);
         } else {
             __asm__("" : "=r"(y) : "0"(z)); /* ASM_BARRIER: hide that z==0 from cse so the else-arm copies a1 (move a2,a1) while the then-arm keeps the single hoisted a1=0 */
-            func_80015F68(CarTable[0], y, y, y, 0, 0, 0);
+            DrawWheelTrailEffects(CarTable[0], y, y, y, 0, 0, 0);
         }
     case 1:
-        if (D_800F4D44 != 4) {
+        if (RaceType != 4) {
             for (i = 1; i < NumCars; i++) {
                 if (CarTable[i]->f1E8 != -1) DrawOpponentCar(CarTable[i], a0);
             }
@@ -76,7 +76,7 @@ void DrawCars(a0) int a0; {
     case 2:
     case 4:
         s2 = 3;
-        if (D_800F4D44 == 4) s2 = 4;
+        if (RaceType == 4) s2 = 4;
         if (D_80107178 == 2) s2 = 0;
         if (NumCars > 0) {
             i = 0;
@@ -89,7 +89,7 @@ void DrawCars(a0) int a0; {
                             DrawPlayerCar(p[0], z);
                         } else {
                             __asm__("" : "=r"(y) : "0"(z)); /* ASM_BARRIER: hide that z==0 from cse so the else-arm copies a1 (move a2,a1) while the then-arm keeps the single hoisted a1=0 */
-                            func_80015F68(p[0], y, y, y, p[0]->f1E6 + D_800ABEC4, 0, 0);
+                            DrawWheelTrailEffects(p[0], y, y, y, p[0]->f1E6 + D_800ABEC4, 0, 0);
                         }
                     } else {
                         DrawOpponentCar(p[0], s2);
@@ -144,7 +144,7 @@ void SetCarBounds(RrRaceVehicle *a)
 void ResetCarState(RrRaceVehicle *a)
 {
     int *p = (int *)a;
-    func_80096434(a, sizeof(RrRaceVehicle));
+    PsyqBzero(a, sizeof(RrRaceVehicle));
     SetCarBounds(a);
     a->ang80 = (unsigned short)a->rot50;
     a->ang82 = (unsigned short)a->rot54;
@@ -220,7 +220,7 @@ void func_8002E868(a0, a1, a2) int a0; int a1; unsigned char *a2; {
     register int r asm("$4"); /* ASM_BARRIER: pin r to a0 */
     p = (RrRaceVehicle *)a0; /* ASM_BARRIER: pin p to a3 */
     r = 0;
-    if (D_800F4D44 == 1) {
+    if (RaceType == 1) {
         a2 = SelectionRows;
         t = p->flags1E4 & 7;
         c = a2[0];
@@ -236,11 +236,11 @@ void func_8002E868(a0, a1, a2) int a0; int a1; unsigned char *a2; {
         } else if (a2[0x1C] == b) {
             v = r | 6; p->slotIndex1E6 = v;
         }
-    } else if (D_800F4D44 == 5) {
+    } else if (RaceType == 5) {
         int u = p->flags1E4;
         if ((u & 7) >= 5) r = 1;
         v = (((u - 1) & 3) << 1) | r; p->slotIndex1E6 = v;
-    } else if (D_800F4D44 == 6) {
+    } else if (RaceType == 6) {
         p->slotIndex1E6 = 2;
     } else {
         int w = (short)p->flags1E4 - 1;

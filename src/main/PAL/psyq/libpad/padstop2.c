@@ -7,7 +7,7 @@ void _padInitDirSeq(void) {
     register RrChannelUpdateCallback update __asm__("$2");
     /* ASM_BARRIER: preserve the original assembler temporary for the final slot. */
     register u8 *base __asm__("$1");
-    D_800ABC80 = _padChannelDispatch;
+    PadChannelDispatchPtr = _padChannelDispatch;
     PadChannelBusyFn = _padChannelBusy;
     /* ASM_BARRIER: finish the first two callback stores before loading the third. */
     __asm__ volatile("" : : : "$2", "memory");
@@ -26,7 +26,7 @@ s32 _padChannelDispatch(void *a0) {
     if(*state->status.packet==0xF3) {
         if(!state->responseE8)goto Y;
         if(state->status.phase==0xFF)goto zero;
-        if(state->status.state49==2)D_800ABC6C(state);
+        if(state->status.state49==2)PadResetChannelFn(state);
     }
     switch(state->status.phase) {
     case 1:

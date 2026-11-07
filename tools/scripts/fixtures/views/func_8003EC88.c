@@ -86,7 +86,7 @@ extern FontGlyph4 D_8009FCDC[];
 
 extern s8 D_8009FD00[];
 
-extern s16 D_800ABEC8;
+extern s16 SelectedCarIndex;
 
 extern s16 NumCars;
 
@@ -94,7 +94,7 @@ extern s32 CurrentDrawBuf;
 
 extern s16 ReverseCourse;
 
-extern s16 D_800F3826;
+extern s16 CourseListIndex;
 
 extern u8 SaveProgress[];
 
@@ -233,7 +233,7 @@ s32 DrawUiRow(s32 arg0) {
         }
         fp = 0;
         if (s6 == 7) {
-            s0 = D_800ABEC8 + 1;
+            s0 = SelectedCarIndex + 1;
         }
         s2 = 0;
         /* fallthrough */
@@ -332,7 +332,7 @@ s32 DrawUiRow(s32 arg0) {
         }
         break;
     case 12:
-        if (SaveProgress[D_800F3826 + 0x5C] == 1) {
+        if (SaveProgress[CourseListIndex + 0x5C] == 1) {
             s2 = 8;
         } else {
             s2 = 7;

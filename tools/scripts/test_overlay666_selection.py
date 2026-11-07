@@ -24,7 +24,7 @@ class Overlay666SelectionTest(unittest.TestCase):
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
 #include "rr/overlay_menu.h"
 static struct World {u32 guard[4];s16 selection;u16 buttons;s32 direction;RrUiRow24 *ui;RrMenuGlyphRow1C *glyphs;RrUiRow24 backing[3][3];RrMenuGlyphRow1C records[3][4];u32 calls;s32 sound_args[5];u32 tail[4];} world,expected;
-#define D_800F3826 world.selection
+#define CourseListIndex world.selection
 #define D_800F3A42 world.buttons
 #define MenuStepDirection world.direction
 #define UiRows world.ui

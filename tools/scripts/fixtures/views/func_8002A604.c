@@ -51,11 +51,11 @@ typedef struct { unsigned char a, b, c, d; } S;
 
 extern S ScreenFadeState;
 
-extern int func_80096434();
+extern int PsyqBzero();
 
 extern struct { char pad[0xC]; unsigned char a; unsigned char b; short c; } MenuFrameState;
 
 void ClearScreenOverlayState(void) {
-    func_80096434(&MenuFrameState, 0x20);
-    func_80096434(&ScreenFadeState, 0xC);
+    PsyqBzero(&MenuFrameState, 0x20);
+    PsyqBzero(&ScreenFadeState, 0xC);
 }

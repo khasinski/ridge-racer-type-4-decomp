@@ -13,7 +13,7 @@ void StSetStream(int a, int b, int c, int d, int e) {
     D_801102D8 = a & 1;
     D_801102E8 = 0;
     D_801102E0 = 0;
-    D_801102D4 = 0;
+    StNextSectorOffset = 0;
     StCurFrameNo = 0;
     StRingFullFunc = e;
     /* ASM_BARRIER: keeps epilogue stack loads (lw ra/s*) after the final global stores; sched2 otherwise hoists/sinks them */

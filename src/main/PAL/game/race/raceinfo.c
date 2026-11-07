@@ -15,15 +15,15 @@ struct T { int pad[2]; int a; int b; int pad2[11]; };
 extern signed char D_8009F688[];
 extern int D_8009F654[];
 extern int D_8009F66C[];
-extern short D_800F4D44;
+extern short RaceType;
 extern short CourseIndex;
 extern unsigned char CourseLapCounts[];
 extern int NumLaps;
 extern short D_8009F678[];
-extern int D_800F3B00[];
+extern int CourseBestLapRecords[];
 extern int CourseBestLap[][8];
 extern short NumCars;
-extern short D_800ABEC8;
+extern short SelectedCarIndex;
 extern int AddSpritePrim();
 extern int AddDrawModePrim();
 extern int AddTilePrim();
@@ -34,7 +34,7 @@ extern int TrackNodeCount;
 extern short ReverseCourse;
 extern char Options[];
 extern short D_8010BFD0[];
-extern void func_800172DC();
+extern void ResetCarSlotBuffers();
 extern void BuildRotMatrixZ();
 extern void BuildRotMatrixY();
 extern void BuildRotMatrixX();
@@ -45,7 +45,7 @@ extern void MulMatrix();
 extern void ApplyMatrix();
 
 void DrawCourseInfoPanel(int arg0, int arg1);
-void func_80033368(int unusedSelection,int unusedMode);
+void DrawCourseMapPreview(int unusedSelection,int unusedMode);
 void UpdateRaceIntroCamera(RrRaceVehicle *a0, int a1);
 
 void DrawCourseInfoPanel(int arg0, int arg1) {
@@ -75,8 +75,8 @@ void DrawCourseInfoPanel(int arg0, int arg1) {
     p = AddDrawModePrim(CurrentDrawBuf + 0x70, p, 0x59);
     *(int *)SCRATCHPAD = AddTilePrim(CurrentDrawBuf + 0x70, p, 0x10, 0xE0, 2, 0x88, 0x4C, 0x4C, 0x4C);
 
-    if (D_800F4D44 < 2) {
-        NumLaps = CourseLapCounts[CourseIndex + (D_800F4D44 == 1 ? 8 : 0)];
+    if (RaceType < 2) {
+        NumLaps = CourseLapCounts[CourseIndex + (RaceType == 1 ? 8 : 0)];
     }
 
     i = 7;
@@ -99,9 +99,9 @@ void DrawCourseInfoPanel(int arg0, int arg1) {
     if (arg1 == 0) {
         for (i = 0; i < 2; i++) {
             int val;
-            if (D_800F4D44 == 1) {
+            if (RaceType == 1) {
                 if (i == 0) {
-                    val = D_800F3B00[CourseIndex];
+                    val = CourseBestLapRecords[CourseIndex];
                 } else {
                     val = CourseBestTotalTimes[CourseIndex];
                 }
@@ -127,7 +127,7 @@ void DrawCourseInfoPanel(int arg0, int arg1) {
             if (i == 0) {
                 FormatDecimalDigits(sp28, NumCars - 2, 0);
             } else {
-                FormatDecimalDigits(sp28, D_800ABEC8 + 1, 0);
+                FormatDecimalDigits(sp28, SelectedCarIndex + 1, 0);
             }
             DrawDigitString16(CurrentDrawBuf + 0x70, 0x3A - i * 0xC, 0x148 + i * 0x10, sp28);
         }
@@ -136,16 +136,16 @@ void DrawCourseInfoPanel(int arg0, int arg1) {
     *(int *)SCRATCHPAD = func_80032EC8(CurrentDrawBuf + 0x70, *(int *)SCRATCHPAD, 0x16, 0xE4, arg0);
 }
 
-void func_80033368(int unusedSelection,int unusedMode) {
+void DrawCourseMapPreview(int unusedSelection,int unusedMode) {
     struct { int x, y, z; } v;
     int i, r;
     struct T *t;
     int b;
     if (ReverseCourse != 0) {
-        i = (D_8010BFC8 >> 2) % TrackNodeCount;
+        i = (TrackPreviewTick >> 2) % TrackNodeCount;
     } else {
         int n = TrackNodeCount;
-        r = (D_8010BFC8 >> 2) % n;
+        r = (TrackPreviewTick >> 2) % n;
         r++;
         i = n - r;
     }
@@ -153,7 +153,7 @@ void func_80033368(int unusedSelection,int unusedMode) {
     t = (struct T *)(i * 0x3C + b);
     v.x = t->a;
     v.z = t->b;
-    D_8010BFC8 += 1;
+    TrackPreviewTick += 1;
     DrawMapBitmapIso(CurrentDrawBuf + 0x70, TrackNodesEnd, &v);
 }
 
@@ -178,7 +178,7 @@ void UpdateRaceIntroCamera(RrRaceVehicle *a0, int a1)
   }
   if (a1 < 2)
   {
-    func_800172DC();
+    ResetCarSlotBuffers();
     D_8010BFD0[0] = 0;
     D_8010BFD0[2] = -0x100;
     D_8010BFD0[1] = -0x100;
@@ -242,7 +242,7 @@ void UpdateRaceIntroCamera(RrRaceVehicle *a0, int a1)
   sp10[2] = (a0->pos10[2] + v1) - g[4];
   v0 = Atan2Table(sp10[0], sp10[2]);
   g[7] = 0x400 - v0;
-  v0 = func_80090758((sp10[0] * sp10[0]) + (sp10[2] * sp10[2]));
+  v0 = CordicSqrt((sp10[0] * sp10[0]) + (sp10[2] * sp10[2]));
   v0 = Atan2Table(sp10[1], v0 >> 6);
   g[6] = 0x400 - v0;
   g[8] = 0;

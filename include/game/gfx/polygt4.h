@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-int func_80041BF0();
+int DrawMenuGridMesh();
 
 #endif /* RR_GAME_GFX_POLYGT4_H */

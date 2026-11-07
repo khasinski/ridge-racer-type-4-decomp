@@ -3,31 +3,31 @@
 void ovl659_exit_race(void) {
     func_8003CAB4();
     ModeGroup = 1;
-    D_800F3A26 = 0x2F;
+    ModeId = 0x2F;
     D_800F4D8A = 0;
 }
 
 void ovl659_update_race(void) {
     ModeFrame = (u32)ModeFrame + 1;
     SetupViewport(0);
-    if (((u32)RaceState - 1) < 2U && (PlayerControllers[0].buttons08 & 0x800) && D_800AC5D0 <= 0) {
-        D_800AC5D0 = 15;
+    if (((u32)RaceState - 1) < 2U && (PlayerControllers[0].buttons08 & 0x800) && MenuFadeTimer <= 0) {
+        MenuFadeTimer = 15;
         RacePaused = (RacePaused == 0);
         if (RacePaused != 0) {
             SoundPause();
             PauseCursor = 0;
         } else {
-            ApplyPauseMenuChoice(D_800F4D44);
+            ApplyPauseMenuChoice(RaceType);
             SoundResume();
         }
-    } else if (D_800AC5D0 > 0) {
+    } else if (MenuFadeTimer > 0) {
         if (RaceState < 4) {
-            D_800AC5D0--;
+            MenuFadeTimer--;
         }
     }
 
     if (RacePaused != 0) {
-        UpdatePauseMenu(D_800F4D44);
+        UpdatePauseMenu(RaceType);
         ModeFrame = (u32)ModeFrame - 1;
         func_8003BFC8();
         DrawPauseMenu(&CurrentDrawBuf->ordering.ordering70[0], PauseCursor);
@@ -42,7 +42,7 @@ void ovl659_update_race(void) {
         DrawRaceMinimap(0);
         DrawSteeringIndicator(&CurrentDrawBuf->ordering.ordering70[0], 0);
         func_80021C00(0);
-        SubmitRaceHudPackets(D_800F4D44);
+        SubmitRaceHudPackets(RaceType);
         BuildCameraMatrices();
         DrawCars(0);
         RR_659_SCRATCH->word78 = D_800F2A64;
@@ -58,7 +58,7 @@ void ovl659_update_race(void) {
         if ((RaceTimeRemaining = (u32)RaceTimeRemaining - 1) <= 0) {
             RaceState = 5;
             PlayerCars[0].half1EE = 9;
-            D_800AC5D0 = 37;
+            MenuFadeTimer = 37;
             RankEntries = (s32)(0U - (u32)TrackLength);
             SoundSetMasterVolume(0, 33);
         }
@@ -70,7 +70,7 @@ void ovl659_update_race(void) {
         SlotsStartForRace();
         RaceState = 1;
         PlayerCars[0].flags1E4 |= 0x100;
-        func_800172DC();
+        ResetCarSlotBuffers();
         SetModelTexturePage(-1);
     } else if (RaceState == 1) {
         if ((u32)ModeFrame >= 176U) {
@@ -80,26 +80,26 @@ void ovl659_update_race(void) {
         }
     } else if (RaceState >= 4) {
         s32 a2;
-        if (D_800AC5D0 < 25) {
+        if (MenuFadeTimer < 25) {
             if (CarTable[0]->half1EE <= ovl659_finish_rank_limits[SelectionState.phase17 >> 1]) {
                 a2 = 37;
             } else {
                 a2 = 69;
             }
-            AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (25 - D_800AC5D0) * 10, a2);
+            AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (25 - MenuFadeTimer) * 10, a2);
         }
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             SelectionState.pad18[1] = PlayerCars[0].half1EE;
             if (PlayerCars[0].half1EE <= ovl659_finish_rank_limits[SelectionState.phase17 / 2] &&
                 RaceState == 4) {
                 ModeGroup = 1;
-                D_800F3A26 = 21;
+                ModeId = 21;
                 D_800F4D8A = 0;
             } else {
                 FinishRace();
             }
         } else {
-            D_800AC5D0--;
+            MenuFadeTimer--;
         }
     }
 
@@ -121,9 +121,9 @@ void ovl659_update_race(void) {
         DrawRaceMinimap(0);
         DrawSteeringIndicator(&CurrentDrawBuf->ordering.ordering70[0], 0);
         func_80021C00(0);
-        SubmitRaceHudPackets(D_800F4D44);
+        SubmitRaceHudPackets(RaceType);
     }
-    StepRaceFrame(D_800F4D44);
+    StepRaceFrame(RaceType);
     if (RaceState == 0) {
         func_80045868(PlayerCars);
     } else if (RaceState == 7) {
@@ -145,15 +145,15 @@ void ovl659_update_race(void) {
     if (RaceState == 0) {
         RR_659_SCRATCH->pointers.cursor = AddDrawAreaPrim(
             CurrentDrawBuf->ordering.ordering70 + 2, RR_659_SCRATCH->pointers.cursor, 0, 0, 320, 256);
-        D_800ADAF0[1].environment.rgb24 = 1;
-        D_800ADAF0[0].environment.rgb24 = 1;
+        FrameEnvs[1].environment.rgb24 = 1;
+        FrameEnvs[0].environment.rgb24 = 1;
         RR_659_SCRATCH->pointers.cursor =
             AddDrawAreaPrim(CurrentDrawBuf->ordering.ordering70 + 702, RR_659_SCRATCH->pointers.cursor, 0,
                           D_80107190, 320, (s32)(256U - (u32)D_80107190 * 2U));
         if ((D_80107190 = (s32)((u32)D_80107190 - 16U)) < 0) {
             D_80107190 = 0;
-            D_800ADAF0[1].environment.rgb24 = 0;
-            D_800ADAF0[0].environment.rgb24 = 0;
+            FrameEnvs[1].environment.rgb24 = 0;
+            FrameEnvs[0].environment.rgb24 = 0;
         }
     }
     SlotSetLevelProgram(D_800F4C70.first, D_800F2AB4.first, 0);

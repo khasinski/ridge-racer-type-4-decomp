@@ -9,21 +9,21 @@
 
 extern volatile int CardCommandStatus;
 
-extern int D_800ABDE8;
+extern int CardTxCount;
 
 extern s32 CardReceiveIndex;
 
 extern s32 CardRxCount;
 
-extern s32 D_80114730;
+extern s32 CardBytesRemaining;
 
 s32 _cardCmdReset(s32 value) {
     s32 result;
     if (!(CardCommandStatus & 1)) return 0;
     CardReceiveIndex = 0;
     CardRxCount = 0;
-    D_80114730 = 0;
-    D_800ABDE8 = 0;
+    CardBytesRemaining = 0;
+    CardTxCount = 0;
     {
         /* ASM_BARRIER: retain the original assembler temporary for the final state store. */
         register s32 *base __asm__("$1");

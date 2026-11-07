@@ -19,7 +19,7 @@
 extern RrRaceStandingsTable *RaceStandings;
 extern s8 D_80010F2C[][16];
 extern s8 D_80010F8C[][16];
-extern s16 D_800F4D44;
+extern s16 RaceType;
 extern s32 ScanCurveAhead();
 extern int NumPlayers;
 
@@ -272,7 +272,7 @@ s32 ScoreOvertakeOpportunity(RrRaceVehicle *arg0, s32 arg1) {
             a2 = 79;
         }
         a2 /= 5;
-        if (D_800F4D44 != 5) {
+        if (RaceType != 5) {
             s0 += D_80010F2C[2][a2];
         } else {
             s0 += D_80010F8C[2][a2];

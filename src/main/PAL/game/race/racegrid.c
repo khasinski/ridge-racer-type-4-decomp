@@ -65,7 +65,7 @@ extern int BuildRotMatrixY();
 extern int BuildRotMatrixX();
 extern int MulMatrix();
 extern int ApplyMatrix();
-extern int D_8010718C;
+extern int ViewUsesCarTrackNode;
 extern s32 AddDrawAreaPrim();
 extern s32 AddDrawModePrim();
 extern s32 AddSpritePrim();
@@ -78,7 +78,7 @@ extern u8 D_8009F6DB;
 extern s32 RaceState;
 extern int SoundQueueEnqueue();
 extern int RaceVoiceFlags;
-extern short D_800AC5D0;
+extern short MenuFadeTimer;
 extern int PadSetRumbleParams();
 extern int PlaySfx();
 extern unsigned char D_8009F6DC[];
@@ -88,12 +88,12 @@ extern int D_8009F6E4[];
 extern char SelectionState[];
 extern int RankEntries;
 extern int TrackLength;
-extern short D_800F3A26;
+extern short ModeId;
 extern int TotalRaceTime;
 extern short ModeGroup;
 extern short D_800F4D8A;
 extern int GameQueueSprite();
-extern int func_8002071C();
+extern int EmitPolyF3();
 extern unsigned char D_8009F71C[][4];
 extern int SioDeviceName[];
 extern int LinkWriteHandle;
@@ -146,24 +146,24 @@ void SetupMenuCarCamera(int a)
     func_8002E828(2, t);
   }
   ;
-  if (PlayerControllers[D_800AC5D4 & 1].b & 4)
+  if (PlayerControllers[SelectionPlayer & 1].b & 4)
   {
-    PlayerCars[D_800AC5D4 & 1].v += 0xC0;
+    PlayerCars[SelectionPlayer & 1].v += 0xC0;
   }
   else
-    if (PlayerControllers[D_800AC5D4 & 1].b & 8)
+    if (PlayerControllers[SelectionPlayer & 1].b & 8)
   {
-    PlayerCars[D_800AC5D4 & 1].v -= 0xC0;
+    PlayerCars[SelectionPlayer & 1].v -= 0xC0;
   }
-  i = PlayerCars[D_800AC5D4 & 1].v;
+  i = PlayerCars[SelectionPlayer & 1].v;
   if (i > 0xF00)
   {
-    PlayerCars[D_800AC5D4 & 1].v = 0xF00;
+    PlayerCars[SelectionPlayer & 1].v = 0xF00;
   }
   else
     if (i < (-0xF00))
   {
-    PlayerCars[D_800AC5D4 & 1].v = -0xF00;
+    PlayerCars[SelectionPlayer & 1].v = -0xF00;
   }
 }
 
@@ -173,7 +173,7 @@ void UpdateRaceChaseCamera(struct w3g2p *p) {
     int r;
     short t;
     unsigned short a1, a2;
-    D_8010718C = 1;
+    ViewUsesCarTrackNode = 1;
     if (p->u1E4 & 0x100) {
         BuildRotMatrixY(s.a, 0x800 - p->f54);
         BuildRotMatrixX(s.b, p->f50);
@@ -259,7 +259,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                 fp = 1;
             }
         }
-        if (D_800F4D44 == 1) {
+        if (RaceType == 1) {
             if (s3 >= 4) {
                 s7 = ((arg1 >> 2) & 1) + 2;
                 sp20 = D_8009F6AC[7];
@@ -353,7 +353,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
 void PlayStartCountdownVoice(int a0) {
     if (RaceState != 0 && a0 < 0x115) {
         if (a0 == 0xC3) {
-            D_800AC5D0 = 0x1E;
+            MenuFadeTimer = 0x1E;
         }
         if (a0 == 0x65) {
             if (!(RaceVoiceFlags & 1)) {
@@ -435,7 +435,7 @@ void ApplyPauseMenuChoice(int arg0) {
     int *t;
     int b;
     if (PauseCursor == 0) {
-        D_800AC5D0 = 0x1E;
+        MenuFadeTimer = 0x1E;
         return;
     }
     SelectionState[0x19] = 0;
@@ -447,7 +447,7 @@ void ApplyPauseMenuChoice(int arg0) {
         if (PauseCursor == 2) {
             D_800F4D8A = 0;
             ModeGroup = D_8009F6E4[3] >> 8;
-            D_800F3A26 = *(unsigned char *)&D_8009F6E4[3];
+            ModeId = *(unsigned char *)&D_8009F6E4[3];
             return;
         }
         FinishRace(SelectionState, PauseCursor);
@@ -460,7 +460,7 @@ void ApplyPauseMenuChoice(int arg0) {
     {
         int v = *(unsigned char *)t;
         D_800F4D8A = 0;
-        D_800F3A26 = v;
+        ModeId = v;
     }
 }
 
@@ -474,7 +474,7 @@ void DrawPauseMenu(int a0, int a1) {
 
     p = GameQueueSprite(a0, *(int *)SCRATCHPAD, 0x90, 0x5C, 0x1C, 8, 0x60, 0xA0, 0x7FF8);
     p = GameQueueSprite(a0, p, 0x90, 0x6A, 0x20, 8, 0xC4, 0xA0, 0x7FF8);
-    if (D_800F4D44 == 1) {
+    if (RaceType == 1) {
         p = GameQueueSprite(a0, p, 0x90, 0x74, 0x1C, 8, 0x7C, 0xA0, 0x7FF8);
     } else {
         p = GameQueueSprite(a0, p, 0x90, 0x74, 0x24, 8, 0x9C, 0xA0, 0x7FF8);
@@ -498,11 +498,11 @@ void DrawPauseMenu(int a0, int a1) {
         j = j == 1;
         base = D_8009F71C;
         t = base[j];
-        p = func_8002071C(a0, p, v[t[0]], v[t[1]], v[t[2]], rgb, 1);
+        p = EmitPolyF3(a0, p, v[t[0]], v[t[1]], v[t[2]], rgb, 1);
         rgb[0] = 0xFF;
         rgb[2] = 0xFF;
         rgb[1] = 0xFF;
-        p = func_8002071C(a0, p, v[t[1]], v[t[2]], v[t[3]], rgb, 1);
+        p = EmitPolyF3(a0, p, v[t[1]], v[t[2]], v[t[3]], rgb, 1);
     }
     *(int *)SCRATCHPAD = AddDrawModePrim(a0, p, 5);
 
@@ -564,7 +564,7 @@ void BeginLinkSync(void) {
 int ExitOnLinkLost(void) {
     if (LinkState == -1) {
         ModeGroup = 1;
-        D_800F3A26 = 0x2D;
+        ModeId = 0x2D;
         D_800F4D8A = 0;
         _sio_control(1, 1, 0);
         return 1;

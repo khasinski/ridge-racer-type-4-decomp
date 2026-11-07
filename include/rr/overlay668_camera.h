@@ -35,7 +35,7 @@ void ovl668_func_80115460(s32 *position);
  * one of the20 lookup entries. Initializes from captured sample320, advances
  * the camera sixteen times, then publishes the post-service lookup value. */
 void ovl668_func_80115DFC(void);
-extern s32 VSyncThreshold,D_8010718C,MaskBitSetting,D_80127E90,D_80127E94,D_800AD564;
+extern s32 VSyncThreshold,ViewUsesCarTrackNode,MaskBitSetting,D_80127E90,D_80127E94,D_800AD564;
 extern s16 D_800AD520;
 extern s32 ovl668_D_80116CC0[20];
 void SetDispMask(s32);

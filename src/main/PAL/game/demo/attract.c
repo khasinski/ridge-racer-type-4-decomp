@@ -25,7 +25,7 @@ extern unsigned short D_800A2138[];
 extern short D_800FFC10;
 extern short MenuScriptId;
 extern short ModeGroup;
-extern short D_800F3A26;
+extern short ModeId;
 extern short D_800F4D8A;
 extern int MaskBitSetting;
 extern char RaceContext[];
@@ -70,7 +70,7 @@ void StartAttractDemo(int a0) {
         ShuffleSlotOrder();
         SlotOrder[0] = 0;
     }
-    func_80096434(D_800ACB0C, 0x80);
+    PsyqBzero(D_800ACB0C, 0x80);
     *(int *)(D_800ACB0C + 0xC) = a0;
     i = 3;
     q = sp + 3;
@@ -140,19 +140,19 @@ void StartAttractDemo(int a0) {
             ShuffleSlotOrder();
     }
     func_80059314(0, 0);
-    D_800F4D44 = 5;
+    RaceType = 5;
     D_800FFC10 = 0;
     MenuScriptId = 0xA;
     ModeGroup = 1;
-    D_800F3A26 = 0x23;
+    ModeId = 0x23;
     D_800F4D8A = 0;
     if (a0 == 0) {
         func_8005C8D8(-1);
-        D_800F765C = D_800A19E0[CourseIndex] + 1;
+        RaceBgmListIndex = D_800A19E0[CourseIndex] + 1;
     } else {
         func_8005C13C(0);
         func_8005C988(2);
-        D_800F765C = 1;
+        RaceBgmListIndex = 1;
     }
     func_80055300();
     c = RaceContext;
@@ -188,9 +188,9 @@ void func_8005DD8C(void) {
     ResetScreenCounters();
     MenuScriptId = 8;
     ModeGroup = 1;
-    D_800F3A26 = 0x23;
+    ModeId = 0x23;
     D_800F4D8A = 0;
     func_8005C13C(0);
     func_8005C988(1);
-    D_800ACBF8 = 0;
+    DrawSubOtFlag = 0;
 }

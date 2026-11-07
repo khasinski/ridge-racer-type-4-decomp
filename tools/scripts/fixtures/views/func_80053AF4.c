@@ -28,7 +28,7 @@ extern int SsSeqStop();
 
 extern void SsSeqClose(int);
 
-extern int func_80096434();
+extern int PsyqBzero();
 
 void SeqFadeVolume(int a0, int a1) {
     if ((s16)a1 >= 2) {
@@ -48,7 +48,7 @@ void SeqFadeVolume(int a0, int a1) {
             if (SoundState.x2864 >= 0) {
                 SsSeqStop((s16)SoundState.x2864);
                 SsSeqClose((s16)SoundState.x2864);
-                func_80096434(&SoundState.x286C, 0x1C);
+                PsyqBzero(&SoundState.x286C, 0x1C);
             }
             SoundState.x2864 = -1;
             SoundState.x2868 = -1;

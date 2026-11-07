@@ -59,7 +59,7 @@ def hook(uc,a,s,d):
  if e:args.append(uc.reg_read(UC_MIPS_REG_A1)&0xFFFFFFFF)
  service(e,args,False)
 for a in ctors:u.hook_add(UC_HOOK_CODE,hook,begin=a,end=a)
-fn=getattr(lib,'func_8002071C' if triangle else 'GameQueueSprite');fn.restype=C.c_void_p
+fn=getattr(lib,'EmitPolyF3' if triangle else 'GameQueueSprite');fn.restype=C.c_void_p
 if triangle:fn.argtypes=[C.c_void_p,C.c_void_p,C.c_int32,C.c_int32,C.c_int32,C.c_void_p,C.c_int32]
 else:fn.argtypes=[C.c_void_p,C.c_void_p]+[C.c_int32]*7
 count=int(sys.argv[2]) if len(sys.argv)>2 else 16384

@@ -65,8 +65,8 @@ extern int SetModelTexturePage();
 extern short D_800A0D7C;
 extern int D_800A0FB0[];
 extern unsigned short D_800AC006;
-extern int D_800ACBF8;
-extern short D_800F3826;
+extern int DrawSubOtFlag;
+extern short CourseListIndex;
 extern struct { char pad[8]; short x8; } *CarBoundsTable;
 extern Q16 D_800111D4;
 extern short LightMatrix[][3];
@@ -231,7 +231,7 @@ int a0, a1;
     int t, one;
     char *q;
     P = RaceContext.buf;
-    func_80096434(P, 0x160);
+    PsyqBzero(P, 0x160);
     H(0x84) = 0x1C1;
     H(0x86) = -0xDF8;
     H(0x88) = -0x79A;
@@ -263,7 +263,7 @@ int a0, a1;
     W(0x130) = 0x1B8;
     W(0x18) = -0xC0;
     W(0x30) = 0xC0;
-    if (!(D_800A0FB0[D_800F3826] & ((one = 1) << D_800F4C28))) {
+    if (!(D_800A0FB0[CourseListIndex] & ((one = 1) << D_800F4C28))) {
         W(0xA0) = 0xA9;
         W(0xA4) = 0;
     } else {
@@ -278,7 +278,7 @@ int a0, a1;
     W(0x13C) = a0;
     W(0x140) = a1;
     SetModelTexturePage(0x19, t, &RaceContext, q);
-    D_800ACBF8 = 0;
+    DrawSubOtFlag = 0;
 }
 
 #undef RaceContext

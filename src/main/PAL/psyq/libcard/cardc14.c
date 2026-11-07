@@ -22,8 +22,8 @@ int _cardCmd5BFixedBegin(a0,a1) int a0; int a1; {
         r = 1;
         CardReceiveIndex = 0;
         CardRxCount = 0;
-        D_80114730 = 0;
-        D_800ABDE8 = 0;
+        CardBytesRemaining = 0;
+        CardTxCount = 0;
         CardCommandRequest = a0;
     }
     if (r == 0) return 0;
@@ -56,8 +56,8 @@ int _cardCmd5CFixedBegin(a0, a1) int a0; int a1; {
         r = 1;
         CardReceiveIndex = 0;
         CardRxCount = 0;
-        D_80114730 = 0;
-        D_800ABDE8 = 0;
+        CardBytesRemaining = 0;
+        CardTxCount = 0;
         CardCommandRequest = a0;
     }
     if (r == 0) return 0;

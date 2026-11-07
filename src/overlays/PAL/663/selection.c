@@ -21,12 +21,12 @@ void ovl663_update_selection(void) {
         }
         break;
     case 1:
-        DrawMenuStepArrows(0xA0, 0x108, 0x76, 0, (s32)D_800AC648, 0, ovl663_course_count);
-        StepMenuValue(1, 2, (char *)&D_800AC648, ovl663_course_count, 0);
+        DrawMenuStepArrows(0xA0, 0x108, 0x76, 0, (s32)CourseMenuSelection, 0, ovl663_course_count);
+        StepMenuValue(1, 2, (char *)&CourseMenuSelection, ovl663_course_count, 0);
         i = 0;
-        CourseIndex = DecodeCourseIndex(D_800AC648);
+        CourseIndex = DecodeCourseIndex(CourseMenuSelection);
         while (i < (s32)UiRows[2].byte02) {
-            if (i == ((u16)D_800AC648 & 7)) {
+            if (i == ((u16)CourseMenuSelection & 7)) {
                 UiRows[2].cells[i] = (s8)((u8)ReverseCourse + 2);
                 UiRows[2].byte16 = i;
             } else if (i >= ovl663_course_count) {
@@ -57,7 +57,7 @@ void ovl663_update_selection(void) {
         if (i == 1) {
             SetMenuFrameOptions(0, 1, 1);
             i = 0;
-            D_800AC5D0 = 0x40;
+            MenuFadeTimer = 0x40;
             D_800F4D8A = 8;
             do {
                 UiRows[i].byte14 = 3;
@@ -75,8 +75,8 @@ void ovl663_update_selection(void) {
             SetMenuFrameOptions(0, 1, 1);
             D_800F4D8A = 3;
             ResetScreenCounters();
-            LoadCursor = D_800F4D40;
-            mirrorSet = D_800AC648 >= 8;
+            LoadCursor = MenuArenaBase;
+            mirrorSet = CourseMenuSelection >= 8;
             if (ovl663_record_kind == 1) {
                 car = LapRecords[mirrorSet][CourseIndex][ovl663_selected_record].car;
             } else {
@@ -108,19 +108,19 @@ void ovl663_update_selection(void) {
         if ((modelReady == 1) && (UiRows->byte14 == 5)) {
             ovl663_init_result_preview();
             ModeGroup = modelReady;
-            D_800F3A26 = 0x4D;
+            ModeId = 0x4D;
             D_800F4D8A = 0;
         }
         break;
     case 8:
-        fadeTimer = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = (u16)fadeTimer;
+        fadeTimer = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = (u16)fadeTimer;
         AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - fadeTimer) * 4, 0x45);
         i = 0;
-        if ((s16)D_800AC5D0 <= 0) {
+        if ((s16)MenuFadeTimer <= 0) {
             ovl663_init_menu();
             ModeGroup = 1;
-            D_800F3A26 = 0x4A;
+            ModeId = 0x4A;
             D_800F4D8A = 0;
             return;
         }

@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-int func_80014A98(int a0, int a1, int a2, int a3);
-void func_80015F68(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 arg5, s32 arg6);
+int DrawRroModel(int a0, int a1, int a2, int a3);
+void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 arg5, s32 arg6);
 
 #endif /* RR_GAME_GFX_GTEPOLY1_H */

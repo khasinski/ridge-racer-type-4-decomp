@@ -36,7 +36,7 @@ void ApplyRubberBandSpec(a0) RrRaceVehicle *a0; {
     }
     b = s3->boostTimer44;
     if (b > 0) {
-        if (D_800F4D44 == 1) {
+        if (RaceType == 1) {
             v2 = b << 10;
             /* ASM_BARRIER: keep sll before the lh (original schedule) */
             __asm__ volatile ("" : "=r"(v2) : "0"(v2));

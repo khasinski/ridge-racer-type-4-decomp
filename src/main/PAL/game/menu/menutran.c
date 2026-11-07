@@ -10,13 +10,13 @@ typedef struct { int a; short b; char c; char d; } S8;
 typedef struct { int x; } __attribute__((packed)) U4;
 
 extern s16 D_800FFC18;
-extern int func_80096434();
+extern int PsyqBzero();
 extern int DecodeCourseIndex();
 extern unsigned char D_8009F06C[];
-extern short D_800ABEC8;
-extern short D_800AC648;
+extern short SelectedCarIndex;
+extern short CourseMenuSelection;
 extern short D_800AD520;
-extern short D_800F3826;
+extern short CourseListIndex;
 extern short CourseIndex;
 extern signed char SelectionState[];
 extern unsigned char D_800AD4F0;
@@ -29,7 +29,7 @@ void func_8002F688();
 int CountProgressFlags();
 
 void SetNextModeByGameType(void){
- switch(D_800F4D2C){
+ switch(ModeMenuCursorSaved){
  case 0:D_800AD50A=0x105;break;
  case 1:default:D_800AD50A=0x131;break;
  case 2:D_800AD50A=0x137;break;
@@ -59,7 +59,7 @@ void func_8002F688() {
     }
     a0 = D_800AD4EF;
     if (a0 == -1) {
-        func_80096434(RankEntries, 0x40);
+        PsyqBzero(RankEntries, 0x40);
         j = 0;
         do {
             RankEntries[j].c = j;
@@ -67,13 +67,13 @@ void func_8002F688() {
             j++;
         } while (j < 8);
         v1 = 0;
-        func_80096434(SelectionRows, 0x20);
-        func_80096434(SelectionState, 0x2C);
+        PsyqBzero(SelectionRows, 0x20);
+        PsyqBzero(SelectionState, 0x2C);
         a0 = 0;
         v1 = 0;
         a2 = -1;
         *(U4 *)&SelectionState[0x1C] = *(U4 *)&SelectionRows[0];
-        D_800ABEC8 = 0;
+        SelectedCarIndex = 0;
         do {
             p = (char *)SelectionState + v1;
             v1++;
@@ -89,20 +89,20 @@ void func_8002F688() {
         SelectionState[0x15] = 2;
     }
     *(U4 *)&SelectionRows[0] = *(U4 *)&SelectionState[0x1C];
-    D_800AC648 = a0;
+    CourseMenuSelection = a0;
     c0 = SelectionRows[0];
     D_800AD520 = c0;
-    D_800F3826 = SelectionRows[1];
+    CourseListIndex = SelectionRows[1];
     D_800F4C28 = SelectionRows[2];
     CourseIndex = DecodeCourseIndex(a0, c0, a2);
-    D_800ABEC8 = 0;
-    SaveProgress[3] |= 1 << D_800AC648;
+    SelectedCarIndex = 0;
+    SaveProgress[3] |= 1 << CourseMenuSelection;
     if (SelectionRows[2] >= 5) {
-        D_800ABEC8 = (SelectionRows[2] - 5) % 7;
+        SelectedCarIndex = (SelectionRows[2] - 5) % 7;
         return;
     }
     if (SelectionRows[2] != 0) {
-        D_800ABEC8 = SelectionRows[2] - 1;
+        SelectedCarIndex = SelectionRows[2] - 1;
     }
 }
 

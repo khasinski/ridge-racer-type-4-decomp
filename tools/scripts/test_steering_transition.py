@@ -27,8 +27,8 @@ static unsigned scenario,mutate,seen[32],callback[4],modeSeen[65536];
 static const s32 edge[16]={INT32_MIN,INT32_MIN+1,-61441,-61440,-4097,-4096,-1,0,1,3,4095,4096,61440,61441,INT32_MAX-1,INT32_MAX};
 static const s32 phases[8]={INT32_MIN,-1,0,1,2,3,INT32_MAX-1,INT32_MAX};
 #define TrackNodeCount (w->s.trackCount)
-#define D_800F4D44 (w->s.mode)
-#define D_800F3826 (w->s.marker)
+#define RaceType (w->s.mode)
+#define CourseListIndex (w->s.marker)
 static s32 word(u32 u){s32 n;memcpy(&n,&u,4);return n;}
 static s16 half(u16 u){s16 n;memcpy(&n,&u,2);return n;}
 static s32 add(s32 a,s32 b){return word((u32)a+(u32)b);}

@@ -11,7 +11,7 @@ extern s32 ModeFrame,ScreenFrame;
 extern s16 MenuCursor,MenuItemCount,D_8010C0B8;
 extern u8 *CdDirectoryBuffer;
 extern RrMenuArenas MenuArenas;
-extern void *LoadCursor,*D_800F4D40;
+extern void *LoadCursor,*MenuArenaBase;
 extern RrRaceVehicle PlayerCars[2];
 extern RrSelectionRows SelectionRows;
 extern RrCourseChoice4 D_8010BFD8[2][2][9];

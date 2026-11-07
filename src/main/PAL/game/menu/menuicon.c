@@ -63,7 +63,7 @@ void func_800307B4(a0) int a0;
     s1 = AddBadgeSpriteStrip(0xF, CurrentDrawBuf + 0x70, s1, G->h20 + 0x90, G->h22, 0x80);
     s1 = AddBadgeSpriteStrip(0x10, CurrentDrawBuf + 0x70, s1, G->h20, G->h22, 0x80);
     s1 = AddBadgeSpriteStrip(0x11, CurrentDrawBuf + 0x70, s1, G->h20 + 0x90, G->h22, 0x80);
-    s1 = func_80030F64(CurrentDrawBuf + 0x70, s1);
+    s1 = DrawStepProgressBar(CurrentDrawBuf + 0x70, s1);
     s1 = AddDrawAreaPrim(CurrentDrawBuf + 0x70, s1, G->h30, G->h32, G->h34, G->h36);
     if (D_800AD4EF >= 4) {
         *(int *)SCRATCHPAD = s1;
@@ -71,7 +71,7 @@ void func_800307B4(a0) int a0;
         func_8002E828(2, SCRATCH_ROT_MATRIX);
         SetGeomOffset(0xA0, 0x100);
         SetGeomScreen(0x100);
-        func_80041BF0(0, CurrentDrawBuf + 0x74, 1);
+        DrawMenuGridMesh(0, CurrentDrawBuf + 0x74, 1);
         s1 = *(int *)SCRATCHPAD;
         s1 = AddDrawAreaPrim(CurrentDrawBuf + 0x74, s1, *(short *)(BadgeRows + 0xD8), *(short *)(BadgeRows + 0xDA), *(short *)(BadgeRows + 0xDC), *(short *)(BadgeRows + 0xDE));
     }

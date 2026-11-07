@@ -3,7 +3,7 @@
 typedef struct { char p0[0x38]; short s38; unsigned short s3A; unsigned short s3C; char p3E[0xC]; unsigned short s4A; int w4C; char p50[0x1A]; short s6A; } B;
 typedef struct { char p0[0x172]; unsigned short s172; char p174[0x2C]; short s1A0; char p1A2[0x36]; short s1D8; char p1DA[0xA]; short s1E4; char p1E6[0xE]; B b; char pad[0x320 - 0x1F4 - sizeof(B)]; } A;
 extern A ComCars[];
-void func_8004A474()
+void UpdateComCarTrackProjections()
 {
     int s2 = 0;
     A *s1 = ComCars;

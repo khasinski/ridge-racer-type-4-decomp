@@ -38,7 +38,7 @@ void _padAdvanceChannel(s32 command)
         /* ASM_BARRIER: finish control publication before reading the live bound. */
         __asm__("" : : : "memory");
         {
-            register s32 bound = D_800ABCBC;
+            register s32 bound = PadLastChannel;
             current++;
             PadActiveChannel = current;
             if (bound >= current) {

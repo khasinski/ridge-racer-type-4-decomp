@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void func_8004A474();
+void UpdateComCarTrackProjections();
 
 #endif /* RR_GAME_COURSE_TRKSEEK2_H */

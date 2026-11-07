@@ -68,7 +68,7 @@ extern ComCar ComCars[];
 extern Spec30 *D_800ACB94;
 extern u16 D_8009FE76;
 
-extern void func_80096434(void *, s32);
+extern void PsyqBzero(void *, s32);
 extern void ResetCarState(ComCar *);
 extern s32 FindTrackNode(s32 *, s32);
 extern void DebugPrintStub(const char *, s32);
@@ -82,7 +82,7 @@ void InitComCars(s32 count) {
 
     car = ComCars;
     RaceContext.count10 = count;
-    func_80096434(car, 0x2260);
+    PsyqBzero(car, 0x2260);
     for (i = 0; i < count; i++) {
         sub = &car->sub1F4;
         spec = &RaceContext.p540[i];
@@ -128,10 +128,10 @@ void InitComCars(s32 count) {
         sub->metric12A = 0;
         car++;
     }
-    switch ((s16)D_800F4D44) {
+    switch ((s16)RaceType) {
     case 6:
         RaceContext.mode14 = 1;
-        RaceContext.p544 = &RaceContext.p540[D_800F3826 + 7];
+        RaceContext.p544 = &RaceContext.p540[CourseListIndex + 7];
         RaceContext.p548 = 0;
         break;
     case 1:
@@ -152,7 +152,7 @@ void InitComCars(s32 count) {
         RaceContext.p544 = &RaceContext.p540[D_800AD520 + 7];
         break;
     }
-    if ((s16)D_800F4D44 == 1) {
+    if ((s16)RaceType == 1) {
         for (i = 0; i < count; i++) {
             sub = &ComCars[i].sub1F4;
             sub->metric12A = RaceContext.p544->divisor24;

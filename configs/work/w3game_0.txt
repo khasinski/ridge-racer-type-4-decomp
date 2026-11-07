@@ -8,13 +8,13 @@ SceneLoadStep 0x80013200 0x314
 RequestCarLoad 0x80013514 0xa8  near-miss:src/failed/PAL/RequestCarLoad.c
 CarLoadStep 0x800135bc 0x1f4 
 SetupRenderer 0x80013890 0x74  near-miss:src/failed/PAL/SetupRenderer.c
-func_800197C8 0x800197c8 0x4c8 
+RenderSkyToRect 0x800197c8 0x4c8 
 EmitTiledRect 0x80019d5c 0x1c4 
-func_8001B308 0x8001b308 0x338 
+InitIntroSceneLights 0x8001b308 0x338 
 EmitPresetSprite 0x8001baf8 0xcc 
 func_8001BC84 0x8001bc84 0xbc  near-miss:src/failed/PAL/func_8001BC84.c
 EmitSpriteGrid 0x8001e1f0 0x154 
-func_8001E390 0x8001e390 0x2f4 
+FrmTaskModeUpdate 0x8001e390 0x2f4 
 MainLoop 0x8001e684 0x1c8 
 UploadCarClut 0x8001e854 0x134 
 SystemInit 0x8001e988 0x358 

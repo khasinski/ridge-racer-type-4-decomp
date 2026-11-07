@@ -11,7 +11,7 @@
 #include "rr/channels.h"
 #include "rr/race_setup.h"
 
-extern short D_800F4D44;
+extern short RaceType;
 extern struct 
 {
   char pad0[0x2C];
@@ -56,7 +56,7 @@ void SoundQueueUpdate()
   int t0;
   int t1;
   unsigned short s2;
-  if (D_800F4D44 == 1)
+  if (RaceType == 1)
   {
     if (SoundState.f1A28 > 0)
     {
@@ -139,7 +139,7 @@ void SoundCloseVabsAndReset(void) {
     SoundMasterVolumeReset();
     ResetPlayerVoices();
     func_80051248(0);
-    func_800514FC();
+    ResetSoundChannelVolLR();
     SoundQueueClear();
     SoundLoopReset();
     ReverbReset();

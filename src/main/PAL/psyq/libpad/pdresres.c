@@ -32,7 +32,7 @@ s32 _padMainModeComplete(void *raw) {
         arg0->phase = 0xFEU;
         goto block_5;
     }
-    D_800ABC6C(raw);
+    PadResetChannelFn(raw);
 block_5:
     return 0;
 }

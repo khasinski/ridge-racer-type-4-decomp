@@ -22,14 +22,14 @@ typedef struct { char pad[0x1C]; unsigned w; } W3L2_P;
 
 extern unsigned char D_800ABAC1[];
 extern int SetGraphQueFmt[];
-extern char D_80011E64[];
+extern char DrawSyncCallbackFmt[];
 extern char StrSetDispMaskFmt[];
 extern M2C_UNK DrawSyncFmt;
 extern char StrBadRectFmt[];
 extern char StrRectFmt[];
 extern char D_80011EC8[];
 extern char StrClearImage[];
-extern char D_80011ED8[];
+extern char ClearImage2Name[];
 /* extern */
 extern M2C_UNK LoadImageName;
 extern char ClearOTagFmt[];
@@ -246,7 +246,7 @@ u8 GetGraphDebug(void) {
 
 int DrawSyncCallback(a0) int a0; {
  int o;
- if (D_800ABAC2[0] >= 2) GPU_printf(D_80011E64, a0);
+ if (D_800ABAC2[0] >= 2) GPU_printf(DrawSyncCallbackFmt, a0);
  o = *(int *)(D_800ABAC2 + 0xA);
  *(int *)(D_800ABAC2 + 0xA) = a0;
  return o; }
@@ -354,7 +354,7 @@ int v; char nv; nv = b & 0xFF; checkRECT(StrClearImage, a); v = (((d & 0xFF) << 
 
 void ClearImage2(int a, int b, int c, int d)
 {
-int v; char nv; int t, u, k; nv = b & 0xFF; checkRECT(D_80011ED8, a); u = (d & 0xFF) << 16; t = (c & 0xFF) << 8; k = 0x80000000; v = (u | (t | k)) | nv; (*(int (**)())(GpuFuncTable + 8))(*(int *)(GpuFuncTable + 0xC), a, 8, v);
+int v; char nv; int t, u, k; nv = b & 0xFF; checkRECT(ClearImage2Name, a); u = (d & 0xFF) << 16; t = (c & 0xFF) << 8; k = 0x80000000; v = (u | (t | k)) | nv; (*(int (**)())(GpuFuncTable + 8))(*(int *)(GpuFuncTable + 0xC), a, 8, v);
 }
 
 #undef GpuFuncTable

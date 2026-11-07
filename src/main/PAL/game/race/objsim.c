@@ -182,7 +182,7 @@ void UpdateTrackObjects(void) {
             if (B4->f24 == 1) {
                 if (B0->f8 == 0xA) {
                     if (B4->f8 == 0) {
-                        if (D_800F4D44 != 1) {
+                        if (RaceType != 1) {
                             B4->f8 = 0xB;
                         } else if (CourseIndex == 7) {
                             if (D_800AC1A2 != 0) {
@@ -228,7 +228,7 @@ void UpdateTrackObjects(void) {
                         hw = (int *)SCRATCHPAD;
                         sp[0] = (B4->fC - hw[2]) >> 10;
                         sp[1] = (B4->f14 - hw[4]) >> 10;
-                        sp[2] = func_80090758((sp[0] * sp[0] + sp[1] * sp[1]) >> 8) >> 4;
+                        sp[2] = CordicSqrt((sp[0] * sp[0] + sp[1] * sp[1]) >> 8) >> 4;
                         B4->f4 = sp[2] - 0x46;
                     }
                     B4->f0++;
@@ -271,7 +271,7 @@ void UpdateTrackObjects(void) {
                                 B4->f4 = (B4->f4 == 0xF4) ? 0xC8 : B4->f4 + 1;
                             }
                         }
-                        if ((unsigned short)D_800F4D44 - 2 < 3U) {
+                        if ((unsigned short)RaceType - 2 < 3U) {
                             a2 = B4->f0;
                             B4->f0 = a2 + 1;
                             if (D_8010E7C8[i] == ModeFrame) {
@@ -421,7 +421,7 @@ void UpdateTrackObjects(void) {
                                     r6 = sp[8];
                                     B4->f1E = r6;
                                     D_8010E7B8 = r6;
-                                    B4->f1C = 0x400 - Atan2Table(sp[6], func_80090758(sp[5] * sp[5] + sp[7] * sp[7]) >> 6);
+                                    B4->f1C = 0x400 - Atan2Table(sp[6], CordicSqrt(sp[5] * sp[5] + sp[7] * sp[7]) >> 6);
                                     B4->f20 = 0;
                                 }
                             }

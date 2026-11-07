@@ -4,7 +4,7 @@
 
 #include "types.h"
 
-#define R(o) (*(unsigned short *)(D_800A6760 + (o)))
+#define R(o) (*(unsigned short *)(CdSpuRegBase + (o)))
 
 /* legacy typing of shared globals in this part of the unit */
 #define CD_cbsync (*(void (*(*))(u8, u8 *))&CD_cbsync)

@@ -6,7 +6,7 @@
 
 #define H BadgeRows
 
-#define K D_800AC590
+#define K DialogueState
 
 #define SPP (*(struct P **)0x1F800000)
 

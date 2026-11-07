@@ -16,11 +16,11 @@ Evidence:
 - Main EXE word at VA `0x800102F0` (file offset `0xAF0`) is `0x80114878`.
 - Startup at `0x8007D718` clears BSS through `0x80114878` (exclusive).
   The `0x80110000` region contains resident library state, not overlay code.
-- `func_8003A874` resets `LoadCursor` to `CdDirectoryBuffer`, then requests
+- `LoadModeMenuAssetsStep` resets `LoadCursor` to `CdDirectoryBuffer`, then requests
   `CdFileReadStart(GetR4FileIndex(1, mode + 0xB), LoadCursor)`.
   The category-1 mapper adds `0x292`, so this selects entries 669..673 for
   mode 0..4. These include copies of the executable menu modules.
-- `func_8003A9E8` likewise requests entries `659 + D_800F4D2C` into that buffer.
+- `func_8003A9E8` likewise requests entries `659 + ModeMenuCursorSaved` into that buffer.
 - `func_8003BBBC` and `func_8003BD2C` explicitly load entry 668
   (`0x292 + 10`) into the reset buffer.
 - Absolute jump tables and intra-overlay calls agree with this base.
@@ -144,7 +144,7 @@ recognizable course-selection structures). Garage 662 is a useful larger TU
 for shared menu structures. STR module 668 likely contains substantial library
 code and should be tracked separately when distinguishing game/library code.
 
-## Compiler (verified on three small functions: func_800172DC, BackupSaveData, AngleDiffAbs)
+## Compiler (verified on three small functions: ResetCarSlotBuffers, BackupSaveData, AngleDiffAbs)
 
 gcc **2.8.1** PSX cc1 reproduces the original codegen (hoisted `lui/addiu` base pointers, loop delay slots);
 2.7.2 folds the symbols into the load/store and does not match. Pipeline in `tools/scripts/cc.sh`:

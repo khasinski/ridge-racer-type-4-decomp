@@ -8,7 +8,7 @@
 
 #define VEC(p, o) (*(VECTOR *)((char *)(p) + (o)))
 
-extern s32 D_800F2FD8;
+extern s32 ModelBankFormat;
 
 extern int *ModelBankTable[];
 
@@ -22,6 +22,6 @@ void SelectModelBank(int a0) {
     a2 = v[0];
     g[0x15] = w[1];
     g[0x16] = ModelBankTable[a0][2];
-    D_800F2FD8 = a2;
+    ModelBankFormat = a2;
     g[0x14] = (int)ModelBankTable[a0] + 0xC;
 }

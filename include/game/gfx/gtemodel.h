@@ -4,8 +4,8 @@
 #include "types.h"
 
 extern int D_800FF6A4[];
-void func_8001AFB8(int a0, int a1);
-void func_8001B308(void);
+void DrawTrackObjectModel(int a0, int a1);
+void InitIntroSceneLights(void);
 void func_8001B640(void);
 
 #endif /* RR_GAME_GFX_GTEMODEL_H */

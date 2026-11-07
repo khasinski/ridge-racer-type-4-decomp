@@ -1,11 +1,11 @@
 #include "rr/frame_loop.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F3A26 (*(s16 (*))&D_800F3A26)
+#define ModeId (*(s16 (*))&ModeId)
 
 #define ModeGroup (*(s16 (*))&ModeGroup)
 
-#undef D_800F3A26
+#undef ModeId
 
 #undef ModeGroup
 
@@ -14,13 +14,13 @@
 
 #define ModeGroup (*(short (*))&ModeGroup)
 
-#define D_800F3A26 (*(short (*))&D_800F3A26)
+#define ModeId (*(short (*))&ModeId)
 
 #undef CurrentDrawBuf
 
 #undef ModeGroup
 
-#undef D_800F3A26
+#undef ModeId
 
 extern void func_8007D710(void),ResetCallback(void),SetMem(s32),SystemInit(void);
 
@@ -51,7 +51,7 @@ void MainLoop(void) {
     SetDispMask(0);
     ModeFrame=0;
     ModeGroup=1;
-    D_800F3A26=1;
+    ModeId=1;
     D_800F4D8A=0;
     FrameCounter=0;
     for (;;) {
@@ -83,7 +83,7 @@ void MainLoop(void) {
         ClearOTagR((u32 *)(CurrentDrawBuf+0xB70),0x2C0);
         CdFileStep();
         SoundUpdate();
-        ModeFuncTable[ModeGroup][D_800F3A26]();
+        ModeFuncTable[ModeGroup][ModeId]();
         DrawSync(0);
         threshold=VSyncThreshold;
         do {} while (VSync(1)<threshold);
@@ -91,7 +91,7 @@ void MainLoop(void) {
         PutDispEnv(CurrentDrawBuf+0x5C);
         PutDrawEnv(CurrentDrawBuf);
         DrawOTag(CurrentDrawBuf+0xB6C);
-        if(D_800ACBF8) DrawOTag(CurrentDrawBuf+0x166C);
+        if(DrawSubOtFlag) DrawOTag(CurrentDrawBuf+0x166C);
         PadUpdate();
         FrameCounter++;
     }

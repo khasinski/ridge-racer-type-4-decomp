@@ -9,7 +9,7 @@ s32 _card_write(s32 port, s32 sector, const u8 *buffer);
 void _new_card(void);
 s32 _card_read(s32 port, s32 sector, u8 *buffer);
 s32 _card_status(s32 slot);
-void func_80096434(void *buffer, s32 size);
+void PsyqBzero(void *buffer, s32 size);
 /* Adds XOR of bytes 0..126 at byte127, then makes up to eight write/read attempts.
  * Verification compares the readback XOR to the current caller checksum byte. */
 s32 _card_sector_write(s32 port, s32 sector, u8 *buffer);

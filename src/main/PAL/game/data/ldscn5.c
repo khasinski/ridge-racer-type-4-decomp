@@ -8,7 +8,7 @@
 extern void LoadTimList();
 extern unsigned char LoadState;
 
-int func_8003BEA8(int a) {
+int LoadCoursePreviewStep(int a) {
     int r = 0;
     switch (LoadState) {
     case 0:

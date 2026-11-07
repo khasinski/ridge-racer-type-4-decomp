@@ -11,7 +11,7 @@ void EncodePasswordCode(a0, a1) unsigned char *a0; int a1;
     s5 = ChecksumBytes(a0, 6);
     s2 = 0;
     s3 = a0;
-    tab = D_8009FE2C;
+    tab = PasswordCipherKey;
     s1 = ((unsigned)(s5 & 0xFF) % 11) & 0xFF;
     do {
         v0 = (unsigned char *)(s1 + (int)tab);

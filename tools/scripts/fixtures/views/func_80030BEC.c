@@ -6,7 +6,7 @@ void *func_80030BEC(void *cursor, s32 style, s32 index) {
     /* ASM_BARRIER: preserve the unscaled style index in S7 across helpers. */
     register s32 selected asm("$23") = style;
     register s32 i = 0;
-    const s8 *patterns = D_8009F108;
+    const s8 *patterns = BadgePatternTable;
     register u8 *context_page = (u8 *)0x800B0000U;
     register u8 *row_page = (u8 *)0x800F0000U;
     s32 offset = index*28;
@@ -29,7 +29,7 @@ void *func_80030BEC(void *cursor, s32 style, s32 index) {
         result = AddTilePrim(&(*(RrIconSpriteContext **)(context_page-0x33EC))->head70,result,p->x08,(s32)p->y0A+p->extent0E-2,248,2,8,8,8);
         if(i<4) {
             outgoing = result;
-            atlas = D_8009F074;
+            atlas = BadgeUvTable;
             uv = atlas+glyph;
             p = (RrBadgeRow1C *)((unsigned long)offset+(unsigned long)(*(RrBadgeRow1C **)(row_page+0x3AFC)));
             result = AddSpriteWithDrawMode(&(*(RrIconSpriteContext **)(context_page-0x33EC))->head70,outgoing,(s32)p->x08+xshift,(s32)p->y06-2,uv->w,uv->h,uv->u,uv->v,74,0x2E28,1,128);

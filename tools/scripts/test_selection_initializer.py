@@ -34,13 +34,13 @@ typedef struct {
 static State actual,reference,*w;
 #define ModeFrame w->frame
 #define ScreenFrame w->tick
-#define D_800AC5D4 w->player
+#define SelectionPlayer w->player
 #define MenuCursor w->selection
 #define MenuItemCount w->limit
-#define D_800AC648 w->course
+#define CourseMenuSelection w->course
 #define D_8010C0B8 w->active
 #define CdDirectoryBuffer w->base
-#define D_800F4D40 w->buffer
+#define MenuArenaBase w->buffer
 #define LoadCursor w->published
 #define MenuArenas w->arenas
 #define PlayerCars w->vehicles

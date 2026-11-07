@@ -2,7 +2,7 @@
 extern signed char D_80110102[];
 extern struct { signed char a; char p[4]; signed char b; } D_80110107;
 extern char *_svm_tn;
-extern unsigned short D_800A5128[];
+extern unsigned short SsSemitonePitchTable[];
 extern unsigned short _svm_ptable[];
 
 int note2pitch();
@@ -47,7 +47,7 @@ unsigned short SsPitchFromNote(int cen_note_high, int cen_note_low, int note_hig
         scale = scale + 12;
         octave = oct - 3;
     }
-    pitch = (D_800A5128[scale] * _svm_ptable[frac]) >> 16;
+    pitch = (SsSemitonePitchTable[scale] * _svm_ptable[frac]) >> 16;
     if (octave >= 0) {
         pitch = 0x3FFF;
     } else {

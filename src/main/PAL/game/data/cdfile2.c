@@ -63,13 +63,13 @@ extern unsigned char D_8009DFD8[];
 extern unsigned char D_8009DFEC[];
 extern int LoadCursor;
 extern int *CarBoundsTable[];
-extern struct E D_8010B2E0[];
+extern struct E CarSlotBuffers[];
 extern int SceneLoadState;
 extern int D_8010943C;
 extern int D_8010BF60;
 extern void LoadTimList();
 extern int D_80109440;
-extern int D_80109444;
+extern int LoadingCarIndex;
 extern int D_80109448;
 extern int D_8010944C;
 extern int D_80109450;
@@ -79,7 +79,7 @@ void LoadImage(s16 *, void *);
 extern s32 CarOffsetTables[];
 extern short CourseIndex;
 extern short D_8009E02C[];
-extern char *D_800F4D90;
+extern char *TrackLightTable;
 extern short LightMatrix[];
 extern short D_800ABED6[];
 extern short D_800ABEDC[];
@@ -457,7 +457,7 @@ void AllocCarSlotBuffers(struct A *a0, int a1)
     struct E *s0;
     struct Q *p;
 
-    s0 = (struct E *)((char *)D_8010B2E0 + a1 * 0x320);
+    s0 = (struct E *)((char *)CarSlotBuffers + a1 * 0x320);
     a3 = LoadCursor;
     u = ((a0->f14 + 2) / 3) * 0x18;
     t = ((a0->f38 + 2) / 3) * 0x18;
@@ -504,12 +504,12 @@ void AllocCarSlotBuffers(struct A *a0, int a1)
     } while (s1 > 0);
     LoadCursor = a3;
     if (*(unsigned char *)((char *)CarBoundsTable[a1] + 0xA) == 2) {
-        s0 = (struct E *)((char *)D_8010B2E0 + a1 * 0x320);
+        s0 = (struct E *)((char *)CarSlotBuffers + a1 * 0x320);
         s1 = 4;
         do {
             s1 -= 1;
             s0->fC4 = LoadCursor;
-            func_80096434(LoadCursor, 0x100);
+            PsyqBzero(LoadCursor, 0x100);
             s0++;
             LoadCursor += 0x100;
         } while (s1 > 0);
@@ -606,9 +606,9 @@ int RequestCarLoad(int a0, int a1, int a2, int a3, int a4)
     if (SceneLoadState != 0) {
         return 0;
     }
-    D_80109440 = func_80012210();
+    D_80109440 = GetCarFileIndex();
     r = 1;
-    D_80109444 = a4;
+    LoadingCarIndex = a4;
     D_80109448 = p1;
     D_8010944C = p0;
     D_80109450 = p2;
@@ -650,27 +650,27 @@ s32 CarLoadStep(void) {
             s1 = (void *)LoadCursor->p10;
             s2 = (void *)LoadCursor->p14;
             s3 = (void *)LoadCursor->p8;
-            SetCarRecordPtr((void *)LoadCursor->p4, D_80109444);
-            CarBoundsTable[D_80109444] = s3;
-            RegisterModelBank(s0, D_80109444);
+            SetCarRecordPtr((void *)LoadCursor->p4, LoadingCarIndex);
+            CarBoundsTable[LoadingCarIndex] = s3;
+            RegisterModelBank(s0, LoadingCarIndex);
             /* ASM_BARRIER: preserve local-alloc priority of s0 ($s0) over s3 ($s3) */
             __asm__("" : : "r"(s0));
-            PatchModelBankTexPages(s0, D_80109444);
-            CarOffsetTables[D_80109444] = (s32)s1;
+            PatchModelBankTexPages(s0, LoadingCarIndex);
+            CarOffsetTables[LoadingCarIndex] = (s32)s1;
             RelocateOffsetTable(s1);
-            PatchOffsetTableTexPages(s1, D_80109444);
+            PatchOffsetTableTexPages(s1, LoadingCarIndex);
             rect[2] = 0x40;
             rect[1] = 0;
             rect[3] = 0x100;
-            x = (D_80109444 << 6) + 0x180;
+            x = (LoadingCarIndex << 6) + 0x180;
             rect[0] = x;
         }
         LoadImage(rect, s2);
         DrawSync(0);
         LoadCursor = s2;
-        AllocCarSlotBuffers(CarOffsetTables[D_80109444], D_80109444);
+        AllocCarSlotBuffers(CarOffsetTables[LoadingCarIndex], LoadingCarIndex);
         if (D_80109454 != 0) {
-            func_80012E94(D_80109448, D_8010944C, D_80109450, D_80109454 - 1, D_80109444);
+            func_80012E94(D_80109448, D_8010944C, D_80109450, D_80109454 - 1, LoadingCarIndex);
         }
         SceneLoadState = 0;
         return 1;
@@ -853,14 +853,14 @@ int func_80013904(char *a0_in, int a1_in) {
 
     a0 = t3 & 0xF;
     v0 = (t3 >> 4) & 0xF;
-    /* ASM_BARRIER: extract low and high nibbles of t3 and load %hi(D_800F4D90) */
-    __asm__ volatile("lui %0, %%hi(D_800F4D90)" : "=r"(a1) : "r"(a0), "r"(v0));
+    /* ASM_BARRIER: extract low and high nibbles of t3 and load %hi(TrackLightTable) */
+    __asm__ volatile("lui %0, %%hi(TrackLightTable)" : "=r"(a1) : "r"(a0), "r"(v0));
     v1 = (((v0 << 1) + v0) << 2) - v0;
     v1 <<= 2;
     t7[2] = v0;
     v0 = (((a0 << 1) + a0) << 2) - a0;
-    /* ASM_BARRIER: load %lo(D_800F4D90) after subu v0, v0, a0 */
-    __asm__ volatile("lw %0, %%lo(D_800F4D90)(%0)" : "+r"(a1) : "r"(v1), "r"(v0));
+    /* ASM_BARRIER: load %lo(TrackLightTable) after subu v0, v0, a0 */
+    __asm__ volatile("lw %0, %%lo(TrackLightTable)(%0)" : "+r"(a1) : "r"(v1), "r"(v0));
     v0 <<= 2;
     t7[1] = a0;
     /* ASM_BARRIER: store t7[1] before pointer additions */

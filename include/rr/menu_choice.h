@@ -8,10 +8,10 @@
 #include "rr/menu_state_types.h"
 #include "game/menu/menuwork.h"
 
-extern s32 MenuStepDirection, D_800F3A60;
-extern void *LoadCursor, *D_800F4D40;
+extern s32 MenuStepDirection, MenuConfirmPressed;
+extern void *LoadCursor, *MenuArenaBase;
 extern RrMenuSettings2C SelectionState;
-extern s16 D_800F3826;
+extern s16 CourseListIndex;
 extern u16 D_800F3A42;
 extern RrMenuGlyphRow1C *GlyphRows;
 extern RrMenuChoice4 SelectionRows;

@@ -8,7 +8,7 @@
 extern int D_800A099C[][3];
 extern int D_800A0904[];
 extern int CdAudioSetVolumeRaw();
-extern int func_80096474();
+extern int PsyqSrand();
 extern int CdAudioSetVolume();
 extern struct { char pad[0x2664]; s32 a; char p0[4]; s32 b, c, d, e; char p1[8]; s32 g; char p3[0x14]; s32 h; char p2[0x26CE - 0x26A0]; u16 i; } SoundState;
 
@@ -46,7 +46,7 @@ int a0, a1;
         s0 += W(s2, 0x2634);
         CdAudioSetTarget(s0, h, 0);
         W(g, 0x2690) = (*(int *)(s1 + W(s2, 0x2638) + 4) - 2) * 8;
-        func_80096434(g + 0x26D0, 0x1C);
+        PsyqBzero(g + 0x26D0, 0x1C);
         { int b = (int)D_800A099C; v = (int *)(b + a1 * 12); }
         W(g, 0x26EC) = 0;
         W(g, 0x26F0) = 0;
@@ -60,7 +60,7 @@ int a0, a1;
         W(g, 0x26C0) = D_800A0904[a1];
         CdAudioSetVolumeRaw(0);
     }
-    func_80096474(FrameCounter);
+    PsyqSrand(FrameCounter);
 }
 
 #undef SoundState

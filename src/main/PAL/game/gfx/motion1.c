@@ -25,7 +25,7 @@ void func_8005D500(s32 arg0) {
     void *temp_s1;
 
     temp_s1 = MotionController + 0xE4;
-    func_80096434(temp_s1, 0x50);
+    PsyqBzero(temp_s1, 0x50);
     M2C_FIELD(temp_s1, s32 *, 4) = arg0;
 }
 
@@ -113,7 +113,7 @@ void func_8005D544(struct A *a0) {
 /* legacy typing of shared globals in this part of the unit */
 #define MotionController ((void *)MotionController)
 
-void func_8005D820(void) {
+void DrawMotionControllerPanel(void) {
     s32 temp_a0;
 
     temp_a0 = M2C_FIELD(MotionController, s32 *, 0x128);

@@ -102,7 +102,7 @@ void UpdateLoopVoices() {
 /* legacy typing of shared globals in this part of the unit */
 #define SoundState (*(struct { char pad[0x19BC]; s16 a[2]; s16 b[2]; s32 c, d; } (*))&SoundState)
 
-void func_800514FC(void) {
+void ResetSoundChannelVolLR(void) {
     int i;
     for (i = 0; i < 2; i++) {
         SoundState.a[i] = 0;

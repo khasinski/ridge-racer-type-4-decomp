@@ -44,7 +44,7 @@ static struct {u32 guard[4];RrMenuTextRow60 rows[55];u32 tail[4];} owners[2],bef
 RrMenuTextRow60 *MenuTextRows;
 s32 MenuTextRowCount;
 static unsigned bank,count,mutation,calls;
-void func_80096434(void *pointer,u32 bytes) {
+void PsyqBzero(void *pointer,u32 bytes) {
  assert(calls++==0 && pointer==owners[bank].rows && bytes==count*60);
  assert(MenuTextRows==pointer && (uintptr_t)pointer>UINT32_MAX);
  memset(pointer,0,bytes);

@@ -10,22 +10,22 @@ extern int StepMenuValue();
 extern int CopyStringClearTail();
 extern int PlaySfx();
 extern short D_800FFC18;
-extern short D_800FFC00;
+extern short CardSlot;
 extern short D_800AC594;
 extern short MenuStateIndex;
 extern short D_800F4D3C;
 extern short D_800F3AF8;
 extern char CardTargetFileName[];
-extern char D_800A45A0[];
+extern char CardFileNameTemplate[];
 extern char CardSaveFileName[];
-extern struct { char a[4]; unsigned char b; char c[3]; } D_800A4258[];
+extern struct { char a[4]; unsigned char b; char c[3]; } MenuStateTable[];
 extern unsigned char D_800A448C[][4];
 extern struct { char pad[0x28]; int x28; int x2c; char pad2[0x2C]; } PlayerControllers[];
 extern unsigned char D_800F3A24[];
 extern char *UiRows;
 extern short D_80109478[];
 extern short D_8010948E;
-extern unsigned char D_800A44D8[][4];
+extern unsigned char MenuCardStepRows[][4];
 extern unsigned char CardFileCounts[];
 
 void func_8007B774(void);
@@ -36,7 +36,7 @@ void func_8007B774(void) {
     /* ASM_BARRIER: pins value to s3 as in the original */
     register int s3 asm("$19");
     int i;
-    i = D_800A4258[MenuStateIndex].b;
+    i = MenuStateTable[MenuStateIndex].b;
     s3 = D_800A448C[i][1];
     switch (D_800FFC18) {
     case 3:
@@ -63,7 +63,7 @@ void func_8007B774(void) {
             if (MenuStateIndex == 0x3A) {
                 D_801094A0 = 1;
                 D_800F3AF8 = 0x20;
-                CopyStringClearTail(CardTargetFileName, D_800A45A0);
+                CopyStringClearTail(CardTargetFileName, CardFileNameTemplate);
             } else {
                 CopyStringClearTail(CardTargetFileName, CardSaveFileName);
             }
@@ -73,11 +73,11 @@ void func_8007B774(void) {
         break;
     }
     MenuStateIndex = s3;
-    PollCardStatus(D_800FFC00, 0, 1);
+    PollCardStatus(CardSlot, 0, 1);
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800A4258 (*(struct E (*)[])&D_800A4258)
+#define MenuStateTable (*(struct E (*)[])&MenuStateTable)
 #define PlayerControllers (*(char (*)[])&PlayerControllers)
 
 void func_8007B954()
@@ -95,7 +95,7 @@ void func_8007B954()
     struct E *p;
     signed char sb;
 
-    base = D_800A4258;
+    base = MenuStateTable;
     p = base + MenuStateIndex;
     q = (unsigned char *)(int)p->a;
     c = p->c;
@@ -110,7 +110,7 @@ void func_8007B954()
     tb = D_800A44A8;
     ia = (int)q * 4;
     b2 = D_800F3A24;
-    r = b2 + D_800FFC00;
+    r = b2 + CardSlot;
     q = (unsigned char *)tb + ia;
     a = q[0];
     s4 = q[1];
@@ -150,7 +150,7 @@ void func_8007B954()
     }
 }
 
-#undef D_800A4258
+#undef MenuStateTable
 #undef PlayerControllers
 
 void func_8007BB9C()
@@ -159,8 +159,8 @@ void func_8007BB9C()
     int s2, s4, s0, s3;
     int a0;
     unsigned char (*tab)[4];
-    int i = D_800A4258[MenuStateIndex].b;
-    tab = D_800A44D8;
+    int i = MenuStateTable[MenuStateIndex].b;
+    tab = MenuCardStepRows;
     e = tab[i];
     s2 = e[0];
     s4 = e[1];
@@ -168,20 +168,20 @@ void func_8007BB9C()
     s3 = e[3];
     if (D_800FFC18 != 0) goto l54;
     if (MenuStateIndex != 0x3D) goto l54;
-    if (CardHasFile(CardFileCounts[D_800FFC00], CardSaveFileName) == 0) goto l48;
+    if (CardHasFile(CardFileCounts[CardSlot], CardSaveFileName) == 0) goto l48;
     D_80109490 = 1;
     goto l54;
 l48:
     D_80109490 = 0;
 l54:
-    if (CardHasFile(CardFileCounts[D_800FFC00], CardTargetFileName) != 1) goto ca0;
+    if (CardHasFile(CardFileCounts[CardSlot], CardTargetFileName) != 1) goto ca0;
     MenuStateIndex = s2;
     if (s0 == 1) { a0 = 2; goto cf0; }
     CardLoadStep(2, 0);
     return;
 ca0:
     if (s0 != 1) goto ce0;
-    if (D_800F3A24[D_800FFC00] + s3 < 0x10) goto ce0;
+    if (D_800F3A24[CardSlot] + s3 < 0x10) goto ce0;
     MenuStateIndex = 0x16;
     return;
 ce0:

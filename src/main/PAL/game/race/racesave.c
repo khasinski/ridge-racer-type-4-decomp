@@ -82,7 +82,7 @@ extern int SavedRaceState;
 extern int RaceState;
 extern short NumCars;
 extern B800 *CarSnapshots[];
-extern short D_8009FFB8[];
+extern short SteeringRangeTable[];
 extern int ReplayFrame;
 extern int D_800ACBE0[];
 extern int D_800ACBF0[];
@@ -93,22 +93,22 @@ extern unsigned char CarInputs[][4];
 extern S30 PadButtonMap[];
 extern S5C PlayerControllers[];
 extern int D_800F3AF0[];
-extern short D_800F4D44;
+extern short RaceType;
 extern int ReplayLength;
-extern short D_800AC5D0;
+extern short MenuFadeTimer;
 extern int TrackLength;
 extern int NumLaps;
-extern int D_800F3A60;
+extern int MenuConfirmPressed;
 extern int SoundSetMasterVolume();
 extern int AddScreenFadeTiles();
 extern int func_800293D0();
 extern int ClearTrackObjectStates();
 extern int SetModelTexturePage();
 extern int PlayerCars[];
-extern short D_800F3A26;
+extern short ModeId;
 extern short ModeGroup;
 extern short D_800F4D8A;
-extern int D_8010BFB0;
+extern int ReplayFocusCarIndex;
 extern int AddSpriteWithDrawMode();
 extern int DrawCars();
 extern int FinishRace();
@@ -169,11 +169,11 @@ void ReadCarInput(char *arg0, int arg1) {
         if (ReplayState == 2) {
             if (ReplayFrame < ReplayLength) {
                 *(U4 *)CarInputs[arg1] = ReplayInputs[arg1][ReplayFrame];
-                if (D_800F4D44 == 4) {
+                if (RaceType == 4) {
                     if (arg1 == 3) {
                         ReplayFrame += 1;
                     }
-                } else if (arg1 == 1 || D_800F4D44 < 2 || D_800F4D44 == 6) {
+                } else if (arg1 == 1 || RaceType < 2 || RaceType == 6) {
                     ReplayFrame += 1;
                 }
             }
@@ -221,7 +221,7 @@ void ReadCarInput(char *arg0, int arg1) {
                     }
                     a1 = a0->sB0 + (b * 140);
                 } else if (mode == 1) {
-                    t5 = (PlayerControllers[idx].s3C * 0x7F) / D_8009FFB8[Options.sub[idx].s12];
+                    t5 = (PlayerControllers[idx].s3C * 0x7F) / SteeringRangeTable[Options.sub[idx].s12];
                     t1 = 0;
                     if (PlayerControllers[idx].h2 & PadButtonMap[idx].h14) {
                         t1 = 0xFF;
@@ -321,7 +321,7 @@ void ReadCarInput(char *arg0, int arg1) {
             CarInputs[arg1][1] = t1;
             CarInputs[arg1][2] = a1;
             CarInputs[arg1][3] = t3;
-            if (D_800F4D44 == 4) {
+            if (RaceType == 4) {
                 if (D_800AD508 != 0) {
                     if (arg1 >= 2) {
                         *(int *)CarInputs[arg1] = D_800ACBE0[t2];
@@ -349,7 +349,7 @@ void ReadCarInput(char *arg0, int arg1) {
             } else if (ReplayState == 1) {
                 if (ReplayFrame < ReplayLength) {
                     ReplayInputs[arg1][ReplayFrame] = *(U4 *)CarInputs[arg1];
-                    if (arg1 == 1 || D_800F4D44 < 2 || D_800F4D44 == 6) {
+                    if (arg1 == 1 || RaceType < 2 || RaceType == 6) {
                         ReplayFrame += 1;
                     }
                 }
@@ -367,28 +367,28 @@ void CheckRaceFinish(a0) char *a0; {
             *(short *)(a2 + 0xB6) = u + 1;
             if (NumLaps < (short)(u + 1)) {
                 if (RaceState < 4) {
-                    if (D_800AC5D0 == -1) {
+                    if (MenuFadeTimer == -1) {
                         RaceState = 4;
-                        D_800AC5D0 = 0x4B;
+                        MenuFadeTimer = 0x4B;
                         SoundSetMasterVolume(0, 0x47);
                     }
                 }
             }
         }
     }
-    if (ReplayFrame >= ReplayLength - 0x4B && D_800AC5D0 == -1) {
-        D_800AC5D0 = 0x25;
+    if (ReplayFrame >= ReplayLength - 0x4B && MenuFadeTimer == -1) {
+        MenuFadeTimer = 0x25;
         SoundSetMasterVolume(0, 0x21);
-    } else if (D_800F3A60 != 0) {
-        if (D_800AC5D0 == -1) {
-            D_800AC5D0 = 0x25;
+    } else if (MenuConfirmPressed != 0) {
+        if (MenuFadeTimer == -1) {
+            MenuFadeTimer = 0x25;
             SoundSetMasterVolume(0, 0x21);
         }
     }
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4D44 (*(unsigned short (*))&D_800F4D44)
+#define RaceType (*(unsigned short (*))&RaceType)
 
 void ReplayModeEnter() {
     SoundInitForRace();
@@ -398,17 +398,17 @@ void ReplayModeEnter() {
     RaceState = SavedRaceState;
     ClearTrackObjectStates(1);
     SetModelTexturePage(10);
-    D_8010BFB0 = 0;
-    if ((unsigned)(D_800F4D44 - 2) < 2U) {
-        if (PlayerCars[0x184 / 4] < PlayerCars[0x4A4 / 4]) D_8010BFB0 = 1;
+    ReplayFocusCarIndex = 0;
+    if ((unsigned)(RaceType - 2) < 2U) {
+        if (PlayerCars[0x184 / 4] < PlayerCars[0x4A4 / 4]) ReplayFocusCarIndex = 1;
     }
-    D_800AC5D0 = -1;
+    MenuFadeTimer = -1;
     ModeGroup = 1;
-    D_800F3A26 = 0x16;
+    ModeId = 0x16;
     D_800F4D8A = 0;
 }
 
-#undef D_800F4D44
+#undef RaceType
 
 /* legacy typing of shared globals in this part of the unit */
 #define PlayerCars (*(struct { char pad[0x184]; int f184; char pad2[0x320 - 0x188]; } (*)[])&PlayerCars)
@@ -427,13 +427,13 @@ void ReplayModeUpdate(void) {
         func_800556B4();
     }
     ScreenFrame += 1;
-    if (D_800AC5D0 >= 0) {
-        if (D_800AC5D0 == 0) {
+    if (MenuFadeTimer >= 0) {
+        if (MenuFadeTimer == 0) {
             SetReverbDepthBoth(0);
             FinishRace();
         }
-        t = (unsigned short)D_800AC5D0 - 1;
-        D_800AC5D0 = t;
+        t = (unsigned short)MenuFadeTimer - 1;
+        MenuFadeTimer = t;
         if (t < 0x19) {
             AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x19 - t) * 10, 0x45);
         }
@@ -446,18 +446,18 @@ void ReplayModeUpdate(void) {
             CheckRaceFinish(CarTable[i]);
         }
     }
-    StepRaceFrame(D_800F4D44);
-    if ((unsigned)((unsigned short)D_800F4D44 - 2) < 2U) {
+    StepRaceFrame(RaceType);
+    if ((unsigned)((unsigned short)RaceType - 2) < 2U) {
         if ((unsigned char)ReplayFrame == 0) {
             if (PlayerCars[0].f184 < PlayerCars[1].f184) {
-                D_8010BFB0 = 1;
+                ReplayFocusCarIndex = 1;
             } else {
-                D_8010BFB0 = 0;
+                ReplayFocusCarIndex = 0;
             }
         }
     }
     SetupViewport(0);
-    func_8004417C(2, &PlayerCars[D_8010BFB0]);
+    UpdateRaceCamera(2, &PlayerCars[ReplayFocusCarIndex]);
     UpdateTrackObjects(0);
     BuildCameraMatrices();
     DrawCars(6);

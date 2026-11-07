@@ -7,8 +7,8 @@
 #include "rr/badge_row_types.h"
 
 extern RrBadgeRow1C *BadgeRows;
-extern s8 D_8009F108[];
-extern RrUiUvRect D_8009F074[];
+extern s8 BadgePatternTable[];
+extern RrUiUvRect BadgeUvTable[];
 
 /* The helpers thread full packet pointers. Coordinate arguments remain wide
  * until their wire16 stores, including sums of two signed16 row fields. */

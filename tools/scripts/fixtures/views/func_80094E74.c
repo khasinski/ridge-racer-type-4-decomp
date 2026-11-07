@@ -35,7 +35,7 @@ extern volatile int _qout;
 
 extern int GpuSavedIntrMask;
 
-extern volatile struct GpuQueue D_801128D8[];
+extern volatile struct GpuQueue GpuCmdQueue[];
 
 int _exeque(void) {
     int m0, m1;
@@ -49,7 +49,7 @@ int _exeque(void) {
         }
         while ((m1 = 0x04000000, (*GPU_STATUS & m1) == 0))
 ;
-        D_801128D8[_qout].op(D_801128D8[_qout].p0, D_801128D8[_qout].p1);
+        GpuCmdQueue[_qout].op(GpuCmdQueue[_qout].p0, GpuCmdQueue[_qout].p1);
         _qout = (_qout + 1) & 0x3F;
     }
     SetIntrMask(GpuSavedIntrMask);

@@ -23,21 +23,21 @@ void UpdateSparkEffects() {
     a1 = *(int *)(D_800AC89C + 0x104);
     if (a1 >= l1) {
         if (a1 < SparkFrameRanges[5]) {
-            func_8005748C(0, a1 - l1, SparkFrameRanges[5] - l1 - 0x20);
+            DrawSparkHudOverlay(0, a1 - l1, SparkFrameRanges[5] - l1 - 0x20);
         }
     }
     l1 = SparkFrameRanges[6];
     a1 = *(int *)(D_800AC89C + 0x104);
     if (a1 >= l1) {
         if (a1 < SparkFrameRanges[7]) {
-            func_8005748C(1, a1 - l1, SparkFrameRanges[7] - l1 - 0x20);
+            DrawSparkHudOverlay(1, a1 - l1, SparkFrameRanges[7] - l1 - 0x20);
         }
     }
     l1 = SparkFrameRanges[8];
     a1 = *(int *)(D_800AC89C + 0x104);
     if (a1 >= l1) {
         if (a1 < SparkFrameRanges[9]) {
-            func_8005748C(2, a1 - l1, SparkFrameRanges[9] - l1 - 0x20);
+            DrawSparkHudOverlay(2, a1 - l1, SparkFrameRanges[9] - l1 - 0x20);
         }
     }
 }

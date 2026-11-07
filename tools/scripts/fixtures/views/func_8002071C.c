@@ -40,7 +40,7 @@ void SetSemiTrans(void *, s32);
 
 void SetPolyF3(void *);
 
-RrPolyF3Packet *func_8002071C(u32 *ordering,RrPolyF3Packet *packet,s32 xy0,s32 xy1,s32 xy2,const u8 *rgb,s32 flags){
+RrPolyF3Packet *EmitPolyF3(u32 *ordering,RrPolyF3Packet *packet,s32 xy0,s32 xy1,s32 xy2,const u8 *rgb,s32 flags){
  SetPolyF3(packet);
  SetSemiTrans(packet,flags);
  packet->xy0=xy0;

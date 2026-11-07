@@ -40,7 +40,7 @@ extern struct {
 } SoundState;
 
 extern Entry D_800F6714[2];
-extern const TableEntry D_80011124[];
+extern const TableEntry PlayerVoiceParamTable[];
 extern s16 PanGainTable[];
 extern struct {
     char pad[0x31];
@@ -65,16 +65,16 @@ void UpdatePlayerVoices(void) {
                 SsUtKeyOffV((s16)s0->unk4);
             } else if (s0->unk8 >= 0) {
                 if (s0->unk8 < 4) {
-                    SsUtKeyOnV((s16)s0->unk4, (s16)s0->unk0, (s16)D_80011124[s0->unk8 - 1].a, 0, 0x3C, 0, 0, 0);
+                    SsUtKeyOnV((s16)s0->unk4, (s16)s0->unk0, (s16)PlayerVoiceParamTable[s0->unk8 - 1].a, 0, 0x3C, 0, 0, 0);
                 }
             }
             s0->unkC = s0->unk8;
         }
         if (s0->unk8 != 0) {
-            s6 = D_80011124[s0->unk8 - 1].a;
+            s6 = PlayerVoiceParamTable[s0->unk8 - 1].a;
             s7 = s0->unk10 >> 7;
             fp = s0->unk10 & 0x7F;
-            a1 = (s0->unk14 * D_80011124[s0->unk8 - 1].c) / 128;
+            a1 = (s0->unk14 * PlayerVoiceParamTable[s0->unk8 - 1].c) / 128;
             switch (SoundState.unk18C2) {
             case 0:
                 switch (i) {

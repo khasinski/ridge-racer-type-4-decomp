@@ -29,7 +29,7 @@ extern int CD_dirNopen;
 extern int CD_nopen;
 extern int CD_debug;
 extern CdlFILE DsDirFileCache[];
-extern const char D_80011B38[];
+extern const char CdPathLevelErrorFmt[];
 extern const char StrCdDirNotFoundFmt[];
 extern const char CdSearchFileDiscErrorMsg[];
 extern const char StrCdSearchFileFmt[];
@@ -94,7 +94,7 @@ CdlFILE *CdSearchFile(CdlFILE *fp, char *name) {
 done:
     if (i >= 8) {
         if (CD_debug > 0)
-            DebugPrintStub(D_80011B38, name, i);
+            DebugPrintStub(CdPathLevelErrorFmt, name, i);
         return 0;
     }
     if (buf[0] == 0) {
@@ -194,7 +194,7 @@ int DS_newmedia(void) {
     if (i < 0x80) {
         CD_pathtbl[i].b = 0;
     }
-    D_800A67A0 = 0;
+    DS_cachedDir = 0;
     if (CD_debug >= 2) {
         DebugPrintStub(StrCdNewMediaDirCountFmt, i);
     }

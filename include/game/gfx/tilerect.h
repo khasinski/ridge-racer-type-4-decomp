@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void func_8001A8DC(int a0);
+void DrawTrackObjectFlashQuads(int a0);
 
 #endif /* RR_GAME_GFX_TILERECT_H */

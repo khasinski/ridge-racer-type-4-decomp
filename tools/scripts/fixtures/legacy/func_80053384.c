@@ -15,7 +15,7 @@ extern unsigned int CdAudioFadeState;
 extern int CdAudioSetVolumeRaw();
 extern int CdSync();
 extern int CdControl();
-extern int func_80096434();
+extern int PsyqBzero();
 
 void CdAudioStopStep()
 {
@@ -45,7 +45,7 @@ void CdAudioStopStep()
         SoundState.f269C = -1;
         SoundState.f2670 = -1;
         SoundState.f2678 = 0;
-        func_80096434(SoundState.blk, 0x1C);
+        PsyqBzero(SoundState.blk, 0x1C);
         break;
     }
 }

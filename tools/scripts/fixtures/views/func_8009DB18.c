@@ -21,10 +21,10 @@ s32 _cardSectorRx(s32 input) {
             if(byte==8) {
                 CardRetriesLeft=0;
                 byte=1;
-                D_80114730=byte;
+                CardBytesRemaining=byte;
                 result=0;goto done;
             }
-            D_80114730=138;
+            CardBytesRemaining=138;
             result=0;goto done;
         }
         case 3:goto handshake;
@@ -58,10 +58,10 @@ fold_original:
             /* ASM_BARRIER: Preserve the original byte comparison temporary and branch delay. */
             register u32 byte __asm__("$3")=value&255;
             if(byte==8) {
-                D_80114730=1;
+                CardBytesRemaining=1;
                 result=0;goto done;
             }
-            D_80114730=136;
+            CardBytesRemaining=136;
             result=0;goto done;
         }
         case 3:

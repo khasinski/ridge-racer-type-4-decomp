@@ -9,7 +9,7 @@ s32 _cardCmd59Begin(s32 a0, u32 *a1) {
     if (!(CardCommandStatus & 1)) {
         r = 0;
     } else {
-        CardReceiveIndex = 0; CardRxCount = 0; D_80114730 = 0; D_800ABDE8 = 0; CardCommandRequest = a0;
+        CardReceiveIndex = 0; CardRxCount = 0; CardBytesRemaining = 0; CardTxCount = 0; CardCommandRequest = a0;
         r = 1;
     }
     if (!r) return 0;

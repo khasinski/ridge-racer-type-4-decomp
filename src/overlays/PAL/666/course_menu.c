@@ -16,7 +16,7 @@ void ovl666_init_menu(void) {
                   GlyphRows->h0E, 0, 0);
     InitUiRow(0, 12, 64, 68, 32, 0, 0, 1, 0, 83);
     InitUiRow(1, 12, 104, 68, 32, 0, 0, 1, 0, 85);
-    InitUiRow(2, 12, 368, 248, 32, 0, 0, 4, 12, D_800F3826 + 8);
+    InitUiRow(2, 12, 368, 248, 32, 0, 0, 4, 12, CourseListIndex + 8);
     InitUiRow(3, 24, 88, 68, 32, 0, 0, 1, 0, 84);
     InitUiRow(4, 24, 128, 68, 32, 0, 0, 1, 0, 85);
     InitUiRow(5, 116, 88, 28, 32, 0, 0, 1, 0, 55);
@@ -45,12 +45,12 @@ void ovl666_init_scene(void) {
             }
         }
     }
-    D_800AC648 = 0;
-    D_800F3826 = 0;
+    CourseMenuSelection = 0;
+    CourseListIndex = 0;
     DebugPrintStub(ovl666_scene_name);
     ovl666_init_menu();
     ModeGroup = 1;
-    D_800F3A26 = 79;
+    ModeId = 79;
     D_800F4D8A = 0;
     SeqStartTrack(0);
 }
@@ -87,7 +87,7 @@ void ovl666_update_menu(void) {
             UiRows[MenuCursor].cells[0] = 0;
             StepMenuValue(0, 2, (char *)&MenuCursor, 2, 0);
             cellState = 2;
-            if (ovl666_course_counts[D_800F3826] <= 0) {
+            if (ovl666_course_counts[CourseListIndex] <= 0) {
                 UiRows[0].half20 = ready;
                 if (MenuCursor == 0) {
                     cellState = 4;
@@ -101,7 +101,7 @@ void ovl666_update_menu(void) {
             if (PlayerControllers[0].a != 0) {
                 selected = MenuCursor;
                 if (selected == 0) {
-                    if (ovl666_course_counts[D_800F3826] > 0) {
+                    if (ovl666_course_counts[CourseListIndex] > 0) {
                         closing = 1;
                         D_800F4D8A = 3;
                         PlaySfx(1);
@@ -142,7 +142,7 @@ void ovl666_update_menu(void) {
                         choiceRow += 1;
                     } while (choiceRow < 3);
                     D_800F4D8A = 8;
-                    D_800AC5D0 = 0x40;
+                    MenuFadeTimer = 0x40;
                     SeqFadeVolume(0, 0x3C);
                 }
             }
@@ -152,7 +152,7 @@ void ovl666_update_menu(void) {
             if (UiRows[0].byte14 == 5) {
                 ovl666_init_preview();
                 ModeGroup = ready;
-                D_800F3A26 = 0x50;
+                ModeId = 0x50;
                 D_800F4D8A = 0;
             } else {
                 goto title;
@@ -160,26 +160,26 @@ void ovl666_update_menu(void) {
             break;
         case 8:
             SetMenuFrameOptions(0, 1, 1);
-            timer = (u16)D_800AC5D0 - 1;
-            D_800AC5D0 = (u16)timer;
+            timer = (u16)MenuFadeTimer - 1;
+            MenuFadeTimer = (u16)timer;
             AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - timer) * 4, 0x45);
-            if ((s16)D_800AC5D0 <= 0) {
+            if ((s16)MenuFadeTimer <= 0) {
                 ModeGroup = ready;
-                D_800F3A26 = 3;
+                ModeId = 3;
                 D_800F4D8A = 0;
                 SeqMuteVolume();
             }
             goto update_rows;
         default:
         title:
-            DrawMenuStepArrows(0xA0, 0xCC, 0x30, 0, (s32)D_800F3826, 0, 4);
-            glyphIndex = D_800F3826;
+            DrawMenuStepArrows(0xA0, 0xCC, 0x30, 0, (s32)CourseListIndex, 0, 4);
+            glyphIndex = CourseListIndex;
             if ((u8)SaveProgress.prefix.flags5C[glyphIndex] != 0) {
                 glyphBase = GlyphRows;
 
                 ovl666_draw_selection_pulse(glyphBase[glyphIndex].x08 + 0x14,
                                             glyphBase[glyphIndex].y0A + 0x28);
-                UpdateGlyphRow(D_800F3826);
+                UpdateGlyphRow(CourseListIndex);
             } else {
                 UpdateGlyphRow(glyphIndex);
             }
@@ -197,19 +197,19 @@ void ovl666_update_menu(void) {
 void ovl666_update_course_selection(void) {
     {
         RrUiRow24 *ui = UiRows;
-        s32 selected = D_800F3826;
+        s32 selected = CourseListIndex;
         ui[2].cells[selected] = 0;
     }
     if (D_800F3A42 & 0x2000) {
-        if (D_800F3826 < 3) {
-            D_800F3826++;
+        if (CourseListIndex < 3) {
+            CourseListIndex++;
             MenuStepDirection = 2;
             goto changed;
         }
     }
     if (D_800F3A42 & 0x8000) {
-        if (D_800F3826 > 0) {
-            D_800F3826--;
+        if (CourseListIndex > 0) {
+            CourseListIndex--;
             MenuStepDirection = 1;
             goto changed;
         }
@@ -218,17 +218,17 @@ void ovl666_update_course_selection(void) {
     goto active;
 changed:
     PlaySfx(0);
-    if (D_800F3826 < 0)
-        D_800F3826 = 0;
-    else if (D_800F3826 >= 4)
-        D_800F3826 = 3;
-    GlyphRows[D_800F3826].control02 = -6;
-    GlyphRows[D_800F3826].flags00 = 0;
-    UiRows[2].byte16 = (u8)D_800F3826 + 8;
+    if (CourseListIndex < 0)
+        CourseListIndex = 0;
+    else if (CourseListIndex >= 4)
+        CourseListIndex = 3;
+    GlyphRows[CourseListIndex].control02 = -6;
+    GlyphRows[CourseListIndex].flags00 = 0;
+    UiRows[2].byte16 = (u8)CourseListIndex + 8;
 active:
     {
         RrUiRow24 *ui = UiRows;
-        s32 selected = D_800F3826;
+        s32 selected = CourseListIndex;
         ui[2].cells[selected] = 2;
     }
 }

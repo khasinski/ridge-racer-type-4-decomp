@@ -319,7 +319,7 @@ void func_8005C024(void)
     SelectModelBank(7);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), RaceContext.p + 0xC8, sp10);
     *(int *)(SCRATCHPAD + 0x78) = 0;
-    SubmitModelTwoTri(SCRATCHPAD, D_800F2FD8 < 1, 0, 0x100);
+    SubmitModelTwoTri(SCRATCHPAD, ModelBankFormat < 1, 0, 0x100);
 }
 
 #undef RaceContext

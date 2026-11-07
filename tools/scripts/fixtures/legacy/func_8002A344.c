@@ -4,7 +4,7 @@ extern S ScreenFadeState;
 extern B4 ScreenFadeColors[];
 extern char *CurrentDrawBuf;
 extern short MenuFrameState;
-extern short D_800F4D2C;
+extern short ModeMenuCursorSaved;
 extern int AddTileGrid2x2();
 extern int DrawMenuFrame();
 extern int func_8005B2D4();
@@ -55,7 +55,7 @@ void UpdateScreenFade(a0) int a0; {
         *(int *)0x1F800000 = AddTileGrid2x2(CurrentDrawBuf + 0xB6C, t, 0, 0, 0x140, 0x200, sp.c[0], sp.c[1], sp.c[2]);
     }
     DrawMenuFrame(a0 >> 2);
-    if (D_800F4D2C != 6 && D_800F4D2C != 8) {
+    if (ModeMenuCursorSaved != 6 && ModeMenuCursorSaved != 8) {
         func_8005B2D4(a0 & 1);
         StepCameraScript();
     }

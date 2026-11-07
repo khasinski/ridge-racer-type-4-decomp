@@ -40,7 +40,7 @@ static struct World {
 #define D_800A6800 world.port0
 #define D_800A680C world.port1
 #define ModeGroup world.screen
-#define D_800F3A26 world.step
+#define ModeId world.step
 #define D_800F4D8A world.counter
 static void callback(void) {assert(0);}
 static void event(struct World *w,s32 kind,s32 a){Event *e;assert(w->calls<8);e=&w->events[w->calls++];e->kind=kind;e->argument=a;}

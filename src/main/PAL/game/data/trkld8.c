@@ -17,7 +17,7 @@ extern int LoadTimList();
 extern short D_800AD520;
 extern int D_800AD564;
 extern short CourseIndex;
-extern int D_800F4D40;
+extern int MenuArenaBase;
 extern char D_800F74B0[];
 extern char RaceContext[];
 extern struct { char pad[0x24]; short h[8]; char pad2[0x2860 - 0x34]; short a, b; } SoundState;
@@ -26,7 +26,7 @@ extern int SsSetSerialVol();
 extern int func_80055300();
 extern int CdAudioInit();
 
-int func_8004EA8C(void) {
+int LoadIntroSceneStep(void) {
     int v;
     int t;
     int u;
@@ -46,7 +46,7 @@ int func_8004EA8C(void) {
                 CourseIndex = 8;
                 LoadCursor = w;
                 RaceLoadCursor = w;
-                D_800F4D40 = w;
+                MenuArenaBase = w;
                 RaceLoadStepIndex += 1;
             }
     default:
@@ -95,8 +95,8 @@ void SoundSystemInit() {
     s1 = s0 - 0x26F8;
     SsStart();
     SsSetMVol(0x7F, 0x7F);
-    func_80096434(s1, 0xA8D0);
-    func_80096434(RaceContext, 0x57C);
+    PsyqBzero(s1, 0xA8D0);
+    PsyqBzero(RaceContext, 0x57C);
     s0 -= 0x1498;
     func_80055300();
     ResetSlotOrder();

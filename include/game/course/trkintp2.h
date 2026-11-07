@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern unsigned char D_8009FE2C[];
+extern unsigned char PasswordCipherKey[];
 int FindNearestTrackEntry();
 void func_800437D8();
 void CarLocalToWorld(char *a, int b, int *c);

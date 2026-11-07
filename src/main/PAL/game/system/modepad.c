@@ -14,7 +14,7 @@ extern int PlayerControllers[];
 extern char *UiRows;
 extern short MenuCursor;
 extern short D_800AD564;
-extern int D_800F3A60;
+extern int MenuConfirmPressed;
 extern int D_800F3AA4;
 extern short MenuScriptId;
 extern int UiRowCount;
@@ -70,7 +70,7 @@ int ModeSelectMenuStep(void)
     else
         UiRows[MenuCursor].b0C = 2;
     s2 = 0;
-    if (D_800F3A60 != 0) {
+    if (MenuConfirmPressed != 0) {
         if (UiRows[MenuCursor].s20 == 1) {
             PlaySfx(4);
             return s2;
@@ -84,24 +84,24 @@ int ModeSelectMenuStep(void)
         D_800F4CA8 = 2;
         MenuScriptId = 8;
         PendingModeId = 0x123;
-        D_800F4D2C = MenuCursor;
+        ModeMenuCursorSaved = MenuCursor;
         v = (short)MenuCursor;
         switch (v) {
         case 0:
-            D_800F4D44 = 1;
+            RaceType = 1;
             break;
         case 1:
-            D_800F4D44 = 0;
+            RaceType = 0;
             D_800FFC10 = 0;
             break;
         case 2:
             RestoreSaveData();
-            D_800F4D44 = 2;
+            RaceType = 2;
             D_800FFC10 = 0;
             break;
         case 3:
         case 4:
-            D_800F4D44 = 0;
+            RaceType = 0;
             break;
         case 5:
             D_800F4CA8 = 3;
@@ -111,12 +111,12 @@ int ModeSelectMenuStep(void)
         default:
             if (v == D_800F4CD0) {
                 RestoreSaveData();
-                D_800F4D44 = 4;
-                D_800F4D2C = 8;
+                RaceType = 4;
+                ModeMenuCursorSaved = 8;
                 PendingModeId = 0x11D;
             } else {
-                D_800F4D2C = 7;
-                D_800F4D44 = 6;
+                ModeMenuCursorSaved = 7;
+                RaceType = 6;
             }
             break;
         }
@@ -125,10 +125,10 @@ int ModeSelectMenuStep(void)
             if (((_sio_control(0, 0, 0) >> 7) & 3) == 2) {
                 UiRows[MenuCursor].b0C = 0;
                 s2 = 1;
-                UiRows[(short)D_800F4D2C].b0C = 0;
+                UiRows[(short)ModeMenuCursorSaved].b0C = 0;
                 RestoreSaveData();
-                D_800F4D2C = 8;
-                D_800F4D44 = 4;
+                ModeMenuCursorSaved = 8;
+                RaceType = 4;
                 PendingModeId = 0x11D;
             }
         }

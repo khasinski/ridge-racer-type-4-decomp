@@ -87,7 +87,7 @@ void ovl662_func_80119068(void) {
                 BadgeRows[0].state10 = 4;
                 BadgeRows[1].state10 = 4;
                 (*(s8*)(ImageRows+1)) = 3;
-                D_800AC5D0 = 0x40;
+                MenuFadeTimer = 0x40;
             } else if (MenuCursor == 1) {
                 if (ovl662_D_801272BC > 0) {
                     SetModelTexturePage(-1);
@@ -138,39 +138,39 @@ void ovl662_func_80119068(void) {
                 i++;
             } while (i < 4);
 close:
-            D_800AC5D0 = 0x40;
+            MenuFadeTimer = 0x40;
             D_800F4D8A = 8;
         }
         break;
     case 3:
-        fade = D_800AC5D0 - 1;
-        D_800AC5D0 = fade;
+        fade = MenuFadeTimer - 1;
+        MenuFadeTimer = fade;
         AddScreenFadeTiles(((RrFrameStorage*)(void*)CurrentDrawBuf)->ordering.ordering70, (0x40 - fade) * 4, 0x45);
-        if ((s16)D_800AC5D0 > 0) break;
+        if ((s16)MenuFadeTimer > 0) break;
         CourseChoiceTable[1][ovl662_D_801272E4].glyph = PackChoiceGlyph(&SelectionRows);
         CourseChoiceTable[1][ovl662_D_801272E4].first = PlayerCourseChoices[0].first;
         CourseChoiceTable[1][ovl662_D_801272E4].second = PlayerCourseChoices[0].second;
         ovl662_func_8011512C();
         ModeGroup = 1;
-        D_800F3A26 = 0x40;
+        ModeId = 0x40;
         D_800F4D8A = 0;
         return;
     case 4:
         if (UiRows[0].byte14 == 5 && (*(s8*)(ImageRows+1)) == 5) {
             ovl662_D_801272E8 = 0;
             ModeGroup = 1;
-            D_800F3A26 = 0x45;
+            ModeId = 0x45;
             D_800F4D8A = 0;
         }
         break;
     case 8:
-        fade = D_800AC5D0 - 1;
-        D_800AC5D0 = fade;
+        fade = MenuFadeTimer - 1;
+        MenuFadeTimer = fade;
         AddScreenFadeTiles(((RrFrameStorage*)(void*)CurrentDrawBuf)->ordering.ordering70, (0x40 - fade) * 4, 0x45);
-        if ((s16)D_800AC5D0 > 0) break;
+        if ((s16)MenuFadeTimer > 0) break;
         ovl662_func_8011512C();
         ModeGroup = 1;
-        D_800F3A26 = 0x40;
+        ModeId = 0x40;
         D_800F4D8A = 0;
         return;
     }

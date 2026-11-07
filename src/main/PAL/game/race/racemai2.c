@@ -137,7 +137,7 @@ extern s32 Atan2Table(s32, s32);
 extern s32 rsin(s32);
 extern s32 ReplayState;
 extern s32 TrackLength;
-extern s16 D_800F4D44;
+extern s16 RaceType;
 extern char *TrackNodes;
 extern int RaceVoiceFlags;
 extern short ReverseCourse;
@@ -302,7 +302,7 @@ unsigned int arg0;
   }
   if (s6 == 1)
   {
-    func_8004A474();
+    UpdateComCarTrackProjections();
   }
 }
 
@@ -382,7 +382,7 @@ void ResolveCarCollisions(CarCollision *arg0) {
     s32 offX;
     s32 offZ;
 
-    if (D_800F4D44 == 0) {
+    if (RaceType == 0) {
         return;
     }
 

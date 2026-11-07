@@ -29,7 +29,7 @@ extern unsigned char CourseLapCounts[2][8];
 extern int CourseBestLap[2][8];
 extern Struct10 RaceRecords[2][8][5];
 extern int CourseBestLapTimes[2][8][3];
-extern int D_800F3B00[8];
+extern int CourseBestLapRecords[8];
 extern Struct10 LapRecords[2][8][5];
 extern char CourseChoiceTable[];
 extern unsigned short D_8009EA80[];
@@ -44,7 +44,7 @@ extern M2C_UNK D_800103B8;
 extern s32 VSyncThreshold;
 extern s32 LoadCursor;
 extern s32 ModeFrame;
-extern s16 D_800F3A26;
+extern s16 ModeId;
 extern s16 ModeGroup;
 extern s8 LoadState;
 extern s16 D_800F4D8A;
@@ -66,7 +66,7 @@ void InitDefaultTimeRecords(void) {
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 8; j++) {
             int c = 0x2FD;
-            D_800F3B00[j] = DefaultCourseTimes[0][j];
+            CourseBestLapRecords[j] = DefaultCourseTimes[0][j];
             CourseBestTotalTimes[j] = (DefaultCourseTimes[0][j] - 0x2FD) * CourseLapCounts[1][j] + (CourseLapCounts[1][j] * 1000 + c);
             CourseBestLap[i][j] = DefaultCourseTimes[1][j];
             CourseBestTotal[i][j] = (DefaultCourseTimes[1][j] - 0x2FD) * CourseLapCounts[0][j] + (CourseLapCounts[0][j] * 1000 + c);
@@ -109,8 +109,8 @@ void InitCourseChoices(void)
     short *t3;
     char *a1;
     unsigned short u;
-    func_80096434(CourseChoiceTable, 0x90);
-    func_80096434(CourseChoiceTable + 0x24, 0x90);
+    PsyqBzero(CourseChoiceTable, 0x90);
+    PsyqBzero(CourseChoiceTable + 0x24, 0x90);
     t4 = 0;
     e = 8;
     t6 = D_8009EA80;
@@ -174,7 +174,7 @@ void SplashModeEnter(void) {
     D_8010BFBC = 0;
     PendingModeId = 0x203;
     ModeGroup = 1;
-    D_800F3A26 = 2;
+    ModeId = 2;
     D_800F4D8A = 0;
 }
 
@@ -192,7 +192,7 @@ void SplashModeUpdate(void) {
             SetCdMixMode(D_800AD55A);
             D_800F4D8A = 0;
             ModeGroup = (s16) ((u16) PendingModeId >> 8);
-            D_800F3A26 = PendingModeId & 0xFF;
+            ModeId = PendingModeId & 0xFF;
         }
     }
 }

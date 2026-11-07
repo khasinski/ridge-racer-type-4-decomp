@@ -80,13 +80,13 @@ extern s32 D_800AD590[2];
 
 extern s32 D_800F4CD8[2];
 
-extern s16 D_8009FFB8[4];
+extern s16 SteeringRangeTable[4];
 
 extern s16 PadRangeLimits[6];
 
-extern s32 D_8009FFCC[8];
+extern s32 WheelDeadzoneTable[8];
 
-extern s32 D_800A016C[8];
+extern s32 PadDeadzoneTable[8];
 
 extern s32 VSyncThreshold;
 
@@ -94,7 +94,7 @@ extern s16 D_800F3824;
 
 int abs(int);
 
-void func_8004B8A8(void);
+void PadStepPulse(void);
 
 void PadUpdateRumble(void);
 
@@ -162,7 +162,7 @@ void PadUpdate(void) {
             states[i]->buttons02 = ~((ports[i]->data02 << 8) | ports[i]->data03);
             states[i]->pressed08 = states[i]->buttons02 & ~states[i]->previous04;
             states[i]->released06 = states[i]->previous04 & (states[i]->buttons02 ^ states[i]->previous04);
-            states[i]->steering20 = (((states[i]->buttons02 >> 13) & 1) - ((states[i]->buttons02 & 0x8000) ? 1 : 0)) * D_8009FFB8[D_800F3824] + 0x80;
+            states[i]->steering20 = (((states[i]->buttons02 >> 13) & 1) - ((states[i]->buttons02 & 0x8000) ? 1 : 0)) * SteeringRangeTable[D_800F3824] + 0x80;
             states[i]->pressure22 = (states[i]->buttons02 & 0x40) ? 0x6A : 0;
             states[i]->pressure24 = (states[i]->buttons02 & 0x80) ? 0x6A : 0;
             states[i]->pressure26 = (states[i]->buttons02 & 4) ? 0x6A : 0;
@@ -314,20 +314,20 @@ void PadUpdate(void) {
         case 0x23:
             val = states[i]->steering20 - (Options.p[i].center00 + 0x80);
             if (val > 0) {
-                val -= D_800A016C[Options.p[i].deadzone08];
+                val -= PadDeadzoneTable[Options.p[i].deadzone08];
                 if (val < 0) {
                     val = 0;
                 }
-                if (val > D_8009FFB8[Options.p[i].range0A]) {
-                    val = D_8009FFB8[Options.p[i].range0A];
+                if (val > SteeringRangeTable[Options.p[i].range0A]) {
+                    val = SteeringRangeTable[Options.p[i].range0A];
                 }
             } else {
-                val += D_800A016C[Options.p[i].deadzone08];
+                val += PadDeadzoneTable[Options.p[i].deadzone08];
                 if (val > 0) {
                     val = 0;
                 }
-                if (val < -D_8009FFB8[Options.p[i].range0A]) {
-                    val = -D_8009FFB8[Options.p[i].range0A];
+                if (val < -SteeringRangeTable[Options.p[i].range0A]) {
+                    val = -SteeringRangeTable[Options.p[i].range0A];
                 }
             }
             states[i]->steering3C = val;
@@ -335,7 +335,7 @@ void PadUpdate(void) {
         case 0xE3:
             val = states[i]->steering20;
             if (val > 0) {
-                val -= D_8009FFCC[Options.w[i].deadzone00];
+                val -= WheelDeadzoneTable[Options.w[i].deadzone00];
                 if (val < 0) {
                     val = 0;
                 }
@@ -343,7 +343,7 @@ void PadUpdate(void) {
                     val = PadRangeLimits[Options.w[i].range01];
                 }
             } else {
-                val += D_8009FFCC[Options.w[i].deadzone00];
+                val += WheelDeadzoneTable[Options.w[i].deadzone00];
                 if (val > 0) {
                     val = 0;
                 }
@@ -377,7 +377,7 @@ void PadUpdate(void) {
             states[i]->pressure26 = 0x6A;
         }
     }
-    func_8004B8A8();
+    PadStepPulse();
     PadUpdateRumble();
     for (i = 0; i < 2; i++) {
         PadPollPort(i);

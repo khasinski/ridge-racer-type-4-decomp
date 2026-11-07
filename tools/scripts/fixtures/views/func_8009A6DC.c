@@ -2,7 +2,7 @@
 
 /* MASPSX_FLAGS: --assembler-profile=gnu */
 
-extern int (*D_800ABC6C)();
+extern int (*PadResetChannelFn)();
 
 void _dirFailAuto(a0) unsigned char *a0; {
   int v = a0[0x46];
@@ -24,7 +24,7 @@ void _dirFailAuto(a0) unsigned char *a0; {
       a0[0x4A] = t + 1;
       return;
     }
-    if (a0[0x49] != 0) D_800ABC6C(a0);
+    if (a0[0x49] != 0) PadResetChannelFn(a0);
   }
   if (**(unsigned char **)(a0 + 0x3C) != 0xF3) {
     (*(unsigned char **)(a0 + 0x30))[0] = 0xFF;

@@ -93,7 +93,7 @@ void ovl662_func_80116E10(void)
                             UiRows[i].byte14 = 3;
                         }
                     }
-                    D_800AC5D0 = 64;
+                    MenuFadeTimer = 64;
                 } else {
                     PlaySfx(4);
                 }
@@ -108,7 +108,7 @@ void ovl662_func_80116E10(void)
                         UiRows[i].byte14 = 3;
                     }
                 }
-                D_800AC5D0 = 64;
+                MenuFadeTimer = 64;
                 D_800F4D8A = 8;
             }
         } else if (PlayerControllers[0].b) {
@@ -123,35 +123,35 @@ void ovl662_func_80116E10(void)
                     UiRows[i].byte14 = 3;
                 }
             }
-            D_800AC5D0 = 64;
+            MenuFadeTimer = 64;
             D_800F4D8A = 8;
         }
         break;
     case 3:
-        D_800AC5D0--;
+        MenuFadeTimer--;
         steps = 64;
-        AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (steps - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+        AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (steps - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             CourseChoiceTable[1][ovl662_D_801272BA].glyph = ovl662_D_80127348[ovl662_D_801272E4].value;
             CourseChoiceTable[1][ovl662_D_801272BA].first = 0;
             CourseChoiceTable[1][ovl662_D_801272BA].second = 0;
             ovl662_D_801272E4 = ovl662_D_801272BA;
             ovl662_func_8011512C();
             ModeGroup = ready;
-            D_800F3A26 = steps;
+            ModeId = steps;
             D_800F4D8A = 0;
             return;
         }
         break;
     case 8:
-        D_800AC5D0--;
+        MenuFadeTimer--;
         steps = 64;
-        AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (steps - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+        AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (steps - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             ovl662_D_801272E4 = ovl662_D_801272BA;
             ovl662_func_8011512C();
             ModeGroup = ready;
-            D_800F3A26 = steps;
+            ModeId = steps;
             D_800F4D8A = 0;
             return;
         }

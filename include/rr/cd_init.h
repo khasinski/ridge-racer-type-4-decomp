@@ -11,7 +11,7 @@ extern u8 D_800A64A4,D_800A64A5;
 /* The response owner supplies at least the three reset bytes. */
 extern u8 D_800A6764[];
 extern volatile u8 *CD_REG2;
-s32 func_800963DC(const char *message);
+s32 PsyqPuts(const char *message);
 #ifndef RR_CD_READ8
 #define RR_CD_READ8(port) (*(port))
 #define RR_CD_WRITE8(port,value) (*(port)=(value))

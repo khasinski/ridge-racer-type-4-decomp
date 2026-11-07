@@ -14,7 +14,7 @@ extern int SsSeqPlay();
 
 extern int SeqSetVolume();
 
-extern int func_80096434();
+extern int PsyqBzero();
 
 extern int RestartMotionSequence();
 
@@ -38,7 +38,7 @@ void SeqStartTrack(int a0) {
         SetReverbDepthBoth(0x32);
         SsSeqPlay((s16)SoundState.x2864, 1, 0);
         SeqSetVolume((s16)arr[a0]);
-        func_80096434(&SoundState.x286C, 0x1C);
+        PsyqBzero(&SoundState.x286C, 0x1C);
         SoundState.x287C = D_800A0CD8[a0].a;
         RestartMotionSequence();
     }

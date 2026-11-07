@@ -36,7 +36,7 @@ void ovl662_func_80114C4C(void)
                     SetModelTexturePage(-1);
                     PlaySfx(1);
                     D_800F4D8A = 3;
-                    D_800AC5D0 = 64;
+                    MenuFadeTimer = 64;
                     for (i = 0; i < 3; i++) {
                         if (UiRows[i].byte14 == 2) {
                             UiRows[i].byte14 = 7;
@@ -54,7 +54,7 @@ void ovl662_func_80114C4C(void)
                         UiRows[i].byte14 = 7;
                     }
                 }
-                D_800AC5D0 = 64;
+                MenuFadeTimer = 64;
             } else if (MenuCursor == state) {
                 PlaySfx(1);
                 SetModelTexturePage(-1);
@@ -64,7 +64,7 @@ void ovl662_func_80114C4C(void)
                         UiRows[i].byte14 = 3;
                     }
                 }
-                D_800AC5D0 = 64;
+                MenuFadeTimer = 64;
                 SeqFadeVolume(0, 60);
             }
         } else if (PlayerControllers[0].b) {
@@ -77,39 +77,39 @@ void ovl662_func_80114C4C(void)
                     UiRows[i].byte14 = 3;
                 }
             }
-            D_800AC5D0 = 64;
+            MenuFadeTimer = 64;
             SeqFadeVolume(0, 60);
         }
         break;
     case 3:
-        D_800AC5D0--;
+        MenuFadeTimer--;
         AddScreenFadeTiles(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,
-                      (64 - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+                      (64 - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
-            D_800F3A26 = 63;
+            ModeId = 63;
             D_800F4D8A = 0;
         }
         break;
     case 4:
-        D_800AC5D0--;
+        MenuFadeTimer--;
         AddScreenFadeTiles(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,
-                      (64 - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+                      (64 - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             InitTimTemplate(D_800F4368);
             UploadCarClut(D_800F4368, 0, 0);
             ModeGroup = 3;
-            D_800F3A26 = 1;
+            ModeId = 1;
             D_800F4D8A = 0;
         }
         break;
     case 8:
-        D_800AC5D0--;
+        MenuFadeTimer--;
         AddScreenFadeTiles(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,
-                      (64 - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+                      (64 - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
-            D_800F3A26 = 3;
+            ModeId = 3;
             D_800F4D8A = 0;
             SeqMuteVolume();
         }

@@ -4,7 +4,7 @@
 
 #include "types.h"
 
-#define R(o) (*(unsigned short *)(D_800A6760 + (o)))
+#define R(o) (*(unsigned short *)(CdSpuRegBase + (o)))
 
 /* legacy typing of shared globals in this part of the unit */
 #define CD_cbsync (*(void (*(*))(u8, u8 *))&CD_cbsync)
@@ -92,13 +92,13 @@ extern u8 CD_syncResult[];
 
 extern s32 CD_timeout_deadline;
 
-extern s32 D_80110334;
+extern s32 CD_timeout_count;
 
 extern const char *CdWaitCallerName;
 
 static inline int check_alarm(char **ac, char ** sc, volatile u8 *st) {
-    if (VSync(-1) > CD_timeout_deadline || D_80110334++ > 0x3C0000) {
-        func_800963DC(CdTimeoutPrefixStr);
+    if (VSync(-1) > CD_timeout_deadline || CD_timeout_count++ > 0x3C0000) {
+        PsyqPuts(CdTimeoutPrefixStr);
         { u8 s0_ = st[0]; u8 s1_ = st[1]; char *x5 = sc[s1_];
         /* ASM_BARRIER: Load CdWaitCallerName directly into $a1. */
         register const char *a1 __asm__("$5") = CdWaitCallerName;
@@ -174,7 +174,7 @@ s32 CD_cw(u8 arg0, u8 *arg1, u8 *arg2, s32 arg3) {
         return 0;
     }
     CD_timeout_deadline = VSync(-1) + 0x3C0;
-    D_80110334 = 0;
+    CD_timeout_count = 0;
     CdWaitCallerName = CdCwLabel;
     if (D_800A6764[0] == 0) {
         char **ac = CD_comstr;

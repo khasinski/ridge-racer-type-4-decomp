@@ -31,7 +31,7 @@ FindTrackNodeUnbounded 0x800261bc 0x2d0 gte
 UpdateCarTrackNode 0x8002648c 0x310 
 UpdateCarGear 0x80026800 0x198 
 FindTrackNodeAtXZ 0x80026998 0x88 
-func_80026A20 0x80026a20 0x54 
+GetTrackSegmentAndYaw 0x80026a20 0x54 
 FindTrackNode 0x80026a74 0x20c gte
 FindTrackNodeScratch 0x80026c80 0x2dc gte
 FindAxleTrackNode 0x80027998 0x2bc gte

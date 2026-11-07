@@ -41,12 +41,12 @@ typedef struct {
 } Environment;
 static Environment actual,expected,*g;
 const u16 D_800A4818[8]={0x707,0x707,0x707,0x707,0x707,0x707,0x707,0x707};
-const char D_80011698[]="timeout",SpuWaitResetStr[]="reset";
+const char SpuTimeoutFmt[]="timeout",SpuWaitResetStr[]="reset";
 #define _spu_RXX (&g->root->registers)
 #define SPU_DPCR (g->dmaRoot)
 #define _spu_tsa (g->transfer)
 #define _spu_transMode (g->f4)
-#define D_800A47F8 (g->f8)
+#define _spu_addrMode (g->f8)
 #define _spu_mem_mode (g->fc)
 #define _spu_mem_mode_plus (g->mode)
 #define _spu_mem_mode_unit (g->shift)
@@ -74,7 +74,7 @@ static void mutate(u32 service){u32 r,i;if(!g->phase)return;r=next(&g->seed);
 }
 void _spu_Fw1ts(void){event(1,0,0);mutate(1);}
 void _spu_FwriteByIO(const u16 *p,u32 n){assert(p==D_800A4818&&n==16);for(unsigned i=0;i<8;i++)assert(p[i]==0x707);event(2,n,0);mutate(2);}
-s32 DebugPrintStub(const char *f,...){va_list ap;const char *reason;va_start(ap,f);reason=va_arg(ap,const char*);va_end(ap);assert(f==D_80011698&&reason==SpuWaitResetStr);event(3,0,0);mutate(3);return -123;}
+s32 DebugPrintStub(const char *f,...){va_list ap;const char *reason;va_start(ap,f);reason=va_arg(ap,const char*);va_end(ap);assert(f==SpuTimeoutFmt&&reason==SpuWaitResetStr);event(3,0,0);mutate(3);return -123;}
 static u16 status_read(RrSpuRegisterStorage *bank){
 #ifdef DIRECT_STATUS
  return bank->halves[215];
@@ -89,7 +89,7 @@ static s32 model(s32 warm){u32 i,attempt;RrSpuRegisterStorage *b;
  *g->dmaRoot|=0xB0000;g->f4=0;g->f8=0;g->transfer=0;
  b=g->root;b->halves[192]=0;b->halves[193]=0;b->halves[213]=0;
  _spu_Fw1ts();b=g->root;b->halves[192]=0;b->halves[193]=0;
- if(status_read(b)&2047){for(attempt=0;attempt<3840;attempt++)if(!(status_read(g->root)&2047))break;if(attempt==3840)DebugPrintStub(D_80011698,SpuWaitResetStr);}
+ if(status_read(b)&2047){for(attempt=0;attempt<3840;attempt++)if(!(status_read(g->root)&2047))break;if(attempt==3840)DebugPrintStub(SpuTimeoutFmt,SpuWaitResetStr);}
  g->fc=2;g->mode=3;g->shift=8;g->rounding=7;
  b=g->root;b->halves[214]=4;b->halves[194]=0;b->halves[195]=0;b->halves[198]=65535;b->halves[199]=65535;b->halves[204]=0;b->halves[205]=0;
  for(i=0;i<10;i++)g->entries.values[i]=0;

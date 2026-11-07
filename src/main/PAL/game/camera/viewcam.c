@@ -40,7 +40,7 @@ typedef struct {
 extern int ScaleMatrix();
 extern int D_8010E690;
 extern struct S8 CameraViewMatrix;
-extern struct S8 D_800F39A8;
+extern struct S8 HalfTransViewMatrix;
 extern int SetLightMatrix();
 extern M2C_UNK ColorMatrix;
 extern char D_800ABF48[];
@@ -65,7 +65,7 @@ extern void SetGeomOffset(s32, s32);
 extern void SetGeomScreen(s32);
 extern void SetDrawArea(s32);
 extern void AddPrim(s32, s32);
-extern int D_8010718C;
+extern int ViewUsesCarTrackNode;
 extern Car PlayerCars[];
 
 void func_8006E9E8(int a0, int *a1);
@@ -110,13 +110,13 @@ void SetupViewMatrix(void) {
     CameraViewMatrix.w[5] = w[0];
     CameraViewMatrix.w[6] = w[1];
     CameraViewMatrix.w[7] = w[2];
-    D_800F39A8 = CameraViewMatrix;
+    HalfTransViewMatrix = CameraViewMatrix;
     v[0] = 0x20000 - g[0];
     v[1] = -g[1];
     v[2] = 0x20000 - g[2];
-    D_800F39A8.w[5] >>= 1;
-    D_800F39A8.w[6] >>= 1;
-    D_800F39A8.w[7] >>= 1;
+    HalfTransViewMatrix.w[5] >>= 1;
+    HalfTransViewMatrix.w[6] >>= 1;
+    HalfTransViewMatrix.w[7] >>= 1;
     ApplyMatrixLV(SCRATCH_ROT_MATRIX, v, w);
     h[15] = w[0];
     h[16] = w[1];
@@ -145,7 +145,7 @@ void SetupViewLighting(void) {
 
 void SetupPlayerView(int ignoredPlayer) {
     char *p = D_800ABF48;
-    func_8006E834();
+    BuildViewSegmentObjectList();
     func_80071348();
     SetupViewLighting();
     func_8006E9E8(p, p - 0x30);
@@ -155,11 +155,11 @@ void SetupPlayerView(int ignoredPlayer) {
 
 /* legacy typing of shared globals in this part of the unit */
 #define func_80060C70 ((int (*)())func_80060C70)
-#define func_8006E834 ((int (*)())func_8006E834)
+#define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 #define func_80071348 ((int (*)())func_80071348)
 
 void func_8006ED4C(void) {
-    func_8006E834();
+    BuildViewSegmentObjectList();
     func_8006E8F8();
     func_80071348();
     SetupViewLighting();
@@ -168,11 +168,11 @@ void func_8006ED4C(void) {
 }
 
 #undef func_80060C70
-#undef func_8006E834
+#undef BuildViewSegmentObjectList
 #undef func_80071348
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_8006E834 ((int (*)())func_8006E834)
+#define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 #define func_80060C70 ((int (*)())func_80060C70)
 
 void func_8006EDA4(void) {
@@ -180,8 +180,8 @@ void func_8006EDA4(void) {
     unsigned int v; int pad[12];
     D_8010E280 = (unsigned short)g[0x2E];
     g[0x2E] = -1;
-    func_8006E834();
-    v = func_800713E0();
+    BuildViewSegmentObjectList();
+    v = GetOctantTableValue();
     if (v < D_8010E290) {
         D_8010E290 = v;
     }
@@ -191,7 +191,7 @@ void func_8006EDA4(void) {
     g[0x2E] = (short)D_8010E280;
 }
 
-#undef func_8006E834
+#undef BuildViewSegmentObjectList
 #undef func_80060C70
 
 void SetGteObjectTransform(short *a0, short *a1, int *a2) {
@@ -296,7 +296,7 @@ void SetupViewport(s32 a0) {
 }
 
 int GetViewTrackNode(int *a0, int a1) {
-    if (D_8010718C == 0) {
+    if (ViewUsesCarTrackNode == 0) {
         return FindTrackNodeAtXZ(a0[0], a0[2]);
     }
     return PlayerCars[a1].wF0;

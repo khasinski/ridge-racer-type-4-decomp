@@ -14,7 +14,7 @@ extern s16 D_8009EE68[2];
 extern u8 D_8009EE5C[6],D_8009EE64[3];
 extern s16 D_800AD508;
 extern RrUiUvRect D_8009EE58;
-s32 func_8004B70C(s32 player);
+s32 GetControllerWarning(s32 player);
 /* Layout1 selects port0 at Y112; layout2 selects port1 at Y240.
  * Other layouts select port0 at Y240. Status2 permits the warning and
  * optional steering needle. Button0x100 toggles that port's needle. */

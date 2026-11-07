@@ -11,7 +11,7 @@ void ovl662_func_8011CF8C(void)
     }
     if(ovl662_D_801276A8.flagsD1&1)UpdateBadgeRowAnim(0);
     if(ovl662_D_801276A8.flagsD1&2){DrawUiRow(0);DrawUiRow(1);}
-    if(ovl662_D_801276A8.flagsD1&4){SkipDialoguePage(D_800AC590);UpdateDialogue(22,320,D_800AC590);}
+    if(ovl662_D_801276A8.flagsD1&4){SkipDialoguePage(DialogueState);UpdateDialogue(22,320,DialogueState);}
     first=0;
     if(ovl662_D_801276A8.fade00>=0)goto no_second;
     if(!(ovl662_D_801276A8.flagsD1&3))goto first_only;

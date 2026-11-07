@@ -19,17 +19,17 @@ extern int AddDrawModePrim();
 extern int AddSpritePrim();
 extern unsigned char D_8009F730[];
 extern unsigned char D_8009F790[];
-extern unsigned short D_800AC648;
+extern unsigned short CourseMenuSelection;
 extern int InitBadgeRow();
 extern int InitRect16Row();
 extern int InitGlyphRow();
 extern int LoadCursor;
 extern int ModeFrame;
-extern int D_800F4D40;
+extern int MenuArenaBase;
 extern signed char LoadState;
 extern int GlyphRows;
 extern s32 VSyncThreshold;
-extern s16 D_800F3A26;
+extern s16 ModeId;
 extern s16 ModeGroup;
 extern s16 D_800F4D8A;
 extern int DebugPrintStub();
@@ -41,13 +41,13 @@ extern int DrawUiRow();
 extern char NewCar0Msg[];
 extern char StrNewCarLog[];
 extern int MenuStepDirection;
-extern int D_800F3A60;
+extern int MenuConfirmPressed;
 extern struct { char pad[0x10]; short h10; } *BadgeRows;
 extern struct { char pad[4]; signed char b4; char b5; signed char b6; } *Dialogue;
 
 void func_8003662C();
 void func_8003687C(int a0);
-void func_800369E8(void);
+void NewCarModeEnter(void);
 void NewCarModeUpdate(void);
 
 void func_8003662C(a0)
@@ -81,7 +81,7 @@ int a0;
   {
     if (s1 < 2)
     {
-      d = D_800F4D44;
+      d = RaceType;
       if ((d != 1) && (s1 == 1))
       {
         goto next;
@@ -121,7 +121,7 @@ int a0;
       if (s1 == 3)
     {
       t = s2 + 1;
-      s2 = t + (D_800AC648 & 7);
+      s2 = t + (CourseMenuSelection & 7);
     }
     p = D_8009F730 + (s2 * 4);
     a1 = AddSpritePrim(CurrentDrawBuf + 0x70, a1, s3, 0x48, p, 0x263A, (s4 + 1) * 2);
@@ -133,7 +133,7 @@ int a0;
   }
   while (s1 < 4);
   s2 = 0x16;
-  if (D_800F4D44 != 1)
+  if (RaceType != 1)
   {
     s0 = 1;
     s3 = 0xD6;
@@ -190,19 +190,19 @@ void func_8003687C(int a0) {
     Dialogue->d = 0;
     ModeFrame = 0;
     LoadState = 0;
-    LoadCursor = D_800F4D40;
+    LoadCursor = MenuArenaBase;
 }
 
 #undef BadgeRows
 #undef Dialogue
 
-void func_800369E8(void) {
+void NewCarModeEnter(void) {
     UpdateScreenFade(0x10006);
     func_8003687C(0);
     ModeFrame = 0;
     VSyncThreshold = 0x80;
     ModeGroup = 1;
-    D_800F3A26 = 0xA;
+    ModeId = 0xA;
     D_800F4D8A = 0;
 }
 
@@ -229,7 +229,7 @@ void NewCarModeUpdate(void) {
         }
     }
     if (Dialogue->b4 == 1) {
-        if (D_800F3A60 != 0 || ModeFrame >= 0x1F5) {
+        if (MenuConfirmPressed != 0 || ModeFrame >= 0x1F5) {
             t = Dialogue->b6;
             if (t == 4) {
                 Dialogue->b4 = 0x22;
@@ -248,7 +248,7 @@ void NewCarModeUpdate(void) {
                 InitMenuArenas();
                 func_80039988();
                 ModeGroup = r;
-                D_800F3A26 = 0x22;
+                ModeId = 0x22;
                 D_800F4D8A = 0;
                 LoadCursor = s1;
                 DebugPrintStub(StrNewCarLog);

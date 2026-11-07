@@ -19,7 +19,7 @@ s32 _cardCmd5CVarRx(s32 unused) {
             received=CardCmdSioRegs->data;
             CardCmdBuffer=CardCmdResultPtrA;
             D_8011472C.value=1;
-            D_80114730=received+1;
+            CardBytesRemaining=received+1;
         }
     }
     result=0;

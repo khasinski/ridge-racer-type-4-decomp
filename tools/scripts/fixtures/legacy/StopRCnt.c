@@ -9,7 +9,7 @@ s32 StopRCnt(u32 index) {
     state = D_800ABC30;
     /* ASM_BARRIER: load the register pointer before materializing the mask table base. */
     __asm__ volatile("" : : "r"(state), "r"(offset) : "$2");
-    /* PAL RAM mapping: D_800ABC38 is base minus 0x43C8. */
+    /* PAL RAM mapping: RCntIntrMaskBits is base minus 0x43C8. */
     base = (u8 *)0x800B0000U;
     /* ASM_BARRIER: preserve the explicit base-plus-offset table load. */
     __asm__("" : "=r"(base) : "0"(base));

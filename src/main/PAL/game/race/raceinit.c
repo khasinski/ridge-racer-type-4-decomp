@@ -74,7 +74,7 @@ void InitRaceCars(int a0)
         func_800293D0(2, 0);
         break;
     case 5:
-        func_80096434(PlayerCars, 0x320);
+        PsyqBzero(PlayerCars, 0x320);
         InitComCars(7);
         func_800293D0(1, 0);
         SavedRaceState = 2;

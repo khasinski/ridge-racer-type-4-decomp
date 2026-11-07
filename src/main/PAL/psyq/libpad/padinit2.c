@@ -28,14 +28,14 @@ typedef struct {
     u16 unk0E;
 } Unk800ABCE4;
 
-extern int (*D_800ABC80)();
+extern int (*PadChannelDispatchPtr)();
 extern int D_800ABCE8;
 extern int PadActiveChannel;
 extern int PadFirstChannel;
 extern int D_800ABCA4;
 extern int (*D_800ABC98)();
 extern int (*D_800ABC94)();
-extern int D_800ABCB4;
+extern int PadMultitapEnabled;
 extern int PadPacketBytesLeft;
 /* Partial transfer state; field purposes beyond this routine are still unknown. */
 typedef struct {
@@ -62,7 +62,7 @@ s32 func_80099890(RrTransferState *state);
 s32 _padTransferPacket(Rec8009991C *arg0);
 
 void func_800996C4(T *a0) {
-    int r = D_800ABC80(a0);
+    int r = PadChannelDispatchPtr(a0);
     char *p = a0->f3c;
     D_800ABCE8 = r;
     *p = 0;
@@ -80,8 +80,8 @@ void func_8009970C(o) O *o; {
         }
     }
     if (D_800ABCE8 != 0) {
-        D_800ABC80(o->fC);
-        D_800ABC80(o->fC + 0xF0);
+        PadChannelDispatchPtr(o->fC);
+        PadChannelDispatchPtr(o->fC + 0xF0);
     }
     if (o->f37 == 0) _padSioRW2(o, 0x42); else _padSioRW2(o, o->f37);
 }
@@ -94,11 +94,11 @@ void func_8009970C(o) O *o; {
 int func_800997E4(a0) unsigned char *a0; {
   int a1, v, t;
   if (D_800ABCE8 != 0) {
-    D_800ABC80(*(int *)(a0 + 0xC) + 0x1E0);
-    D_800ABC80(*(int *)(a0 + 0xC) + 0x2D0);
+    PadChannelDispatchPtr(*(int *)(a0 + 0xC) + 0x1E0);
+    PadChannelDispatchPtr(*(int *)(a0 + 0xC) + 0x2D0);
   }
   a1 = 0;
-  if (a0[0x37] == 0) a1 = D_800ABCB4;
+  if (a0[0x37] == 0) a1 = PadMultitapEnabled;
   v = _padSioRW2(a0, a1);
   if (v < 0) return v;
   t = (v & 0xF) * 2;
@@ -136,7 +136,7 @@ s32 _padTransferPacket(Rec8009991C *arg0) {
 
     D_800ABC74(arg0);
     mode = 0;
-    if (D_800ABCB4 != 0 && ((b = arg0->unk3C[0]) >> 4) == 8) {
+    if (PadMultitapEnabled != 0 && ((b = arg0->unk3C[0]) >> 4) == 8) {
         mode = (arg0->unk37 == 0);
     }
 

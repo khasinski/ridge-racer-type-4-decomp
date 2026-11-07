@@ -30,7 +30,7 @@ normalizeColumn:
         if((s8)ovl662_D_801273A3>=4)ovl662_D_801273A2=((s8)ovl662_D_801273A2+3)%3;
         else ovl662_D_801273A2=((s8)ovl662_D_801273A2+10)%10;
         ovl662_D_801273B4 = (s8) ovl662_D_801273A2 + ((s8) ovl662_D_801273A3 * 0xA);
-        if (D_800F3A60 != 0) {
+        if (MenuConfirmPressed != 0) {
             PlaySfx(1);
             if(ovl662_D_801273B4<41){
                 if (ovl662_D_801273A0 < 8) {
@@ -49,7 +49,7 @@ normalizeColumn:
                     ovl662_D_801273A0 = (u8) ovl662_D_801273A0 - 1;
                 }
 }else if(ovl662_D_801273B4==42){
-                D_800AC5D0 = 0x40;
+                MenuFadeTimer = 0x40;
                 D_800F4D8A = 1;
                 CopyStringClearTail(SaveProgress.prefix.progress.prefix00.fields.name,(char*)ovl662_D_801273A8);
             }
@@ -62,13 +62,13 @@ normalizeColumn:
         }
     } else if (phase == 1) {
         SetMenuFrameOptions(0, 1, 1);
-        fadeStep = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = (u16) fadeStep;
+        fadeStep = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = (u16) fadeStep;
         AddScreenFadeTiles(&CurrentDrawBuf->head70, (0x40 - fadeStep) * 4, 0x45);
-        if ((s16) D_800AC5D0 <= 0) {
+        if ((s16) MenuFadeTimer <= 0) {
             D_800FFC18 = 5;
             ModeGroup = phase;
-            D_800F3A26 = 0x47;
+            ModeId = 0x47;
             D_800F4D8A = 0;
         }
     }

@@ -16,21 +16,21 @@ void PadInitDirect(u8 *first,u8 *second) {
     u8 *payload;
     register void (*callback)(RrChannelTransferView *);
     PadComActive=0;
-    D_800ABCB4=0;
+    PadMultitapEnabled=0;
     _padInitDirSeq();
     record=PadChannelRecordArray;
     PadAdvanceChannelFn=_padAdvanceChannel;
-    D_800ABC6C=_padResetChannel;
+    PadResetChannelFn=_padResetChannel;
     PadTxByteCallback=_padGetTxByte;
     D_800ABC74=_padAllocGates;
     PadChannelToPortFn=_padChannelToPort;
-    D_800ABC7C=_padPortToChannel;
+    PadPortToChannelPtr=_padPortToChannel;
     callback=_padSaveCommand;
     /* ASM_BARRIER: defer the clear-call A0 argument until the callback address is ready. */
     __asm__("" : : "r"(callback) : "$4");
     PadChannelRecords=PadChannelRecordArray;
     PadSaveCommandCallback=callback;
-    func_80096434(PadChannelRecordArray,2*sizeof(RrChannelRecordF0));
+    PsyqBzero(PadChannelRecordArray,2*sizeof(RrChannelRecordF0));
     i=0;
     sentinel=255;
     metadata=&record->status;

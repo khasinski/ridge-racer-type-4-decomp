@@ -24,7 +24,7 @@ volatile u32 Vcount;
 char test_message_page[65536];
 u32 test_calls, test_clock_reads, test_advance_at, test_initial_clock, test_final_clock;
 uintptr_t test_events[3][3];
-s32 func_800963DC(const char *message, ...) {
+s32 PsyqPuts(const char *message, ...) {
  u32 i=test_calls++;if(i<3) {test_events[i][0]=1;test_events[i][1]=(uintptr_t)message;}
  return -37;
 }

@@ -29,13 +29,13 @@ static struct World {u32 guard[4];s32 frame,counter,local;s16 selected,mapped,cu
 #define ModeFrame world.frame
 #define ScreenFrame world.counter
 #define ovl663_selected_record world.local
-#define D_800AC648 world.selected
+#define CourseMenuSelection world.selected
 #define CourseIndex world.mapped
 #define MenuCursor world.current
 #define BadgeRows world.badge
 #define MenuFrameState world.work32.words[0]
 #define ScreenFadeState world.work12.words[0]
-void func_80096434(void *data,s32 size);
+void PsyqBzero(void *data,s32 size);
 ''' + clear + body + r'''
 static u32 seed=0x15028,scenario;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -50,7 +50,7 @@ static void observe(struct World *v,s32 kind,const s32 args[10],void *data){
   v->badge=world.badges[id];v->badges[id][0].half02=half(scenario|0x1000U);v->badges[id][1].half02=half(scenario|0x2000U);
  }
 }
-void func_80096434(void *data,s32 size){
+void PsyqBzero(void *data,s32 size){
  unsigned step=world.calls;s32 args[10]={size};assert(step<2 && data==(step?(void*)world.work12.words:(void*)world.work32.words) && size==(step?12:32));
  assert(world.frame==0 && world.counter==0 && world.local==0 && world.selected==0 && world.mapped==0 && world.current==0);
  memset(data,0,size);observe(&world,step,args,data);

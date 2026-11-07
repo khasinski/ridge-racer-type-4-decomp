@@ -6,11 +6,11 @@
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
 
-#define D_800F4D2C (*(unsigned char (*))&D_800F4D2C)
+#define ModeMenuCursorSaved (*(unsigned char (*))&ModeMenuCursorSaved)
 
 #undef LoadIndex
 
-#undef D_800F4D2C
+#undef ModeMenuCursorSaved
 
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
@@ -54,7 +54,7 @@ extern char LoadIndex;
 
 extern unsigned char LoadState;
 
-extern short D_800F4D44;
+extern short RaceType;
 
 extern int RequestCarLoad();
 
@@ -102,7 +102,7 @@ int LoadCarRangeStep(int arg0, int arg1) {
                 a1 = -1;
             }
         }
-        if (D_800F4D44 != 1) {
+        if (RaceType != 1) {
             UploadCarClut(q3, a1, arg0);
         }
         LoadIndex++;

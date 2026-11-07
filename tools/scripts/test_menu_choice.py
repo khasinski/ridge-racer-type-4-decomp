@@ -50,17 +50,17 @@ static unsigned seed;
 static uint64_t arena[32][8];
 #define D_800F4D99 (w->choice.bytes[1])
 #define SelectionRows (w->choice)
-#define D_800F3826 (w->selected)
+#define CourseListIndex (w->selected)
 #define D_800F3A42 (w->buttons)
 #define MenuStepDirection (w->event)
-#define D_800F3A60 (w->accepted)
+#define MenuConfirmPressed (w->accepted)
 #define SelectionState (w->settings)
 #define BadgeRows (&w->rows[w->rowbank])
 #define UiRows ((RrUiRow24 *)w->ui[w->uibank].bytes)
 #define GlyphRows (w->slots)
 #define Dialogue (w->highlight[w->hintbank])
 #define LoadCursor (w->current)
-#define D_800F4D40 (w->resource)
+#define MenuArenaBase (w->resource)
 '''
         reference=r'''
 static void emit(int kind,s32 a,s32 b,s32 c){

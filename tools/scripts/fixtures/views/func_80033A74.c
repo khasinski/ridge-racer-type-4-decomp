@@ -42,7 +42,7 @@ extern struct
   char pad2[0x320 - 0x17C];
 } PlayerCars[];
 
-extern int D_800AC5D4;
+extern int SelectionPlayer;
 
 extern struct 
 {
@@ -77,23 +77,23 @@ void SetupMenuCarCamera(int a)
     func_8002E828(2, t);
   }
   ;
-  if (PlayerControllers[D_800AC5D4 & 1].b & 4)
+  if (PlayerControllers[SelectionPlayer & 1].b & 4)
   {
-    PlayerCars[D_800AC5D4 & 1].v += 0xC0;
+    PlayerCars[SelectionPlayer & 1].v += 0xC0;
   }
   else
-    if (PlayerControllers[D_800AC5D4 & 1].b & 8)
+    if (PlayerControllers[SelectionPlayer & 1].b & 8)
   {
-    PlayerCars[D_800AC5D4 & 1].v -= 0xC0;
+    PlayerCars[SelectionPlayer & 1].v -= 0xC0;
   }
-  i = PlayerCars[D_800AC5D4 & 1].v;
+  i = PlayerCars[SelectionPlayer & 1].v;
   if (i > 0xF00)
   {
-    PlayerCars[D_800AC5D4 & 1].v = 0xF00;
+    PlayerCars[SelectionPlayer & 1].v = 0xF00;
   }
   else
     if (i < (-0xF00))
   {
-    PlayerCars[D_800AC5D4 & 1].v = -0xF00;
+    PlayerCars[SelectionPlayer & 1].v = -0xF00;
   }
 }

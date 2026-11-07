@@ -33,11 +33,11 @@ static unsigned scenario,family,slot,postbyte,expected_map,expected_sound,map_ca
 #define ovl662_D_801276A8 world.garage
 #define ovl662_D_80127668 world.work
 #define ovl662_D_801273B8 world.table
-#define D_800AC590 world.textroot
+#define DialogueState world.textroot
 #define BadgeRows world.badgeroot
 #define PlayerControllers world.items
 #define D_800FFC18 world.pending
-#define D_800F3A26 world.scene
+#define ModeId world.scene
 #define D_800F4D8A world.latch
 #define ModeGroup world.transition
 '''+data+bodies+r'''

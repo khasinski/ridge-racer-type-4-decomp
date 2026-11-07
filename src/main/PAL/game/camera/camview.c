@@ -12,7 +12,7 @@ struct E { s16 a, h; };
 
 extern struct { char pad[0x24C]; char *p24c; char pad2[0x560 - 0x250]; int v560; } RaceContext;
 extern int PlayerCars;
-extern int D_800F2FD8;
+extern int ModelBankFormat;
 extern void DrawPreviewCar();
 extern void func_8002E5A0();
 extern void SetupObjectLightMatrices();
@@ -45,7 +45,7 @@ void func_80055C84(void)
     SelectModelBank(8);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), RaceContext.p24c, L.m18);
     g[0x1E] = 0;
-    func_8005F0D0(SCRATCHPAD, D_800F2FD8 < 1, 0, 0);
+    func_8005F0D0(SCRATCHPAD, ModelBankFormat < 1, 0, 0);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), RaceContext.p24c, L.m18);
     DrawMeshPrimList(RaceContext.v560, 0, 0);
     TransformPoint(L.m38, RaceContext.p24c, RaceContext.p24c + 0x18, L.v80, L.m58);
@@ -60,7 +60,7 @@ void func_80055C84(void)
     SetGteObjectTransform((SCRATCHPAD + 0x7C), L.v80, L.m58);
     a1 = 1;
     g[0x1E] = 0;
-    if (D_800F2FD8 >= 3)
+    if (ModelBankFormat >= 3)
         a1 = 2;
     func_8005F0D0(SCRATCHPAD, a1, 0, 0);
     TransformPoint(L.m38, RaceContext.p24c, RaceContext.p24c + 0x60, L.v80, L.m58);

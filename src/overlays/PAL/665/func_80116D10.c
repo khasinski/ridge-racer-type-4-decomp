@@ -99,10 +99,10 @@ extern Ovl665Settings Options;
 extern Ovl665Entry28 PadPorts[];
 extern Ovl665Panel *BadgeRows;
 extern Ovl665Row24 *UiRows;
-extern Ovl665Text *D_800AC590;
+extern Ovl665Text *DialogueState;
 extern Ovl665Frame *CurrentDrawBuf;
-extern s16 D_800AC5D0;
-extern s32 D_800AC5D4;
+extern s16 MenuFadeTimer;
+extern s32 SelectionPlayer;
 extern s32 D_800F4CB8;
 extern u8 ScreenFadeState;
 extern Ovl665View14 ovl665_D_80119698[];
@@ -117,9 +117,9 @@ extern s32 ovl665_D_80119740[];
 extern s32 ovl665_D_80119724[];
 extern u8 ovl665_D_8011973C[];
 extern u8 ovl665_D_80119020[], ovl665_D_80119024[];
-extern s16 D_8009FFB8[];
+extern s16 SteeringRangeTable[];
 extern s16 PadRangeLimits[];
-extern s32 D_8009FFCC[];
+extern s32 WheelDeadzoneTable[];
 
 extern s32 PadGetState(s32);
 extern void PadSetMainMode(s32, s32, s32);
@@ -223,7 +223,7 @@ void ovl665_func_80116D10(s32 player) {
                 ovl665_D_80119760 = 1;
             }
         }
-        D_800AC5D4 = player;
+        SelectionPlayer = player;
         if (func_8004E8CC() == 0) {
             break;
         }
@@ -266,7 +266,7 @@ void ovl665_func_80116D10(s32 player) {
             COPY_COLOURS(src);
         } else {
             CLOSE_ROWS(8);
-            D_800AC5D0 = 64;
+            MenuFadeTimer = 64;
             ST.step0C = 2;
         }
         ST.detail10 = 0;
@@ -285,7 +285,7 @@ void ovl665_func_80116D10(s32 player) {
         if (BadgeRows->state10 == 3 && UiRows[0].byte14 == 2) {
             if (ovl665_func_8011629C(player) < 0) {
                 CLOSE_ROWS(8);
-                D_800AC5D0 = 64;
+                MenuFadeTimer = 64;
                 ST.step0C = 2;
                 ST.next14 = 0;
             }
@@ -315,7 +315,7 @@ void ovl665_func_80116D10(s32 player) {
                 if (PlayerControllers[player].confirm28 != 0) {
                     PlaySfx(1);
                     CLOSE_ROWS(5);
-                    D_800AC5D0 = 64;
+                    MenuFadeTimer = 64;
                     ST.step0C = 2;
                     ST.next14 = 0;
                 }
@@ -350,7 +350,7 @@ void ovl665_func_80116D10(s32 player) {
                 if (PlayerControllers[player].confirm28 != 0) {
                     PlaySfx(1, value);
                     CLOSE_ROWS(5);
-                    D_800AC5D0 = 64;
+                    MenuFadeTimer = 64;
                     ST.step0C = 2;
                     ST.next14 = 3;
                 }
@@ -390,7 +390,7 @@ void ovl665_func_80116D10(s32 player) {
                     if (PlayerControllers[player].confirm28 != 0) {
                         PlaySfx(1);
                         CLOSE_ROWS(5);
-                        D_800AC5D0 = 64;
+                        MenuFadeTimer = 64;
                         ST.step0C = 2;
                         ST.next14 = 0;
                     }
@@ -426,7 +426,7 @@ void ovl665_func_80116D10(s32 player) {
                     if (PlayerControllers[player].confirm28 != 0) {
                         PlaySfx(1, value);
                         CLOSE_ROWS(5);
-                        D_800AC5D0 = 64;
+                        MenuFadeTimer = 64;
                         ST.step0C = 2;
                         ST.next14 = 4;
                     }
@@ -464,14 +464,14 @@ void ovl665_func_80116D10(s32 player) {
         }
         break;
     case 2:
-        timer = D_800AC5D0 - 1;
-        D_800AC5D0 = timer;
+        timer = MenuFadeTimer - 1;
+        MenuFadeTimer = timer;
         AddScreenFadeTiles(&CurrentDrawBuf->ordering70, (64 - timer) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             if (ST.next14 == 0) {
                 ovl665_func_80114A24();
                 ST.step0C = 0;
-                D_800AC5D4 = 0;
+                SelectionPlayer = 0;
                 ST.scene00--;
                 return;
             }
@@ -495,7 +495,7 @@ void ovl665_func_80116D10(s32 player) {
             ST.view38 = ovl665_D_80119698[4];
             ST.rotation86 = 0;
             ST.angle1C = 0;
-            D_800AC590->b4 = 9;
+            DialogueState->b4 = 9;
             ST.detail10++;
             break;
         case 1:
@@ -508,7 +508,7 @@ void ovl665_func_80116D10(s32 player) {
                 Options.b[player].h[1] = entry->b5;
                 Options.b[player].h[2] = entry->b6;
                 Options.b[player].h[3] = entry->b7;
-                D_800AC590->b4 = Options.b[player].h[4] + 10;
+                DialogueState->b4 = Options.b[player].h[4] + 10;
                 ST.view38 = ovl665_D_80119698[5];
                 ST.phase20 = 0;
                 ST.detail10++;
@@ -519,7 +519,7 @@ void ovl665_func_80116D10(s32 player) {
             old = Options.b[player].h[4];
             StepMenuValue(player * 4 | 1, 1, &Options.b[player].h[4], 4, 0);
             if (old != Options.b[player].h[4]) {
-                D_800AC590->b4 = Options.b[player].h[4] + 10;
+                DialogueState->b4 = Options.b[player].h[4] + 10;
             }
             value = rsin(ST.phase20) * ovl665_D_80119740[Options.b[player].h[4]] / 512;
             ST.offset8C = value;
@@ -531,7 +531,7 @@ void ovl665_func_80116D10(s32 player) {
             }
             if (PlayerControllers[player].buttons08 & 0x840) {
                 PlaySfx(1, value);
-                D_800AC590->b4 = Options.b[player].h[5] + 14;
+                DialogueState->b4 = Options.b[player].h[5] + 14;
                 ST.view38 = ovl665_D_80119698[5];
                 ST.phase20 = 0;
                 ST.detail10++;
@@ -559,9 +559,9 @@ void ovl665_func_80116D10(s32 player) {
             old = Options.b[player].h[5];
             StepMenuValue(player * 4 | 1, 1, &Options.b[player].h[5], 4, 0);
             if (old != Options.b[player].h[5]) {
-                D_800AC590->b4 = Options.b[player].h[5] + 14;
+                DialogueState->b4 = Options.b[player].h[5] + 14;
             }
-            value = rsin(ST.phase20) * D_8009FFB8[Options.b[player].h[5]] / 512;
+            value = rsin(ST.phase20) * SteeringRangeTable[Options.b[player].h[5]] / 512;
             ST.offset8C = value;
             ST.offset94 = -value;
             phase = ST.phase20;
@@ -572,7 +572,7 @@ void ovl665_func_80116D10(s32 player) {
             if (PlayerControllers[player].buttons08 & 0x840) {
                 PlaySfx(1, value);
                 CLOSE_ROWS(5);
-                D_800AC5D0 = 64;
+                MenuFadeTimer = 64;
                 ST.step0C = 2;
             }
             cursor = CURSOR;
@@ -587,7 +587,7 @@ void ovl665_func_80116D10(s32 player) {
         }
         if (ovl665_func_8011629C(player) < 0) {
             CLOSE_ROWS(8);
-            D_800AC5D0 = 64;
+            MenuFadeTimer = 64;
             ST.step0C = 2;
             ST.next14 = 0;
         }
@@ -605,7 +605,7 @@ void ovl665_func_80116D10(s32 player) {
             ST.view38 = ovl665_D_80119698[6];
             ST.rotation86 = 0;
             ST.angle1C = 0;
-            D_800AC590->b4 = 8;
+            DialogueState->b4 = 8;
             ST.detail10++;
             break;
         case 1:
@@ -614,7 +614,7 @@ void ovl665_func_80116D10(s32 player) {
             if (PlayerControllers[player].buttons08 & 0x800) {
                 PlaySfx(1, value);
                 PadSetRumbleFlags(player, 3);
-                D_800AC590->b4 = Options.c[player].c[0] + 10;
+                DialogueState->b4 = Options.c[player].c[0] + 10;
                 ST.phase20 = 0;
                 ST.detail10++;
                 SetMenuFrameOptions(1, 1, 0);
@@ -624,9 +624,9 @@ void ovl665_func_80116D10(s32 player) {
             old = Options.c[player].c[0];
             StepMenuValue(player * 4 | 1, 1, &Options.c[player].c[0], 4, 0);
             if (old != Options.b[player].h[4]) {
-                D_800AC590->b4 = Options.c[player].c[0] + 10;
+                DialogueState->b4 = Options.c[player].c[0] + 10;
             }
-            value = rsin(ST.phase20) * D_8009FFCC[Options.c[player].c[0]] / 128;
+            value = rsin(ST.phase20) * WheelDeadzoneTable[Options.c[player].c[0]] / 128;
             ST.offset90 = value;
             phase = ST.phase20;
             ST.phase20 = phase + 32;
@@ -635,13 +635,13 @@ void ovl665_func_80116D10(s32 player) {
             }
             if (PlayerControllers[player].confirm28 != 0) {
                 PlaySfx(1, value);
-                D_800AC590->b4 = Options.c[player].c[1] + 18;
+                DialogueState->b4 = Options.c[player].c[1] + 18;
                 ST.phase20 = 0;
                 ST.detail10++;
             }
             if (Options.c[player].c[0] > 0) {
-                ovl665_func_801169BC(D_8009FFCC[Options.c[player].c[0]] << 5);
-                ovl665_func_801169BC(-D_8009FFCC[Options.c[player].c[0]] << 5);
+                ovl665_func_801169BC(WheelDeadzoneTable[Options.c[player].c[0]] << 5);
+                ovl665_func_801169BC(-WheelDeadzoneTable[Options.c[player].c[0]] << 5);
             }
             cursor = CURSOR;
             if (Options.c[player].c[0] > 0) {
@@ -656,7 +656,7 @@ void ovl665_func_80116D10(s32 player) {
             old = Options.c[player].c[1];
             StepMenuValue(player * 4 | 1, 1, &Options.c[player].c[1], 5, 0);
             if (old != Options.c[player].c[1]) {
-                D_800AC590->b4 = Options.c[player].c[1] + 18;
+                DialogueState->b4 = Options.c[player].c[1] + 18;
             }
             value = rsin(ST.phase20) * PadRangeLimits[Options.c[player].c[1]] / 256;
             ST.offset90 = value;
@@ -667,7 +667,7 @@ void ovl665_func_80116D10(s32 player) {
             }
             if (PlayerControllers[player].confirm28 != 0) {
                 PlaySfx(1, value);
-                D_800AC590->b4 = Options.c[player].c[2] + 23;
+                DialogueState->b4 = Options.c[player].c[2] + 23;
                 ST.phase20 = 0;
                 ST.detail10++;
             }
@@ -684,7 +684,7 @@ void ovl665_func_80116D10(s32 player) {
             old = Options.c[player].c[2];
             StepMenuValue(player * 4 | 1, 1, &Options.c[player].c[2], 3, 0);
             if (old != Options.c[player].c[2]) {
-                D_800AC590->b4 = Options.c[player].c[2] + 23;
+                DialogueState->b4 = Options.c[player].c[2] + 23;
             }
             wave = rsin(ST.phase20) * 21;
             value = wave * Options.c[player].c[2] / 256;
@@ -697,7 +697,7 @@ void ovl665_func_80116D10(s32 player) {
             if (PlayerControllers[player].confirm28 != 0) {
                 PlaySfx(1, value);
                 CLOSE_ROWS(5);
-                D_800AC5D0 = 64;
+                MenuFadeTimer = 64;
                 ST.step0C = 2;
             }
             cursor = CURSOR;
@@ -712,7 +712,7 @@ void ovl665_func_80116D10(s32 player) {
         }
         if (ovl665_func_8011629C(player) < 0 || PlayerControllers[player].course01 != 0xE3) {
             CLOSE_ROWS(8);
-            D_800AC5D0 = 64;
+            MenuFadeTimer = 64;
             ST.step0C = 2;
             ST.next14 = 0;
         }
@@ -727,7 +727,7 @@ void ovl665_func_80116D10(s32 player) {
     } else {
         UpdateBadgeRowAnim(0);
         if (BadgeRows->state10 == 3) {
-            UpdateDialogue(BadgeRows->x04 + 10, BadgeRows->y06 + 40, D_800AC590);
+            UpdateDialogue(BadgeRows->x04 + 10, BadgeRows->y06 + 40, DialogueState);
         }
         arg = 0x83;
     }

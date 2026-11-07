@@ -15,13 +15,13 @@ extern int func_8003B934();
 extern int UpdateBadgeRowAnim();
 extern int DrawUiRow();
 extern int PlaySfx();
-extern short D_800AC5D0;
+extern short MenuFadeTimer;
 extern short MenuCursor;
-extern short D_800F3A26;
+extern short ModeId;
 extern unsigned short D_800F4D8A;
 extern int LoadCursor;
 extern int ModeFrame;
-extern int D_800F3A60;
+extern int MenuConfirmPressed;
 extern int D_800F4D74;
 extern struct { char pad[8]; short s8, sA; char padC[4]; short s10; } *BadgeRows;
 extern struct w3g2e { char pad[0xC]; char c; char pad2[7]; unsigned char b14; char pad3[0x23]; char b38; } *UiRows;
@@ -42,14 +42,14 @@ void func_80032600(void) {
         *((char *)UiRows + MenuCursor * 0x24 + 0xC) = 0;
         StepMenuValue(0, 2, &MenuCursor, 2, 0);
         *((char *)UiRows + MenuCursor * 0x24 + 0xC) = 2;
-        if (D_800F3A60 != 0) {
+        if (MenuConfirmPressed != 0) {
             if (UiRows->b14 == 2) {
                 PlaySfx(1);
                 UiRows->b14 = 3;
                 UiRows->b38 = 3;
                 BadgeRows->s10 = 4;
                 *((char *)UiRows + MenuCursor * 0x24 + 0xC) = 1;
-                D_800AC5D0 = 0x40;
+                MenuFadeTimer = 0x40;
                 LoadCursor = D_800F4D74;
                 ResetScreenCounters();
                 if (MenuCursor == 0) {
@@ -61,25 +61,25 @@ void func_80032600(void) {
         }
         break;
     case 3:
-        if (D_800AC5D0 > 0) D_800AC5D0 = D_800AC5D0 - 1;
-        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - D_800AC5D0) * 4, 0x45);
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer > 0) MenuFadeTimer = MenuFadeTimer - 1;
+        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - MenuFadeTimer) * 4, 0x45);
+        if (MenuFadeTimer <= 0) {
             r = func_8003B934();
             if (r == 1) {
                 ModeGroup = r;
-                D_800F3A26 = 0x47;
+                ModeId = 0x47;
                 D_800F4D8A = 0;
             }
         }
         break;
     case 4:
-        if (D_800AC5D0 > 0) D_800AC5D0 = D_800AC5D0 - 1;
-        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - D_800AC5D0) * 4, 0x45);
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer > 0) MenuFadeTimer = MenuFadeTimer - 1;
+        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - MenuFadeTimer) * 4, 0x45);
+        if (MenuFadeTimer <= 0) {
             r = LoadTimListStep(1);
             if (r == 1) {
                 ModeGroup = r;
-                D_800F3A26 = 0xF;
+                ModeId = 0xF;
                 D_800F4D8A = 0;
             }
         }
@@ -97,7 +97,7 @@ void func_80032600(void) {
 }
 
 void InitDialogueState(signed char *a0) {
-    func_80096434(a0, 0x348);
+    PsyqBzero(a0, 0x348);
     a0[5] = -1;
     a0[4] = 0;
     if (D_800F4CA8 == 1) {

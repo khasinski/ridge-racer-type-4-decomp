@@ -17,7 +17,7 @@ void ovl662_func_80114B9C(void) {
     SetupDrawDispEnvs(0, 0, 0, 2);
     SetModelTexturePage(25);
     ModeGroup = 1;
-    D_800F3A26 = 40;
+    ModeId = 40;
     D_800F4D8A = 0;
     DebugPrintStub(ovl662_D_8011487C);
     if (SaveProgress.prefix.reserved50.words[0] == 1) {

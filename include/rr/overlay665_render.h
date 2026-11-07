@@ -5,7 +5,7 @@
 
 #include "rr/overlay665_render_types.h"
 
-extern s32 D_800F2FD8;
+extern s32 ModelBankFormat;
 void BuildCameraMatrices(void);
 void SetupViewport(s32);
 void SetGeomOffset(s32 x,s32 y);

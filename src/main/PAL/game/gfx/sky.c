@@ -143,24 +143,24 @@ typedef struct { char *cur; char *ot; } SPD;
 
 extern char D_800100D0[];
 extern short *CourseSkyKeyframePtrs[];
-extern short *D_8009E224[];
+extern short *CourseSceneryRangePtrs[];
 extern char D_8009E248[];
 extern int SetGeomOffset();
 extern int SetDrawArea();
 
 SkyTri *func_80017310(SkyTri *a0, SkyCtx *a1, int a2);
 SkyQuad17528 *func_80017528(SkyQuad17528 *a0, SkyCtxQuad *a1, int a2);
-SkyQuad177E4 *func_800177E4(SkyQuad177E4 *a0, SkyCtxQuad *a1, int a2);
-SkyTri17A90 *func_80017A90(SkyTri17A90 *a0, SkyCtx *a1, int a2);
+SkyQuad177E4 *SkyEmitQuadFT4(SkyQuad177E4 *a0, SkyCtxQuad *a1, int a2);
+SkyTri17A90 *EmitSkyDepthCuedGT3(SkyTri17A90 *a0, SkyCtx *a1, int a2);
 void DrawTrackScenery();
 char *func_80017F84(char *a0, char *a1);
 char *func_800183EC(char *a0, char *a1);
-char *func_800189AC(char *a0, char *a1);
-char *func_80018D44(char *a0, char *a1);
+char *SkyEmitLitQuadG4(char *a0, char *a1);
+char *EmitSkyLitGT4(char *a0, char *a1);
 char *func_80019144(char *a0, char *a1);
 void RunSkyCommandList(char *a0, int a1);
 void func_800195BC(char *a0, volatile unsigned short *a1);
-void func_800197C8(int a0, int a1, short *a2, int a3);
+void RenderSkyToRect(int a0, int a1, short *a2, int a3);
 
 SkyTri *func_80017310(SkyTri *a0, SkyCtx *a1, int a2) {
     int v0 = a0->v01;
@@ -377,7 +377,7 @@ SkyQuad17528 *func_80017528(SkyQuad17528 *a0, SkyCtxQuad *a1, int a2) {
     return a0;
 }
 
-SkyQuad177E4 *func_800177E4(SkyQuad177E4 *a0, SkyCtxQuad *a1, int a2) {
+SkyQuad177E4 *SkyEmitQuadFT4(SkyQuad177E4 *a0, SkyCtxQuad *a1, int a2) {
     int v1 = a0->v01;
     int a3 = a0->v23;
     char *verts = a1->verts;
@@ -496,7 +496,7 @@ SkyQuad177E4 *func_800177E4(SkyQuad177E4 *a0, SkyCtxQuad *a1, int a2) {
     return a0;
 }
 
-SkyTri17A90 *func_80017A90(SkyTri17A90 *a0, SkyCtx *a1, int a2) {
+SkyTri17A90 *EmitSkyDepthCuedGT3(SkyTri17A90 *a0, SkyCtx *a1, int a2) {
     int v0 = a0->v01;
     int a3 = a0->v2;
     char *verts = a1->verts;
@@ -641,7 +641,7 @@ void DrawTrackScenery(a0) int a0; {
     }
     k = 0;
     RR_GTE_SETFC(k, k, k);
-    a1 = D_8009E224[CourseIndex];
+    a1 = CourseSceneryRangePtrs[CourseIndex];
     if (a1 != 0) {
         while (a1[0] < a0) a1 += 2;
         s3 = a1[1];
@@ -662,8 +662,8 @@ void DrawTrackScenery(a0) int a0; {
                 switch (k) {
                 case 7: r = (int)func_80017310(r, s0, w); break;
                 case 8: r = (int)func_80017528(r, s0, w); break;
-                case 1: r = (int)func_800177E4(r, s0, w); break;
-                case 11: r = (int)func_80017A90(r, s0, w); break;
+                case 1: r = (int)SkyEmitQuadFT4(r, s0, w); break;
+                case 11: r = (int)EmitSkyDepthCuedGT3(r, s0, w); break;
                 default: DebugPrintStub(D_800100D0, k, w); return;
                 }
             }
@@ -968,7 +968,7 @@ char *func_800183EC(char *a0, char *a1) {
     return a0;
 }
 
-char *func_800189AC(char *a0, char *a1) {
+char *SkyEmitLitQuadG4(char *a0, char *a1) {
     volatile int *hw = (volatile int *)SCRATCHPAD;
     int n = *(int *)(a1 + 0xE4);
     int *pkt = (int *)hw[0];
@@ -1041,7 +1041,7 @@ char *func_800189AC(char *a0, char *a1) {
     return a0;
 }
 
-char *func_80018D44(char *a0, char *a1) {
+char *EmitSkyLitGT4(char *a0, char *a1) {
     volatile int *hw = (volatile int *)SCRATCHPAD;
     int n = *(int *)(a1 + 0xE4);
     int *pkt = (int *)hw[0];
@@ -1216,10 +1216,10 @@ void RunSkyCommandList(char *a0, int a1)
             p = func_800183EC(p, s);
             break;
         case 13:
-            p = func_800189AC(p, s);
+            p = SkyEmitLitQuadG4(p, s);
             break;
         case 15:
-            p = func_80018D44(p, s);
+            p = EmitSkyLitGT4(p, s);
             break;
         case 16:
             p = func_80019144(p, s);
@@ -1254,7 +1254,7 @@ void func_800195BC(char *a0, volatile unsigned short *a1)
     RunSkyCommandList(D_800AC64C, 0);
 }
 
-void func_800197C8(int a0, int a1, short *a2, int a3) {
+void RenderSkyToRect(int a0, int a1, short *a2, int a3) {
     short sp10[4];
     int c; 
     register int *p __asm__("$4"); /* ASM_BARRIER: pin temp reg to match original allocation */

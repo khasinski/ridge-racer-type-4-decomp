@@ -6,7 +6,7 @@
 #include "game/data/bankrec.h"
 
 extern int CarRecordPtrs[];
-extern s32 D_800F4D90;
+extern s32 TrackLightTable;
 
 void func_800293D0(s32 layout,s32 mode);
 
@@ -25,7 +25,7 @@ void SetupDialogueTable(a) char *a; {
 void SetCarRecordPtr(a, i) int a; int i; { CarRecordPtrs[i] = a; }
 
 void SetLightTable(s32 arg0) {
-    D_800F4D90 = arg0;
+    TrackLightTable = arg0;
 }
 
 void func_800293D0(s32 layout,s32 mode) {

@@ -28,7 +28,7 @@ static unsigned scenario,base,switching;
 #define GlyphRows world.root
 #define BadgeRows world.badge
 #define ovl662_D_801272C0 world.local
-#define D_800F3826 world.selected
+#define CourseListIndex world.selected
 #define D_800F4D99 world.choice.bytes[1]
 '''+body+r'''
 static u32 rng=0x15EC4;

@@ -89,7 +89,7 @@ int main(void) {
    actual.states[0].repeat04=1;actual.states[0].repeat_step0C=0;actual.states[0].once06=0;
    repeat_owner[4]=(RrPulseRow *)((u8 *)actual.outputs+0x18);
   }
-  memcpy(&expected,&actual,sizeof(actual));reference();func_8004B8A8();
+  memcpy(&expected,&actual,sizeof(actual));reference();PadStepPulse();
   assert(!memcmp(&actual,&expected,sizeof(actual)));
  }
  puts("32768 two-port pulse cases passed with UBSan");return 0;

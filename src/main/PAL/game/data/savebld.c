@@ -14,7 +14,7 @@ extern int D_800F3B28[];
 extern int D_800F4D38;
 extern unsigned short D_800F4D3C;
 extern Struct10 LapRecords[2][8][5];
-extern Struct2C D_8010B258[3];
+extern Struct2C SaveSlotSelectionsBackup[3];
 
 void BuildSaveData(int arg0) {
     SaveBuf *s3;
@@ -39,13 +39,13 @@ void BuildSaveData(int arg0) {
             s3->f33C[a3] = CourseChoiceTable.f24[a3];
         }
         for (a3 = 0; a3 < 3; a3++) {
-            D_8010B258[a3].f10 = 0;
+            SaveSlotSelectionsBackup[a3].f10 = 0;
             t1 = 0;
             for (t0 = 0; (unsigned int)t0 < 0x16; t0++) {
-                t1 += ((short *)&D_8010B258[a3])[t0];
+                t1 += ((short *)&SaveSlotSelectionsBackup[a3])[t0];
             }
-            D_8010B258[a3].f10 = t1;
-            s3->f360[a3] = D_8010B258[a3];
+            SaveSlotSelectionsBackup[a3].f10 = t1;
+            s3->f360[a3] = SaveSlotSelectionsBackup[a3];
         }
         if (arg0 == 3) {
             SelectionState.f10 = 0;

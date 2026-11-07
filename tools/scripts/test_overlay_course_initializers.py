@@ -60,17 +60,17 @@ static unsigned scenario,mutation,kind;static u8 seenCounts[4][10];
 #define ovl661_D_80118450 w->s.rows
 #define ovl661_D_8011844C w->s.columns
 #define ovl666_course_counts w->s.counts
-#define D_800ABEC8 w->s.clearABEC8
-#define D_800AC648 w->s.clearAC648
+#define SelectedCarIndex w->s.clearABEC8
+#define CourseMenuSelection w->s.clearAC648
 #define CourseIndex w->s.clearF3914
 #define NumCars w->s.modeAC59C
 #define MenuCursor w->s.flag
 #define NumLaps w->s.laps
 #define ovl661_D_80118414 w->s.marker
 #define ModeGroup w->s.course
-#define D_800F3A26 w->s.position
+#define ModeId w->s.position
 #define D_800F4D8A w->s.selected
-#define D_800F3826 w->s.clearF3826
+#define CourseListIndex w->s.clearF3826
 static void effect(unsigned n){
  unsigned i,j,k;u32 value=scenario*0x9e3779b9U+n*47U;
  for(i=0;i<2;i++){

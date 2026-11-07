@@ -18,13 +18,13 @@
 /* legacy typing of shared globals in this part of the unit */
 #define ModeFrame (*(unsigned int (*))&ModeFrame)
 
-#define D_800F3A26 (*(unsigned short (*))&D_800F3A26)
+#define ModeId (*(unsigned short (*))&ModeId)
 
 #define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
 
 #undef ModeFrame
 
-#undef D_800F3A26
+#undef ModeId
 
 #undef D_800F4D8A
 

@@ -4,7 +4,7 @@ extern s32 TrackLength;
 extern s32 NumLaps;
 extern s16 D_8010C134;
 extern s32 RaceState;
-extern s16 D_800AC5D0;
+extern s16 MenuFadeTimer;
 extern s32 TotalRaceTime;
 extern s32 RaceVoiceFlags;
 
@@ -29,7 +29,7 @@ void ovl661_func_80114924(RrRaceCheckpointVehicle *vehicle) {
                 if (RaceState < 4) {
                     D_8010C134 = -1;
                     RaceState = 4;
-                    D_800AC5D0 = 75;
+                    MenuFadeTimer = 75;
                     SoundSetMasterVolume(0, 33);
                     TotalRaceTime = 0;
                     SoundQueueEnqueue(19, 1);

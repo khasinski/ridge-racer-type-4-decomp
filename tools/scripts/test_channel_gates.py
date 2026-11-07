@@ -28,7 +28,7 @@ static void hook(RrChannelRecordF0 *r) {
  /* The original special-response path requires a valid two-byte input. */
  if(!r->status.pending && (r->responseE8==4||r->responseE8==5||r->responseE8==7) && r->status.length34>=2 && !r->status.data28)r->status.data28=actual.data;
 }
-void func_80096434(void *target,s32 length) {
+void PsyqBzero(void *target,s32 length) {
  assert(target==actual.record.status.gates57 && length==6 && calls==0);
  calls++;memset(target,0,6);hook(&actual.record);
 }

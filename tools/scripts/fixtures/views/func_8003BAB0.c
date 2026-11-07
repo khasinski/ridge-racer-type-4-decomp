@@ -6,11 +6,11 @@
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
 
-#define D_800F4D2C (*(unsigned char (*))&D_800F4D2C)
+#define ModeMenuCursorSaved (*(unsigned char (*))&ModeMenuCursorSaved)
 
 #undef LoadIndex
 
-#undef D_800F4D2C
+#undef ModeMenuCursorSaved
 
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
@@ -72,7 +72,7 @@ extern int TrackNodeCount;
 
 extern char *TrackNodesEnd;
 
-extern int D_8010BFC8;
+extern int TrackPreviewTick;
 
 int LoadTrackNodesStep(void) {
     int r = 0;
@@ -80,7 +80,7 @@ int LoadTrackNodesStep(void) {
     case 0:
         LoadIndex = 0;
         LoadState = 1;
-        D_8010BFC8 = 0;
+        TrackPreviewTick = 0;
     case 1:
         if (CdFileReadStart(GetR4FileIndex(1, CourseIndex + 0x38), LoadCursor) != 0) {
             LoadState = 2;

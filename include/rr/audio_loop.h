@@ -20,7 +20,7 @@ typedef struct {
 } RrAudioLoopState;
 
 extern RrAudioLoopState SoundState;
-extern s16 D_800F4D44;
+extern s16 RaceType;
 extern s32 VoiceVolumeScale; /* Alias of SoundState.master08. */
 s32 SsUtSetVVol(s32 voice,s32 left,s32 right);
 /* Voice uses signed low16. Volume products wrap in32 bits before arithmetic

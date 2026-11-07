@@ -78,10 +78,10 @@ s32 _cardChkSioIrq(void) {
 int _cardVsyncHandler() {
     volatile unsigned int *g;
     short *h;
-    if (D_800ABDE8) {
+    if (CardTxCount) {
         g = I_STAT_Card;
         CardCommandStatus = 0x11;
-        D_800ABDE8 = 0;
+        CardTxCount = 0;
         g[0] = ~0x80;
         g[1] &= ~0x80;
         h = CardSio0Regs;

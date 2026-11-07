@@ -119,29 +119,29 @@ extern void CdAudioSelectTrack();
 
 extern int PsyqRand();
 
-extern short D_800F4D44;
+extern short RaceType;
 
 extern int CdAudioInit();
 
 extern signed char SelectionState[];
 
-extern int D_800A0C9C[];
+extern int BgmNumberToCdTrack[];
 
 extern int D_800F3970;
 
-extern int D_800F765C;
+extern int RaceBgmListIndex;
 
 extern int D_800F7660;
 
 void SelectCourseBgmTrack() {
     int a0, a1, v;
     CdAudioInit();
-    if (D_800F4D44 == 1) {
+    if (RaceType == 1) {
         a0 = SelectionState[SelectionState[0x17] + 8] < 3;
     } else {
         a0 = 1;
     }
-    if (D_800F3970 != 0 && D_800F4D44 != 1) {
+    if (D_800F3970 != 0 && RaceType != 1) {
         D_800F7660 = 0x10;
     } else {
         D_800F7660 = 0xF;
@@ -149,11 +149,11 @@ void SelectCourseBgmTrack() {
     if (a0 == 0) {
         a1 = CourseIndex + 3;
         CdAudioSelectTrack(0, a1);
-    } else if (D_800F765C == 0) {
+    } else if (RaceBgmListIndex == 0) {
         a1 = PsyqRand() % 14 + 0xB;
         CdAudioSelectTrack(0, a1);
     } else {
-        a1 = D_800A0C9C[D_800F765C - 1];
+        a1 = BgmNumberToCdTrack[RaceBgmListIndex - 1];
         CdAudioSelectTrack(0, a1);
     }
 }

@@ -1,4 +1,4 @@
-func_800189AC
+SkyEmitLitQuadG4
 EmitSpriteGrid
 InitMenuGrid
 func_8005C988

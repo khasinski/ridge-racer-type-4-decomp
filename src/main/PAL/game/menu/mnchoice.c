@@ -8,7 +8,7 @@
 
 extern int DrawTrackScenery();
 extern int D_800AC308;
-extern int D_8010718C;
+extern int ViewUsesCarTrackNode;
 
 void DrawTrackSceneryForPlayer(int a0);
 void UnpackChoiceGlyph(signed char *a0, int a1);
@@ -18,19 +18,19 @@ s32 CountChoiceGlyphs(const RrCourseChoice4 *a0);
 void func_80036D40(void) {
     s32 state;
     u32 selected=D_800F4D99;
-    D_800F3826=selected;
+    CourseListIndex=selected;
     ((u8 *)UiRows)[12+selected]=0;
     if(D_800F3A42&0x2000) {
-        if(D_800F3826<3) {
+        if(CourseListIndex<3) {
 
-            D_800F3826=D_800F3826+1;
+            CourseListIndex=CourseListIndex+1;
             MenuStepDirection=2;
             goto changed;
         }
     }
     if(D_800F3A42&0x8000) {
-        if(D_800F3826>0) {
-            D_800F3826=D_800F3826-1;
+        if(CourseListIndex>0) {
+            CourseListIndex=CourseListIndex-1;
             MenuStepDirection=1;
             goto changed;
         }
@@ -40,22 +40,22 @@ void func_80036D40(void) {
 changed:
     /* The sound helper can change selection and backing pointers. */
     PlaySfx(0);
-    if(D_800F3826<0)D_800F3826=0;
-    else if(D_800F3826>=4)D_800F3826=3;
-    Dialogue[4]=(u8)D_800F3826+34;
-    D_800F4D99=D_800F3826;
-    GlyphRows[D_800F3826].control02=-6;
-    GlyphRows[D_800F3826].flags00=0;
-    UiRows->byte16=(u8)D_800F3826+4;
+    if(CourseListIndex<0)CourseListIndex=0;
+    else if(CourseListIndex>=4)CourseListIndex=3;
+    Dialogue[4]=(u8)CourseListIndex+34;
+    D_800F4D99=CourseListIndex;
+    GlyphRows[CourseListIndex].control02=-6;
+    GlyphRows[CourseListIndex].flags00=0;
+    UiRows->byte16=(u8)CourseListIndex+4;
 active:
     {
         u8 *ui=(u8 *)UiRows;
         s32 active;
 
-        active=D_800F3826;
+        active=CourseListIndex;
         *(u8 *)((unsigned long)ui+(unsigned long)active+12UL)=2;
     }
-    if(D_800F3A60) {
+    if(MenuConfirmPressed) {
         state=BadgeRows->state10;
         if(state==3) {
             PlaySfx(1);
@@ -89,7 +89,7 @@ active:
                 s32 last;
 
                 /* Both preceding helpers may replace the resource buffer. */
-                resource=D_800F4D40;
+                resource=MenuArenaBase;
 
                 LoadCursor=resource;
                 one=1;
@@ -103,7 +103,7 @@ active:
 
 void DrawTrackSceneryForPlayer(int a0) {
     int v;
-    if (D_8010718C == 1) {
+    if (ViewUsesCarTrackNode == 1) {
         if (a0 < 2) {
             v = D_800ABFE8;
         } else {

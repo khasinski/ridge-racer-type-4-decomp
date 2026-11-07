@@ -32,12 +32,12 @@ static union {uint64_t alignment;u8 bytes[0x8000];} state_page;
 #define SoundState (*(RrSequenceQueueState *)(state_page.bytes+0x4DB8))
 ''' + body + r'''
 s16 *SoundSequenceTable[RR_SEQUENCE_TABLE_COUNT][2];
-s32 D_800F6784;
+s32 SoundSequenceSet;
 static u8 expected[0x8000];
 static s16 values[20],other[2]={123,0};
 static int model(int id,int restart) {
     RrSequenceQueueState *state=(RrSequenceQueueState *)(expected+0x4DB8);
-    const s16 *input=SoundSequenceTable[id][D_800F6784!=0];
+    const s16 *input=SoundSequenceTable[id][SoundSequenceSet!=0];
     if(input==(s16*)-1)return -1;
     int used=0;
     if(!state->active19D0 || restart) {
@@ -91,21 +91,21 @@ int main(int argc,char **argv) {
             for(unsigned t=0;t<sizeof(terminals)/sizeof(*terminals);t++)
             for(unsigned d=0;d<sizeof(directions)/sizeof(*directions);d++) {
                 prepare(active_values[a],used,length,terminals[t]);
-                D_800F6784=directions[d];
-                SoundSequenceTable[2][D_800F6784!=0]=values;
+                SoundSequenceSet=directions[d];
+                SoundSequenceTable[2][SoundSequenceSet!=0]=values;
                 run(2,restarts[r]);
             }
         }
     } else if(!strcmp(argv[1],"sentinel")) {
         for(unsigned d=0;d<sizeof(directions)/sizeof(*directions);d++)
         for(unsigned r=0;r<sizeof(restarts)/sizeof(*restarts);r++) {
-            prepare(0,-100,4,0);D_800F6784=directions[d];
-            SoundSequenceTable[1][D_800F6784!=0]=(s16*)-1;
+            prepare(0,-100,4,0);SoundSequenceSet=directions[d];
+            SoundSequenceTable[1][SoundSequenceSet!=0]=(s16*)-1;
             run(1,restarts[r]);
         }
     } else {
         /* Repeated appends must preserve older entries, and a rejection is inert. */
-        prepare(0,7,2,0);D_800F6784=0;SoundSequenceTable[0][0]=values;
+        prepare(0,7,2,0);SoundSequenceSet=0;SoundSequenceTable[0][0]=values;
         run(0,0);assert(SoundState.count19D4==2);
         run(0,0);assert(SoundState.count19D4==4);
         run(0,0);assert(SoundState.count19D4==6);

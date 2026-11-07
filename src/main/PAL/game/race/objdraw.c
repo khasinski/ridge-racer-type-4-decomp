@@ -155,7 +155,7 @@ extern s32 ReplayState;
 extern s32 ModeFrame;
 extern s16 CourseIndex;
 extern s8 RacePaused;
-extern S_F4D90 *D_800F4D90;
+extern S_F4D90 *TrackLightTable;
 extern s32 RaceState;
 extern s32 D_8010E840;
 extern s32 D_8010E848[];
@@ -236,24 +236,24 @@ void DrawTrackObjects(s32 arg0) {
             sp38 = LightMatrix;
             if (CourseIndex == 7 || CourseIndex == 3 || CourseIndex == 2) {
                 for (j = 0; j < 3; j++) {
-                    LightMatrix.m[j][0] = D_800F4D90->light_dir[j].vx;
-                    LightMatrix.m[j][1] = -D_800F4D90->light_dir[j].vy;
-                    LightMatrix.m[j][2] = D_800F4D90->light_dir[j].vz;
+                    LightMatrix.m[j][0] = TrackLightTable->light_dir[j].vx;
+                    LightMatrix.m[j][1] = -TrackLightTable->light_dir[j].vy;
+                    LightMatrix.m[j][2] = TrackLightTable->light_dir[j].vz;
                     sp78.m[0][j] = CourseLightColors[CourseIndex * 3 + j].vx;
                     sp78.m[1][j] = CourseLightColors[CourseIndex * 3 + j].vy;
                     sp78.m[2][j] = CourseLightColors[CourseIndex * 3 + j].vz;
                 }
             } else {
                 for (j = 0; j < 3; j++) {
-                    LightMatrix.m[j][0] = D_800F4D90->light_dir[j].vx;
-                    LightMatrix.m[j][1] = D_800F4D90->light_dir[j].vy;
-                    LightMatrix.m[j][2] = D_800F4D90->light_dir[j].vz;
+                    LightMatrix.m[j][0] = TrackLightTable->light_dir[j].vx;
+                    LightMatrix.m[j][1] = TrackLightTable->light_dir[j].vy;
+                    LightMatrix.m[j][2] = TrackLightTable->light_dir[j].vz;
                     sp78.m[0][j] = CourseLightColors[CourseIndex * 3 + j].vx;
                     sp78.m[1][j] = CourseLightColors[CourseIndex * 3 + j].vy;
                     sp78.m[2][j] = CourseLightColors[CourseIndex * 3 + j].vz;
                 }
             }
-            SetBackColor(D_800F4D90->ambient.r, D_800F4D90->ambient.g, D_800F4D90->ambient.b);
+            SetBackColor(TrackLightTable->ambient.r, TrackLightTable->ambient.g, TrackLightTable->ambient.b);
             SetColorMatrix(&sp78);
             MulMatrix0(&LightMatrix, &sp18, &sp58);
             SetLightMatrix(&sp58);
@@ -271,16 +271,16 @@ void DrawTrackObjects(s32 arg0) {
             continue;
 
         case 4:
-            func_8001A8DC(TrackObjectDefs[i].f00);
+            DrawTrackObjectFlashQuads(TrackObjectDefs[i].f00);
             continue;
 
         case 5:
-            if (ReplayState == 2 && D_800F4D44 == 1 && D_800AC1A2 < 6) {
+            if (ReplayState == 2 && RaceType == 1 && D_800AC1A2 < 6) {
                 continue;
             }
             if (TrackObjectStates[i].f08 != 0) {
                 if (TrackObjectStates[i].f04 + 100 == TrackObjectStates[i].f00) {
-                    if (RacePaused == 0 && D_800F4D44 != 5) {
+                    if (RacePaused == 0 && RaceType != 5) {
                         PlaySfxVolPan(0x27, 0x7F, 0x40, -1);
                     }
                 }
@@ -303,7 +303,7 @@ void DrawTrackObjects(s32 arg0) {
             s3[0x00 / 4] = (TrackObjectStates[i].f0C - SCRATCH_CAMX) >> 4;
             s3[0x04 / 4] = (TrackObjectStates[i].f10 - SCRATCH_CAMY) >> 4;
             s3[0x08 / 4] = (TrackObjectStates[i].f14 - SCRATCH_CAMZ) >> 4;
-            dist = func_80090758((s3[0x00 / 4] * s3[0x00 / 4] + s3[0x04 / 4] * s3[0x04 / 4] + s3[0x08 / 4] * s3[0x08 / 4]) >> 12);
+            dist = CordicSqrt((s3[0x00 / 4] * s3[0x00 / 4] + s3[0x04 / 4] * s3[0x04 / 4] + s3[0x08 / 4] * s3[0x08 / 4]) >> 12);
             if (dist < 0) {
                 dist = -dist;
             }
@@ -330,7 +330,7 @@ void DrawTrackObjects(s32 arg0) {
                 s3[0x00 / 4] = D_8010E8C8.vx - SCRATCH_CAMX;
                 s3[0x04 / 4] = D_8010E8C8.vy - SCRATCH_CAMY;
                 s3[0x08 / 4] = D_8010E8C8.vz - SCRATCH_CAMZ;
-                s3[0x10 / 4] = func_80090758((s3[0x00 / 4] * s3[0x00 / 4] + s3[0x04 / 4] * s3[0x04 / 4] + s3[0x08 / 4] * s3[0x08 / 4]) >> 10) >> 2;
+                s3[0x10 / 4] = CordicSqrt((s3[0x00 / 4] * s3[0x00 / 4] + s3[0x04 / 4] * s3[0x04 / 4] + s3[0x08 / 4] * s3[0x08 / 4]) >> 10) >> 2;
                 if (dist < D_8010E840) {
                     s3[0x10 / 4] = -s3[0x10 / 4];
                 }
@@ -394,8 +394,8 @@ void DrawTrackObjects(s32 arg0) {
                     : : "r"(one)
                 );
             }
-            func_8001AFB8(TrackObjectDefs[i].f00 + 1, 1);
-            func_8001AFB8(TrackObjectDefs[i].f00 + 2, 0);
+            DrawTrackObjectModel(TrackObjectDefs[i].f00 + 1, 1);
+            DrawTrackObjectModel(TrackObjectDefs[i].f00 + 2, 0);
             if (TrackObjectDefs[i].f08 != 5) {
                 v = (0xDB6 - dist) / 13;
                 if (dist >= 0xDB7 || RacePaused != 0) {
@@ -476,7 +476,7 @@ void DrawTrackObjects(s32 arg0) {
             if (pan >= 0x80) {
                 pan = 0x7F;
             }
-            if ((u32)((u16)D_800F4D44 - 2) < 3U) {
+            if ((u32)((u16)RaceType - 2) < 3U) {
                 if (D_8010E848[i] == ModeFrame) {
                     SetSoundChannelVolLR(1, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
                 } else {
@@ -506,7 +506,7 @@ void DrawTrackObjects(s32 arg0) {
             if (v < 0) {
                 v = 0;
             }
-            if ((u32)((u16)D_800F4D44 - 2) < 3U) {
+            if ((u32)((u16)RaceType - 2) < 3U) {
                 if (D_8010E848[i] == ModeFrame) {
                     SetSoundChannelVolLR(1, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
                 } else {
@@ -736,9 +736,9 @@ void DrawTrackObjects(s32 arg0) {
             {
                 s32 dx = (TrackObjectStates[i].f0C - SCRATCH_CAMX) >> 4;
                 s32 dz = (TrackObjectStates[i].f14 - SCRATCH_CAMZ) >> 4;
-                s3[0x00 / 4] = func_80090758((dx * dx + dz * dz) >> 12);
+                s3[0x00 / 4] = CordicSqrt((dx * dx + dz * dz) >> 12);
             }
-            if ((u32)((u16)D_800F4D44 - 2) < 3U) {
+            if ((u32)((u16)RaceType - 2) < 3U) {
                 if (D_8010E848[i] != ModeFrame && RacePaused == 0) {
                     TrackObjectStates[i].f08 = (TrackObjectStates[i].f08 + (((i & 1) == 0) ? 0x20 : 0xFE0)) % 0x1000;
                 }
@@ -951,7 +951,7 @@ int LoadTrackObjects(int *a, int b) {
     D_8010E8D8 = a;
     s = n * 0x2C;
     TrackObjectKeyframes = a;
-    func_80096434(b, s);
+    PsyqBzero(b, s);
     return s;
 }
 

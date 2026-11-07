@@ -28,7 +28,7 @@ static const s32 scenes[]={0,1,2,-1,3,INT32_MIN,INT32_MAX};
 static const s32 selections[]={0,1,2,3,4,5,6,-1,7,8,INT32_MIN,INT32_MAX};
 #define ovl665_D_80119768 w->s.visual
 #define ModeGroup w->s.scene
-#define D_800F3A26 w->s.next
+#define ModeId w->s.next
 #define D_800F4D8A w->s.phase
 static s32 word(u32 bits){s32 value;memcpy(&value,&bits,4);return value;}
 static void event(s32 kind,s32 arg){unsigned i,n=w->calls;assert(n<8);w->events[n].kind=kind;w->events[n].arg=arg;w->events[n].before=w->s;w->calls++;

@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern int D_80010874[];
+extern int StrSizeEqLdFmt[];
 void SetLightColorsScaled(int a0);
 int func_8003D108();
 int AllocBadgeRows(int a0);

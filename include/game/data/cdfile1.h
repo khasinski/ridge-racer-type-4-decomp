@@ -4,7 +4,7 @@
 #include "types.h"
 
 s32 func_80012208(s32 arg0);
-int func_80012210();
+int GetCarFileIndex();
 int GetR4FileIndex();
 void LoadR4Directory(void);
 void InitCdFileDirectory(void);

@@ -16,7 +16,7 @@ s32 RotTransPers(s32 *point, s32 *screen, s32 *interpolation, s32 *flags);
 s32 rsin(s32 angle);
 s32 rcos(s32 angle);
 extern int D_800A1CD0[];
-extern void func_80096434();
+extern void PsyqBzero();
 
 void DrawRing(s32 *position, s32 radius);
 void InitScrollTrack(int a0);
@@ -127,7 +127,7 @@ void DrawRing(s32 *position, s32 radius)
 
 void InitScrollTrack(int a0) {
     int *p = (int *)(MotionController + 0x134);
-    func_80096434(p, 0x28);
+    PsyqBzero(p, 0x28);
     p[1] = 0;
     p[5] = D_800A1CD0[a0];
 }

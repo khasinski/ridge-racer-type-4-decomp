@@ -1,7 +1,7 @@
 #ifndef RR_VEHICLE_RPM_H
 #define RR_VEHICLE_RPM_H
 #include "rr/vehicle_drive.h"
-extern s16 D_800F3826,D_800F4D44;
+extern s16 CourseListIndex,RaceType;
 /* gear68 is nonnegative and below gearCountFC; each threshold index used by
  * that gear lies in0..5. A zero ordinary span takes the minimum-RPM path. The
  * special mode requires a nonzero low16 divisor after max-speed rounding.

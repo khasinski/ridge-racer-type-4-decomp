@@ -13,7 +13,7 @@ typedef struct {
     void (*reserved18)(void);
     RrLibSavedState *state1C;
 } RrSpuTickInterruptDriver20;
-extern RrSpuTickCallback D_800A6370[8];
+extern RrSpuTickCallback VSyncCallbackTable[8];
 void setIntrVSync(s32 slot,RrSpuTickCallback callback);
 void VSyncCallback(RrSpuTickCallback callback);
 void EnterCriticalSection(void);

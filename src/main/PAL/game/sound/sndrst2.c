@@ -6,7 +6,7 @@ extern int SetVoiceVolumeScaled();
 extern int SsUtKeyOnV();
 extern struct { char p0[4]; int f4; char p1[8]; int f10; char p2[4]; short f18; char p3[0xA]; short f24; char p4[0x1996]; unsigned short f19BC, f19BE, f19C0, f19C2; int f19C4; short f19C8; } SoundState;
 extern struct { char p0[0x31]; unsigned char f31; short f32; } Options;
-extern short D_800F4D44;
+extern short RaceType;
 extern s16 PanGainTable[];
 
 void SoundLoopSet(int a0, int a1, int a2, int a3);
@@ -46,7 +46,7 @@ void func_80051554(void)
     s0 = (unsigned)v1 >> 4;
     if (v0 < 0) v0 += 0xF;
     s1 = (unsigned)v0 >> 4;
-    if (D_800F4D44 == 5) {
+    if (RaceType == 5) {
         s0 = 0;
         s1 = 0;
     }

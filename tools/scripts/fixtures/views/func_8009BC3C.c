@@ -13,7 +13,7 @@ s32 _cardSioHandler(void) {
     RrInterruptRegisters *registers;
     /* ASM_BARRIER: Use the original address temporary for stores in call delay slots. */
     register s32 *page __asm__("$1");
-    u32 count=(u32)D_800ABDE8+1;
+    u32 count=(u32)CardTxCount+1;
     /* ASM_BARRIER: Finish the counter read before materializing its mapped page. */
     __asm__("" : : : "$1");
     page=(s32 *)0x800B0000U;

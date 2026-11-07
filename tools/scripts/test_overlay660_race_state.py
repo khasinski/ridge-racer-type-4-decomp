@@ -33,7 +33,7 @@ static struct World {
 #define RaceState world.mode
 #define TrackLength world.limit
 #define ReverseCourse world.tag
-#define D_800AC5D0 world.delay
+#define MenuFadeTimer world.delay
 #define SoundState world.fade
 void SoundStopAll(void){assert(0);}
 void CdAudioFade(int a,short b){

@@ -136,9 +136,9 @@ typedef struct {
 extern struct B8 D_80010104;
 extern int SetMenuFrameOptions();
 extern int InitMenuArenas();
-extern short D_800AC5D0;
+extern short MenuFadeTimer;
 extern int VSyncThreshold;
-extern short D_800F3A26;
+extern short ModeId;
 extern short ModeGroup;
 extern short D_800F4D8A;
 extern int D_8010BF74;
@@ -147,10 +147,10 @@ extern struct B8 D_80010114;
 extern int D_8009E268;
 extern char *LoadCursor;
 extern unsigned char D_800AD4EA;
-extern int D_800F3A60;
+extern int MenuConfirmPressed;
 extern S_8010BF70 *TileRectScene;
 extern int SetupRenderer();
-extern int func_80019C90();
+extern int SetSineLightColors();
 extern int ResetScreenCounters();
 extern int LoadTimImage();
 extern int LoadTimList();
@@ -160,8 +160,8 @@ extern int TileFadeColorTable[];
 extern int D_8009E36C[];
 
 void EmitTiledRect(RrGpuRectangleFields *rectangle, s32 intensity, u32 *head);
-void func_80019F20(void);
-void func_80019FC8(void);
+void TileRectSceneModeEnter(void);
+void TileRectSceneModeUpdate(void);
 void func_8001A52C(int a0);
 int *func_8001AC24(S_8001AC24 *a0, int *a1, int *a2);
 
@@ -296,7 +296,7 @@ clamp_low:
     scratch->cursor = packet+sizeof(RrGpuSingleCommandPacket);
 }
 
-void func_80019F20(void) {
+void TileRectSceneModeEnter(void) {
     struct B8 sp10;
     VSyncThreshold = 0x80;
     InitMenuArenas();
@@ -304,24 +304,24 @@ void func_80019F20(void) {
     UpdateScreenFade(0x1000C);
     sp10 = D_80010104;
     ClearImage2(&sp10, 0, 0, 0);
-    D_800AC5D0 = 0;
+    MenuFadeTimer = 0;
     D_8010BF74 = 0;
     ModeGroup = 0;
-    D_800F3A26 = 4;
+    ModeId = 4;
     D_800F4D8A = 0;
 }
 
-void func_80019FC8(void) {
+void TileRectSceneModeUpdate(void) {
     struct B8 sp10;
     int s1;
 
     UpdateScreenFade(0x1000C);
-    if (D_800AC5D0 != 0) {
-        D_800AC5D0 += 4;
-        if (D_800AC5D0 >= 0x100) {
+    if (MenuFadeTimer != 0) {
+        MenuFadeTimer += 4;
+        if (MenuFadeTimer >= 0x100) {
             ResetScreenCounters();
             ModeGroup = 1;
-            D_800F3A26 = 0xB;
+            ModeId = 0xB;
             D_800F4D8A = 0;
         }
     }
@@ -393,8 +393,8 @@ void func_80019FC8(void) {
         SetMenuFrameOptions(1, 1, 0);
         D_8010BF74 = 7;
     case 7:
-        if (D_800AC5D0 == 0 && D_800F3A60 != 0) {
-            D_800AC5D0 = 4;
+        if (MenuFadeTimer == 0 && MenuConfirmPressed != 0) {
+            MenuFadeTimer = 4;
             TileRectScene->s44 = -4;
             TileRectScene->s42 = -4;
         }
@@ -457,7 +457,7 @@ void func_80019FC8(void) {
     if (TileRectScene->s46 != 0) {
         /* ASM_BARRIER: Keep &sp10 in $a2 before unaligned struct copy */
         register struct B8 *a2 asm("$6");
-        func_80019C90(TileRectScene->s46);
+        SetSineLightColors(TileRectScene->s46);
         BuildCameraMatrices();
         RotMatrix(&TileRectScene->unk20, TileRectScene);
         /* ASM_BARRIER: Emit 8-byte unaligned struct copy using $8, $9, $10 without spilling $8 at earlier block move */
@@ -475,7 +475,7 @@ void func_80019FC8(void) {
             "swr $10, 0x14($29)"
             : "=r"(a2), "=m"(sp10)
         );
-        func_800197C8(TileRectScene->unk28, TileRectScene, a2, D_8009E268);
+        RenderSkyToRect(TileRectScene->unk28, TileRectScene, a2, D_8009E268);
     }
     W(4) = 0xE6000001;
     LNK(1, 0xAFC);
@@ -595,7 +595,7 @@ void func_8001A52C(int a0) {
     *(int **)SCRATCHPAD = pkt;
 }
 
-void func_8001A8DC(int a0) {
+void DrawTrackObjectFlashQuads(int a0) {
     Ctx1A8DC *a3 = (Ctx1A8DC *)(SCRATCHPAD + 0x7C);
     /* ASM_BARRIER: pin scratchpad base pointer to $a1 ($5) to match original pre-loop CSE */
     register int *g asm("$5");

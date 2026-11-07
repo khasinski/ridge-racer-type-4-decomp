@@ -75,11 +75,11 @@ extern int D_8010E740[];
 extern int D_8010E768[];
 extern int D_8010E78C;
 extern int VSync();
-extern int func_80096474();
+extern int PsyqSrand();
 extern short D_80107180[];
 extern int BuildRotMatrixZ();
 extern int MulMatrix();
-extern M D_800F39A8;
+extern M HalfTransViewMatrix;
 extern int ApplyMatrixSV();
 extern int func_8006DB0C();
 extern int SquareRoot0();
@@ -98,10 +98,10 @@ extern struct S D_80011334;
 extern struct S D_8001133C;
 extern struct S D_80011344;
 
-void func_80070400(int *a0);
+void RelocateCountedOffsetTable(int *a0);
 int SetupRearViewMirror(void);
 void func_8007064C(void);
-struct P *func_800706B8(struct P *a0);
+struct P *AddRearViewMirrorTile(struct P *a0);
 void func_80070734(int arg0);
 void func_80070934(int a0, int a1, int *a2, int a3);
 void func_80070ACC(char *p);
@@ -109,7 +109,7 @@ void func_80070BA4(char *a0, int a1, int a2);
 s32 func_80071338(void);
 s32 func_800713D0(void);
 
-void func_80070400(int *a0) {
+void RelocateCountedOffsetTable(int *a0) {
     int *p = a0 + 1;
     int i = 0;
     int n = *a0 * 8;
@@ -123,7 +123,7 @@ void func_80070400(int *a0) {
     }
 }
 
-void func_80070440(void) {
+void ResetRearViewMirror(void) {
     D_800AD50C = 1;
     D_800F4CE0 = -0x24;
     D_8010E730 = 0;
@@ -136,7 +136,7 @@ int SetupRearViewMirror(void) {
     if (D_8010E730 != 0) {
         if (D_800AD50C != 0) {
             if (D_800AC538 == 0) {
-                if (D_800F4D44 != 0) {
+                if (RaceType != 0) {
                     r = RaceState == 2;
                 }
             }
@@ -171,7 +171,7 @@ void func_8007064C(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define D_800F4CE0 (*(unsigned short (*))&D_800F4CE0)
 
-struct P *func_800706B8(struct P *a0) {
+struct P *AddRearViewMirrorTile(struct P *a0) {
     
     int s1 = *(int *)(SCRATCHPAD + 0x4);
     SetTile(a0);
@@ -201,7 +201,7 @@ void func_80070734(int arg0) {
             D_800F4CE0 -= 1;
         }
         if (SetupRearViewMirror() != 0) {
-            *(int *)SCRATCHPAD = func_800706B8(*(int *)SCRATCHPAD);
+            *(int *)SCRATCHPAD = AddRearViewMirrorTile(*(int *)SCRATCHPAD);
             SetupViewport(1);
             DrawTrackSceneryForPlayer(0);
             func_8006EDA4(0);
@@ -316,7 +316,7 @@ void func_80070934(int a0, int a1, int *a2, int a3) {
         D_80107180[0] = 0x420;
         D_80107180[1] = 0x5D0;
         D_80107180[2] = 0x610;
-        func_80096474(VSync(1, a1));
+        PsyqSrand(VSync(1, a1));
     }
 }
 
@@ -330,12 +330,12 @@ void func_80070ACC(char *p) {
     MulMatrix2(&m30, &m10);
     BuildRotMatrixZ(&m30, *(int *)(p + 0xE0));
     MulMatrix2(&m30, &m10);
-    ApplyMatrixLV(&D_800F39A8, p + 0xC8, v);
-    m10.a[5] = (D_800F39A8.a[5] + v[0]) >> 1;
-    m10.a[6] = (D_800F39A8.a[6] + v[1]) >> 1;
-    m10.a[7] = (D_800F39A8.a[7] + v[2]) >> 1;
+    ApplyMatrixLV(&HalfTransViewMatrix, p + 0xC8, v);
+    m10.a[5] = (HalfTransViewMatrix.a[5] + v[0]) >> 1;
+    m10.a[6] = (HalfTransViewMatrix.a[6] + v[1]) >> 1;
+    m10.a[7] = (HalfTransViewMatrix.a[7] + v[2]) >> 1;
     SetTransMatrix(&m10);
-    MulMatrix(&m10, &D_800F39A8);
+    MulMatrix(&m10, &HalfTransViewMatrix);
     SetRotMatrix(&m10);
 }
 
@@ -515,7 +515,7 @@ s32 func_800713D0(void) {
     return D_800F39A4 * 8;
 }
 
-int func_800713E0(void) {
+int GetOctantTableValue(void) {
     int a = func_8006F1EC((SCRATCHPAD + 0x8), 0);
     return (D_8010E798 + a * 8)[YawToOctant((SCRATCHPAD + 0x8))];
 }

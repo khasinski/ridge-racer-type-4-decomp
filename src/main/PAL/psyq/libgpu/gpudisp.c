@@ -54,7 +54,7 @@ extern u8 D_800ABAC3;
 extern char D_800ABB2C[];
 extern URECT16 D_800ABB34;
 extern HRANGE DispHRangeTable[2][5];
-extern u8 D_800ABBBC[5];
+extern u8 DispDotClockDivisors[5];
 extern u32 D_80112788[10];
 extern u32 D_801127B0[4];
 
@@ -167,7 +167,7 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
         } else {
             i = 4;
         }
-        x0 = DispHRangeTable[env->pad0][i].x0 + env->screen.x * D_800ABBBC[i];
+        x0 = DispHRangeTable[env->pad0][i].x0 + env->screen.x * DispDotClockDivisors[i];
         dx = DispHRangeTable[env->pad0][i].x1 - DispHRangeTable[env->pad0][i].x0;
         w = env->screen.w;
         if (w) {
@@ -178,12 +178,12 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
         __asm__ volatile("" : : : "memory");
         if (env->pad0) {
             x0 = CLAMP(x0, 0x21C, 0xC94);
-            x1 = CLAMP(x1, x0 + D_800ABBBC[i] * 4, 0xCBC);
+            x1 = CLAMP(x1, x0 + DispDotClockDivisors[i] * 4, 0xCBC);
             y0 = CLAMP(y0, 0x13, 0x12F);
             y1 = CLAMP(y1, y0 + 2, 0x131);
         } else {
             x0 = CLAMP(x0, 0x1F4, 0xCB2);
-            x1 = CLAMP(x1, x0 + D_800ABBBC[i] * 4, 0xCDA);
+            x1 = CLAMP(x1, x0 + DispDotClockDivisors[i] * 4, 0xCDA);
             y0 = CLAMP(y0, 0x10, 0x101);
             y1 = CLAMP(y1, y0 + 2, 0x102);
         }

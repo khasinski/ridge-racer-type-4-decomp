@@ -19,15 +19,15 @@ extern int CourseFarColorTable[];
 extern w3g6_32 ColorMatrix;
 extern short D_800AD5BC[];
 extern w3g6_U D_800F38F8[];
-extern int D_8010718C;
+extern int ViewUsesCarTrackNode;
 extern char D_800F4C38[];
 extern unsigned int *D_800ADAD0;
-extern int D_800F2EB4;
+extern int RelFileViewRecords;
 extern unsigned int D_8010E290[];
 extern unsigned int *D_8010E690;
 
 void InitViewLighting(void);
-void func_8006E834(void);
+void BuildViewSegmentObjectList(void);
 void func_8006E8F8();
 void func_8006E9CC(void);
 void func_8006E9D4(void);
@@ -60,7 +60,7 @@ void func_8006E794(void) {
     char *p;
     char *g = (char *)SCRATCHPAD;
     InitViewLighting();
-    D_8010718C = 1;
+    ViewUsesCarTrackNode = 1;
     D_800AD5B8 = 0x1400;
     *(int *)(g + 0x78) = 0;
     *(short *)(g + 0x5E) = 0;
@@ -77,11 +77,11 @@ void func_8006E794(void) {
     } while (i >= 0);
 }
 
-void func_8006E834(void) {
+void BuildViewSegmentObjectList(void) {
     unsigned int *t;
     unsigned int i;
     D_8010E690 = D_8010E290;
-    t = func_8006F288();
+    t = GetSegmentViewTable();
     D_800ADAD0 = t;
     D_8010E290[0] = *t;
     if (D_8010E290[0] >= 0x100) {
@@ -91,7 +91,7 @@ void func_8006E834(void) {
     i = 0;
     if (D_8010E290[0] != 0) {
         do {
-            D_8010E290[i + 1] = D_800F2EB4 + ((unsigned short *)t)[i] * 0x50;
+            D_8010E290[i + 1] = RelFileViewRecords + ((unsigned short *)t)[i] * 0x50;
             i++;
         } while (i < D_8010E290[0]);
     }
@@ -114,7 +114,7 @@ void func_8006E8F8() {
     off = t2 << 2;
     t1 = (int *)((char *)t1 + (off + 4));
     for (t0 = 0; t0 < D_800F4C38[0]; t0++) {
-        v = D_800F2EB4 + (pb = D_800F4C38 + t0)[1] * 0x50;
+        v = RelFileViewRecords + (pb = D_800F4C38 + t0)[1] * 0x50;
         for (i = 0; i < *D_8010E690; i++) {
             if (v == D_8010E690[i + 1]) {
                 break;

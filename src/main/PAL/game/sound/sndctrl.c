@@ -65,7 +65,7 @@ void SoundReset(int a0, int a1) {
     SoundMasterVolumeReset();
     ResetPlayerVoices();
     func_80051248(a0);
-    func_800514FC();
+    ResetSoundChannelVolLR();
     SoundQueueClear();
     SoundLoopReset();
     ReverbReset();

@@ -20,7 +20,7 @@ s32 _cardCmd5BVarRx(s32 value) {
             received=CardCmdSioRegs->data;
             CardCmdBuffer=CardCmdResultPtrA;
             D_8011472C.value=1;
-            D_80114730=received+1;
+            CardBytesRemaining=received+1;
         }
         {
             s32 count=D_80114728;

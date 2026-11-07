@@ -17,7 +17,7 @@ u8 *ovl663_format_time(s32 milliseconds) {
 
 void *ovl663_draw_race_records(u32 *ordering, void *cursor, s32 row) {
     s32 i = 0, x, y, clut, rowY;
-    s32 group = D_800AC648 >= 8;
+    s32 group = CourseMenuSelection >= 8;
     y = BadgeRows[row].y06 + 40;
     do {
         if (i == ovl663_selected_record) {
@@ -49,7 +49,7 @@ void *ovl663_draw_race_records(u32 *ordering, void *cursor, s32 row) {
     cursor = AddTilePrim(ordering, cursor, x, y - 2, 1, 116, 255, 255, 255);
     cursor = AddDrawModePrim(ordering, cursor, 56);
     x += 16;
-    cursor = func_80032EC8(ordering, cursor, x, y, D_800AC648 & 7);
+    cursor = func_80032EC8(ordering, cursor, x, y, CourseMenuSelection & 7);
     cursor = AddSpritePrim(ordering, cursor, x + 8, rowY + 112, &ovl663_record_badges[group],
                            group + 30180, 0);
     return AddDrawModePrim(ordering, cursor, 89);
@@ -57,7 +57,7 @@ void *ovl663_draw_race_records(u32 *ordering, void *cursor, s32 row) {
 
 void *ovl663_draw_lap_records(u32 *ordering, void *cursor, s32 row) {
     s32 i = 0, x, y, clut, rowY;
-    s32 group = D_800AC648 >= 8;
+    s32 group = CourseMenuSelection >= 8;
     y = BadgeRows[row].y06 + 40;
     do {
         if (i == ovl663_selected_record) {
@@ -89,7 +89,7 @@ void *ovl663_draw_lap_records(u32 *ordering, void *cursor, s32 row) {
     cursor = AddTilePrim(ordering, cursor, x, y - 2, 1, 116, 255, 255, 255);
     cursor = AddDrawModePrim(ordering, cursor, 56);
     x += 16;
-    cursor = func_80032EC8(ordering, cursor, x, y, D_800AC648 & 7);
+    cursor = func_80032EC8(ordering, cursor, x, y, CourseMenuSelection & 7);
     cursor = AddSpritePrim(ordering, cursor, x + 8, rowY + 112, &ovl663_record_badges[group],
                            group + 30180, 0);
     return AddDrawModePrim(ordering, cursor, 89);

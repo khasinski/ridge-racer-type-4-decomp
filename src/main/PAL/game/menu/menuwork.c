@@ -20,7 +20,7 @@ typedef struct { char p0; signed char b1; unsigned char b2; } W7C0_S;
 extern unsigned char NameCharset[];
 extern int StepMenuValue();
 extern s32 ModeFrame;
-extern s16 D_800F3A26;
+extern s16 ModeId;
 extern s16 ModeGroup;
 extern s16 D_800F4D8A;
 extern unsigned char D_8009F810[];
@@ -47,10 +47,10 @@ extern int SeqStartTrack();
 extern int BuildCameraMatrices();
 extern int SetupViewport();
 extern unsigned char D_8009F818[];
-extern short D_800AC5D0;
+extern short MenuFadeTimer;
 extern signed char *ImageRows;
 extern int LoadCursor;
-extern int D_800F3A60;
+extern int MenuConfirmPressed;
 extern W7C0_F *BadgeRows;
 extern int MenuArenas;
 extern W7C0_E *UiRows;
@@ -88,7 +88,7 @@ void func_8003984C(void) {
     func_8001E378();
     UpdateScreenFade(0x1000C);
     ModeGroup = 0;
-    D_800F3A26 = 6;
+    ModeId = 6;
     D_800F4D8A = 0;
 }
 
@@ -153,7 +153,7 @@ void CarPreviewModeUpdate(void) {
     SetupViewport(6);
     if (D_800F4D8A == 0) {
         if (func_800578D8(D_8009F818[D_800AD4EF / 2]) != 0) {
-            D_800AC5D0 = 0x40;
+            MenuFadeTimer = 0x40;
             CdAudioFade(0, 0x3C);
             D_800F4D8A = 1;
             func_80039988();
@@ -167,7 +167,7 @@ void CarPreviewModeUpdate(void) {
         UpdateImageRow(0);
         if (ImageRows[1] == 2) {
             ModeGroup = 1;
-            D_800F3A26 = 0x22;
+            ModeId = 0x22;
             D_800F4D8A = 0;
             SeqStartTrack(0);
         }
@@ -224,7 +224,7 @@ void func_80039C0C(void)
         if (s0 == 2) {
             SetMenuFrameOptions(1, 1, 0);
             P8(UiRows, 0xC) = s0;
-            if (D_800F3A60 != 0) {
+            if (MenuConfirmPressed != 0) {
                 PlaySfx(1);
                 P8(UiRows, 0xC) = s2;
                 P8(UiRows, 0x38) = 0;
@@ -242,7 +242,7 @@ void func_80039C0C(void)
             IDX30(t0, q[3]) = 0;
             StepMenuValue(0, 1, q + 3, c2, 0);
             IDX30(UiRows, q[3]) = c2;
-            if (D_800F3A60 != 0) {
+            if (MenuConfirmPressed != 0) {
                 PlaySfx(1);
                 a1 = 0;
                 a0 = 0;
@@ -267,7 +267,7 @@ void func_80039C0C(void)
         }
         InitMotionController();
         ModeGroup = s2;
-        D_800F3A26 = 0xB;
+        ModeId = 0xB;
         D_800F4D8A = 0;
     }
 end:

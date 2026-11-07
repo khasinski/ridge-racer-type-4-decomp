@@ -42,14 +42,14 @@ static struct World {struct State s;unsigned calls;struct {u32 hash;s32 service,
 static unsigned scenario,mutation;
 #define MenuArenas w->s.arenas
 #define LoadCursor w->s.current
-#define D_800F4D40 w->s.backing
+#define MenuArenaBase w->s.backing
 #define SelectionRows w->s.selection
 #define PlayerCourseChoices w->s.points
 #define ImageRows w->s.ui[scenario%4]
 #define CourseChoiceTable w->s.main
 #define ovl661_D_80118458 w->s.table661
 #define D_8010BFD8 w->s.table667
-#define D_800AC5D4 w->s.player
+#define SelectionPlayer w->s.player
 #define ovl661_D_80118450 w->s.rows661
 #define ovl661_D_8011844C w->s.cols661
 #define D_8010C0D8 w->s.rows667

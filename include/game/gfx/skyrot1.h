@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern int D_8010BF7C;
+extern int TitleSceneStage;
 int func_8001BD40();
 void DrawRotatingSky(void);
 void func_8001BFA8(int a0, int a1, int a2);

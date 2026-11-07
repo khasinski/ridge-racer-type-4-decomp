@@ -33,9 +33,9 @@ static unsigned scenario,mutation,phaseSeen[10];
 #define ovl663_available_course_count w->s.limit
 #define D_800F4D8A w->s.phase
 #define ModeGroup w->s.scene
-#define D_800F3A26 w->s.nextScene
-#define D_800AC5D0 w->s.timer
-#define D_800F3A60 w->s.accepted
+#define ModeId w->s.nextScene
+#define MenuFadeTimer w->s.timer
+#define MenuConfirmPressed w->s.accepted
 #define UiRows (w->s.rows[w->s.root])
 #define CurrentDrawBuf (&frames[w->s.bank])
 static Event *event(int kind){unsigned i;u32 h=2166136261U;Event *e;assert(w->calls<16);
@@ -48,7 +48,7 @@ static void change(void){unsigned n=w->calls;if(!mutation)return;
  w->s.timer=(s16)(scenario+n*8191U);w->s.accepted=(scenario+n)%3-1;
  w->s.rows[w->s.root][0].byte14=(scenario+n)%5;
 }
-s32 func_8003BEA8(s32 resource){Event *e=event(1);e->args[0]=resource;change();return scenario&1?-1:0;}
+s32 LoadCoursePreviewStep(s32 resource){Event *e=event(1);e->args[0]=resource;change();return scenario&1?-1:0;}
 void SetMenuFrameOptions(s32 a,s32 b,s32 c){Event *e=event(2);e->args[0]=a;e->args[1]=b;e->args[2]=c;change();}
 void StepMenuValue(s32 a,s32 b,char *selection,s32 limit,s32 flags){Event *e=event(3);assert(selection==(char*)&w->s.selection);e->args[0]=a;e->args[1]=b;e->args[2]=limit;e->args[3]=flags;change();}
 void ResetScreenCounters(void){event(4);change();}
@@ -61,7 +61,7 @@ void DrawUiRow(s32 a){event(10)->args[0]=a;change();}
 void UpdateScreenFade(s32 a){event(11)->args[0]=a;change();}
 ''' + body + r'''
 static void expected(void){State *s=&w->s;int old;
- int loaded=func_8003BEA8(choices[s->selection]);
+ int loaded=LoadCoursePreviewStep(choices[s->selection]);
  if(loaded){
   unsigned phase=s->phase;if(phase<10)phaseSeen[phase]++;
   if(phase==0){if(s->rows[s->root][0].byte14==2){SetMenuFrameOptions(1,1,0);s->phase=1;}}

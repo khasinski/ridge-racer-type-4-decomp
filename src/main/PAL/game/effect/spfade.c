@@ -15,7 +15,7 @@ void RampValuePairTo4096(unsigned short *a0, unsigned short *a1, short *a2);
 void RampValueTo4096(unsigned short *a0, short *a1);
 void func_8001B8B0(s32 intensity, s32 scale);
 void EmitPresetSprite(s32 intensity,s32 index);
-void func_8001BBC4(s32 intensity, s32 scale, u32 pos, s32 width);
+void EmitFadeTile(s32 intensity, s32 scale, u32 pos, s32 width);
 void func_8001BC84(int a0, int a1);
 
 void RampValueToLimit(unsigned short *a0, short *a1, int a2) {
@@ -302,7 +302,7 @@ low:
     }
 }
 
-void func_8001BBC4(s32 intensity, s32 scale, u32 pos, s32 width) {
+void EmitFadeTile(s32 intensity, s32 scale, u32 pos, s32 width) {
     /* ASM_BARRIER: keep intensity in $t0 across GTE interpolation and clamping */
     register s32 value __asm__("$8") = intensity;
     /* ASM_BARRIER: keep pos in $t2 until packet write */

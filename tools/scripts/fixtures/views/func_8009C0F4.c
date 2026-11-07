@@ -7,7 +7,7 @@
 #include "rr_asm.h"
 
 s32 _cardCmdStep(void) {
-    register s32 initial=D_800ABDE8;
+    register s32 initial=CardTxCount;
     s32 one;
     /* ASM_BARRIER: Keep each common-return result in the ABI result register. */
     register s32 answer __asm__("$2");
@@ -33,7 +33,7 @@ s32 _cardCmdStep(void) {
         answer=0;goto done;
     }
     {
-        register u32 remaining=D_80114730;
+        register u32 remaining=CardBytesRemaining;
         register RrCommandReadCallback reader=CardCommandReader;
         /* ASM_BARRIER: Publish the real remaining-count store in the reader call delay slot. */
         register s32 *page __asm__("$1");
@@ -67,7 +67,7 @@ s32 _cardCmdStep(void) {
         value=writer(byte);
     }
     if(value) {answer=(u32)value-2000;goto done;}
-    if(D_80114730!=one) {answer=0;goto done;}
+    if(CardBytesRemaining!=one) {answer=0;goto done;}
     if(CardCurrentCommand==14) goto special;
     /* ASM_BARRIER: Retain the separate fresh subtype read for the second comparison. */
     __asm__("" : : : "$2", "$3", "memory");
@@ -89,11 +89,11 @@ final_byte:
         register u32 raw;
         RrSerialPortRegisters *port;
         register RrCommandWriteCallback writer;
-        tick=D_800ABDE8;
-        remaining=D_80114730;
-        D_800ABDE8=tick+1;
+        tick=CardTxCount;
+        remaining=CardBytesRemaining;
+        CardTxCount=tick+1;
         port=CardCmdSioRegs;
-        D_80114730=remaining-1;
+        CardBytesRemaining=remaining-1;
         raw=port->data;
         /* ASM_BARRIER: Read the device byte before loading the fresh receive index. */
         __asm__("" : "+r"(raw) : : "$3", "memory");

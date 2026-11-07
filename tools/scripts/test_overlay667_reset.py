@@ -33,7 +33,7 @@ static struct World {
 #define ovl667_D_80118F04 world.serial.word1C
 #define ModeFrame world.frames
 #define ModeGroup world.screen
-#define D_800F3A26 world.step
+#define ModeId world.step
 #define D_800F4D8A world.counter
 void ovl667_func_80114A40(void){
  assert(world.serial.word00==0 && world.serial.word10==0 && world.serial.word14==0 && world.serial.word18==0 && world.serial.word1C==0 && world.frames==0);

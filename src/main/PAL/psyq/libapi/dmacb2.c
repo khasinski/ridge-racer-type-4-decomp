@@ -4,7 +4,7 @@
 void StSetRing(RrLibQueueRecord32 *first, s32 second) {
     /* ASM_BARRIER: preserve the original assembler temporary for the mapped store. */
     register s32 *base __asm__("$1");
-    D_80110310 = first;
+    StRingHeaders = first;
     /* ASM_BARRIER: finish the preceding state updates before binding the address. */
     __asm__ volatile("" : : : "$1", "memory");
     /* PAL RAM mapping for D_80110314. */

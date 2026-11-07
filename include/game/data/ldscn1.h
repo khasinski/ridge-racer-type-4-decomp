@@ -6,7 +6,7 @@
 extern int LoadDestCursor;
 extern signed char *D_800ACBFC;
 extern char *TrackNodesEnd;
-extern short D_800F4D2C;
+extern short ModeMenuCursorSaved;
 int func_8003A9E8(void);
 int LoadTimListStep();
 int LoadDialogueStep(void);

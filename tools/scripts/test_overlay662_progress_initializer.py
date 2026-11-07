@@ -34,7 +34,7 @@ static u8 resources[3][0x2D100],original[3][0x2D100];
 #define MenuArenas world.s.arenas
 #define CdDirectoryBuffer world.s.base
 #define LoadCursor world.s.published
-#define D_800F4D40 world.s.saved
+#define MenuArenaBase world.s.saved
 #define SaveProgress world.s.save
 #define ovl662_D_80127328 world.s.counts
 #define ovl662_D_801272D8 world.s.rows

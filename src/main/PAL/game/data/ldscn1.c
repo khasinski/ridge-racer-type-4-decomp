@@ -24,7 +24,7 @@ extern short RaceContext[];
 extern unsigned char LoadState;
 extern int CdDirectoryBuffer;
 extern int LoadCursor;
-extern int D_800F4D40;
+extern int MenuArenaBase;
 extern int MenuArenas;
 extern int InitMenuArenas();
 extern int D_800F4D74;
@@ -46,19 +46,19 @@ extern struct { char pad[0x17]; signed char f17; char pad2[2]; short f1A; unsign
 extern int D_800AD564;
 extern unsigned char D_800AD4F4;
 extern char D_80104DB0[];
-extern Z *D_800AC590;
+extern Z *DialogueState;
 extern char *TrackNodes;
 extern int TrackNodeCount;
 extern char D_8010C220[];
 
 int func_8003A79C(void);
-int func_8003A874(void);
+int LoadModeMenuAssetsStep(void);
 int func_8003A9E8(void);
 int func_8003AAE8(void);
 int LoadSceneStep(void);
 int LoadAllCarsStep(void);
 int LoadCarRangeStep(int arg0, int arg1);
-int func_8003B040(void);
+int LoadIndexedTimStep(void);
 int LoadResultsSceneStep(void);
 int LoadCarClutStep(void);
 int LoadTimListStep(void);
@@ -98,26 +98,26 @@ int func_8003A79C(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
 
-int func_8003A874(void) {
+int LoadModeMenuAssetsStep(void) {
     int r = 0;
     int v;
     switch (LoadState) {
     case 0:
-        if (D_800F4D44 == 4) {
+        if (RaceType == 4) {
             r = 1;
-            MenuArenas = D_800F4D40;
-            LoadCursor = D_800F4D40;
+            MenuArenas = MenuArenaBase;
+            LoadCursor = MenuArenaBase;
             break;
         }
-        if (D_800F4D44 == 5 && D_800F4D2C == 6) {
+        if (RaceType == 5 && ModeMenuCursorSaved == 6) {
             r = 1;
-            LoadCursor = D_800F4D40;
+            LoadCursor = MenuArenaBase;
             break;
         }
         LoadState = 1;
         LoadCursor = CdDirectoryBuffer;
-        LoadIndex = *(unsigned char *)&D_800F4D44;
-        if (*(unsigned char *)&D_800F4D44 >= 5) {
+        LoadIndex = *(unsigned char *)&RaceType;
+        if (*(unsigned char *)&RaceType >= 5) {
             LoadIndex = 0;
         }
     case 1:
@@ -131,7 +131,7 @@ int func_8003A874(void) {
             LoadCursor += v;
     case 3:
             r = 1;
-            D_800F4D40 = LoadCursor;
+            MenuArenaBase = LoadCursor;
         }
         break;
     }
@@ -142,7 +142,7 @@ int func_8003A874(void) {
 
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
-#define D_800F4D2C (*(unsigned char (*))&D_800F4D2C)
+#define ModeMenuCursorSaved (*(unsigned char (*))&ModeMenuCursorSaved)
 
 int func_8003A9E8(void) {
     int r = 0;
@@ -151,7 +151,7 @@ int func_8003A9E8(void) {
     case 0:
         LoadState = 1;
         LoadCursor = CdDirectoryBuffer;
-        LoadIndex = D_800F4D2C;
+        LoadIndex = ModeMenuCursorSaved;
     case 1:
         if (CdFileReadStart(GetR4FileIndex(1, LoadIndex + 1), LoadCursor)) {
             LoadState = 2;
@@ -164,7 +164,7 @@ int func_8003A9E8(void) {
             LoadState = 3;
             t = LoadCursor + v;
             LoadCursor = t;
-            D_800F4D40 = t;
+            MenuArenaBase = t;
     case 3:
             r = 1;
         }
@@ -174,18 +174,18 @@ int func_8003A9E8(void) {
 }
 
 #undef LoadIndex
-#undef D_800F4D2C
+#undef ModeMenuCursorSaved
 
 int func_8003AAE8(void) {
     int r = 0;
     switch (LoadState) {
     case 0:
         LoadState = 1;
-        LoadCursor = D_800F4D40;
+        LoadCursor = MenuArenaBase;
         RaceLoadReset();
     case 1:
         if (func_8004E184()) {
-            D_800F4D40 = LoadCursor;
+            MenuArenaBase = LoadCursor;
             SoundCloseVabsAndReset();
             LoadState = 2;
             InitMenuArenas();
@@ -268,7 +268,7 @@ l5:
         break;
     case 5:
         s1 = 1;
-        if (D_800F4D44 == 4) MenuArenas = LoadCursor;
+        if (RaceType == 4) MenuArenas = LoadCursor;
         break;
     default:
         break;
@@ -313,7 +313,7 @@ int LoadCarRangeStep(int arg0, int arg1) {
                 a1 = -1;
             }
         }
-        if (D_800F4D44 != 1) {
+        if (RaceType != 1) {
             UploadCarClut(q3, a1, arg0);
         }
         LoadIndex++;
@@ -337,7 +337,7 @@ int LoadCarRangeStep(int arg0, int arg1) {
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
 
-int func_8003B040(void) {
+int LoadIndexedTimStep(void) {
     int r = 0;
     switch (LoadState) {
     case 0:
@@ -384,10 +384,10 @@ int LoadResultsSceneStep(void) {
         }
         break;
     case 3:
-        if (func_8004E70C()) {
+        if (LoadTrackVabsStep()) {
             InitMotionController();
             SoundCloseVabsAndReset();
-            if (D_800F4D44 == 1) {
+            if (RaceType == 1) {
                 goto s7;
             }
             LoadState = 5;
@@ -418,7 +418,7 @@ int LoadCarClutStep(void) {
     int r = 0;
     switch (LoadState) {
     case 0:
-        if (D_800F4D44 == 1) {
+        if (RaceType == 1) {
             LoadState = 3;
         } else {
             LoadState = 1;
@@ -624,14 +624,14 @@ int func_8003B934(void) {
             LoadTimImage(s);
             s += 0x4E20;
             LoadState = 3;
-            D_800AC590 = (Z *)s;
+            DialogueState = (Z *)s;
             InitDialogueState(s);
     case 3:
             if (D_800F4CA8 == 2) {
                 a1 = 0x44;
             } else if (D_800F4CA8 == 4) {
                 a1 = 0x46;
-                D_800AC590->b = 2;
+                DialogueState->b = 2;
             } else {
                 a1 = 0x45;
             }
@@ -658,7 +658,7 @@ int LoadTrackNodesStep(void) {
     case 0:
         LoadIndex = 0;
         LoadState = 1;
-        D_8010BFC8 = 0;
+        TrackPreviewTick = 0;
     case 1:
         if (CdFileReadStart(GetR4FileIndex(1, CourseIndex + 0x38), LoadCursor) != 0) {
             LoadState = 2;
@@ -718,7 +718,7 @@ int func_8003BBBC(void) {
         if (t != 0) {
             LoadCursor += t;
             LoadState = 6;
-            D_800F4D40 = LoadCursor;
+            MenuArenaBase = LoadCursor;
             case 6:
             r = 1;
         }

@@ -26,12 +26,12 @@ typedef struct {
 } State;
 static State world,initial,expected;
 #define ovl665_D_80119768 world.visual
-#define D_800AC5D0 world.timer
+#define MenuFadeTimer world.timer
 #define Options world.settings
-#define D_800ADAF0 world.frames
+#define FrameEnvs world.frames
 #define PlayerControllers world.input
 #define BadgeRows world.badges[world.badgeRoot]
-#define D_800AC590 (&world.text[world.textRoot])
+#define DialogueState (&world.text[world.textRoot])
 #define CurrentDrawBuf ((RrIconSpriteContext *)&world.frames[world.frameRoot])
 #define ovl665_D_80119018 world.regions[0]
 #define ovl665_D_80119020 world.regions[1]

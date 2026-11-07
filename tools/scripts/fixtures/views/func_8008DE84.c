@@ -23,7 +23,7 @@ extern int CD_debug;
 
 extern CdlFILE DsDirFileCache[];
 
-extern const char D_80011B38[];
+extern const char CdPathLevelErrorFmt[];
 
 extern const char StrCdDirNotFoundFmt[];
 
@@ -80,7 +80,7 @@ CdlFILE *CdSearchFile(CdlFILE *fp, char *name) {
 done:
     if (i >= 8) {
         if (CD_debug > 0)
-            DebugPrintStub(D_80011B38, name, i);
+            DebugPrintStub(CdPathLevelErrorFmt, name, i);
         return 0;
     }
     if (buf[0] == 0) {

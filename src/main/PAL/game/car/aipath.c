@@ -406,5 +406,5 @@ void FindTrackNodeAtXZ(int a0, int a1)
     a0 = a0 + ((v >> 11) << 5);
     if (a0 < 0) a0 = 0;
     else if (a0 >= 0x400) a0 = 0x3FF;
-    FindTrackNode(sp, D_800ACBE8[a0], 6);
+    FindTrackNode(sp, TrackNodeGrid[a0], 6);
 }

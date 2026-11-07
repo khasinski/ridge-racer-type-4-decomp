@@ -32,7 +32,7 @@ s32 ovl666_update_retry_choice(s32 mode) {
     func_80041320(MenuCursor + 37, 0, 0);
     StepMenuValue(0, 2, (char *)&MenuCursor, 3, 0);
     func_80041320(MenuCursor + 37, 1, 1);
-    if (D_800F3A60) {
+    if (MenuConfirmPressed) {
         PlaySfx(1);
         return MenuCursor;
     }
@@ -59,7 +59,7 @@ void ovl666_update_results(void) {
             group = 0;
             if (MenuTextRows[5].signedBytes[3] >= 21) {
                 SetMenuFrameOptions(1, 1, 0);
-                if (D_800F3A60 != 0) {
+                if (MenuConfirmPressed != 0) {
                     PlaySfx(1);
                     D_800F4D8A = 3;
                     SetMenuFrameOptions(0, 1, 0);
@@ -80,45 +80,45 @@ void ovl666_update_results(void) {
             if (ovl666_update_retry_choice(0) >= 0) {
                 ResetScreenCounters();
                 InitMenuArenas();
-                D_800AC5D0 = 64;
+                MenuFadeTimer = 64;
                 D_800F4D8A = MenuCursor + 4;
             }
         }
         break;
     case 4:
         SetMenuFrameOptions(0, 1, 0);
-        timer = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = timer;
+        timer = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = timer;
         AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (64 - timer) * 4, 69);
         group = 3;
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             ovl666_result_kind = 1;
             MenuScriptId = 0;
             ModeGroup = 1;
-            D_800F3A26 = 35;
+            ModeId = 35;
             D_800F4D8A = 0;
         }
         break;
     case 5:
         SetMenuFrameOptions(0, 1, 0);
-        timer = (u16)D_800AC5D0 - 2;
-        D_800AC5D0 = timer;
+        timer = (u16)MenuFadeTimer - 2;
+        MenuFadeTimer = timer;
         AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (64 - timer) * 4, 69);
         group = 3;
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             group = -1;
             D_800F4D8A = 8;
         }
         break;
     case 6:
         SetMenuFrameOptions(0, 1, 0);
-        timer = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = timer;
+        timer = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = timer;
         AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (64 - timer) * 4, 69);
         group = -1;
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
-            D_800F3A26 = 3;
+            ModeId = 3;
             D_800F4D8A = 0;
         }
         break;
@@ -128,7 +128,7 @@ void ovl666_update_results(void) {
             SeqStartTrack(0);
             ovl666_init_menu();
             ModeGroup = ready;
-            D_800F3A26 = 79;
+            ModeId = 79;
             D_800F4D8A = 0;
         }
         return;

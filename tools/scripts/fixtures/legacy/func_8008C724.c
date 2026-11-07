@@ -5,7 +5,7 @@
 #include "types.h"
 
 extern s32 DebugPrintStub();
-extern s32 func_800963DC(const char *);
+extern s32 PsyqPuts(const char *);
 
 extern const char DiskErrorPrefixStr[];
 extern const char StrCdComCodeFmt[];
@@ -18,7 +18,7 @@ extern s32 CD_status1;
 extern s32 CD_nopen;
 extern u8 D_800A64A5;
 extern char *CD_comstr[];
-extern s32 D_800A654C[];
+extern s32 CD_comHasCompleteInt[];
 extern s32 D_800A664C[];
 extern volatile u8 *CD_reg0;
 extern volatile u8 *CD_REG1;
@@ -98,7 +98,7 @@ s32 getintr(void) {
             COPY8(CD_syncResult, res);
             return 2;
         }
-        if (D_800A654C[D_800A64A5]) {
+        if (CD_comHasCompleteInt[D_800A64A5]) {
             D_800A6764[0] = 3;
             COPY8(CD_syncResult, res);
             return 1;
@@ -137,7 +137,7 @@ s32 getintr(void) {
         COPY8(CdReadyResult, res);
         return 6;
     default:
-        func_800963DC(CdUnknownIntrMsg);
+        PsyqPuts(CdUnknownIntrMsg);
         DebugPrintStub(CD_fmt_intr_code, intr);
         return 0;
     }

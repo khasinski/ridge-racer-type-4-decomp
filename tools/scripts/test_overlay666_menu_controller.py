@@ -38,12 +38,12 @@ typedef struct {
 static State actual,reference,*w;
 #define ModeFrame w->frame
 #define ScreenFrame w->tick
-#define D_800AC5D0 w->timer
+#define MenuFadeTimer w->timer
 #define MenuCursor w->selected
-#define D_800F3826 w->glyph
+#define CourseListIndex w->glyph
 #define D_800F4D8A w->phase
 #define ModeGroup w->enable
-#define D_800F3A26 w->scene
+#define ModeId w->scene
 #define ovl666_course_counts w->available
 #define UiRows w->rows[w->rowRoot]
 #define GlyphRows w->glyphs[w->glyphRoot]

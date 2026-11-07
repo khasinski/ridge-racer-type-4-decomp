@@ -32,7 +32,7 @@ typedef uint8_t u8; typedef int8_t s8; typedef uint16_t u16; typedef int16_t s16
 typedef uint32_t u32; typedef int32_t s32;
 '''+header+'''
 RrLibQueueRecord32 test_records[4096];
-RrLibQueueRecord32 *D_80110310=test_records;
+RrLibQueueRecord32 *StRingHeaders=test_records;
 s32 test_page[0x10000/4];
 #define D_801102FC test_page[0x2FC/4]
 s32 StEndFrame,D_80110314;

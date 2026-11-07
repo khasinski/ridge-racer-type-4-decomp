@@ -35,7 +35,7 @@ void ovl662_func_801161FC(void)
             } else if (PlayerControllers[0].b) {
                 PlaySfx(2);
                 D_800F4D8A = 8;
-                D_800AC5D0 = 64;
+                MenuFadeTimer = 64;
                 UiRows->byte14 = state;
                 BadgeRows->state10 = 4;
             }
@@ -93,14 +93,14 @@ void ovl662_func_801161FC(void)
         flags = 0x10006;
         break;
     case 8:
-        D_800AC5D0--;
+        MenuFadeTimer--;
         SetMenuFrameOptions(0, 1, 1);
         AddScreenFadeTiles(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,
-                     (64 - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+                     (64 - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             ovl662_func_8011512C();
             ModeGroup = 1;
-            D_800F3A26 = 64;
+            ModeId = 64;
             D_800F4D8A = 0;
         }
         flags = 0x10002;

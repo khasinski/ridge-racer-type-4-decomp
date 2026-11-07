@@ -9,7 +9,7 @@
 extern s32 DebugPrintStub();
 extern s32 VSync(s32);
 extern void CD_flush(void);
-extern s32 func_800963DC(const char *);
+extern s32 PsyqPuts(const char *);
 extern const char CdTimeoutPrefixStr[];
 extern const char CdTimeoutStatusFmt[];
 extern const char CdDatasyncNameStr[];
@@ -18,10 +18,10 @@ extern char *CD_comstr[];
 extern char *CD_intstr[];
 extern volatile u8 D_800A6764[];
 extern s32 CD_timeout_deadline;
-extern s32 D_80110334;
+extern s32 CD_timeout_count;
 extern const char *CdWaitCallerName[];
 /* $at as the %hi() base: with $1 allocatable cc1 2.8.1 emits lui $1,%hi / sw %lo($1) and its reorg fills the jr/jal delay slot with the sw (see DECOMP_GUIDE "delay-slot store"). */
-extern int D_800A6730;
+extern int CdTestParamNum;
 
 s32 CD_datasync(s32 mode);
 s32 CD_getsector(u8 *a0, u32 a1);
@@ -30,8 +30,8 @@ void CD_set_test_parmnum(int a);
 void CdCommandCallback(void);
 
 static inline int check_alarm(s32 limit, char **ac, volatile u8 *st, char **sc) {
-    if (VSync(-1) > CD_timeout_deadline || D_80110334++ > limit) {
-        func_800963DC(CdTimeoutPrefixStr);
+    if (VSync(-1) > CD_timeout_deadline || CD_timeout_count++ > limit) {
+        PsyqPuts(CdTimeoutPrefixStr);
         {
             u8 s0_ = st[0];
             u8 s1_ = st[1];
@@ -60,7 +60,7 @@ s32 CD_datasync(s32 mode) {
     /* ASM_BARRIER: Set allocno priorities for s2..s4 (mode, ac, limit). */
     __asm__("" : : "r"(mode), "r"(mode));
     CD_timeout_deadline = t + 0x3C0;
-    D_80110334 = 0;
+    CD_timeout_count = 0;
     CdWaitCallerName[0] = CdDatasyncNameStr;
     limit = 0x3C0000;
     ac = CD_comstr;
@@ -117,7 +117,7 @@ s32 CD_getsector2(u8 *a, u32 b) {
     return 0;
 }
 
-void CD_set_test_parmnum(int a) { D_800A6730 = a; }
+void CD_set_test_parmnum(int a) { CdTestParamNum = a; }
 
 /* legacy typing of shared globals in this part of the unit */
 #define D_800A6764 (*(u8 (*)[2])&D_800A6764)

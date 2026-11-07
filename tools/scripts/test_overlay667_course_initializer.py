@@ -6,7 +6,7 @@ os.chdir(root)
 p=Path('build/goal_50/parallel667_init');source=Path(sys.argv[1]) if len(sys.argv)>1 else Path('src/overlays/PAL/667/func_80116918.c')
 if not source.exists(): source=p/'public_ready.c'
 s=source.read_text();body=s[s.index('typedef struct'):];body=re.sub(r' __asm__\("\$\d+"\)','',body)
-fields={'D_8010C080':'h0','D_8010C0D0':'h1','D_8010C0D8':'h2','SelectionRows':'choices','D_8010BFD8':'records','CourseChoiceTable':'courses','D_8010C088':'names','LinkEntryState':'pairs','NumLaps':'players','D_800AC5D4':'base','D_8010C078':'count','CourseIndex':'course','D_800AC648':'menu','D_800AD508':'flag','D_800F3A26':'scene','D_8010C0B8':'small','D_8010C0D4':'pairflag','ModeGroup':'enabled','D_800F4D8A':'phase'}
+fields={'D_8010C080':'h0','D_8010C0D0':'h1','D_8010C0D8':'h2','SelectionRows':'choices','D_8010BFD8':'records','CourseChoiceTable':'courses','D_8010C088':'names','LinkEntryState':'pairs','NumLaps':'players','SelectionPlayer':'base','D_8010C078':'count','CourseIndex':'course','CourseMenuSelection':'menu','D_800AD508':'flag','ModeId':'scene','D_8010C0B8':'small','D_8010C0D4':'pairflag','ModeGroup':'enabled','D_800F4D8A':'phase'}
 head='''#include <stdint.h>
 #include <string.h>
 #include <stdio.h>

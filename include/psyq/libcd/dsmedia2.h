@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern int StCurFrameNo;
-extern short D_801102D4;
+extern short StNextSectorOffset;
 extern int D_80110348;
 void StClearRing(void);
 void data_ready_callback(void);

@@ -14,6 +14,6 @@ void ovl662_func_80118930(void) {
     BadgeRows[1].half02 = 1;
     SetMenuFrameOptions(0, 1, 1);
     ModeGroup = 1;
-    D_800F3A26 = 28;
+    ModeId = 28;
     D_800F4D8A = 0;
 }

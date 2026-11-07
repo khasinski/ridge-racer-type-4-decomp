@@ -59,7 +59,7 @@ void SoundListenerInit(short arg0, short arg1) {
     int t;
     SoundState.a = arg0;
     SoundState.b = arg1;
-    func_80096434((char *)&SoundState + 0x18EC, 0x70);
+    PsyqBzero((char *)&SoundState + 0x18EC, 0x70);
     t = arg1 & 0xFFFF;
     switch (t) {
     case 0:
@@ -135,7 +135,7 @@ void SoundFindNearestCars(s32 arg0) {
             d[0] = (ComCars[i].u20.s.w20 - SoundState.pos18C4[0]) / 16;
             d[1] = (ComCars[i].u20.s.w24 - SoundState.pos18C4[1]) / 16;
             d[2] = (ComCars[i].u20.s.w28 - SoundState.pos18C4[2]) / 16;
-            dist = func_80090758(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]);
+            dist = CordicSqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]);
             if (dist < min_dist[0]) {
                 min_dist[1] = min_dist[0];
                 min_idx[1] = min_idx[0];
@@ -189,7 +189,7 @@ void SoundFindNearestCars(s32 arg0) {
 /* legacy typing of shared globals in this part of the unit */
 #define SoundState (*(char (*)[])&SoundState)
 #define ComCars (*(w3t1_E (*)[])&ComCars)
-#define func_80090758 ((s32 (*)())func_80090758)
+#define CordicSqrt ((s32 (*)())CordicSqrt)
 
 void SoundCalcCarParams(s32 idx) {
     w3t1_F f;
@@ -216,7 +216,7 @@ void SoundCalcCarParams(s32 idx) {
         f.d[2] = (e->p[2] - *(s32 *)(B + 0x18CC)) / 16;
         break;
     }
-    t = func_80090758(f.d[0] * f.d[0] + f.d[1] * f.d[1] + f.d[2] * f.d[2]);
+    t = CordicSqrt(f.d[0] * f.d[0] + f.d[1] * f.d[1] + f.d[2] * f.d[2]);
     B2 = SoundState;
     prev = REC(B2, idx, 0x18F8);
     REC(B2, idx, 0x18F4) = t;
@@ -268,7 +268,7 @@ void SoundCalcCarParams(s32 idx) {
 
 #undef SoundState
 #undef ComCars
-#undef func_80090758
+#undef CordicSqrt
 
 /* legacy typing of shared globals in this part of the unit */
 #define SoundState (*(char (*)[])&SoundState)

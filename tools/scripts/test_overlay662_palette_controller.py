@@ -24,7 +24,7 @@ static u8 banks[3][25*0x840];
 #define ModeFrame w->frame
 #define ScreenFrame w->tick
 #define D_800F4D8A w->state
-#define D_800F3A26 w->scene
+#define ModeId w->scene
 #define ModeGroup w->enable
 #define MenuCursor w->selection
 #define MenuItemCount w->count

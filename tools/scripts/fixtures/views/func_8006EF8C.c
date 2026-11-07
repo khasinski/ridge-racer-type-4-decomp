@@ -10,22 +10,22 @@
 /* legacy typing of shared globals in this part of the unit */
 #define func_80060C70 ((int (*)())func_80060C70)
 
-#define func_8006E834 ((int (*)())func_8006E834)
+#define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 
 #define func_80071348 ((int (*)())func_80071348)
 
 #undef func_80060C70
 
-#undef func_8006E834
+#undef BuildViewSegmentObjectList
 
 #undef func_80071348
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_8006E834 ((int (*)())func_8006E834)
+#define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 
 #define func_80060C70 ((int (*)())func_80060C70)
 
-#undef func_8006E834
+#undef BuildViewSegmentObjectList
 
 #undef func_80060C70
 

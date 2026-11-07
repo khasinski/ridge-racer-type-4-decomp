@@ -8,7 +8,7 @@ typedef unsigned short u16;
 typedef int s32;
 typedef unsigned int u32;
 
-extern s32 func_80096D14(const s8 *);
+extern s32 PsyqStrlen(const s8 *);
 extern s8 *PsyqMemchr(const s8 *, s32, s32);
 extern void *PsyqMemmove(void *, const void *, s32);
 
@@ -323,7 +323,7 @@ s32 PsyqSprintf(s8 *dst, const s8 *fmt, ...) {
                             len = st.prec;
                         }
                     } else if (!st.has_prec) {
-                        len = func_80096D14(p);
+                        len = PsyqStrlen(p);
                     } else {
                         s8 *end = PsyqMemchr(p, 0, st.prec);
                         len = end - p;

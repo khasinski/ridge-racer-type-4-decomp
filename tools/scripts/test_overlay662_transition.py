@@ -35,7 +35,7 @@ static struct World {State s;u32 calls;Event events[3];u32 guard[4];} world,expe
 static u32 resources[3][16];
 #define ovl662_D_801276A8 world.s.garage
 #define ModeGroup world.s.mode
-#define D_800F3A26 world.s.scene
+#define ModeId world.s.scene
 #define D_800F4D8A world.s.phase
 ''' + bodies + r'''
 static u32 seed=0x1AA84,scenario;static s32 after;

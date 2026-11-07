@@ -3,20 +3,20 @@
 
 #include "types.h"
 
-extern s32 D_800A0C9C[];
+extern s32 BgmNumberToCdTrack[];
 extern s16 *D_800A1970[];
 extern s16 *D_800A19A4[];
 extern int D_800A19E0[];
-extern int D_800F765C;
-extern s32 D_8010E228;
+extern int RaceBgmListIndex;
+extern s32 OpeningFadeTimer;
 extern s32 D_8010E22C;
 extern s32 D_8010E230;
 extern s32 D_8010E234;
-extern s32 D_8010E238;
+extern s32 OpeningSlideTimer;
 void DrawMapBitmapIso(s32 arg0, u8 *arg1, s32 *arg2);
 void SelectReplayBgmTrack(void);
 void func_80059314(s32 arg0, s32 arg1);
 void DrawGlyphListSloped();
-void func_80059B1C(unsigned char *a0x, int a1, int a2, int a3);
+void AddBrightnessSprite(unsigned char *a0x, int a1, int a2, int a3);
 
 #endif /* RR_GAME_UI_HUDMAP2_H */

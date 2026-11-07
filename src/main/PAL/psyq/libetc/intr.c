@@ -11,8 +11,8 @@
 extern volatile unsigned *GPUSTAT;
 extern volatile unsigned *RCNT1_VALUE;
 extern volatile unsigned VSyncRcnt1Last;
-extern volatile unsigned D_800A5264;
-extern s32 func_800963DC(const char *, ...);
+extern volatile unsigned VSyncLastVcount;
+extern s32 PsyqPuts(const char *, ...);
 extern s32 ChangeClearPAD(s32);
 extern s32 ChangeClearRCnt(s32,s32);
 extern u16 D_800A52CA;
@@ -42,11 +42,11 @@ int VSync(a0) int a0; {
     if (a0 < 0) return Vcount;
     if (a0 == 1) return s1;
     if (a0 > 0) {
-        v = D_800A5264;
+        v = VSyncLastVcount;
         v = v - 1;
         v = v + a0;
     } else {
-        v = D_800A5264;
+        v = VSyncLastVcount;
     }
     w = 0;
     if (a0 > 0) w = a0 - 1;
@@ -60,7 +60,7 @@ int VSync(a0) int a0; {
             } while (((s0 ^ *r) & 0x80000000) == 0);
         }
     }
-    D_800A5264 = Vcount;
+    VSyncLastVcount = Vcount;
     do {
         VSyncRcnt1Last = *RCNT1_VALUE;
     } while (VSyncRcnt1Last != *RCNT1_VALUE);
@@ -79,7 +79,7 @@ loop:
             char *page=(char *)0x80010000U;
             /* ASM_BARRIER: Materialize the message page before its call-delay offset. */
             __asm__("" : "=r"(page) : "0"(page));
-            func_800963DC(page+0x17F8);
+            PsyqPuts(page+0x17F8);
             ChangeClearPAD(0);
             ChangeClearRCnt(3, 0);
             return;

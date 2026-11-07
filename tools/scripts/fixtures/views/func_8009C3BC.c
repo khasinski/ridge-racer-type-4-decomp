@@ -9,7 +9,7 @@ int _cardCmd59Tx() {
     register int r __asm__("$2");
     int t; 
     register int c; 
-    a = D_800ABDE8;
+    a = CardTxCount;
     t = 2;
     if (a == t) {
         r = 0x59;

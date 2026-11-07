@@ -44,7 +44,7 @@ void DrawSteeringIndicator(u32 *ordering, s32 layout) {
             toggle = (u16 *)&D_8009EE68[player];
             *toggle ^= 1;
         }
-        i = func_8004B70C(player);
+        i = GetControllerWarning(player);
         if (i > 0) {
             if ((u32) (ScreenFrame & 3) < 2U) {
                 if (i == status) {
@@ -98,7 +98,7 @@ drawNeedle:
                 outputPoint[1] = (s16) ((s8) *shapeY + baselineY + 5);
                 outputPoint += 2;
             } while (i < 3);
-            RR_HUD_SCRATCH->cursor = (u8 *)func_8002071C(ordering, cursor, triangle.word[0], triangle.word[1], triangle.word[2], D_8009EE64, 0);
+            RR_HUD_SCRATCH->cursor = (u8 *)EmitPolyF3(ordering, cursor, triangle.word[0], triangle.word[1], triangle.word[2], D_8009EE64, 0);
         }
     }
 }

@@ -38,12 +38,12 @@ static unsigned scenario;
 #define LoadState world.flag0
 #define MenuScriptStep world.flag1
 #define ModeGroup world.mode
-#define D_800F3A26 world.scene
+#define ModeId world.scene
 #define D_800F4D8A world.counter
 #define MenuArenas world.arenas
 #define CdDirectoryBuffer world.base
 #define LoadCursor world.published
-#define D_800F4D40 world.resource
+#define MenuArenaBase world.resource
 '''+reset+body+r'''
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 static void event(struct World *w,const s32 a[10]){unsigned n=w->calls,j;Event *e;

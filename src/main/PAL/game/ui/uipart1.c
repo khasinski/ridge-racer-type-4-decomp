@@ -169,7 +169,7 @@ void UpdateScreenFade(a0) int a0; {
         *(int *)SCRATCHPAD = AddTileGrid2x2(CurrentDrawBuf + 0xB6C, t, 0, 0, 0x140, 0x200, sp.c[0], sp.c[1], sp.c[2]);
     }
     DrawMenuFrame(a0 >> 2);
-    if (D_800F4D2C != 6 && D_800F4D2C != 8) {
+    if (ModeMenuCursorSaved != 6 && ModeMenuCursorSaved != 8) {
         func_8005B2D4(a0 & 1);
         StepCameraScript();
     }
@@ -182,8 +182,8 @@ void UpdateScreenFade(a0) int a0; {
 #define MenuFrameState (*(M2C_UNK (*))&MenuFrameState)
 
 void ClearScreenOverlayState(void) {
-    func_80096434(&MenuFrameState, 0x20);
-    func_80096434(&ScreenFadeState, 0xC);
+    PsyqBzero(&MenuFrameState, 0x20);
+    PsyqBzero(&ScreenFadeState, 0xC);
 }
 
 #undef ScreenFadeState
@@ -323,7 +323,7 @@ void DrawMenuFrame(int arg0) {
         s5 = (j >= 2) ? 0x1BE : 0x1AA;
         sp30 = D_8009EE70[j];
         if ((unsigned int)(j - 3) < 2) {
-            s2 = (PlayerControllers[D_800AC5D4 & 1].w10 == 1);
+            s2 = (PlayerControllers[SelectionPlayer & 1].w10 == 1);
             if (s2 == 1) {
                 sp30.u += 0x14;
                 if (j == 4) {
@@ -432,7 +432,7 @@ L1:
     j++;
     sg = CurrentDrawBuf + 0x70;
     ub = (char *)&w.u;
-    t0 = func_8002071C(sg, t0, ((s32 *)w.v)[0], ((s32 *)w.v)[1], ((s32 *)w.v)[2], ub + sel * 4, 0);
+    t0 = EmitPolyF3(sg, t0, ((s32 *)w.v)[0], ((s32 *)w.v)[1], ((s32 *)w.v)[2], ub + sel * 4, 0);
     if (j < 2) goto L1;
     i = s1;
     if (i < 2) goto L0;
@@ -496,7 +496,7 @@ B12:
         } else {
 B14:
             ub = (char *)&w.u;
-            t0 = func_8002071C(CurrentDrawBuf + 0x70, t0, ((s32 *)w.v)[0], ((s32 *)w.v)[1], ((s32 *)w.v)[2], ub + (sel << 2), 0);
+            t0 = EmitPolyF3(CurrentDrawBuf + 0x70, t0, ((s32 *)w.v)[0], ((s32 *)w.v)[1], ((s32 *)w.v)[2], ub + (sel << 2), 0);
         }
     }
     i++;

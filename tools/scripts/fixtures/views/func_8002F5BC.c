@@ -5,12 +5,12 @@
 
 #undef SaveProgress
 
-extern s16 D_800F4D2C;
+extern s16 ModeMenuCursorSaved;
 
 extern s16 D_800FFC18;
 
 void SetNextModeByGameType(void){
- switch(D_800F4D2C){
+ switch(ModeMenuCursorSaved){
  case 0:D_800AD50A=0x105;break;
  case 1:default:D_800AD50A=0x131;break;
  case 2:D_800AD50A=0x137;break;

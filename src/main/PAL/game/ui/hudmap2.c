@@ -132,12 +132,12 @@ extern struct { u16 x, y; } D_800A1050[];
 extern s32 D_800A1070[];
 extern S3C *TrackNodes;
 extern s32 TrackNodeCount;
-extern s16 D_800AC648;
+extern s16 CourseMenuSelection;
 extern s16 CourseIndex;
 extern void CdAudioSelectTrack();
 extern int PsyqRand();
 extern short D_800AD520;
-extern short D_800F4D44;
+extern short RaceType;
 extern int CdAudioInit();
 extern signed char SelectionState[];
 extern int D_800F7660;
@@ -147,7 +147,7 @@ extern s16 *D_800A1950[];
 extern s16 *D_800A1984[];
 extern s16 *D_800A19C0[];
 extern s32 D_800A1A00[];
-extern s32 D_800A1A20[];
+extern s32 CourseBgmChoiceTable3[];
 extern s32 D_800A1A40[];
 extern struct {
     u8 unk0;
@@ -169,8 +169,8 @@ void CenterGlyphListX(short *a0, int a1);
 void func_80059314(s32 arg0, s32 arg1);
 void DrawGlyphList(s16 *stream,s32 color,s32 bank);
 void DrawGlyphListSloped();
-void func_80059B1C(unsigned char *a0x, int a1, int a2, int a3);
-void func_80059C28(s32 index,s32 color);
+void AddBrightnessSprite(unsigned char *a0x, int a1, int a2, int a3);
+void EmitIconSpriteRow120(s32 index,s32 color);
 void func_80059D34(s32 index,s32 color);
 
 /* legacy typing of shared globals in this part of the unit */
@@ -266,7 +266,7 @@ void DrawTrackNodeMap(s32 *arg0) {
     }
     SCRATCH->p = tile;
 
-    if (D_800AC648 < 8) {
+    if (CourseMenuSelection < 8) {
         s1 = D_800A1030;
         s3 = &D_800A1028;
     } else {
@@ -380,7 +380,7 @@ void DrawTrackNodeMap(s32 *arg0) {
 #undef CurrentDrawBuf
 
 void SelectReplayBgmTrack(void) {
- int r, a1; if (D_800F4D44 == 1) { if (CourseIndex == 7) { a1 = D_800AD520 + 0x20; CdAudioSelectTrack(0, a1); return; } } r = PsyqRand(); a1 = r % 6 + 0x1A; CdAudioSelectTrack(0, a1);
+ int r, a1; if (RaceType == 1) { if (CourseIndex == 7) { a1 = D_800AD520 + 0x20; CdAudioSelectTrack(0, a1); return; } } r = PsyqRand(); a1 = r % 6 + 0x1A; CdAudioSelectTrack(0, a1);
 }
 
 /* legacy typing of shared globals in this part of the unit */
@@ -389,12 +389,12 @@ void SelectReplayBgmTrack(void) {
 void SelectCourseBgmTrack() {
     int a0, a1, v;
     CdAudioInit();
-    if (D_800F4D44 == 1) {
+    if (RaceType == 1) {
         a0 = SelectionState[SelectionState[0x17] + 8] < 3;
     } else {
         a0 = 1;
     }
-    if (D_800F3970 != 0 && D_800F4D44 != 1) {
+    if (D_800F3970 != 0 && RaceType != 1) {
         D_800F7660 = 0x10;
     } else {
         D_800F7660 = 0xF;
@@ -402,11 +402,11 @@ void SelectCourseBgmTrack() {
     if (a0 == 0) {
         a1 = CourseIndex + 3;
         CdAudioSelectTrack(0, a1);
-    } else if (D_800F765C == 0) {
+    } else if (RaceBgmListIndex == 0) {
         a1 = PsyqRand() % 14 + 0xB;
         CdAudioSelectTrack(0, a1);
     } else {
-        a1 = D_800A0C9C[D_800F765C - 1];
+        a1 = BgmNumberToCdTrack[RaceBgmListIndex - 1];
         CdAudioSelectTrack(0, a1);
     }
 }
@@ -465,31 +465,31 @@ void func_80059314(s32 arg0, s32 arg1) {
 
     D_8010E22C = arg0;
     D_8010E230 = arg1;
-    D_8010E228 = -1;
+    OpeningFadeTimer = -1;
     D_8010E234 = 0;
-    D_8010E238 = 0;
+    OpeningSlideTimer = 0;
     SoundReverbOffAll();
 
-    if (D_800F4D44 != 1) {
-        D_800F765C = 0;
+    if (RaceType != 1) {
+        RaceBgmListIndex = 0;
     } else {
         switch (D_800AD520) {
         case 0:
-            D_800F765C = D_800A1A40[CourseIndex] + 1;
+            RaceBgmListIndex = D_800A1A40[CourseIndex] + 1;
             break;
         case 1:
-            D_800F765C = D_800A1A00[CourseIndex] + 1;
+            RaceBgmListIndex = D_800A1A00[CourseIndex] + 1;
             break;
         case 2:
-            D_800F765C = D_800A19E0[CourseIndex] + 1;
+            RaceBgmListIndex = D_800A19E0[CourseIndex] + 1;
             break;
         case 3:
-            D_800F765C = D_800A1A20[CourseIndex] + 1;
+            RaceBgmListIndex = CourseBgmChoiceTable3[CourseIndex] + 1;
             break;
         }
     }
 
-    switch (D_800F4D44) {
+    switch (RaceType) {
     case 0:
     case 2:
     case 3:
@@ -502,7 +502,7 @@ void func_80059314(s32 arg0, s32 arg1) {
         }
     case 1:
     case 5:
-        if (D_800F3970 != 0 && D_800F4D44 != 1) {
+        if (D_800F3970 != 0 && RaceType != 1) {
             D_800F7660 = 0x10;
         } else {
             D_800F7660 = 0xF;
@@ -516,7 +516,7 @@ void func_80059314(s32 arg0, s32 arg1) {
         break;
     }
 
-    D_8010E220 = D_800F765C + 0xB;
+    D_8010E220 = RaceBgmListIndex + 0xB;
 
     for (i = 0; i < 8; i++) {
         CenterGlyphListX(D_800A18F0[i], D_800A1090);
@@ -684,7 +684,7 @@ s32 a2;
 /* legacy typing of shared globals in this part of the unit */
 #define CurrentDrawBuf ((char *)CurrentDrawBuf)
 
-void func_80059B1C(unsigned char *a0x, int a1, int a2, int a3) {
+void AddBrightnessSprite(unsigned char *a0x, int a1, int a2, int a3) {
     register unsigned char *p asm("$10");
     int *g;
     unsigned hi;
@@ -736,7 +736,7 @@ void func_80059B1C(unsigned char *a0x, int a1, int a2, int a3) {
 
 #undef CurrentDrawBuf
 
-void func_80059C28(s32 index,s32 color) {
+void EmitIconSpriteRow120(s32 index,s32 color) {
     RR_ICON_SPRITE_BODY(120)
 }
 

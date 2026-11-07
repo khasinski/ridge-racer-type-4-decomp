@@ -27,12 +27,12 @@ class CommandCompletionTest(unittest.TestCase):
 typedef uint8_t u8; typedef uint16_t u16; typedef uint32_t u32; typedef int32_t s32;
 s32 test_ram[0x4000];
 #define CardCommandStatus test_ram[0xBDE4/4]
-#define D_800ABDE8 test_ram[0xBDE8/4]
+#define CardTxCount test_ram[0xBDE8/4]
 #define CardCommandRequest test_ram[0xBDEC/4]
 #define CardReceiveIndex test_ram[0xBDF4/4]
 #define CardRxCount test_ram[0xBDF8/4]
 ''' + headers + '''
-s32 CardRetriesLeft,D_80114730;
+s32 CardRetriesLeft,CardBytesRemaining;
 u8 D_800ABDC0[16];
 RrInterruptRegisters test_irq[2],*I_STAT_Card;
 RrSerialPortRegisters test_serial[2],*CardSio0Regs;
@@ -50,15 +50,15 @@ s32 test_restart(s32 request) {
 }
 s32 SysDeqIntRP(s32 flag,void *event) {
  test_event_calls++;test_event_flag=flag;test_event_pointer=event;
- test_event_state=CardCommandStatus;test_event_counter=D_800ABDE8;
+ test_event_state=CardCommandStatus;test_event_counter=CardTxCount;
  return -123;
 }
 void test_reset(void) {
  memset(test_ram,0xA5,sizeof(test_ram));memset(test_irq,0,sizeof(test_irq));
  memset(test_serial,0x5A,sizeof(test_serial));
  I_STAT_Card=&test_irq[0];CardSio0Regs=&test_serial[0];
- CardCommandStatus=3;D_800ABDE8=10;CardCommandRequest=123;
- CardRetriesLeft=0;CardReceiveIndex=9;CardRxCount=11;D_80114730=17;
+ CardCommandStatus=3;CardTxCount=10;CardCommandRequest=123;
+ CardRetriesLeft=0;CardReceiveIndex=9;CardRxCount=11;CardBytesRemaining=17;
  test_restart_calls=test_event_calls=0;test_restart_hook=0;
 }
 '''
@@ -158,7 +158,7 @@ void test_reset(void) {
             self.assertEqual(self.scalar('test_restart_state').value, 0x41)
             self.assertEqual(self.ram[0xBDF4//4], 0)
             self.assertEqual(self.ram[0xBDF8//4], 0)
-            self.assertEqual(self.scalar('D_80114730').value, 0)
+            self.assertEqual(self.scalar('CardBytesRemaining').value, 0)
             self.scalar('CardRetriesLeft').value = -0x80000000
             self.ram[0xBDE4//4] = 99
             self.ram[0xBDE8//4] = 999

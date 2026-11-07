@@ -30,7 +30,7 @@ u8 *a2;
             a = *a2 - 0x20;
             a2++;
             if (a != 0) {
-                a = D_8009ED38[a * 2] + (D_8009ED38[a * 2 + 1] << 5);
+                a = FontGlyphCells[a * 2] + (FontGlyphCells[a * 2 + 1] << 5);
                 row = a / 21;
                 col = a % 21;
                 u = col * 12;
@@ -92,8 +92,8 @@ int arg7;
       arg4++;
       if (c != 0)
       {
-        x = D_8009ED38[c * 2] << 3;
-        y = D_8009ED38[(c * 2) + 1] << 4;
+        x = FontGlyphCells[c * 2] << 3;
+        y = FontGlyphCells[(c * 2) + 1] << 4;
         SetSprt(arg1);
         if (h == 0)
         {

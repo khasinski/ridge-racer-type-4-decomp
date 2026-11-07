@@ -35,7 +35,7 @@ extern char *CurrentDrawBuf;
 extern u32 ModeFrame;
 extern s32 RaceState;
 extern s32 TotalRaceTime;
-extern s16 D_800AC5D0;
+extern s16 MenuFadeTimer;
 extern s16 NumCars;
 extern s32 RaceTimeRemaining;
 extern s32 ScreenFrame;
@@ -43,13 +43,13 @@ extern s16 D_800AD508;
 extern u16 Pad0Buttons;
 extern s8 RacePaused;
 extern s8 PauseCursor;
-extern s16 D_800F4D44;
+extern s16 RaceType;
 extern s16 D_800F4C70[];
 extern s16 D_800F2AB4[];
 extern u16 D_8010C0C8[];
 extern Ovl667Vehicle PlayerCars[];
 extern Ovl667Vehicle *CarTable[];
-extern Ovl667FrameStorage D_800ADAF0[2];
+extern Ovl667FrameStorage FrameEnvs[2];
 
 extern s32 ovl667_D_80118ED4;
 extern s32 ovl667_D_80118ECC;
@@ -154,18 +154,18 @@ void ovl667_func_80115640(void) {
             }
             RaceState = 2;
             CdAudioBeginPlay(1);
-            D_800AC5D0 = 30;
+            MenuFadeTimer = 30;
         }
     } else if (RaceState >= 4) {
         fade = 37;
         if (TotalRaceTime == -1) {
             fade = 69;
         }
-        if (D_800AC5D0 < 25) {
-            AddScreenFadeTiles(frame, (25 - D_800AC5D0) * 10, fade);
+        if (MenuFadeTimer < 25) {
+            AddScreenFadeTiles(frame, (25 - MenuFadeTimer) * 10, fade);
             SCRATCH_CURSOR = AddDrawAreaPrim(frame, SCRATCH_CURSOR, 0, 0, 320, 256);
         }
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             if (ovl667_D_80118ED4 != 3) {
                 ovl667_func_80114A40();
             }
@@ -175,7 +175,7 @@ void ovl667_func_80115640(void) {
             FinishRace();
             _sio_control(1, 1, 3);
         } else {
-            D_800AC5D0--;
+            MenuFadeTimer--;
         }
     } else if (ModeFrame >= 51 && RaceState == 0) {
         AddScreenFadeTiles(frame, (ModeFrame - 50) * 10, 37);
@@ -189,7 +189,7 @@ void ovl667_func_80115640(void) {
 
     if (ovl667_D_80118F8D != ovl667_D_80118F8C) {
         buttons = Pad0Buttons;
-        ovl667_D_80118EEC = (buttons & 0x800) && D_800AC5D0 == 0;
+        ovl667_D_80118EEC = (buttons & 0x800) && MenuFadeTimer == 0;
         ovl667_D_80118EEC |= (buttons & 0x1000) ? 2 : 0;
         ovl667_D_80118EEC |= (buttons & 0x4000) ? 4 : 0;
         state = RaceState;
@@ -198,9 +198,9 @@ void ovl667_func_80115640(void) {
                 RacePaused ^= 1;
                 ovl667_D_80118ECC = ovl667_D_80118F8D;
                 if (RacePaused == 0) {
-                    D_800AC5D0 = 10;
+                    MenuFadeTimer = 10;
                     SoundResume();
-                    ApplyPauseMenuChoice(D_800F4D44);
+                    ApplyPauseMenuChoice(RaceType);
                     if (PauseCursor != 0) {
                         ovl667_func_80114A40();
                         StopRaceAudioAndRumble();
@@ -210,8 +210,8 @@ void ovl667_func_80115640(void) {
                     SoundPause();
                 }
                 PauseCursor = 0;
-            } else if (D_800AC5D0 > 0 && state < 4) {
-                D_800AC5D0--;
+            } else if (MenuFadeTimer > 0 && state < 4) {
+                MenuFadeTimer--;
             }
         }
         if (RacePaused == 0) {
@@ -220,7 +220,7 @@ void ovl667_func_80115640(void) {
             if ((u32)(RaceState - 2) < 2) {
                 if (--RaceTimeRemaining <= 0) {
                     RaceState = 5;
-                    D_800AC5D0 = 75;
+                    MenuFadeTimer = 75;
                     SoundSetMasterVolume(0, 33);
                 }
             }
@@ -314,15 +314,15 @@ void ovl667_func_80115640(void) {
                 func_80070734(ScreenFrame);
             }
             if (RaceState == 0 && n == 1) {
-                D_800ADAF0[1].enable18 = n;
-                D_800ADAF0[0].enable18 = n;
+                FrameEnvs[1].enable18 = n;
+                FrameEnvs[0].enable18 = n;
                 SCRATCH_CURSOR = AddDrawAreaPrim(frame + 0xAF8, SCRATCH_CURSOR, 0, D_80107190, 320,
                                                256 - (D_80107190 << n));
                 if (i == 0) {
                     if ((D_80107190 -= 16) < 0) {
                         D_80107190 = 0;
-                        D_800ADAF0[1].enable18 = 0;
-                        D_800ADAF0[0].enable18 = 0;
+                        FrameEnvs[1].enable18 = 0;
+                        FrameEnvs[0].enable18 = 0;
                     }
                 }
             }

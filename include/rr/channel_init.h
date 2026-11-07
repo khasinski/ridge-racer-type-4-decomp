@@ -5,7 +5,7 @@
 #include "rr/bios_devices.h"
 #include "psyq/libpad/padchk.h"
 extern u8 D_80114448[],PadTxBuffers[];
-extern s32 D_800ABCB4;
+extern s32 PadMultitapEnabled;
 extern u32 (*PadTxByteCallback)(const RrChannelTransferView *);
 extern RrChannelUpdateCallback D_800ABC74;
 extern s32 (*PadChannelToPortFn)(void *);

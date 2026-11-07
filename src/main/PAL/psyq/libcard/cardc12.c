@@ -30,7 +30,7 @@ s32 _cardCmd5CVarRx(s32 unused) {
             received=CardCmdSioRegs->data;
             CardCmdBuffer=CardCmdResultPtrA;
             D_8011472C.value=1;
-            D_80114730=received+1;
+            CardBytesRemaining=received+1;
         }
     }
     result=0;
@@ -66,7 +66,7 @@ s32 _cardCmd5DBegin(s32 request, s32 parameter, s32 count) {
 
 s32 _cardCmd5DTx(void) {
     s32 result;
-    switch(D_800ABDE8) {
+    switch(CardTxCount) {
     case 2: result=0x5D; break;
     case 4: result=CardCmdSector; break;
     case 5: result=D_8011472C.value; break;
@@ -128,7 +128,7 @@ s32 _cardCmd5EBegin(s32 request, s32 parameter, s32 count) {
 }
 
 int _cardCmd5ETx() {
-    int v = D_800ABDE8;
+    int v = CardTxCount;
     int r;
     if (v == 4) goto c4;
     if (v < 5) {
@@ -177,7 +177,7 @@ s32 _cardCmd5FBegin(s32 request, s32 parameter) {
 }
 
 int _cardCmd5FTx() {
-    switch (D_800ABDE8) {
+    switch (CardTxCount) {
     case 2: return 0x5F;
     case 4: return CardCmdSector;
     }

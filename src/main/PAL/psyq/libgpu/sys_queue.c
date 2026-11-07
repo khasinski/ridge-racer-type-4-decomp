@@ -26,7 +26,7 @@ extern volatile unsigned int *GPU_STATUS;
 extern volatile unsigned int *DMA2_CHCR;
 extern volatile int _qin;
 extern int GpuQueueSavedIntrMask;
-extern volatile struct GpuQueue D_801128D8[];
+extern volatile struct GpuQueue GpuCmdQueue[];
 
 void _addque(int a, int b, int c);
 int _addque2(GpuOpFunc op, int *p0, int len, int p1);
@@ -57,14 +57,14 @@ int _addque2(GpuOpFunc op, int *p0, int len, int p1) {
     DMACallback(2, _exeque);
     if (len != 0) {
         for (i = 0; i < len / 4; i++) {
-            D_801128D8[_qin].buf[i] = p0[i];
+            GpuCmdQueue[_qin].buf[i] = p0[i];
         }
-        D_801128D8[_qin].p0 = D_801128D8[_qin].buf;
+        GpuCmdQueue[_qin].p0 = GpuCmdQueue[_qin].buf;
     } else {
-        D_801128D8[_qin].p0 = p0;
+        GpuCmdQueue[_qin].p0 = p0;
     }
-    D_801128D8[_qin].p1 = p1;
-    D_801128D8[_qin].op = op;
+    GpuCmdQueue[_qin].p1 = p1;
+    GpuCmdQueue[_qin].op = op;
     _qin = (_qin + 1) & 0x3F;
     SetIntrMask(GpuQueueSavedIntrMask);
     _exeque();

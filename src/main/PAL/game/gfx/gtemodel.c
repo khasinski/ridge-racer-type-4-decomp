@@ -14,7 +14,7 @@ typedef struct { int a, b; } __attribute__((packed)) V8;
 extern int func_8001AC24();
 extern int RotMatrixZ();
 extern int CameraViewMatrix[];
-extern int D_8009E46C[];
+extern int FlashingLightColorTable[];
 extern int SetupRenderer();
 extern int InitMenuGrid();
 extern int ApplyMatrixSV();
@@ -29,8 +29,8 @@ extern char *D_8010BF78;
 extern void BuildCameraMatrices();
 
 void func_8001ADA0();
-void func_8001AFB8(int a0, int a1);
-void func_8001B308(void);
+void DrawTrackObjectModel(int a0, int a1);
+void InitIntroSceneLights(void);
 void func_8001B640(void);
 
 void func_8001ADA0(a0, a1) int a0; int a1;
@@ -142,7 +142,7 @@ void func_8001ADA0(a0, a1) int a0; int a1;
     *(int *)SCRATCHPAD = a2;
 }
 
-void func_8001AFB8(int a0, int a1) {
+void DrawTrackObjectModel(int a0, int a1) {
     /* ASM_BARRIER: keep scratch pointer (SCRATCHPAD + 0x7C) in $a2 */
     register int *m __asm__("$6") = (int *)(SCRATCHPAD + 0x7C);
     /* ASM_BARRIER: keep SCRATCHPAD base / index temp in $a1 */
@@ -278,7 +278,7 @@ void func_8001AFB8(int a0, int a1) {
                     RR_GTE_RTPS_LDV(r_v0);
 
                     if (m[0x54 / 4] != 0) {
-                        cval = D_8009E46C[(ScreenFrame + ({
+                        cval = FlashingLightColorTable[(ScreenFrame + ({
                             /* ASM_BARRIER: extend %hi(ScreenFrame) lifetime for loop invariant hoisting */
                             __asm__ volatile("");
                             /* ASM_BARRIER: extend %hi(ScreenFrame) lifetime for loop invariant hoisting */
@@ -292,7 +292,7 @@ void func_8001AFB8(int a0, int a1) {
                             *(signed char *)(t2 + 0x18);
                         })) & 0x1F];
                     } else {
-                        cval = D_8009E46C[0];
+                        cval = FlashingLightColorTable[0];
                     }
                     r_v0 = cval;
 
@@ -341,7 +341,7 @@ void func_8001AFB8(int a0, int a1) {
     *(int *)SCRATCHPAD = (int)t7;
 }
 
-void func_8001B308(void) {
+void InitIntroSceneLights(void) {
     V8 sp18;
     short *a = (short *)(SCRATCHPAD + 0x7C);
     short *b = (short *)(SCRATCHPAD + 0x84);

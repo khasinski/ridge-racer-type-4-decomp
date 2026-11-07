@@ -31,7 +31,7 @@ extern s32 D_800F4CE0;
 
 extern s32 D_8010E730;
 
-void func_80070440(void) {
+void ResetRearViewMirror(void) {
     D_800AD50C = 1;
     D_800F4CE0 = -0x24;
     D_8010E730 = 0;

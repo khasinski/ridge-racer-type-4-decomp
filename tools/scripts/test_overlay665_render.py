@@ -30,7 +30,7 @@ class Overlay665RenderTest(unittest.TestCase):
         static const u32 *table[10];
         #define RR_PREVIEW_RENDER_SCRATCH (&w->s.scratch)
         #define ovl665_D_80119768 w->s.visual
-        #define D_800F2FD8 w->s.meshes
+        #define ModelBankFormat w->s.meshes
         #define LightMatrix w->s.basis
         static const s32 kinds[]={INT32_MIN,-1,0,1,2,3,4,INT32_MAX};
         static s32 word(u32 bits){s32 v;memcpy(&v,&bits,4);return v;}

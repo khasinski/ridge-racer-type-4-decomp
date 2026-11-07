@@ -47,13 +47,13 @@ void ovl663_draw_preview(void) {
     light.w = 120;
     light.h = 280;
     EmitTiledRect(&light, 128, CurrentDrawBuf->ordering.ordering70);
-    func_80019C90(4096);
+    SetSineLightColors(4096);
     func_800195BC((char *)state->pos20, mat.halves);
 }
 
 void ovl663_update_preview(void) {
     s32 old;
-    if (func_8003BEA8(ovl663_available_courses[ovl663_selected_record])) {
+    if (LoadCoursePreviewStep(ovl663_available_courses[ovl663_selected_record])) {
         switch (D_800F4D8A) {
         case 0:
             if (UiRows->byte14 == 2) {
@@ -69,22 +69,22 @@ void ovl663_update_preview(void) {
             else
                 ovl663_draw_preview();
             UiRows->cells[0] = 2;
-            if (D_800F3A60) {
+            if (MenuConfirmPressed) {
                 PlaySfx(1);
                 SetMenuFrameOptions(0, 1, 0);
                 D_800F4D8A = 8;
                 UiRows->cells[0] = 1;
-                D_800AC5D0 = 64;
+                MenuFadeTimer = 64;
                 UiRows->byte14 = 3;
             }
             break;
         case 8:
-            D_800AC5D0--;
-            AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (64 - D_800AC5D0) * 4, 69);
-            if (D_800AC5D0 <= 0) {
+            MenuFadeTimer--;
+            AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (64 - MenuFadeTimer) * 4, 69);
+            if (MenuFadeTimer <= 0) {
                 ovl663_init_menu();
                 ModeGroup = 1;
-                D_800F3A26 = 74;
+                ModeId = 74;
                 D_800F4D8A = 0;
                 return;
             }
@@ -132,7 +132,7 @@ void ovl663_update_result_preview(void) {
         break;
     case 1:
         UiRows[3].cells[0] = 2;
-        if (D_800F3A60) {
+        if (MenuConfirmPressed) {
             PlaySfx(1);
             SetMenuFrameOptions(0, 1, 0);
             UiRows[3].cells[0] = 1;
@@ -146,7 +146,7 @@ void ovl663_update_result_preview(void) {
         if (BadgeRows->state10 == 11 && ((s8 *)ImageRows)[1] == 5) {
             ovl663_init_selection(ovl663_record_kind);
             ModeGroup = 1;
-            D_800F3A26 = 75;
+            ModeId = 75;
             D_800F4D8A = 0;
         }
         break;

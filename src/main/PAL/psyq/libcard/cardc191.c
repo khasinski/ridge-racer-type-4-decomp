@@ -12,7 +12,7 @@ s32 _cardSectorTx(void) {
     if(CardRetriesLeft) {
         /* ASM_BARRIER: Keep the retry-phase comparison after its independent tick read. */
         __asm__("" : : : "$2");
-        switch(D_800ABDE8) {
+        switch(CardTxCount) {
         case 2: result=0x52;goto done;
         case 5: goto high;
         case 6: goto low;
@@ -21,7 +21,7 @@ s32 _cardSectorTx(void) {
     }
     /* ASM_BARRIER: Keep the normal-phase comparison after its independent tick read. */
     __asm__("" : : : "$2");
-    switch(D_800ABDE8) {
+    switch(CardTxCount) {
     case 2: CardChecksum=0;result=0x57;goto done;
     case 5:
 high: result=((u8 *)&CardCmdSector)[1];goto done;
@@ -31,14 +31,14 @@ low: result=*(u8 *)&CardCmdSector;goto done;
     case 134: result=CardChecksum;goto done;
     case 135: result=((CardCmdSector>>8)^CardCmdSector)&255;goto done;
     default:
-        if(D_800ABDE8<7) {result=0;goto done;}
+        if(CardTxCount<7) {result=0;goto done;}
         /* ASM_BARRIER: Preserve the separate fresh tick read for the upper bound. */
         __asm__("" : : : "memory");
-        if(D_800ABDE8>=133) {result=0;goto done;}
+        if(CardTxCount>=133) {result=0;goto done;}
         /* ASM_BARRIER: Reload the selected tick after both bounds have passed. */
         __asm__("" : : : "memory");
         {
-            s32 phase=D_800ABDE8;
+            s32 phase=CardTxCount;
             checksum=CardChecksum;
             result=CardRxTrace[phase+3];
             checksum^=result;
@@ -69,10 +69,10 @@ s32 _cardSectorRx(s32 input) {
             if(byte==8) {
                 CardRetriesLeft=0;
                 byte=1;
-                D_80114730=byte;
+                CardBytesRemaining=byte;
                 result=0;goto done;
             }
-            D_80114730=138;
+            CardBytesRemaining=138;
             result=0;goto done;
         }
         case 3:goto handshake;
@@ -106,10 +106,10 @@ fold_original:
             /* ASM_BARRIER: Preserve the original byte comparison temporary and branch delay. */
             register u32 byte __asm__("$3")=value&255;
             if(byte==8) {
-                D_80114730=1;
+                CardBytesRemaining=1;
                 result=0;goto done;
             }
-            D_80114730=136;
+            CardBytesRemaining=136;
             result=0;goto done;
         }
         case 3:

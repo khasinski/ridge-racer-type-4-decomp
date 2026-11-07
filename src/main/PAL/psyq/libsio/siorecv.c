@@ -39,7 +39,7 @@ int _sio_read(int first, int second) {
         return -1;
     }
 
-    s5 = D_800ABD48[(SioShadowRegs.control & 0x300) >> 8];
+    s5 = SioRxFifoSizeTable[(SioShadowRegs.control & 0x300) >> 8];
     p1->request.second = second;
     p1->request.first = first;
     s1 = 0;

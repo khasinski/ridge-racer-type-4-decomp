@@ -48,7 +48,7 @@ register s32 channelOffset asm("$4");
     SsVabClose(handle);
     *((s16 *) ((((u8 *) owner) + 0x24) + ((*channel) * 2))) = -1;
   }
-  func_80096434(slot, 0x620);
+  PsyqBzero(slot, 0x620);
   mode = 0x5D000;
   if (bankIndex == 0)
   {

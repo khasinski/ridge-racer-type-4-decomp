@@ -30,7 +30,7 @@ void SoundLoopUpdate(void) {
         right=l;
     }
     if(state->muted04) {right=0;left=right;}
-    if(D_800F4D44==5) {right=0;left=right;}
+    if(RaceType==5) {right=0;left=right;}
     rinput=(s32)((u32)right<<16);
 
     gain=state->gain18;

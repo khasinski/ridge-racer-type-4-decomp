@@ -28,7 +28,7 @@ static struct World {
  u32 after[8];
 } world,expected;
 #define ModeGroup world.screen
-#define D_800F3A26 world.step
+#define ModeId world.step
 #define D_800F4D8A world.counter
 void ovl662_func_80116148(void){
  assert(world.calls++==0);

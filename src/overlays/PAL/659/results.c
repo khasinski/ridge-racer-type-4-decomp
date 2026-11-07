@@ -41,7 +41,7 @@ void ovl659_update_results(void) {
         group = 0;
         if (MenuTextRows[3].signedBytes[3] >= 16) {
             SetMenuFrameOptions(1, 1, 0);
-            if (D_800F3A60 != 0) {
+            if (MenuConfirmPressed != 0) {
                 SetMenuFrameOptions(0, 1, 0);
                 PlaySfx(1);
                 if (SelectionState.mode1A == 4) {
@@ -87,12 +87,12 @@ void ovl659_update_results(void) {
             func_80041320(MenuCursor + 37, 0, 0);
             StepMenuValue(0, 2, (char *)&MenuCursor, MenuItemCount, 0);
             func_80041320(MenuCursor + 37, 1, 1);
-            if (D_800F3A60 != 0) {
+            if (MenuConfirmPressed != 0) {
                 SetMenuFrameOptions(0, 1, 0);
                 PlaySfx(1);
                 if (MenuCursor == 0) {
                     D_800F4D8A = 4;
-                    D_800AC5D0 = 64;
+                    MenuFadeTimer = 64;
                     SelectionState.retries08[SelectionState.phase17]--;
                     FormatDecimalDigits((char *)&MenuTextRows[40].bytes[36],
                                   SelectionState.retries08[SelectionState.phase17], 0);
@@ -103,14 +103,14 @@ void ovl659_update_results(void) {
         }
         break;
     case 4:
-        timer = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = timer;
+        timer = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = timer;
         AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (64 - timer) * 4, 69);
         group = 1;
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             MenuScriptId = 0;
             ModeGroup = 1;
-            D_800F3A26 = 35;
+            ModeId = 35;
             D_800F4D8A = 0;
         }
         break;
@@ -138,12 +138,12 @@ void ovl659_update_results(void) {
             if (SelectionState.phase17 == 7) {
                 UpdateSaveProgress();
                 ModeGroup = 0;
-                D_800F3A26 = 3;
+                ModeId = 3;
             } else {
                 ResetScreenCounters();
                 SeqStartTrack(1);
                 ModeGroup = ready;
-                D_800F3A26 = 11;
+                ModeId = 11;
             }
             D_800F4D8A = 0;
             UpdateScreenFade(0x1000C);
@@ -165,7 +165,7 @@ void ovl659_update_results(void) {
     case 8:
         InitMenuArenas();
         ModeGroup = 1;
-        D_800F3A26 = 31;
+        ModeId = 31;
         D_800F4D8A = 0;
         UpdateScreenFade(0x1000C);
         return;

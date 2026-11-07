@@ -164,7 +164,7 @@ void StepCameraScript(void) {
                 func_8005C024();
                 break;
             case 1:
-                func_8005D820();
+                DrawMotionControllerPanel();
                 break;
             case 2:
                 DrawRingEffects();
@@ -228,7 +228,7 @@ void InitCameraMotion(int a0) {
     register char *t asm("$2");
     int v;
     char *t0;
-    func_80096434(Q(s1, 0x3D8) + 0x74, 0x70);
+    PsyqBzero(Q(s1, 0x3D8) + 0x74, 0x70);
     if (a0 < 4) {
         W(Q(s1, 0x3D8), 0x78) = 0;
         W(Q(s1, 0x3D8), 0x80) = (int)(D_800A1AA0 + a0 * 0x30);

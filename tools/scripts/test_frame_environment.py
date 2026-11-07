@@ -19,7 +19,7 @@ fixture=r'''
 #include "rr/frame_loop.h"
 
 static RrFrameStorage actual[2],expected[2];
-#define D_800ADAF0 actual
+#define FrameEnvs actual
 #define D_800D0268 actual[1].environment
 #define D_800D02C4 actual[1].environment.display
 RrRuntimeSettings Options;

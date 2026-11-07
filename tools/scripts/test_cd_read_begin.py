@@ -190,7 +190,7 @@ RrLibCompletionCallback CdReadyCallback(RrLibCompletionCallback c){return set(0,
 RrLibCompletionCallback CdDataCallback(RrLibCompletionCallback c){return set(0,2,c);}
 u8 CdStatus(void){return status(0);}
 s32 VSync(s32 a){return clock_tick(0,a);}
-s32 func_800963DC(const char *s,...){return diagnostic(0,s);}
+s32 PsyqPuts(const char *s,...){return diagnostic(0,s);}
 u8 *CdLastPos(void){return packet(0);}
 s32 CdControl(s32 c,const u8 *p,u8 *r){return control(0,c,p,r);}
 void CdFlush(void){reset(0);}

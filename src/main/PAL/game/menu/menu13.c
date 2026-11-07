@@ -20,7 +20,7 @@ typedef struct {
 } S;
 
 extern int PlaySfx();
-extern int D_800F3A60;
+extern int MenuConfirmPressed;
 extern char *BadgeRows;
 extern char *Dialogue;
 extern int AddSpriteWithDrawMode();
@@ -82,7 +82,7 @@ void UpdateDialogue(int a0, int a1, S *s) {
         if (c >= e) {
             if (s->b7 == 1) {
                 DrawDialogueContinueMark(a0 + 0x10D, a1 + 0x58);
-                if (D_800F3A60 == 0) {
+                if (MenuConfirmPressed == 0) {
                     goto call1;
                 }
                 PlaySfx(3);
@@ -160,7 +160,7 @@ tail1:
 
 void SkipDialoguePage(void *arg0) {
     if (M2C_FIELD(arg0, s32 *, 0x18) < M2C_FIELD(arg0, s16 *, 0xC)) {
-        if (D_800F3A60 != 0) {
+        if (MenuConfirmPressed != 0) {
             if (M2C_FIELD(arg0, s8 *, 6) != 4) {
                 PlaySfx(3);
                 if (M2C_FIELD(arg0, s16 *, 0x12) < (M2C_FIELD(arg0, u8 *, 0xA) - M2C_FIELD(arg0, u8 *, 0xB))) {

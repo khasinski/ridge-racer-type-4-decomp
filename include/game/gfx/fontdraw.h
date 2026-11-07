@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern u8 D_8009ED38[];
+extern u8 FontGlyphCells[];
 void DrawAnimatedText();
 
 #endif /* RR_GAME_GFX_FONTDRAW_H */

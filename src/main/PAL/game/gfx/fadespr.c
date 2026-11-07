@@ -54,7 +54,7 @@ void func_8005C13C(int a0) {
     int i, t;
     char *p = D_800ACA30;
     v = D_80011260;
-    func_80096434(p, 0x64);
+    PsyqBzero(p, 0x64);
     p -= 0x3E0;
     *(int *)(p + 0x400) = 0xCE;
     *(int *)(p + 0x42C) = a0;
@@ -75,7 +75,7 @@ void func_8005C13C(int a0) {
         }
     }
     func_80053A80();
-    D_800F7620 = -1;
+    MotionSequenceIndex = -1;
 }
 
 void UpdateFadeTint(int a0) {

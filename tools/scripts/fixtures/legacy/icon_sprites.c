@@ -60,7 +60,7 @@
     context->head70=(context->head70&high)|((u32)(unsigned long)p&low); \
     scratch->cursor=(u8*)p+sizeof(RrGpuSingleCommandPacket);
 
-void func_80059C28(s32 index,s32 color) {
+void EmitIconSpriteRow120(s32 index,s32 color) {
     RR_ICON_SPRITE_BODY(120)
 }
 

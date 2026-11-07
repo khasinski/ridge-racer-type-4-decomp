@@ -4,7 +4,7 @@
 #include "rr/interrupts.h"
 extern int D_800ABBF8;
 extern char D_801127D0[];
-extern char D_801128D8[];
+extern char GpuCmdQueue[];
 int _reset(a0)
 int a0;
 {
@@ -21,7 +21,7 @@ int a0;
         *(u32 *)DPCR |= 0x800;
         *(u32 *)GPU_STATUS = 0;
         GPU_memset(D_801127D0, 0, 0x100);
-        GPU_memset(D_801128D8, 0, 0x1800);
+        GPU_memset(GpuCmdQueue, 0, 0x1800);
         break;
     case 1:
     case 3:

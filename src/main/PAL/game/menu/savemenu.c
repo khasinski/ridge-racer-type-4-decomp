@@ -29,7 +29,7 @@ extern short D_800F3AF8;
 extern short D_800F4D3C;
 extern char CardTargetFileName[];
 extern short D_800FFC18;
-extern Struct2C D_8010B258[3];
+extern Struct2C SaveSlotSelectionsBackup[3];
 extern int D_801272F0[];
 
 int CardSaveStep(a0, a1)
@@ -46,7 +46,7 @@ int a1;
     switch (D_800A41E8) {
     case 0:
         D_800A41EA = 0;
-        func_80096434(SaveBuffer, 0x1AA8);
+        PsyqBzero(SaveBuffer, 0x1AA8);
         i = D_800F3970 != 0;
         if (a0 == 1) {
             D_800A41E9 = 1;
@@ -101,9 +101,9 @@ int a1;
                 D_800A41E8 = 4;
                 switch (D_800FFC18) {
                 case 3:
-                    D_8010B258[D_800F4D3C] = SelectionState;
+                    SaveSlotSelectionsBackup[D_800F4D3C] = SelectionState;
                     for (i = 0; i < 3; i++) {
-                        SaveSlotSelections[i] = D_8010B258[i];
+                        SaveSlotSelections[i] = SaveSlotSelectionsBackup[i];
                     }
                     break;
                 case 6:

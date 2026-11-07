@@ -11,7 +11,7 @@ void _padAllocGates(void *argument) {
     register s32 length asm("$9");
     /* ASM_BARRIER: use A0 for gate stores after the input scan is finished. */
     register u8 *mapping,*data,*gates asm("$4");
-    func_80096434(record->status.gates57,6);
+    PsyqBzero(record->status.gates57,6);
     if(record->status.pending && record->status.data28) {
         length=6;
         if(((volatile RrChannelStatusView *)&record->status)->length34<7)length=((volatile RrChannelStatusView *)&record->status)->length34;

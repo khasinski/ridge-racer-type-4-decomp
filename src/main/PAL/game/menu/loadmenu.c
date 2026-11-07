@@ -85,21 +85,21 @@ int a1;
 #undef CardTargetFileName
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F3A26 (*(short (*))&D_800F3A26)
+#define ModeId (*(short (*))&ModeId)
 #define D_800F4D8A (*(short (*))&D_800F4D8A)
 
 void func_8007AB8C(int arg0) {
     if (arg0 == -1) {
         ModeGroup = 1;
-        D_800F3A26 = 3;
+        ModeId = 3;
     } else {
         ModeGroup = 1;
-        D_800F3A26 = 0xF;
+        ModeId = 0xF;
     }
     D_800F4D8A = 0;
 }
 
-#undef D_800F3A26
+#undef ModeId
 #undef D_800F4D8A
 
 void func_8007ABCC(void) {
@@ -114,7 +114,7 @@ void func_8007ABCC(void) {
     s32 layout;
     u16 phase;
 
-    if (D_800F4D44 == 4) {
+    if (RaceType == 4) {
         UpdateLinkHandshake(2);
         if (LinkState == -1) {
             _sio_control(1, 1, 0);
@@ -130,10 +130,10 @@ void func_8007ABCC(void) {
         D_80109478[D_8010948E] = 3;
         /* ASM_BARRIER: finish the choice write before the clock read. */
         __asm__("" : : : "memory");
-        __builtin_memcpy(&clockLow, &D_800AC5D4, sizeof(clockLow));
+        __builtin_memcpy(&clockLow, &SelectionPlayer, sizeof(clockLow));
         bank = clockLow & 1;
         D_800AC594 = bank;
-        D_800FFC00 = bank;
+        CardSlot = bank;
         ClearScreenOverlayState();
         i = 23;
         /* ASM_BARRIER: retain the initialized byte counter before indexing. */
@@ -221,20 +221,20 @@ void func_8007ABCC(void) {
         }
         D_8010948C = 0;
         for (i = 0; i < 3; i++) {
-            D_8010B258[i] = SaveSlotSelections[i];
+            SaveSlotSelectionsBackup[i] = SaveSlotSelections[i];
         }
         D_800F4D8A = 1;
         break;
     case 1:
         ModeFrame = (s32)((u32)ModeFrame + 1U);
-        if (D_800F3A26 == phase) {
+        if (ModeId == phase) {
             SetDispMask(1);
         }
         ready = func_8003B934();
         if (ready == phase) {
             SetDispMask(1);
             ModeGroup = ready;
-            D_800F3A26 = 0x48;
+            ModeId = 0x48;
             D_800F4D8A = 0;
         }
         break;
@@ -251,7 +251,7 @@ void func_8007ABCC(void) {
 
 void func_8007B3A0(void) {
     ModeFrame += 1;
-    if (D_800F4D44 == 4) {
+    if (RaceType == 4) {
         UpdateLinkHandshake(2);
         if (LinkState == -1) {
             _sio_control(1, 1, 0);

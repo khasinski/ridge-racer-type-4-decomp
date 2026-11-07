@@ -52,7 +52,7 @@ extern RrRow60 *MenuTextRows;
 extern unsigned short D_8009FDA0[];
 extern E_1 *GlyphRows;
 extern s32 VSyncThreshold;
-extern s16 D_800F3A26;
+extern s16 ModeId;
 extern s16 ModeGroup;
 extern s16 D_800F4D8A;
 extern void InitBadgeRow();
@@ -60,16 +60,16 @@ extern void InitRect16Row();
 extern void InitGlyphRow();
 extern void InitUiRow(int,int,int,int,int,int,int,int,int,int,...);
 extern void SeqStartTrack();
-extern short D_800AC5D0;
+extern short MenuFadeTimer;
 extern short D_800AD50A;
 extern short D_800AD520;
 extern int ModeFrame;
-extern short D_800F3826;
+extern short CourseListIndex;
 extern U *BadgeRows;
 extern T *Dialogue;
 extern int DrawUiRow();
 extern int MenuStepDirection;
-extern int D_800F3A60;
+extern int MenuConfirmPressed;
 extern char *UiRows;
 
 void func_800411D4();
@@ -104,7 +104,7 @@ void DrawMenuTextRow(s32 a0) {
         s0 = *sp1C - 0x20;
         sp1C++;
         if (s0 != 0) {
-            s0 = D_8009ED38[s0 * 2] + (D_8009ED38[s0 * 2 + 1] << 5);
+            s0 = FontGlyphCells[s0 * 2] + (FontGlyphCells[s0 * 2 + 1] << 5);
             a3 = 0;
             sp14 = (s0 % 21) * 12;
             sp18 = (s0 / 21) * 24;
@@ -288,7 +288,7 @@ void func_800413E0(void) {
     SetupDrawDispEnvs(0, 0, 0, 2);
     VSyncThreshold = 0x80;
     ModeGroup = 1;
-    D_800F3A26 = 8;
+    ModeId = 8;
     D_800F4D8A = 0;
 }
 
@@ -305,7 +305,7 @@ void func_80041434(void) {
     }
     D_800AD520 = 2;
     SelectionRows[0] = 2;
-    D_800F3826 = 0;
+    CourseListIndex = 0;
     SeqStartTrack(0);
     InitRect16Row(*(unsigned char *)(GlyphRows + 7), *(short *)(GlyphRows + 8), *(short *)(GlyphRows + 0xA), *(short *)(GlyphRows + 0xC), *(short *)(GlyphRows + 0xE), 0, 0);
     InitBadgeRow(0, 0xC, 0x130, 0x128, 0x58, 0, 0);
@@ -315,7 +315,7 @@ void func_80041434(void) {
     Dialogue->f7 = 0;
     ModeFrame = 0;
     D_800AD50A = 0x108;
-    D_800AC5D0 = 0;
+    MenuFadeTimer = 0;
 }
 
 #undef SetupDrawDispEnvs
@@ -344,7 +344,7 @@ void func_80041588()
         }
     }
     if (Dialogue[4] == 1) {
-        if (D_800F3A60 == 0) {
+        if (MenuConfirmPressed == 0) {
             if (ModeFrame < 0x1F5) return;
         }
         a2 = Dialogue[6];

@@ -1,7 +1,7 @@
 /* GCC_VERSION: 2.7.2 */
-extern int D_800ABDE8, CardCmdSector;
+extern int CardTxCount, CardCmdSector;
 int _cardCmd5FTx() {
-    switch (D_800ABDE8) {
+    switch (CardTxCount) {
     case 2: return 0x5F;
     case 4: return CardCmdSector;
     }

@@ -1,6 +1,6 @@
 #include "rr/menu_pulse.h"
 
-void func_8004B8A8(void) {
+void PadStepPulse(void) {
     RrMenuItemState5C *next_output;
     RrPulseState18 *next_state;
     /* ASM_BARRIER: reuse V1 for selector, step and duration in disjoint lifetimes. */

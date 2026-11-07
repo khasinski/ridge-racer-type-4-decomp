@@ -53,7 +53,7 @@ typedef struct {
     u32 value;
 } __attribute__((packed)) RrLibPackedWord;
 
-/* Partial layout of the 0x20-byte entries referenced by D_80110310. */
+/* Partial layout of the 0x20-byte entries referenced by StRingHeaders. */
 typedef struct {
     u16 state;
     u8 pad02[6];
@@ -64,7 +64,7 @@ typedef struct {
     RrLibPackedWord word1C;
 } RrLibQueueRecord32;
 
-extern RrLibQueueRecord32 *D_80110310;
+extern RrLibQueueRecord32 *StRingHeaders;
 void StSetRing(RrLibQueueRecord32 *first, s32 second);
 void StSetStream(s32 a, s32 b, s32 c, s32 d, s32 e);
 extern s32 D_801102FC, StEndFrame, D_80110314;

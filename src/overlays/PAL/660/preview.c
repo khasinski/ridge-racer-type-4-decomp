@@ -20,7 +20,7 @@ void ovl660_func_801163C4(void)
     scratch->word10 = -96;
     scratch->word1C = 0;
     scratch->word20 = 0;
-    LoadCursor = D_800F4D40;
+    LoadCursor = MenuArenaBase;
     ResetCarState(state);
     state->pos20[1] = 10;
     state->pos20[2] = 308;
@@ -81,7 +81,7 @@ void ovl660_func_80116530(void) {
                       CourseChoiceTable[ovl660_preview_bank][ovl660_preview_selection].glyph);
         if (((u32)previousCar << 16) != ((u32)PackChoiceGlyph((s8 *)&SelectionRows) << 16)) {
             ResetScreenCounters();
-            LoadCursor = D_800F4D40;
+            LoadCursor = MenuArenaBase;
             UnpackChoiceGlyph((s8 *)&SelectionRows,
                           CourseChoiceTable[ovl660_preview_bank][ovl660_preview_selection].glyph);
             PlayerCourseChoices[0].first = CourseChoiceTable[ovl660_preview_bank][ovl660_preview_selection].first;
@@ -142,14 +142,14 @@ void ovl660_func_80116530(void) {
         }
         break;
     case 3:
-        D_800AC5D0 = (u16)D_800AC5D0 - 1;
+        MenuFadeTimer = (u16)MenuFadeTimer - 1;
         SetModelTexturePage(-1);
-        AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - D_800AC5D0) * 4, 0x45);
-        if (D_800AC5D0 <= 0) {
+        AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - MenuFadeTimer) * 4, 0x45);
+        if (MenuFadeTimer <= 0) {
             SeqMuteVolume();
             MenuScriptId = 0;
             ModeGroup = 1;
-            D_800F3A26 = 0x23;
+            ModeId = 0x23;
             D_800F4D8A = 0;
             goto save_preview_arena;
         }
@@ -167,7 +167,7 @@ void ovl660_func_80116530(void) {
                 UiRows[10].byte14 = 7;
                 UiRows[11].byte14 = 7;
                 D_800F4D8A = 3;
-                D_800AC5D0 = 0x40;
+                MenuFadeTimer = 0x40;
                 SeqFadeVolume(0, 0x3C);
             save_preview_arena:
                 MenuArenas.first = LoadCursor;
@@ -193,7 +193,7 @@ void ovl660_func_80116530(void) {
             ResetScreenCounters();
             ovl660_func_80114920();
             ModeGroup = 1;
-            D_800F3A26 = 50;
+            ModeId = 50;
             D_800F4D8A = 0;
             goto end;
         }

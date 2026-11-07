@@ -26,7 +26,7 @@ extern s32 MenuTextRowCount;
  * byte count. Count is in0..35791394 and the supplied owner covers all rows. */
 s32 InitMenuTextRows(RrMenuTextRow60 *rows);
 /* BIOS A0/28 bzero. Count bytes belong to the supplied allocation. */
-void func_80096434(void *destination,u32 bytes);
+void PsyqBzero(void *destination,u32 bytes);
 void SetMenuTextRow(s32 row,s32 position,s32 group,s32 mode,s32 label);
 RR_ASSERT_SIZE(RrMenuTextFields60,60);
 RR_ASSERT_OFFSET(RrMenuTextFields60,text,0x1C);

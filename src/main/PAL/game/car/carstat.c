@@ -19,8 +19,8 @@ extern unsigned short D_800F4BF8[][2][8];
 void SetPadButtonMapLayout(int a, int b, int c, int d);
 
 void InitGamePads(void) {
-    func_80096434(PlayerControllers, 0xB8);
-    func_80096434(PadPulseState, 0x30);
+    PsyqBzero(PlayerControllers, 0xB8);
+    PsyqBzero(PadPulseState, 0x30);
     PlayerControllers[4] = -1;
     PlayerControllers[27] = -1;
     PadInitDirect(PadPorts, PadPorts + 0x28);

@@ -30,10 +30,10 @@ static struct World {u32 guard[4];s32 frame,counter,bank;s16 current,limit,selec
 #define RR_GPU_PROJECTION_SCRATCH (&world.scratch)
 #define ModeFrame world.frame
 #define ScreenFrame world.counter
-#define D_800AC5D4 world.bank
+#define SelectionPlayer world.bank
 #define MenuCursor world.current
 #define MenuItemCount world.limit
-#define D_800AC648 world.selected
+#define CourseMenuSelection world.selected
 #define CourseIndex world.mapped
 #define ReverseCourse world.flag
 #define D_8010C068 world.modeCounter

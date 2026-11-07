@@ -57,7 +57,7 @@ void SetupDrawDispEnvs(s32 r,s32 g,s16 b,u32 flags) {
     wide=input&4;
     saved_flags=input;
     if(wide)width=480;
-    env=D_800ADAF0;
+    env=FrameEnvs;
     SetDefDrawEnv(env,0,0,width,height);
     SetDefDrawEnv(&D_800D0268,0,other_y,width,height);
     SetDefDispEnv(&env->environment.display,0,other_y,width,height);

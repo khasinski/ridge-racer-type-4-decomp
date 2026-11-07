@@ -59,7 +59,7 @@ L1:
     q = a0;
     i = 0;
     k = ((unsigned char)c % 11) & 0xFF;
-    tab = D_8009FE2C;
+    tab = PasswordCipherKey;
     do {
         unsigned char *t;
         r = (unsigned char *)(k + (int)tab);

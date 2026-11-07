@@ -9,7 +9,7 @@ extern short CourseIndex;
 
 extern int func_80070934();
 
-extern int D_8010718C;
+extern int ViewUsesCarTrackNode;
 
 extern int D_800AD5B8;
 
@@ -20,7 +20,7 @@ void func_8006E794(void) {
     char *p;
     char *g = (char *)0x1F800000;
     InitViewLighting();
-    D_8010718C = 1;
+    ViewUsesCarTrackNode = 1;
     D_800AD5B8 = 0x1400;
     *(int *)(g + 0x78) = 0;
     *(short *)(g + 0x5E) = 0;

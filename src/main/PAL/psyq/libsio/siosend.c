@@ -40,7 +40,7 @@ int _sio_write(int first, int second) {
         return -1;
     }
 
-    s4 = D_800ABD48[(SioShadowRegs.control & 0x300) >> 8];
+    s4 = SioRxFifoSizeTable[(SioShadowRegs.control & 0x300) >> 8];
     port = SIO1_REGS;
     p1->second = second;
     p1->first = first;

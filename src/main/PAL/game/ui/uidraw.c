@@ -139,8 +139,8 @@ void UpdateBadgeRowAnim(a0) int a0; {
 int AllocRect16Rows(int a0) {
     int n = Rect16RowCount << 4;
     Rect16Rows = a0;
-    func_80096434(a0, n);
-    DebugPrintStub(D_80010874, n);
+    PsyqBzero(a0, n);
+    DebugPrintStub(StrSizeEqLdFmt, n);
     return n;
 }
 
@@ -261,7 +261,7 @@ int UpdateRect16Row(int a0) {
 int AllocGlyphRows(int a) {
     int sz = GlyphRowCount * 28;
     GlyphRows = a;
-    func_80096434(a, sz);
+    PsyqBzero(a, sz);
     DebugPrintStub(SizeLdFmt, sz);
     return sz;
 }

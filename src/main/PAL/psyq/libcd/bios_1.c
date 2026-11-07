@@ -3,14 +3,14 @@
 #include "types.h"
 #include "rr/library.h"
 
-#define R(o) (*(unsigned short *)(D_800A6760 + (o)))
+#define R(o) (*(unsigned short *)(CdSpuRegBase + (o)))
 
 extern s32 DebugPrintStub();
 extern s32 VSync(s32);
 extern s32 CheckCallback(void);
 extern s32 getintr(void);
 extern s32 CD_sync(s32, u8 *);
-extern s32 func_800963DC(const char *);
+extern s32 PsyqPuts(const char *);
 extern const char CdTimeoutPrefixStr[];
 extern const char CdTimeoutStatusFmt[];
 extern const char D_80011AB0[];
@@ -31,11 +31,11 @@ extern u8 D_800A6764[];
 extern u8 CD_syncResult[];
 extern u8 CdReadyResult[];
 extern s32 CD_timeout_deadline;
-extern s32 D_80110334;
+extern s32 CD_timeout_count;
 extern const char *CdWaitCallerName;
 extern unsigned char *CD_reg3;
 extern int *COM_DELAY;
-extern char *D_800A6760;
+extern char *CdSpuRegBase;
 extern s32 CD_status1;
 
 s32 CD_cw(u8 arg0, u8 *arg1, u8 *arg2, s32 arg3);
@@ -49,8 +49,8 @@ void CD_initintr(void);
 #define CD_cbready (*(void (*(*))(u8, u8 *))&CD_cbready)
 
 static inline int check_alarm(char **ac, char ** sc, volatile u8 *st) {
-    if (VSync(-1) > CD_timeout_deadline || D_80110334++ > 0x3C0000) {
-        func_800963DC(CdTimeoutPrefixStr);
+    if (VSync(-1) > CD_timeout_deadline || CD_timeout_count++ > 0x3C0000) {
+        PsyqPuts(CdTimeoutPrefixStr);
         { u8 s0_ = st[0]; u8 s1_ = st[1]; char *x5 = sc[s1_];
         /* ASM_BARRIER: Load CdWaitCallerName directly into $a1. */
         register const char *a1 __asm__("$5") = CdWaitCallerName;
@@ -126,7 +126,7 @@ s32 CD_cw(u8 arg0, u8 *arg1, u8 *arg2, s32 arg3) {
         return 0;
     }
     CD_timeout_deadline = VSync(-1) + 0x3C0;
-    D_80110334 = 0;
+    CD_timeout_count = 0;
     CdWaitCallerName = CdCwLabel;
     if (D_800A6764[0] == 0) {
         char **ac = CD_comstr;

@@ -19,7 +19,7 @@ void ovl667_func_801161A8(s32 arg0) {
     ResetScreenCounters();
     MenuArenas.second = CdDirectoryBuffer + 0x2D000;
     InitMenuArenas();
-    D_800AC5D4 = arg0;
+    SelectionPlayer = arg0;
     LoadCursor = MenuArenas.second;
     InitUiRow(0, 0x18, 0x58, 0x44, 0x20, 0, 0, 1, 0, 0x53);
     /* ASM_BARRIER: keep the published arena cell across the first UI service.
@@ -45,7 +45,7 @@ void ovl667_func_801161A8(s32 arg0) {
     InitUiRow(0x12, 0xC, 0x40, 0x44, 0x20, 0, 0, 1, 0, 0x54);
     InitUiRow(0x13, 0xC, 0x68, 0x44, 0x20, 0, 0, 1, 0, 3);
     InitUiRow(0x14, 0xC, 0x90, 0x44, 0x20, 0, 0, 1, 0, 0x55);
-    InitUiRow(0x15, 0xC, 0x170, 0xD0, 0x20, 0, 0, 8, 4, (s32) D_800AC648);
+    InitUiRow(0x15, 0xC, 0x170, 0xD0, 0x20, 0, 0, 8, 4, (s32) CourseMenuSelection);
     InitUiRow(0x17, 0x68, 0x68, 0x44, 0x20, 0, 0, 1, 5, 3);
     InitUiRow(0x18, 0x68, 0x40, 0x44, 0x20, 0, 0, 0, 0x7E, 0);
     SetupRenderer(5);
@@ -54,9 +54,9 @@ void ovl667_func_801161A8(s32 arg0) {
     ResetScreenCounters();
     InitPreviewImageRows();
     D_8010C0B8 = 0;
-    LoadCursor = D_800F4D40;
-    if (!(D_800AC5D4 & 1)) {
-        MenuArenas.first = D_800F4D40;
+    LoadCursor = MenuArenaBase;
+    if (!(SelectionPlayer & 1)) {
+        MenuArenas.first = MenuArenaBase;
     } else {
         LoadCursor = MenuArenas.first;
     }
@@ -90,13 +90,13 @@ void ovl667_func_801161A8(s32 arg0) {
     if (D_8010C0C0[temp_a0][1] == 0) {
         D_8010C0D8[temp_a0] = 0;
     }
-    temp_a2 = D_800AC5D4 & 1;
-    UnpackChoiceGlyph((s8 *)&SelectionRows + D_800AC5D4 * 4,
+    temp_a2 = SelectionPlayer & 1;
+    UnpackChoiceGlyph((s8 *)&SelectionRows + SelectionPlayer * 4,
         D_8010BFD8[temp_a2][D_8010C0D8[temp_a2]][D_8010C0D0[temp_a2]].glyph);
-    temp_a2_2 = D_800AC5D4 & 1;
+    temp_a2_2 = SelectionPlayer & 1;
     temp_s0 = &D_8010C0D8[temp_a2_2];
     temp_t0_2 = &D_8010C0D0[temp_a2_2];
-    temp_a3_2 = &PlayerCourseChoices[D_800AC5D4];
+    temp_a3_2 = &PlayerCourseChoices[SelectionPlayer];
     temp_a3_2->first = D_8010BFD8[temp_a2_2][*temp_s0][*temp_t0_2].first;
     temp_a3_2->second = D_8010BFD8[temp_a2_2][*temp_s0][*temp_t0_2].second;
 }

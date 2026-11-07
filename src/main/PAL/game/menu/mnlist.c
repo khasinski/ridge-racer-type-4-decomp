@@ -55,7 +55,7 @@ extern char D_8009FDC4[];
 extern u8 D_8009FDCC[];
 extern u8 D_8009FDD8[];
 extern u8 D_8009FDE4[];
-extern int D_800AC5D4;
+extern int SelectionPlayer;
 extern signed char *ImageRows;
 extern char *CarRecordPtrs[];
 extern char *BadgeRows;
@@ -117,18 +117,18 @@ int arg2;
   x = *((short *) ((BadgeRows + (arg2 * 0x1C)) + 4));
   y = *((short *) ((BadgeRows + (arg2 * 0x1C)) + 6));
   sp30 = *((short *) ((BadgeRows + (arg2 * 0x1C)) + 0xC));
-  sp3C = (SelectionRows[D_800AC5D4].b * 2) + 8;
-  sp38 = SelectionRows[D_800AC5D4].a * 2;
-  sp34 = (SelectionRows[D_800AC5D4].c ^ 0x27) == 0;
-  if ((SelectionRows[D_800AC5D4].c ^ 0x27) == 0)
+  sp3C = (SelectionRows[SelectionPlayer].b * 2) + 8;
+  sp38 = SelectionRows[SelectionPlayer].a * 2;
+  sp34 = (SelectionRows[SelectionPlayer].c ^ 0x27) == 0;
+  if ((SelectionRows[SelectionPlayer].c ^ 0x27) == 0)
   {
-    if (SelectionRows[D_800AC5D4].a == 2)
+    if (SelectionRows[SelectionPlayer].a == 2)
     {
       sp4C = D_8009FDC4;
     }
     else
     {
-      if (SelectionRows[D_800AC5D4].a == 0)
+      if (SelectionRows[SelectionPlayer].a == 0)
       {
         CopyStringClearTail(D_8009FDBF, "D ");
       }
@@ -137,11 +137,11 @@ int arg2;
         CopyStringClearTail(D_8009FDBF, "G ");
       }
       q = D_8009FDC0;
-      FormatDecimalDigits(q, SelectionRows[D_800AC5D4].b + 1, 0);
+      FormatDecimalDigits(q, SelectionRows[SelectionPlayer].b + 1, 0);
       sp4C = q - 8;
     }
   }
-  c = CarRecordPtrs[D_800AC5D4];
+  c = CarRecordPtrs[SelectionPlayer];
   sp48 = 0x11;
   sp44 = ((u8) c[0x1F3]) + 1;
   sp40 = *((short *) (c + 0x1F0));
@@ -200,7 +200,7 @@ int arg2;
         case 3:
           if (sp34 == 0)
         {
-          arg1 = AddTextSprites(arg0, arg1, s2, y, CarRecordPtrs[D_800AC5D4] + 0x1F5, 0x7FF8, 2, 0);
+          arg1 = AddTextSprites(arg0, arg1, s2, y, CarRecordPtrs[SelectionPlayer] + 0x1F5, 0x7FF8, 2, 0);
         }
         else
         {

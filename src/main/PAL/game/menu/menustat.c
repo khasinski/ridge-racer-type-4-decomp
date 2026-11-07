@@ -23,12 +23,12 @@ extern char PlayerCars[];
 extern int LoadCursor;
 extern int SavedLoadCursor;
 extern unsigned char D_8009F070[];
-extern int D_800F3A60;
-extern unsigned short D_800AC5D0;
-extern short D_800F3A26;
+extern int MenuConfirmPressed;
+extern unsigned short MenuFadeTimer;
+extern short ModeId;
 extern int AddSpriteWithDrawMode();
-extern unsigned char D_8009F074[];
-extern signed char D_8009F108[];
+extern unsigned char BadgeUvTable[];
+extern signed char BadgePatternTable[];
 
 void func_800302C0();
 
@@ -56,7 +56,7 @@ void func_800302C0()
                 goto tail;
             }
         } else if (ModeFrame >= 0x96) {
-            if (D_800F3A60 == 0) {
+            if (MenuConfirmPressed == 0) {
                 if (ModeFrame < 0x177) goto tail;
             }
             D_800F4D8A = 1;
@@ -65,33 +65,33 @@ void func_800302C0()
         }
         break;
     case 1:
-        D_800AC5D0 = 0x20;
+        MenuFadeTimer = 0x20;
         D_800F4D8A = 5;
         break;
     case 3:
         if (func_8004D7D8(SelectionRows[0], SelectionRows[1])) D_800F4D8A = 4;
         break;
     case 4:
-        if (D_800F3A60 == 0 && ModeFrame < 0x177) goto tail;
+        if (MenuConfirmPressed == 0 && ModeFrame < 0x177) goto tail;
         CdAudioInit();
         CdAudioSelectTrack(0, 1);
         D_800F4D8A = 1;
         break;
     case 5:
-        D_800AC5D0--;
-        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x20 - (short)D_800AC5D0) << 3, 0x45);
+        MenuFadeTimer--;
+        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x20 - (short)MenuFadeTimer) << 3, 0x45);
         *(int *)SCRATCHPAD = AddDrawAreaPrim(CurrentDrawBuf + 0x70, *(int *)SCRATCHPAD, 0, 0, 0x140, 0x200);
-        if ((short)D_800AC5D0 <= 0) {
+        if ((short)MenuFadeTimer <= 0) {
             if (D_800AD4F2 == 6) {
                 InitMenuArenas();
                 ModeGroup = 1;
-                D_800F3A26 = 0x21;
+                ModeId = 0x21;
                 D_800F4D8A = 0;
                 LoadCursor = SavedLoadCursor;
                 CdAudioBeginPlay(0);
             } else {
                 ModeGroup = 1;
-                D_800F3A26 = 0x11;
+                ModeId = 0x11;
                 D_800F4D8A = 0;
             }
             return;
@@ -121,13 +121,13 @@ int AddBadgeSpriteStrip(a, p, x, y, w, z) int a; int p; int x; int y; int w; int
     int s1 = y;
     int i = 0;
     do {
-        signed char *q = &D_8009F108[i + a * 8];
+        signed char *q = &BadgePatternTable[i + a * 8];
         int v = *q;
         unsigned char *e;
         int s0, d, c0, c1, c3;
         i++;
         if (v == -1) break;
-        e = D_8009F074 + v * 4;
+        e = BadgeUvTable + v * 4;
         d = q[4];
         c0 = e[0]; c1 = e[1]; s0 = e[2]; c3 = e[3];
         s1 += d;

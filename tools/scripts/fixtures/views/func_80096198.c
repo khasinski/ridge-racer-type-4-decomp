@@ -18,10 +18,10 @@ s32 _card_format(s32 arg0){
     RrCardBrokenRecord *slot;
 
     do {
-        func_80096434(scratch,128);
+        PsyqBzero(scratch,128);
         offset=(u32)i*32U;
         entry=(RrCardDirectoryRecord*)((unsigned long)offset+(unsigned long)base);
-        func_80096434(entry,32);
+        PsyqBzero(entry,32);
         wire=&entry->wire;
 
         CardFormatDirRecords[i].fields.state=state;
@@ -72,7 +72,7 @@ s32 _card_format(s32 arg0){
         slot->value=invalid;
         /* ASM_BARRIER: preserve this clear/copy/write preparation boundary. */
         __asm__("" : : "m"(slot->wire.bytes[0]));
-        func_80096434(second,128);
+        PsyqBzero(second,128);
         word=&slot->wire.word;
 
         slot=(RrCardBrokenRecord*)word;
@@ -85,7 +85,7 @@ s32 _card_format(s32 arg0){
         if(status!=one){result=0;goto done;}
         slot++;
     }while(i<20);
-    func_80096434(second,128);
+    PsyqBzero(second,128);
     second->bytes[0]='M';second->bytes[1]='C';
     result=_card_sector_write(port,0,second->bytes)==1;
 }

@@ -6,7 +6,7 @@ extern int D_8009F654[];
 
 extern int D_8009F66C[];
 
-extern short D_800F4D44;
+extern short RaceType;
 
 extern short CourseIndex;
 
@@ -16,7 +16,7 @@ extern int NumLaps;
 
 extern short D_8009F678[];
 
-extern int D_800F3B00[];
+extern int CourseBestLapRecords[];
 
 extern int CourseBestTotalTimes[];
 
@@ -26,7 +26,7 @@ extern int CourseBestTotal[][8];
 
 extern short NumCars;
 
-extern short D_800ABEC8;
+extern short SelectedCarIndex;
 
 extern int AddSpritePrim();
 
@@ -69,8 +69,8 @@ void DrawCourseInfoPanel(int arg0, int arg1) {
     p = AddDrawModePrim(CurrentDrawBuf + 0x70, p, 0x59);
     *(int *)0x1F800000 = AddTilePrim(CurrentDrawBuf + 0x70, p, 0x10, 0xE0, 2, 0x88, 0x4C, 0x4C, 0x4C);
 
-    if (D_800F4D44 < 2) {
-        NumLaps = CourseLapCounts[CourseIndex + (D_800F4D44 == 1 ? 8 : 0)];
+    if (RaceType < 2) {
+        NumLaps = CourseLapCounts[CourseIndex + (RaceType == 1 ? 8 : 0)];
     }
 
     i = 7;
@@ -93,9 +93,9 @@ void DrawCourseInfoPanel(int arg0, int arg1) {
     if (arg1 == 0) {
         for (i = 0; i < 2; i++) {
             int val;
-            if (D_800F4D44 == 1) {
+            if (RaceType == 1) {
                 if (i == 0) {
-                    val = D_800F3B00[CourseIndex];
+                    val = CourseBestLapRecords[CourseIndex];
                 } else {
                     val = CourseBestTotalTimes[CourseIndex];
                 }
@@ -121,7 +121,7 @@ void DrawCourseInfoPanel(int arg0, int arg1) {
             if (i == 0) {
                 FormatDecimalDigits(sp28, NumCars - 2, 0);
             } else {
-                FormatDecimalDigits(sp28, D_800ABEC8 + 1, 0);
+                FormatDecimalDigits(sp28, SelectedCarIndex + 1, 0);
             }
             DrawDigitString16(CurrentDrawBuf + 0x70, 0x3A - i * 0xC, 0x148 + i * 0x10, sp28);
         }

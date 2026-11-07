@@ -53,8 +53,8 @@ _Static_assert(offsetof(__typeof__(test_page), word) == 0x2750, "packed word off
 _Static_assert(offsetof(__typeof__(test_page), callback) == 0x2760, "callback offset");
 #define D_801102EC test_page.busy
 #define StRingWriteIndex test_page.next
-#define D_801102F8 test_page.current
-#define D_80110310 test_page.records
+#define StRingStartIndex test_page.current
+#define StRingHeaders test_page.records
 #define D_80112750 test_page.word
 #define D_80112754 test_page.value
 #define StDataReadyFunc test_page.callback

@@ -20,7 +20,7 @@
 
 extern RrLibCompletionCallback CdDataCallback(RrLibCompletionCallback);
 extern s32 CdPosToInt(void *);
-extern s32 func_800963DC(const char *,...);
+extern s32 PsyqPuts(const char *,...);
 extern const char CdReadSectorErrorMsg[];
 extern void cb_data(void);
 extern void CdFlush(void);
@@ -67,7 +67,7 @@ void cb_read(s32 event,u8 *data) {
                 /* ASM_BARRIER: capture the complete counter address before load. */
                 __asm__("" : "+r"(completed));
                 if ((u32)now!=*completed) {
-                    func_800963DC(CdReadSectorErrorMsg);
+                    PsyqPuts(CdReadSectorErrorMsg);
                     failed=(RrLibReadRequestState *)((u8 *)completed-
                                                      RR_READ_COMPLETED_OWNER_OFFSET);
                     failed->remaining14=-1;
@@ -192,7 +192,7 @@ s32 cd_read_retry(s32 restart) {
     }
     if (CdStatus() & 0x10) {
         if (!(VSync(-1) & 63)) {
-            func_800963DC(StrCdReadShellOpen);
+            PsyqPuts(StrCdReadShellOpen);
         }
         CdControlF(1, 0);
         timestamp = VSync(-1);
@@ -205,7 +205,7 @@ s32 cd_read_retry(s32 restart) {
         /* ASM_BARRIER: keep retry-only diagnostic address formation in this
          * branch instead of copying it into its predecessor's delay slot. */
         __asm__("" : );
-        func_800963DC(StrCdReadRetry);
+        PsyqPuts(StrCdReadRetry);
         command = 9;
         parameters = 0;
         /* ASM_BARRIER: stage the null parameter after the command value. */

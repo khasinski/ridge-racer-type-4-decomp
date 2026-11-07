@@ -6,7 +6,7 @@
 
 extern int Lzc();
 
-int func_80090758(a0)
+int CordicSqrt(a0)
 int a0;
 {
     int t, s, a;

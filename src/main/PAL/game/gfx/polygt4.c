@@ -82,7 +82,7 @@ extern void MulMatrix(MATRIX *, MATRIX *);
 extern void MulMatrix2(MATRIX *, MATRIX *);
 extern void ApplyMatrix(MATRIX *, SVECTOR *, VECTOR *);
 
-int func_80041BF0(s32 arg0, P_TAG *arg1, s32 arg2) {
+int DrawMenuGridMesh(s32 arg0, P_TAG *arg1, s32 arg2) {
     MATRIX sp10;
     MATRIX sp30;
     SVECTOR sp50;

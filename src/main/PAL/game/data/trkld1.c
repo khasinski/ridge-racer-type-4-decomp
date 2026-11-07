@@ -14,7 +14,7 @@
 
 extern int D_800A02BC;
 extern int D_800A029C[];
-extern short D_800F4D44;
+extern short RaceType;
 extern int LoadTimList();
 extern int LoadTimImage();
 extern int LoadTimList();
@@ -56,7 +56,7 @@ int a2;
   switch (RaceLoadState)
   {
     case 0:
-      switch (D_800F4D44)
+      switch (RaceType)
     {
       case 1:
         D_800A02BC = GetR4FileIndex(2, D_800A029C[a0] + (a2 + v));
@@ -165,7 +165,7 @@ int func_8004D994(a0, a1) int a0, a1;
     int v, t;
     switch (RaceLoadState) {
     case 0:
-        if (D_800F4D44 != 1) return 1;
+        if (RaceType != 1) return 1;
         v = CdFileReadStart(GetR4FileIndex(2, a1 * 2 + 0x7D), RaceLoadCursor);
         if (v == 0) goto out;
         RaceLoadState++;

@@ -31,12 +31,12 @@ static struct World {u32 guard[4];RrSaveProgressRecord7C save;u8 name[12],glyphs
 #define ovl662_D_801273B4 world.selected
 #define ModeFrame world.frame
 #define ScreenFrame world.tick
-#define D_800F3A60 world.accept
+#define MenuConfirmPressed world.accept
 #define PlayerControllers world.input
-#define D_800AC5D0 world.timer
+#define MenuFadeTimer world.timer
 #define D_800F4D8A world.state
 #define D_800FFC18 world.slot
-#define D_800F3A26 world.scene
+#define ModeId world.scene
 #define ModeGroup world.enable
 #define CurrentDrawBuf world.context
 '''+body+copy+r'''

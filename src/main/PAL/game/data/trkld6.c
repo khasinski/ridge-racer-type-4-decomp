@@ -15,9 +15,9 @@
 #include "game/gfx/model.h"
 extern struct { char pad[0x56C]; int a, b, c, d; } RaceContext;
 extern struct { char pad[0x10]; int f10; char pad2[0x19CC - 0x14]; int f19cc; } SoundState;
-extern short D_800F4D44;
-extern short D_800F3826;
-extern int D_800F6784;
+extern short RaceType;
+extern short CourseListIndex;
+extern int SoundSequenceSet;
 extern unsigned short SavedCourseIndex;
 extern short CourseIndex;
 extern int LoadTimList();
@@ -30,19 +30,19 @@ extern int LoadVab();
 
 void func_8004E414(void);
 int LoadRaceSoundAndTrackStep(void);
-int func_8004E70C(void);
+int LoadTrackVabsStep(void);
 int func_8004E8CC(void);
 int func_8004E990();
 
 void func_8004E414(void) {
-    switch (D_800F4D44) {
+    switch (RaceType) {
     case 6:
         SoundState.f19cc = 1;
         RaceContext.a = 5;
         RaceContext.b = func_8004E3B0(0);
         RaceContext.c = -1;
         SoundState.f10 = 0;
-        RaceContext.d = D_800F3826 + 1;
+        RaceContext.d = CourseListIndex + 1;
         break;
     case 0:
         SoundState.f19cc = 1;
@@ -72,7 +72,7 @@ void func_8004E414(void) {
         SoundState.f10 = 1;
         break;
     case 4:
-        D_800F6784 = 1;
+        SoundSequenceSet = 1;
         RaceContext.a = 5;
         if (D_800AD508 != 0) {
             RaceContext.b = func_8004E3B0(0);
@@ -123,7 +123,7 @@ int LoadRaceSoundAndTrackStep(void) {
 #define SoundState (*(char (*)[])&SoundState)
 #define RaceLoadCursor ((char *)RaceLoadCursor)
 
-int func_8004E70C(void)
+int LoadTrackVabsStep(void)
 {
     int i, i4, r, ret;
     char *s1, *s3;

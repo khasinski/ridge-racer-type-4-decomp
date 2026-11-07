@@ -122,7 +122,7 @@ typedef struct {
 } RrChannelPatchCommand;
 
 typedef void *(*RrChannelRecordCallback)(s32 selector);
-extern RrChannelRecordCallback D_800ABC7C;
+extern RrChannelRecordCallback PadPortToChannelPtr;
 void PadSetMainMode(s32 selector, s32 first, s32 second);
 s32 _padSetMainMode(RrChannelPatchCommand *channel, s32 first, s32 second);
 void _padMainModeUpdate(void *channel);
@@ -141,15 +141,15 @@ RR_ASSERT_OFFSET(RrChannelPatchCommand, equal, 0x53);
 RR_ASSERT_OFFSET(RrChannelPatchCommand, payload, 0x5D);
 RR_ASSERT_OFFSET(RrChannelPatchCommand, argument, 0xE4);
 extern RrChannelRecordF0 *PadChannelRecords;
-extern RrChannelUpdateCallback D_800ABC6C;
+extern RrChannelUpdateCallback PadResetChannelFn;
 extern s32 PadComActive;
 void _padStartCom(void);
 
 typedef void (*RrChannelErrorCallback)(s32 status);
 extern RrChannelErrorCallback PadAdvanceChannelFn;
-extern s32 D_800ABCD0, PadFirstChannel, D_800ABCBC;
+extern s32 D_800ABCD0, PadFirstChannel, PadLastChannel;
 extern s32 PadActiveChannel, PadRecvStage, D_800ABCB0;
-extern s32 D_80114428[2];
+extern s32 PadPortTimeoutCounts[2];
 s32 _padInitSioMode(RrChannelRecordF0 *channel);
 /* Entry stage must be in 0..4; the handler sees its incremented value. */
 typedef s32 (*RrChannelStageCallback)(RrChannelRecordF0 *channel);
@@ -157,7 +157,7 @@ extern RrChannelStageCallback PadRecvStageTable[5];
 void _padSioStageStep(RrChannelRecordF0 *channel);
 s32 _padIntPad(void);
 
-extern RrChannelStatusCallback D_800ABC80, PadChannelBusyFn;
+extern RrChannelStatusCallback PadChannelDispatchPtr, PadChannelBusyFn;
 extern RrChannelUpdateCallback PadPacketDoneCallback;
 
 extern s32 _padChannelDispatch(void *channel);

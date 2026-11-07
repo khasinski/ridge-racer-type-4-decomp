@@ -1,8 +1,8 @@
 #include "rr/menu_text_rows.h"
 
-extern s32 ModeFrame, TotalRaceTime, D_800F3A60, D_800AC5D4;
+extern s32 ModeFrame, TotalRaceTime, MenuConfirmPressed, SelectionPlayer;
 extern u16 D_800F4D8A;
-extern s16 ModeGroup, D_800F3A26, D_800AC5D0, MenuCursor, D_800AD508;
+extern s16 ModeGroup, ModeId, MenuFadeTimer, MenuCursor, D_800AD508;
 extern s16 LinkState, D_8010C068, D_80107178;
 extern s16 D_8010C070[4];
 extern s16 D_8010C080[4];
@@ -55,7 +55,7 @@ void ovl667_func_8011885C(void) {
         group = 0;
         if (MenuTextRows[3].signedBytes[3] >= 16) {
             SetMenuFrameOptions(1, 1, group);
-            if (D_800F3A60 != 0) {
+            if (MenuConfirmPressed != 0) {
                 D_800F4D8A = 3;
                 SetMenuFrameOptions(group, 1, group);
             }
@@ -82,7 +82,7 @@ void ovl667_func_8011885C(void) {
             if (ovl667_func_801187DC(0) >= 0) {
                 ResetScreenCounters();
                 InitMenuArenas();
-                D_800AC5D0 = 64;
+                MenuFadeTimer = 64;
                 D_800F4D8A = MenuCursor + 5;
                 BeginLinkSync();
                 SetMenuFrameOptions(0, 1, 0);
@@ -91,39 +91,39 @@ void ovl667_func_8011885C(void) {
         break;
     case 4:
         group = -1;
-        if (pressed == 0 && D_800AC5D0 == 64) {
+        if (pressed == 0 && MenuFadeTimer == 64) {
             break;
         }
-        D_800AC5D0--;
-        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+        MenuFadeTimer--;
+        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             D_8010C068 = 1;
             ModeGroup = 1;
-            D_800F3A26 = 41;
+            ModeId = 41;
             D_800F4D8A = 0;
             LinkState = 0;
         }
         break;
     case 5:
         group = 3;
-        if (pressed == 0 && D_800AC5D0 == 64) {
+        if (pressed == 0 && MenuFadeTimer == 64) {
             CopyStringClearTail(MenuTextRows[38].marquee.at28, "*PLEASE WAIT! ");
             break;
         }
-        D_800AC5D0 -= 2;
-        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+        MenuFadeTimer -= 2;
+        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             group = -1;
             D_800F4D8A = 8;
         }
         break;
     case 6:
         group = -1;
-        D_800AC5D0--;
-        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - D_800AC5D0) * 4, 69);
-        if (D_800AC5D0 <= 0) {
+        MenuFadeTimer--;
+        AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - MenuFadeTimer) * 4, 69);
+        if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
-            D_800F3A26 = 3;
+            ModeId = 3;
             D_800F4D8A = 0;
         }
         break;
@@ -134,10 +134,10 @@ void ovl667_func_8011885C(void) {
         }
         SeqStartTrack(0);
         LinkState = 0;
-        D_800AC5D4 = (result - D_800AD508) * 2;
-        ovl667_func_801161A8(D_800AC5D4);
+        SelectionPlayer = (result - D_800AD508) * 2;
+        ovl667_func_801161A8(SelectionPlayer);
         ModeGroup = result;
-        D_800F3A26 = 60;
+        ModeId = 60;
         D_800F4D8A = 0;
         return;
     }

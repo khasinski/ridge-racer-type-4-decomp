@@ -57,7 +57,7 @@ extern s8 D_8009EFFC[];
 
 extern char D_80010460[];
 
-extern s32 func_8002071C();
+extern s32 EmitPolyF3();
 
 extern s32 MenuStepDirection;
 
@@ -112,7 +112,7 @@ B12:
         } else {
 B14:
             ub = (char *)&w.u;
-            t0 = func_8002071C(CurrentDrawBuf + 0x70, t0, ((s32 *)w.v)[0], ((s32 *)w.v)[1], ((s32 *)w.v)[2], ub + (sel << 2), 0);
+            t0 = EmitPolyF3(CurrentDrawBuf + 0x70, t0, ((s32 *)w.v)[0], ((s32 *)w.v)[1], ((s32 *)w.v)[2], ub + (sel << 2), 0);
         }
     }
     i++;

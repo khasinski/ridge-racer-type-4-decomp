@@ -37,7 +37,7 @@ class ChannelTickDispatchTest(unittest.TestCase):
 typedef uint8_t u8;typedef int8_t s8;typedef uint16_t u16;typedef int16_t s16;typedef uint32_t u32;typedef int32_t s32;
 #define RR_FIELD_OFFSET(type,field) offsetof(type,field)
 '''+header+'''
-s32 ram[0x4330/4+2],PadFirstChannel,D_800ABCBC,PadComActive,PadActiveChannel,PadRecvStage,D_800ABCB0,D_80114428[2];
+s32 ram[0x4330/4+2],PadFirstChannel,PadLastChannel,PadComActive,PadActiveChannel,PadRecvStage,D_800ABCB0,PadPortTimeoutCounts[2];
 unsigned long record_size=sizeof(RrChannelRecordF0);
 RrChannelRecordF0 records[16];RrChannelRecordF0 *PadChannelRecords=&records[4];
 RrSerialPortRegisters ports[2];RrSerialPortRegisters *PadSio0Base=&ports[0];
@@ -57,8 +57,8 @@ void test_write(RrSerialPortRegisters *p,s32 baud,u16 value){s32 i=io_count++;io
         subprocess.run(['cc','-shared','-fPIC','-O2',str(d/'f.c'),'-o',str(d/'f.so')],check=True,capture_output=True)
         cls.lib=C.CDLL(str(d/'f.so'));cls.f=cls.lib._padIntPad;cls.observed=cls.lib.observed_tick
         for f in (cls.f,cls.observed):f.argtypes=[];f.restype=C.c_int32
-        cls.values={n:C.c_int32.in_dll(cls.lib,n) for n in ('PadFirstChannel','D_800ABCBC','PadComActive','PadActiveChannel','PadRecvStage','D_800ABCB0','begin_result','events','io_count')}
-        cls.ram=(C.c_int32*(0x4330//4+2)).in_dll(cls.lib,'ram');cls.counters=(C.c_int32*2).in_dll(cls.lib,'D_80114428')
+        cls.values={n:C.c_int32.in_dll(cls.lib,n) for n in ('PadFirstChannel','PadLastChannel','PadComActive','PadActiveChannel','PadRecvStage','D_800ABCB0','begin_result','events','io_count')}
+        cls.ram=(C.c_int32*(0x4330//4+2)).in_dll(cls.lib,'ram');cls.counters=(C.c_int32*2).in_dll(cls.lib,'PadPortTimeoutCounts')
         cls.record_size=C.sizeof(ChannelRecord)
         assert C.c_ulong.in_dll(cls.lib,'record_size').value==cls.record_size
         cls.records=(C.c_uint8*(16*cls.record_size)).in_dll(cls.lib,'records');cls.base=C.c_void_p.in_dll(cls.lib,'PadChannelRecords')
@@ -71,7 +71,7 @@ void test_write(RrSerialPortRegisters *p,s32 baud,u16 value){s32 i=io_count++;io
 
     def reset(self):
         for v in self.values.values():v.value=0
-        self.values['D_800ABCBC'].value=1;self.values['PadActiveChannel'].value=91
+        self.values['PadLastChannel'].value=1;self.values['PadActiveChannel'].value=91
         self.values['PadRecvStage'].value=92;self.values['D_800ABCB0'].value=93
         self.values['begin_result'].value=1
         self.counters[:]=[100,101]
@@ -88,7 +88,7 @@ void test_write(RrSerialPortRegisters *p,s32 baud,u16 value){s32 i=io_count++;io
             except BaseException as error:
                 self.errors.append(error)
                 self.values['PadActiveChannel'].value=2147483647
-                self.values['D_800ABCBC'].value=-1
+                self.values['PadLastChannel'].value=-1
         callback=(Hook if with_pointer else ErrorHook)(safe)
         self.retained.append(callback);C.c_void_p.in_dll(self.lib,name).value=C.cast(callback,C.c_void_p).value
 
@@ -111,7 +111,7 @@ void test_write(RrSerialPortRegisters *p,s32 baud,u16 value){s32 i=io_count++;io
         for first in (0,1,-1):
             for last in (0,1,-1):
                 for value in (-2147483648,-1,0,149,150,151,2147483647):
-                    self.reset();self.values['PadFirstChannel'].value=first;self.values['D_800ABCBC'].value=last
+                    self.reset();self.values['PadFirstChannel'].value=first;self.values['PadLastChannel'].value=last
                     self.counters[:]=[value,value];self.invoke()
                     self.assertEqual(list(self.counters),[value+int(bool(first) and value<150),value+int(last==0 and value<150)])
                     self.assertEqual([self.values[n].value for n in ('PadActiveChannel','PadRecvStage','D_800ABCB0','events')],[91,92,93,0])
@@ -121,7 +121,7 @@ void test_write(RrSerialPortRegisters *p,s32 baud,u16 value){s32 i=io_count++;io
         for first,last in [(-1,1),(0,0),(0,2),(1,1),(2,1)]:
             for initialized in (-1,0,1):
                 self.reset();self.values['PadComActive'].value=1
-                self.values['PadFirstChannel'].value=first;self.values['D_800ABCBC'].value=last
+                self.values['PadFirstChannel'].value=first;self.values['PadLastChannel'].value=last
                 self.values['begin_result'].value=initialized;before=bytes(self.records)
                 self.invoke()
                 if last<first:
@@ -137,21 +137,21 @@ void test_write(RrSerialPortRegisters *p,s32 baud,u16 value){s32 i=io_count++;io
                 self.assertEqual(self.ports[0].baud,0x88);self.assertEqual(bytes(self.records),before)
 
     def test_mutating_initializer_error_callback_and_step_reload_all_state(self):
-        self.values['PadComActive'].value=1;self.values['D_800ABCBC'].value=0;self.values['begin_result'].value=0
+        self.values['PadComActive'].value=1;self.values['PadLastChannel'].value=0;self.values['begin_result'].value=0
         original_base=self.base.value;steps=[]
         def begin(p):
             self.assertEqual(p,original_base)
             self.error.value=C.cast(self.lib.error_b,C.c_void_p).value
             self.base.value=C.addressof(self.records)+8*self.record_size
         def error():
-            self.values['PadActiveChannel'].value=-1;self.values['D_800ABCBC'].value=0
+            self.values['PadActiveChannel'].value=-1;self.values['PadLastChannel'].value=0
             self.port.value=C.addressof(self.ports)+C.sizeof(Port)
         def step(p):
             steps.append(p)
             self.assertEqual(self.values['D_800ABCB0'].value,0)
             if len(steps)==1:
                 self.base.value=C.addressof(self.records)+10*self.record_size
-                self.values['PadActiveChannel'].value=1;self.values['D_800ABCBC'].value=1
+                self.values['PadActiveChannel'].value=1;self.values['PadLastChannel'].value=1
             else:self.values['PadActiveChannel'].value=2
         self.hook('on_begin',begin);self.hook('on_error',error,False);self.hook('on_step',step)
         self.invoke(True)

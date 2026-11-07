@@ -35,18 +35,18 @@ typedef struct {
 static State actual,reference,*w;
 #define ModeFrame w->frame
 #define ScreenFrame w->tick
-#define D_800AC5D0 w->timer
-#define D_800AC648 w->course
+#define MenuFadeTimer w->timer
+#define CourseMenuSelection w->course
 #define MenuCursor w->selection
 #define MenuItemCount w->limit
 #define ReverseCourse w->style
 #define CourseIndex w->mapped
 #define D_800F3A1E w->secondary
-#define D_800F3A26 w->scene
+#define ModeId w->scene
 #define D_800FFC18 w->settings
 #define D_800F4D8A w->phase
 #define ModeGroup w->enabled
-#define D_800F3A60 w->input[0].a
+#define MenuConfirmPressed w->input[0].a
 #define D_800F3A64 w->input[0].b
 #define ImageRows w->modes[w->modeRoot]
 #define UiRowCount w->rowCount
@@ -82,7 +82,7 @@ void StepMenuValue(s32 a,s32 b,char *p,s32 d,s32 e){unsigned kind=p==(char*)&w->
  if(kind==0){s16 value=(scenario&32)?half((u16)w->course+1):w->course;memcpy(p,&value,2);}else{ s16 value=(scenario+serial)%3;memcpy(p,&value,2);}
 }
 void ResetScreenCounters(void){service(3);}
-void func_80033368(s32 a,s32 b){const s32 args[12]={a,b};record(4,args);effect(4);}
+void DrawCourseMapPreview(s32 a,s32 b){const s32 args[12]={a,b};record(4,args);effect(4);}
 s32 DecodeCourseIndex(s32 a){const s32 args[12]={a};record(5,args);w->style=a>=8;return w->map[a&7];}
 void PlaySfx(s32 a){const s32 args[12]={a};record(6,args);effect(6);}
 void SeqFadeVolume(s32 a,s32 b){const s32 args[12]={a,b};record(7,args);effect(7);}
@@ -98,7 +98,7 @@ static void closeRows(int count){for(int i=0;i<count;i++)if(w->rows[w->rowRoot][
 static void closeLiveRows(void){for(int i=0;i<w->rowCount;i++)if(w->rows[w->rowRoot][i].byte14==2)w->rows[w->rowRoot][i].byte14=3;}
 static void expected(void){w->frame=word((u32)w->frame+1);w->tick=word((u32)w->tick+1);int ready=LoadTrackNodesStep();readiness[ready==1]++;int course=1;
  if(ready==1){unsigned phase=w->phase;states[phase==0?0:phase==2?1:phase==4?2:phase==5?3:phase==3?4:phase==8?5:phase==10?6:7]++;
-  if(phase==0){SetMenuFrameOptions(1,1,1);s16 old=w->course;StepMenuValue(3,2,(char*)&w->course,w->available,0);courseChange[old!=w->course]++;if(old!=w->course)ResetScreenCounters();else func_80033368(old,0);
+  if(phase==0){SetMenuFrameOptions(1,1,1);s16 old=w->course;StepMenuValue(3,2,(char*)&w->course,w->available,0);courseChange[old!=w->course]++;if(old!=w->course)ResetScreenCounters();else DrawCourseMapPreview(old,0);
    w->mapped=DecodeCourseIndex(w->course);w->rows[w->rowRoot][w->selection].cells[0]=0;StepMenuValue(0,2,(char*)&w->selection,w->limit,0);w->rows[w->rowRoot][w->selection].cells[0]=2;
    for(int i=0;i<w->rows[w->rowRoot][3].byte02;i++){if(i==(w->course&7)){w->rows[w->rowRoot][3].cells[i]=(u8)((u8)w->style+2);w->rows[w->rowRoot][3].byte16=(u8)i;}
     else w->rows[w->rowRoot][3].cells[i]=i>=w->available?1:(u8)w->style;}

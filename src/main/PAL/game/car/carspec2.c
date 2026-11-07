@@ -47,7 +47,7 @@ extern CurvePt RubberBandCurve[];
 extern short D_8009FE78;
 extern RaceDist *RaceStandings;
 extern int ReplayState;
-extern short D_800F4D44;
+extern short RaceType;
 extern GlobalF4DB8 SoundState;
 extern int RaceState;
 extern void SoundQueueEnqueue();
@@ -129,7 +129,7 @@ int CalcRubberBandFactor(Vehicle *a0, int a1) {
             s1 = RubberBandCurve[i].y + lo2;
             s1 += 0x800;
         }
-        if (D_800F4D44 == 1 || D_800F4D44 == 6) {
+        if (RaceType == 1 || RaceType == 6) {
             if (RaceStandings->f18 == 0 && RaceStandings->f24 == a0->flags1E4 && s2->b[a1] > D_8009FE78) {
                 s1 = 0xC00;
             }

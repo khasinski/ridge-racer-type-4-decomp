@@ -55,7 +55,7 @@ extern short NumCars;
 extern int ClearScreenOverlayState();
 extern int InitBadgeRow();
 extern s8 ScreenFadeState;
-extern s16 D_800F3A26;
+extern s16 ModeId;
 extern s16 ModeGroup;
 extern s16 D_800F4D3C;
 extern s16 D_800F4D8A;
@@ -67,8 +67,8 @@ extern int UpdateDialogue();
 extern int ResetScreenCounters();
 extern int UpdateBadgeRowAnim();
 extern int PlaySfx();
-extern struct { char pad[4]; char b4; char pad5; signed char b6; char pad2[0xC - 7]; } *D_800AC590;
-extern short D_800AC5D0;
+extern struct { char pad[4]; char b4; char pad5; signed char b6; char pad2[0xC - 7]; } *DialogueState;
+extern short MenuFadeTimer;
 extern short MenuScriptId;
 extern int LoadCursor;
 extern int D_800F4D74;
@@ -82,7 +82,7 @@ extern int UpdateScreenFade();
 extern void InitUiRow(int,int,int,int,int,int,int,int,int,int,...);
 extern s16 MenuCursor;
 extern s32 ModeFrame;
-extern s16 D_800FFC00;
+extern s16 CardSlot;
 
 void SelectDialogueScript(int a0, int a1);
 void UpdateDialoguePanel(void);
@@ -433,7 +433,7 @@ void func_80031F1C(void) {
     M2C_FIELD(BadgeRows, s16 *, 2) = 1;
     SetMenuFrameOptions(0, 1, 1);
     ModeGroup = 1;
-    D_800F3A26 = 0xE;
+    ModeId = 0xE;
     D_800F4D8A = 0;
 }
 
@@ -451,14 +451,14 @@ void func_80031FE8(void) {
         StepMenuValue(0, 2, &D_800F4D3C, 3, 0);
         *(UiRows + D_800F4D3C * 0x24 + 0xC) = 2;
         if (BadgeRows->s10 == 3) {
-            s0 = D_800AC590->b6;
+            s0 = DialogueState->b6;
             if (s0 == 4) {
                 SetMenuFrameOptions(1, 1, 1);
                 if (PlayerControllers.w28 != 0) {
                     if (SaveSlotSelections[D_800F4D3C].b17 > 0) {
                         PlaySfx(1);
                         D_800F4D8A = 1;
-                        D_800AC5D0 = 0x40;
+                        MenuFadeTimer = 0x40;
                         ResetScreenCounters();
                         LoadCursor = D_800F4D74;
                         BadgeRows->s10 = s0;
@@ -469,7 +469,7 @@ void func_80031FE8(void) {
                 } else if (PlayerControllers.w2C != 0) {
                     PlaySfx(2);
                     D_800F4D8A = 2;
-                    D_800AC5D0 = 0x40;
+                    MenuFadeTimer = 0x40;
                     ResetScreenCounters();
                     LoadCursor = D_800F4D74;
                     LoadTimListStep(0);
@@ -481,13 +481,13 @@ void func_80031FE8(void) {
         goto common;
     case 1:
         SetMenuFrameOptions(0, 1, 1);
-        if (D_800AC5D0 > 0) D_800AC5D0 = D_800AC5D0 - 1;
-        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - D_800AC5D0) * 4, 0x45);
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer > 0) MenuFadeTimer = MenuFadeTimer - 1;
+        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - MenuFadeTimer) * 4, 0x45);
+        if (MenuFadeTimer <= 0) {
             if (LoadTimListStep(1) == 1) {
                 SelectionState = SaveSlotSelections[D_800F4D3C];
                 ModeGroup = 1;
-                D_800F3A26 = 0xF;
+                ModeId = 0xF;
                 D_800F4D8A = 0;
                 return;
             }
@@ -495,13 +495,13 @@ void func_80031FE8(void) {
         goto common;
     case 2:
         SetMenuFrameOptions(0, 1, 1);
-        if (D_800AC5D0 > 0) D_800AC5D0 = D_800AC5D0 - 1;
-        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - D_800AC5D0) * 4, 0x45);
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer > 0) MenuFadeTimer = MenuFadeTimer - 1;
+        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - MenuFadeTimer) * 4, 0x45);
+        if (MenuFadeTimer <= 0) {
             func_8002F688();
             MenuScriptId = 1;
             ModeGroup = 1;
-            D_800F3A26 = 0x23;
+            ModeId = 0x23;
             D_800F4D8A = 0;
             return;
         }
@@ -510,8 +510,8 @@ void func_80031FE8(void) {
         UpdateBadgeRowAnim(0);
         UpdateBadgeRowAnim(1);
         if (BadgeRows->s10 == 3) {
-            D_800AC590->b4 = 0x1C;
-            UpdateDialogue(BadgeRows->s8 + 0xA, BadgeRows->sA + 0x28, D_800AC590);
+            DialogueState->b4 = 0x1C;
+            UpdateDialogue(BadgeRows->s8 + 0xA, BadgeRows->sA + 0x28, DialogueState);
         }
         UpdateScreenFade(0x10086);
     }
@@ -533,7 +533,7 @@ void func_8003244C(void) {
     }
     if (Pad0Buttons & 0x800) {
         ModeGroup = 1;
-        D_800F3A26 = 0xF;
+        ModeId = 0xF;
         D_800F4D8A = 0;
     }
 }
@@ -543,14 +543,14 @@ void func_8003244C(void) {
 
 void func_800324F8(void) {
     ModeFrame = 0;
-    D_800FFC00 = 0;
+    CardSlot = 0;
     D_800FFC18 = 3;
     MenuCursor = 0;
     InitUiRow(0, 0x8C, 0x88, 0x1C, 0x20, 0, 0, 1, 0, 0x68);
     InitUiRow(1, 0x8C, 0xB0, 0x1C, 0x20, 0, 0, 1, 0, 0x69);
     InitBadgeRow(0, 0xC, 0x130, 0x128, 0x58, 0, 0);
     ModeGroup = 1;
-    D_800F3A26 = 0x2B;
+    ModeId = 0x2B;
     D_800F4D8A = 0;
     M2C_FIELD(BadgeRows, s16 *, 2) = 1;
     UpdateScreenFade(0x10086);

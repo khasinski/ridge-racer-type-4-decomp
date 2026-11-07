@@ -34,13 +34,13 @@ typedef struct {
 static State actual,reference,*w;
 #define ModeFrame w->frame
 #define ScreenFrame w->tick
-#define D_800AC5D0 w->timer
-#define D_800AC648 w->course
+#define MenuFadeTimer w->timer
+#define CourseMenuSelection w->course
 #define MenuCursor w->selection
 #define ReverseCourse w->style
 #define CourseIndex w->mapped
 #define NumLaps w->players
-#define D_800F3A26 w->scene
+#define ModeId w->scene
 #define D_800AD508 w->split
 #define LinkState w->card
 #define D_8010C0B8 w->waitFlag
@@ -51,7 +51,7 @@ static State actual,reference,*w;
 #define ModeGroup w->enabled
 #define UiRows w->rows[w->rowRoot]
 #define PlayerControllers w->input
-#define D_800F3A60 w->input[0].a
+#define MenuConfirmPressed w->input[0].a
 #define CurrentDrawBuf (&w->frames[w->frameRoot])
 #define MenuArenas w->arenas
 #define LoadCursor w->published
@@ -96,7 +96,7 @@ void StepMenuValue(s32 a,s32 b,char *p,s32 d,s32 e){unsigned k;
  if(k==2){s32 value=scenario%10;memcpy(p,&value,4);}
 }
 void ResetScreenCounters(void){service(6);}
-void func_80033368(s32 a,s32 b){const s32 args[7]={a,b};record(7,args);effect(7);}
+void DrawCourseMapPreview(s32 a,s32 b){const s32 args[7]={a,b};record(7,args);effect(7);}
 s32 DecodeCourseIndex(s32 a){const s32 args[7]={a};record(8,args);effect(8);return actual_mapper(a);}
 void PlaySfx(s32 a){const s32 args[7]={a};record(9,args);effect(9);}
 void SeqFadeVolume(s32 a,s32 b){const s32 args[7]={a,b};record(10,args);effect(10);}
@@ -114,7 +114,7 @@ static void expected(void){s32 quit=ExitOnLinkLost();early[quit!=0]++;if(quit){S
  int ready=1;if(w->phase!=3)ready=LoadTrackNodesStep()==1;readiness[ready]++;
  if(ready){unsigned phase=w->phase;states[phase==0?0:phase==3?1:phase==4?2:phase==8?3:4]++;
   if(phase==0){SetMenuFrameOptions(1,1,1);s16 old=w->course;StepMenuValue(3,2,(char*)&w->course,w->available,0);
-   courseChange[old!=w->course]++;if(old!=w->course)ResetScreenCounters();else func_80033368(old,2);
+   courseChange[old!=w->course]++;if(old!=w->course)ResetScreenCounters();else DrawCourseMapPreview(old,2);
    w->mapped=DecodeCourseIndex(w->course);w->rows[w->rowRoot][18+w->selection].cells[0]=0;StepMenuValue(0,2,(char*)&w->selection,3,0);w->rows[w->rowRoot][18+w->selection].cells[0]=2;
    unsigned cells=w->rows[w->rowRoot][21].byte02;for(unsigned i=0;i<cells;i++){if((s32)i==w->course){w->rows[w->rowRoot][21].cells[i]=2;w->rows[w->rowRoot][21].byte16=i;}else w->rows[w->rowRoot][21].cells[i]=0;}
    int state=w->rows[w->rowRoot][18].byte14;if(state==2){int back=0;if(w->input[0].a){PlaySfx(1);w->rows[w->rowRoot][18+w->selection].cells[0]=1;
@@ -122,13 +122,13 @@ static void expected(void){s32 quit=ExitOnLinkLost();early[quit!=0]++;if(quit){S
      else if(w->selection==1){choices[1]++;w->rows[w->rowRoot][23].byte14=0;w->phase=4;}else if(w->selection==2){choices[2]++;back=1;}
     }else if(w->input[0].b){choices[3]++;PlaySfx(2);back=1;}
     if(back){SetMenuFrameOptions(0,1,1);closeRows(5,3);w->phase=8;}}
-  }else if(phase==3){func_80033368(w->course,2);int blockedNow=wait==0&&w->timer==64;blocked[blockedNow]++;
+  }else if(phase==3){DrawCourseMapPreview(w->course,2);int blockedNow=wait==0&&w->timer==64;blocked[blockedNow]++;
    if(blockedNow)DrawUiRow(24);else{w->waitFlag=1;if(w->timer>0)w->timer=half((u16)w->timer-1);AddScreenFadeTiles(w->frames[w->frameRoot].ordering70,(64-(s32)w->timer)*4,69);
     if(w->timer<=0){exits[0]++;w->loadStatus=-1;SeqMuteVolume();w->enabled=1;w->scene=41;w->phase=0;w->card=0;_sio_control(3,0,0);}}
   }else if(phase==4){int state=w->rows[w->rowRoot][23].byte14;
    if(state==2){SetMenuFrameOptions(1,1,0);w->rows[w->rowRoot][23].cells[0]=2;StepMenuValue(1,4,(char*)&w->players,10,2);
     if(w->input[0].a){PlaySfx(1);w->rows[w->rowRoot][23].cells[0]=1;w->rows[w->rowRoot][23].byte14=3;}}
-   else if(state==5)w->phase=0;func_80033368(w->course,2);
+   else if(state==5)w->phase=0;DrawCourseMapPreview(w->course,2);
   }else if(phase==8){if(w->rows[w->rowRoot][18].byte14==5){exits[1]++;ovl667_func_801161A8((1-(s32)w->split)*2);w->enabled=1;w->scene=60;w->phase=0;}}
  }
  DrawCourseInfoPanel(w->course,2);for(unsigned i=18;i<22;i++)DrawUiRow(i);

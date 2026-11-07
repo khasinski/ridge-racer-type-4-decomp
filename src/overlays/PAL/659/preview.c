@@ -53,7 +53,7 @@ void ovl659_init_preview(void) {
         CdAudioInit();
         CdAudioSelectTrack(0, 2);
         ModeGroup = 1;
-        D_800F3A26 = 0x12;
+        ModeId = 0x12;
         D_800F4D8A = 0;
     }
     UpdateScreenFade(0x1002E);
@@ -107,7 +107,7 @@ void ovl659_update_preview(void) {
                     }
                     row += 1;
                 } while (row < 4);
-                D_800AC5D0 = 0x40;
+                MenuFadeTimer = 0x40;
                 D_800F4D8A = 3;
                 CdAudioFade(0, 0x3C);
             } else if (MenuCursor == 1) {
@@ -119,7 +119,7 @@ void ovl659_update_preview(void) {
                     row += 1;
                 } while (row < 4);
             } else if (MenuCursor == 2) {
-                D_800AC5D0 = 0x40;
+                MenuFadeTimer = 0x40;
                 row = 0;
 
                 do {
@@ -127,7 +127,7 @@ void ovl659_update_preview(void) {
                     row += 1;
                 } while (row < 4);
                 D_800F4D8A = 6;
-                CdAudioFade(0, D_800AC5D0 - 4);
+                CdAudioFade(0, MenuFadeTimer - 4);
             }
         }
         break;
@@ -190,29 +190,29 @@ void ovl659_update_preview(void) {
         }
         goto draw_vehicle_preview;
     case 6:
-        timer6 = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = timer6;
+        timer6 = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = timer6;
         AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - timer6) * 4, 0x45);
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
-            D_800F3A26 = 3;
+            ModeId = 3;
             D_800F4D8A = 0;
         }
         goto draw_rows;
     case 3:
-        timer3 = (u16)D_800AC5D0 - 1;
-        D_800AC5D0 = timer3;
+        timer3 = (u16)MenuFadeTimer - 1;
+        MenuFadeTimer = timer3;
         AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - timer3) * 4, 0x45);
-        if (D_800AC5D0 <= 0) {
+        if (MenuFadeTimer <= 0) {
             SelectionRows.choice = SelectionState.copies[0];
             MenuScriptId = 0;
             ModeGroup = 1;
-            D_800F3A26 = 0x23;
+            ModeId = 0x23;
             D_800F4D8A = 0;
         }
         break;
     }
-    func_80033368(phase, 0);
+    DrawCourseMapPreview(phase, 0);
     DrawCourseInfoPanel(phase, 0);
 draw_rows:
     for (row = 0; row < 4; row++) {

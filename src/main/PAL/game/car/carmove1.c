@@ -380,7 +380,7 @@ void SetTrackNodeData(char *a)
     int i = 0;
     int n;
     register char *p asm("$8");
-    D_800ACBE8 = a + 4;
+    TrackNodeGrid = a + 4;
     sp = *(struct B4 *)a;
     n = *(int *)(a + 0x804);
     TrackNodes = p = a + 0x808;

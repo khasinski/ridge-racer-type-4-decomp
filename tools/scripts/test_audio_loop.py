@@ -49,7 +49,7 @@ static unsigned seed;
 static int mutation,count;
 #define SoundState (w->audio)
 #define Options (w->settings)
-#define D_800F4D44 (w->mode)
+#define RaceType (w->mode)
 #define VoiceVolumeScale (w->audio.master08)
 '''
         reference=r'''

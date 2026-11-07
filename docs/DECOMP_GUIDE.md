@@ -22,7 +22,7 @@ Compiler: gcc 2.8.1 (PSX) `-O2 -G0 -mips1 -mcpu=3000 -funsigned-char` via `tools
 5. If the object contains `.rodata` (string literals, jump tables from `switch`, float constants) fd.py prints a line
    `/* RODATA 0x800105C8 0x30 */` - paste it at the top of the C file (fd.py finds the location in the original rodata block).
    `.data`/`.sdata`/`.bss` (initialised or static data) is not supported yet: skip such functions.
-   Prefer extern symbols (`extern char D_80010874[];`) over string literals when the asm uses a symbol that lives in rodata:
+   Prefer extern symbols (`extern char StrSizeEqLdFmt[];`) over string literals when the asm uses a symbol that lives in rodata:
    a literal creates *new* rodata, an extern does not. Use literals only if the string really belongs to this function's unit.
 
 ## Rules
@@ -406,7 +406,7 @@ Units with inline asm are acceptable; no hand-written `.s` replacements.
 ## More tricks (wave 5, c4)
 - Pin ONE variable only (_SsSetNrpnVabAttr1: just the `a12` copy to $17); pinning all broke it.
 - Strength-reduced index: `P = (Ch*)(i*0xB0 + (int)*q)` and `i++` after last use of P (_SsClose).
-- Compute struct ptr inside `if` body (`s0 = &s1->b;`), use `s1 = &D[s2];` in loop instead of `s1++` to avoid strength reduction to `s1+574` (func_8004A474).
+- Compute struct ptr inside `if` body (`s0 = &s1->b;`), use `s1 = &D[s2];` in loop instead of `s1++` to avoid strength reduction to `s1+574` (UpdateComCarTrackProjections).
 - Load order of scratch fields changes schedule; load `v = s1->s1D8;` before `<0` test fixes v0/v1 split.
 - Forced copy `__asm__("" : "=r"(bk) : "0"(back));` before 2nd compare gives `addu v0,a0,zero` in branch delay slot (UpdateCarTrackNode). Run perm.sh first on big near-misses, finish by hand.
 - fd.py writes build/fd/<stem>.o: use unique file stems.
@@ -570,7 +570,7 @@ Makes $at allocatable: cc1 emits `lui $1,%hi(sym); sw v,%lo(sym)($1)` itself and
 - (w9c2) 3-element loop reading a stride-4 table with one walking pointer + offsets 0,1,2 in the original: write `T[i*4+k]`/`T[i][k]`, not `*s++`. Empty-asm launder on a pointer inside a loop (`asm volatile("" : "=r"(p) : "0"(p))`) makes cc1 recompute `p + i*2` each iteration (matches `sll v1,t0,1; addu v1,s0,v1`). `"=r"(f) : "r"(e)` form does NOT copy; use `"0"`.
 - (w9c2) The original may pass an unused 4th arg (kept-live pointer, e.g. `$a3` loop-end) to a callee: K&R call with extra arg.
 - (w9c5) Reusing one variable as both table index and loop counter raises its register priority (fixes regalloc); base-pointer vars (`base = D; p = base + D2;`) fix load order; `b0 + (a0 & 0xFF)` base form; clear loop `do { *pp-- = 0; } while (--i >= 0)`.
-- (w9c3) 6-case switch (func_8004EA8C): `case` labels inside nested `if` bodies, `return v;` at end of each case group (plain `if (v==0) return v` folds to `return 0`); separate local per use; sum of two globals in separate statements; needs `/* RODATA addr size */` line.
+- (w9c3) 6-case switch (LoadIntroSceneStep): `case` labels inside nested `if` bodies, `return v;` at end of each case group (plain `if (v==0) return v` folds to `return 0`); separate local per use; sum of two globals in separate statements; needs `/* RODATA addr size */` line.
 - (w9c3) Hand-built goto loop for first loop + real `do {} while` for second with induction value (`r = k + (int)tab`) computed at body top; K&R callee declarations (raw-result callee declared `int`).
 - (w9c1) 3-level loop as gotos + inner do/while + one pin; separate var (`w2`) for second use of a product so `x/65536` quotient isn't shared; one reused `int s` avoids an `andi` mask; `i != one` / `sel = i == 1` for compare chains; early hoist of a global by reading it first.
 

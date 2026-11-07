@@ -5,7 +5,7 @@ void ovl662_func_801161B0(void)
 {
     ovl662_func_80116148();
     ModeGroup=1;
-    D_800F3A26=66;
+    ModeId=66;
     D_800F4D8A=0;
     UpdateScreenFade(0x10002);
 }

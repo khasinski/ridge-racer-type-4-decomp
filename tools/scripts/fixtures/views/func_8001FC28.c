@@ -11,14 +11,14 @@ extern int SetDrawArea();
 
 extern int AddPrim();
 
-extern char D_800ADAF0[];
+extern char FrameEnvs[];
 
 extern int DrawBufIndex;
 
 void *AddDrawAreaPrim(u32 *a0, void *cursor, int a2, int a3, int a4, int a5) {
     struct P12 *a1=cursor;
     short sp[4];
-    char *p = D_800ADAF0;
+    char *p = FrameEnvs;
     int t;
     sp[0] = a2;
     if (*(short *)(p + 0x5E) == *(short *)(p + 0x227D6)) {

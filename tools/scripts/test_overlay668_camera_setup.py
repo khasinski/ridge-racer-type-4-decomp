@@ -67,7 +67,7 @@ static void call11(s32 enabled){assert(enabled==1);service(11);}
 #define RaceContext (actual.camera)
 #define TrackNodes (actual.root)
 #define VSyncThreshold (actual.draw)
-#define D_8010718C (actual.clock)
+#define ViewUsesCarTrackNode (actual.clock)
 #define MaskBitSetting (actual.ready)
 #define D_80127E90 (actual.delay)
 #define D_80127E94 (actual.selected)

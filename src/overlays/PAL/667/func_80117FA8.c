@@ -24,21 +24,21 @@ void ovl667_func_80117FA8(void) {
         switch (D_800F4D8A) {                       /* irregular */
         case 0:
             SetMenuFrameOptions(1, 1, 1);
-            previousCourse = D_800AC648;
-            StepMenuValue(3, 2, (char *)&D_800AC648, D_8010C078, 0);
-            if ((s16) previousCourse != (s16) D_800AC648) {
+            previousCourse = CourseMenuSelection;
+            StepMenuValue(3, 2, (char *)&CourseMenuSelection, D_8010C078, 0);
+            if ((s16) previousCourse != (s16) CourseMenuSelection) {
                 ResetScreenCounters();
             } else {
-                func_80033368((s16) previousCourse, 2);
+                DrawCourseMapPreview((s16) previousCourse, 2);
             }
-            CourseIndex = DecodeCourseIndex((s16) D_800AC648);
+            CourseIndex = DecodeCourseIndex((s16) CourseMenuSelection);
             UiRows[MenuCursor+18].cells[0] = 0;
             StepMenuValue(0, 2, (char *)&MenuCursor, 3, 0);
             UiRows[MenuCursor+18].cells[0] = 2;
             row = 0;
             if (UiRows[21].byte02 != 0) {
                 do {
-                    if (row == (s16) D_800AC648) {
+                    if (row == (s16) CourseMenuSelection) {
                         UiRows[21].cells[row] = 2;
                         UiRows[21].byte16 = row;
                     } else {
@@ -66,7 +66,7 @@ void ovl667_func_80117FA8(void) {
                             previewIndex++;
                         } while (row < 4);
                         ResetScreenCounters();
-                        D_800AC5D0 = 0x40;
+                        MenuFadeTimer = 0x40;
                         LoadCursor = MenuArenas.first;
                         SeqFadeVolume(0, 0x3C);
                         BeginLinkSync();
@@ -99,20 +99,20 @@ void ovl667_func_80117FA8(void) {
             }
             break;
         case 3:
-            func_80033368((s16) D_800AC648, 2);
-            if ((waitResult == 0) && (D_800AC5D0 == 0x40)) {
+            DrawCourseMapPreview((s16) CourseMenuSelection, 2);
+            if ((waitResult == 0) && (MenuFadeTimer == 0x40)) {
                 DrawUiRow(0x18);
             } else {
                 D_8010C0B8 = 1;
-                if (D_800AC5D0 > 0) {
-                    D_800AC5D0 = (s16)((u16) D_800AC5D0 - 1);
+                if (MenuFadeTimer > 0) {
+                    MenuFadeTimer = (s16)((u16) MenuFadeTimer - 1);
                 }
-                AddScreenFadeTiles(((RrFrameOrderingPrefix *)(void *)CurrentDrawBuf)->ordering70, (0x40 - D_800AC5D0) * 4, 0x45);
-                if (D_800AC5D0 <= 0) {
+                AddScreenFadeTiles(((RrFrameOrderingPrefix *)(void *)CurrentDrawBuf)->ordering70, (0x40 - MenuFadeTimer) * 4, 0x45);
+                if (MenuFadeTimer <= 0) {
                     D_8010C0C8 = -1;
                     SeqMuteVolume();
                     ModeGroup = 1;
-                    D_800F3A26 = 0x29;
+                    ModeId = 0x29;
                     D_800F4D8A = 0;
                     LinkState = 0;
                     _sio_control(3, 0, 0);
@@ -125,7 +125,7 @@ void ovl667_func_80117FA8(void) {
                 SetMenuFrameOptions(1, 1, 0);
                 UiRows[23].cells[0] = detailState;
                 StepMenuValue(1, 4, (char *)&NumLaps, 0xA, (s32) detailState);
-                if (D_800F3A60 != 0) {
+                if (MenuConfirmPressed != 0) {
                     PlaySfx(1);
                     UiRows[23].cells[0] = 1U;
                     UiRows[23].byte14 = 3U;
@@ -133,19 +133,19 @@ void ovl667_func_80117FA8(void) {
             } else if (detailState == 5) {
                 D_800F4D8A = 0;
             }
-            func_80033368((s16) D_800AC648, 2);
+            DrawCourseMapPreview((s16) CourseMenuSelection, 2);
             break;
         case 8:
             if (UiRows[18].byte14 == 5) {
                 ovl667_func_801161A8((1 - D_800AD508) * 2);
                 ModeGroup = 1;
-                D_800F3A26 = 0x3C;
+                ModeId = 0x3C;
                 D_800F4D8A = 0;
             }
             break;
         }
     }
-    DrawCourseInfoPanel((s16) D_800AC648, 2);
+    DrawCourseInfoPanel((s16) CourseMenuSelection, 2);
     row = 0;
     do {
         DrawUiRow(row + 0x12);
@@ -153,7 +153,7 @@ void ovl667_func_80117FA8(void) {
     } while (row < 4);
     if (UiRows[18].byte14 == 2) {
         if (D_800F4D8A != 4) {
-            DrawMenuStepArrows(0xCE, 0xD0, 0x5E, 0, (s32) (s16) D_800AC648, -1, (s32)((u32)D_8010C078 + 1U));
+            DrawMenuStepArrows(0xCE, 0xD0, 0x5E, 0, (s32) (s16) CourseMenuSelection, -1, (s32)((u32)D_8010C078 + 1U));
             goto block_63;
         }
         goto block_64;

@@ -127,7 +127,7 @@ enterPalette:
             ovl662_func_80118ED8();
             break;
 publishScene:
-            ModeGroup=3;D_800F3A26=1;D_800F4D8A=0;
+            ModeGroup=3;ModeId=1;D_800F4D8A=0;
             break;
         }
         goto drawMenu;

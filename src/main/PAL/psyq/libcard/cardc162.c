@@ -8,7 +8,7 @@ s32 _cardCmd5ABegin(s32 request, u8 *buffer);
 s32 _cardCmd58Rx(s32 value) {
     s32 result;
     switch(CardRxCount) {
-    case 3: D_80114730=value & 255; break;
+    case 3: CardBytesRemaining=value & 255; break;
     case 4: *(u32 *)CardCmdResultPtrA=value & 255; break;
     case 5: *CardCmdResultPtrB=value & 255; break;
     }

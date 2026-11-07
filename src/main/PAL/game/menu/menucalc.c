@@ -14,8 +14,8 @@
 #include "game/data/screenframe.h"
 
 extern int AddSpriteWithDrawMode();
-extern unsigned char D_8009F074[][4];
-extern signed char D_8009F108[][8];
+extern unsigned char BadgeUvTable[][4];
+extern signed char BadgePatternTable[][8];
 extern unsigned char D_8009F1E0[];
 extern unsigned char D_8009F1E4[];
 extern struct 
@@ -34,7 +34,7 @@ extern int InitRect16Row();
 extern int DrawUiRow();
 extern int InitImageRow();
 extern int UpdateImageRow();
-extern short D_800F3A26;
+extern short ModeId;
 extern short ModeGroup;
 extern int D_800F4CA8;
 extern unsigned char *UiRows;
@@ -46,7 +46,7 @@ extern int ResetScreenCounters();
 extern int PlaySfx();
 extern int SeqFadeVolume();
 extern int SeqMuteVolume();
-extern unsigned short D_800AC5D0;
+extern unsigned short MenuFadeTimer;
 extern int LoadCursor;
 extern struct { char pad[1]; signed char b1; } *ImageRows;
 extern struct { char pad[8]; unsigned short h8; char pad2[0x1E]; int w28; } PlayerControllers;
@@ -55,7 +55,7 @@ extern int D_800F4D74;
 extern struct { char pad[6]; signed char b6; char pad2[0xF]; short h16; } *Dialogue;
 
 int func_80030D9C(int x, int a1);
-int func_80030F64(int a0, int a1);
+int DrawStepProgressBar(int a0, int a1);
 void func_80031064(void);
 void func_800311FC(void);
 void func_80031244(void);
@@ -105,9 +105,9 @@ int func_80030D9C(int x, int a1)
     if (i == 1)
     {
       unsigned char *t;
-      int b = D_8009F108[s0][4];
+      int b = BadgePatternTable[s0][4];
       s0 = D_8009F1E4[(signed char) SelectionState.v] + 0x20;
-      new_var = D_8009F074;
+      new_var = BadgeUvTable;
       t = new_var[s0];
       x = AddSpriteWithDrawMode(CurrentDrawBuf + 0x70, x, b + 0x34, s3, t[2], t[3], t[0], t[1], 0x4A, 0x2E28, i, s2);
     }
@@ -117,7 +117,7 @@ int func_80030D9C(int x, int a1)
   return x;
 }
 
-int func_80030F64(int a0, int a1) {
+int DrawStepProgressBar(int a0, int a1) {
     int s0 = 0x28;
     int sel = D_800AD4EF;
     int i = 0;
@@ -172,7 +172,7 @@ void func_80031064(void)
                 InitRect16Row(0, 0x10, 0x48, 0x120, 0x120, 0, 0);
                 InitImageRow(0, -1, 0, 0);
                 ModeGroup = t;
-                D_800F3A26 = 0xC;
+                ModeId = 0xC;
                 D_800F4D8A = 0;
             }
         }
@@ -214,16 +214,16 @@ void func_80031244(void) {
                 tab = BadgeRows;
                 ((typeof(BadgeRows))tab)[Dialogue->h16].h10 = 4;
                 ImageRows->b1 = s0;
-                D_800AC5D0 = 0;
+                MenuFadeTimer = 0;
                 if (PendingModeId == 0x10F || PendingModeId == 0x12A || PendingModeId == 0x205) {
-                    D_800AC5D0 = 0x40;
+                    MenuFadeTimer = 0x40;
                     ResetScreenCounters(tab);
                     LoadCursor = D_800F4D74;
                     LoadTimListStep(0);
-                    SeqFadeVolume(0, (short)(D_800AC5D0 - 4));
+                    SeqFadeVolume(0, (short)(MenuFadeTimer - 4));
                     D_800F4D8A = 1;
                 } else if (PendingModeId == 0x111) {
-                    D_800AC5D0 = 0x40;
+                    MenuFadeTimer = 0x40;
                     SeqFadeVolume(0, 0x3C);
                     D_800F4D8A = 1;
                 }
@@ -231,36 +231,36 @@ void func_80031244(void) {
         }
     }
     if (D_800F4D8A == 1) {
-        if ((short)D_800AC5D0 > 0) {
-            D_800AC5D0 -= 1;
+        if ((short)MenuFadeTimer > 0) {
+            MenuFadeTimer -= 1;
         }
-        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - (short)D_800AC5D0) * 4, 0x45);
+        AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - (short)MenuFadeTimer) * 4, 0x45);
     }
     if (BadgeRows[Dialogue->h16].h10 == 0xB) {
         if (ImageRows->b1 == 5) {
             if (PendingModeId == 0x10F || PendingModeId == 0x12A) {
                 if (LoadTimListStep(1) != 1) goto done;
                 SeqMuteVolume();
-            if ((short)D_800AC5D0 <= 0) {
+            if ((short)MenuFadeTimer <= 0) {
                 unsigned c = PendingModeId;
                 D_800F4D8A = 0;
                 ModeGroup = c >> 8;
-                D_800F3A26 = c & 0xFF;
+                ModeId = c & 0xFF;
             }
             } else if (PendingModeId == 0x205) {
                 SeqMuteVolume();
-            if ((short)D_800AC5D0 <= 0) {
+            if ((short)MenuFadeTimer <= 0) {
                 unsigned c = PendingModeId;
                 D_800F4D8A = 0;
                 ModeGroup = c >> 8;
-                D_800F3A26 = c & 0xFF;
+                ModeId = c & 0xFF;
             }
             } else {
-            if ((short)D_800AC5D0 <= 0) {
+            if ((short)MenuFadeTimer <= 0) {
                 unsigned c = PendingModeId;
                 D_800F4D8A = 0;
                 ModeGroup = c >> 8;
-                D_800F3A26 = c & 0xFF;
+                ModeId = c & 0xFF;
             }
             }
         }

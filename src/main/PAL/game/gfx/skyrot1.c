@@ -16,16 +16,16 @@ extern int RotMatrix();
 extern int SetGteObjectTransform();
 extern int func_8005F0D0();
 extern char D_8001013C[];
-extern int D_800F2FD8;
+extern int ModelBankFormat;
 extern struct V8 D_800101E4;
 extern struct { char pad[0xA8]; unsigned short v; } *D_8010BF78;
 extern int RotMatrixX();
 extern int RotMatrixY();
 extern int RotMatrixZ();
 extern char D_8009E88C[];
-extern s16 D_800AC5D0;
+extern s16 MenuFadeTimer;
 extern s32 VSyncThreshold;
-extern s16 D_800F3A26;
+extern s16 ModeId;
 extern s16 ModeGroup;
 extern s16 D_800F4D8A;
 
@@ -59,7 +59,7 @@ int func_8001BD40(int a0, int a1)
     MulRotMatrix0((char *)s3 + 8, t);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), D_8001013C + a0 * 16, t);
     *(int *)(SCRATCHPAD + 0x78) = 0;
-    func_8005F0D0(SCRATCHPAD, D_800F2FD8 < 1, 0, 0);
+    func_8005F0D0(SCRATCHPAD, ModelBankFormat < 1, 0, 0);
     return s2;
 }
 
@@ -81,7 +81,7 @@ void DrawRotatingSky(void)
     RotMatrixY(t, &sp18);
     RotMatrixX(0x100, &sp18);
     RotMatrixZ(0xAA, &sp18);
-    func_800197C8(D_8009E88C, &sp18, &sp10, 0xC8);
+    RenderSkyToRect(D_8009E88C, &sp18, &sp10, 0xC8);
 }
 
 /* legacy typing of shared globals in this part of the unit */
@@ -99,17 +99,17 @@ void func_8001BFA8(int a0, int a1, int a2)
     MulRotMatrix0((SCRATCHPAD + 0x84), t);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), a2, t);
     *(int *)(SCRATCHPAD + 0x78) = 0;
-    func_8005F0D0(SCRATCHPAD, a0 < D_800F2FD8 ? a0 : 1, 0, 0);
+    func_8005F0D0(SCRATCHPAD, a0 < ModelBankFormat ? a0 : 1, 0, 0);
 }
 
 #undef D_8010BF78
 
 void func_8001C0F8(void) {
     VSyncThreshold = 0x80;
-    D_800AC5D0 = 0;
-    D_8010BF7C = 0;
+    MenuFadeTimer = 0;
+    TitleSceneStage = 0;
     SetDispMask(1);
     ModeGroup = 0;
-    D_800F3A26 = 2;
+    ModeId = 2;
     D_800F4D8A = 0;
 }

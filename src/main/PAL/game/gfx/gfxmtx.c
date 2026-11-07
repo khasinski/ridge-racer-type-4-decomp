@@ -16,7 +16,7 @@ extern unsigned char D_8009F924[];
 extern B4 D_8009F928[];
 extern W8 D_8009F934[];
 extern W6 LightMatrix[];
-extern char *D_800F4D90;
+extern char *TrackLightTable;
 
 void SetLightColorsScaled(int a0);
 void SetLightColorsFromRow();
@@ -60,7 +60,7 @@ void SetLightColorsFromRow(a0) int a0;
     unsigned short *a3 = LightMatrix;
     unsigned char *a1;
     unsigned char *a2;
-    base = D_800F4D90;
+    base = TrackLightTable;
     a1 = (unsigned char *)(a0 * 0x2C + (int)base);
     a2 = a1;
 L:
@@ -81,7 +81,7 @@ L:
     }
     if (i < 3) goto L;
     {
-        char *b2 = D_800F4D90;
+        char *b2 = TrackLightTable;
         unsigned char *q = (unsigned char *)(a0 * 0x2C + (int)b2);
         SetBackColor(q[0x28], q[0x29], q[0x2A], a3);
     }
@@ -143,8 +143,8 @@ int func_8003D108(a0) int a0;
 int AllocBadgeRows(int a0) {
     int n = BadgeRowCount * 28;
     BadgeRows = a0;
-    func_80096434(a0, n);
-    DebugPrintStub(D_80010874, n);
+    PsyqBzero(a0, n);
+    DebugPrintStub(StrSizeEqLdFmt, n);
     return n;
 }
 

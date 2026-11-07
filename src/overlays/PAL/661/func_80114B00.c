@@ -33,28 +33,28 @@ void ovl661_func_80114B00(void) {
 
     ModeFrame=(u32)ModeFrame+1;
     if (((u32) ((u32)RaceState - 1) < 2U) && (PlayerControllers[0].buttons08 & 0x800)) {
-        if (D_800AC5D0 <= 0) {
-            D_800AC5D0 = 0xF;
+        if (MenuFadeTimer <= 0) {
+            MenuFadeTimer = 0xF;
             temp_v1 = RacePaused == 0;
             RacePaused = temp_v1;
             if (temp_v1 != 0) {
                 SoundPause();
                 PauseCursor = 0;
             } else {
-                ApplyPauseMenuChoice(D_800F4D44);
+                ApplyPauseMenuChoice(RaceType);
                 SoundResume();
             }
         } else {
             goto block_7;
         }
-    } else if (D_800AC5D0 > 0) {
+    } else if (MenuFadeTimer > 0) {
 block_7:
         if (RaceState < 4) {
-            D_800AC5D0 = (u16) D_800AC5D0 - 1;
+            MenuFadeTimer = (u16) MenuFadeTimer - 1;
         }
     }
     if (RacePaused != 0) {
-        UpdatePauseMenu(D_800F4D44);
+        UpdatePauseMenu(RaceType);
         ModeFrame=(u32)ModeFrame-1;
         DrawPauseMenu(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, PauseCursor);
         if (RaceState < 4) {
@@ -125,7 +125,7 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
         RaceTimeRemaining = temp_v0_3;
         if (temp_v0_3 <= 0) {
             RaceState = 5;
-            D_800AC5D0 = 0x4B;
+            MenuFadeTimer = 0x4B;
             SoundSetMasterVolume(0,0x21);
         }
     }
@@ -133,9 +133,9 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
         RaceState = 1;
         SlotsStartForRace();
         SetModelTexturePage(-1);
-        func_800172DC();
-        D_800ADAF0[1].environment.rgb24 = 0;
-        D_800ADAF0[0].environment.rgb24 = 0;
+        ResetCarSlotBuffers();
+        FrameEnvs[1].environment.rgb24 = 0;
+        FrameEnvs[0].environment.rgb24 = 0;
     } else {
         if (RaceState==1) {
             if ((u32) ModeFrame >= 0xB0U) {
@@ -149,22 +149,22 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
             if (TotalRaceTime == -1) {
                 var_a2 = 0x45;
             }
-            if (D_800AC5D0 < 0x19) {
-                AddScreenFadeTiles(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, (0x19 - D_800AC5D0) * 0xA, var_a2);
+            if (MenuFadeTimer < 0x19) {
+                AddScreenFadeTiles(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, (0x19 - MenuFadeTimer) * 0xA, var_a2);
                 RR_661_FRAME_SCRATCH->pointers.cursor = AddDrawAreaPrim(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, RR_661_FRAME_SCRATCH->pointers.cursor, 0, 0, 0x140, 0x100);
             }
-            if (D_800AC5D0 <= 0) {
+            if (MenuFadeTimer <= 0) {
                 ovl661_D_80118448[0] = (u16) PlayerCars[0].half1EE;
                 ovl661_D_80118448[1] = (u16) PlayerCars[1].half1EE;
                 if (RaceState == 4) {
                     ModeGroup = 1;
-                    D_800F3A26 = 0x15;
+                    ModeId = 0x15;
                     D_800F4D8A = 0;
                 } else {
                     FinishRace();
                 }
             } else {
-                D_800AC5D0 = (u16) D_800AC5D0 - 1;
+                MenuFadeTimer = (u16) MenuFadeTimer - 1;
             }
         } else if (RaceState==0) {
             if ((u32)ModeFrame >= 51U) {
@@ -185,7 +185,7 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
         PlayerCars[0].half1EE = 1U;
         PlayerCars[1].half1EE = 0U;
     }
-    StepRaceFrame(D_800F4D44);
+    StepRaceFrame(RaceType);
     if (RaceState < 4) {
         DrawStartCountdown(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, ModeFrame);
         PlayStartCountdownVoice(ModeFrame);

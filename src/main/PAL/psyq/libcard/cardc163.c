@@ -2,10 +2,10 @@
 /* GCC_VERSION: 970318 */
 #include "psyq/libcard/cardc163.h"
 #include "rr/commands.h"
-extern volatile int D_800ABDE8;
+extern volatile int CardTxCount;
 
 int _cardCmd5ATx() {
- register int r asm("$2") = 0x5A; int d; d = D_800ABDE8; if (d != 2) r = 0; return r;
+ register int r asm("$2") = 0x5A; int d; d = CardTxCount; if (d != 2) r = 0; return r;
 }
 
 int _cardCmd5ARx(a0) int a0; {
@@ -14,7 +14,7 @@ int _cardCmd5ARx(a0) int a0; {
     char *c;
     switch (CardRxCount) {
     case 3:
-        D_80114730 = a0 & 0xFF;
+        CardBytesRemaining = a0 & 0xFF;
         break;
     case 4:
         CardCmdBuffer[1] = a0;

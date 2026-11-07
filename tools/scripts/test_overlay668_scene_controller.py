@@ -29,7 +29,7 @@ static struct State{u32 guard[4];RrReplayCameraContextPrefix camera;RrReplayEven
 #define D_80127E90 w->textPosition
 #define D_80127E94 w->textDelta
 #define ModeGroup w->enable
-#define D_800F3A26 w->scene
+#define ModeId w->scene
 #define D_800F4D8A w->phase
 '''
 rest=r'''

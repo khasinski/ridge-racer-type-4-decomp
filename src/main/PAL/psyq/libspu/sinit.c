@@ -3,7 +3,7 @@
 #include "psyq/libspu/sinit.h"
 #include "rr/channels.h"
 #include "rr/library.h"
-extern unsigned short D_800A4904[];
+extern unsigned short SsVoiceInitRegs[];
 extern unsigned short D_800A4914[];
 extern int _snd_openflag;
 extern int VBLANK_MINUS;
@@ -11,7 +11,7 @@ void _SsInit(void) {
     unsigned short *d, *s, *p; int i, j;
     d = (unsigned short *)0x1F801C00;
     i = 0;
-    p = D_800A4904;
+    p = SsVoiceInitRegs;
     do {
         j = 0;
         s = p;

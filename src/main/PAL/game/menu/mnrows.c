@@ -25,8 +25,8 @@ extern int MenuArenas[];
 extern int StopRaceAudioAndRumble();
 extern int ClearScreenOverlayState();
 extern int VSyncThreshold;
-extern int D_800F4D40;
-extern short D_800F3826;
+extern int MenuArenaBase;
+extern short CourseListIndex;
 
 void ResetScreenCounters(void);
 void InitMenuArenas();
@@ -195,7 +195,7 @@ void InitMenuScript() {
     int a0, a1, a3;
     ModeFrame = 0;
     VSyncThreshold = 0x80;
-    LoadCursor = D_800F4D40;
+    LoadCursor = MenuArenaBase;
     a3 = 0;
     switch (MenuScriptId) {
     case 0:
@@ -204,7 +204,7 @@ void InitMenuScript() {
         LoadCursor = MenuArenas;
         goto l428;
     case 10:
-        if (D_800F4D44 == 5) goto five;
+        if (RaceType == 5) goto five;
         SetupDrawDispEnvs(0, 0, 0, 1);
         D_800FFC10 = 1;
         LoadCursor = CdDirectoryBuffer;
@@ -234,7 +234,7 @@ l428:
     if (D_800FFC10 == 1) {
         SetDispMask(0);
         a1 = 0;
-        switch (D_800F4D44) {
+        switch (RaceType) {
         case 0: a0 = 8; break;
         case 1:
             a0 = SelectionState[0x17];
@@ -243,7 +243,7 @@ l428:
         case 2:
         case 3: a0 = 9; break;
         case 4: a0 = 10; break;
-        case 6: a0 = D_800F3826 + 0xB; break;
+        case 6: a0 = CourseListIndex + 0xB; break;
         default:
             a0 = 0;
             a1 = a0;
@@ -255,7 +255,7 @@ l428:
         IntroScriptStep();
     }
     ModeGroup = 1;
-    D_800F3A26 = 0x24;
+    ModeId = 0x24;
     D_800F4D8A = 0;
 }
 
@@ -277,7 +277,7 @@ void UpdateMenuScript(void) {
     if (next_frame == 2) {
         SetDispMask(1);
     }
-    if (D_800F4D44 == 4) {
+    if (RaceType == 4) {
         UpdateLinkHandshake(1);
     }
     mode=D_800FFC10;
@@ -310,7 +310,7 @@ void UpdateMenuScript(void) {
             MenuSceneEntries[MenuScriptId]();
             D_800F4D8A = 0;
             ModeGroup = (u16) ((u16) D_800AD50A >> 8);
-            D_800F3A26 = D_800AD50A & 0xFF;
+            ModeId = D_800AD50A & 0xFF;
         }
     }
     if (ModeGroup != 1) {

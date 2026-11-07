@@ -34,7 +34,7 @@ void PadStopCom() { _padStopCom(); }
 #define PadChannelRecords ((char *)PadChannelRecords)
 
 int PadChkMtap(a0) int a0; {
-    if (D_800ABCB4) {
+    if (PadMultitapEnabled) {
         int i = a0 >> 4;
         return PadChannelRecords[i * 0xF0 + 0xE8] == 8;
     }
@@ -44,10 +44,10 @@ int PadChkMtap(a0) int a0; {
 #undef PadChannelRecords
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABC7C (*(char *(*(*))())&D_800ABC7C)
+#define PadPortToChannelPtr (*(char *(*(*))())&PadPortToChannelPtr)
 
 int PadGetState() {
-  char *p = D_800ABC7C();
+  char *p = PadPortToChannelPtr();
   int a;
   if (p[0x37] == 0 && p[0x38] == 0) {
     if (p == *(char **)(p + 0x10) || p[0x39] == 0) {
@@ -63,13 +63,13 @@ int PadGetState() {
   return p[0x49];
 }
 
-#undef D_800ABC7C
+#undef PadPortToChannelPtr
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABC7C (*(char *(*(*))())&D_800ABC7C)
+#define PadPortToChannelPtr (*(char *(*(*))())&PadPortToChannelPtr)
 
 int PadInfoMode(a0, a1, a2) int a0, a1, a2; {
-  char *p = D_800ABC7C();
+  char *p = PadPortToChannelPtr();
   switch (a1) {
   case 1: return *(unsigned char *)(p + 0xE8);
   case 2: return *(unsigned short *)(p + 0xE6);
@@ -83,13 +83,13 @@ int PadInfoMode(a0, a1, a2) int a0, a1, a2; {
   return 0;
 }
 
-#undef D_800ABC7C
+#undef PadPortToChannelPtr
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABC7C (*(unsigned char *(*(*))())&D_800ABC7C)
+#define PadPortToChannelPtr (*(unsigned char *(*(*))())&PadPortToChannelPtr)
 
 int PadInfoAct(a0, a1, a2) int a0, a1, a2; {
-  unsigned char *p = D_800ABC7C();
+  unsigned char *p = PadPortToChannelPtr();
   unsigned char *q;
   if (a1 < 0) return p[0xE9];
   if (a1 < p[0xE9]) {
@@ -105,13 +105,13 @@ int PadInfoAct(a0, a1, a2) int a0, a1, a2; {
   return 0;
 }
 
-#undef D_800ABC7C
+#undef PadPortToChannelPtr
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABC7C (*(struct S *(*(*))())&D_800ABC7C)
+#define PadPortToChannelPtr (*(struct S *(*(*))())&PadPortToChannelPtr)
 
 int PadInfoComb(a0, a1, a2) int a0, a1, a2; {
-    struct S *s = D_800ABC7C();
+    struct S *s = PadPortToChannelPtr();
     struct E *e;
     if (a1 < 0) return s->c;
     if (a1 >= s->c) return 0;
@@ -121,22 +121,22 @@ int PadInfoComb(a0, a1, a2) int a0, a1, a2; {
     return e->p[a2];
 }
 
-#undef D_800ABC7C
+#undef PadPortToChannelPtr
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABC7C (*(int (*(*))())&D_800ABC7C)
+#define PadPortToChannelPtr (*(int (*(*))())&PadPortToChannelPtr)
 
-void PadSetActAlign(a0, a1) int a0, a1; { _padSetActAlign(D_800ABC7C(), a1); }
+void PadSetActAlign(a0, a1) int a0, a1; { _padSetActAlign(PadPortToChannelPtr(), a1); }
 
-#undef D_800ABC7C
+#undef PadPortToChannelPtr
 
 void PadSetMainMode(s32 selector, s32 first, s32 second) {
-    _padSetMainMode(D_800ABC7C(selector), first & 0xFF, second & 0xFF);
+    _padSetMainMode(PadPortToChannelPtr(selector), first & 0xFF, second & 0xFF);
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABC7C (*(int (*(*))())&D_800ABC7C)
+#define PadPortToChannelPtr (*(int (*(*))())&PadPortToChannelPtr)
 
-void PadSetAct(a0, a1, a2) int a0, a1, a2; { _padSetAct(D_800ABC7C(), a1, a2); }
+void PadSetAct(a0, a1, a2) int a0, a1, a2; { _padSetAct(PadPortToChannelPtr(), a1, a2); }
 
-#undef D_800ABC7C
+#undef PadPortToChannelPtr

@@ -279,7 +279,7 @@ void PlaceCarOnGrid(Car37618 *p, int arg1) {
     int *g = (int *)(SCRATCHPAD + 0x7C);
 
     ResetVehicleShake();
-    if (D_800F4D44 == 0 && ReverseCourse == 1) {
+    if (RaceType == 0 && ReverseCourse == 1) {
         p->fF0 = *TrackStartNode;
         t = TrackNodeCount - 5;
         p->f20 = TrackNodes[(p->fF0 + t) % TrackNodeCount].x08;
