@@ -14,7 +14,7 @@
 struct W3G0A { char *p0; char *p4; short s8, sA, sC, sE, s10, s12; char *p14; char *p18; short s1C, s1E, s20, s22, s24, s26; };
 
 extern char AltOrderingTableA[];
-extern char D_800D02D8[];
+extern char AltOrderingTableB[];
 extern char RaceSubOtsA[];
 extern char RaceOrderingTableB[];
 extern int AddDrawModePrim();
@@ -40,7 +40,7 @@ void InitHudNumberTargets(int a0) {
         }
     }
     HudNumberTargets.p0 = AltOrderingTableA;
-    HudNumberTargets.p4 = D_800D02D8;
+    HudNumberTargets.p4 = AltOrderingTableB;
     HudNumberTargets.s8 = 0x106;
     HudNumberTargets.sA = 0xE6;
     HudNumberTargets.sC = 0x122;

@@ -114,9 +114,9 @@ extern int RivalTeamNamePtrTable[];
 
 extern int NumLaps;
 
-extern int D_800F4C24;
+extern int FrameEnvUnusedWord24;
 
-extern int D_800F4C2C;
+extern int FrameEnvUnusedWord2C;
 
 extern int DialogueContext;
 
@@ -155,8 +155,8 @@ void SystemInit(void)
     _sio_control(1, 1, 0);
     SetupRenderer(5);
     VSyncThreshold = 0x80;
-    D_800F4C24 = 0;
-    D_800F4C2C = 0;
+    FrameEnvUnusedWord24 = 0;
+    FrameEnvUnusedWord2C = 0;
     DrawSubOtFlag = 0;
     NumLaps = 2;
     MirrorMode = 0;

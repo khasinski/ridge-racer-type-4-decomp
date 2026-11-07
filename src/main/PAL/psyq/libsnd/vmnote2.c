@@ -1,6 +1,6 @@
 /* CC1_FLAGS: -mno-split-addresses */
-extern signed char D_80110102[];
-extern struct { signed char a; char p[4]; signed char b; } D_80110107;
+extern signed char SvmCurNote[];
+extern struct { signed char a; char p[4]; signed char b; } SvmCurProgIndex;
 extern char *_svm_tn;
 extern unsigned short SsSemitonePitchTable[];
 extern unsigned short _svm_ptable[];
@@ -9,10 +9,10 @@ int note2pitch();
 unsigned short note2pitch2();
 unsigned short SsPitchFromNote(int cen_note_high, int cen_note_low, int note_high, int note_low);
 
-int note2pitch() { return SsPitchFromNote(D_80110102[0], 0, (unsigned char)D_80110102[0xE], (unsigned char)D_80110102[0xF]); }
+int note2pitch() { return SsPitchFromNote(SvmCurNote[0], 0, (unsigned char)SvmCurNote[0xE], (unsigned char)SvmCurNote[0xF]); }
 
 unsigned short note2pitch2(a0, a1) short a0; short a1; {
-    short i = D_80110107.a * 16 + D_80110107.b;
+    short i = SvmCurProgIndex.a * 16 + SvmCurProgIndex.b;
     char *t = (char *)(i * 32 + (int)_svm_tn);
     return SsPitchFromNote(a0, a1, t[4], t[5]);
 }

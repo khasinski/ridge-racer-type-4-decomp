@@ -6,7 +6,7 @@
 /* Names are indexed by command0..27 and completion code0..6. The timeout
  * diagnostic requires the two status bytes to select those seven names. */
 extern const char *CD_comstr[28],*CD_intstr[7];
-extern u8 D_800A64A5,CdIntrStatusBytes[];
+extern u8 CD_com,CdIntrStatusBytes[];
 extern s32 CD_timeout_deadline;
 extern u32 CD_timeout_count;
 extern const char *CdWaitCallerName;

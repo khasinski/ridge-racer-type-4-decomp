@@ -72,9 +72,9 @@ extern s32 AddSpritePrim();
 extern Glyph4 StartCountdownGlyphs[];
 extern u16 StartCountdownLightCluts[];
 extern u16 StartCountdownCluts[];
-extern u8 D_8009F6D8[];
-extern u8 D_8009F6DA;
-extern u8 D_8009F6DB;
+extern u8 StartCountdownDigitX[];
+extern u8 StartCountdownDigitX2;
+extern u8 StartCountdownDigitX3;
 extern s32 RaceState;
 extern int SoundQueueEnqueue();
 extern int RaceVoiceFlags;
@@ -101,7 +101,7 @@ extern int LinkReadHandle;
 extern s16 LinkState;
 extern int LinkHandshakeCountdown;
 extern signed char LinkEntryState[];
-extern signed char D_800ABEBE;
+extern signed char LinkEntryStateSlot2;
 extern int RaceTimeRemaining;
 extern short LinkRoleSlot;
 extern int MenuCancelPressed;
@@ -263,7 +263,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
             if (s3 >= 4) {
                 s7 = ((arg1 >> 2) & 1) + 2;
                 sp20 = StartCountdownGlyphs[7];
-                a1 = AddSpritePrim(arg0, a1, D_8009F6DB + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[s7], 0);
+                a1 = AddSpritePrim(arg0, a1, StartCountdownDigitX3 + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[s7], 0);
             } else if (s3 > 0) {
                 s2 = 0;
                 for (s1 = 0; s1 < 0x10;) {
@@ -282,7 +282,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                 sp20 = StartCountdownGlyphs[5];
                 sp20 = StartCountdownGlyphs[6];
                 sp20.b0 += (s3 - 1) * 12;
-                a1 = AddSpritePrim(arg0, a1, D_8009F6DA + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[0], 0);
+                a1 = AddSpritePrim(arg0, a1, StartCountdownDigitX2 + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[0], 0);
             }
         } else {
             if (s3 == 0) {
@@ -308,7 +308,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                         sp20 = StartCountdownGlyphs[7];
                         s1 = 3;
                     }
-                    a1 = AddSpritePrim(arg0, a1, D_8009F6D8[s1] + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[s7], 0);
+                    a1 = AddSpritePrim(arg0, a1, StartCountdownDigitX[s1] + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[s7], 0);
                 }
             } else {
                 s7 = 0;
@@ -322,7 +322,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                         sp20 = StartCountdownGlyphs[6];
                         sp20.b0 += (s3 - 1) * 12;
                     }
-                    a1 = AddSpritePrim(arg0, a1, D_8009F6D8[s1] + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[s7], 0);
+                    a1 = AddSpritePrim(arg0, a1, StartCountdownDigitX[s1] + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[s7], 0);
                 }
             }
         }
@@ -602,7 +602,7 @@ int UpdateLinkHandshake(int a0)
       if (a0 == 0)
       {
         LinkRoleSlot = 0;
-        D_800ABEBE = 1;
+        LinkEntryStateSlot2 = 1;
         LinkHandshakeCountdown = 3;
         LinkState = 10;
       }

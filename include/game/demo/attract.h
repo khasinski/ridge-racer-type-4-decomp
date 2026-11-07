@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-extern unsigned short D_800F3A3A;
+extern unsigned short Pad0HeldButtons;
 
 #endif /* RR_GAME_DEMO_ATTRACT_H */

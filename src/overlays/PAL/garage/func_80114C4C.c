@@ -3,7 +3,7 @@
 
 extern RrCourseChoice4 CourseChoiceTable[2][9];
 extern s16 MenuCursor;
-extern u8 D_800F4368[];
+extern u8 PlayerCarClutTim1[];
 void SetModelTexturePage(s32 mode);
 void StepMenuValue(s32 mode, s32 width, char *selection, s32 limit, s32 flags);
 void SeqFadeVolume(s32, s32);
@@ -96,8 +96,8 @@ void garage_func_80114C4C(void)
         AddScreenFadeTiles(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,
                       (64 - MenuFadeTimer) * 4, 69);
         if (MenuFadeTimer <= 0) {
-            InitTimTemplate(D_800F4368);
-            UploadCarClut(D_800F4368, 0, 0);
+            InitTimTemplate(PlayerCarClutTim1);
+            UploadCarClut(PlayerCarClutTim1, 0, 0);
             ModeGroup = 3;
             ModeId = 1;
             ModeSubState = 0;

@@ -26,7 +26,7 @@ extern s32 DeliverEvent(u32, s32);
 extern void SysEnqIntRP();
 extern void SysDeqIntRP();
 extern char SioIrqQueueEntry[];
-extern u16 D_801146CA;
+extern u16 SioShadowControl;
 
 s32 _sio_control(u32 arg0, u32 arg1, u32 arg2);
 s32 _sio_irq_handler(void);
@@ -394,7 +394,7 @@ s32 _sio_deinit(void) {
     interrupts->mask &= ~0x100U;
     port=SIO1_REGS;
     port->control |= 0x50;
-    control=&D_801146CA;
+    control=&SioShadowControl;
     /* The final control write occupies the original call's delay slot. */
     *(u16 *)&port->control=*control;
     SysDeqIntRP(3,SioIrqQueueEntry);

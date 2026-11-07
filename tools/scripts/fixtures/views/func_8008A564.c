@@ -65,7 +65,7 @@ publish:
         programs=*(RrSpuProgram **)((u8 *)page+offset+0x20);
     }
     tones=*(u8 **)((u8 *)_svm_vab_tn+offset);
-    state=&D_80110101;
+    state=&SvmCurVabId;
     state->bank=raw_bank;
     state->program=raw_program;
     _svm_tn=tones;

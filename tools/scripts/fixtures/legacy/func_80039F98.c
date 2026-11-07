@@ -37,7 +37,7 @@ void UpdateSelectionRank(void) {
   }
   word=phase+((u32)phase>>31);
   group=word>>1;
-  if(group==1) {word=D_800AD4EC;group=word+1;}
+  if(group==1) {word=SelectionRank;group=word+1;}
   {
    register u8 *middle_page=(u8 *)0x800B0000U;
    register RrSelectionStatePrefix *middle;

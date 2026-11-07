@@ -43,7 +43,7 @@ extern struct S8 CameraViewMatrix;
 extern struct S8 HalfTransViewMatrix;
 extern int SetLightMatrix();
 extern M2C_UNK ColorMatrix;
-extern char D_800ABF48[];
+extern char PlayerCar0Rotation[];
 extern short CourseIndex;
 extern void RunCourseDrawChain();
 extern unsigned short RearViewSavedScratch5C;
@@ -144,7 +144,7 @@ void SetupViewLighting(void) {
 #undef LightMatrix
 
 void SetupPlayerView(int ignoredPlayer) {
-    char *p = D_800ABF48;
+    char *p = PlayerCar0Rotation;
     BuildViewSegmentObjectList();
     ApplySegmentOctantValue();
     SetupViewLighting();

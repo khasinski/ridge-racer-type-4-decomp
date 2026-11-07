@@ -38,9 +38,9 @@ class GpuRectangleDiagnosticTest(unittest.TestCase):
 #include <stddef.h>
 typedef uint8_t u8;typedef int8_t s8;typedef uint16_t u16;typedef int16_t s16;typedef uint32_t u32;typedef int32_t s32;
 ''' + headers + '''
-RrGpuDebugSettings D_800ABAC2;
-#define GpuVramWidth D_800ABAC2.width
-#define GpuVramHeight D_800ABAC2.height
+RrGpuDebugSettings GpuDebugLevel;
+#define GpuVramWidth GpuDebugLevel.width
+#define GpuVramHeight GpuDebugLevel.height
 char test_rom[0x2000];
 #define StrBadRectFmt (test_rom+0x1EA8)
 #define StrRectFmt (test_rom+0x1EB4)
@@ -76,7 +76,7 @@ s32 (*GPU_printf)(const char *,...)=test_printf1;
         if result.returncode:
             raise AssertionError(result.stderr.decode())
         cls.lib = C.CDLL(str(directory/'function.so'))
-        cls.settings = Settings.in_dll(cls.lib, 'D_800ABAC2')
+        cls.settings = Settings.in_dll(cls.lib, 'GpuDebugLevel')
         cls.rom = (C.c_char * 0x2000).in_dll(cls.lib, 'test_rom')
         cls.rom[:] = (root/'assets/PAL/main.exe').read_bytes()[0x800:0x2800]
         cls.function = cls.lib.checkRECT

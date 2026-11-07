@@ -6,7 +6,7 @@ extern s16 MenuItemCount;
 extern s32 serial_link_D_80118E2C[22];
 extern s32 TotalRaceTime;
 extern s16 NumCars;
-extern s16 D_8010C070[8];
+extern s16 LinkResultPlayerByRank[8];
 extern s16 PlayerWinCounts[8];
 extern s16 FinalCarRanks[8];
 extern s16 LinkState;
@@ -32,10 +32,10 @@ void serial_link_func_80118634(void) {
     }
     if (TotalRaceTime >= 0) {
         for (i = 0; i < NumCars; i++) {
-            D_8010C070[FinalCarRanks[i]] = i;
+            LinkResultPlayerByRank[FinalCarRanks[i]] = i;
         }
-        if (PlayerWinCounts[D_8010C070[0]] < 99) {
-            PlayerWinCounts[D_8010C070[0]]++;
+        if (PlayerWinCounts[LinkResultPlayerByRank[0]] < 99) {
+            PlayerWinCounts[LinkResultPlayerByRank[0]]++;
         }
     }
     LinkState = 0;

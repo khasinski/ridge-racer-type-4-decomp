@@ -13,7 +13,7 @@ typedef struct {
     RrStrDisplayConfig display24;
 } RrStrPlaybackState;
 extern s32 StCdIntrFlag,VSyncThreshold,ModeFrame;
-extern u8 D_800AD558;
+extern u8 OptionsMusicVolume;
 void SetDispMask(s32);
 void SsSetSerialAttr(s8,s8,s8);
 void SsSetSerialVol(s8,s32,s32);

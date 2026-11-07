@@ -32,7 +32,7 @@ extern int LoadCursor;
 extern short LinkRoleSlot;
 extern short ReverseCourse;
 extern int MaskBitSetting;
-extern unsigned short D_800F3974;
+extern unsigned short SaveProgressMenuUnlockFlags;
 extern short ModeId;
 extern short MenuScriptId;
 extern short ModeGroup;
@@ -41,7 +41,7 @@ extern int MenuArenaBase;
 extern unsigned short RaceType;
 extern short ModeSubState;
 extern short LinkState;
-extern int D_8010BFB8;
+extern int ModeInitUnusedWord;
 extern int InitBadgeRow();
 extern char StrInitMainMenu0[];
 extern char LinkEntryState[];
@@ -75,7 +75,7 @@ void TitleModeEnter() {
     LinkState = 0;
     MenuFadeTimer = 0;
     SelectionPlayer = 0;
-    D_8010BFB8 = 0;
+    ModeInitUnusedWord = 0;
     ReverseCourse = 0;
     do {
         a0[0] = 0;
@@ -97,7 +97,7 @@ void TitleModeEnter() {
     _sio_control(1, 1, 0);
     DrawSubOtFlag = 0;
     MaskBitSetting = 0;
-    MainMenuLastIndex = (D_800F3974 & 1) + 7;
+    MainMenuLastIndex = (SaveProgressMenuUnlockFlags & 1) + 7;
     DebugPrintStub(StrMainMenu0Log);
 }
 

@@ -250,7 +250,7 @@ void SeqSetVolume(s16 a0) {
     struct S *p = &SoundState;
     s16 v;
     p->b = a0;
-    v = (a0 * D_800AD558) / 16;
+    v = (a0 * OptionsMusicVolume) / 16;
     SsSeqSetVol(p->a, v, v);
 }
 

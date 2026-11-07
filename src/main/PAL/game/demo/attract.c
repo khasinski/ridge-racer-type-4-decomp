@@ -117,7 +117,7 @@ void StartAttractDemo(int a0) {
     } while (i < 4);
     CourseIndex = -1;
     if (a0 == 1) {
-        m = D_800F3A3A & AttractCourseButtonMask;
+        m = Pad0HeldButtons & AttractCourseButtonMask;
         if (m != 0) {
             i = 0;
             e = DemoCourseButtonMap;

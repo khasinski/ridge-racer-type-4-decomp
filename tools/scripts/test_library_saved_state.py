@@ -32,7 +32,7 @@ typedef uint8_t u8; typedef int8_t s8;
 typedef uint16_t u16; typedef int16_t s16;
 typedef uint32_t u32; typedef int32_t s32;
 ''' + header + '''
-RrLibSavedState D_800A52C8;
+RrLibSavedState IntrEnv;
 u16 *I_MASK, *I_STAT;
 s32 *DPCR_Intr;
 void (*test_begin)(void *);
@@ -53,7 +53,7 @@ void ResetEntryInt(void) { test_save_end(); }
         subprocess.run(['cc', '-shared', '-fPIC', '-O2', str(directory / 'functions.c'),
                         '-o', str(directory / 'functions.so')], check=True, capture_output=True)
         cls.library = C.CDLL(str(directory / 'functions.so'))
-        cls.state = State.in_dll(cls.library, 'D_800A52C8')
+        cls.state = State.in_dll(cls.library, 'IntrEnv')
         cls.restore = cls.library.restartIntr
         cls.save = cls.library.stopIntr
         for function in (cls.restore, cls.save):

@@ -25,7 +25,7 @@ extern s16 ModeGroup;
 extern s16 ModeSubState;
 extern unsigned char CourseSaveProgressIndex[];
 extern unsigned char SelectionState[];
-extern unsigned char D_800AD4EB;
+extern unsigned char SelectionProgressLevel;
 extern unsigned char SaveProgress[];
 extern int SetupRenderer();
 extern int ResetCarState();
@@ -122,7 +122,7 @@ void CacheSelectedCourseProgress(void) {
     } else if (v >= 9) {
         v = 8;
     }
-    D_800AD4EB = SaveProgress[v + 0x60];
+    SelectionProgressLevel = SaveProgress[v + 0x60];
 }
 
 void CarPreviewSetup(void) {
@@ -152,7 +152,7 @@ void CarPreviewModeUpdate(void) {
     ModeFrame += 1;
     SetupViewport(6);
     if (ModeSubState == 0) {
-        if (StepCarPreviewDrive(CarPreviewDriveTable[D_800AD4EF / 2]) != 0) {
+        if (StepCarPreviewDrive(CarPreviewDriveTable[SelectionGpStage / 2]) != 0) {
             MenuFadeTimer = 0x40;
             CdAudioFade(0, 0x3C);
             ModeSubState = 1;

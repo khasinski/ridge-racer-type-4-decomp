@@ -66,7 +66,7 @@ void CdAudioSetVolume(u16 a0) {
     s16 s;
     if (SoundState.v != a0) {
         SoundState.v = (u8)a0;
-        s = (SoundState.v * D_800AD558) / 16;
+        s = (SoundState.v * OptionsMusicVolume) / 16;
         SsSetSerialVol(0, s, s);
     }
 }
@@ -77,7 +77,7 @@ void CdAudioSetVolumeRaw(s32 arg0) {
     s32 var_a0;
     u32 temp_a1;
 
-    var_a0 = (arg0 & 0xFF) * D_800AD558;
+    var_a0 = (arg0 & 0xFF) * OptionsMusicVolume;
     if (var_a0 < 0) {
         var_a0 += 0xF;
     }

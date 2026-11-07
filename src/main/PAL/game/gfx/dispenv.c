@@ -14,8 +14,8 @@ extern int GetTrackPointAhead();
 extern struct S RaceContext;
 /* same symbol under a 2nd C name: cse cannot reuse the earlier address, so the else arm re-materialises lui/addiu like the original */
 extern struct S D_800AC650b __asm__("RaceContext");
-extern int D_800AC690;
-extern int D_800AC694;
+extern int RaceContextCameraDistance;
+extern int RaceContextCameraDistanceFlag;
 extern int InterpolateLanePointXYZ();
 extern int TrackNodes;
 extern int TrackNodeCount;
@@ -24,7 +24,7 @@ extern void RotMatrixZYX();
 extern void *TrackEntries;
 extern int SetSceneColorParams();
 extern int SetSceneOverlayEnabled();
-extern int D_800ACBA8;
+extern int SceneTintPresetTable;
 extern char CarSlotBuffers[];
 
 int UpdateCameraTargetDistance();
@@ -60,7 +60,7 @@ int *a1;
 L:
             RaceContext.f44 = 1;
         }
-        if (*(short *)((char *)a1 + 0x32) - *(int *)(a0 + 0xF0) >= 0) D_800AC694 = 1;
+        if (*(short *)((char *)a1 + 0x32) - *(int *)(a0 + 0xF0) >= 0) RaceContextCameraDistanceFlag = 1;
     }
     t = s - RaceContext.f3C;
     if (RaceContext.f44 == 0) {
@@ -72,7 +72,7 @@ L:
         }
     }
     GetTrackPointAhead(a0, sp20, a1[5]);
-    return D_800AC690 = s;
+    return RaceContextCameraDistance = s;
 }
 
 void GetTrackLaneWorldPos(a0, a1, a2) char *a0; int *a1; int *a2; {
@@ -158,7 +158,7 @@ s32 CountTrackEntries(void) {
 void ApplySceneTintPreset(int a0) {
     int s2, s0, x, s1, v1, y;
     int *v0;
-    s1 = D_800ACBA8;
+    s1 = SceneTintPresetTable;
     s2 = 0;
     s0 = -1;
     a0 = ((unsigned)a0 >> 4) & 0xFF;

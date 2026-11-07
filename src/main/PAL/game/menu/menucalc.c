@@ -119,7 +119,7 @@ int DrawLoadScreenClassBadges(int x, int a1)
 
 int DrawStepProgressBar(int a0, int a1) {
     int s0 = 0x28;
-    int sel = D_800AD4EF;
+    int sel = SelectionGpStage;
     int i = 0;
     int v, y;
     do {

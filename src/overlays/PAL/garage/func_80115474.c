@@ -4,6 +4,6 @@ void garage_func_80115474(void)
 {
     ResetScreenCounters();
     LoadCursor=MenuArenas.first;
-    UnpackChoiceGlyph((s8 *)&SelectionRows,D_800ABE2C);
+    UnpackChoiceGlyph((s8 *)&SelectionRows,CourseChoiceGroup1Glyph);
     ImageRows[1]=6;
 }

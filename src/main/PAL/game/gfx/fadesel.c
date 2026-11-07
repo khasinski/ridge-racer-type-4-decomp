@@ -7,7 +7,7 @@ extern struct {
     char pad2[0x404 - 0x3FC]; int f404; char pad3[0x41C - 0x408]; int f41C;
     char pad4[0x434 - 0x420]; int f434; int f438; int f43C; int f440;
 } RaceContext;
-extern s32 D_800ACA78;
+extern s32 FadeSpriteStartFlag;
 
 void StartDemoSceneFadeIn(a0)
 int a0;
@@ -34,5 +34,5 @@ int a0;
 }
 
 void SetSceneFadeStartFlag(void) {
-    D_800ACA78 = 1;
+    FadeSpriteStartFlag = 1;
 }

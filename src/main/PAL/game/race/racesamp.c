@@ -129,8 +129,8 @@ extern unsigned char SelectionGridIcon5[];
 extern struct { char pad[0x1D2]; short h1D2; char pad2[0x1F]; unsigned char b1F3; } *CarRecordPtrs[];
 extern Car *CarTable[];
 extern Car PlayerCars[];
-extern Car D_80106B58[];
-extern Car D_80106E78[];
+extern Car ComCarsMinus2[];
+extern Car ComCarsMinus1[];
 extern Car ComCars[];
 extern short NumCars;
 extern short LinkRoleSlot;
@@ -215,7 +215,7 @@ void InitCarTable(int a) {
             if (i == 0) {
                 CarTable[0] = PlayerCars;
             } else {
-                CarTable[i] = D_80106E78 + i;
+                CarTable[i] = ComCarsMinus1 + i;
             }
         }
         break;
@@ -232,7 +232,7 @@ void InitCarTable(int a) {
         if (i < v) {
             n = v;
             do {
-                CarTable[i] = D_80106B58 + i;
+                CarTable[i] = ComCarsMinus2 + i;
                 i++;
             } while (i < n);
         }

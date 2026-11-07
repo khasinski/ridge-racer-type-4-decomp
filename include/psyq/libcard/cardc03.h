@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern unsigned char D_80114725;
+extern unsigned char CardCmdSectorByte1;
 int _cardCmd59ParamTx();
 int _cardRxStatusByte();
 

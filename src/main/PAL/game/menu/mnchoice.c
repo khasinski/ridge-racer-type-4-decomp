@@ -7,7 +7,7 @@
 #include "game/menu/title.h"
 
 extern int DrawTrackScenery();
-extern int D_800AC308;
+extern int PlayerCar1TrackNode;
 extern int ViewUsesCarTrackNode;
 
 void DrawTrackSceneryForPlayer(int a0);
@@ -107,7 +107,7 @@ void DrawTrackSceneryForPlayer(int a0) {
         if (a0 < 2) {
             v = ViewCarTrackNode;
         } else {
-            v = D_800AC308;
+            v = PlayerCar1TrackNode;
         }
     } else {
         int *p = (int *)SCRATCHPAD;

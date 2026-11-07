@@ -27,7 +27,7 @@ typedef struct {
     u32 commands0C[2];
 } RrGpuHeightTable14;
 
-extern RrGpuResetState80 D_800ABAC0;
+extern RrGpuResetState80 GpuSysVersion;
 extern RrGpuResetDriver40 GpuDriverTable, *GpuFuncTable;
 extern RrGpuDimension4 GpuVramWidthTable[3];
 extern RrGpuHeightTable14 GpuVramHeightTable;

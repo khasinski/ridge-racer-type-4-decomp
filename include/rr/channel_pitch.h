@@ -9,7 +9,7 @@ typedef struct {
     u8 instrument00, pad01[7];
     s16 fields08[3];
 } RrSpuPitchRequest;
-extern RrSpuPitchRequest D_8011010C;
+extern RrSpuPitchRequest SvmCurTone;
 RR_ASSERT_SIZE(RrSpuPitchRequest, 0xE);
 RR_ASSERT_OFFSET(RrSpuPitchRequest, fields08, 8);
 

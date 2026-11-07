@@ -4,7 +4,7 @@
 #include "types.h"
 
 /* PAL quarter-wave table and overlapping symbol views used for indexed loads. */
-extern s16 D_800A50C0[], D_800A58C0[], D_800A60C0[], SinTable[];
+extern s16 SinTableBiasedBaseC00[], SinTableBiasedBase800[], SinTableBiasedBase400[], SinTable[];
 
 /* Signed 32-bit angles use 4096 units per turn; results use 4096 as unity. */
 s32 rsin(s32 angle);

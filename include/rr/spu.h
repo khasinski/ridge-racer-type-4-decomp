@@ -19,7 +19,7 @@ extern RrSpuProgram *_svm_vab_pg[], *_svm_pg;
 extern u8 *_svm_vab_vh[], *_svm_vab_tn[];
 extern u8 *_svm_vh, *_svm_tn;
 extern s16 kMaxPrograms;
-extern RrSpuSelectionPrefix D_80110101;
+extern RrSpuSelectionPrefix SvmCurVabId;
 /* Signed low16 program is checked only against the upper bound; a negative
  * accepted program requires an accessible prefix in the selected allocation. */
 s32 _SsVmVSetUp(s32 bank, s32 program);

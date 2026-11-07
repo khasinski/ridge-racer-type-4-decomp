@@ -31,9 +31,9 @@ class HudRotatingQuadTest(unittest.TestCase):
 #include "rr/hud_rotating_quad.h"
 #include "rr/trig.h"
 '''+ 'static const s16 rom[4097]={'+','.join(map(str,rom))+'};\nstatic const s32 sineTable[4096]={'+','.join(map(str,sine))+'};\n'+r'''
-#define D_800A50C0 rom
-#define D_800A58C0 (rom+0x400)
-#define D_800A60C0 (rom+0x800)
+#define SinTableBiasedBaseC00 rom
+#define SinTableBiasedBase800 (rom+0x400)
+#define SinTableBiasedBase400 (rom+0x800)
 #define SinTable (rom+0xC00)
 s32 real_lookup(s32);
 '''+helpers+r'''

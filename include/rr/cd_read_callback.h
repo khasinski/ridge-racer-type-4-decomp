@@ -5,7 +5,7 @@
 /* Overlapping window beginning at the full transfer-position pointer. */
 typedef struct { u8 *position08; u32 mode0C,step10; } RrCdPositionView;
 typedef void (*RrCdDataNotify)(s32 event,u8 *result);
-extern RrCdPositionView D_800A67B8;
+extern RrCdPositionView CdReadStatePosition;
 extern u32 CdReadExpectedPos;
 
 /* ILP32 PAL and LP64 native layouts: the first scalar word is padded to pointer

@@ -16,7 +16,7 @@ RrLibSavedState *restartIntr(void);
 void memclr();
 
 void trapIntr(void) {
-    RrLibSavedState *state=&D_800A52C8;
+    RrLibSavedState *state=&IntrEnv;
     RrLibInterruptCallback *base;
     register u32 one __asm__("$19");
     RrLibInterruptCallback *callbacks;
@@ -66,7 +66,7 @@ again:
 reread:
             {
                 register volatile u16 *status __asm__("$4")=I_STAT;
-                u32 enabled=D_800A52C8.enabled_mask;
+                u32 enabled=IntrEnv.enabled_mask;
                 volatile u16 *mask=I_MASK;
                 register u32 statusValue __asm__("$4")=*status;
                 register u32 maskValue __asm__("$2")=*mask;
@@ -93,7 +93,7 @@ reread:
             }
         } else IntrStuckCount=0;
     }
-    D_800A52C8.dispatching02=0;
+    IntrEnv.dispatching02=0;
     ReturnFromException();
 }
 
@@ -109,7 +109,7 @@ RrLibInterruptCallback setIntr(s32 id,RrLibInterruptCallback callback) {
     s32 disabled;
     /* ASM_BARRIER: Capture both full arguments before reusing argument registers for addresses. */
     __asm__("" : "+r"(selector), "+r"(requested));
-    base=D_800A52C8.callbacks;
+    base=IntrEnv.callbacks;
     entry=(RrLibInterruptCallback *)((unsigned long)((u32)selector*sizeof(*base))+(unsigned long)base);
     previous=*entry;
     if(requested==previous) goto out;
@@ -152,7 +152,7 @@ out:
 #define I_STAT ((unsigned short *)I_STAT)
 
 RrLibSavedState *stopIntr(void) {
-  RrLibSavedState *p = &D_800A52C8;
+  RrLibSavedState *p = &IntrEnv;
   unsigned short *a, *c; int *b; int t;
   if (p->active == 0) return 0;
   EnterCriticalSection();
@@ -176,7 +176,7 @@ RrLibSavedState *stopIntr(void) {
 #define I_MASK ((u16 *)I_MASK)
 
 RrLibSavedState *restartIntr(void) {
-    RrLibSavedState *state = &D_800A52C8;
+    RrLibSavedState *state = &IntrEnv;
     if (state->active != 0) return 0;
     HookEntryInt(state->callback_data);
     state->active = 1;

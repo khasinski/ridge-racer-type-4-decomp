@@ -1,7 +1,7 @@
 /* GCC_VERSION: 2.7.2 */
 #include "rr/interrupts.h"
 #include "rr/serial.h"
-extern u16 D_801146CA;
+extern u16 SioShadowControl;
 extern u8 SioIrqQueueEntry[];
 extern s32 SysDeqIntRP(s32,void *);
 s32 _sio_deinit(void) {
@@ -11,7 +11,7 @@ s32 _sio_deinit(void) {
     interrupts->mask &= ~0x100U;
     port=SIO1_REGS;
     port->control |= 0x50;
-    control=&D_801146CA;
+    control=&SioShadowControl;
     /* The final control write occupies the original call's delay slot. */
     *(u16 *)&port->control=*control;
     SysDeqIntRP(3,SioIrqQueueEntry);

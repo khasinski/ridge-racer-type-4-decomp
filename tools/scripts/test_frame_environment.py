@@ -21,7 +21,7 @@ fixture=r'''
 static RrFrameStorage actual[2],expected[2];
 #define FrameEnvs actual
 #define SecondaryFrameEnv actual[1].environment
-#define D_800D02C4 actual[1].environment.display
+#define SecondaryFrameDispEnv actual[1].environment.display
 RrRuntimeSettings Options;
 static int step,video;
 static u32 input_flags;

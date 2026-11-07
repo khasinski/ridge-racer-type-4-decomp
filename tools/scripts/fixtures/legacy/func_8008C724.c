@@ -16,7 +16,7 @@ extern s32 CD_debug;
 extern s32 CD_status;
 extern s32 CD_status1;
 extern s32 CD_nopen;
-extern u8 D_800A64A5;
+extern u8 CD_com;
 extern char *CD_comstr[];
 extern s32 CD_comHasCompleteInt[];
 extern s32 CdComStatusOnAck[];
@@ -71,7 +71,7 @@ s32 getintr(void) {
     *CD_REG2 = 7;
     {
         s32 t = intr;
-        if (t != 3 || CdComStatusOnAck[D_800A64A5] != 0) {
+        if (t != 3 || CdComStatusOnAck[CD_com] != 0) {
             if ((CD_status & 0x10) == 0 && (res[0] & 0x10) != 0) {
                 CD_nopen++;
             }
@@ -87,7 +87,7 @@ s32 getintr(void) {
                 DebugPrintStub(DiskErrorPrefixStr);
             }
             if (CD_debug > 0) {
-                DebugPrintStub(StrCdComCodeFmt, CD_comstr[D_800A64A5], CD_status, CD_status1);
+                DebugPrintStub(StrCdComCodeFmt, CD_comstr[CD_com], CD_status, CD_status1);
             }
         }
     }
@@ -98,7 +98,7 @@ s32 getintr(void) {
             COPY8(CD_syncResult, res);
             return 2;
         }
-        if (CD_comHasCompleteInt[D_800A64A5]) {
+        if (CD_comHasCompleteInt[CD_com]) {
             CdIntrStatusBytes[0] = 3;
             COPY8(CD_syncResult, res);
             return 1;

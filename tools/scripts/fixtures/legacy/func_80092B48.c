@@ -1,11 +1,11 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "types.h"
 
-extern u8 D_800ABAC2[];
+extern u8 GpuDebugLevel[];
 extern void (*GPU_printf)(const char *, s32, s32, s32);
 
 s32 SetGraphDebug(s32 enabled) {
-    u8 *state = D_800ABAC2;
+    u8 *state = GpuDebugLevel;
     s32 previous;
     previous = state[0];
     state[0] = enabled;

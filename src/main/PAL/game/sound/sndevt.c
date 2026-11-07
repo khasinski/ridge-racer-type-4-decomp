@@ -35,7 +35,7 @@ extern struct {
     char pad0[0x18C0]; short a; short b; char pad1[0x28];
     int c; char pad2[0x18]; int d; char pad3[0x18]; int e; short f; char pad4[0x16]; int g; short h;
 } SoundState;
-extern int D_800F66A0;
+extern int NearCarSoundMuteFrames;
 extern s32 TrackLength;
 extern struct {
     char pad0[0x10];
@@ -75,7 +75,7 @@ void SoundListenerInit(short arg0, short arg1) {
         SoundState.h = t;
         break;
     }
-    D_800F66A0 = 4;
+    NearCarSoundMuteFrames = 4;
 }
 
 /* legacy typing of shared globals in this part of the unit */

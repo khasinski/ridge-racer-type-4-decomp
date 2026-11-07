@@ -21,9 +21,9 @@ class DiagnosticFlagTest(unittest.TestCase):
 typedef uint8_t u8; typedef int32_t s32;
 u8 test_state[64];
 char test_format[0x10000];
-#define D_800ABAC2 (test_state + 2)
+#define GpuDebugLevel (test_state + 2)
 ''')
-        body = body.replace('extern u8 D_800ABAC2[];', '')
+        body = body.replace('extern u8 GpuDebugLevel[];', '')
         body = re.sub(r'\s+__asm__\("\$[0-9]+"\)', '', body)
         body = re.sub(r'"\$[0-9]+", ', '', body)
         body = re.sub(r' : "\$[0-9]+"', '', body)

@@ -40,7 +40,7 @@ class ChannelVoiceChoiceTest(unittest.TestCase):
             typedef union {uint64_t alignment;uint8_t bytes[4096];} World;
             static World initial,actual,expected;
             static uint8_t *page;
-            #define D_8011010F (*(u8 *)(page+271))
+            #define SvmCurTonePriority (*(u8 *)(page+271))
             #define spuVmMaxVoice (*(s8 *)(page+252))
             #define _snd_vmask (*(u32 *)(page-1900))
             '''

@@ -7,7 +7,7 @@ void DrawOTag(s32 ordering_table) {
     register s32 second;
     register s32 third;
     RrLibGraphicsDriverPrefix *driver;
-    if (D_800ABAC2.level >= 2) GPU_printf(DrawOTagFmt, ordering_table);
+    if (GpuDebugLevel.level >= 2) GPU_printf(DrawOTagFmt, ordering_table);
     second = ordering_table;
     driver = GpuFuncTable;
     /* ASM_BARRIER: Load the current driver before preparing the dispatch zeros. */

@@ -7,8 +7,8 @@ typedef void (*RrSpuTickCallback)(void);
 typedef struct {
     s8 direct, divided, interrupt, reserved;
 } RrSpuTickFlags4;
-/* Timer state through the three-word D_800A4D4C owner, ending at0x800A4D58. The first two words also have the
- * assembler names _snd_seq_tick_env and D_800A4D3C; callback pointers retain native width. */
+/* Timer state through the three-word SndSeqTickEnvDividedPhase owner, ending at0x800A4D58. The first two words also have the
+ * assembler names _snd_seq_tick_env and SndSeqTickEnvActive; callback pointers retain native width. */
 typedef struct {
     s32 selector, active;
     RrSpuTickCallback callback, previous;

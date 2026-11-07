@@ -208,7 +208,7 @@ void RaceLoadModeEnter(void)
     ScreenFrame = 0;
     VSyncThreshold = 0x80;
     ResetScreenCounters();
-    if (D_800AD4F2 == 6) {
+    if (SelectionDialogueMode == 6) {
         InitSelectionRows();
         ClearScreenOverlayState();
         InitMenuArenas();

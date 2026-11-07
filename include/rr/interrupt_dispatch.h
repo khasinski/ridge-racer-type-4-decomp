@@ -2,7 +2,7 @@
 #define RR_INTERRUPT_DISPATCH_H
 #include "rr/library.h"
 #include "rr/diagnostics.h"
-extern RrLibSavedState D_800A52C8;
+extern RrLibSavedState IntrEnv;
 extern volatile u16 *I_STAT,*I_MASK;
 extern s32 IntrStuckCount;
 extern const char UnexpectedInterruptFmt[],IntrTimeoutFmt[];

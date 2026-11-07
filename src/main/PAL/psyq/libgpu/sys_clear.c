@@ -17,11 +17,11 @@ int DrawOTag2();
 void GPU_memset(s8 *arg0, s8 arg1, s32 arg2);
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABAC2 (*(unsigned char (*))&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*))&GpuDebugLevel)
 #define GPU_printf (*(int (*(*))())&GPU_printf)
 
 int DrawOTag2(a0) int a0; {
-    if (D_800ABAC2 >= 2) GPU_printf(DrawOTagFmt, a0);
+    if (GpuDebugLevel >= 2) GPU_printf(DrawOTagFmt, a0);
     GpuTimeoutDeadline = VSync(-1) + 0xF0;
     GpuAlarmCount = 0;
     while ((*DMA2_CHCR & 0x1000000) || (*GPU_STATUS & 0x4000000) == 0) {
@@ -32,7 +32,7 @@ int DrawOTag2(a0) int a0; {
     return 0;
 }
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 #undef GPU_printf
 
 void GPU_DmaDoneRequeue(void) {

@@ -4,7 +4,7 @@
 #include "rr/commands.h"
 
 extern volatile int CardCommandStatus;
-extern unsigned char D_80114741;
+extern unsigned char CardRxTraceFlag;
 extern int CardCurrentCommand;
 
 
@@ -32,7 +32,7 @@ int MemCardSync(a0, a1, a2) int a0; int *a1; int *a2; {
         }
         goto fin;
     default:
-        if (D_80114741 == 8) {
+        if (CardRxTraceFlag == 8) {
             *a2 = 3;
         } else {
             *a2 = 0;

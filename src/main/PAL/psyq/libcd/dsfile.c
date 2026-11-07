@@ -32,8 +32,8 @@ extern CdlFILE DsDirFileCache[];
 extern const char CdCacheFileDirNotFoundMsg[];
 extern const char CdCacheFileSearchMsg[];
 extern unsigned short DsDirNameDot;
-extern short D_80011CE4;
-extern char D_80011CE6;
+extern short DsDirNameDotDot;
+extern char DsDirNameDotDotNul;
 extern const char CdFileEntryFmt[];
 extern const char StrCdCacheFileCountFmt[];
 
@@ -73,7 +73,7 @@ int DS_cachefile(int dir) {
             __builtin_memcpy(DsDirFileCache[0].name, &DsDirNameDot, 2);
             break;
         case 1:
-            __builtin_memcpy(DsDirFileCache[1].name, &D_80011CE4, 3);
+            __builtin_memcpy(DsDirFileCache[1].name, &DsDirNameDotDot, 3);
             break;
         default:
             PsyqMemcpy(DsDirFileCache[i].name, p + 0x21, p[0x20]);

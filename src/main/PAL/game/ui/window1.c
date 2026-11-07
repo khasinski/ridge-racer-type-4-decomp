@@ -14,7 +14,7 @@ extern int AddPrim();
 extern char RaceHudPacketsMode0[];
 extern char HudSpriteTemplatesType1[];
 extern char RaceHudPacketTemplatesB[];
-extern char D_800D0160[];
+extern char FrameHudSpritePacketsA[];
 extern int *AddDrawModePrim();
 extern int SetDrawArea();
 
@@ -74,7 +74,7 @@ void InitRaceHudPackets(int a0)
     }
     for (i = 0; i < n; i++) {
         for (j = 0; j < 2; j++) {
-            s1 = D_800D0160 + j * 0x22778;
+            s1 = FrameHudSpritePacketsA + j * 0x22778;
             s0 = s1 + (i * 0x14 + 0x18);
             InitHudSpritePacket(s0, tab + i * 0x14);
             if (i != 0) AddPrim(s1 + (i * 0x14 + 4), s0);

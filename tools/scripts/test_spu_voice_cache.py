@@ -52,12 +52,12 @@ class SpuVoiceCacheTest(unittest.TestCase):
             #define AT(t,o) (*(t *)(page+(o)))
             #define SvmVoiceIndex AT(u16,280)
             #define _svm_envx_hist ((u32 *)(page-64))
-            #define D_80110116 ((s16 *)(page+278))
-            #define D_80110107 ((s8 *)(page+263))
+            #define SvmCurVagIndex ((s16 *)(page+278))
+            #define SvmCurProgIndex ((s8 *)(page+263))
             #define _svm_damper AT(u16,160)
             #define _svm_pg program_ptr
             #define _svm_tn tone_ptr
-            #define D_8010F90E ((u16 *)(page-1778))
+            #define SvmVoiceEnvx ((u16 *)(page-1778))
             #define D_8010FE3E ((u16 *)(page-450))
             #define D_8010FE40 ((u16 *)(page-448))
             #define rr_flags ((u8 *)(page-488))

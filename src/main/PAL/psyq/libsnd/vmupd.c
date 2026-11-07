@@ -18,18 +18,18 @@ typedef struct {
     s16 f14, f16, f18;
 } SvmCur;
 
-extern u16 D_8010F90C[];
+extern u16 SvmVoicePitch[];
 extern s16 _svm_sreg_buf[];
-extern s16 D_8010FE3A[];
+extern s16 SvmSregVolR[];
 extern s16 SvmSregPitch[];
 extern SvmCur _svm_cur;
-extern char D_8010F916[];
-extern char D_8010F918[];
-extern char D_8010F91C[];
-extern char D_8010F91E[];
-extern char D_8010F920[];
-extern signed char D_80110107;
-extern char D_8011010C[];
+extern char SvmVoiceNote[];
+extern char SvmVoiceSeqSep[];
+extern char SvmVoiceProg[];
+extern char SvmVoiceTone[];
+extern char SvmVoiceVabId[];
+extern signed char SvmCurProgIndex;
+extern char SvmCurTone[];
 
 void _SsVmKeyOnNow(s16 arg0, s16 arg1);
 int _SsVmPBVoice(short a0, short a1, short a2, short a3, int a4);
@@ -89,9 +89,9 @@ void _SsVmKeyOnNow(s16 arg0, s16 arg1) {
     }
     SvmSregPitch[voice_off] = arg1;
     _svm_sreg_buf[voice_off] = left;
-    D_8010FE3A[voice_off] = right;
+    SvmSregVolR[voice_off] = right;
     ((u8 *)&_svm_sreg_dirty)[_svm_cur.f18] |= 7;
-    D_8010F90C[_svm_cur.f18 * 27] = arg1;
+    SvmVoicePitch[_svm_cur.f18 * 27] = arg1;
     if (_svm_cur.f18 < 0x10) {
         low_mask = 1 << _svm_cur.f18;
         high_mask = 0;
@@ -127,18 +127,18 @@ int _SsVmPBVoice(short a0, short a1, short a2, short a3, int a4) {
     unsigned short idx;
     t0 = a4 - 0x40;
     a = a0 * 0x36;
-    if (*(short *)(D_8010F918 + a) == a1) {
-        if (*(short *)(D_8010F920 + a) == a2) {
-            if (*(short *)(D_8010F91C + a) == a3) {
+    if (*(short *)(SvmVoiceSeqSep + a) == a1) {
+        if (*(short *)(SvmVoiceVabId + a) == a2) {
+            if (*(short *)(SvmVoiceProg + a) == a3) {
                 int d1, d2, d3, d4, d5, d6, d7, d8, d9;
                 short ret;
-                int v0 = D_80110107;
-                /* ASM_BARRIER: force load order of D_80110107, D_8010F91E, and D_8010F916 */
+                int v0 = SvmCurProgIndex;
+                /* ASM_BARRIER: force load order of SvmCurProgIndex, SvmVoiceTone, and SvmVoiceNote */
                 __asm__ volatile("" : "+r"(v0));
-                idx = *(unsigned short *)(D_8010F91E + a);
-                /* ASM_BARRIER: force load of D_8010F916 before shift/add into idx */
+                idx = *(unsigned short *)(SvmVoiceTone + a);
+                /* ASM_BARRIER: force load of SvmVoiceNote before shift/add into idx */
                 __asm__ volatile("" : "+r"(idx));
-                s = *(unsigned short *)(D_8010F916 + a);
+                s = *(unsigned short *)(SvmVoiceNote + a);
                 /* ASM_BARRIER: keep s load scheduled before shift/add */
                 __asm__ volatile("" : "+r"(s), "+r"(v0), "+r"(idx));
                 idx += v0 * 16;
@@ -163,8 +163,8 @@ int _SsVmPBVoice(short a0, short a1, short a2, short a3, int a4) {
                 } else {
                     e = 0;
                 }
-                *(unsigned char *)D_8011010C = *(unsigned char *)(D_8010F91E + a0 * 0x36);
-                *(short *)(D_8011010C + 0xC) = a0;
+                *(unsigned char *)SvmCurTone = *(unsigned char *)(SvmVoiceTone + a0 * 0x36);
+                *(short *)(SvmCurTone + 0xC) = a0;
                 ret = note2pitch2(s, e & 0xFFFF);
                 *(short *)(SvmSregPitch + a0 * 16) = ret;
                 /* ASM_BARRIER: prevent scheduling _svm_sreg_dirty load before SvmSregPitch store */

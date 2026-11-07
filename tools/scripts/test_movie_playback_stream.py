@@ -35,7 +35,7 @@ static unsigned scenario,mutation;
 #define StCdIntrFlag w->s.flag
 #define VSyncThreshold w->s.setting
 #define ModeFrame w->s.frame
-#define D_800AD558 w->s.volume
+#define OptionsMusicVolume w->s.volume
 ''' + bodies + r'''
 static u32 next(void){u32 x=w->s.rng;x^=x<<13;x^=x>>17;x^=x<<5;return w->s.rng=x;}
 static s16 half(u32 v){u16 a=v;s16 b;memcpy(&b,&a,2);return b;}

@@ -62,7 +62,7 @@ void UpdateHudRankDisplay(a0, a1) int a0; int a1; {
     if (RaceType == 1) {
         s0 = 0x40;
         s1 = 0;
-        if (PlayerFinishPlace <= FinishPlaceBlinkThresholds[D_800AD4EF / 2]) {
+        if (PlayerFinishPlace <= FinishPlaceBlinkThresholds[SelectionGpStage / 2]) {
             s1 = 1;
             v = rsin((ScreenFrame & 0x3F) << 6);
             if (v < 0) v += 0x3F;

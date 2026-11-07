@@ -637,7 +637,7 @@ Makes $at allocatable: cc1 emits `lui $1,%hi(sym); sw v,%lo(sym)($1)` itself and
 - Remove inherited pins/launders one at a time from sibling drafts; often the pin was the mismatch.
 - Placement of `arg1 += 0x14` relative to `p += 0x14` changes register allocation.
 - Reuse one variable for register copies instead of declaring new ones.
-- `*(t2 = base + t1) = ...` inside a loop forces the original address temp; `CarTable[i] = D_80106B58 + i` for index-derived stores.
+- `*(t2 = base + t1) = ...` inside a loop forces the original address temp; `CarTable[i] = ComCarsMinus2 + i` for index-derived stores.
 - An empty asm in one `else` arm stops cross-jumping of identical `/2` arms (document with ASM_BARRIER).
 - `while (w = *r, r += 4, w != 0)` plus a switch reproduces the read-ahead loop shape.
 - Index-based loops restore strength reduction; hill-climb statement order.

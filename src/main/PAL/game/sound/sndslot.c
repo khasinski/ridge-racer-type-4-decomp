@@ -118,7 +118,7 @@ void SlotsStartForRace(void) {
 
     SlotStart(0);
     if (LinkRaceSoundFlag == 0) {
-        if (D_800ACBC8 >= 0) {
+        if (RaceExtraSoundBank >= 0) {
             SlotStart(2);
             var_a0 = 3;
             goto block_4;

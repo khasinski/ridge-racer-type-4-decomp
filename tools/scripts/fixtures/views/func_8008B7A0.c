@@ -34,7 +34,7 @@ RrLibInterruptCallback setIntr(s32 id,RrLibInterruptCallback callback) {
     s32 disabled;
     /* ASM_BARRIER: Capture both full arguments before reusing argument registers for addresses. */
     __asm__("" : "+r"(selector), "+r"(requested));
-    base=D_800A52C8.callbacks;
+    base=IntrEnv.callbacks;
     entry=(RrLibInterruptCallback *)((unsigned long)((u32)selector*sizeof(*base))+(unsigned long)base);
     previous=*entry;
     if(requested==previous) goto out;

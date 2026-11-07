@@ -49,8 +49,8 @@ extern struct {
     void (*f10)(u32);
 } *GpuFuncTable;
 extern void (*GPU_printf)(const char *, ...);
-extern u8 D_800ABAC2[];
-extern u8 D_800ABAC3;
+extern u8 GpuDebugLevel[];
+extern u8 GpuReverseFlag;
 extern char GpuDispEnv[];
 extern URECT16 GpuLastDispScreen;
 extern HRANGE DispHRangeTable[2][5];
@@ -89,7 +89,7 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
     URECT16 *d;
     s32 y0, y1;
 
-    p = D_800ABAC2;
+    p = GpuDebugLevel;
     mode = 0x08000000;
     if (*p >= 2) {
         GPU_printf(StrPutDispEnvFmt, env);
@@ -114,7 +114,7 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
         if (env->isinter) {
             mode |= 0x20;
         }
-        if (D_800ABAC3) {
+        if (GpuReverseFlag) {
             mode |= 0x80;
         }
         if (env->disp.w >= 0x119) {

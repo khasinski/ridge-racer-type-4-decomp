@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern int D_800FF6A4[];
+extern int CameraViewMatrixTrans[];
 void DrawTrackObjectModel(int a0, int a1);
 void InitIntroSceneLights(void);
 void BuildCameraMatricesScaled(void);

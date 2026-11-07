@@ -3,7 +3,7 @@
 #include "m2c_macros.h"
 #include "game/sound/sndloop2.h"
 
-extern s32 D_800F6670;
+extern s32 SoundListenerActive;
 
 void SoundLoopUpdate(void) {
     RrAudioLoopState *state=&SoundState;
@@ -132,9 +132,9 @@ void SoundLoopUpdate(void) {
 }
 
 void SetSoundActiveFlag(void) {
-    D_800F6670 = 1;
+    SoundListenerActive = 1;
 }
 
 void ClearSoundLoopActiveFlag(void) {
-    D_800F6670 = 0;
+    SoundListenerActive = 0;
 }

@@ -39,7 +39,7 @@ extern struct {
     s32 unk1990;
 } SoundState;
 
-extern Entry D_800F6714[2];
+extern Entry PlayerVoiceStates[2];
 extern const TableEntry PlayerVoiceParamTable[];
 extern s16 PanGainTable[];
 extern struct {
@@ -59,7 +59,7 @@ void UpdatePlayerVoices(void) {
     int a1, a2, v0;
 
     for (i = 0; i < 2; i++) {
-        s0 = &D_800F6714[i];
+        s0 = &PlayerVoiceStates[i];
         if (s0->unkC != s0->unk8) {
             if (s0->unk8 == 0) {
                 SsUtKeyOffV((s16)s0->unk4);

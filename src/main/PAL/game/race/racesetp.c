@@ -59,7 +59,7 @@ void SetupRace(void)
     }
     InitViewState();
     SetupRenderer(5);
-    D_8010C13C = 0;
+    UnusedSplitWord = 0;
     NextSplitIndex = 2;
     SplitTimes[1] = 0;
     SplitTimes[0] = 0;

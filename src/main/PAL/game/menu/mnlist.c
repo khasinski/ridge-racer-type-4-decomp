@@ -49,8 +49,8 @@ extern int AddSpritePrim();
 extern int CopyStringClearTail();
 extern int FormatDecimalDigits();
 extern R4 UiFontGlyphs[];
-extern char D_8009FDBF[];
-extern char D_8009FDC0[];
+extern char PresetLabelStyleChar[];
+extern char PresetLabelNumber[];
 extern char StrPacMan[];
 extern u8 CarInfoLabelSpacing[];
 extern u8 SaveListHeaderGlyphs[];
@@ -71,7 +71,7 @@ extern u8 SaveListTileWidths[];
 extern S2C SaveSlotSelections[];
 extern short SaveSlotIndex;
 extern char FractionText[];
-extern unsigned char D_8009FBEC[];
+extern unsigned char ControlTypeLabelGlyph[];
 extern char Options[];
 extern char PlayerControllers[];
 extern int MenuActivePlayerPlusOne;
@@ -130,13 +130,13 @@ int arg2;
     {
       if (SelectionRows[SelectionPlayer].a == 0)
       {
-        CopyStringClearTail(D_8009FDBF, "D ");
+        CopyStringClearTail(PresetLabelStyleChar, "D ");
       }
       else
       {
-        CopyStringClearTail(D_8009FDBF, "G ");
+        CopyStringClearTail(PresetLabelStyleChar, "G ");
       }
-      q = D_8009FDC0;
+      q = PresetLabelNumber;
       FormatDecimalDigits(q, SelectionRows[SelectionPlayer].b + 1, 0);
       sp4C = q - 8;
     }
@@ -424,10 +424,10 @@ int a2;
 
   }
 
-  r = AddSpritePrim(aa, a1, s3, s4, D_8009FBEC, 0x7FF8, 0);
+  r = AddSpritePrim(aa, a1, s3, s4, ControlTypeLabelGlyph, 0x7FF8, 0);
   sp[0] = s2 + 0x41;
   nv = s3 + 2;
-  AddDrawModePrim(aa, AddTextSprites(aa, r, nv + D_8009FBEC[2], s4, sp, 0x7FF8, 0, 0), 0x38);
+  AddDrawModePrim(aa, AddTextSprites(aa, r, nv + ControlTypeLabelGlyph[2], s4, sp, 0x7FF8, 0, 0), 0x38);
   /* ASM_BARRIER: keeps s3 live to the end (original save-reg order) */
   __asm__ volatile("" : : "r"(s3));
 }

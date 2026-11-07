@@ -19,8 +19,8 @@ extern short SelectedTeamIndex;
 extern short CourseListIndex;
 extern short CourseIndex;
 extern signed char SelectionState[];
-extern unsigned char D_800AD4F0;
-extern unsigned char D_800F3981;
+extern unsigned char SelectionGpStartProgress;
+extern unsigned char SaveProgressCourseUnlock1;
 extern S8 RankEntries[];
 extern int SaveProgress[];
 
@@ -57,7 +57,7 @@ void AdvanceGrandPrixStage() {
             }
         }
     }
-    a0 = D_800AD4EF;
+    a0 = SelectionGpStage;
     if (a0 == -1) {
         PsyqBzero(RankEntries, 0x40);
         j = 0;
@@ -80,7 +80,7 @@ void AdvanceGrandPrixStage() {
             p[0] = a2;
             p[8] = 3;
         } while (v1 < 8);
-        D_800AD4F0 = D_800F3981;
+        SelectionGpStartProgress = SaveProgressCourseUnlock1;
     }
     x = (unsigned char)SelectionState[0x17];
     x = (x << 24) >> 25;

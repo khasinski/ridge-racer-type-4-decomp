@@ -95,9 +95,9 @@ static struct World {u32 guard[4];RrOverlay665VisualState visual;u8 color[4];u32
 #define options_D_80119768 world.visual
 #define options_D_8011973C world.color
 static const s16 rom[4097]={''' + ','.join(map(str,table)) + r'''};
-#define D_800A50C0 rom
-#define D_800A58C0 (rom+0x400)
-#define D_800A60C0 (rom+0x800)
+#define SinTableBiasedBaseC00 rom
+#define SinTableBiasedBase800 (rom+0x400)
+#define SinTableBiasedBase400 (rom+0x800)
 #define SinTable (rom+0xC00)
 ''' + trig + body + r'''
 static u32 seed=0x169BC;

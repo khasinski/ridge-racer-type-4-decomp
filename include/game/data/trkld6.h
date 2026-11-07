@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern int D_800ACBC8;
+extern int RaceExtraSoundBank;
 extern int LinkRaceSoundFlag;
 int LoadRaceSoundAndTrackStep(void);
 int LoadTrackVabsStep(void);

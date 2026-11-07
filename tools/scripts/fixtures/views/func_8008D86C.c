@@ -13,8 +13,8 @@ s32 CD_init(void) {
     /* The disabled logger consumes a32-bit PAL address value, never a pointer
      * used for access; hardware and callback pointers remain full-width. */
     DebugPrintStub(StrAddrFmt, (u32)(unsigned long)&CdDebugPtrTable);
-    D_800A64A5 = 0;
-    D_800A64A4 = 0;
+    CD_com = 0;
+    CD_mode = 0;
     CD_cbready = 0;
     CD_cbsync = 0;
     CD_status1 = 0;

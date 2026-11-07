@@ -89,7 +89,7 @@ int a0;
       switch (d)
       {
         case 1:
-          s2 = ResultGlyphIndexTable[(D_800AD4EF * 2) + s1];
+          s2 = ResultGlyphIndexTable[(SelectionGpStage * 2) + s1];
           break;
 
         case 0:
@@ -238,7 +238,7 @@ void NewCarModeUpdate(void) {
             }
         }
     }
-    if (D_800AD4F2 == 2) {
+    if (SelectionDialogueMode == 2) {
         r = LoadCarRangeStep(0, 1);
         if (r == 1) {
             if (BadgeRows->h10 == 0xB) {

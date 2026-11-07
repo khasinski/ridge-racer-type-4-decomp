@@ -10,7 +10,7 @@ extern int _spu_keystat;
 extern int _spu_rev_offsetaddr;
 extern struct { int a; short b, c; int d, e; } _spu_rev_attr;
 extern int _spu_RQmask; extern int _spu_RQvoice;
-extern unsigned short D_800A48A2;
+extern unsigned short SpuVoiceCenterNoteLast;
 extern int _spu_env; extern int _spu_AllocBlockNum;
 extern int _spu_AllocLastNum;
 extern int _spu_memList;
@@ -23,7 +23,7 @@ void _SpuInit(a0) int a0; {
     c = 0xC000;
     if (a0 == 0) {
         i = 0x17;
-        p = &D_800A48A2;
+        p = &SpuVoiceCenterNoteLast;
         do {
             *p = c;
             i--;

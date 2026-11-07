@@ -7,7 +7,7 @@ void movie_playback_func_80114B2C(u8 *arg0) {
     STR_STATE->width00 = 320;
     STR_STATE->height04 = 240;
     SsSetSerialAttr(0, 0, 1);
-    vol = (D_800AD558 * 127) / 16;
+    vol = (OptionsMusicVolume * 127) / 16;
     SsSetSerialVol(0, vol, vol);
     VSyncThreshold = 128;
     movie_playback_func_80114E48(arg0);

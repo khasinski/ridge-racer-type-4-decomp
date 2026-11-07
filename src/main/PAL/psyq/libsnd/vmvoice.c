@@ -5,12 +5,12 @@
 #include "psyq/libsnd/vmrow.h"
 #include "game/data/globals.h"
 
-extern u16 D_8010F90C[];
+extern u16 SvmVoicePitch[];
 extern s16 _svm_sreg_buf[];
-extern s16 D_8010FE3A[];
-extern s8 D_80110105;
-extern s8 D_8011010B;
-extern u8 D_80110112;
+extern s16 SvmSregVolR[];
+extern s8 SvmCurPan;
+extern s8 SvmCurProgPan;
+extern u8 SvmCurToneMode;
 
 void vmNoiseOn(s32 arg0) {
     /* ASM_BARRIER: keep arg0 in s3 */
@@ -105,7 +105,7 @@ void vmNoiseOn(s32 arg0) {
         }
         /* ASM_BARRIER: keep pan and a3 live across both branches */
         __asm__("" : : "r"(pan), "r"(a3));
-        pan = D_8011010B;
+        pan = SvmCurProgPan;
         if ((u32)pan < 0x40U) {
             right = (right * pan) / 63U;
         } else {
@@ -113,7 +113,7 @@ void vmNoiseOn(s32 arg0) {
         }
         /* ASM_BARRIER: keep pan and a3 live across both branches */
         __asm__("" : : "r"(pan), "r"(a3));
-        pan = D_80110105;
+        pan = SvmCurPan;
         if ((u32)pan < 0x40U) {
             right = (pan * right) / 63U;
         } else {
@@ -138,7 +138,7 @@ void vmNoiseOn(s32 arg0) {
     }
     SpuSetNoiseClock((p2[-0x12] - p2[-0x4]) & 0x3F);
     s0 = s3 & 0xFF;
-    D_8010FE3A[s0 * 8] = right;
+    SvmSregVolR[s0 * 8] = right;
     {
         /* ASM_BARRIER: use v0 for PAL flag page load */
         register u8 *flags_page __asm__("$2");
@@ -161,7 +161,7 @@ void vmNoiseOn(s32 arg0) {
     }
     /* ASM_BARRIER: keep s0 live so s0 - 0x10 uses v1 instead of modifying s0 in place */
     __asm__("" : : "r"(s0));
-    D_8010F90C[(s3 & 0xFF) * 27] = 0xA;
+    SvmVoicePitch[(s3 & 0xFF) * 27] = 0xA;
     for (i = 0; i < spuVmMaxVoice; i++) {
         if (!(_snd_vmask & (1 << i))) {
             /* ASM_BARRIER: keep row_off in v0 */
@@ -174,10 +174,10 @@ void vmNoiseOn(s32 arg0) {
             /* ASM_BARRIER: retain the PAL row flag page for the indexed load. */
             __asm__("" : "+r"(row_page));
             row_page += row_off;
-            D_8010F925[row_off] = row_page[-0x6DB] & 1;
+            SvmVoiceKeyStatus[row_off] = row_page[-0x6DB] & 1;
         }
     }
-    D_8010F925[(s3 & 0xFF) * 0x36] = 2;
+    SvmVoiceKeyStatus[(s3 & 0xFF) * 0x36] = 2;
     /* ASM_BARRIER: keep s3 live so s3 & 0xFF uses v1 instead of modifying s3 in place */
     __asm__("" : : "r"(s3));
     f8 = _svm_okon1 | low_mask;
@@ -186,7 +186,7 @@ void vmNoiseOn(s32 arg0) {
     _svm_okon2 = fa;
     _svm_okof1 &= ~f8;
     _svm_okof2 &= ~fa;
-    if (D_80110112 & 4) {
+    if (SvmCurToneMode & 4) {
         /* ASM_BARRIER: retain assembler temporary for delay-slot halfword store */
         register u16 *base __asm__("$1");
         u16 fe;

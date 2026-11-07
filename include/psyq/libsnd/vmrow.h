@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-extern u8 D_8010F925[];
+extern u8 SvmVoiceKeyStatus[];
 
 #endif /* RR_PSYQ_LIBSND_VMROW_H */

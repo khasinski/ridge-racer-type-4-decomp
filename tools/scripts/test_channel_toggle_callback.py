@@ -24,7 +24,7 @@ class ChannelToggleCallbackTest(unittest.TestCase):
         directory = Path(cls.temp.name)
         body = (root / 'tools/scripts/fixtures/legacy/func_80082D00.c').read_text()
         body = body.replace('#include "types.h"', '')
-        body = body.replace('extern s32 D_800A4D4C;', '').replace('extern void (*D_800A4D40)(void);', '')
+        body = body.replace('extern s32 SndSeqTickEnvDividedPhase;', '').replace('extern void (*SndSeqTickEnvCallback)(void);', '')
         body = re.sub(r'\s+__asm__\("\$[0-9]+"\)', '', body)
         body = re.sub(r'"\$[0-9]+", ', '', body)
         body = body.replace('(u8 *)0x800A0000U', '((u8 *)&test_page)')
@@ -33,8 +33,8 @@ typedef uint8_t u8; typedef int32_t s32;
 struct { u8 prefix[0x4D40]; void (*callback)(void);
  u8 gap[0xC - sizeof(void (*)(void))]; s32 state;
  u8 suffix[0x10000 - 0x4D50]; } test_page;
-#define D_800A4D4C test_page.state
-#define D_800A4D40 test_page.callback
+#define SndSeqTickEnvDividedPhase test_page.state
+#define SndSeqTickEnvCallback test_page.callback
 ''' + body
         (directory / 'function.c').write_text(source)
         subprocess.run(['cc', '-shared', '-fPIC', '-O2', str(directory / 'function.c'),

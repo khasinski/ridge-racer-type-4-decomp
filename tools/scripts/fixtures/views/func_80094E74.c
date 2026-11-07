@@ -21,7 +21,7 @@ struct GpuQueue {
     int buf[21];
 };
 
-extern struct GpuSys D_800ABAC0;
+extern struct GpuSys GpuSysVersion;
 
 extern int GpuDrawSyncCallback;
 
@@ -55,8 +55,8 @@ int _exeque(void) {
     SetIntrMask(GpuSavedIntrMask);
     if (_qin == _qout && (*DMA2_CHCR & 0x01000000) == 0) {
         void (*fn)();
-        if (D_800ABAC0.unk8 != 0 && (fn = D_800ABAC0.unkC) != 0) {
-            struct GpuSys *sys = &D_800ABAC0;
+        if (GpuSysVersion.unk8 != 0 && (fn = GpuSysVersion.unkC) != 0) {
+            struct GpuSys *sys = &GpuSysVersion;
             *(volatile int *)&sys->unk8 = 0;
             fn();
         }

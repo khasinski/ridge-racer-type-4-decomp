@@ -68,12 +68,12 @@ typedef struct
 } SpuVolumeCache;
 extern ChannelRecordB0 *_ss_score[];
 extern ControlRow36 _svm_voice[];
-extern s16 D_8010F910[];
-extern s16 D_8010F918[];
-extern s16 D_8010F91A[];
-extern s16 D_8010F91C[];
-extern s16 D_8010F91E[];
-extern s16 D_8010F920[];
+extern s16 SvmVoiceVelocity[];
+extern s16 SvmVoiceSeqSep[];
+extern s16 SvmVoiceProgIndex[];
+extern s16 SvmVoiceProg[];
+extern s16 SvmVoiceTone[];
+extern s16 SvmVoiceVabId[];
 extern SpuVolumeCache _svm_sreg_dirty;
 extern SpuCachedVoice10 _svm_sreg_buf[];
 extern u32 _snd_vmask;

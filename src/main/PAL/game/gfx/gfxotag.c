@@ -69,7 +69,7 @@ extern void ApplyMatrix();
 extern void SetGeomScreen();
 extern void RotMatrixZYX();
 extern void ResetCarSlotBuffers();
-extern int D_800AC6B0;
+extern int RaceContextCameraState;
 extern Elem28 (*CameraKeyframeTables)[16];
 extern short RaceType;
 extern M2C_UNK RaceIntroState;
@@ -235,7 +235,7 @@ int InterpCameraKeyframes(Arg0Struct *a0, int a1, int a2) {
         RaceContext.f7C = s2[s0].f1C;
         RaceContext.f80 = s2[s0].f20;
     }
-    ApplyCameraState(&D_800AC6B0);
+    ApplyCameraState(&RaceContextCameraState);
     if (RaceType == 1) {
         InitRaceContextBuffers();
         DrawRaceContextModelBanks();
@@ -252,7 +252,7 @@ void ResetRaceSceneFadeState(void) {
 
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(int (*)[])&RaceContext)
-#define D_800AC6B0 (*(char (*)[])&D_800AC6B0)
+#define RaceContextCameraState (*(char (*)[])&RaceContextCameraState)
 #define RaceIntroState (*(int (*))&RaceIntroState)
 #define CurrentDrawBuf ((char *)CurrentDrawBuf)
 
@@ -478,8 +478,8 @@ int UpdateRaceOpeningSequence(char *arg0)
       *((short *) (((char *) RaceContext) + 0x74)) = 0;
       *((int *) (((char *) RaceContext) + 0x80)) = 0x1D6;
     }
-      ApplyCameraState(D_800AC6B0);
-      g2 = (int *) (D_800AC6B0 - 0x60);
+      ApplyCameraState(RaceContextCameraState);
+      g2 = (int *) (RaceContextCameraState - 0x60);
       if (g2[0x88 / 4] >= 0x33)
     {
       g2[0x90 / 4] = 1;
@@ -529,6 +529,6 @@ int UpdateRaceOpeningSequence(char *arg0)
 }
 
 #undef RaceContext
-#undef D_800AC6B0
+#undef RaceContextCameraState
 #undef RaceIntroState
 #undef CurrentDrawBuf

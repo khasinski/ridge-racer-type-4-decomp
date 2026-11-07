@@ -3,7 +3,7 @@
 #include "psyq/libsnd/vmrow.h"
 #include "game/data/globals.h"
 
-extern u8 D_8010F90C[];
+extern u8 SvmVoicePitch[];
 
 void vmNoiseOff(u8 index) {
     s32 offset = index * 54;
@@ -37,11 +37,11 @@ void _SsVmKeyOffNow(s32 unused_mode) {
         index = selected & 0xFFFF;
     }
     offset = index * sizeof(RrChannelControlRow36);
-    D_8010F925[offset] = 0;
+    SvmVoiceKeyStatus[offset] = 0;
     {
         u32 low = _svm_okof1;
         u32 high = _svm_okof2;
-        *(u16 *)(D_8010F90C + offset) = 0;
+        *(u16 *)(SvmVoicePitch + offset) = 0;
         _svm_voice[index].value00 = 0;
         {
             u32 pending = _svm_okon1;

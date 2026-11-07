@@ -76,7 +76,7 @@ extern int TrackParticleKindTableB[];
 extern int TrackObjectParticleStates;
 extern int VSync();
 extern int PsyqSrand();
-extern short D_80107180[];
+extern short ParticleColorFloorR[];
 extern int BuildRotMatrixZ();
 extern int MulMatrix();
 extern M HalfTransViewMatrix;
@@ -84,8 +84,8 @@ extern int ApplyMatrixSV();
 extern int StepDrawParticleLines();
 extern int SquareRoot0();
 extern int Atan2Table();
-extern short D_80107182;
-extern short D_80107184;
+extern short ParticleColorFloorG;
+extern short ParticleColorFloorB;
 extern struct { short m[3][3]; int t[3]; } ColorMatrix;
 extern struct { short a, b, c, d; } LightAngles[];
 extern short *SegmentOctantTable;
@@ -313,9 +313,9 @@ void ConfigureTrackObjectParticles(int a0, int a1, int *a2, int a3) {
         t->fE0 = 0;
         t->fF0 = 0;
         t->fF4 = 0;
-        D_80107180[0] = 0x420;
-        D_80107180[1] = 0x5D0;
-        D_80107180[2] = 0x610;
+        ParticleColorFloorR[0] = 0x420;
+        ParticleColorFloorR[1] = 0x5D0;
+        ParticleColorFloorR[2] = 0x610;
         PsyqSrand(VSync(1, a1));
     }
 }
@@ -444,12 +444,12 @@ void UpdateTrackObjectParticles(char *a0, int a1, int a2) {
                 if (s3 != s1->e8[DrawBufIndex]) s1->f0[DrawBufIndex] = s3 - 0x14;
                 else s1->f0[DrawBufIndex] = 0;
                 if (a1 < 2) {
-                    if (s1->c48[s2].c[0] * 16 > D_80107180[0]) ColorMatrix.m[0][a1] = (short)s1->c48[s2].c[0] << 4;
-                    else ColorMatrix.m[0][a1] = D_80107180[0];
-                    if (s1->c48[s2].c[1] * 16 > D_80107180[1]) ColorMatrix.m[1][a1] = (short)s1->c48[s2].c[1] << 4;
-                    else ColorMatrix.m[1][a1] = D_80107180[1];
-                    if (s1->c48[s2].c[2] * 16 > D_80107180[2]) ColorMatrix.m[2][a1] = (short)s1->c48[s2].c[2] << 4;
-                    else ColorMatrix.m[2][a1] = D_80107180[2];
+                    if (s1->c48[s2].c[0] * 16 > ParticleColorFloorR[0]) ColorMatrix.m[0][a1] = (short)s1->c48[s2].c[0] << 4;
+                    else ColorMatrix.m[0][a1] = ParticleColorFloorR[0];
+                    if (s1->c48[s2].c[1] * 16 > ParticleColorFloorR[1]) ColorMatrix.m[1][a1] = (short)s1->c48[s2].c[1] << 4;
+                    else ColorMatrix.m[1][a1] = ParticleColorFloorR[1];
+                    if (s1->c48[s2].c[2] * 16 > ParticleColorFloorR[2]) ColorMatrix.m[2][a1] = (short)s1->c48[s2].c[2] << 4;
+                    else ColorMatrix.m[2][a1] = ParticleColorFloorR[2];
                 }
             }
         }
@@ -457,9 +457,9 @@ void UpdateTrackObjectParticles(char *a0, int a1, int a2) {
         if (c != 0) {
             AddPrims(s7, s1->e8[DrawBufIndex], c);
         } else if (a1 < 2) {
-            ColorMatrix.m[0][a1] = D_80107180[0];
-            ColorMatrix.m[1][a1] = D_80107180[1];
-            ColorMatrix.m[2][a1] = D_80107180[2];
+            ColorMatrix.m[0][a1] = ParticleColorFloorR[0];
+            ColorMatrix.m[1][a1] = ParticleColorFloorR[1];
+            ColorMatrix.m[2][a1] = ParticleColorFloorR[2];
         }
         if (a1 < 2) {
             sp10[0] = (g[0] >> 2) - 0x8000;

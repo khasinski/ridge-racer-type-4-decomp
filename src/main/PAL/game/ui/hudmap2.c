@@ -125,7 +125,7 @@ typedef struct {
 extern s32 HudMapPulse;
 extern UvRect HudMapSpriteRects[];
 extern UvRect HudMapStartMarkRect;
-extern UvRect D_800A102C;
+extern UvRect HudMapStartMarkRectB;
 extern s16 HudMapStartMarkLines[];
 extern s16 HudMapStartMarkerOffsetsB[];
 extern struct { u16 x, y; } HudMapCourseOrigins[];
@@ -140,7 +140,7 @@ extern short SelectedTeamIndex;
 extern short RaceType;
 extern int CdAudioInit();
 extern signed char SelectionState[];
-extern int D_800F7660;
+extern int RaceBgmTrackCount;
 extern s16 HudExtraGlyphLine0[];
 extern s16 HudExtraGlyphLine1[];
 extern s16 *CourseCardGlyphLists4[];
@@ -271,7 +271,7 @@ void DrawTrackNodeMap(s32 *arg0) {
         s3 = &HudMapStartMarkRect;
     } else {
         s1 = HudMapStartMarkerOffsetsB;
-        s3 = &D_800A102C;
+        s3 = &HudMapStartMarkRectB;
     }
 
     base = TrackNodes;
@@ -395,9 +395,9 @@ void SelectCourseBgmTrack() {
         a0 = 1;
     }
     if (AllProgressComplete != 0 && RaceType != 1) {
-        D_800F7660 = 0x10;
+        RaceBgmTrackCount = 0x10;
     } else {
-        D_800F7660 = 0xF;
+        RaceBgmTrackCount = 0xF;
     }
     if (a0 == 0) {
         a1 = CourseIndex + 3;
@@ -503,9 +503,9 @@ void OpeningInit(s32 arg0, s32 arg1) {
     case 1:
     case 5:
         if (AllProgressComplete != 0 && RaceType != 1) {
-            D_800F7660 = 0x10;
+            RaceBgmTrackCount = 0x10;
         } else {
-            D_800F7660 = 0xF;
+            RaceBgmTrackCount = 0xF;
         }
         break;
     case 4:

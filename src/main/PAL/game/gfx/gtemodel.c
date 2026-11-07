@@ -82,7 +82,7 @@ void DrawTrackObjectPointInstances(a0, a1) int a0; int a1;
     RR_GTE_SETROT(m);
     p__r8 = CameraViewMatrix;
     RR_GTE_SETLLM(p__r8);
-    p__r8 = D_800FF6A4;
+    p__r8 = CameraViewMatrixTrans;
     RR_GTE_SETBK_P(p__r8);
     {
         /* ASM_BARRIER: keep a0*12 in $v0 */

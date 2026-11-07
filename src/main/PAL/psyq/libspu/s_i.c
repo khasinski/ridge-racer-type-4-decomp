@@ -10,9 +10,9 @@
 #define FIELD(p,type,member) (*(type *)((p)+((long)RR_FIELD_OFFSET(RrSpuTickState20,member)-(long)RR_FIELD_OFFSET(RrSpuTickState20,flags))))
 #define FLAG(p,member) (*(s8 *)((p)+(long)RR_FIELD_OFFSET(RrSpuTickFlags4,member)))
 
-extern void (*D_800A4D44[])();
-extern s32 D_800A4D4C;
-extern void (*D_800A4D40)(void);
+extern void (*SndSeqTickEnvUserCallback[])();
+extern s32 SndSeqTickEnvDividedPhase;
+extern void (*SndSeqTickEnvCallback)(void);
 
 void SsSetMVol(short a, short b);
 void SsStart2(void);
@@ -98,21 +98,21 @@ void SsStart(void) { _SsStart(1); }
 void SsStart2(void) { _SsStart(0); }
 
 void _SsTickCallback(void) {
- void (**p)() = D_800A4D44;
- /* ASM_BARRIER: keeps D_800A4D44 address in one register (lui+addiu) so p[-1] uses a negative offset */
+ void (**p)() = SndSeqTickEnvUserCallback;
+ /* ASM_BARRIER: keeps SndSeqTickEnvUserCallback address in one register (lui+addiu) so p[-1] uses a negative offset */
  __asm__("" : "=r"(p) : "0"(p));
  if (p[0] != 0) p[0]();
  p[-1]();
 }
 
 void _SsTickCallbackDivided(void) {
-    if (D_800A4D4C == 0) {
+    if (SndSeqTickEnvDividedPhase == 0) {
         /* ASM_BARRIER: Retain the assembler temporary for the state publication. */
         register u8 *page __asm__("$1");
         s32 one = 1;
         /* ASM_BARRIER: Materialize the state value before its store address. */
         __asm__ volatile("" : : "r"(one) : "$1", "memory");
-        /* PAL mapping: page + 0x4D4C is &D_800A4D4C. */
+        /* PAL mapping: page + 0x4D4C is &SndSeqTickEnvDividedPhase. */
         page = (u8 *)0x800A0000U;
         /* ASM_BARRIER: Expose the PAL store so it can fill the epilogue jump delay slot. */
         __asm__("" : "=r"(page) : "0"(page));
@@ -120,10 +120,10 @@ void _SsTickCallbackDivided(void) {
     } else {
         /* ASM_BARRIER: Retain the assembler temporary for the state publication. */
         register u8 *page __asm__("$1");
-        void (*callback)(void) = D_800A4D40;
+        void (*callback)(void) = SndSeqTickEnvCallback;
         /* ASM_BARRIER: Snapshot the callback before materializing the state-store address. */
         __asm__ volatile("" : : "r"(callback) : "$1", "memory");
-        /* PAL mapping: page + 0x4D4C is &D_800A4D4C. */
+        /* PAL mapping: page + 0x4D4C is &SndSeqTickEnvDividedPhase. */
         page = (u8 *)0x800A0000U;
         /* ASM_BARRIER: Expose the PAL store so it can fill the callback call delay slot. */
         __asm__("" : "=r"(page) : "0"(page));

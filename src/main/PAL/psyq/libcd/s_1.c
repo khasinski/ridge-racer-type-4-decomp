@@ -5,8 +5,8 @@
 #include "m2c_macros.h"
 #include "psyq/libcd/bios_1.h"
 
-extern u8 D_800A64A4;
-extern u8 D_800A64A5;
+extern u8 CD_mode;
+extern u8 CD_com;
 extern M2C_UNK CD_pos;
 extern int CD_init();
 extern int CD_flush();
@@ -36,11 +36,11 @@ u8 CdStatus(void) {
 }
 
 u8 CdMode(void) {
-    return D_800A64A4;
+    return CD_mode;
 }
 
 u8 CdLastCom(void) {
-    return D_800A64A5;
+    return CD_com;
 }
 
 M2C_UNK *CdLastPos(void) {

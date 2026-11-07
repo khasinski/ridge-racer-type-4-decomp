@@ -149,7 +149,7 @@ s32 SsUtChangePitch(s32 raw_input, s32 bank, s32 program, s32 group, s32 unused,
     if (*(s16*)(group_page+offset-0x6EA) != (s16)group) return -1;
     _SsVmVSetUp(selected_bank, selected_program);
     pitch_first=first;
-    state = D_8011010C.fields08;
+    state = SvmCurTone.fields08;
     state[0] = 0x21;
     state[2] = raw_voice;
     /* ASM_BARRIER: publish the request halfwords before the fresh row-byte address. */

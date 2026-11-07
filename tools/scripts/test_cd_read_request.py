@@ -62,7 +62,7 @@ static void cb1(void){callback_effect^=2;}
 static void cb2(void){callback_effect^=4;}
 static void cb3(void){callback_effect^=8;}
 #define CdReadState actual.state
-#define D_800A67D4 actual.state.finished24
+#define CdReadStatePending actual.state.finished24
 #define CdReadSavedSyncCallback actual.state.restore.saved28
 #define CD_read_dma_mode actual.flags
 ''' + body + r'''

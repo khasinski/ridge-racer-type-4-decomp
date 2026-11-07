@@ -27,7 +27,7 @@
 
 /* Shared resident storage: one type per symbol in these overlays. */
 extern u8 *CdDirectoryBuffer;
-extern RrUiUvRect D_8009FAA0[5];
+extern RrUiUvRect RecordRankGlyphs[5];
 extern s32 MenuStepDirection;
 extern RrCourseChoice4 CourseChoiceTable[2][9];
 extern u32 ScreenFrame;

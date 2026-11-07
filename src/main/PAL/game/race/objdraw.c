@@ -275,7 +275,7 @@ void DrawTrackObjects(s32 arg0) {
             continue;
 
         case 5:
-            if (ReplayState == 2 && RaceType == 1 && D_800AC1A2 < 6) {
+            if (ReplayState == 2 && RaceType == 1 && PlayerCar0LapCount < 6) {
                 continue;
             }
             if (TrackObjectStates[i].f08 != 0) {

@@ -58,13 +58,13 @@ typedef RrMatrixWords32 M32;
 typedef struct { short m[3][3]; short pad[7]; } S70;
 
 extern struct { char pad[0xD4]; s32 a, b, c, d; u8 e, f, g; } RaceContext;
-extern s32 D_800AC724;
+extern s32 RaceContextSceneOverlayEnabled;
 extern Rect ScreenTileDestRects[];
 extern Rect ScreenTileSourceUvs[][4];
 extern int SetModelTexturePage();
 extern short CamFxHeightCurve;
 extern int CourseCarRowCamMask[];
-extern unsigned short D_800AC006;
+extern unsigned short PlayerCar0HalfSpan;
 extern int DrawSubOtFlag;
 extern short CourseListIndex;
 extern struct { char pad[8]; short x8; } *CarBoundsTable;
@@ -111,7 +111,7 @@ void SetSceneColorParams(int a0, u8 a1, u8 a2, u8 a3) {
 #undef RaceContext
 
 void SetSceneOverlayEnabled(s32 arg0) {
-    D_800AC724 = arg0;
+    RaceContextSceneOverlayEnabled = arg0;
 }
 
 void DrawScreenFilterSprites(s32 a0, s32 a1, u8 *a2, s32 a3, s32 a4) {
@@ -273,7 +273,7 @@ int a0, a1;
     q = P;
     CamFxHeightCurve = *(int *)(q + 0xA0) * 4;
     t = *(int *)(q + 0xA0) - 4;
-    t = t - (CarBoundsTable->x8 + ((short)D_800AC006 / 2));
+    t = t - (CarBoundsTable->x8 + ((short)PlayerCar0HalfSpan / 2));
     *(int *)(q + 0x100) = t;
     W(0x13C) = a0;
     W(0x140) = a1;

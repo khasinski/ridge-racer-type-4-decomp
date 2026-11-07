@@ -30,9 +30,9 @@ static struct World {u32 before[8];RrGarageSelectionPrefix state;u32 after[8];} 
 #define garage_D_801276A8 world.state
 static s16 rom[4097]={''' + ','.join(map(str, table)) + r'''};
 static s16 original_rom[4097];
-#define D_800A50C0 rom
-#define D_800A58C0 (rom+0x400)
-#define D_800A60C0 (rom+0x800)
+#define SinTableBiasedBaseC00 rom
+#define SinTableBiasedBase800 (rom+0x400)
+#define SinTableBiasedBase400 (rom+0x800)
 #define SinTable (rom+0xc00)
 ''' + trig + body + r'''
 static u32 seed=0x1d208;

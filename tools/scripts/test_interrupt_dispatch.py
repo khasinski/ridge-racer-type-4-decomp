@@ -92,7 +92,7 @@ static void bios_effect(World *w){w->bios++;
    w->saved.enabled_mask=(u16)(((w->saved.enabled_mask<<1)|(w->saved.enabled_mask>>10))&2047);}
  }
 }
-#define D_800A52C8 (actual.saved)
+#define IntrEnv (actual.saved)
 #define I_STAT (actual.statusRoot)
 #define I_MASK (actual.maskRoot)
 #define IntrStuckCount (actual.stalled)

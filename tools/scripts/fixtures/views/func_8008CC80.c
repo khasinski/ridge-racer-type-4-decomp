@@ -46,7 +46,7 @@ static inline int check_alarm(char **ac, char **sc, volatile u8 *st) {
             DebugPrintStub(
                 CdTimeoutStatusFmt,
                 CdWaitCallerName[0],
-                ac[D_800A64A5],
+                ac[CD_com],
                 sc[s0_],
                 x5
             );

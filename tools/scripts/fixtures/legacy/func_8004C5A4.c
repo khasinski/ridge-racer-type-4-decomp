@@ -28,7 +28,7 @@ void DrawFontString(s32 x, s32 y, const u8 *text, s32 color, s32 bank) {
     yy = y;
     selected = bank;
     if (*text != 0) {
-        map = D_800A015C + 32;
+        map = FontGlyphMapAsciiBase + 32;
         missing = 255;
         command = 0x66;
         widths = FontGlyphWidths;

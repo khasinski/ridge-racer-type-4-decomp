@@ -33,7 +33,7 @@ struct E { int a; short b; short c; };
 
 typedef struct { char b[0x17]; signed char b17; char r[0x2C - 0x18]; } w3g2S;
 
-extern unsigned char D_800AD4F5;
+extern unsigned char SelectionCurrentRowByte1;
 extern signed char *Dialogue;
 extern short MenuResultCode;
 extern s32 AddDrawModePrim(s32, s32, s32);
@@ -106,7 +106,7 @@ void SelectDialogueScript(int a0, int a1) {
     int u;
     int i, sum;
 
-    sw = D_800AD4F2;
+    sw = SelectionDialogueMode;
     Dialogue[7] = 1;
     *(short *)(Dialogue + 0x16) = 0;
     Dialogue[0x1E] = -2;
@@ -116,10 +116,10 @@ void SelectDialogueScript(int a0, int a1) {
     case 1:
         Dialogue[4] = 0;
         PendingModeId = 0x109;
-        D_800AD4F2 = 1;
+        SelectionDialogueMode = 1;
         break;
     case 2:
-        Dialogue[4] = D_800AD4F5 + 0x18;
+        Dialogue[4] = SelectionCurrentRowByte1 + 0x18;
         PendingModeId = 0x10F;
         break;
     case 4:
@@ -144,7 +144,7 @@ void SelectDialogueScript(int a0, int a1) {
             if (SelectionState[idx + 8] >= 3) a1 = (unsigned char)SelectionState[0x14];
             break;
         case 4:
-            a1 = D_800AD4EC;
+            a1 = SelectionRank;
             break;
         case 5:
             a1 = 3 - SelectionState[idx + 7];
@@ -171,7 +171,7 @@ void SelectDialogueScript(int a0, int a1) {
         u = a3 * 5;
         t = a1 + 4;
         P[4] = u + t;
-        v = D_800AD4EF;
+        v = SelectionGpStage;
         if (v == 3) goto L814;
         if (v < 4) {
             if (v == 1) goto L814;
@@ -179,15 +179,15 @@ void SelectDialogueScript(int a0, int a1) {
         } else {
             if (v == 6) {
 L814:
-                D_800AD4F2 = 6;
+                SelectionDialogueMode = 6;
                 UpdateSelectionRank(P, a1, sw, a3);
                 PendingModeId = 0x12A;
             } else PendingModeId = 0x10F;
         }
-        if (D_800AD4EF == 7) PendingModeId = 0x205;
+        if (SelectionGpStage == 7) PendingModeId = 0x205;
         break;
     case 6:
-        Dialogue[4] = 0x25 - D_800AD4EC;
+        Dialogue[4] = 0x25 - SelectionRank;
         PendingModeId = 0x111;
         MenuResultCode = 3;
         break;

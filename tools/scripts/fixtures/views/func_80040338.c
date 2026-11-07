@@ -14,7 +14,7 @@ extern char *OrdinalSuffixStrs[], *StrRetirePtr;
 
 extern RrMenuSettings2C SelectionState;
 
-extern s8 D_800AD4F1;
+extern s8 SelectionGpPlace;
 
 extern s16 ReverseCourse, CourseIndex;
 
@@ -93,7 +93,7 @@ void SetMenuTextRow(s32 row, s32 position, s32 phase, s32 style, s32 label) {
             FormatDecimalDigits((char *)&MenuTextRows[row].rendering.text[8], SelectionState.retries08[SelectionState.phase17], 0);
             break;
         case 17:
-            value = D_800AD4F1;
+            value = SelectionGpPlace;
             CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[0], StrStarSpace);
             if (value == 0) {
                 value = 1;

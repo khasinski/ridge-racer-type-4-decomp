@@ -4,6 +4,6 @@
 #include "types.h"
 
 extern short PlayerFinishPlace;
-extern s16 D_800AC1A2;
+extern s16 PlayerCar0LapCount;
 
 #endif /* RR_GAME_RACE_OBJSIM_H */

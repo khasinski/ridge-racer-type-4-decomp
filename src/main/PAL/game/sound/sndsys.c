@@ -46,7 +46,7 @@ typedef struct {
 } RrAudioSetupArg;
 
 extern struct { char pad[0x614]; volatile u16 m[1][5]; char r[2]; } SoundState[];
-extern struct E D_800F4E2C[];
+extern struct E SoundSlotCurves[];
 extern void SsVabClose();
 extern s32 SsVabOpenHeadSticky();
 extern void SsVabTransCompleted();
@@ -61,7 +61,7 @@ void SlotSetProgram(int a0, int a1, int a2, int a3) {
 }
 
 void SlotLoadCurves(struct B *a0, int a1) {
-    D_800F4E2C[a1].x = *a0;
+    SoundSlotCurves[a1].x = *a0;
 }
 
 /* legacy typing of shared globals in this part of the unit */

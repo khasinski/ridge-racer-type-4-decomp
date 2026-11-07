@@ -33,7 +33,7 @@ class ChannelPitchTest(unittest.TestCase):
 static union {uint64_t alignment;u8 bytes[0x4000];} ram;
 #define _svm_voice (*(RrChannelControlRow36 (*)[24])(ram.bytes+0x1908))
 #define _svm_sreg_dirty (*(RrSpuVolumeCache *)(ram.bytes+0x1E18))
-#define D_8011010C (*(RrSpuPitchRequest *)(ram.bytes+0x210C))
+#define SvmCurTone (*(RrSpuPitchRequest *)(ram.bytes+0x210C))
 #define SvmLastChannel (*(s16 *)(ram.bytes+0x2114))
 #define SvmVoiceIndex (*(u16 *)(ram.bytes+0x2118))
 ''' + body + r'''

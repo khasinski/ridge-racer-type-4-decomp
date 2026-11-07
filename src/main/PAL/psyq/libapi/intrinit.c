@@ -8,7 +8,7 @@ extern int PsyqSetjmp();
 extern int _96_remove();
 extern int HookEntryInt();
 extern int ExitCriticalSection();
-extern unsigned short D_800A52C8;
+extern unsigned short IntrEnv;
 extern char IntrStackArea[];
 extern int *IntrDriverTablePtr;
 extern unsigned short *I_STAT;
@@ -16,7 +16,7 @@ extern unsigned short *I_MASK;
 char *startIntr()
 {
     char *p, *r;
-    unsigned short *q = &D_800A52C8;
+    unsigned short *q = &IntrEnv;
     unsigned short *a, *b;
     if (*q == 0) {
         a = I_STAT;

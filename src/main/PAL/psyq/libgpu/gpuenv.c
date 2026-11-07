@@ -20,7 +20,7 @@ typedef struct { int a, b, c; } B;
 
 typedef struct { char pad[0x1C]; unsigned w; } W3L2_P;
 
-extern unsigned char D_800ABAC1[];
+extern unsigned char GpuSysQueueMode[];
 extern int SetGraphQueFmt[];
 extern char DrawSyncCallbackFmt[];
 extern char StrSetDispMaskFmt[];
@@ -158,9 +158,9 @@ s32 ResetGraph(s32 mode)
     switch(mode & 7) {
     case 0:
     case 3:
-        DebugPrintStub(ResetGraphFmt,&GpuDriverTable,&D_800ABAC0);
+        DebugPrintStub(ResetGraphFmt,&GpuDriverTable,&GpuSysVersion);
     case 5:
-        state=&D_800ABAC0;
+        state=&GpuSysVersion;
         GPU_memset((s8 *)state,0,128);
         ResetCallback();
         GPU_cw((unsigned long)GpuFuncTable & 0xFFFFFF);
@@ -173,17 +173,17 @@ s32 ResetGraph(s32 mode)
         GPU_memset((s8 *)state->tail6C,-1,0x14);
         return state->kind00;
     default:
-        if(D_800ABAC2.level>=2) GPU_printf(StrResetGraphFmt,mode);
+        if(GpuDebugLevel.level>=2) GPU_printf(StrResetGraphFmt,mode);
         return GpuFuncTable->reset34(1);
     }
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABAC2 (*(u8 (*)[])&D_800ABAC2)
+#define GpuDebugLevel (*(u8 (*)[])&GpuDebugLevel)
 #define GPU_printf (*(void (*(*))(const char *, s32, s32, s32))&GPU_printf)
 
 s32 SetGraphDebug(s32 enabled) {
-    u8 *state = D_800ABAC2;
+    u8 *state = GpuDebugLevel;
     s32 previous;
     previous = state[0];
     state[0] = enabled;
@@ -203,7 +203,7 @@ s32 SetGraphDebug(s32 enabled) {
     return previous;
 }
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 #undef GPU_printf
 
 /* legacy typing of shared globals in this part of the unit */
@@ -214,7 +214,7 @@ s32 SetGraphDebug(s32 enabled) {
 int SetGraphQueue(a0) int a0; {
     register unsigned char *p __asm__("$17"); /* ASM_BARRIER: original keeps the pointer in s1 and a0 in s0 */
     int old;
-    p = D_800ABAC1;
+    p = GpuSysQueueMode;
     old = p[0];
     if (p[1] >= 2) {
         GPU_printf(SetGraphQueFmt, a0);
@@ -232,41 +232,41 @@ int SetGraphQueue(a0) int a0; {
 #undef DMACallback
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABAC2 (*(u8 (*))&D_800ABAC2)
+#define GpuDebugLevel (*(u8 (*))&GpuDebugLevel)
 
 u8 GetGraphDebug(void) {
-    return D_800ABAC2;
+    return GpuDebugLevel;
 }
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABAC2 (*(unsigned char (*)[])&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*)[])&GpuDebugLevel)
 #define GPU_printf (*(void (*(*))())&GPU_printf)
 
 int DrawSyncCallback(a0) int a0; {
  int o;
- if (D_800ABAC2[0] >= 2) GPU_printf(DrawSyncCallbackFmt, a0);
- o = *(int *)(D_800ABAC2 + 0xA);
- *(int *)(D_800ABAC2 + 0xA) = a0;
+ if (GpuDebugLevel[0] >= 2) GPU_printf(DrawSyncCallbackFmt, a0);
+ o = *(int *)(GpuDebugLevel + 0xA);
+ *(int *)(GpuDebugLevel + 0xA) = a0;
  return o; }
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 #undef GPU_printf
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABAC2 (*(unsigned char (*)[])&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*)[])&GpuDebugLevel)
 #define GPU_printf (*(void (*(*))())&GPU_printf)
 #define GpuFuncTable (*(struct { char pad[0x10]; int (*f)(); } *(*))&GpuFuncTable)
 #define GPU_memset ((int (*)())GPU_memset)
 
 void SetDispMask(a0) int a0; {
- unsigned char *p = D_800ABAC2;
+ unsigned char *p = GpuDebugLevel;
  if (*p >= 2) GPU_printf(StrSetDispMaskFmt, a0);
  if (a0 == 0) GPU_memset(p + 0x6A, -1, 0x14);
  GpuFuncTable->f(a0 ? 0x3000000 : 0x3000001); }
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 #undef GPU_printf
 #undef GpuFuncTable
 #undef GPU_memset
@@ -274,10 +274,10 @@ void SetDispMask(a0) int a0; {
 /* legacy typing of shared globals in this part of the unit */
 #define GpuFuncTable ((void *)GpuFuncTable)
 #define GPU_printf (*(M2C_UNK (*(*))(M2C_UNK *, s32))&GPU_printf)
-#define D_800ABAC2 (*(u8 (*))&D_800ABAC2)
+#define GpuDebugLevel (*(u8 (*))&GpuDebugLevel)
 
 void DrawSync(s32 arg0) {
-    if ((u8) D_800ABAC2 >= 2U) {
+    if ((u8) GpuDebugLevel >= 2U) {
         GPU_printf(&DrawSyncFmt, arg0);
     }
     M2C_FIELD(GpuFuncTable, M2C_UNK (**)(s32), 0x3C)(arg0);
@@ -285,12 +285,12 @@ void DrawSync(s32 arg0) {
 
 #undef GpuFuncTable
 #undef GPU_printf
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 void checkRECT(const char *name,RrGpuRectangle *rectangle) {
     const char *label=name;
     RrGpuRectangle *rect=rectangle;
-    RrGpuDebugSettings *settings=&D_800ABAC2;
+    RrGpuDebugSettings *settings=&GpuDebugLevel;
     const char *format;
     switch(settings->level) {
     case 1: {
@@ -408,14 +408,14 @@ A *a0; int a1; int a2;
 
 /* legacy typing of shared globals in this part of the unit */
 #define GPU_printf (*(int (*(*))())&GPU_printf)
-#define D_800ABAC2 (*(unsigned char (*))&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*))&GpuDebugLevel)
 
 int *ClearOTag(a0, a1) int *a0; int a1; {
     /* ASM_BARRIER: pins p->$16, n->$17 to match original s-reg assignment */
     register int *p asm("$16") = a0;
     int n = a1;
     int *q; int *t; int m; int (*f)();
-    if (D_800ABAC2 >= 2) { f = GPU_printf; q = (int *)ClearOTagFmt; f(q, p, n); }
+    if (GpuDebugLevel >= 2) { f = GPU_printf; q = (int *)ClearOTagFmt; f(q, p, n); }
     n--;
     if (n != 0) {
         do {
@@ -433,16 +433,16 @@ int *ClearOTag(a0, a1) int *a0; int a1; {
 }
 
 #undef GPU_printf
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 /* legacy typing of shared globals in this part of the unit */
 #define GpuFuncTable ((char *)GpuFuncTable)
 #define GPU_printf (*(int (*(*))())&GPU_printf)
-#define D_800ABAC2 (*(unsigned char (*))&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*))&GpuDebugLevel)
 
 unsigned *ClearOTagR(unsigned *a, int b) {
     int *q;
-    if (D_800ABAC2 >= 2) GPU_printf(StrClearOTagRFmt, a, b);
+    if (GpuDebugLevel >= 2) GPU_printf(StrClearOTagRFmt, a, b);
     (*(int (**)())(GpuFuncTable + 0x2C))(a, b);
     q = &OTagTerminator;
     *q = ((int)GpuOtTerminator & 0xFFFFFF) | 0x04000000;
@@ -452,7 +452,7 @@ unsigned *ClearOTagR(unsigned *a, int b) {
 
 #undef GpuFuncTable
 #undef GPU_printf
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 /* legacy typing of shared globals in this part of the unit */
 #define GpuFuncTable ((char *)GpuFuncTable)
@@ -474,7 +474,7 @@ void DrawOTag(s32 ordering_table) {
     register s32 second;
     register s32 third;
     RrLibGraphicsDriverPrefix *driver;
-    if (D_800ABAC2.level >= 2) GPU_printf(DrawOTagFmt, ordering_table);
+    if (GpuDebugLevel.level >= 2) GPU_printf(DrawOTagFmt, ordering_table);
     second = ordering_table;
     driver = GpuFuncTable;
     /* ASM_BARRIER: Load the current driver before preparing the dispatch zeros. */
@@ -490,10 +490,10 @@ void DrawOTag(s32 ordering_table) {
 /* legacy typing of shared globals in this part of the unit */
 #define GpuFuncTable ((int *)GpuFuncTable)
 #define GPU_printf (*(int (*(*))())&GPU_printf)
-#define D_800ABAC2 (*(unsigned char (*))&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*))&GpuDebugLevel)
 
 int PutDrawEnv(int *a0) {
-    unsigned char *p = &D_800ABAC2;
+    unsigned char *p = &GpuDebugLevel;
     if (*p >= 2) {
         GPU_printf(PutDrawEnvFmt, a0);
     }
@@ -506,25 +506,25 @@ int PutDrawEnv(int *a0) {
 
 #undef GpuFuncTable
 #undef GPU_printf
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 /* legacy typing of shared globals in this part of the unit */
 #define GpuFuncTable ((char *)GpuFuncTable)
 #define GPU_printf (*(int (*(*))())&GPU_printf)
-#define D_800ABAC2 (*(unsigned char (*)[])&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*)[])&GpuDebugLevel)
 
 void DrawOTagEnv(int a, W3L2_P *b) {
     char *t;
-    if (D_800ABAC2[0] >= 2) GPU_printf(StrDrawOTagEnvFmt, a, b);
+    if (GpuDebugLevel[0] >= 2) GPU_printf(StrDrawOTagEnvFmt, a, b);
     t = (char *)b + 0x1C;
     SetDrawEnv2((u32 *)t, (RrFrameEnvironment *)b);
     b->w = (b->w & 0xFF000000) | (a & 0xFFFFFF);
     (*(int (**)())(GpuFuncTable + 8))(*(int *)(GpuFuncTable + 0x18), t, 0x40, 0);
-    PsyqMemcpy(D_800ABAC2 + 0xE, b, 0x5C);
+    PsyqMemcpy(GpuDebugLevel + 0xE, b, 0x5C);
 }
 
 #undef GpuFuncTable
 #undef GPU_printf
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 int GetDrawEnv(int a) { PsyqMemcpy(a, CurrentDrawEnv, 0x5C); return a; }

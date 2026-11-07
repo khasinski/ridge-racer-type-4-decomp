@@ -28,7 +28,7 @@ void *records_draw_race_records(u32 *ordering, void *cursor, s32 row) {
         } else
             clut = 32760;
         x = BadgeRows[row].x04 + 8;
-        cursor = AddSpritePrim(ordering, cursor, x, y, &D_8009FAA0[i], clut, 0);
+        cursor = AddSpritePrim(ordering, cursor, x, y, &RecordRankGlyphs[i], clut, 0);
         x += records_race_column_widths[0];
         cursor = AddTilePrim(ordering, cursor, x, y - 2, 1, 20, 255, 255, 255);
         x += records_race_column_widths[1];
@@ -68,7 +68,7 @@ void *records_draw_lap_records(u32 *ordering, void *cursor, s32 row) {
         } else
             clut = 32760;
         x = BadgeRows[row].x04 + 8;
-        cursor = AddSpritePrim(ordering, cursor, x, y, &D_8009FAA0[i], clut, 0);
+        cursor = AddSpritePrim(ordering, cursor, x, y, &RecordRankGlyphs[i], clut, 0);
         x += records_lap_column_widths[0];
         cursor = AddTilePrim(ordering, cursor, x, y - 2, 1, 20, 255, 255, 255);
         x += records_lap_column_widths[1];

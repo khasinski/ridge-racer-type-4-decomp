@@ -6,12 +6,12 @@
 
 extern void _SsVmKeyOffNow(int unused_mode);
 extern int _snd_vmask;
-extern char D_8010F90A[];
-extern char D_8010F90E[];
-extern char D_8010F918[];
-extern char D_8010F91A[];
-extern char D_8010F91C[];
-extern char D_8010F91E[];
+extern char SvmVoiceAge[];
+extern char SvmVoiceEnvx[];
+extern char SvmVoiceSeqSep[];
+extern char SvmVoiceProgIndex[];
+extern char SvmVoiceProg[];
+extern char SvmVoiceTone[];
 extern signed char spuVmMaxVoice;
 extern short SvmVoiceIndex;
 extern int _spu_FsetRXXa(int, int);
@@ -55,12 +55,12 @@ void SsUtAllKeyOff(void) {
             a1 = c1 << v1;
             if ((_snd_vmask & a1) == 0) {
                 v0 = v1 * 0x36;
-                *(short *)(D_8010F90A + v0) = c18;
-                *(short *)(D_8010F90E + v0) = 0;
-                *(short *)(D_8010F918 + v0) = cff;
-                *(short *)(D_8010F91A + v0) = 0;
-                *(short *)(D_8010F91C + v0) = 0;
-                *(short *)(D_8010F91E + v0) = cff;
+                *(short *)(SvmVoiceAge + v0) = c18;
+                *(short *)(SvmVoiceEnvx + v0) = 0;
+                *(short *)(SvmVoiceSeqSep + v0) = cff;
+                *(short *)(SvmVoiceProgIndex + v0) = 0;
+                *(short *)(SvmVoiceProg + v0) = 0;
+                *(short *)(SvmVoiceTone + v0) = cff;
                 L.s10 = a1;
                 SpuSetVoiceAttr(&L, a1);
                 SvmVoiceIndex = s0;

@@ -9,8 +9,8 @@ extern void UnpackChoiceGlyph(s8 *, s32);
 extern s32 PackChoiceGlyph(void *);
 
 extern RrCourseChoice4 CourseChoiceTable[2][9];
-extern u8 D_800AD4F4[];
-extern u8 D_800AD4F8[][4];
+extern u8 SelectionCurrentRow[];
+extern u8 SelectionHistoryRows[][4];
 
 void UpdateSaveProgress(void) {
     u8 sp10[4];
@@ -50,9 +50,9 @@ void UpdateSaveProgress(void) {
         if (SelectionRows.bytes[2] == 0x27 && slot < 4) {
             do {
                 if (slot == 3) {
-                    glyph = PackChoiceGlyph(D_800AD4F4);
+                    glyph = PackChoiceGlyph(SelectionCurrentRow);
                 } else {
-                    glyph = PackChoiceGlyph(D_800AD4F8[slot]);
+                    glyph = PackChoiceGlyph(SelectionHistoryRows[slot]);
                 }
                 found = 0;
                 for (j = 0; j < 8; j++) {

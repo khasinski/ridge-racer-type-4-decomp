@@ -78,13 +78,13 @@ RR_ASSERT_OFFSET(RrLibQueueRecord32, width10, 0x10);
 RR_ASSERT_OFFSET(RrLibQueueRecord32, height12, 0x12);
 RR_ASSERT_OFFSET(RrLibQueueRecord32, word1C, 0x1C);
 
-/* Prefix at D_800ABAC2. Width/height also have assembler aliases
+/* Prefix at GpuDebugLevel. Width/height also have assembler aliases
  * GpuVramWidth and GpuVramHeight, used by drawing-area coordinate helpers. */
 typedef struct {
     u8 level,mode;
     s16 width,height;
 } RrGpuDebugSettings;
-extern RrGpuDebugSettings D_800ABAC2;
+extern RrGpuDebugSettings GpuDebugLevel;
 extern s32 (*GPU_printf)(const char *,...);
 RR_ASSERT_SIZE(RrGpuDebugSettings, 6);
 RR_ASSERT_OFFSET(RrGpuDebugSettings, width, 2);
@@ -172,7 +172,7 @@ RR_ASSERT_OFFSET(RrLibTransferState38, restore2C, 0x2C);
 RR_ASSERT_OFFSET(RrLibTransferState38, restore30, 0x30);
 RR_ASSERT_OFFSET(RrLibTransferState38, notify_arg34, 0x34);
 
-/* Named-entry table beginning at D_80110954. A zero key terminates the scan. */
+/* Named-entry table beginning at CdPathTblParent. A zero key terminates the scan. */
 typedef struct {
     s32 key;
     s32 value;
@@ -182,7 +182,7 @@ typedef struct {
 RR_ASSERT_SIZE(RrLibNamedEntry, 0x2C);
 RR_ASSERT_OFFSET(RrLibNamedEntry, name, 8);
 
-/* Prefix of the saved state at D_800A52C8; callback data begins at 0x38. */
+/* Prefix of the saved state at IntrEnv; callback data begins at 0x38. */
 typedef struct {
     u16 active;
     s16 dispatching02;

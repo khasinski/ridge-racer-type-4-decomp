@@ -24,7 +24,7 @@ typedef struct {
     RrLibReadRestoreTail restore;
 } RrLibReadRequestState;
 extern RrLibReadRequestState CdReadState;
-extern volatile s32 D_800A67D4;
+extern volatile s32 CdReadStatePending;
 extern RrLibCompletionCallback CdReadSavedSyncCallback;
 
 /* Waits for pending completion with unsigned elapsed ticks (timeout at121),

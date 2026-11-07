@@ -8,9 +8,9 @@ s32 ResetGraph(s32 mode)
     switch(mode & 7) {
     case 0:
     case 3:
-        DebugPrintStub(ResetGraphFmt,&GpuDriverTable,&D_800ABAC0);
+        DebugPrintStub(ResetGraphFmt,&GpuDriverTable,&GpuSysVersion);
     case 5:
-        state=&D_800ABAC0;
+        state=&GpuSysVersion;
         GPU_memset((s8 *)state,0,128);
         ResetCallback();
         GPU_cw((unsigned long)GpuFuncTable & 0xFFFFFF);
@@ -23,7 +23,7 @@ s32 ResetGraph(s32 mode)
         GPU_memset((s8 *)state->tail6C,-1,0x14);
         return state->kind00;
     default:
-        if(D_800ABAC2.level>=2) GPU_printf(StrResetGraphFmt,mode);
+        if(GpuDebugLevel.level>=2) GPU_printf(StrResetGraphFmt,mode);
         return GpuFuncTable->reset34(1);
     }
 }

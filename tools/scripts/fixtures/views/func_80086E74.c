@@ -63,7 +63,7 @@ void _SsVmDoAllocate(void) {
         *mask &= ~(one << (s16)*selected);
         mask++;
     } while (i < 16);
-    selection=D_80110116;
+    selection=SvmCurVagIndex;
     program=selection[0];
     if ((s16)((u16)program & 1) > 0) {
         at=((s32)program-1)/2;
@@ -98,7 +98,7 @@ void _SsVmDoAllocate(void) {
     store[-0x1E8]=value;
     /* ASM_BARRIER: recapture the voice offset after publishing the first dirty flag. */
     __asm__("" : "+r"(scaled) : : "memory");
-    tone_selection=D_80110107;
+    tone_selection=SvmCurProgIndex;
     offset=(s32)(scaled<<16);
     offset2=offset>>15;
     tone=(RrSpuTone32 *)((unsigned long)(tone_selection[0]*16+tone_selection[5])*32UL+(unsigned long)_svm_tn);

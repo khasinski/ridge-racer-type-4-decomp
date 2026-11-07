@@ -72,7 +72,7 @@ extern int SetMotionControllerVisible();
 extern int StepCameraScript();
 extern unsigned short MenuFrameLineShade[];
 extern R4 MenuFrameSpriteRects[];
-extern R4 D_8009EEC8;
+extern R4 MenuFrameNumberLabelRect;
 extern signed char MenuTitleSpriteIds[][4];
 extern short MenuFrameFooterItemX[];
 extern short MenuFooterDividerX[];
@@ -305,9 +305,9 @@ void DrawMenuFrame(int arg0) {
     }
 
     if (MenuFrameState.w8 > 0) {
-        a1 = AddSpritePrim(CurrentDrawBuf + 0x70, a1, s4, s5, &D_8009EEC8, 0x7F38, ((unsigned short)s7 << 1) | 1);
+        a1 = AddSpritePrim(CurrentDrawBuf + 0x70, a1, s4, s5, &MenuFrameNumberLabelRect, 0x7F38, ((unsigned short)s7 << 1) | 1);
         MenuFrameDigitUv.u = MenuFrameState.w8 * 8;
-        { int t = s4 + 2; s4 = t + D_8009EEC8.w; }
+        { int t = s4 + 2; s4 = t + MenuFrameNumberLabelRect.w; }
         a1 = AddSpritePrim(CurrentDrawBuf + 0x70, a1, s4, s5, &MenuFrameDigitUv, 0x7F38, 1, ((unsigned short)s7 << 1) | 1);
     }
 

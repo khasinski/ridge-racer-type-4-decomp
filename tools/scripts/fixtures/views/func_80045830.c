@@ -8,7 +8,7 @@
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(int (*)[])&RaceContext)
 
-#define D_800AC6B0 (*(char (*)[])&D_800AC6B0)
+#define RaceContextCameraState (*(char (*)[])&RaceContextCameraState)
 
 #define RaceIntroState (*(int (*))&RaceIntroState)
 
@@ -16,7 +16,7 @@
 
 #undef RaceContext
 
-#undef D_800AC6B0
+#undef RaceContextCameraState
 
 #undef RaceIntroState
 

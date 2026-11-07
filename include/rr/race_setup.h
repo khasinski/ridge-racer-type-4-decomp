@@ -42,7 +42,7 @@ extern s16 PlayerCount;
 extern s32 RaceIntroWipeY;
 extern s32 NextSplitIndex;
 extern s16 LapAnnouncePending;
-extern s32 D_8010C13C;
+extern s32 UnusedSplitWord;
 #include "rr/race_setup_types.h"
 #include "game/camera/viewini.h"
 #include "game/race/raceinit.h"

@@ -57,14 +57,14 @@ void cb_read(s32 event,u8 *data) {
             if (CD_read_dma_mode&1) {
                 /* ASM_BARRIER: keep the deferred address inside its branch. */
                 __asm__("" : );
-                deferred=&D_800A67B8;
+                deferred=&CdReadStatePosition;
                 /* ASM_BARRIER: form the complete window before loading arguments. */
                 __asm__("" : "+r"(deferred));
                 CdGetSector2(deferred->position08,deferred->step10);
             } else {
                 /* ASM_BARRIER: keep the immediate address inside its branch. */
                 __asm__("" : );
-                position=&D_800A67B8;
+                position=&CdReadStatePosition;
                 /* ASM_BARRIER: retain one captured window across the transfer. */
                 __asm__("" : "+r"(position));
                 CdGetSector(position->position08,position->step10);

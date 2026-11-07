@@ -74,7 +74,7 @@ extern char StrOne[];
 extern char StrDigit2[];
 extern char StrPleaseWait[];
 extern FontGlyph4 UiFontGlyphs[];
-extern FontGlyph4 D_8009FB80[];
+extern FontGlyph4 OptionVolumeBarGlyphs[];
 extern FontGlyph4 UiValueArrowGlyphs[];
 extern s8 UiRowGlyphIds[][4];
 extern s8 UiRowGlyphIdsWide[][8];
@@ -313,8 +313,8 @@ s32 DrawUiRow(s32 arg0) {
         break;
     case 10:
     case 11:
-        s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, &D_8009FB80[0], 0x7FF8, 0);
-        s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4 + 0x44, s7 + 8, &D_8009FB80[1], 0x7FF8, 0);
+        s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, &OptionVolumeBarGlyphs[0], 0x7FF8, 0);
+        s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4 + 0x44, s7 + 8, &OptionVolumeBarGlyphs[1], 0x7FF8, 0);
         if (s6 == 10) {
             s0 = D_80119754;
         } else {

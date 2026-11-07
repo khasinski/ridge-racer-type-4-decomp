@@ -146,7 +146,7 @@ extern struct B8 TileRectSceneInitRot;
 extern struct B8 TileRectSkyRect;
 extern int TileRectSkyShade;
 extern char *LoadCursor;
-extern unsigned char D_800AD4EA;
+extern unsigned char SelectionTableIndex;
 extern int MenuConfirmPressed;
 extern S_8010BF70 *TileRectScene;
 extern int SetupRenderer();
@@ -328,7 +328,7 @@ void TileRectSceneModeUpdate(void) {
 
     switch (TileRectState) {
     case 0:
-        if (CdFileReadStart(GetR4FileIndex(0, D_800AD4EA + 1), LoadCursor) == 0) {
+        if (CdFileReadStart(GetR4FileIndex(0, SelectionTableIndex + 1), LoadCursor) == 0) {
             return;
         }
         TileRectState = 1;
@@ -350,7 +350,7 @@ void TileRectSceneModeUpdate(void) {
         LoadTimImage(LoadCursor);
         TileRectState = 4;
     case 4:
-        if (CdFileReadStart(GetR4FileIndex(0, D_800AD4EA + 0xA), LoadCursor) == 0) {
+        if (CdFileReadStart(GetR4FileIndex(0, SelectionTableIndex + 0xA), LoadCursor) == 0) {
             return;
         }
         TileRectState = 5;
@@ -504,7 +504,7 @@ void DrawTrackObjectBillboards(int a0) {
     a3->rot[1] = 0;
     RR_GTE_SETROT(a3);
     RR_GTE_SETLLM((int *)SCRATCH_ROT_MATRIX);
-    RR_GTE_SETBK_P(D_800FF6A4);
+    RR_GTE_SETBK_P(CameraViewMatrixTrans);
 
     g = (int *)SCRATCHPAD;
     /* ASM_BARRIER: keep SCRATCHPAD base pointer in $a1 and mark t2 global across basic blocks */

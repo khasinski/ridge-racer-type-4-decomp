@@ -4,7 +4,7 @@ extern s32 ModeFrame, TotalRaceTime, MenuConfirmPressed, SelectionPlayer;
 extern u16 ModeSubState;
 extern s16 ModeGroup, ModeId, MenuFadeTimer, MenuCursor, LinkRoleSlot;
 extern s16 LinkState, LinkResultsExitFlag, PlayerCount;
-extern s16 D_8010C070[4];
+extern s16 LinkResultPlayerByRank[4];
 extern s16 PlayerWinCounts[4];
 extern char PlayerNames[4][12];
 extern u8 *CurrentDrawBuf;
@@ -60,13 +60,13 @@ void serial_link_func_8011885C(void) {
                 SetMenuFrameOptions(group, 1, group);
             }
         }
-        FormatDecimalDigits(MenuTextRows[4].marquee.at28 + 8, D_8010C070[0] + 1, 0);
-        CopyStringPadSpaces(MenuTextRows[5].marquee.at28 + 1, PlayerNames[D_8010C070[0]], 9);
+        FormatDecimalDigits(MenuTextRows[4].marquee.at28 + 8, LinkResultPlayerByRank[0] + 1, 0);
+        CopyStringPadSpaces(MenuTextRows[5].marquee.at28 + 1, PlayerNames[LinkResultPlayerByRank[0]], 9);
         /* The original literal occupies 12 bytes (zero word before "WIN "). */
         CopyStringClearTail(MenuTextRows[5].marquee.at28 + 10, "WON !!!\0\0\0");
         for (i = 0; i < 4; i++) {
             if (i < PlayerCount) {
-                player = D_8010C070[i];
+                player = LinkResultPlayerByRank[i];
                 CopyStringPadSpaces(MenuTextRows[7 + i].marquee.at28 + 5, PlayerNames[player], 9);
                 CopyStringClearTail(MenuTextRows[7 + i].marquee.at28 + 14, "WIN ");
                 FormatDecimalDigits(MenuTextRows[7 + i].marquee.at28 + 18, PlayerWinCounts[player], 1);

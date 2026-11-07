@@ -14,8 +14,8 @@ extern u32 _svm_envx_hist[16];
 extern u16 _svm_damper;
 /* Program/voice halfwords at 0x80110116/118; the byte selection starts at
  * 0x80110107 and its voice halfword is aligned at byte offset 0x11. */
-extern s16 D_80110116[];
-extern s8 D_80110107[];
+extern s16 SvmCurVagIndex[];
+extern s8 SvmCurProgIndex[];
 
 /* Selected voice is 0..23, established by the selector writers. The selected
  * program/tone allocations must cover the signed program and signed byte

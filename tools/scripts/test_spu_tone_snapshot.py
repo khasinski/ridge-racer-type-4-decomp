@@ -22,7 +22,7 @@ class SpuToneSnapshotTest(unittest.TestCase):
 #include <string.h>
 typedef uint8_t u8; typedef int8_t s8; typedef uint16_t u16; typedef int16_t s16; typedef int32_t s32; typedef uint32_t u32;
 typedef struct {u8 bank, padding[4], program, value;} Selection;
-Selection D_80110101;
+Selection SvmCurVabId;
 u8 test_flags[65536+0x200];
 u8 tone_pool[2097152] __attribute__((aligned(512)));
 struct {u8 prefix[16]; union {u8 bytes[32]; u8 *pointer;} state;} holder;
@@ -33,7 +33,7 @@ static u8 next_value;
 static s32 selector_result, calls, seen_bank, seen_program;
 s32 _SsVmVSetUp(s32 bank,s32 program) {
     calls++; seen_bank=bank; seen_program=program;
-    _svm_tn=next_base; D_80110101.value=next_value;
+    _svm_tn=next_base; SvmCurVabId.value=next_value;
     return selector_result;
 }
 ''' + body + r'''

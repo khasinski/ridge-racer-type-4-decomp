@@ -32,7 +32,7 @@ void time_attack_course_select_func_801154D8(void)
         SetMenuTextRow(i, i - 44, 0, 0, -1);
     }
     time_attack_course_select_result_kind = 0;
-    mode = D_800F3A48;
+    mode = Pad0Protocol;
     if (mode == 2) {
         time_attack_course_select_result_kind = mode;
     } else if (mode == 1) {

@@ -13,7 +13,7 @@ extern s32 PsyqPuts(const char *);
 extern const char CdTimeoutPrefixStr[];
 extern const char CdTimeoutStatusFmt[];
 extern const char CdDatasyncNameStr[];
-extern u8 D_800A64A5;
+extern u8 CD_com;
 extern char *CD_comstr[];
 extern char *CD_intstr[];
 extern volatile u8 CdIntrStatusBytes[];
@@ -39,7 +39,7 @@ static inline int check_alarm(s32 limit, char **ac, volatile u8 *st, char **sc) 
             DebugPrintStub(
                 CdTimeoutStatusFmt,
                 CdWaitCallerName[0],
-                ac[D_800A64A5],
+                ac[CD_com],
                 sc[s0_],
                 x5
             );

@@ -2,13 +2,13 @@
 #include "m2c_macros.h"
 
 extern int SsSetSerialVol();
-extern u8 D_800AD558;
+extern u8 OptionsMusicVolume;
 
 void CdAudioSetVolumeRaw(s32 arg0) {
     s32 var_a0;
     u32 temp_a1;
 
-    var_a0 = (arg0 & 0xFF) * D_800AD558;
+    var_a0 = (arg0 & 0xFF) * OptionsMusicVolume;
     if (var_a0 < 0) {
         var_a0 += 0xF;
     }

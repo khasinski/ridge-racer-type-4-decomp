@@ -51,7 +51,7 @@ extern int LinkHandshakeCountdown;
 
 extern signed char LinkEntryState[];
 
-extern signed char D_800ABEBE;
+extern signed char LinkEntryStateSlot2;
 
 extern int RaceTimeRemaining;
 
@@ -84,7 +84,7 @@ int UpdateLinkHandshake(int a0)
       if (a0 == 0)
       {
         LinkRoleSlot = 0;
-        D_800ABEBE = 1;
+        LinkEntryStateSlot2 = 1;
         LinkHandshakeCountdown = 3;
         LinkState = 10;
       }

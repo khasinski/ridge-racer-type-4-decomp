@@ -35,7 +35,7 @@ typedef union {RrSpuProgram program;struct {u8 pad[8];RrSpuProgram *pointer;} vi
 SelectionAlias test_selection;
 DataAlias test_selected_data,test_selected_tones;
 ProgramAlias test_selected_program;
-#define D_80110101 test_selection.view.state
+#define SvmCurVabId test_selection.view.state
 #define _svm_vh test_selected_data.view.pointer
 #define _svm_tn test_selected_tones.view.pointer
 #define _svm_pg test_selected_program.view.pointer

@@ -45,7 +45,7 @@ extern const char StrCdNewmediaSearchingDir[];
 extern const char CdFileInfoFmt[];
 extern const char StrCdNewMediaDirCountFmt[];
 extern void PsyqMemcpy(char *, void *, int);
-extern char D_8011095C[];
+extern char CdPathTblName[];
 extern s32 PsyqStrcmp(const char *, const char *);
 
 CdlFILE *CdSearchFile(CdlFILE *fp, char *name);
@@ -210,12 +210,12 @@ s32 DS_searchdir(s32 key, const char *name) {
     register s32 offset __asm__("$17");
     /* ASM_BARRIER: Keep independently initialized scan count and byte offset without folding their zeros. */
     __asm__("" : "=r"(i) : "0"(i) : "$18");
-    entry_name = D_8011095C;
+    entry_name = CdPathTblName;
     offset = 0;
     do {
         register u8 *page;
         s32 entry_key;
-        /* PAL mapping: page + offset + 0x954 addresses D_80110954[i]. */
+        /* PAL mapping: page + offset + 0x954 addresses CdPathTblParent[i]. */
         page = (u8 *)0x80110000U;
         /* ASM_BARRIER: Expose the PAL page without folding its table offset into a macro load. */
         __asm__("" : "=r"(page) : "0"(page));

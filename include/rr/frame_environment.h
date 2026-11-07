@@ -28,7 +28,7 @@ typedef struct {
     u8 interlace,high_res,pad[2];
 } RrDisplayEnvironment;
 extern RrFrameEnvironment SecondaryFrameEnv;
-extern RrDisplayEnvironment D_800D02C4;
+extern RrDisplayEnvironment SecondaryFrameDispEnv;
 RR_ASSERT_SIZE(RrFrameEnvironment,0x70);
 RR_ASSERT_OFFSET(RrFrameEnvironment,r,0x19);
 RR_ASSERT_OFFSET(RrFrameEnvironment,draw_packet1C,0x1C);

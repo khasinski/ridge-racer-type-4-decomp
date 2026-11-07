@@ -23,7 +23,7 @@ extern s16 time_attack_course_select_preview_bank;
 
 extern s32 GameLanguage;
 extern s16 SceneId;
-extern s32 MenuCancelPressed, D_800F3A48;
+extern s32 MenuCancelPressed, Pad0Protocol;
 extern s16 MenuReturnModeCode, MenuResultCode;
 void CopyStringClearTail(char *destination, char *source);
 void StepNameChar(char *text);

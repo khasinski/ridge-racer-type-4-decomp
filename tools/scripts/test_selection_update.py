@@ -22,7 +22,7 @@ static struct {u8 prefix[0x4D98];RrSelectionRows value;u8 guard[16];} row_owner;
 #define native_rows_value row_owner.value
 static RrSelectionRows expected_rows;
 #define SelectionState ((s8*)actual)
-#define D_800AD4EC actual[0x14]
+#define SelectionRank actual[0x14]
 #define SelectionRows native_rows_value
 #define SelectionRankWeights (rom+128)
 #define SelectionRankThresholds ((s8*)rom+144)

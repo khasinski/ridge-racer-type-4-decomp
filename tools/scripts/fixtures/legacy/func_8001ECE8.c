@@ -57,7 +57,7 @@ void SetupDrawDispEnvs(s32 r,s32 g,s16 b,u32 flags) {
     SetDefDrawEnv(env,0,0,width,height);
     SetDefDrawEnv(&SecondaryFrameEnv,0,other_y,width,height);
     SetDefDispEnv(&env->environment.display,0,other_y,width,height);
-    SetDefDispEnv(&D_800D02C4,0,0,width,height);
+    SetDefDispEnv(&SecondaryFrameDispEnv,0,0,width,height);
     i=0;
     rgb24=saved_flags&1;
     one=1;

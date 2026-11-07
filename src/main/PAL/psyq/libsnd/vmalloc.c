@@ -43,7 +43,7 @@ s32 _SsVmAlloc(void) {
     index=0;
     /* ASM_BARRIER: keep the byte loop comparison separate from the next byte index. */
     __asm__("" : "+r"(index));
-    initial=D_8011010F;
+    initial=SvmCurTonePriority;
     count=spuVmMaxVoice;
     /* ASM_BARRIER: capture the priority byte and active count before narrowing priority. */
     __asm__("" : : : "memory");
@@ -244,7 +244,7 @@ s32 _SsVmAlloc(void) {
             *( u16 *)((u8 *)&((RrChannelControlRow36 *)(page-0x6F8))-> age02 )=( 0 );
         }
         while(0);
-        initial=D_8011010F;
+        initial=SvmCurTonePriority;
         do {
             /* ASM_BARRIER: retain this field page in its original temporary until the row access. */
             register u8 *page asm("$1")=(u8 *)0x80110000U;
@@ -336,7 +336,7 @@ void _SsVmDoAllocate(void) {
         *mask &= ~(one << (s16)*selected);
         mask++;
     } while (i < 16);
-    selection=D_80110116;
+    selection=SvmCurVagIndex;
     program=selection[0];
     if ((s16)((u16)program & 1) > 0) {
         at=((s32)program-1)/2;
@@ -371,7 +371,7 @@ void _SsVmDoAllocate(void) {
     store[-0x1E8]=value;
     /* ASM_BARRIER: recapture the voice offset after publishing the first dirty flag. */
     __asm__("" : "+r"(scaled) : : "memory");
-    tone_selection=D_80110107;
+    tone_selection=SvmCurProgIndex;
     offset=(s32)(scaled<<16);
     offset2=offset>>15;
     tone=(RrSpuTone32 *)((unsigned long)(tone_selection[0]*16+tone_selection[5])*32UL+(unsigned long)_svm_tn);

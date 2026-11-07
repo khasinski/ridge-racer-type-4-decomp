@@ -81,7 +81,7 @@ void SetupRaceSoundSlots(void) {
             RaceContext.b = GetSelectionSoundBank(2);
             RaceContext.c = GetSelectionSoundBank(3);
         }
-        D_800ACBC8 = -1;
+        RaceExtraSoundBank = -1;
         LinkRaceSoundFlag = 1;
         break;
     }

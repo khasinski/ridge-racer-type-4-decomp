@@ -37,9 +37,9 @@ static int count;
 #define PanGainTable (w->table)
 #define Options (w->settings)
 #define SoundGain (w->gain)
-#define D_800F4DDC (w->banks[0])
-#define D_800F4DDE (w->banks[1])
-#define D_800F4DEA (w->banks[2])
+#define SoundVabIdProg00 (w->banks[0])
+#define SoundVabIdProg30 (w->banks[1])
+#define SoundVabIdProg60 (w->banks[2])
 static s32 emit(int kind,s32 a,s32 b,s32 c,s32 d,s32 e,s32 f,s32 g,s32 h){
  assert(count<2);Entry *p=&entries[count++];memset(p,0,sizeof(*p));
  p->kind=kind;p->args[0]=a;p->args[1]=b;p->args[2]=c;p->args[3]=d;

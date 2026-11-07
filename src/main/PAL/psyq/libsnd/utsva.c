@@ -25,7 +25,7 @@ s32 SsUtSetVagAtr(s32 a0, s32 a1, s32 a2, const u8 *a3)
     if (*(u8*)(page+bank+0x120) == 1) {
         /* The selector result is ignored; its current tone pointer remains live. */
         _SsVmVSetUp(bank, (s16)a1);
-        o = (s16)((u32)a2 + (u32)(s32)(s8)D_80110101.value * 16U) * 32;
+        o = (s16)((u32)a2 + (u32)(s32)(s8)SvmCurVabId.value * 16U) * 32;
         ((u8 *)(o + (unsigned long)_svm_tn))[0] = a3[0];
         ((u8 *)(o + (unsigned long)_svm_tn))[1] = a3[1];
         ((u8 *)(o + (unsigned long)_svm_tn))[2] = a3[2];

@@ -23,7 +23,7 @@ extern const char StrFmtTwoDigitsOpening[];
 extern const char StrRandomPlay[];
 extern char CourseNames[];
 extern u8 OpeningBgmSelectSpriteRects[];
-extern u8 D_800A1A68[];
+extern u8 OpeningBgmNumberGlyphs[];
 extern u32 OpeningFadeInStartFrames[];
 extern u32 OpeningFadeStartFrames[];
 extern struct {
@@ -266,10 +266,10 @@ s32 OpeningScriptStep(s32 arg0) {
             }
         } else {
             s0_3 = 0x88 - DrawFontStringCenteredOffset(0x14, 0xC8, CdTrackTitleStrings + (BgmNumberToCdTrack[SoundState.w28a4 - 1] << 5), sp18[5], 0) / 2;
-            AddBrightnessSprite(D_800A1A68, s0_3, 0xC8, sp18[5]);
+            AddBrightnessSprite(OpeningBgmNumberGlyphs, s0_3, 0xC8, sp18[5]);
             PsyqSprintf(sp30, StrFmtTwoDigitsOpening, SoundState.w28a4);
             DrawFontString(s0_3 + 0xE, 0xC8, sp30, sp18[5], 0);
-            AddBrightnessSprite(D_800A1A68 + 4, s0_3 + 0x20, 0xC8, sp18[5]);
+            AddBrightnessSprite(OpeningBgmNumberGlyphs + 4, s0_3 + 0x20, 0xC8, sp18[5]);
             if (sp18[5] >= 0x80 && MenuConfirmPressed != 0) {
                 s4 = 1;
             }

@@ -131,7 +131,7 @@ extern int AllProgressComplete;
 
 extern int RaceBgmListIndex;
 
-extern int D_800F7660;
+extern int RaceBgmTrackCount;
 
 void SelectCourseBgmTrack() {
     int a0, a1, v;
@@ -142,9 +142,9 @@ void SelectCourseBgmTrack() {
         a0 = 1;
     }
     if (AllProgressComplete != 0 && RaceType != 1) {
-        D_800F7660 = 0x10;
+        RaceBgmTrackCount = 0x10;
     } else {
-        D_800F7660 = 0xF;
+        RaceBgmTrackCount = 0xF;
     }
     if (a0 == 0) {
         a1 = CourseIndex + 3;

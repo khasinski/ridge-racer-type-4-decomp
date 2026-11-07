@@ -44,7 +44,7 @@ typedef struct {
 
 extern T ComCarsControl[];
 extern CurvePt RubberBandCurve[];
-extern short D_8009FE78;
+extern short RubberBandCurvePt2X;
 extern RaceDist *RaceStandings;
 extern int ReplayState;
 extern short RaceType;
@@ -130,7 +130,7 @@ int CalcRubberBandFactor(Vehicle *a0, int a1) {
             s1 += 0x800;
         }
         if (RaceType == 1 || RaceType == 6) {
-            if (RaceStandings->f18 == 0 && RaceStandings->f24 == a0->flags1E4 && s2->b[a1] > D_8009FE78) {
+            if (RaceStandings->f18 == 0 && RaceStandings->f24 == a0->flags1E4 && s2->b[a1] > RubberBandCurvePt2X) {
                 s1 = 0xC00;
             }
         }

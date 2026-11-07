@@ -2,7 +2,7 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "rr/interrupt_dispatch.h"
 void trapIntr(void) {
-    RrLibSavedState *state=&D_800A52C8;
+    RrLibSavedState *state=&IntrEnv;
     RrLibInterruptCallback *base;
     register u32 one __asm__("$19");
     RrLibInterruptCallback *callbacks;
@@ -52,7 +52,7 @@ again:
 reread:
             {
                 register volatile u16 *status __asm__("$4")=I_STAT;
-                u32 enabled=D_800A52C8.enabled_mask;
+                u32 enabled=IntrEnv.enabled_mask;
                 volatile u16 *mask=I_MASK;
                 register u32 statusValue __asm__("$4")=*status;
                 register u32 maskValue __asm__("$2")=*mask;
@@ -79,6 +79,6 @@ reread:
             }
         } else IntrStuckCount=0;
     }
-    D_800A52C8.dispatching02=0;
+    IntrEnv.dispatching02=0;
     ReturnFromException();
 }

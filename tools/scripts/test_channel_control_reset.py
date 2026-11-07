@@ -26,8 +26,8 @@ RrChannelControlRow36 test_rows[32];
 u16 test_masks[0x10010 / 2];
 u16 SvmVoiceIndex;
 #define _svm_voice test_rows
-#define D_8010F90C ((u8 *)&test_rows + 4)
-#define D_8010F925 ((u8 *)&test_rows + 0x1D)
+#define SvmVoicePitch ((u8 *)&test_rows + 4)
+#define SvmVoiceKeyStatus ((u8 *)&test_rows + 0x1D)
 #define _svm_okon1 test_masks[0xF8F8 / 2]
 #define _svm_okon2 test_masks[0xF8FA / 2]
 #define _svm_okof1 test_masks[0x10000 / 2]

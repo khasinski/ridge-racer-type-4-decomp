@@ -1,8 +1,8 @@
 #include "types.h"
 #include "m2c_macros.h"
 
-extern u8 D_800A64A4;
+extern u8 CD_mode;
 
 u8 CdMode(void) {
-    return D_800A64A4;
+    return CD_mode;
 }

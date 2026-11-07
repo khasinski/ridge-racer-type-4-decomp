@@ -37,8 +37,8 @@ static Environment actual,expected,*g;
 RrGpuResetDriver40 GpuDriverTable;
 static RrGpuResetDriver40 alternate;
 const char ResetGraphFmt[]="init",StrResetGraphFmt[]="debug";
-#define D_800ABAC0 (g->data.state)
-#define D_800ABAC2 (g->data.state.debug02)
+#define GpuSysVersion (g->data.state)
+#define GpuDebugLevel (g->data.state.debug02)
 #define GpuFuncTable (g->root)
 #define GpuVramWidthTable (g->widths)
 #define GpuVramHeightTable (g->heights)

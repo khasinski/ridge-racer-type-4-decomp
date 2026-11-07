@@ -43,16 +43,16 @@ extern char RepeatLabel[];
 extern char StrFmtTwoDigitsTitle[];
 extern char TitleBgmPrefixGlyph[];
 extern short MenuFadeTimer;
-extern int D_800ACA2C;
+extern int RaceContextTitleOverlayMode;
 extern int AttractWork;
 extern int BgmRepeatEnabled;
-extern int D_800ACB2C;
+extern int RaceContextBgmRestartDelay;
 extern int TrackViewScratch78Value;
 extern int MaskBitSetting;
 extern short ModeId;
 extern int MenuConfirmPressed;
-extern int D_800F3A68;
-extern int D_800F3A6C;
+extern int Pad0AcceptButtonPressed;
+extern int Pad0BackButtonPressed;
 extern short ModeGroup;
 extern short ModeSubState;
 extern int ViewUsesCarTrackNode;
@@ -162,7 +162,7 @@ void AttractDemoRaceUpdate()
   }
   else
   {
-    vv = D_800F3A6C;
+    vv = Pad0BackButtonPressed;
   }
   if (vv != 0)
   {
@@ -229,17 +229,17 @@ void AttractDemoRaceUpdate()
 
         }
 
-        SetSceneOverlayEnabled(D_800ACA2C);
+        SetSceneOverlayEnabled(RaceContextTitleOverlayMode);
       }
     if (RaceContext.w3dc == 1)
     {
       if (RaceContext.w530 == 0)
       {
-        if (D_800F3A3A & 8)
+        if (Pad0HeldButtons & 8)
         {
           RaceContext.h4e0 = RaceContext.h4e0 + 1;
         }
-        if (D_800F3A3A & 4)
+        if (Pad0HeldButtons & 4)
         {
           RaceContext.h4e0 = RaceContext.h4e0 - 1;
         }
@@ -251,11 +251,11 @@ void AttractDemoRaceUpdate()
         {
           RaceContext.h4e0 = 0;
         }
-        if (D_800F3A3A & 2)
+        if (Pad0HeldButtons & 2)
         {
           RaceContext.h4e2 = 0x800;
         }
-        if (D_800F3A3A & 1)
+        if (Pad0HeldButtons & 1)
         {
           RaceContext.h4e2 = 0;
         }
@@ -273,11 +273,11 @@ void AttractDemoRaceUpdate()
     }
     if (RaceContext.w530 == 1)
     {
-      if (D_800F3A3A & 4)
+      if (Pad0HeldButtons & 4)
       {
         RaceContext.w500 = RaceContext.w500 - 0x10;
       }
-      if (D_800F3A3A & 8)
+      if (Pad0HeldButtons & 8)
       {
         RaceContext.w500 = RaceContext.w500 + 0x10;
       }
@@ -443,10 +443,10 @@ void AttractDemoRaceUpdate()
           {
             CdAudioBeginPlay(1);
           }
-          D_800ACB2C = 0xFA;
+          RaceContextBgmRestartDelay = 0xFA;
         }
       }
-      if (D_800F3A68 != 0)
+      if (Pad0AcceptButtonPressed != 0)
       {
         if (RaceContext.w4d8 == 0)
         {

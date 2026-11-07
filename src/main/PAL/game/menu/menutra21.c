@@ -78,7 +78,7 @@ extern short SaveSlotIndex;
 extern int D_801272F0[];
 extern s16 MenuStateBranchTargets[][2];
 extern char *SaveBuffer;
-extern int D_8010EFA8;
+extern int SaveSlotLoadUnusedFlag;
 extern int CopyStringClearTail();
 extern short CardReadSaveSlotsStepState;
 extern short CardSaveReadRetryCount;
@@ -441,7 +441,7 @@ void MenuStepLoadSaveSlots(void)
   if (ModeSubState == 0)
   {
     CardReadSaveSlotsStep(0);
-    D_8010EFA8 = 0;
+    SaveSlotLoadUnusedFlag = 0;
     ModeSubState = 1;
     return;
   }

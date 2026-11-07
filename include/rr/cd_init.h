@@ -7,7 +7,7 @@ extern const char CD_str_init_prefix[],StrAddrFmt[];
 /* First cell of the metadata pointer table; diagnostics serialize its address. */
 extern u8 *CdDebugPtrTable;
 extern s32 CD_status1;
-extern u8 D_800A64A4,D_800A64A5;
+extern u8 CD_mode,CD_com;
 /* The response owner supplies at least the three reset bytes. */
 extern u8 CdIntrStatusBytes[];
 extern volatile u8 *CD_REG2;

@@ -14,11 +14,11 @@
 #undef GetClut
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABAC2 (*(u8 (*)[])&D_800ABAC2)
+#define GpuDebugLevel (*(u8 (*)[])&GpuDebugLevel)
 
 #define GPU_printf (*(void (*(*))(const char *, s32, s32, s32))&GPU_printf)
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 #undef GPU_printf
 
@@ -36,21 +36,21 @@
 #undef DMACallback
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABAC2 (*(u8 (*))&D_800ABAC2)
+#define GpuDebugLevel (*(u8 (*))&GpuDebugLevel)
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABAC2 (*(unsigned char (*)[])&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*)[])&GpuDebugLevel)
 
 #define GPU_printf (*(void (*(*))())&GPU_printf)
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 #undef GPU_printf
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABAC2 (*(unsigned char (*)[])&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*)[])&GpuDebugLevel)
 
 #define GPU_printf (*(void (*(*))())&GPU_printf)
 
@@ -58,7 +58,7 @@
 
 #define GPU_memset ((int (*)())GPU_memset)
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 #undef GPU_printf
 
@@ -71,13 +71,13 @@
 
 #define GPU_printf (*(M2C_UNK (*(*))(M2C_UNK *, s32))&GPU_printf)
 
-#define D_800ABAC2 (*(u8 (*))&D_800ABAC2)
+#define GpuDebugLevel (*(u8 (*))&GpuDebugLevel)
 
 #undef GpuFuncTable
 
 #undef GPU_printf
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 /* legacy typing of shared globals in this part of the unit */
 #define GpuFuncTable ((char *)GpuFuncTable)
@@ -111,24 +111,24 @@
 /* legacy typing of shared globals in this part of the unit */
 #define GPU_printf (*(int (*(*))())&GPU_printf)
 
-#define D_800ABAC2 (*(unsigned char (*))&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*))&GpuDebugLevel)
 
 #undef GPU_printf
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 /* legacy typing of shared globals in this part of the unit */
 #define GpuFuncTable ((char *)GpuFuncTable)
 
 #define GPU_printf (*(int (*(*))())&GPU_printf)
 
-#define D_800ABAC2 (*(unsigned char (*))&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*))&GpuDebugLevel)
 
 #undef GpuFuncTable
 
 #undef GPU_printf
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 /* legacy typing of shared globals in this part of the unit */
 #define GpuFuncTable ((char *)GpuFuncTable)
@@ -145,31 +145,31 @@
 
 #define GPU_printf (*(int (*(*))())&GPU_printf)
 
-#define D_800ABAC2 (*(unsigned char (*))&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*))&GpuDebugLevel)
 
 #undef GpuFuncTable
 
 #undef GPU_printf
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 /* legacy typing of shared globals in this part of the unit */
 #define GpuFuncTable ((char *)GpuFuncTable)
 
 #define GPU_printf (*(int (*(*))())&GPU_printf)
 
-#define D_800ABAC2 (*(unsigned char (*)[])&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*)[])&GpuDebugLevel)
 
 #undef GpuFuncTable
 
 #undef GPU_printf
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 extern M2C_UNK DrawSyncFmt;
 
 void DrawSync(s32 arg0) {
-    if ((u8) D_800ABAC2 >= 2U) {
+    if ((u8) GpuDebugLevel >= 2U) {
         GPU_printf(&DrawSyncFmt, arg0);
     }
     M2C_FIELD(GpuFuncTable, M2C_UNK (**)(s32), 0x3C)(arg0);

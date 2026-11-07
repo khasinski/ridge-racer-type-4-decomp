@@ -25,7 +25,7 @@ s32 TeamSelectMenuStep(void) {
     UpdateBadgeRowAnim(0);
     if (M2C_FIELD(Dialogue, s8 *, 4) >= 0x22) {
         if (M2C_FIELD(BadgeRows, s16 *, 0x10) == 0xB) {
-            if (D_800AD4F2 == 0) {
+            if (SelectionDialogueMode == 0) {
                 M2C_FIELD(BadgeRows, s16 *, 0x10) = 0;
             } else {
                 goto block_6;

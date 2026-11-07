@@ -45,7 +45,7 @@ s32 _SsVmAlloc(void) {
     index=0;
     /* ASM_BARRIER: keep the byte loop comparison separate from the next byte index. */
     __asm__("" : "+r"(index));
-    initial=D_8011010F;
+    initial=SvmCurTonePriority;
     count=spuVmMaxVoice;
     /* ASM_BARRIER: capture the priority byte and active count before narrowing priority. */
     __asm__("" : : : "memory");
@@ -246,7 +246,7 @@ s32 _SsVmAlloc(void) {
             *( u16 *)((u8 *)&((RrChannelControlRow36 *)(page-0x6F8))-> age02 )=( 0 );
         }
         while(0);
-        initial=D_8011010F;
+        initial=SvmCurTonePriority;
         do {
             /* ASM_BARRIER: retain this field page in its original temporary until the row access. */
             register u8 *page asm("$1")=(u8 *)0x80110000U;

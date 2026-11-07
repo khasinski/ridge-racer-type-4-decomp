@@ -6,7 +6,7 @@
 #include "psyq/libspu/srevattr.h"
 
 extern int _svm_rattr[];
-extern s16 D_8011000C;
+extern s16 SvmRattrMode;
 
 s16 SsUtGetReverbType(void);
 
@@ -43,5 +43,5 @@ s32 SsUtSetReverbType(s32 a0) {
 }
 
 s16 SsUtGetReverbType(void) {
-    return D_8011000C;
+    return SvmRattrMode;
 }

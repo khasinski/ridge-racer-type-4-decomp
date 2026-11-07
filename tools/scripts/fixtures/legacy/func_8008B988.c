@@ -1,14 +1,14 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "rr/library.h"
 
-extern RrLibSavedState D_800A52C8;
+extern RrLibSavedState IntrEnv;
 extern u16 *I_MASK;
 extern s32 *DPCR_Intr;
 extern void HookEntryInt(void *data);
 extern void ExitCriticalSection(void);
 
 RrLibSavedState *restartIntr(void) {
-    RrLibSavedState *state = &D_800A52C8;
+    RrLibSavedState *state = &IntrEnv;
     if (state->active != 0) return 0;
     HookEntryInt(state->callback_data);
     state->active = 1;

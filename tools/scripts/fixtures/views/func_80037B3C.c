@@ -12,7 +12,7 @@ extern int PsyqBzero();
 
 extern E PlayerCars[];
 
-extern short D_800AC3FC;
+extern short PlayerCar1Flags;
 
 extern int CarDrawSlotOffset;
 
@@ -35,7 +35,7 @@ void InitRaceCars(int a0)
     int s1, s2, i, t;
     signed char *s3;
     int *s0;
-    D_800AC3FC = 0;
+    PlayerCar1Flags = 0;
     InitCarTable();
     CarDrawSlotOffset = 0;
     switch (a0) {

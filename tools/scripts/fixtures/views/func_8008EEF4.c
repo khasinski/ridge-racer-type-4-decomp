@@ -79,7 +79,7 @@ s32 CdRead(s32 sectors,u8 *buffer,u32 mode) {
     /* ASM_BARRIER: materialize the complete fallback address in its temporary. */
     register RrLibReadRequestState *fallback __asm__("$3");
     const u8 *parameters;
-    pending=&D_800A67D4;
+    pending=&CdReadStatePending;
     /* ASM_BARRIER: capture the pending flag's complete address before polling. */
     __asm__("" : "+r"(pending));
     busy=*pending;

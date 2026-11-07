@@ -185,12 +185,12 @@ void UpdateTrackObjects(void) {
                         if (RaceType != 1) {
                             B4->f8 = 0xB;
                         } else if (CourseIndex == 7) {
-                            if (D_800AC1A2 != 0) {
-                                B4->f8 = D_800AC1A2 + 0xA;
+                            if (PlayerCar0LapCount != 0) {
+                                B4->f8 = PlayerCar0LapCount + 0xA;
                             } else {
                                 B4->f8 = 0xB;
                             }
-                        } else if (D_800AC1A2 <= 0 || (CourseIndex == 6 && D_800AC1A2 < 2)) {
+                        } else if (PlayerCar0LapCount <= 0 || (CourseIndex == 6 && PlayerCar0LapCount < 2)) {
                             B4->f8 = 0xB;
                         } else {
                             switch (PlayerFinishPlace + 1) {

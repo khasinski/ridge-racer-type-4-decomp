@@ -44,7 +44,7 @@ extern struct { char pad[4]; signed char f4; char pad2[0x1B]; int f20; } *Dialog
 extern int DialogueContext;
 extern struct { char pad[0x17]; signed char f17; char pad2[2]; short f1A; unsigned char f1C; } SelectionState;
 extern int GameLanguage;
-extern unsigned char D_800AD4F4;
+extern unsigned char SelectionCurrentRow;
 extern char DialogueLangEntry[];
 extern Z *DialogueState;
 extern char *TrackNodes;
@@ -552,7 +552,7 @@ int LoadDialogueStep(void) {
         }
         break;
     case 5:
-        s2 = D_800AD4F4 * 9 + 0x1C;
+        s2 = SelectionCurrentRow * 9 + 0x1C;
         a0 = LoadIndex;
         s0 = DialogueLoadIndexTable[Dialogue->f4 * 8 + a0];
         if (s0 != -1) {

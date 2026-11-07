@@ -12,7 +12,7 @@ struct V4 { int a[4]; };
 
 extern char Options[];
 extern int SsVabClose(t);
-extern char D_800ACA30[];
+extern char FadeSpriteWork[];
 extern struct V4 SoundVabCloseOrder;
 extern struct { char pad[0x24]; short s[4]; char pad2[0x2864 - 0x2C]; int i; } SoundState;
 extern unsigned char FadeTintColor[];
@@ -52,7 +52,7 @@ void InitOptionsDefaults(void) {
 void ResetSceneSoundState(int a0) {
     struct V4 v;
     int i, t;
-    char *p = D_800ACA30;
+    char *p = FadeSpriteWork;
     v = SoundVabCloseOrder;
     PsyqBzero(p, 0x64);
     p -= 0x3E0;

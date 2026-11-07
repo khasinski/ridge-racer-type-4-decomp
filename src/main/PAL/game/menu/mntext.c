@@ -12,7 +12,7 @@ extern char LapTimeTemplateStr[];
 extern u8 *MenuTextTemplates[];
 extern char *OrdinalSuffixStrs[];
 extern char *StrRetirePtr;
-extern s8 D_800AD4F1;
+extern s8 SelectionGpPlace;
 extern s16 ReverseCourse;
 extern s16 CourseIndex;
 extern RrTimeRecord16 RaceRecords[2][8][5];
@@ -97,7 +97,7 @@ void SetMenuTextRow(s32 row, s32 position, s32 phase, s32 style, s32 label) {
             FormatDecimalDigits((char *)&MenuTextRows[row].rendering.text[8], SelectionState.retries08[SelectionState.phase17], 0);
             break;
         case 17:
-            value = D_800AD4F1;
+            value = SelectionGpPlace;
             CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[0], StrStarSpace);
             if (value == 0) {
                 value = 1;

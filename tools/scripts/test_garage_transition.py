@@ -86,7 +86,7 @@ static u8 resources[3][64];
 #define MenuArenas world.arenas
 #define LoadCursor world.published
 #define SelectionRows world.choice
-#define D_800ABE2C world.glyph
+#define CourseChoiceGroup1Glyph world.glyph
 #define ImageRows world.mode
 #define ScreenFrame world.counter
 #define LoadState world.flag1

@@ -33,9 +33,9 @@ static struct World {u32 guard[4];RrGpuScratchPointers scratch;RrFrameStorage *c
 #define extra_course_select_selection_sprite world.region
 static const s16 rom[4097]={''' + ','.join(map(str,table)) + r'''};
 #include "rr/trig.h"
-#define D_800A50C0 rom
-#define D_800A58C0 (rom+0x400)
-#define D_800A60C0 (rom+0x800)
+#define SinTableBiasedBaseC00 rom
+#define SinTableBiasedBase800 (rom+0x400)
+#define SinTableBiasedBase400 (rom+0x800)
 #define SinTable (rom+0xc00)
 ''' + trig + body + r'''
 static u32 seed=0x152b0;

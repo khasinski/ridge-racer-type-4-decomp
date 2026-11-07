@@ -33,7 +33,7 @@ typedef uint32_t u32; typedef int32_t s32;
 ''' + header + '''
 struct { u8 prefix[0x954]; RrLibNamedEntry entries[128];
          u8 suffix[0x10000 - 0x954 - 128 * 0x2C]; } test_page;
-#define D_8011095C test_page.entries[0].name
+#define CdPathTblName test_page.entries[0].name
 s32 test_comparisons, test_mutate_next;
 const char *test_last_name;
 s32 PsyqStrcmp(const char *name, const char *entry_name) {
@@ -45,7 +45,7 @@ s32 PsyqStrcmp(const char *name, const char *entry_name) {
 '''
         body = (root / 'tools/scripts/fixtures/views/func_8008E440.c').read_text()
         body = body.replace('#include "rr/library.h"', '')
-        body = body.replace('extern char D_8011095C[];', '')
+        body = body.replace('extern char CdPathTblName[];', '')
         body = re.sub(r'\s+__asm__\("\$[0-9]+"\)', '', body)
         body = re.sub(r'"\$[0-9]+", ', '', body)
         body = re.sub(r' : "\$[0-9]+"', '', body)

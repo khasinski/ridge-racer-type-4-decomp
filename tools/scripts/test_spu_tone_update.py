@@ -28,7 +28,7 @@ class SpuToneUpdateTest(unittest.TestCase):
 #include <string.h>
 #include "types.h"
 ''' + header + r'''
-RrSpuSelectionPrefix D_80110101;
+RrSpuSelectionPrefix SvmCurVabId;
 static u8 flags[65536+0x200];
 static u8 tones[2097280] __attribute__((aligned(512)));
 static u8 input[32] __attribute__((aligned(16)));
@@ -42,7 +42,7 @@ static u8 selected_value;
 static s32 selection_result,calls,seen_bank,seen_program;
 s32 _SsVmVSetUp(s32 bank,s32 program) {
     calls++;seen_bank=bank;seen_program=program;
-    _svm_tn=selected_base;D_80110101.value=selected_value;
+    _svm_tn=selected_base;SvmCurVabId.value=selected_value;
     return selection_result;
 }
 ''' + body + r'''

@@ -12,7 +12,7 @@ int _cardRxStatusByte();
 int _cardCmd59ParamTx() {
     switch (CardTxCount) {
     case 2: return 0x59;
-    case 4: return D_80114725;
+    case 4: return CardCmdSectorByte1;
     case 5: return CardCmdSector;
     }
     if (CardTxCount < 6) return 0;

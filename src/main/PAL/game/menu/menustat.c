@@ -82,7 +82,7 @@ void RaceLoadScreenModeUpdate()
         AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x20 - (short)MenuFadeTimer) << 3, 0x45);
         *(int *)SCRATCHPAD = AddDrawAreaPrim(CurrentDrawBuf + 0x70, *(int *)SCRATCHPAD, 0, 0, 0x140, 0x200);
         if ((short)MenuFadeTimer <= 0) {
-            if (D_800AD4F2 == 6) {
+            if (SelectionDialogueMode == 6) {
                 InitMenuArenas();
                 ModeGroup = 1;
                 ModeId = 0x21;

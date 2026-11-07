@@ -15,7 +15,7 @@ extern volatile unsigned VSyncLastVcount;
 extern s32 PsyqPuts(const char *, ...);
 extern s32 ChangeClearPAD(s32);
 extern s32 ChangeClearRCnt(s32,s32);
-extern u16 D_800A52CA;
+extern u16 IntrEnvInInterrupt;
 extern u16 *I_MASK;
 
 void v_wait(s32 a0, s32 a1);
@@ -127,7 +127,7 @@ void RestartCallback() { IntrDriverTablePtr[6](); }
 #undef IntrDriverTablePtr
 
 u16 CheckCallback(void) {
-    return D_800A52CA;
+    return IntrEnvInInterrupt;
 }
 
 u16 GetIntrMask(void) {

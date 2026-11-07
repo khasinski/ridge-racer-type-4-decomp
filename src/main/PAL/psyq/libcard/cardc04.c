@@ -111,9 +111,9 @@ int _cardCmd5BRangeTx() {
     case 2: return 0x5B;
     case 3: return 1;
     case 5: return CardCmdSector;
-    case 6: return D_80114725;
-    case 7: return D_80114726;
-    case 8: return D_80114727;
+    case 6: return CardCmdSectorByte1;
+    case 7: return CardCmdSectorByte2;
+    case 8: return CardCmdSectorByte3;
     case 9: return CardVarRxLength;
     }
     return 0;

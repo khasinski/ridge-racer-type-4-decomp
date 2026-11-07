@@ -12,7 +12,7 @@ typedef struct { char p0[0x54]; unsigned short s54, s56; char p1[4]; short s5C; 
 typedef struct { char p0[0x1E4]; short s1E4; } V;
 extern int RaceStandings;
 extern char ComCars[];
-extern int D_800F4DEC;
+extern int SoundStateRaceTick;
 extern int RaceState;
 extern struct { char pad[0x34]; int s34; } SoundState;
 
@@ -32,7 +32,7 @@ void UpdateComCars(void) {
     UpdateRaceStandings();
     switch (RaceState) {
     case 0:
-        D_800F4DEC = 0;
+        SoundStateRaceTick = 0;
         break;
     case 1:
         SoundState.s34 = SoundState.s34 + 1;

@@ -2,7 +2,7 @@
 #define RR_CHANNEL_VOICE_CHOICE_H
 #include "rr/channels.h"
 
-extern u8 D_8011010F;
+extern u8 SvmCurTonePriority;
 /* Active count is 0..24, as established by its two writers. Reserved voices
  * are skipped. A free row wins immediately; otherwise priority, gate and age
  * comparisons retain the original mixed signed16/unsigned16 conversions.

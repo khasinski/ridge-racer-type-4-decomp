@@ -59,7 +59,7 @@ typedef struct {
 } w3t1_G;
 
 extern Context650 RaceContext;
-extern int D_800AC698;
+extern int RaceContextCameraAngleBlend;
 extern int ViewUsesCarTrackNode;
 extern void ResetCarSlotBuffers(int, int);
 extern void UpdateRaceChaseCamera(void *);
@@ -178,7 +178,7 @@ void UpdateRaceCamera(int arg0, void *arg1) {
         scratch[4] = s2->z * 4;
         scratch[6] = s2->f10;
         scratch[7] = s2->f14;
-        scratch[8] = LerpAngleWrap4096(s2, D_800AC698);
+        scratch[8] = LerpAngleWrap4096(s2, RaceContextCameraAngleBlend);
         SetGeomScreen(s2->f28);
         break;
     case 4:

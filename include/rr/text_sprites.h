@@ -5,7 +5,7 @@
 
 /* ROM byte view starts 32 bytes before the renderer's biased ASCII base.
  * The extra suffix keeps base+character inside its owner for every u8. */
-extern u8 D_800A015C[288], FontGlyphWidths[256];
+extern u8 FontGlyphMapAsciiBase[288], FontGlyphWidths[256];
 
 /* Text must terminate and each emitted glyph needs an aligned 20-byte sprite
  * packet in the scratch cursor's arena. The biased field cursor also requires

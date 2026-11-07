@@ -32,7 +32,7 @@ typedef uint8_t u8; typedef int8_t s8; typedef uint16_t u16; typedef int16_t s16
 typedef uint32_t u32; typedef int32_t s32;
 #define RR_FIELD_OFFSET(type,field) offsetof(type,field)
 '''+header+'''
-RrLibSavedState D_800A52C8;
+RrLibSavedState IntrEnv;
 u16 ports[6];volatile u16 *I_MASK=&ports[1];
 s32 called[3],io_count,io_kind[32],io_port[32];u32 io_value[32];
 void (*on_bios)(s32,s32,s32);
@@ -57,7 +57,7 @@ unsigned long native_offsets[]={offsetof(RrLibSavedState,callbacks),offsetof(RrL
         cls.lib=C.CDLL(str(d/'f.so'))
         assert C.c_ulong.in_dll(cls.lib,'native_size').value==C.sizeof(State)
         assert list((C.c_ulong*3).in_dll(cls.lib,'native_offsets'))==[State.callbacks.offset,State.enabled_mask.offset,State.callback_data.offset]
-        cls.state=State.in_dll(cls.lib,'D_800A52C8');cls.ports=(C.c_uint16*6).in_dll(cls.lib,'ports')
+        cls.state=State.in_dll(cls.lib,'IntrEnv');cls.ports=(C.c_uint16*6).in_dll(cls.lib,'ports')
         cls.port=C.c_void_p.in_dll(cls.lib,'I_MASK');cls.hook=C.c_void_p.in_dll(cls.lib,'on_bios')
         cls.callbacks=[C.cast(getattr(cls.lib,name),C.c_void_p).value for name in ('callback_a','callback_b','callback_c')]
         cls.called=(C.c_int32*3).in_dll(cls.lib,'called');cls.io_count=C.c_int32.in_dll(cls.lib,'io_count')

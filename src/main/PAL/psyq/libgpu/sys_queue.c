@@ -21,7 +21,7 @@ struct GpuQueue {
 typedef int (*GpuOpFunc)();
 
 extern int DMACallback(int, int (*)());
-extern struct GpuSys D_800ABAC0;
+extern struct GpuSys GpuSysVersion;
 extern volatile unsigned int *GPU_STATUS;
 extern volatile unsigned int *DMA2_CHCR;
 extern volatile int _qin;
@@ -45,7 +45,7 @@ int _addque2(GpuOpFunc op, int *p0, int len, int p1) {
         _exeque();
     }
     GpuQueueSavedIntrMask = SetIntrMask(0);
-    sys = &D_800ABAC0;
+    sys = &GpuSysVersion;
     sys->unk8 = 1;
     if (sys->enabled == 0 || (_qin == _qout && (*DMA2_CHCR & 0x01000000) == 0 && sys->unkC == 0)) {
         while ((*GPU_STATUS & 0x04000000) == 0)

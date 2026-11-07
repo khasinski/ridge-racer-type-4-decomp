@@ -81,8 +81,8 @@ extern short CourseIndex;
 extern short CourseLightBlendTable[];
 extern char *TrackLightTable;
 extern short LightMatrix[];
-extern short D_800ABED6[];
-extern short D_800ABEDC[];
+extern short LightMatrixRow1[];
+extern short LightMatrixRow2[];
 
 s32 CdFileStateCheckShell(void);
 s32 CdFileStateGetTN(void);
@@ -934,7 +934,7 @@ int SetCarTrackLighting(char *a0_in, int a1_in) {
         : "r"(a0), "r"(t1), "r"(t2)
     );
 
-    t8 = D_800ABED6;
+    t8 = LightMatrixRow1;
     a2 = *(int *)(v1 + 0x20);
     a3 = *(short *)(v1 + 0x24);
     a0 = *(int *)(a1 + 0x20);
@@ -967,7 +967,7 @@ int SetCarTrackLighting(char *a0_in, int a1_in) {
         : "r"(a0), "r"(t1), "r"(t2)
     );
 
-    t8 = D_800ABEDC;
+    t8 = LightMatrixRow2;
     a3 = *(int *)(v1 + 0x28);
     a0 = *(int *)(a1 + 0x28);
     /* ASM_BARRIER: load color pair at +0x28 */

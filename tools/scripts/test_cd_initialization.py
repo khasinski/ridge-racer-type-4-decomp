@@ -42,8 +42,8 @@ struct State {
 };
 static struct World {struct State s;unsigned calls;struct {u32 hash;int kind,id;u32 value;} events[64];} actual,expected,initial,*w;
 static unsigned scenario,mutation;
-#define D_800A64A4 w->s.active
-#define D_800A64A5 w->s.command
+#define CD_mode w->s.active
+#define CD_com w->s.command
 #define CdIntrStatusBytes w->s.response
 #define CD_status w->s.status
 #define CD_status1 w->s.mode

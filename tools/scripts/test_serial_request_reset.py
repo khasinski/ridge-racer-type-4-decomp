@@ -30,7 +30,7 @@ RrSerialPortRegisters test_ports[2];
 RrSerialPortRegisters *SIO1_REGS=&test_ports[0];
 volatile RrSerialRequest SioRequest;
 RrSerialReceiveRequest SioReceiveRequest;
-u16 D_801146CA;
+u16 SioShadowControl;
 u8 SioIrqQueueEntry[32];
 u32 test_count,test_log[32][3],test_mutate,test_override;
 void record(u32 op,u32 value,uintptr_t pointer) {
@@ -42,7 +42,7 @@ s32 SysDeqIntRP(s32 channel,void *pointer) {
  if(test_mutate) {
   SioRequest.first=123;SioReceiveRequest.request.first=-77;
   SioReceiveRequest.receive_status=0x12345678U;
-  SIO1_REGS=&test_ports[1];D_801146CA=0x5555;
+  SIO1_REGS=&test_ports[1];SioShadowControl=0x5555;
  }
  return -99;
 }
@@ -50,7 +50,7 @@ u32 read_mask(void) {u32 v=test_irq.mask;record(1,v,0);return v;}
 void write_mask(u32 v) {record(2,v,0);test_irq.mask=v;}
 u32 read_control(RrSerialPortRegisters *port) {u32 v=port->control;record(3,v,0);return v;}
 void write_control(RrSerialPortRegisters *port,u32 value) {record(4,value,0);port->control=value;}
-u32 read_configuration(void) {u32 v=D_801146CA;record(5,v,0);return v;}
+u32 read_configuration(void) {u32 v=SioShadowControl;record(5,v,0);return v;}
 void write_send_active(s32 value) {record(7,(u32)value,0);SioRequest.active=value;}
 s32 read_send_active(void) {
  s32 v;if(test_override)SioRequest.active=-1234567;
@@ -68,7 +68,7 @@ void initialize(u32 mask,u32 control,u32 configuration) {
  memset(test_ports,0xA5,sizeof(test_ports));test_ports[0].control=control;
  memset((void *)&SioRequest,0x69,sizeof(SioRequest));
  memset(&SioReceiveRequest,0x5A,sizeof(SioReceiveRequest));
- SIO1_REGS=&test_ports[0];D_801146CA=configuration;
+ SIO1_REGS=&test_ports[0];SioShadowControl=configuration;
  test_count=test_mutate=test_override=0;test_irq_pointer=0;
  memset(test_log,0xA5,sizeof(test_log));
 }
@@ -106,7 +106,7 @@ void initialize(u32 mask,u32 control,u32 configuration) {
         cls.receive = (C.c_int32 * 4).in_dll(cls.lib, 'SioReceiveRequest')
         cls.count = C.c_uint32.in_dll(cls.lib, 'test_count')
         cls.log = (C.c_uint32 * 96).in_dll(cls.lib, 'test_log')
-        cls.config = C.c_uint16.in_dll(cls.lib, 'D_801146CA')
+        cls.config = C.c_uint16.in_dll(cls.lib, 'SioShadowControl')
         cls.mutate = C.c_uint32.in_dll(cls.lib, 'test_mutate')
         cls.override = C.c_uint32.in_dll(cls.lib, 'test_override')
         cls.irq_pointer = C.c_size_t.in_dll(cls.lib, 'test_irq_pointer')

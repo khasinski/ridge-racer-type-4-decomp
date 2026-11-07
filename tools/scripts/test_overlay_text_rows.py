@@ -100,7 +100,7 @@ static unsigned scenario,mutation;
 #define versus_select_D_80118410 w->state.winners
 #define versus_select_D_80118418 w->state.wins
 #define NumCars w->state.participants
-#define D_8010C070 w->state.ranks
+#define LinkResultPlayerByRank w->state.ranks
 #define PlayerWinCounts w->state.counts
 #define FinalCarRanks w->state.order
 #define LinkState w->state.reset

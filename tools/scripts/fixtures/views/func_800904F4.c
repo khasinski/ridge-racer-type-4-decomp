@@ -9,10 +9,10 @@ s32 rcos(s32 angle) {
     a &= 0xFFF;
     if(a<0x801) {
         if(a<0x401) {result=SinTable[0x400-a];goto out;}
-        result=D_800A60C0[a];result=-result;goto out;
+        result=SinTableBiasedBase400[a];result=-result;goto out;
     }
     if(a<0xC01) goto negative;
-    result=D_800A50C0[a];goto out;
+    result=SinTableBiasedBaseC00[a];goto out;
 negative:
     result=-SinTable[0xC00-a];
 out:

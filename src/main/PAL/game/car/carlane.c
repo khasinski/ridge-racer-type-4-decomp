@@ -65,8 +65,8 @@ typedef struct {
 
 extern ContextAC650 RaceContext;
 extern ComCar ComCars[];
-extern Spec30 *D_800ACB94;
-extern u16 D_8009FE76;
+extern Spec30 *RaceContextPlayerCarSpec;
+extern u16 RubberBandCurvePt1Y;
 
 extern void PsyqBzero(void *, s32);
 extern void ResetCarState(ComCar *);
@@ -163,9 +163,9 @@ void InitComCars(s32 count) {
             sub->divisor11C = tmp >> 10;
             sub->boostTimer44 = sub->divisor11C < 0 ? -sub->divisor11C : sub->divisor11C;
         }
-        D_8009FE76 = D_800ACB94->factor26;
+        RubberBandCurvePt1Y = RaceContextPlayerCarSpec->factor26;
     } else {
-        D_8009FE76 = 0x320;
+        RubberBandCurvePt1Y = 0x320;
     }
     DebugPrintStub("InitComCar OK!\n", i);
 }

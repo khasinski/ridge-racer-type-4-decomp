@@ -5,11 +5,11 @@
 #include "rr/library.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABAC2 (*(unsigned char (*))&D_800ABAC2)
+#define GpuDebugLevel (*(unsigned char (*))&GpuDebugLevel)
 
 #define GPU_printf (*(int (*(*))())&GPU_printf)
 
-#undef D_800ABAC2
+#undef GpuDebugLevel
 
 #undef GPU_printf
 

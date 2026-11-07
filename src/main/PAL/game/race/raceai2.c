@@ -35,13 +35,13 @@ extern int SetMenuFrameOptions();
 extern int ExitOnLinkLost();
 extern int UpdateLinkHandshake();
 extern s16 MenuScriptId;
-extern char D_800ABEBE[];
+extern char LinkEntryStateSlot2[];
 extern char CourseMenuSelection[];
-extern char D_800ACBD8[];
+extern char PlayerCourseChoicesSlot2[];
 extern char CourseIndex[];
 extern char NumLaps[];
-extern char D_800F4DA0[];
-extern char D_8010C0A0[];
+extern char LinkPeerSelectionRows[];
+extern char LinkPeerPlayerNames[];
 extern short SceneId;
 extern short MenuDispMode;
 extern int AddTextSprites();
@@ -237,10 +237,10 @@ st0:
     LinkState = 1;
     return;
 st1:
-    if (LinkExchange(D_800ABEBE, D_800ABEBE - 2, 2, 1) == -1) { LinkState = 3; return; }
-    if (LinkExchange(D_8010C0A0, D_8010C0A0 - 0x18, 0x18, 1) == -1) { LinkState = 3; return; }
-    if (LinkExchange(D_800F4DA0, D_800F4DA0 - 8, 8, 1) == -1) { LinkState = 3; return; }
-    if (LinkExchange(D_800ACBD8, D_800ACBD8 - 8, 8, 1) == -1) { LinkState = 3; return; }
+    if (LinkExchange(LinkEntryStateSlot2, LinkEntryStateSlot2 - 2, 2, 1) == -1) { LinkState = 3; return; }
+    if (LinkExchange(LinkPeerPlayerNames, LinkPeerPlayerNames - 0x18, 0x18, 1) == -1) { LinkState = 3; return; }
+    if (LinkExchange(LinkPeerSelectionRows, LinkPeerSelectionRows - 8, 8, 1) == -1) { LinkState = 3; return; }
+    if (LinkExchange(PlayerCourseChoicesSlot2, PlayerCourseChoicesSlot2 - 8, 8, 1) == -1) { LinkState = 3; return; }
     if (LinkExchange(CourseIndex, CourseIndex, 2, 0) == -1) { LinkState = 3; return; }
     if (LinkExchange(CourseMenuSelection, CourseMenuSelection, 2, 0) == -1) { LinkState = 3; return; }
     if (LinkExchange(NumLaps, NumLaps, 4, 0) == -1) { LinkState = 3; return; }
@@ -500,11 +500,11 @@ void RecordGrandPrixStageResult(void) {
     int a0;
     int a1;
     a2 = CarRecordPtrs + 0x1E8;
-    if (D_800AD4EF >= 0) {
+    if (SelectionGpStage >= 0) {
         a1 = 0;
-        if (D_800AD4EF >= 2) {
+        if (SelectionGpStage >= 2) {
             a1 = 2;
-            if (D_800AD4EF >= 4) {
+            if (SelectionGpStage >= 4) {
                 goto b3;
             }
         }

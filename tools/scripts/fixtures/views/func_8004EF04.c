@@ -56,12 +56,12 @@ void TriggerSfx(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     var_t0 = arg0;
     temp_t1 = (s32)((u32)arg3 + 0x3CU);
     if (var_t0 < 0x1E) {
-        var_a3 = D_800F4DDC;
+        var_a3 = SoundVabIdProg00;
     } else if (var_t0 < 0x3C) {
-        var_a3 = D_800F4DDE;
+        var_a3 = SoundVabIdProg30;
         var_t0 -= 0x1E;
     } else {
-        var_a3 = D_800F4DEA;
+        var_a3 = SoundVabIdProg60;
         var_t0 -= 0x3C;
     }
     table=PanGainTable;

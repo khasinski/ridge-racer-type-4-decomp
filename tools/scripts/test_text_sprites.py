@@ -40,7 +40,7 @@ typedef struct {
  u8 mapping[288],widths[256],text[64],suffix[32];
 } World;
 static World *actual,*expected;
-#define D_800A015C actual->mapping
+#define FontGlyphMapAsciiBase actual->mapping
 #define FontGlyphWidths actual->width_base
 #define CurrentDrawBuf actual->context
 ''' + body + r'''

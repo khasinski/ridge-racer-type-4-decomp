@@ -8,7 +8,7 @@ extern int PadLastChannel;
 extern int PadPortTimeoutCounts;
 extern int PadPort2TimeoutCount;
 extern int _padIntPad();
-extern int D_8011441C[];
+extern int PadIntQueueHandler[];
 
 int PadEnableCom(int a0);
 void _padSetVsyncParam();
@@ -49,7 +49,7 @@ int PadEnableCom(int a0) {
 }
 
 void _padSetVsyncParam() {
-    int *p = D_8011441C;
+    int *p = PadIntQueueHandler;
     p[0] = (int)_padIntPad;
     p[1] = (int)_padIsVsync;
     p[-1] = 0;

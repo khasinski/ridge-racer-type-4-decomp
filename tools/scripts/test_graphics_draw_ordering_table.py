@@ -30,7 +30,7 @@ typedef uint16_t u16; typedef int16_t s16;
 typedef uint32_t u32; typedef int32_t s32;
 ''' + header + '''
 const char DrawOTagFmt[]="DrawOTag(%08x)...\\n";
-RrGpuDebugSettings D_800ABAC2;
+RrGpuDebugSettings GpuDebugLevel;
 s32 (*test_debug)(const char *,s32);
 s32 test_printf(const char *format,...) {
  va_list args; s32 value; va_start(args,format); value=va_arg(args,s32); va_end(args);
@@ -76,7 +76,7 @@ void test_initialize(void) {
         cls.driver_size = C.c_uint32.in_dll(cls.lib, 'test_driver_size').value
         cls.driver_bytes = (C.c_uint8 * (2 * cls.driver_size)).in_dll(cls.lib, 'test_drivers')
         cls.gpu = (C.c_uint32 * 4).in_dll(cls.lib, 'test_gpu')
-        cls.level = C.c_uint8.in_dll(cls.lib, 'D_800ABAC2')
+        cls.level = C.c_uint8.in_dll(cls.lib, 'GpuDebugLevel')
         cls.draw = cls.lib._cwc
         cls.draw.argtypes = [C.c_ulong]
         cls.draw.restype = None

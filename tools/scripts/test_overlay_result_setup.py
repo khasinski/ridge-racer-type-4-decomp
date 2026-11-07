@@ -56,7 +56,7 @@ static unsigned scenario,mutation,overlay;
 #define time_attack_course_select_race_record_rank w->state.first660
 #define time_attack_course_select_lap_record_rank w->state.second660
 #define time_attack_course_select_result_labels w->state.labels660
-#define D_800F3A48 w->state.uiMode
+#define Pad0Protocol w->state.uiMode
 #define time_attack_course_select_result_transition w->state.screenFlag
 #define MenuCursor w->state.selection
 #define MenuItemCount w->state.mode
