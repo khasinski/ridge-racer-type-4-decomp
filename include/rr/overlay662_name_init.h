@@ -6,5 +6,5 @@
 #include "rr/overlay662_name_state.h"
 /* Name source and destination obey string-tail-copy bounds. Requires a fresh
  * published bank with two badge rows after each badge-layout call. */
-void ovl662_func_80118930(void);
+void garage_func_80118930(void);
 #endif

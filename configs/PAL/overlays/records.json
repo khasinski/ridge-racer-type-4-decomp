@@ -1,0 +1,203 @@
+{
+  "entry": 663,
+  "aliases": [],
+  "load_address": 2148616312,
+  "image_size": 10240,
+  "units": [
+    {
+      "source": "src/overlays/PAL/records/menu.c",
+      "address": 2148616408
+    },
+    {
+      "source": "src/overlays/PAL/records/selection.c",
+      "address": 2148618680
+    },
+    {
+      "source": "src/overlays/PAL/records/preview.c",
+      "address": 2148620216
+    },
+    {
+      "source": "src/overlays/PAL/records/records.c",
+      "address": 2148622056
+    }
+  ],
+  "functions": [
+    {
+      "address": 2148616408,
+      "size": 392,
+      "symbol": "records_init_menu",
+      "source": "src/overlays/PAL/records/menu.c"
+    },
+    {
+      "address": 2148616800,
+      "size": 312,
+      "symbol": "records_init_scene",
+      "source": "src/overlays/PAL/records/menu.c"
+    },
+    {
+      "address": 2148617112,
+      "size": 1168,
+      "symbol": "records_update_menu",
+      "source": "src/overlays/PAL/records/menu.c"
+    },
+    {
+      "address": 2148618280,
+      "size": 400,
+      "symbol": "records_init_selection",
+      "source": "src/overlays/PAL/records/menu.c"
+    },
+    {
+      "address": 2148618680,
+      "size": 1536,
+      "symbol": "records_update_selection",
+      "source": "src/overlays/PAL/records/selection.c"
+    },
+    {
+      "address": 2148620216,
+      "size": 252,
+      "symbol": "records_init_preview",
+      "source": "src/overlays/PAL/records/preview.c"
+    },
+    {
+      "address": 2148620468,
+      "size": 176,
+      "symbol": "records_draw_preview",
+      "source": "src/overlays/PAL/records/preview.c"
+    },
+    {
+      "address": 2148620644,
+      "size": 572,
+      "symbol": "records_update_preview",
+      "source": "src/overlays/PAL/records/preview.c"
+    },
+    {
+      "address": 2148621216,
+      "size": 148,
+      "symbol": "records_init_result_preview",
+      "source": "src/overlays/PAL/records/preview.c"
+    },
+    {
+      "address": 2148621364,
+      "size": 692,
+      "symbol": "records_update_result_preview",
+      "source": "src/overlays/PAL/records/preview.c"
+    },
+    {
+      "address": 2148622056,
+      "size": 324,
+      "symbol": "records_format_time",
+      "source": "src/overlays/PAL/records/records.c"
+    },
+    {
+      "address": 2148622380,
+      "size": 908,
+      "symbol": "records_draw_race_records",
+      "source": "src/overlays/PAL/records/records.c"
+    },
+    {
+      "address": 2148623288,
+      "size": 908,
+      "symbol": "records_draw_lap_records",
+      "source": "src/overlays/PAL/records/records.c"
+    },
+    {
+      "address": 2148624196,
+      "size": 292,
+      "symbol": "records_draw_record_labels",
+      "source": "src/overlays/PAL/records/records.c"
+    }
+  ],
+  "globals": {
+    "records_scene_name": 2148616316,
+    "records_course_order": 2148624488,
+    "records_time_text": 2148624500,
+    "records_record_badges": 2148624512,
+    "records_race_column_widths": 2148624520,
+    "records_lap_column_widths": 2148624524,
+    "records_record_label": 2148624528,
+    "records_selected_record": 2148624536,
+    "records_course_count": 2148624540,
+    "records_available_courses": 2148624544,
+    "records_extra_courses_enabled": 2148624580,
+    "records_record_kind": 2148624584,
+    "records_available_course_count": 2148624588,
+    "records_course_unlock_levels": 2148624592
+  },
+  "data_sections": [
+    {
+      "section": ".records.header",
+      "address": 2148616312,
+      "size": 4
+    },
+    {
+      "section": ".records.scene_name",
+      "address": 2148616316,
+      "size": 16
+    },
+    {
+      "section": ".records.course_order",
+      "address": 2148624488,
+      "size": 9
+    },
+    {
+      "section": ".records.time_text",
+      "address": 2148624500,
+      "size": 10
+    },
+    {
+      "section": ".records.record_badges",
+      "address": 2148624512,
+      "size": 8
+    },
+    {
+      "section": ".records.race_column_widths",
+      "address": 2148624520,
+      "size": 4
+    },
+    {
+      "section": ".records.lap_column_widths",
+      "address": 2148624524,
+      "size": 4
+    },
+    {
+      "section": ".records.record_label",
+      "address": 2148624528,
+      "size": 4
+    },
+    {
+      "section": ".records.selected_record",
+      "address": 2148624536,
+      "size": 4
+    },
+    {
+      "section": ".records.course_count",
+      "address": 2148624540,
+      "size": 4
+    },
+    {
+      "section": ".records.available_courses",
+      "address": 2148624544,
+      "size": 36
+    },
+    {
+      "section": ".records.extra_courses_enabled",
+      "address": 2148624580,
+      "size": 4
+    },
+    {
+      "section": ".records.record_kind",
+      "address": 2148624584,
+      "size": 4
+    },
+    {
+      "section": ".records.available_course_count",
+      "address": 2148624588,
+      "size": 4
+    },
+    {
+      "section": ".records.course_unlock_levels",
+      "address": 2148624592,
+      "size": 36
+    }
+  ]
+}

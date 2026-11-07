@@ -1,0 +1,15 @@
+#include "rr/overlay662_car_choice.h"
+
+void garage_func_801153B0(void) {
+    SetDispMask(0);
+    garage_D_801272E4 = 0;
+    CopyStringClearTail(garage_D_801272C8, SaveProgress.prefix.progress.prefix00.fields.name);
+    garage_func_8011512C();
+    UnpackChoiceGlyph((s8*)SelectionRows.bytes, CourseChoiceTable[1][0].glyph);
+    PlayerCourseChoices[0].first = CourseChoiceTable[1][garage_D_801272E4].first;
+    PlayerCourseChoices[0].second = CourseChoiceTable[1][garage_D_801272E4].second;
+    ModeGroup = 1;
+    ModeId = 0x40;
+    ModeSubState = 0;
+    DebugPrintStub(garage_D_80114888);
+}

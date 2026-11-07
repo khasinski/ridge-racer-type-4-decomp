@@ -39,16 +39,16 @@ znaki nowej linii.
 
 | Overlay | Adres ciągu | Treść | Użycie / dowód w odtworzonym kodzie |
 |---|---|---|---|
-| 660 | `0x8011487C` | `job_ta_crs_info0` | [course_menu.c](src/overlays/PAL/660/course_menu.c): przekazanie `ovl660_title` do `DebugPrintStub` |
-| 661 | `0x80114888` | `job_vs_car_info0` | [func_80115DB8.c](src/overlays/PAL/661/func_80115DB8.c): wypisanie `ovl661_D_80114888` |
-| 662 | `0x8011487C` | `garage0` | [func_80114B9C.c](src/overlays/PAL/662/func_80114B9C.c): wypisanie `ovl662_D_8011487C` |
-| 662 | `0x80114888` | `job_garage_car_info0` | [func_801153B0.c](src/overlays/PAL/662/func_801153B0.c): wypisanie `ovl662_D_80114888` |
-| 662 | `0x801148F0` | `enter SaveBack` | [func_8011A898.c](src/overlays/PAL/662/func_8011A898.c): komunikat wejścia do operacji |
-| 662 | `0x80114900` | `enter LoadBack` | [func_8011A988.c](src/overlays/PAL/662/func_8011A988.c): komunikat wejścia do operacji |
-| 663 | `0x8011487C` | `recode0` | [data.c](src/overlays/PAL/663/data.c): `ovl663_scene_name`; zachowano oryginalną pisownię `recode` |
-| 665 | `0x801148B4` | `Screen:%d, %d` | [func_80115798.c](src/overlays/PAL/665/func_80115798.c): wypisanie współrzędnych ekranu |
-| 666 | `0x8011487C` | `job_ex_crs_info0` | [course_menu.c](src/overlays/PAL/666/course_menu.c): wypisanie `ovl666_scene_name` |
-| 668 | `0x8011487C` | `time out in strNext() %d` | [func_80114C3C.c](src/overlays/PAL/668/func_80114C3C.c): diagnostyka po nieudanym pobraniu danych odtwarzania STR |
+| 660 | `0x8011487C` | `job_ta_crs_info0` | [course_menu.c](src/overlays/PAL/time_attack_course_select/course_menu.c): przekazanie `time_attack_course_select_title` do `DebugPrintStub` |
+| 661 | `0x80114888` | `job_vs_car_info0` | [func_80115DB8.c](src/overlays/PAL/versus_select/func_80115DB8.c): wypisanie `versus_select_D_80114888` |
+| 662 | `0x8011487C` | `garage0` | [func_80114B9C.c](src/overlays/PAL/garage/func_80114B9C.c): wypisanie `garage_D_8011487C` |
+| 662 | `0x80114888` | `job_garage_car_info0` | [func_801153B0.c](src/overlays/PAL/garage/func_801153B0.c): wypisanie `garage_D_80114888` |
+| 662 | `0x801148F0` | `enter SaveBack` | [func_8011A898.c](src/overlays/PAL/garage/func_8011A898.c): komunikat wejścia do operacji |
+| 662 | `0x80114900` | `enter LoadBack` | [func_8011A988.c](src/overlays/PAL/garage/func_8011A988.c): komunikat wejścia do operacji |
+| 663 | `0x8011487C` | `recode0` | [data.c](src/overlays/PAL/records/data.c): `records_scene_name`; zachowano oryginalną pisownię `recode` |
+| 665 | `0x801148B4` | `Screen:%d, %d` | [func_80115798.c](src/overlays/PAL/options/func_80115798.c): wypisanie współrzędnych ekranu |
+| 666 | `0x8011487C` | `job_ex_crs_info0` | [course_menu.c](src/overlays/PAL/extra_course_select/course_menu.c): wypisanie `extra_course_select_scene_name` |
+| 668 | `0x8011487C` | `time out in strNext() %d` | [func_80114C3C.c](src/overlays/PAL/movie_playback/func_80114C3C.c): diagnostyka po nieudanym pobraniu danych odtwarzania STR |
 
 Wpisy 669, 670, 671 i 672 są kopiami odpowiednio 660, 659, 661 i 667.
 Powtórzone tam ciągi nie są niezależnymi znaleziskami.

@@ -1,5 +1,6 @@
 """Native behavior of the nine overlay samples; actual C and full host pointers."""
 from overlay_units import read_c_source
+from overlay_names import name as OVN
 from pathlib import Path
 import subprocess
 from tempfile import TemporaryDirectory
@@ -13,7 +14,7 @@ class OverlaySamplesTest(unittest.TestCase):
         bodies = []
         from verify_overlay_samples import SAMPLES
         for index, address, _ in SAMPLES:
-            source = ROOT / f'src/overlays/PAL/{index}/func_{address:08X}.c'
+            source = ROOT / f'src/overlays/PAL/{OVN(index)}/func_{address:08X}.c'
             body = read_c_source(source)
             if index == 665:
                 body = body.replace('BadgeRows', 'sample665_badges')
@@ -41,9 +42,9 @@ RrFrameStorage *CurrentDrawBuf, display_buffer;
 RrBadgeRow1C first, second, *BadgeRows;
 s16 *sample665_badges;
 u8 ScreenFadeState;
-RrGarageWorkingStorage ovl662_D_80127668;
-s32 ovl667_D_80118EE0;
-u32 *ovl668_D_80116E54;
+RrGarageWorkingStorage garage_D_80127668;
+s32 serial_link_D_80118EE0;
+u32 *movie_playback_D_80116E54;
 RrProjectionScratchPrefix test_scratch;
 #define RR_PROJECTION_SCRATCH (&test_scratch)
 static int scenario, step;
@@ -99,33 +100,33 @@ void SetMenuFrameOptions(s32 a,s32 b,s32 c) {
 ''' + '\n'.join(bodies) + r'''
 int main(void) {
     scenario = 659; step = 0;
-    ovl659_exit_race();
+    race_results_exit_race();
     assert(step == 1 && ModeGroup == 1 && ModeId == 47 && ModeSubState == 0);
-    ovl660_func_80114910(); assert(SceneId == 0x131);
-    ovl661_func_80117340(); assert(SceneId == 0x137);
+    time_attack_course_select_func_80114910(); assert(SceneId == 0x131);
+    versus_select_func_80117340(); assert(SceneId == 0x137);
     for (unsigned i = 0; i < 65536; i++) {
-        memset(&ovl662_D_80127668, 0xA5, sizeof(ovl662_D_80127668));
+        memset(&garage_D_80127668, 0xA5, sizeof(garage_D_80127668));
         s32 args[4] = {(s32)(0x12340000U|i), (s32)(0xFFFF0000U|i),
                        (s32)(0x80000000U|(i^0xFFFF)), (s32)(0x7FFF0000U|i)};
-        ovl662_func_8011E7C0(args[0],args[1],args[2],args[3]);
+        garage_func_8011E7C0(args[0],args[1],args[2],args[3]);
         for (int j = 0; j < 32; j++) {
             u16 expected = j >= 24 && j < 28 ? (u16)args[j-24] : 0xA5A5;
-            assert((u16)ovl662_D_80127668.halves[j] == expected);
+            assert((u16)garage_D_80127668.halves[j] == expected);
         }
         u32 bits = (i << 16) | (i ^ 0xFFFF);
-        ovl667_D_80118EE0 = (s32)bits;
-        assert((u32)ovl667_func_80115048() == bits);
+        serial_link_D_80118EE0 = (s32)bits;
+        assert((u32)serial_link_func_80115048() == bits);
         u32 values[3] = {bits, ~bits, i};
         for (int j = 0; j < 3; j++) {
-            ovl668_D_80116E54 = &values[j];
-            assert(ovl668_func_8011688C() == values[j]);
+            movie_playback_D_80116E54 = &values[j];
+            assert(movie_playback_func_8011688C() == values[j]);
         }
     }
     for (int module = 663; module <= 665; module += 2) {
         scenario = module; step = 0;
         memset(&first, 0xA5, sizeof(first)); memset(&second, 0x5A, sizeof(second));
         BadgeRows = &first; sample665_badges=(s16 *)&first; ModeFrame = 99;
-        if (module == 663) ovl663_init_result_preview(); else ovl665_func_80115C8C();
+        if (module == 663) records_init_result_preview(); else options_func_80115C8C();
         assert(step == 3);
         for (unsigned j = 0; j < sizeof(first); j++) {
             assert(((u8 *)&first)[j] == 0xA5);
@@ -133,7 +134,7 @@ int main(void) {
         }
     }
     scenario = 666; step = 0;
-    ovl666_exit_race(); assert(step == 3);
+    extra_course_select_exit_race(); assert(step == 3);
     return 0;
 }
 '''

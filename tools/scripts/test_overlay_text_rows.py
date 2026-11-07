@@ -5,6 +5,7 @@ Overlay renderer, initializer and screen-transition calls are simulated, typed
 boundaries which mutate live tables and result state between calls.
 """
 from overlay_units import read_c_source
+from overlay_names import name as OVN
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import re
@@ -70,7 +71,7 @@ int main(void) {
     def test_result_screens_fresh_labels_scores_rankings_and_service_order(self):
         root = Path(__file__).resolve().parents[2]
         bodies = '\n'.join(re.sub(r'^extern[^\n]*;\n', '',
-                                  read_c_source(root / f'src/overlays/PAL/{ov}/func_{addr}.c'),
+                                  read_c_source(root / f'src/overlays/PAL/{OVN(ov)}/func_{addr}.c'),
                                   flags=re.M)
                            for ov, addr in [(661, '80117C78'), (667, '80118634')])
         self.run_source(r'''
@@ -93,11 +94,11 @@ static unsigned scenario,mutation;
 #define TotalRaceTime w->state.match
 #define MenuCursor w->state.selection
 #define MenuItemCount w->state.mode
-#define ovl661_D_80118378 w->state.table661
-#define ovl667_D_80118E2C w->state.table667
-#define ovl661_D_80118448 w->state.scores
-#define ovl661_D_80118410 w->state.winners
-#define ovl661_D_80118418 w->state.wins
+#define versus_select_D_80118378 w->state.table661
+#define serial_link_D_80118E2C w->state.table667
+#define versus_select_D_80118448 w->state.scores
+#define versus_select_D_80118410 w->state.winners
+#define versus_select_D_80118418 w->state.wins
 #define NumCars w->state.participants
 #define D_8010C070 w->state.ranks
 #define PlayerWinCounts w->state.counts
@@ -187,7 +188,7 @@ int main(void) {
   }
   for(overlay=0;overlay<2;overlay++) {
    actual=initial;expected=initial;
-   w=&actual;if(overlay)ovl667_func_80118634();else ovl661_func_80117C78();
+   w=&actual;if(overlay)serial_link_func_80118634();else versus_select_func_80117C78();
    w=&expected;reference(overlay);
    assert(actual.calls==35 && memcmp(&actual,&expected,sizeof(actual))==0);
   }

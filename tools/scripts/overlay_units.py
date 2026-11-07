@@ -1,5 +1,6 @@
 """Source ownership for overlay translation units and legacy function files."""
 from functools import lru_cache
+from overlay_names import name as OVN
 from pathlib import Path
 import json
 import re
@@ -13,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 @lru_cache(maxsize=None)
 def manifest(index, root=ROOT):
-    path = root / f'configs/PAL/overlays/{index}.json'
+    path = root / f'configs/PAL/overlays/{OVN(index)}.json'
     return json.loads(path.read_text()) if path.exists() else None
 
 
@@ -23,9 +24,9 @@ def function_owner(index, address, root=ROOT):
         for function in config['functions']:
             if function['address'] == address and function.get('source'):
                 return root / function['source'], function.get(
-                    'symbol', f'ovl{index}_func_{address:08X}')
-    return (root / f'src/overlays/PAL/{index}/func_{address:08X}.c',
-            f'ovl{index}_func_{address:08X}')
+                    'symbol', f'{OVN(index)}_func_{address:08X}')
+    return (root / f'src/overlays/PAL/{OVN(index)}/func_{address:08X}.c',
+            f'{OVN(index)}_func_{address:08X}')
 
 
 def symbol_addresses(root=ROOT):
@@ -68,7 +69,7 @@ def resolve_c_source_path(path):
     path = Path(path)
     if path.exists():
         return path
-    match = re.search(r'src/overlays/PAL/(\d+)/func_([0-9A-Fa-f]{8})\.c$', str(path))
+    match = re.search(r'src/overlays/PAL/(\w+)/func_([0-9A-Fa-f]{8})\.c$', str(path))
     if not match:
         main = re.search(r'src/main/PAL/(func_[0-9A-Fa-f]{8})\.c$', str(path))
         if main:
@@ -76,7 +77,7 @@ def resolve_c_source_path(path):
             if owner is not None:
                 return owner
         raise FileNotFoundError(path)
-    return function_owner(int(match[1]), int(match[2], 16))[0]
+    return function_owner(match[1], int(match[2], 16))[0]
 
 
 def read_c_source(path):
@@ -94,8 +95,8 @@ def read_c_source(path):
     if match:
         symbol = match[1]
     else:
-        match = re.search(r'src/overlays/PAL/(\d+)/func_([0-9A-Fa-f]{8})\.c$', str(path))
-        _, symbol = function_owner(int(match[1]), int(match[2], 16))
+        match = re.search(r'src/overlays/PAL/(\w+)/func_([0-9A-Fa-f]{8})\.c$', str(path))
+        _, symbol = function_owner(match[1], int(match[2], 16))
     source = owner.read_text()
     start, end = function_extent(source, symbol)
     return source[start:end] + '\n'
@@ -117,7 +118,7 @@ def link_unit(index, source, functions, rodata_spans, output, validate_sections,
     if len(tables) > 1:
         raise ValueError(f'Multiple separate rodata spans need an explicit layout: {source}')
     rodata = tables[0] if tables else None
-    name = f'ovl{index}_{source.stem}'
+    name = f'{OVN(index)}_{source.stem}'
     obj, elf, script = (output / (name + suffix) for suffix in ('.o', '.elf', '.ld'))
     subprocess.run([str((root / 'tools/scripts/cc.sh').resolve()), str(source), str(obj)],
                    check=True, capture_output=True)
@@ -128,7 +129,7 @@ def link_unit(index, source, functions, rodata_spans, output, validate_sections,
         validate_sections(parsed, source, rodata)
         for symbol in parsed.get_section_by_name('.symtab').iter_symbols():
             if symbol['st_shndx'] == 'SHN_UNDEF' and symbol.name:
-                match = re.fullmatch(r'(?:ovl\d+_)?(?:D|func)_([0-9A-Fa-f]{8})', symbol.name)
+                match = re.fullmatch(r'(?:[a-z][a-z_]*_)?(?:D|func)_([0-9A-Fa-f]{8})', symbol.name)
                 if match:
                     address = int(match[1], 16)
                 elif symbol.name in addresses:

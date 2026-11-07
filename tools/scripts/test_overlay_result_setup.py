@@ -4,6 +4,7 @@ Row initialization/rendering, result classification and transitions are typed
 simulated boundaries. The six-entry standings selector executes its actual C.
 """
 from overlay_units import read_c_source
+from overlay_names import name as OVN
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import re
@@ -15,7 +16,7 @@ class OverlayResultSetupTest(unittest.TestCase):
     def test_progress_flags_label_banks_standings_and_mutable_services(self):
         root = Path(__file__).resolve().parents[2]
         bodies = '\n'.join(re.sub(r'^extern[^\n]*;\n', '',
-                                  read_c_source(root / f'src/overlays/PAL/{ov}/func_{addr}.c'),
+                                  read_c_source(root / f'src/overlays/PAL/{OVN(ov)}/func_{addr}.c'),
                                   flags=re.M)
                            for ov, addr in [(660, '801162D8'), (660, '801154D8'),
                                             (666, '80115388')])
@@ -47,20 +48,20 @@ static unsigned scenario,mutation,overlay;
 #define SelectionRows w->state.choice
 #define ModeFrame w->state.frame
 #define ScreenFrame w->state.counter
-#define ovl666_result_kind w->state.bank666
-#define ovl666_result_labels w->state.labels666
+#define extra_course_select_result_kind w->state.bank666
+#define extra_course_select_result_labels w->state.labels666
 #define TotalRaceTime w->state.match
 #define LapTimes w->state.standings
 #define BestLapIndex w->state.first
-#define ovl660_race_record_rank w->state.first660
-#define ovl660_lap_record_rank w->state.second660
-#define ovl660_result_labels w->state.labels660
+#define time_attack_course_select_race_record_rank w->state.first660
+#define time_attack_course_select_lap_record_rank w->state.second660
+#define time_attack_course_select_result_labels w->state.labels660
 #define D_800F3A48 w->state.uiMode
-#define ovl660_result_transition w->state.screenFlag
+#define time_attack_course_select_result_transition w->state.screenFlag
 #define MenuCursor w->state.selection
 #define MenuItemCount w->state.mode
 #define CourseIndex w->state.gameMode
-#define ovl660_result_kind w->state.flash
+#define time_attack_course_select_result_kind w->state.flash
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 static s16 half(u32 n){u16 bits=(u16)n;s16 v;memcpy(&v,&bits,2);return v;}
 static s32 event(s32 kind,s32 a,s32 b,s32 c,s32 d,s32 e) {
@@ -103,7 +104,7 @@ void SetMenuTextRow(s32 row,s32 position,s32 group,s32 mode,s32 label) {
  }
  assert(mode==0);(void)event(1,row,position,group,mode,label);
 }
-s32 ovl660_func_80115FA8(s32 selector,s32 value) {
+s32 time_attack_course_select_func_80115FA8(s32 selector,s32 value) {
  assert(!overlay && w->calls<2 && selector==(s32)w->calls);
  return event(3,selector,value,0,0,0);
 }
@@ -170,7 +171,7 @@ int main(void) {
   initial.state.uiMode=(s32)(scenario%5)-1;
   for(overlay=0;overlay<2;overlay++) {
    actual=initial;expected=initial;
-   w=&actual;if(overlay)ovl666_init_results();else ovl660_func_801154D8();
+   w=&actual;if(overlay)extra_course_select_init_results();else time_attack_course_select_func_801154D8();
    w=&expected;if(overlay)reference_666();else reference_660();
    assert(memcmp(&actual,&expected,sizeof(actual))==0);
   }

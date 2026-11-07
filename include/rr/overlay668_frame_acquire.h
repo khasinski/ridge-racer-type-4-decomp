@@ -8,5 +8,5 @@ void ClearImage(const RrGpuRectangleFields *,u8,u8,u8);
  * owner; activeB8 points to a complete playback state. Config and both frame
  * owners stay live across clear-image callbacks, which may replace activeB8.
  * Width arithmetic wraps32 bits before signed division and narrowing. */
-u8 *ovl668_func_80115164(RrStrDisplayConfig *config);
+u8 *movie_playback_func_80115164(RrStrDisplayConfig *config);
 #endif

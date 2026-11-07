@@ -1,5 +1,6 @@
 """Ownership and complete-image regressions for the cleaned overlay modules."""
 from pathlib import Path
+from overlay_names import name as OVN
 import re
 import unittest
 
@@ -27,7 +28,7 @@ class OverlayUnitsTest(unittest.TestCase):
                 self.assertIn(source, sources)
                 text = source.read_text()
                 start, end = function_extent(text, symbol)
-                fixture = ROOT / f"src/overlays/PAL/{index}/func_{row['address']:08X}.c"
+                fixture = ROOT / f"src/overlays/PAL/{OVN(index)}/func_{row['address']:08X}.c"
                 self.assertEqual(read_c_source(fixture), text[start:end] + '\n')
             for source in sources:
                 text = source.read_text()

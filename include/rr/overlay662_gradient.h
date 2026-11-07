@@ -6,7 +6,7 @@
  * then prepend the packet to the low24 DMA chain. RGB varies left-to-right;
  * the three unused color-padding bytes survive. Ordering may name a real word
  * in the supplied storage. Packet must belong to an array for the next cursor. */
-RrPolyG4Storage *ovl662_func_8011B0CC(u32 *ordering,RrPolyG4Storage *packet,
+RrPolyG4Storage *garage_func_8011B0CC(u32 *ordering,RrPolyG4Storage *packet,
     u32 x,u32 y,u32 width,u32 height,u32 r0,u32 g0,u32 b0,
     u32 r1,u32 g1,u32 b1);
 #endif

@@ -20,6 +20,21 @@ The overlay area starts at `0x80114878` (startup clears BSS up to that address);
 overlays are loaded from `R4.BIN` (950 entries). See
 [docs/overlays.md](docs/overlays.md) for the container format and address map.
 
+Overlays are called by module name everywhere (directories, configs, symbol prefixes, tests);
+the R4.BIN entry number appears only in `configs/PAL/overlays/names.json`:
+
+| Module | R4.BIN entry | Contents |
+|---|---:|---|
+| `race_results` | 659 (alias 670) | race, results/standings, vehicle preview |
+| `time_attack_course_select` | 660 (alias 669) | time attack course selection |
+| `versus_select` | 661 (alias 671) | versus selection |
+| `garage` | 662 | garage |
+| `records` | 663 | records display, time formatting |
+| `options` | 665 | audio, screen calibration, visual options |
+| `extra_course_select` | 666 | extra course selection |
+| `serial_link` | 667 | multiplayer over the link cable |
+| `movie_playback` | 668 | STR movie playback |
+
 ## Progress
 
 **The main executable matches byte for byte** (`make check` compares the build
@@ -30,9 +45,9 @@ byte or line differences are never reported as progress.
 | Scope | Status |
 |---|---|
 | Main executable | byte-identical to the retail EXE |
-| Overlays 659, 663, 666 | Levenshtein 0, whole overlay and EXE identical (`tools/scripts/build_overlay.py`) |
-| Other overlays (660-662, 665, 667, 668) | partial C under `src/overlays/PAL/<id>/`; not yet verified as whole overlays |
-| Named symbols | about 1,430 of 1,671 functions and about 690 globals have real names |
+| Overlays `race_results`, `records`, `extra_course_select` | Levenshtein 0, whole overlay and EXE identical (`tools/scripts/build_overlay.py`) |
+| Other overlays | partial C under `src/overlays/PAL/<module>/`; not yet verified as whole overlays |
+| Named symbols | 1,637 of 1,640 resident functions and about 1,210 globals have real names; the rest are BIOS stubs and fields inside named structs |
 
 Matching does not imply complete C decompilation: some units still use inline
 assembly or compiler constraints. The policy and the remaining debt are tracked
@@ -44,7 +59,7 @@ overlay text.
 
 - `configs/PAL/` - splat config, symbols (`sym.main.txt`), function table.
 - `src/main/` - decompiled C translation units for the main executable.
-- `src/overlays/PAL/<id>/` - C for overlay modules.
+- `src/overlays/PAL/<module>/` - C for overlay modules, one directory per module name.
 - `include/` - project headers and local PSYQ-compatible declarations.
 - `tools/scripts/` - build, verification and analysis helpers, plus their tests.
 - `docs/` - overlay analysis, source layout, decompilation guide, crutch debt.
@@ -86,8 +101,8 @@ make check          # main.exe: OK means byte-identical
 make test           # regression tests, prints FAIL lines only
 ```
 
-Overlay verification: `.venv/bin/python tools/scripts/build_overlay.py --overlay 659`
-(also `663`, `666`) reports the Levenshtein distance and whether the whole
+Overlay verification: `.venv/bin/python tools/scripts/build_overlay.py --overlay race_results`
+(also `records`, `extra_course_select`) reports the Levenshtein distance and whether the whole
 overlay and EXE are identical.
 
 ## License

@@ -6,5 +6,5 @@
  *2,4,8,16; more generally2 or4..255 have defined nonzero divisors. Zero mode
  *selects the horizontal bar, every other full signed word the vertical one.
  *Coordinates narrow to PAL halfwords after signed32 geometry arithmetic. */
-void ovl662_func_8011C174(s32 mode,RrGpuRectangleFields *rectangle);
+void garage_func_8011C174(s32 mode,RrGpuRectangleFields *rectangle);
 #endif

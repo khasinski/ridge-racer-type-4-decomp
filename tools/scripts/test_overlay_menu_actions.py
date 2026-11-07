@@ -1,5 +1,6 @@
 """Four menu actions, live helper mutations and captured choice bytes."""
 from overlay_units import read_c_source
+from overlay_names import name as OVN
 from pathlib import Path
 import subprocess
 from tempfile import TemporaryDirectory
@@ -14,7 +15,7 @@ class OverlayMenuActionsTest(unittest.TestCase):
         root = Path(__file__).resolve().parents[2]
         entries = [(660, '801156A8'), (661, '80117E10'), (666, '80115510'),
                    (667, '801187DC'), (662, '8011662C')]
-        bodies = '\n'.join(read_c_source(root / f'src/overlays/PAL/{i}/func_{a}.c')
+        bodies = '\n'.join(read_c_source(root / f'src/overlays/PAL/{OVN(i)}/func_{a}.c')
                            for i, a in entries)
         resident = read_c_source(root / 'tools/scripts/fixtures/views/func_8004F24C.c')
         source = r'''
@@ -78,10 +79,10 @@ static void initialize(u32 k){unsigned i;memset(&world,0,sizeof(world));
  world.second_accept=(k&1)?(s32)(next()|1):0;world.sound_accept=(k&2)?0:-1;
  for(i=0;i<4;i++){world.choice.bytes[i]=next();world.changed_choice[i]=next();}
 }
-static s32 results_menu(void){return ovl660_func_801156A8(0);}
-static s32 retry_menu(void){return ovl666_update_retry_choice(0);}
+static s32 results_menu(void){return time_attack_course_select_func_801156A8(0);}
+static s32 retry_menu(void){return extra_course_select_update_retry_choice(0);}
 static void menus(unsigned which){u32 k;const s32 offsets[]={37,38,37,39};
- s32 (*functions[])(void)={results_menu,ovl661_func_80117E10,retry_menu,ovl667_func_801187DC};
+ s32 (*functions[])(void)={results_menu,versus_select_func_80117E10,retry_menu,serial_link_func_801187DC};
  for(k=0;k<65536;k++){
   s32 result,wanted,limit;initialize(k);memcpy(&expected,&world,sizeof(world));
   draw(&expected,(s32)expected.selection+offsets[which],0,0);
@@ -104,7 +105,7 @@ static void choices(void){u32 k,m;
   e->args[0]=160;e->args[1]=204;e->args[2]=48;e->args[3]=0;e->args[4]=captured;e->args[5]=0;e->args[6]=4;
   memcpy(expected.choice.bytes,expected.changed_choice,4);
   e=event(&expected,5);e->args[0]=captured;expected.accepted^=0x12345678;
-  assert(ovl662_func_8011662C(next(),m?(k&1?-1:1):0)==-123);
+  assert(garage_func_8011662C(next(),m?(k&1?-1:1):0)==-123);
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
 }
@@ -118,16 +119,16 @@ int main(int argc,char **argv){unsigned which;assert(argc==2);which=atoi(argv[1]
                         '-I', str(root / 'include'), str(path / 'test.c'),
                         '-o', str(cls.binary)], check=True)
 
-    def test_overlay660_menu(self):
+    def test_time_attack_course_select_menu(self):
         subprocess.run([str(self.binary), '0'], check=True)
 
-    def test_overlay661_menu(self):
+    def test_versus_select_menu(self):
         subprocess.run([str(self.binary), '1'], check=True)
 
-    def test_overlay666_menu(self):
+    def test_extra_course_select_menu(self):
         subprocess.run([str(self.binary), '2'], check=True)
 
-    def test_overlay667_menu(self):
+    def test_serial_link_menu(self):
         subprocess.run([str(self.binary), '3'], check=True)
 
     def test_captured_choice(self):

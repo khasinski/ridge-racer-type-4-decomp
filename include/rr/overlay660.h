@@ -5,21 +5,21 @@
 #include "rr/overlay_race_state.h"
 #include "rr/race_frame_scratch.h"
 
-extern const char ovl660_title[];
-extern char ovl660_new_record_label[];
-extern s32 ovl660_result_labels[55];
-extern u8 ovl660_preview_row_map[2][4];
-extern s16 ovl660_available_car_counts[2];
-extern s32 ovl660_available_course_count;
-extern s32 ovl660_race_record_rank;
-extern s32 ovl660_name_cursor;
-extern s16 ovl660_result_kind;
-extern char ovl660_record_name[12];
-extern s16 ovl660_preview_confirmation;
-extern s32 ovl660_result_transition;
-extern s16 ovl660_preview_selection;
-extern s32 ovl660_lap_record_rank;
-extern s16 ovl660_preview_bank;
+extern const char time_attack_course_select_title[];
+extern char time_attack_course_select_new_record_label[];
+extern s32 time_attack_course_select_result_labels[55];
+extern u8 time_attack_course_select_preview_row_map[2][4];
+extern s16 time_attack_course_select_available_car_counts[2];
+extern s32 time_attack_course_select_available_course_count;
+extern s32 time_attack_course_select_race_record_rank;
+extern s32 time_attack_course_select_name_cursor;
+extern s16 time_attack_course_select_result_kind;
+extern char time_attack_course_select_record_name[12];
+extern s16 time_attack_course_select_preview_confirmation;
+extern s32 time_attack_course_select_result_transition;
+extern s16 time_attack_course_select_preview_selection;
+extern s32 time_attack_course_select_lap_record_rank;
+extern s16 time_attack_course_select_preview_bank;
 
 extern s32 GameLanguage;
 extern s16 SceneId;
@@ -31,20 +31,20 @@ void DrawSplitTimeHud(s32 paused);
 s32 CountChoiceGlyphs(const RrCourseChoice4 *choices);
 s32 EncodeRecordPassword(s32 course, s32 selection, s32 car, s32 mode, s32 value, u8 *output);
 
-void ovl660_func_80114910(void);
-void ovl660_func_80114920(void);
-void ovl660_func_80114C40(void);
-void ovl660_func_80114D38(void);
-void ovl660_func_801154D8(void);
+void time_attack_course_select_func_80114910(void);
+void time_attack_course_select_func_80114920(void);
+void time_attack_course_select_func_80114C40(void);
+void time_attack_course_select_func_80114D38(void);
+void time_attack_course_select_func_801154D8(void);
 /* The results controller explicitly passes zero in a0. */
-s32 ovl660_func_801156A8(s32 reserved);
-void ovl660_func_8011572C(void);
-s32 ovl660_func_80115FA8(s32 mode, s32 time);
-void ovl660_func_801162D8(void);
-void ovl660_func_801163C4(void);
-void ovl660_func_80116530(void);
-void ovl660_func_8011712C(void);
-void ovl660_func_8011718C(void);
+s32 time_attack_course_select_func_801156A8(s32 reserved);
+void time_attack_course_select_func_8011572C(void);
+s32 time_attack_course_select_func_80115FA8(s32 mode, s32 time);
+void time_attack_course_select_func_801162D8(void);
+void time_attack_course_select_func_801163C4(void);
+void time_attack_course_select_func_80116530(void);
+void time_attack_course_select_func_8011712C(void);
+void time_attack_course_select_func_8011718C(void);
 
 typedef RrRaceFrameScratch Rr660FrameScratch;
 #ifndef RR_660_FRAME_SCRATCH

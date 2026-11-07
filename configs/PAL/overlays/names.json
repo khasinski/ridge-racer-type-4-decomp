@@ -1,10 +1,10 @@
 {
-  "659": {"name": "race_results", "aliases": [670], "evidence": "ovl659_rank_standings, ovl659_init_results/update_results, result and preview controllers"},
+  "659": {"name": "race_results", "aliases": [670], "evidence": "race_results_rank_standings, race_results_init_results/update_results, result and preview controllers"},
   "660": {"name": "time_attack_course_select", "aliases": [669], "evidence": "string job_ta_crs_info0"},
   "661": {"name": "versus_select", "aliases": [671], "evidence": "strings PLAYER 2, job_vs_car_info0"},
   "662": {"name": "garage", "aliases": [], "evidence": "strings garage0, job_garage_car_info0"},
   "663": {"name": "records", "aliases": [], "evidence": "string recode0; records display state"},
-  "665": {"name": "options", "aliases": [], "evidence": "audio mono/stereo settings, screen calibration, visual options (tests test_overlay665_*)"},
+  "665": {"name": "options", "aliases": [], "evidence": "audio mono/stereo settings, screen calibration, visual options (tests test_options_*)"},
   "666": {"name": "extra_course_select", "aliases": [], "evidence": "string job_ex_crs_info0"},
   "667": {"name": "serial_link", "aliases": [672], "evidence": "strings sio:, PLAYER 2/3/4; serial step/receive"},
   "668": {"name": "movie_playback", "aliases": [], "evidence": "STR playback: strNext, timeout diagnostics, decoder tables"}

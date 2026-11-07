@@ -7,10 +7,10 @@
 #include "rr/overlay662_sprites.h"
 extern u8 *LoadCursorBase;
 extern void *GarageImageBlock0,*GarageTimBuffer1;
-extern s32 ovl662_D_8012625C;
-extern RrGpuRectangle ovl662_D_8012624C,ovl662_D_80126254;
+extern s32 garage_D_8012625C;
+extern RrGpuRectangle garage_D_8012624C,garage_D_80126254;
 void StoreImage(RrGpuRectangle *,const u32 *);
-void ovl662_func_8011E36C(s32);
+void garage_func_8011E36C(s32);
 typedef unsigned long RrGarageArenaAddress;
 typedef char RrGarageArenaAddressWidth[sizeof(RrGarageArenaAddress)==sizeof(void*)?1:-1];
 /* At stage1 the published root has0x2944 writable bytes with enough alignment
@@ -19,5 +19,5 @@ typedef char RrGarageArenaAddressWidth[sizeof(RrGarageArenaAddress)==sizeof(void
  * At stage2 both upload sources remain valid through the call; the fresh
  * image40[0] after the second upload has512 writable words. Services may change
  * all globals. The captured incremented stage supplies the final scene value. */
-void ovl662_func_8011A518(void);
+void garage_func_8011A518(void);
 #endif

@@ -1,5 +1,6 @@
 """Two complete layout initializers with real reset, glyph and count helpers."""
 from overlay_units import read_c_source
+from overlay_names import name as OVN
 from pathlib import Path
 import re
 import subprocess
@@ -10,7 +11,7 @@ import unittest
 class CarLayoutsTest(unittest.TestCase):
     def test_native_layouts(self):
         root = Path(__file__).resolve().parents[2]
-        bodies = '\n'.join(read_c_source(root / f'src/overlays/PAL/{o}/func_{a}.c')
+        bodies = '\n'.join(read_c_source(root / f'src/overlays/PAL/{OVN(o)}/func_{a}.c')
                            for o,a in ((660,'80114920'),(662,'8011512C')))
         bodies = re.sub(r'__asm__\("\$2"\)', '', bodies)
         helpers = '\n'.join(re.sub(r'^extern[^\n]*\n','',
@@ -59,9 +60,9 @@ static u8 resources[3][0x2D100],arenas[3][128],packets[128];static u32 orders[32
 #define MenuScriptStep w->s.clear1
 #define LoadState w->s.clear2
 #define CourseIndexMap w->s.map
-#define ovl662_D_801272E4 w->s.index
-#define ovl662_D_801272D4 w->s.local
-#define ovl662_D_801272E0 w->s.count
+#define garage_D_801272E4 w->s.index
+#define garage_D_801272D4 w->s.local
+#define garage_D_801272E0 w->s.count
 ''' + helpers + bodies + r'''
 static s32 word(u32 u){s32 v;memcpy(&v,&u,4);return v;}
 static s16 half(u32 u){u16 n=u;s16 v;memcpy(&v,&n,2);return v;}
@@ -117,7 +118,7 @@ static void expected(void){unsigned i;State *s=&w->s;
 int main(void){unsigned i;assert((uintptr_t)resources>UINT32_MAX);
  for(scenario=0;scenario<65536;scenario++)for(kind=0;kind<2;kind++)for(mutation=0;mutation<2;mutation++){
   memset(&initial,0,sizeof(initial));w=&initial;effect(0);w->s.selection=half(scenario);for(i=0;i<4;i++){w->s.guard[i]=scenario+i;w->s.tail[i]=~(scenario+i);}actual=reference=initial;
-  w=&actual;if(kind)ovl662_func_8011512C();else ovl660_func_80114920();w=&reference;expected();assert(!memcmp(&actual,&reference,sizeof(actual)));
+  w=&actual;if(kind)garage_func_8011512C();else time_attack_course_select_func_80114920();w=&reference;expected();assert(!memcmp(&actual,&reference,sizeof(actual)));
  }
  assert(seenCounts==1023);return 0;
 }

@@ -1,5 +1,6 @@
 """Two label renderers with live source changes, native cursors and real digits."""
 from overlay_units import read_c_source
+from overlay_names import name as OVN
 from pathlib import Path
 import re
 import subprocess
@@ -10,7 +11,7 @@ import unittest
 class ExtraLabelsTest(unittest.TestCase):
     def test_native_labels(self):
         root = Path(__file__).resolve().parents[2]
-        bodies = '\n'.join(read_c_source(root / f'src/overlays/PAL/{o}/func_{a}.c')
+        bodies = '\n'.join(read_c_source(root / f'src/overlays/PAL/{OVN(o)}/func_{a}.c')
                            for o,a in ((663,'80116744'),(662,'80118238')))
         bodies = re.sub(r'__asm__\("\$2"\)', '', bodies)
         formatter = read_c_source(root / 'tools/scripts/fixtures/views/func_8002B814.c')
@@ -34,11 +35,11 @@ typedef struct {State s;unsigned count;Event events[32];} World;
 static World actual,reference,initial,*w;
 static u8 arena[1024];static u32 ordering[4];
 RrBadgeRow1C *BadgeRows;
-#define ovl663_record_label w->s.uv
-#define ovl663_selected_record w->s.index
-#define ovl663_course_unlock_levels w->s.counts
-#define ovl662_D_801273A8 w->s.letters
-#define ovl662_D_801273A0 w->s.selected
+#define records_record_label w->s.uv
+#define records_selected_record w->s.index
+#define records_course_unlock_levels w->s.counts
+#define garage_D_801273A8 w->s.letters
+#define garage_D_801273A0 w->s.selected
 #define ScreenFrame w->s.tick
 ''' + bodies + formatter + r'''
 static u32 next(void){u32 x=w->s.rng;x^=x<<13;x^=x>>17;x^=x<<5;return w->s.rng=x;}
@@ -73,7 +74,7 @@ int main(void){unsigned scenario,kind,i;void *got,*want;
   w->s.selected=(s8)(scenario%10-1);
   for(i=0;i<4;i++){w->s.rows[i].x04=(s16)next();w->s.rows[i].y06=(s16)next();}
   actual=reference=initial;
-  w=&actual;BadgeRows=w->s.rows;got=kind?0:ovl663_draw_record_labels(ordering,arena,scenario%4);if(kind)ovl662_func_80118238(ordering,arena,scenario%4);
+  w=&actual;BadgeRows=w->s.rows;got=kind?0:records_draw_record_labels(ordering,arena,scenario%4);if(kind)garage_func_80118238(ordering,arena,scenario%4);
   w=&reference;BadgeRows=w->s.rows;want=expected(kind,scenario%4);
   assert(kind||got==want);assert(!memcmp(&actual,&reference,sizeof(actual)));
  }

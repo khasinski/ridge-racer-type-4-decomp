@@ -9,6 +9,6 @@
  * After services,active21 is0/1 and both selected image pointers address
  * disjoint complete512-word buffers. Rectangle table slot1 addresses the
  * first member of a complete RrGarageButton. Services may change all roots. */
-void ovl662_func_8011ED20(s32 command);
+void garage_func_8011ED20(s32 command);
 typedef char RrGarageRotateAddressWidth[sizeof(unsigned long)==sizeof(void*)?1:-1];
 #endif

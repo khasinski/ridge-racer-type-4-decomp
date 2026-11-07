@@ -1,5 +1,6 @@
 """Real course screens and glyph/count helpers; simulated scene services."""
 from overlay_units import read_c_source
+from overlay_names import name as OVN
 from pathlib import Path
 import re
 import subprocess
@@ -10,7 +11,7 @@ import unittest
 class CourseChoicesTest(unittest.TestCase):
     def test_native_screens_and_signed_course_records(self):
         root = Path(__file__).resolve().parents[2]
-        bodies = '\n'.join(read_c_source(root / f'src/overlays/PAL/{i}/func_{a}.c')
+        bodies = '\n'.join(read_c_source(root / f'src/overlays/PAL/{OVN(i)}/func_{a}.c')
                            for i,a in ((660,'801163C4'),(661,'80115F8C'),(667,'80116BB4')))
         bodies = re.sub(r'^extern[^\n]*\n', '', bodies, flags=re.M)
         glyph = read_c_source(root / 'tools/scripts/fixtures/views/func_80037040.c')
@@ -47,11 +48,11 @@ static unsigned scenario,mutation;
 #define PlayerCourseChoices w->s.points
 #define ImageRows w->s.ui[scenario%4]
 #define CourseChoiceTable w->s.main
-#define ovl661_D_80118458 w->s.table661
+#define versus_select_D_80118458 w->s.table661
 #define CourseMenuChoices w->s.table667
 #define SelectionPlayer w->s.player
-#define ovl661_D_80118450 w->s.rows661
-#define ovl661_D_8011844C w->s.cols661
+#define versus_select_D_80118450 w->s.rows661
+#define versus_select_D_8011844C w->s.cols661
 #define CourseMenuPage w->s.rows667
 #define CourseMenuCursor w->s.cols667
 #define PlayerCars w->s.vehicles
@@ -61,10 +62,10 @@ static unsigned scenario,mutation;
 #define ScreenFrame w->s.wordabeb0
 #define MenuCursor w->s.halfc64a
 #define MenuItemCount w->s.halfc5e0
-#define ovl660_preview_bank w->s.row660
-#define ovl660_preview_selection w->s.col660
-#define ovl660_preview_confirmation w->s.reset660
-#define ovl660_available_car_counts w->s.counts660
+#define time_attack_course_select_preview_bank w->s.row660
+#define time_attack_course_select_preview_selection w->s.col660
+#define time_attack_course_select_preview_confirmation w->s.reset660
+#define time_attack_course_select_available_car_counts w->s.counts660
 static s16 half(u32 bits){s16 result;u16 h=(u16)bits;memcpy(&result,&h,2);return result;}
 static void effect(unsigned n){
  unsigned i,j,k;u32 value=scenario*0x9e3779b9U+n*47U;
@@ -139,7 +140,7 @@ int main(void){
   for(i=0;i<sizeof(w->s.selection);i++)((u8*)&w->s.selection)[i]=(u8)(scenario+i*43);
   for(i=0;i<4;i++){w->s.guards[i]=0x12345678U+i;w->s.tail[i]=0x87654321U-i;}
   actual=initial;expected=initial;w=&actual;
-  if(kind==0)ovl660_func_801163C4();else if(kind==1)ovl661_func_80115F8C();else ovl667_func_80116BB4();
+  if(kind==0)time_attack_course_select_func_801163C4();else if(kind==1)versus_select_func_80115F8C();else serial_link_func_80116BB4();
   w=&expected;reference(kind);assert(memcmp(&actual,&expected,sizeof(actual))==0);
  }
  return 0;

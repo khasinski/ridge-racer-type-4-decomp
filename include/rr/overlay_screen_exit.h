@@ -6,5 +6,5 @@
 extern u16 ModeGroup,ModeId;
 extern s16 ModeSubState;
 void StopRaceAudioAndRumble(void),SetupRaceAndScene(void);
-void ovl667_func_801155E0(void);
+void serial_link_func_801155E0(void);
 #endif

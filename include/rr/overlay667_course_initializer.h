@@ -11,16 +11,16 @@ extern RrSelectionRows SelectionRows;
 extern RrCourseChoice4 CourseMenuChoices[2][2][9];
 extern RrCourseChoice4 CourseChoiceTable[2][9];
 extern char PlayerNames[4][12];
-extern char *ovl667_D_80118E00[4];
+extern char *serial_link_D_80118E00[4];
 extern s8 LinkEntryState[2][2];
 extern s32 NumLaps,SelectionPlayer,AvailableCourseCount;
 extern s16 CourseIndex,CourseMenuSelection,ModeId,CourseMenuPhase,D_8010C0D4;
 extern u16 ModeGroup,ModeSubState;
 void SetDispMask(s32);void SetupDrawDispEnvs(s32,s32,s16,u32);s32 UpdateLinkHandshake(s32);void ClearScreenOverlayState(void);
-void CopyStringClearTail(char*,char*);void ovl667_func_801161A8(s32);void UnpackChoiceGlyph(s8*,s32);void SeqStartTrack(s32);void SetMenuFrameOptions(s32,s32,s32);
+void CopyStringClearTail(char*,char*);void serial_link_func_801161A8(s32);void UnpackChoiceGlyph(s8*,s32);void SeqStartTrack(s32);void SetMenuFrameOptions(s32,s32,s32);
 /* Four complete selection prefixes occupy bytes 0..15 of the 32-byte owner.
  * Each player base freshly read after a service is 0 or 2; mode is 0 or 1.
  * Name lookups are four native pointers to strings fitting twelve bytes.
  * Copies cover the full 144-byte two-snapshot/two-player/nine-course owner. */
-void ovl667_func_80116918(void);
+void serial_link_func_80116918(void);
 #endif

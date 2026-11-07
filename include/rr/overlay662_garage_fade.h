@@ -2,7 +2,7 @@
 #define RR_OVERLAY662_GARAGE_FADE_H
 #include "rr/overlay662_input.h"
 void PlaySfx(s32 sound);
-void ovl662_func_8011DA90(void);
+void garage_func_8011DA90(void);
 /* GTE INTPL protocol: two packed signed-halfword points supply IR1/IR2 and
  * far-colour1/2; IR0 receives factor. IR3/far-colour3 keep their previous
  * inputs. INTPL also changes other GTE result registers/FLAG; this macro is

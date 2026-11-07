@@ -3,5 +3,5 @@
 #include "types.h"
 /* Signed16 frame:0 before48, ramp to256 at64, plateau through140,
  * ramp down to0 at156, then remain0. Result is a multiple of16 in0..256. */
-s32 ovl668_func_8011596C(s16 frame);
+s32 movie_playback_func_8011596C(s16 frame);
 #endif

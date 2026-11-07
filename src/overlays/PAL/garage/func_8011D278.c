@@ -1,0 +1,32 @@
+#include "rr/overlay662_options.h"
+void garage_func_8011D278(s32 mode)
+{
+ if(mode<0){
+  garage_D_801276A8.options78.flat[0]=garage_D_801268CC;
+  garage_D_801276A8.options78.flat[1]=garage_D_80126994;
+  garage_D_801276A8.options78.flat[2]=garage_D_801269E4;
+  garage_D_801276A8.options78.flat[3]=garage_D_80126A34;
+  garage_D_801276A8.options78.flat[4]=garage_D_80126A84;
+  garage_D_801276A8.options78.flat[5]=garage_D_80126AFC;
+  garage_D_801276A8.options78.flat[6]=garage_D_80126BC4;
+  garage_D_801276A8.options78.flat[7]=garage_D_80126BEC;
+  garage_D_801276A8.optionIndices98.flat[0]=0;
+  garage_D_801276A8.optionIndices98.flat[1]=1;
+  garage_D_801276A8.optionIndices98.flat[2]=0;
+  garage_D_801276A8.optionIndices98.flat[3]=0;
+  garage_D_801276A8.optionIndices98.flat[4]=1;
+  garage_D_801276A8.optionIndices98.flat[5]=0;
+  garage_D_801276A8.optionIndices98.flat[6]=0;
+  garage_D_801276A8.optionIndices98.flat[7]=0;
+  garage_D_801276A8.current60=0;
+  garage_D_801276A8.selectorsB8[0]=0;
+  garage_D_801276A8.selectorsB8[1]=0;
+  garage_D_801276A8.selectorsB8[2]=0;
+  garage_D_801276A8.selectorsB8[3]=0;
+  garage_D_801276A8.saved64[0]=0;
+  garage_D_801276A8.saved64[1]=0;
+  garage_D_801276A8.saved64[2]=0;
+  garage_D_801276A8.saved64[3]=0;
+  garage_D_801276A8.saved64[4]=0;
+ }
+}

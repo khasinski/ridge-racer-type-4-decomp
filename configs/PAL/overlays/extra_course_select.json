@@ -1,0 +1,167 @@
+{
+  "entry": 666,
+  "aliases": [],
+  "load_address": 2148616312,
+  "image_size": 10240,
+  "units": [
+    {
+      "source": "src/overlays/PAL/extra_course_select/course_menu.c",
+      "address": 2148616404
+    },
+    {
+      "source": "src/overlays/PAL/extra_course_select/results.c",
+      "address": 2148619144
+    },
+    {
+      "source": "src/overlays/PAL/extra_course_select/preview.c",
+      "address": 2148620936
+    },
+    {
+      "source": "src/overlays/PAL/extra_course_select/race.c",
+      "address": 2148623724
+    }
+  ],
+  "functions": [
+    {
+      "address": 2148616404,
+      "size": 576,
+      "symbol": "extra_course_select_init_menu",
+      "source": "src/overlays/PAL/extra_course_select/course_menu.c"
+    },
+    {
+      "address": 2148616980,
+      "size": 440,
+      "symbol": "extra_course_select_init_scene",
+      "source": "src/overlays/PAL/extra_course_select/course_menu.c"
+    },
+    {
+      "address": 2148617420,
+      "size": 1148,
+      "symbol": "extra_course_select_update_menu",
+      "source": "src/overlays/PAL/extra_course_select/course_menu.c"
+    },
+    {
+      "address": 2148618568,
+      "size": 360,
+      "symbol": "extra_course_select_update_course_selection",
+      "source": "src/overlays/PAL/extra_course_select/course_menu.c"
+    },
+    {
+      "address": 2148618928,
+      "size": 216,
+      "symbol": "extra_course_select_draw_selection_pulse",
+      "source": "src/overlays/PAL/extra_course_select/course_menu.c"
+    },
+    {
+      "address": 2148619144,
+      "size": 392,
+      "symbol": "extra_course_select_init_results",
+      "source": "src/overlays/PAL/extra_course_select/results.c"
+    },
+    {
+      "address": 2148619536,
+      "size": 128,
+      "symbol": "extra_course_select_update_retry_choice",
+      "source": "src/overlays/PAL/extra_course_select/results.c"
+    },
+    {
+      "address": 2148619664,
+      "size": 1272,
+      "symbol": "extra_course_select_update_results",
+      "source": "src/overlays/PAL/extra_course_select/results.c"
+    },
+    {
+      "address": 2148620936,
+      "size": 468,
+      "symbol": "extra_course_select_init_preview",
+      "source": "src/overlays/PAL/extra_course_select/preview.c"
+    },
+    {
+      "address": 2148621404,
+      "size": 2320,
+      "symbol": "extra_course_select_update_preview",
+      "source": "src/overlays/PAL/extra_course_select/preview.c"
+    },
+    {
+      "address": 2148623724,
+      "size": 356,
+      "symbol": "extra_course_select_update_checkpoint",
+      "source": "src/overlays/PAL/extra_course_select/race.c"
+    },
+    {
+      "address": 2148624080,
+      "size": 96,
+      "symbol": "extra_course_select_exit_race",
+      "source": "src/overlays/PAL/extra_course_select/race.c"
+    },
+    {
+      "address": 2148624176,
+      "size": 1968,
+      "symbol": "extra_course_select_update_race",
+      "source": "src/overlays/PAL/extra_course_select/race.c"
+    }
+  ],
+  "globals": {
+    "extra_course_select_scene_name": 2148616316,
+    "extra_course_select_selection_sprite": 2148626144,
+    "extra_course_select_result_labels": 2148626148,
+    "extra_course_select_course_dispatch": 2148626280,
+    "extra_course_select_course_counts": 2148626312,
+    "extra_course_select_preview_phase": 2148626320,
+    "extra_course_select_result_kind": 2148626324,
+    "extra_course_select_selected_course": 2148626328,
+    "extra_course_select_available_courses": 2148626336
+  },
+  "data_sections": [
+    {
+      "section": ".extra_course_select.header",
+      "address": 2148616312,
+      "size": 4
+    },
+    {
+      "section": ".extra_course_select.scene_name",
+      "address": 2148616316,
+      "size": 24
+    },
+    {
+      "section": ".extra_course_select.selection_sprite",
+      "address": 2148626144,
+      "size": 4
+    },
+    {
+      "section": ".extra_course_select.result_labels",
+      "address": 2148626148,
+      "size": 132
+    },
+    {
+      "section": ".extra_course_select.course_dispatch",
+      "address": 2148626280,
+      "size": 32
+    },
+    {
+      "section": ".extra_course_select.course_counts",
+      "address": 2148626312,
+      "size": 8
+    },
+    {
+      "section": ".extra_course_select.preview_phase",
+      "address": 2148626320,
+      "size": 4
+    },
+    {
+      "section": ".extra_course_select.result_kind",
+      "address": 2148626324,
+      "size": 4
+    },
+    {
+      "section": ".extra_course_select.selected_course",
+      "address": 2148626328,
+      "size": 4
+    },
+    {
+      "section": ".extra_course_select.available_courses",
+      "address": 2148626336,
+      "size": 144
+    }
+  ]
+}

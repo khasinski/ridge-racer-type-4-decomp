@@ -6,5 +6,5 @@
 #include "rr/menu_selection.h"
 #include "rr/projection_state.h"
 extern s16 LinkResultsExitFlag,CourseMenuPhase;
-void ovl667_func_80117EF8(void);
+void serial_link_func_80117EF8(void);
 #endif

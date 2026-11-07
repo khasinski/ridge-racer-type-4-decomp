@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build a complete PAL overlay from its C translation units and typed data."""
 import argparse
+from overlay_names import name as OVN, entry as overlay_entry
 import hashlib
 import json
 from pathlib import Path
@@ -21,8 +22,8 @@ def run(*args):
 
 
 def build(index):
-    config = json.loads((ROOT / f'configs/PAL/overlays/{index}.json').read_text())
-    output = ROOT / f'build/overlays/{index}-full'
+    config = json.loads((ROOT / f'configs/PAL/overlays/{OVN(index)}.json').read_text())
+    output = ROOT / f'build/overlays/{OVN(index)}-full'
     output.mkdir(parents=True, exist_ok=True)
     objects, sections = [], []
     for unit in config['units']:
@@ -37,7 +38,7 @@ def build(index):
                 address, size = table
                 sections.append((address, f'.table_{address:X} 0x{address:X} : SUBALIGN(4) {{ {obj}(.rodata) }}'))
     data = output / 'data.o'
-    run(ROOT / 'tools/scripts/cc.sh', ROOT / f'src/overlays/PAL/{index}/data.c', data)
+    run(ROOT / 'tools/scripts/cc.sh', ROOT / f'src/overlays/PAL/{OVN(index)}/data.c', data)
     objects.append(data)
     for row in config['data_sections']:
         section, address = row['section'], row['address']
@@ -51,7 +52,7 @@ def build(index):
                     (undefined if symbol['st_shndx'] == 'SHN_UNDEF' else defined).add(symbol.name)
     addresses, definitions = symbol_addresses(), []
     for name in sorted(undefined - defined):
-        match = re.fullmatch(r'(?:ovl\d+_)?(?:D|func)_([0-9A-Fa-f]{8})', name)
+        match = re.fullmatch(r'(?:[a-z][a-z_]*_)?(?:D|func)_([0-9A-Fa-f]{8})', name)
         address = int(match[1], 16) if match else addresses[name]
         definitions.append(f'{name} = 0x{address:X};')
     end = config['load_address'] + config['image_size']
@@ -98,13 +99,14 @@ def build(index):
     assert all(row['levenshtein'] == 0 for row in functions), report
     assert all(identity.values()), identity
     assert report['full_exe_identical']
-    print(f'Overlay {index}: {len(functions)} C functions, Levenshtein 0; whole overlay and EXE identical.')
+    print(f'Overlay {OVN(index)} (R4 entry {index}): {len(functions)} C functions, Levenshtein 0; whole overlay and EXE identical.')
     return report
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--overlay', type=int, choices=(659, 663, 666), required=True)
+    parser.add_argument('--overlay', type=overlay_entry, required=True,
+                        help='module name (race_results, records, extra_course_select) or R4.BIN entry number')
     parser.add_argument('--require-complete', action='store_true', help='All manifest units are always C.')
     build(parser.parse_args().overlay)
 

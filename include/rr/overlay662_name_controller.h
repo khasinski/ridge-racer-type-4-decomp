@@ -20,5 +20,5 @@ void UpdateBadgeRowAnim(s32);void UpdateScreenFade(s32);
  * Keys40/41/42 mean space/backspace/commit; larger keys are ignored.
  * Fade uses the signed low16 of the decremented timer and rereads it after
  * the drawing service. Every phase finishes with both row renders and title. */
-void ovl662_func_80118A30(void);
+void garage_func_80118A30(void);
 #endif

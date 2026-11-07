@@ -5,13 +5,13 @@
 
 typedef struct {s16 direction,length;} RrStrokeStep4;
 typedef struct {u8 bytes[4];} RrStrokeColor4;
-extern RrStrokeColor4 ovl665_D_801148C4;
-extern u16 ovl665_D_8011920C[5][2];
+extern RrStrokeColor4 options_D_801148C4;
+extern u16 options_D_8011920C[5][2];
 
 /* Five readable path slots; each selected path terminates at direction -1.
  * Other directions are 0..3. Paths remain live during rendering. Arithmetic
  * wraps as MIPS words; coordinate storage wraps to sixteen bits. */
-void ovl665_func_80116AA4(const RrStrokeStep4 *const *paths,s32 factor);
+void options_func_80116AA4(const RrStrokeStep4 *const *paths,s32 factor);
 RR_ASSERT_SIZE(RrStrokeStep4,4);
 RR_ASSERT_SIZE(RrStrokeColor4,4);
 RR_ASSERT_OFFSET(RrStrokeStep4,length,2);

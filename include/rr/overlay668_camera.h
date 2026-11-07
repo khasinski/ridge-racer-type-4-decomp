@@ -21,23 +21,23 @@ s32 Atan2Table();
  * Position and interpolation results use wrapping32 arithmetic. Fraction is
  *0..1023; sample count is at least4. Services may replace the sample table and
  * camera state. The angle service returns an angle in-1024..3072. */
-void ovl668_func_80115554(void);
-void ovl668_func_801156FC(void);
+void movie_playback_func_80115554(void);
+void movie_playback_func_801156FC(void);
 extern RrRaceVehicle PlayerCars[2];
 u16 *RotMatrix(s16 *rotation,u16 *matrix);
 void *ApplyMatrixSV(const RrMatrixWords32 *matrix,const s16 *vector,RrPreviewVector8 *output);
 void BuildCameraMatrices(void);
-void ovl668_func_80115850(void);
+void movie_playback_func_80115850(void);
 /* Explicit legacy position argument, ignored by the current body. */
-void ovl668_func_80115460(s32 *position);
+void movie_playback_func_80115460(s32 *position);
 /* The track root after setup services covers at least321 samples. Services
  * may change roots and state; the final wrapped selection index must address
  * one of the20 lookup entries. Initializes from captured sample320, advances
  * the camera sixteen times, then publishes the post-service lookup value. */
-void ovl668_func_80115DFC(void);
+void movie_playback_func_80115DFC(void);
 extern s32 VSyncThreshold,ViewUsesCarTrackNode,MaskBitSetting,D_80127E90,D_80127E94,GameLanguage;
 extern s16 SelectedTeamIndex;
-extern s32 ovl668_D_80116CC0[20];
+extern s32 movie_playback_D_80116CC0[20];
 void SetDispMask(s32);
 void SetupDrawDispEnvs(s32,s32,s16,u32);
 void InitViewState(void);

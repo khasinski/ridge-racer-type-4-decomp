@@ -18,11 +18,11 @@ void SetDispMask(s32);
 void SsSetSerialAttr(s8,s8,s8);
 void SsSetSerialVol(s8,s32,s32);
 s32 VSync(s32);
-s32 ovl668_func_801150D8(RrStrDisplayConfig *);
-void ovl668_func_801153F0(u8 *location);
-void ovl668_func_80114B2C(u8 *resource);
+s32 movie_playback_func_801150D8(RrStrDisplayConfig *);
+void movie_playback_func_801153F0(u8 *location);
+void movie_playback_func_80114B2C(u8 *resource);
 void LoadImage(const RrGpuRectangleFields *rectangle,const void *pixels);
-void ovl668_func_80114F48(void);
+void movie_playback_func_80114F48(void);
 /* Both selectors are0..1. The full playback state remains live across callbacks.
  * Coordinates narrow to signed16, DMA output covers width*height/2 words.
  * Captured rectangle is passed by address; its pixel buffer uses the old index. */

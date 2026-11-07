@@ -5,7 +5,7 @@
 #include "rr/overlay662_image_fade.h"
 #include "rr/tables.h"
 extern RrMenuItemState5C PlayerControllers[2];
-void ovl662_func_80118ED8(void);
+void garage_func_80118ED8(void);
 s32 UpdateRect16Row(s32);
 void DrawUiRow(s32);
 void UpdateBadgeRowAnim(s32);
@@ -18,5 +18,5 @@ void UpdateScreenFade(s32);
  * after each draw; the caller/services must bound the loop and row backing.
  * Byte-address formation retains the complete native address before adding
  * the record offset. The unsigned scene phase dispatches only0,3,4. */
-void ovl662_func_80119E00(void);
+void garage_func_80119E00(void);
 #endif

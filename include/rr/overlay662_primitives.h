@@ -6,26 +6,26 @@
 #include "rr/draw_environment.h"
 #include "rr/overlay662_sprites.h"
 /* Clip helper takes a packet cursor and preserves the low16 rectangle fields. */
-u8 *ovl662_func_8011ABB4(u32 *ordering,u8 *cursor,u32 x,u32 y,u32 w,u32 h);
+u8 *garage_func_8011ABB4(u32 *ordering,u8 *cursor,u32 x,u32 y,u32 w,u32 h);
 /* Unless work bit0 is set, emit the selected sprite then the full-screen clip.
  * The active work index must select an initialized sprite. */
-void ovl662_func_8011B8B4(void);
+void garage_func_8011B8B4(void);
 /* Build draw-mode and null texture-window commands and prepend to ordering. */
-RrGpuDrawModePacket *ovl662_func_8011AC94(u32 *ordering,
+RrGpuDrawModePacket *garage_func_8011AC94(u32 *ordering,
     RrGpuDrawModePacket *packet,u32 x,u32 y);
 /* Capture the garage origin, write a three-word TILE, then prepend it to the
  * ordering link. Coordinates, sizes and colors preserve their low16/8 bits.
  * The supplied packet belongs to an array with room for the returned cursor. */
-RrGpuTilePacket *ovl662_func_8011B034(u32 *ordering, RrGpuTilePacket *packet,
+RrGpuTilePacket *garage_func_8011B034(u32 *ordering, RrGpuTilePacket *packet,
     u32 x,u32 y,u32 w,u32 h,u32 r,u32 g,u32 b);
 /* Inputs wrap to the packet field widths. Capture both origin coordinates
  * before writing. Ordering may alias an actual u32 member (tag or terminator) of an output
  * packet, but not a packed pair of coordinates or four color bytes.
  * The packet cursor belongs to an array with room for the returned cursor. */
-RrGpuPolyFT4Packet *ovl662_func_8011B1CC(u32 *ordering,RrGpuPolyFT4Packet *packet,
+RrGpuPolyFT4Packet *garage_func_8011B1CC(u32 *ordering,RrGpuPolyFT4Packet *packet,
     u32 x,u32 y,u32 w,u32 h,u32 u,u32 v,u32 uw,u32 vh,u32 clut,u32 tpage);
-RrGpuTilePacket *ovl662_func_8011AD3C(u32 *ordering,RrGpuTilePacket *packet,
+RrGpuTilePacket *garage_func_8011AD3C(u32 *ordering,RrGpuTilePacket *packet,
     u32 x0,u32 y,u32 x1,u32 r,u32 g,u32 b);
-RrGpuLineF4Packet *ovl662_func_8011AEC4(u32 *ordering,RrGpuLineF4Packet *packet,
+RrGpuLineF4Packet *garage_func_8011AEC4(u32 *ordering,RrGpuLineF4Packet *packet,
     u32 x,u32 y,u32 w,u32 h,u32 r,u32 g,u32 b);
 #endif

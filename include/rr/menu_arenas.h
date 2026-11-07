@@ -7,8 +7,8 @@
 extern RrMenuArenas MenuArenas;
 extern u8 *CdDirectoryBuffer;
 void InitMenuArenas(void);
-void ovl662_func_80116020(void);
-void ovl662_func_80116148(void);
+void garage_func_80116020(void);
+void garage_func_80116148(void);
 RR_ASSERT_SIZE(RrMenuArenas,8);
 RR_ASSERT_OFFSET(RrMenuArenas,second,4);
 #endif

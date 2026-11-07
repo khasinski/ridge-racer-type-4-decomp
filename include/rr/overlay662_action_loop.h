@@ -9,8 +9,8 @@ typedef struct {
     RrGarageStep render;
     s32 argument,key;
 } RrGarageActionRecord16;
-extern RrGarageActionRecord16 ovl662_D_80126C38[53];
-void ovl662_func_8011BF04(void);
+extern RrGarageActionRecord16 garage_D_80126C38[53];
+void garage_func_8011BF04(void);
 /* Nonzero mode installs53 action and46 button pointers by their bounded keys.
  * Mode0 requires all53 entries to address complete records with both callbacks.
  * A dispatched single action requires working slot4 to be0..52.
@@ -18,7 +18,7 @@ void ovl662_func_8011BF04(void);
  * must be0..4; table slots4/9/11/12/14 point at complete button owners.
  * Callbacks may replace later entries and change working flags or render mode.
  * The render-enable byte is checked once, before all53 render callbacks. */
-void ovl662_func_8011E36C(s32 mode);
+void garage_func_8011E36C(s32 mode);
 RR_ASSERT_SIZE(RrGarageActionRecord16,16);
 RR_ASSERT_OFFSET(RrGarageActionRecord16,prefix,0);
 RR_ASSERT_OFFSET(RrGarageActionRecord16,render,4);

@@ -10,7 +10,7 @@ class MenuScreenExitTest(unittest.TestCase):
         root=Path(__file__).resolve().parents[2]
         bodies="\n".join(read_c_source(root/p) for p in [
             'tools/scripts/fixtures/views/func_80036068.c','tools/scripts/fixtures/views/func_8003CAB4.c',
-            'src/overlays/PAL/660/func_8011712C.c','src/overlays/PAL/661/func_80114AA0.c'])
+            'src/overlays/PAL/time_attack_course_select/func_8011712C.c','src/overlays/PAL/versus_select/func_80114AA0.c'])
         source=r'''
 #include <assert.h>
 #include <stdint.h>
@@ -59,7 +59,7 @@ int main(void){unsigned i,j;
   memcpy(saved,frames,sizeof(frames));phase=0;
   ModeGroup=(u16)case_id;ModeId=(s16)case_id;ModeSubState=(s16)~case_id;
   CurrentDrawBuf=&frames[3].rectangle;
-  if(which)ovl661_func_80114AA0();else ovl660_func_8011712C();
+  if(which)versus_select_func_80114AA0();else time_attack_course_select_func_8011712C();
   assert(phase==4);assert(CurrentDrawBuf==&frames[3].rectangle);
   assert(ModeGroup==(u16)(case_id+3));assert(ModeId==(s16)(case_id-3));
   assert(ModeSubState==(s16)(case_id+9));assert(MaskBitSetting==(s32)(case_id+3));

@@ -11,5 +11,5 @@
  * first tile; each emitter's return is published before the next call.
  * Services may replace scratch roots, but all emitters use the captured slot.
  * Packet capacity/alignment and rectangle geometry follow the shared APIs. */
-void ovl662_func_8011C37C(s32 mode);
+void garage_func_8011C37C(s32 mode);
 #endif

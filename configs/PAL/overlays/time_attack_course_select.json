@@ -1,0 +1,128 @@
+{
+  "entry": 660,
+  "aliases": [
+    669
+  ],
+  "load_address": 2148616312,
+  "units": [
+    {
+      "source": "src/overlays/PAL/time_attack_course_select/course_menu.c",
+      "address": 2148616464
+    },
+    {
+      "source": "src/overlays/PAL/time_attack_course_select/results.c",
+      "address": 2148619480
+    },
+    {
+      "source": "src/overlays/PAL/time_attack_course_select/preview.c",
+      "address": 2148623300
+    },
+    {
+      "source": "src/overlays/PAL/time_attack_course_select/race.c",
+      "address": 2148626564
+    }
+  ],
+  "functions": [
+    {
+      "address": 2148616464,
+      "size": 16,
+      "symbol": "time_attack_course_select_func_80114910",
+      "source": "src/overlays/PAL/time_attack_course_select/course_menu.c"
+    },
+    {
+      "address": 2148616480,
+      "size": 800,
+      "symbol": "time_attack_course_select_func_80114920",
+      "source": "src/overlays/PAL/time_attack_course_select/course_menu.c"
+    },
+    {
+      "address": 2148617280,
+      "size": 248,
+      "symbol": "time_attack_course_select_func_80114C40",
+      "source": "src/overlays/PAL/time_attack_course_select/course_menu.c"
+    },
+    {
+      "address": 2148617528,
+      "size": 1952,
+      "symbol": "time_attack_course_select_func_80114D38",
+      "source": "src/overlays/PAL/time_attack_course_select/course_menu.c"
+    },
+    {
+      "address": 2148619480,
+      "size": 464,
+      "symbol": "time_attack_course_select_func_801154D8",
+      "source": "src/overlays/PAL/time_attack_course_select/results.c"
+    },
+    {
+      "address": 2148619944,
+      "size": 132,
+      "symbol": "time_attack_course_select_func_801156A8",
+      "source": "src/overlays/PAL/time_attack_course_select/results.c"
+    },
+    {
+      "address": 2148620076,
+      "size": 2172,
+      "symbol": "time_attack_course_select_func_8011572C",
+      "source": "src/overlays/PAL/time_attack_course_select/results.c"
+    },
+    {
+      "address": 2148622248,
+      "size": 816,
+      "symbol": "time_attack_course_select_func_80115FA8",
+      "source": "src/overlays/PAL/time_attack_course_select/results.c"
+    },
+    {
+      "address": 2148623064,
+      "size": 236,
+      "symbol": "time_attack_course_select_func_801162D8",
+      "source": "src/overlays/PAL/time_attack_course_select/results.c"
+    },
+    {
+      "address": 2148623300,
+      "size": 364,
+      "symbol": "time_attack_course_select_func_801163C4",
+      "source": "src/overlays/PAL/time_attack_course_select/preview.c"
+    },
+    {
+      "address": 2148623664,
+      "size": 2900,
+      "symbol": "time_attack_course_select_func_80116530",
+      "source": "src/overlays/PAL/time_attack_course_select/preview.c"
+    },
+    {
+      "address": 2148626564,
+      "size": 168,
+      "symbol": "time_attack_course_select_func_80117084",
+      "source": "src/overlays/PAL/time_attack_course_select/race.c"
+    },
+    {
+      "address": 2148626732,
+      "size": 96,
+      "symbol": "time_attack_course_select_func_8011712C",
+      "source": "src/overlays/PAL/time_attack_course_select/race.c"
+    },
+    {
+      "address": 2148626828,
+      "size": 1684,
+      "symbol": "time_attack_course_select_func_8011718C",
+      "source": "src/overlays/PAL/time_attack_course_select/race.c"
+    }
+  ],
+  "globals": {
+    "time_attack_course_select_title": 2148616316,
+    "time_attack_course_select_new_record_label": 2148616384,
+    "time_attack_course_select_result_labels": 2148628512,
+    "time_attack_course_select_preview_row_map": 2148628732,
+    "time_attack_course_select_available_car_counts": 2148628744,
+    "time_attack_course_select_available_course_count": 2148628748,
+    "time_attack_course_select_race_record_rank": 2148628752,
+    "time_attack_course_select_name_cursor": 2148628756,
+    "time_attack_course_select_result_kind": 2148628760,
+    "time_attack_course_select_record_name": 2148628768,
+    "time_attack_course_select_preview_confirmation": 2148628780,
+    "time_attack_course_select_result_transition": 2148628784,
+    "time_attack_course_select_preview_selection": 2148628788,
+    "time_attack_course_select_lap_record_rank": 2148628792,
+    "time_attack_course_select_preview_bank": 2148628796
+  }
+}

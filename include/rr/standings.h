@@ -8,5 +8,5 @@ extern s32 LapTimes[10];
 extern s32 TotalRaceTime;
 extern u16 BestLapIndex;
 /* Publish the first minimum entry's original index; an empty list yields0. */
-void ovl660_func_801162D8(void);
+void time_attack_course_select_func_801162D8(void);
 #endif

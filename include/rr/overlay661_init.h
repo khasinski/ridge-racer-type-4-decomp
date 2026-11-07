@@ -7,5 +7,5 @@
 #include "rr/projection_state.h"
 /* BIOS random service; this initializer consumes only its low two bits. */
 s32 PsyqRand(void);
-void ovl661_func_80117350(void);
+void versus_select_func_80117350(void);
 #endif

@@ -7,5 +7,5 @@
 extern s16 MenuResultCode;
 /* Active confirmation reads first badge.state10 and text status. Sound may
  * replace text/badge roots; acceptance writes the fresh owners afterward. */
-void ovl662_func_8011F888(s32 mode);
+void garage_func_8011F888(s32 mode);
 #endif

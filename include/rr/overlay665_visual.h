@@ -10,14 +10,14 @@
 #include "rr/bios_devices.h"
 #include "rr/overlay665_matrix.h"
 #include "rr/overlay665_visual_types.h"
-extern RrOverlay665VisualState ovl665_D_80119768;
-extern u8 ovl665_D_8011973C[4];
+extern RrOverlay665VisualState options_D_80119768;
+extern u8 options_D_8011973C[4];
 extern s32 DialogueContext;
-void ovl665_func_80114918(void);
+void options_func_80114918(void);
 /* Signed32 angles are normalized by the actual trig helpers. Each result lies
  * in[-4096,4096], so multiplication by40 and negation are signed32-safe.
  * Output coordinates retain their low16 bits, including wrapped centers. */
-void ovl665_func_801169BC(s32 angle);
+void options_func_801169BC(s32 angle);
 RR_ASSERT_SIZE(RrOverlay665VisualState,0xA0);
 RR_ASSERT_OFFSET(RrOverlay665VisualState,centerX38,0x38);
 RR_ASSERT_OFFSET(RrOverlay665VisualState,centerY3A,0x3A);

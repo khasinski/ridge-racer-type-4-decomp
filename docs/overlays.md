@@ -45,7 +45,7 @@ Role names are inferred from embedded strings and callers; the registry is `conf
 
 | Entry | Name | Module ID | Sector | Stored bytes | Candidate text offsets | Text span bytes | Interpretation |
 |---|---|---|---|---:|---|---:|---|
-| 659 | `race_results` | 10 | 19512 | 8192 | 0x54..0x1CB8 | 7268 | Race results, standings and preview (`ovl659_rank_standings`) |
+| 659 | `race_results` | 10 | 19512 | 8192 | 0x54..0x1CB8 | 7268 | Race results, standings and preview (`race_results_rank_standings`) |
 | 660 | `time_attack_course_select` | 11 | 19516 | 14336 | 0x98..0x2FA8 | 12048 | Time attack course selection (`job_ta_crs_info0`) |
 | 661 | `versus_select` | 8 | 19523 | 16384 | 0xAC..0x3AE0 | 14900 | Versus selection (`PLAYER 2`, `job_vs_car_info0`) |
 | 662 | `garage` | 12 | 19531 | 77824 | 0x120..0x1199C | 71804 | Garage (`garage0`, `job_garage_car_info0`) |
@@ -231,9 +231,9 @@ by the renderer. The scratchpad remains a genuine hardware address.
 
 ```sh
 make -j8 check
-.venv/bin/python tools/scripts/build_overlay.py --overlay 659
-.venv/bin/python tools/scripts/build_overlay.py --overlay 663
-.venv/bin/python tools/scripts/build_overlay.py --overlay 666
+.venv/bin/python tools/scripts/build_overlay.py --overlay race_results
+.venv/bin/python tools/scripts/build_overlay.py --overlay records
+.venv/bin/python tools/scripts/build_overlay.py --overlay extra_course_select
 .venv/bin/python tools/scripts/verify_overlay_samples.py
 ```
 
