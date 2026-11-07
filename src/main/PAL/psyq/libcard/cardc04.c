@@ -88,7 +88,7 @@ s32 _cardCmd5BRangeBegin(s32 request, u8 *buffer, s32 sector, s32 input_count) {
     active = 2;
     CardCmdBuffer = buffer;
     CardCmdSector = sector;
-    D_80114728 = count;
+    CardVarRxLength = count;
     {
         /* ASM_BARRIER: preserve the original assembler temporary for the mapped store. */
         register s32 *base __asm__("$1");
@@ -114,7 +114,7 @@ int _cardCmd5BRangeTx() {
     case 6: return D_80114725;
     case 7: return D_80114726;
     case 8: return D_80114727;
-    case 9: return D_80114728;
+    case 9: return CardVarRxLength;
     }
     return 0;
 }
@@ -124,7 +124,7 @@ int _cardCmd5BRangeTx() {
 s32 _cardCmd5BRangeRx(s32 value) {
     s32 phase=CardRxCount;
     s32 result;
-    if(phase==9) CardBytesRemaining=(u32)D_80114728+1;
+    if(phase==9) CardBytesRemaining=(u32)CardVarRxLength+1;
     else if(phase>=11) CardCmdBuffer[phase-11]=value;
     result=0;
     return result;
@@ -148,7 +148,7 @@ s32 _cardCmd5CRangeBegin(s32 request, u8 *buffer, s32 sector, s32 input_count) {
     active = 2;
     CardCmdBuffer = buffer;
     CardCmdSector = sector;
-    D_80114728 = count;
+    CardVarRxLength = count;
     {
         /* ASM_BARRIER: preserve the original assembler temporary for the mapped store. */
         register s32 *base __asm__("$1");

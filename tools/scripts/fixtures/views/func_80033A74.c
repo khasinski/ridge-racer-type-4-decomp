@@ -27,7 +27,7 @@
 
 #undef _sio_control
 
-extern int func_8002E828();
+extern int ScaleMatrixRow1();
 
 extern int BuildCameraMatrices();
 
@@ -74,7 +74,7 @@ void SetupMenuCarCamera(int a)
     t = 0x1F800028;
     /* ASM_BARRIER: forces the 0x1F800028 li to be scheduled before the li a0,2 (original delay-slot layout) */
     asm volatile("" : "=r"(t) : "0"(t));
-    func_8002E828(2, t);
+    ScaleMatrixRow1(2, t);
   }
   ;
   if (PlayerControllers[SelectionPlayer & 1].b & 4)

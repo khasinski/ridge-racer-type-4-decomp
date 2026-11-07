@@ -69,7 +69,7 @@ extern u8 D_8009FE04[];
 extern u8 D_8009FE08[];
 extern u8 D_8009FE0C[];
 extern S2C SaveSlotSelections[];
-extern short D_800F4D3C;
+extern short SaveSlotIndex;
 extern char FractionText[];
 extern unsigned char D_8009FBEC[];
 extern char Options[];
@@ -320,7 +320,7 @@ int arg2;
                 arg1 = AddTilePrim(arg0, arg1, x, y + D_8009FDF8[i + 1] + 8, D_8009FE0C[j], 2, 0xFF, 0xFF, 0xFF);
             }
         }
-        if (i == D_800F4D3C) {
+        if (i == SaveSlotIndex) {
             arg1 = AddTileSemiTransPrim(arg0, arg1, *(short *)(BadgeRows + arg2 * 0x1C + 4), y + D_8009FDF8[i + 1] - 4, sp40, 0x18, 0x20, 0x20, 0x20);
         }
     }

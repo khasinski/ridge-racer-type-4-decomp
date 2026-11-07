@@ -29,7 +29,7 @@ extern int SelectionPlayer;
 extern short PlayerCourseChoices[];
 extern int DrawSubOtFlag;
 extern int LoadCursor;
-extern short D_800AD508;
+extern short LinkRoleSlot;
 extern short ReverseCourse;
 extern int MaskBitSetting;
 extern unsigned short D_800F3974;
@@ -48,7 +48,7 @@ extern char LinkEntryState[];
 extern char *DialogueState;
 extern int VSyncThreshold;
 extern short MenuCursor;
-extern short D_800AD50A;
+extern short SceneId;
 extern int ModeFrame;
 extern short *BadgeRows;
 extern int MenuConfirmPressed;
@@ -71,7 +71,7 @@ void TitleModeEnter() {
     a2 = 0;
     a1 = SelectionRows;
     a0 = PlayerCourseChoices;
-    D_800AD508 = -1;
+    LinkRoleSlot = -1;
     LinkState = 0;
     MenuFadeTimer = 0;
     SelectionPlayer = 0;
@@ -97,7 +97,7 @@ void TitleModeEnter() {
     _sio_control(1, 1, 0);
     DrawSubOtFlag = 0;
     MaskBitSetting = 0;
-    D_800F4CD0 = (D_800F3974 & 1) + 7;
+    MainMenuLastIndex = (D_800F3974 & 1) + 7;
     DebugPrintStub(StrMainMenu0Log);
 }
 
@@ -119,13 +119,13 @@ void TitleMenuInit()
   LinkEntryState[2] = 0;
   LinkEntryState[1] = 0;
   LinkEntryState[0] = 0;
-  D_800AD50A = 0x104;
-  while (i < (D_800F4CD0 + 1))
+  SceneId = 0x104;
+  while (i < (MainMenuLastIndex + 1))
   {
     v = i;
-    if (D_800F4CD0 == c7)
+    if (MainMenuLastIndex == c7)
     {
-      if (i == D_800F4CD0)
+      if (i == MainMenuLastIndex)
       {
         v = 8;
       }
@@ -170,7 +170,7 @@ void TitleMenuUpdate(void)
     case 0:
     case 10:
         _sio_control(1, 1, 0);
-        if (D_800F4BE0 > 0) {
+        if (SaveNoticeFlags > 0) {
             UpdateBadgeRowAnim(0);
             if (BadgeRows->s10 == 3) {
                 if (MenuConfirmPressed == 0 && D_800F4D8A != 0 && (signed char)DialogueState[6] != 4)
@@ -190,7 +190,7 @@ void TitleMenuUpdate(void)
                 if (v1 < 4) {
                     c3 = 3;
                     c4 = 4;
-                    a1 = D_800F4BE0;
+                    a1 = SaveNoticeFlags;
                     a0 = BadgeRows;
                     do {
                         if ((a1 >> v1) & 1)
@@ -205,7 +205,7 @@ void TitleMenuUpdate(void)
                 return;
             } else if (BadgeRows->s10 == 0xB) {
                 D_800F4D8A = 1;
-                D_800F4BE0 = 0;
+                SaveNoticeFlags = 0;
                 ScreenFrame = 0;
                 return;
             }
@@ -239,7 +239,7 @@ void TitleMenuUpdate(void)
                 D_800F4D8A = 3;
                 MenuFadeTimer = 0x40;
                 ResetScreenCounters();
-                func_8005C8D8(ModeMenuCursorSaved);
+                StartSceneFadeIn(ModeMenuCursorSaved);
                 BadgeRows->s10 = 4;
             }
         }
@@ -265,16 +265,16 @@ void TitleMenuUpdate(void)
         return;
     case 5:
         _sio_control(1, 1, 0);
-        if (D_8010BFBC & 1) {
+        if (AttractCycleCounter & 1) {
             ModeGroup = 2;
             ModeId = 3;
             D_800F4D8A = 0;
         } else {
             StartAttractDemo(0);
         }
-        D_8010BFBC = D_8010BFBC + 1;
-        if (D_8010BFBC >= 0x64)
-            D_8010BFBC = 0;
+        AttractCycleCounter = AttractCycleCounter + 1;
+        if (AttractCycleCounter >= 0x64)
+            AttractCycleCounter = 0;
         return;
     }
 }

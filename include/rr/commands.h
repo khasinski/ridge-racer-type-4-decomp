@@ -37,7 +37,7 @@ extern s32 CardCommandStatus, CardTxCount, CardCommandRequest, CardReceiveIndex,
 extern u8 *CardCmdBuffer;
 extern void *CardCmdResultPtrA;
 extern u32 *CardCmdResultPtrB;
-extern s32 CardCmdSector, D_80114728, CardBytesRemaining, CardCurrentCommand;
+extern s32 CardCmdSector, CardVarRxLength, CardBytesRemaining, CardCurrentCommand;
 extern RrCommandParameter D_8011472C;
 extern RrCommandReadCallback CardCommandReader;
 extern RrCommandWriteCallback CardWriteHandler;

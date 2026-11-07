@@ -105,7 +105,7 @@ block_34:
                 break;
             case 9:
                 if (ovl662_D_801276A8.fade00 == 0) {
-                    D_800FFC18 = 7;
+                    MenuResultCode = 7;
                     ModeGroup = 1;
                     ModeId = 0x47;
                     D_800F4D8A = 0;

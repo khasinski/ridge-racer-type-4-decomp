@@ -40,7 +40,7 @@ int a1;
     case 2:
         for (i = 0x1D; i >= 0; i--) {
         }
-        if (D_800F3AF8 != 0x10) {
+        if (SaveSlotSelect != 0x10) {
             r = CardReadFile((short)a1, 0, CardTargetFileName, SaveBuffer, 1);
         } else {
             r = CardReadFileAt((short)a1, 0, CardTargetFileName, SaveBuffer, 0x80, 0x280);
@@ -59,7 +59,7 @@ int a1;
         q = GetHwCardEvent();
         if (q != 0) {
             if (q == 1) {
-                if (ApplySaveData(D_800F3AF8) != 0) {
+                if (ApplySaveData(SaveSlotSelect) != 0) {
                     D_800A41EC = 4;
                 } else {
                     D_800A41EC = 6;
@@ -126,7 +126,7 @@ void func_8007ABCC(void) {
         SetDispMask(0);
         SetupDrawDispEnvs(0x20, 0x20, 0x20, 2);
         ModeFrame = 0;
-        D_800F4D3C = 0;
+        SaveSlotIndex = 0;
         D_80109478[D_8010948E] = 3;
         /* ASM_BARRIER: finish the choice write before the clock read. */
         __asm__("" : : : "memory");
@@ -148,10 +148,10 @@ void func_8007ABCC(void) {
             clearAddress--;
         } while (i >= 0);
         CopyStringClearTail(CardTargetFileName,CardSaveFileName);
-        selection = D_800FFC18;
+        selection = MenuResultCode;
         /* ASM_BARRIER: keep the signed snapshot separate from the range read. */
         __asm__("" : "+r"(selection));
-        modeRange = (u16)D_800FFC18;
+        modeRange = (u16)MenuResultCode;
         modeRange = (u16)(modeRange - 6);
         if (selection == 0) {
             InitUiRow(0x22, 0xC, 0x40, 0x44, 0x20, 0, 0, 1, 0, 0x66);
@@ -159,7 +159,7 @@ void func_8007ABCC(void) {
             InitUiRow(0x24, 0xC, 0x90, 0x44, 0x20, 0, 0, 1, 0, 0x64);
             InitUiRow(0x25, 0xC, 0xB8, 0x44, 0x20, 0, 0, 1, 0, 0x55);
             MenuStateIndex = 0;
-            D_800F3AF8 = 0;
+            SaveSlotSelect = 0;
             ScreenFadeLayout = 0x1001A;
             SeqStartTrack(0);
         } else if (modeRange < 2U) {
@@ -176,7 +176,7 @@ void func_8007ABCC(void) {
             ScreenFadeLayout = layout;
             /* ASM_BARRIER: publish the layout before the badge status. */
             __asm__("" : : : "memory");
-            D_800F3AF8 = 0x10;
+            SaveSlotSelect = 0x10;
             MenuStateIndex = 0x29;
             InitBadgeRow(1, 0x80, 0x58, 0xA8, 0x80, 0, 0xE02);
             BadgeRows[1].half02 = 1;
@@ -188,20 +188,20 @@ void func_8007ABCC(void) {
                 InitUiRow(0x22, 0xC, 0x40, 0x44, 0x20, 0, 0, 1, 0, 0x66);
                 InitUiRow(0x23, 0xC, 0x68, 0x44, 0x20, 0, 0, 1, 0, 0x55);
                 ScreenFadeLayout = 0x10012;
-                if (D_800FFC18 == 3) {
+                if (MenuResultCode == 3) {
                     MenuStateIndex = 0x17;
                 } else {
                     MenuStateIndex = 0x20;
                 }
                 InitBadgeRow(1, 0x80, 0x58, 0xA8, 0x80, 0, 0x702);
                 BadgeRows[1].half02 = 1;
-                D_800F3AF8 = (s16) (u16) D_800FFC18;
+                SaveSlotSelect = (s16) (u16) MenuResultCode;
             } else if (selection == 2) {
                 ScreenFadeLayout = 0x10016;
                 InitUiRow(0x22, 0xC, 0x40, 0x44, 0x20, 0, 0, 1, 0, 0x65);
                 InitUiRow(0x23, 0xC, 0x68, 0x44, 0x20, 0, 0, 1, 0, 0x55);
                 MenuStateIndex = 0x21;
-                D_800F3AF8 = selection;
+                SaveSlotSelect = selection;
             } else {
                 ScreenFadeLayout = 0x1001A;
             }
@@ -259,9 +259,9 @@ void func_8007B3A0(void) {
     }
     func_8007B460();
     UpdateBadgeRowAnim(0);
-    if (D_800FFC18 != 3) {
-        if (D_800FFC18 != 6) {
-            if (D_800FFC18 == 7) {
+    if (MenuResultCode != 3) {
+        if (MenuResultCode != 6) {
+            if (MenuResultCode == 7) {
                 goto block_6;
             }
         } else {

@@ -28,7 +28,7 @@ int _cardCmd5BFixedBegin(a0,a1) int a0; int a1; {
     }
     if (r == 0) return 0;
     CardCmdSector = 0x6000300;
-    D_80114728 = 4;
+    CardVarRxLength = 4;
     CardCurrentCommand = 0xA;
     CardCommandReader = (int *)_cardCmd5BRangeTx;
     CardWriteHandler = (int *)_cardCmd5BRangeRx;
@@ -69,7 +69,7 @@ int _cardCmd5CFixedBegin(a0, a1) int a0; int a1; {
     p = &D_8011472C;
     CardCmdBuffer = p;
     *p = 2;
-    D_80114728 = 1;
+    CardVarRxLength = 1;
     CardCurrentCommand = 9;
     CardCommandReader = (int *)_cardCmd5CRangeTx;
     CardWriteHandler = (int *)_cardCmd5CRangeRx;

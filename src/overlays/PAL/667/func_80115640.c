@@ -30,7 +30,7 @@ typedef struct {
 } Ovl667FrameStorage;
 
 extern s16 PlayerCount;
-extern s32 D_80107190;
+extern s32 RaceIntroWipeY;
 extern char *CurrentDrawBuf;
 extern u32 ModeFrame;
 extern s32 RaceState;
@@ -39,12 +39,12 @@ extern s16 MenuFadeTimer;
 extern s16 NumCars;
 extern s32 RaceTimeRemaining;
 extern s32 ScreenFrame;
-extern s16 D_800AD508;
+extern s16 LinkRoleSlot;
 extern u16 Pad0Buttons;
 extern s8 RacePaused;
 extern s8 PauseCursor;
 extern s16 RaceType;
-extern s16 D_800F4C70[];
+extern s16 EngineRevDisplay[];
 extern s16 D_800F2AB4[];
 extern u16 D_8010C0C8[];
 extern Ovl667Vehicle PlayerCars[];
@@ -266,12 +266,12 @@ void ovl667_func_80115640(void) {
                 if (PlayerCars[i].active1E8 == -1) {
                     continue;
                 }
-                DrawHudRotatingQuad(D_800F4C70[i], i);
+                DrawHudRotatingQuad(EngineRevDisplay[i], i);
                 DrawRaceMinimap(0);
                 DrawLapCounter(0, PlayerCars[i].lap2AA);
                 DrawSteeringIndicator(frame, 0);
             } else {
-                DrawHudNumber5(D_800F4C70[i], i);
+                DrawHudNumber5(EngineRevDisplay[i], i);
                 DrawRaceMinimap(i + 1);
                 DrawLapCounter(i + 1, PlayerCars[i].lap2AA);
                 DrawSteeringIndicator(frame, i + 1);
@@ -302,7 +302,7 @@ void ovl667_func_80115640(void) {
             ovl667_D_80118E88[i] = *(Ovl667Vector16 *)0x1F800018;
             ovl667_D_80118EA8[i] = *(Ovl667Vector16 *)0x1F800008;
             BuildCameraMatrices();
-            DrawCars(i + ((s16)(D_800AD508 ^ 1) + 1) * 2);
+            DrawCars(i + ((s16)(LinkRoleSlot ^ 1) + 1) * 2);
             if (PlayerCars[i].flag1EA != 0 && RacePaused == 0) {
                 func_800225DC(n == 1 ? 0 : i + 1);
             }
@@ -316,17 +316,17 @@ void ovl667_func_80115640(void) {
             if (RaceState == 0 && n == 1) {
                 FrameEnvs[1].enable18 = n;
                 FrameEnvs[0].enable18 = n;
-                SCRATCH_CURSOR = AddDrawAreaPrim(frame + 0xAF8, SCRATCH_CURSOR, 0, D_80107190, 320,
-                                               256 - (D_80107190 << n));
+                SCRATCH_CURSOR = AddDrawAreaPrim(frame + 0xAF8, SCRATCH_CURSOR, 0, RaceIntroWipeY, 320,
+                                               256 - (RaceIntroWipeY << n));
                 if (i == 0) {
-                    if ((D_80107190 -= 16) < 0) {
-                        D_80107190 = 0;
+                    if ((RaceIntroWipeY -= 16) < 0) {
+                        RaceIntroWipeY = 0;
                         FrameEnvs[1].enable18 = 0;
                         FrameEnvs[0].enable18 = 0;
                     }
                 }
             }
-            SlotSetLevelProgram(D_800F4C70[i], D_800F2AB4[i], i);
+            SlotSetLevelProgram(EngineRevDisplay[i], D_800F2AB4[i], i);
             if (i == 0) {
                 ovl667_func_801151E0();
             }

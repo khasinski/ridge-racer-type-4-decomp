@@ -27,11 +27,11 @@ extern int LoadCursor;
 extern int MenuArenaBase;
 extern int MenuArenas;
 extern int InitMenuArenas();
-extern int D_800F4D74;
+extern int LoadCursorBase;
 extern short CourseIndex;
 extern int UploadCarClut();
 extern struct { short a; short b; } PlayerCourseChoices[];
-extern char *D_800F3B24;
+extern char *CarClutData;
 extern char SaveDataBackup[];
 extern unsigned char SelectionRows[][4];
 extern int LoadTimList();
@@ -189,7 +189,7 @@ int func_8003AAE8(void) {
             SoundCloseVabsAndReset();
             LoadState = 2;
             InitMenuArenas();
-            LoadCursor = D_800F4D74;
+            LoadCursor = LoadCursorBase;
     case 2:
             r = 1;
         }
@@ -246,7 +246,7 @@ int LoadAllCarsStep(void) {
         if (r != 1) break;
         a1 = PlayerCourseChoices[s0].b;
         if (a1 >= 2) {
-            s2 = D_800F3B24;
+            s2 = CarClutData;
             a1 -= 2;
         } else {
             if (a1 == r) {
@@ -303,7 +303,7 @@ int LoadCarRangeStep(int arg0, int arg1) {
         arg0 += LoadIndex;
         a1 = PlayerCourseChoices[arg0].b;
         if (a1 >= 2) {
-            q3 = D_800F3B24;
+            q3 = CarClutData;
             a1 -= 2;
         } else {
             if (a1 == r) {
@@ -412,7 +412,7 @@ s7:
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F3B24 (*(int (*))&D_800F3B24)
+#define CarClutData (*(int (*))&CarClutData)
 
 int LoadCarClutStep(void) {
     int r = 0;
@@ -432,7 +432,7 @@ int LoadCarClutStep(void) {
     case 2:
         if (CdFileBytesLoaded()) {
             LoadState = 3;
-            D_800F3B24 = LoadDestCursor;
+            CarClutData = LoadDestCursor;
     case 3:
             r = 1;
         }
@@ -441,7 +441,7 @@ int LoadCarClutStep(void) {
     return r;
 }
 
-#undef D_800F3B24
+#undef CarClutData
 
 int LoadTimListStep(void) {
     int r = 0;
@@ -449,7 +449,7 @@ int LoadTimListStep(void) {
     case 0:
         LoadIndex = 0;
         LoadState = 1;
-        LoadCursor = D_800F4D74;
+        LoadCursor = LoadCursorBase;
     case 1:
         if (CdFileReadStart(GetR4FileIndex(1, 0x13), LoadCursor)) {
             LoadState = 2;

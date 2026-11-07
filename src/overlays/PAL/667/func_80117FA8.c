@@ -137,7 +137,7 @@ void ovl667_func_80117FA8(void) {
             break;
         case 8:
             if (UiRows[18].byte14 == 5) {
-                ovl667_func_801161A8((1 - D_800AD508) * 2);
+                ovl667_func_801161A8((1 - LinkRoleSlot) * 2);
                 ModeGroup = 1;
                 ModeId = 0x3C;
                 D_800F4D8A = 0;

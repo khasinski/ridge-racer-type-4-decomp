@@ -56,7 +56,7 @@ extern Unk80110008 _svm_rattr;
 extern s16 _svm_damper;
 extern s16 kMaxPrograms;
 extern s8 spuVmMaxVoice;
-extern s16 D_80110118;
+extern s16 SvmVoiceIndex;
 extern u8 _svm_vab_used[];
 extern s16 _svm_vab_count;
 extern u8 D_801101C8[];
@@ -136,7 +136,7 @@ void _SsVmInit(s32 arg0) {
             _svm_voice[i].f26 = 0;
             attr.voice = c1 << i;
             SpuSetVoiceAttr(&attr);
-            D_80110118 = i;
+            SvmVoiceIndex = i;
             _SsVmKeyOffNow(1);
             i++;
         } while (i < spuVmMaxVoice);

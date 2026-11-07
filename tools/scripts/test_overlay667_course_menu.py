@@ -41,7 +41,7 @@ static State actual,reference,*w;
 #define CourseIndex w->mapped
 #define NumLaps w->players
 #define ModeId w->scene
-#define D_800AD508 w->split
+#define LinkRoleSlot w->split
 #define LinkState w->card
 #define D_8010C0B8 w->waitFlag
 #define D_8010C0C8 w->loadStatus

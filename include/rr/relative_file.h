@@ -8,7 +8,7 @@ RR_ASSERT_SIZE(RrRelativeHeader,0x50);
 RR_ASSERT_OFFSET(RrRelativeHeader,first,4);
 RR_ASSERT_OFFSET(RrRelativeHeader,offsets,0x10);
 extern RrRelativeHeader *D_800F2EBC;
-extern s32 D_800F39A4;
+extern s32 RelativeFileCount;
 extern RrRelativeSlot *D_800F3820;
 extern u8 *D_800F391C,*RelFileViewRecords;
 extern u8 *RelFileSection00;

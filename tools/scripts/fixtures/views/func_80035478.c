@@ -1,9 +1,9 @@
 #include "rr/player_status.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800AD508 (*(short (*))&D_800AD508)
+#define LinkRoleSlot (*(short (*))&LinkRoleSlot)
 
-#undef D_800AD508
+#undef LinkRoleSlot
 
 /* legacy typing of shared globals in this part of the unit */
 #define LinkEntryState (*(char (*)[])&LinkEntryState)
@@ -11,9 +11,9 @@
 #undef LinkEntryState
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800AD508 (*(s16 (*))&D_800AD508)
+#define LinkRoleSlot (*(s16 (*))&LinkRoleSlot)
 
-#undef D_800AD508
+#undef LinkRoleSlot
 
 /* legacy typing of shared globals in this part of the unit */
 #define ModeFrame (*(unsigned int (*))&ModeFrame)
@@ -73,7 +73,7 @@ void DrawLinkEntryScreen(s32 mode) {
             labelY=row*194+64;
             waitY=row*194+150;
             statusY=row*194+120;
-            text[0]=row+((s32)((u32)(D_800AD508^1)<<16)>>15)+49;
+            text[0]=row+((s32)((u32)(LinkRoleSlot^1)<<16)>>15)+49;
             DrawBigFontString(12,labelY,StrPlayerLabel);
             DrawBigFontString(88,labelY,text);
             status=LinkEntryState[1-mode][row];

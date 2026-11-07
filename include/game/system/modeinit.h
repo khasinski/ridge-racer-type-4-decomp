@@ -4,6 +4,6 @@
 #include "types.h"
 
 extern int D_800F3970;
-extern s32 D_8010BFBC;
+extern s32 AttractCycleCounter;
 
 #endif /* RR_GAME_SYSTEM_MODEINIT_H */

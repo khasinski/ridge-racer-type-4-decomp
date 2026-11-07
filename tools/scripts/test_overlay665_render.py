@@ -139,7 +139,7 @@ class Overlay665RenderTest(unittest.TestCase):
          w->s.scratch.projection.word20=0;w->s.scratch.projection.word1C=0;w->s.scratch.projection.word18=0;
          BuildCameraMatrices();SetupViewport(6);
          SetGeomOffset((s16)w->s.visual.centerX38,(s16)w->s.visual.centerY3A);
-         func_8002E828(2,w->s.scratch.matrix28.halves);kind=w->s.visual.kind18;
+         ScaleMatrixRow1(2,w->s.scratch.matrix28.halves);kind=w->s.visual.kind18;
          if(kind>=0 && kind<=3) {
           setup(&first,&second);
           if(kind!=2)light(&first);

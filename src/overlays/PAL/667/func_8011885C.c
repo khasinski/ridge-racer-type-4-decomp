@@ -2,7 +2,7 @@
 
 extern s32 ModeFrame, TotalRaceTime, MenuConfirmPressed, SelectionPlayer;
 extern u16 D_800F4D8A;
-extern s16 ModeGroup, ModeId, MenuFadeTimer, MenuCursor, D_800AD508;
+extern s16 ModeGroup, ModeId, MenuFadeTimer, MenuCursor, LinkRoleSlot;
 extern s16 LinkState, D_8010C068, PlayerCount;
 extern s16 D_8010C070[4];
 extern s16 D_8010C080[4];
@@ -134,7 +134,7 @@ void ovl667_func_8011885C(void) {
         }
         SeqStartTrack(0);
         LinkState = 0;
-        SelectionPlayer = (result - D_800AD508) * 2;
+        SelectionPlayer = (result - LinkRoleSlot) * 2;
         ovl667_func_801161A8(SelectionPlayer);
         ModeGroup = result;
         ModeId = 60;

@@ -28,9 +28,9 @@
 #undef LoadIndex
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F3B24 (*(int (*))&D_800F3B24)
+#define CarClutData (*(int (*))&CarClutData)
 
-#undef D_800F3B24
+#undef CarClutData
 
 /* legacy typing of shared globals in this part of the unit */
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
@@ -64,7 +64,7 @@ extern int UploadCarClut();
 
 extern struct { short a; short b; } PlayerCourseChoices[];
 
-extern char *D_800F3B24;
+extern char *CarClutData;
 
 extern char SaveDataBackup[];
 
@@ -92,7 +92,7 @@ int LoadCarRangeStep(int arg0, int arg1) {
         arg0 += LoadIndex;
         a1 = PlayerCourseChoices[arg0].b;
         if (a1 >= 2) {
-            q3 = D_800F3B24;
+            q3 = CarClutData;
             a1 -= 2;
         } else {
             if (a1 == r) {

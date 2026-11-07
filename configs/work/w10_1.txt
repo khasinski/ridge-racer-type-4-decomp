@@ -1,7 +1,7 @@
 func_80014F34 0x80014f34 0x1dc gte
 func_8001577C 0x8001577c 0x19c gte
 DrawWheelTrailEffects 0x80015f68 0x1374 gte
-func_80017528 0x80017528 0x2bc gte
+EmitSkyDepthCuedG4 0x80017528 0x2bc gte
 DrawTrackObjectFlashQuads 0x8001a8dc 0x348 gte
 SetLightColorsFromAngle 0x8001b688 0xcc gte
 MainLoop 0x8001e684 0x1c8 

@@ -35,7 +35,7 @@ RrLibQueueRecord32 test_records[4096];
 RrLibQueueRecord32 *StRingHeaders=test_records;
 s32 test_page[0x10000/4];
 #define D_801102FC test_page[0x2FC/4]
-s32 StEndFrame,D_80110314;
+s32 StEndFrame,StRingSize;
 s32 reads,change_after_first;
 u16 test_read(RrLibQueueRecord32 *p) {
     u16 state=p->state;
@@ -49,7 +49,7 @@ u16 test_read(RrLibQueueRecord32 *p) {
         cls.lib=C.CDLL(str(d/'f.so'))
         cls.records=(C.c_uint16*(4096*16)).in_dll(cls.lib,'test_records')
         cls.page=(C.c_int32*(0x10000//4)).in_dll(cls.lib,'test_page')
-        cls.reset=C.c_int32.in_dll(cls.lib,'StEndFrame');cls.count=C.c_int32.in_dll(cls.lib,'D_80110314')
+        cls.reset=C.c_int32.in_dll(cls.lib,'StEndFrame');cls.count=C.c_int32.in_dll(cls.lib,'StRingSize')
         cls.reads=C.c_int32.in_dll(cls.lib,'reads');cls.change=C.c_int32.in_dll(cls.lib,'change_after_first')
         for name in ('StGetNext','observed_acquire'):
             fn=getattr(cls.lib,name);fn.argtypes=[C.POINTER(C.c_void_p),C.POINTER(C.c_void_p)];fn.restype=C.c_int32

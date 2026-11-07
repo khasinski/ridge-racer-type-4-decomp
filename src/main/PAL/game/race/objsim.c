@@ -96,7 +96,7 @@ extern int NodeLerpIndex;
 extern int NodeLerpStep;
 extern int D_8010E7B8;
 extern int D_8010E7C8[];
-extern S_E8E8 D_8010E8E8[];
+extern S_E8E8 ObjTrailHistory[];
 
 s32 InterpolateObjectKeyframe(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void UpdateTrackObjects(void);
@@ -316,33 +316,33 @@ void UpdateTrackObjects(void) {
                                     sp[1] = (sp[0] << 4) + (sp[0] << 2);
                                     if (B4->f0 == 1 || B4->f4 == 300) {
                                         for (a0 = 0; a0 < 20; a0++) {
-                                            D_8010E8E8[sp[1] + a0].a[0] = B4->fC >> 3;
-                                            D_8010E8E8[sp[1] + a0].a[1] = B4->f10 >> 3;
-                                            D_8010E8E8[sp[1] + a0].a[2] = B4->f14 >> 3;
+                                            ObjTrailHistory[sp[1] + a0].a[0] = B4->fC >> 3;
+                                            ObjTrailHistory[sp[1] + a0].a[1] = B4->f10 >> 3;
+                                            ObjTrailHistory[sp[1] + a0].a[2] = B4->f14 >> 3;
                                         }
                                     } else if (B4->f0 % 2 == 1) {
                                         for (a0 = 19; a0 > 0; a0--) {
-                                            D_8010E8E8[sp[1] + a0] = D_8010E8E8[sp[1] + a0 - 1];
+                                            ObjTrailHistory[sp[1] + a0] = ObjTrailHistory[sp[1] + a0 - 1];
                                         }
-                                        D_8010E8E8[sp[1]].a[0] = B4->fC >> 3;
-                                        D_8010E8E8[sp[1]].a[1] = B4->f10 >> 3;
-                                        D_8010E8E8[sp[1]].a[2] = B4->f14 >> 3;
+                                        ObjTrailHistory[sp[1]].a[0] = B4->fC >> 3;
+                                        ObjTrailHistory[sp[1]].a[1] = B4->f10 >> 3;
+                                        ObjTrailHistory[sp[1]].a[2] = B4->f14 >> 3;
                                     }
                                     break;
                                 case 3:
                                     if (B4->f0 == 1) {
                                         for (a0 = 0; a0 < 40; a0++) {
-                                            D_8010E8E8[a0].a[0] = B4->fC >> 3;
-                                            D_8010E8E8[a0].a[1] = B4->f10 >> 3;
-                                            D_8010E8E8[a0].a[2] = B4->f14 >> 3;
+                                            ObjTrailHistory[a0].a[0] = B4->fC >> 3;
+                                            ObjTrailHistory[a0].a[1] = B4->f10 >> 3;
+                                            ObjTrailHistory[a0].a[2] = B4->f14 >> 3;
                                         }
                                     } else if (B4->f0 % 12 == 1) {
                                         for (a0 = 39; a0 > 0; a0--) {
-                                            D_8010E8E8[a0] = D_8010E8E8[a0 - 1];
+                                            ObjTrailHistory[a0] = ObjTrailHistory[a0 - 1];
                                         }
-                                        D_8010E8E8[0].a[0] = B4->fC >> 3;
-                                        D_8010E8E8[0].a[1] = B4->f10 >> 3;
-                                        D_8010E8E8[0].a[2] = B4->f14 >> 3;
+                                        ObjTrailHistory[0].a[0] = B4->fC >> 3;
+                                        ObjTrailHistory[0].a[1] = B4->f10 >> 3;
+                                        ObjTrailHistory[0].a[2] = B4->f14 >> 3;
                                     }
                                     break;
                                 }

@@ -5,7 +5,7 @@
 #include "rr/menu_transition.h"
 #include "rr/menu_setup.h"
 #include "rr/overlay662_sprites.h"
-extern u8 *D_800F4D74;
+extern u8 *LoadCursorBase;
 extern void *D_800F3918,*D_800F3910;
 extern s32 ovl662_D_8012625C;
 extern RrGpuRectangle ovl662_D_8012624C,ovl662_D_80126254;

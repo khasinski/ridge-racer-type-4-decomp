@@ -75,7 +75,7 @@ void ovl666_update_race(void) {
             DrawStartCountdown(&CurrentDrawBuf->ordering.ordering70[0], ModeFrame);
         }
         if (((u32)RaceState - 1) < 3U) {
-            DrawHudRotatingQuad(D_800F4C70.first, 0);
+            DrawHudRotatingQuad(EngineRevDisplay.first, 0);
             DrawHudNumber3((PlayerCars[0].input * 160) / 1168, 0);
             DrawHudDigitMod10(PlayerCars[0].half27A, 0);
             UpdateHudRankDisplay(PlayerCars[0].half1EE, 0);
@@ -168,7 +168,7 @@ void ovl666_update_race(void) {
     CheckFinalLapEvent((char *)PlayerCars);
     StepRaceFrame(RaceType);
     if (((u32)RaceState - 1) < 3U) {
-        DrawHudRotatingQuad(D_800F4C70.first, 0);
+        DrawHudRotatingQuad(EngineRevDisplay.first, 0);
         DrawHudNumber3((PlayerCars[0].input * 160) / 1168, 0);
         DrawHudDigitMod10(PlayerCars[0].half27A, 0);
         UpdateHudRankDisplay(PlayerCars[0].half1EE, 0);
@@ -195,7 +195,7 @@ void ovl666_update_race(void) {
     DrawTrackObjects(0);
     DrawTrackSceneryForPlayer(0);
     func_80070734(ScreenFrame);
-    SlotSetLevelProgram(D_800F4C70.first, D_800F2AB4.first, 0);
+    SlotSetLevelProgram(EngineRevDisplay.first, D_800F2AB4.first, 0);
     if (RaceState >= 4) {
         StopRaceRumble();
         if (RaceState == 6) {

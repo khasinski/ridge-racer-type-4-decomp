@@ -31,7 +31,7 @@ void ovl662_func_80119E00(void) {
                 palette = D_800F3B20;
                 paletteIndex = 0;
             } else {
-                palette = D_800F3B24;
+                palette = CarClutData;
                 paletteIndex = key - 1;
             }
             UploadCarClut(palette, paletteIndex, 0);

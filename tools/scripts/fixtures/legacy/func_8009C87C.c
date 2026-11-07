@@ -2,7 +2,7 @@
 /* RODATA 0x80012158 0x20 */
 extern int CardTxCount;
 extern unsigned char CardCmdSector, D_80114725, D_80114726, D_80114727;
-extern int D_80114728;
+extern int CardVarRxLength;
 
 int _cardCmd5BRangeTx() {
     switch (CardTxCount) {
@@ -12,7 +12,7 @@ int _cardCmd5BRangeTx() {
     case 6: return D_80114725;
     case 7: return D_80114726;
     case 8: return D_80114727;
-    case 9: return D_80114728;
+    case 9: return CardVarRxLength;
     }
     return 0;
 }

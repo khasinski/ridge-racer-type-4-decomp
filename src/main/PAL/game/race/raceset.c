@@ -217,5 +217,5 @@ void UpdateRaceRanking(void)
 
 void SetupRaceAndScene(void) {
     SetupRace();
-    D_800AD50A = GameTypeSceneIds[RaceType];
+    SceneId = GameTypeSceneIds[RaceType];
 }

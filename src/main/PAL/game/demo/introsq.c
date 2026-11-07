@@ -9,7 +9,7 @@ extern short ModeGroup;
 extern short D_800F4D8A;
 extern void CdAudioInit();
 extern void CdAudioSelectTrack();
-extern void func_8005CA14();
+extern void StartSceneFadeOut();
 extern int IntroScriptStep();
 
 void func_8005D310(void);
@@ -23,7 +23,7 @@ void func_8005D310(void) {
     case 1:
         if (LoadIntroSceneStep() != 0) {
             RaceContext[0x444 / 4]++;
-            func_8005CA14();
+            StartSceneFadeOut();
             CdAudioInit();
             CdAudioSelectTrack(0, 0x25);
         }

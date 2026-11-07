@@ -355,7 +355,7 @@ void DrawPlayerCar(Vehicle2D1B4 *arg0) {
         sp168[i + 3].z += sp168[2].z;
     }
     s5_val = (s16)(TrackLightTable[s5_val].flags2 | D_800ABEF0);
-    slot_idx = arg0->slot1E6 + D_800ABEC4;
+    slot_idx = arg0->slot1E6 + CarDrawSlotOffset;
     if (arg0->flags1E4 & 0x10) {
         v0_drag = arg0->unk2A2;
     } else {
@@ -407,7 +407,7 @@ void DrawOpponentCar(Vehicle2D784 *arg0, s32 arg1) {
 
     slot_half = arg0->slot1E6 >> 1;
     fp_val = (arg0->slot1E6 & 1) * 0x05000000;
-    slot_idx = arg0->slot1E6 + D_800ABEC4;
+    slot_idx = arg0->slot1E6 + CarDrawSlotOffset;
     SelectModelBank(slot_half);
 
     sp168[0].x = (arg0->x10 - G->x08) >> 2;

@@ -33,7 +33,7 @@ static u8 banks[3][25*0x840];
 #define BadgeRows (w->badges[w->badgeRoot])
 #define PlayerCourseChoices w->grid
 #define D_800F3B20 w->palette0
-#define D_800F3B24 w->palette1
+#define CarClutData w->palette1
 #define ovl662_D_801272A0 w->map
 #define ovl662_D_801272BE w->current
 #define ovl662_D_801272D4 w->phase

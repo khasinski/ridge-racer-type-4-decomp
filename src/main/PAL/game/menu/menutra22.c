@@ -7,7 +7,7 @@
 
 extern int DrawUiRow();
 extern char *UiRows;
-extern short D_800FFC18;
+extern short MenuResultCode;
 extern int AddTilePrim();
 extern char StrName[];
 extern char TeamLabel[];
@@ -47,7 +47,7 @@ void func_8007D558(void) {
 
 void func_8007D560(int a0, int a1) {
  int n, i;
- if (D_800FFC18 == 0) n = 4; else if (D_800FFC18 == 6) n = 3; else n = 2;
+ if (MenuResultCode == 0) n = 4; else if (MenuResultCode == 6) n = 3; else n = 2;
  i = 0;
  if (n != 0) {
   do {
@@ -64,7 +64,7 @@ void func_8007D560(int a0, int a1) {
  }
 }
 
-void func_8007D65C(int a0)
+void DrawNameTeamMakerHeader(int a0)
 {
   int new_var;
   int new_var2;

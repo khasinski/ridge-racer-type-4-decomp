@@ -41,7 +41,7 @@ static unsigned seen[12];
 static _Alignas(16) u8 contexts[2][0xc00],packets[4096];
 static s8 *scripts[12];
 #define CurrentDrawBuf ((RrIconSpriteContext*)contexts[w->context])
-#define D_800AD50A (w->transition)
+#define SceneId (w->transition)
 #define ModeFrame (w->frame)
 #define ModeId (w->next_timer)
 #define MenuScriptStep (w->step)
@@ -69,7 +69,7 @@ void SetDispMask(s32 arg){record(0,arg,0,0,0,0,0,0,0,0);}
 int UpdateLinkHandshake(int arg){record(1,arg,0,0,0,0,0,0,0,0);return -77;}
 s32 OpeningScriptStep(s32 frame){record(2,frame,0,0,0,0,0,0,0,0);return status;}
 s32 IntroScriptStep(void){record(3,0,0,0,0,0,0,0,0,0);return status;}
-void func_8005CA14(void){record(4,0,0,0,0,0,0,0,0,0);}
+void StartSceneFadeOut(void){record(4,0,0,0,0,0,0,0,0,0);}
 static s32 op0(void){record(5,0,0,0,0,0,0,0,0,0);return op_status;}
 static s32 op1(void){record(5,1,0,0,0,0,0,0,0,0);return op_status;}
 static s32 op2(void){record(5,2,0,0,0,0,0,0,0,0);return op_status;}

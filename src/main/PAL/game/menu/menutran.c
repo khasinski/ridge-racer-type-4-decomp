@@ -9,7 +9,7 @@ typedef struct { int a; short b; char c; char d; } S8;
 
 typedef struct { int x; } __attribute__((packed)) U4;
 
-extern s16 D_800FFC18;
+extern s16 MenuResultCode;
 extern int PsyqBzero();
 extern int DecodeCourseIndex();
 extern unsigned char D_8009F06C[];
@@ -30,15 +30,15 @@ int CountProgressFlags();
 
 void SetNextModeByGameType(void){
  switch(ModeMenuCursorSaved){
- case 0:D_800AD50A=0x105;break;
- case 1:default:D_800AD50A=0x131;break;
- case 2:D_800AD50A=0x137;break;
- case 3:D_800AD50A=0x127;break;
- case 6:D_800AD50A=0x201;break;
- case 4:D_800AD50A=0x149;break;
- case 5:D_800FFC18=0;D_800AD50A=0x147;break;
- case 7:D_800AD50A=0x14E;break;
- case 8:D_800AD50A=0x13B;break;
+ case 0:SceneId=0x105;break;
+ case 1:default:SceneId=0x131;break;
+ case 2:SceneId=0x137;break;
+ case 3:SceneId=0x127;break;
+ case 6:SceneId=0x201;break;
+ case 4:SceneId=0x149;break;
+ case 5:MenuResultCode=0;SceneId=0x147;break;
+ case 7:SceneId=0x14E;break;
+ case 8:SceneId=0x13B;break;
  }
 }
 

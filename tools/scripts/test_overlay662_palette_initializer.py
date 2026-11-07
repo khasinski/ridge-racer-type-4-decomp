@@ -36,7 +36,7 @@ static unsigned scenario,mutation,seenMap,seenFlags;
 #define MenuArenas w->s.arenas
 #define LoadCursor w->s.published
 #define D_800F3B20 w->s.palette0
-#define D_800F3B24 w->s.palette1
+#define CarClutData w->s.palette1
 #define ModeFrame w->s.frame
 #define ScreenFrame w->s.pulse
 #define MenuCursor w->s.flag

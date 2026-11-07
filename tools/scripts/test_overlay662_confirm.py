@@ -36,7 +36,7 @@ static unsigned scenario,family,slot,postbyte,expected_map,expected_sound,map_ca
 #define DialogueState world.textroot
 #define BadgeRows world.badgeroot
 #define PlayerControllers world.items
-#define D_800FFC18 world.pending
+#define MenuResultCode world.pending
 #define ModeId world.scene
 #define D_800F4D8A world.latch
 #define ModeGroup world.transition

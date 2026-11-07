@@ -123,7 +123,7 @@ int main(void){
   actual.choice.bytes[1]=(u8)(k*17U);actual.buttons=(u16)k;actual.accepted=k&4;
   actual.rows[0].state10=k%5;actual.rows[1].state10=3;
   actual.resource=arena[k%32];actual.current=arena[(k+1)%32];expected=actual;
-  bind(&actual);func_80036D40();int actual_count=count;memcpy(actual_entries,entries,sizeof(entries));
+  bind(&actual);UpdateCourseListChoice();int actual_count=count;memcpy(actual_entries,entries,sizeof(entries));
   bind(&expected);reference();
   if(count!=actual_count || memcmp(entries,actual_entries,sizeof(entries)) || memcmp(&actual,&expected,sizeof(actual))){fprintf(stderr,"case%u mutation%d failed actual calls%d expected%d\n",k,mutation,actual_count,count);return 1;}
  }

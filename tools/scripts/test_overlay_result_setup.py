@@ -51,7 +51,7 @@ static unsigned scenario,mutation,overlay;
 #define ovl666_result_labels w->state.labels666
 #define TotalRaceTime w->state.match
 #define LapTimes w->state.standings
-#define D_800AC1A0 w->state.first
+#define BestLapIndex w->state.first
 #define ovl660_race_record_rank w->state.first660
 #define ovl660_lap_record_rank w->state.second660
 #define ovl660_result_labels w->state.labels660

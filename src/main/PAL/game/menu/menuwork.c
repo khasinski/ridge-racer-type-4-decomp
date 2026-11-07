@@ -36,11 +36,11 @@ extern int ResetScreenCounters();
 extern void InitUiRow(int,int,int,int,int,int,int,int,int,int,...);
 extern M2C_UNK PlayerCars;
 extern s32 VSyncThreshold;
-extern s16 D_800AD50A;
+extern s16 SceneId;
 extern int SetMenuFrameOptions();
 extern int DrawPreviewCar();
 extern int func_8002E5A0();
-extern int func_8002E828();
+extern int ScaleMatrixRow1();
 extern int UpdateImageRow();
 extern int CdAudioFade();
 extern int SeqStartTrack();
@@ -125,7 +125,7 @@ void func_80039920(void) {
     D_800AD4EB = SaveProgress[v + 0x60];
 }
 
-void func_80039988(void) {
+void CarPreviewSetup(void) {
     SetupRenderer(5);
     ResetScreenCounters();
     SetupMenuCarCamera(1);
@@ -139,7 +139,7 @@ void func_80039988(void) {
     InitUiRow(2, 0x74, 0x80, 0x1C, 0x20, 5, 0, 1, 0, 0x38);
     ScreenFrame = 0;
     ModeFrame = 0;
-    D_800AD50A = 0x122;
+    SceneId = 0x122;
     VSyncThreshold = 0x80;
     InitSelectionRows();
 }
@@ -156,12 +156,12 @@ void CarPreviewModeUpdate(void) {
             MenuFadeTimer = 0x40;
             CdAudioFade(0, 0x3C);
             D_800F4D8A = 1;
-            func_80039988();
+            CarPreviewSetup();
             ImageRows[1] = 0;
         }
     } else {
         BuildCameraMatrices();
-        func_8002E828(2, SCRATCH_ROT_MATRIX);
+        ScaleMatrixRow1(2, SCRATCH_ROT_MATRIX);
         func_8002E5A0(PlayerCars);
         DrawPreviewCar(PlayerCars, 0, 0x100, 1);
         UpdateImageRow(0);

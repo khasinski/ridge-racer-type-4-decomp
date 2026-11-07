@@ -22,7 +22,7 @@ extern unsigned short D_800F4D8A;
 extern int LoadCursor;
 extern int ModeFrame;
 extern int MenuConfirmPressed;
-extern int D_800F4D74;
+extern int LoadCursorBase;
 extern struct { char pad[8]; short s8, sA; char padC[4]; short s10; } *BadgeRows;
 extern struct w3g2e { char pad[0xC]; char c; char pad2[7]; unsigned char b14; char pad3[0x23]; char b38; } *UiRows;
 extern struct { char pad[4]; char b4; char pad5[2]; char b7; } *Dialogue;
@@ -50,7 +50,7 @@ void func_80032600(void) {
                 BadgeRows->s10 = 4;
                 *((char *)UiRows + MenuCursor * 0x24 + 0xC) = 1;
                 MenuFadeTimer = 0x40;
-                LoadCursor = D_800F4D74;
+                LoadCursor = LoadCursorBase;
                 ResetScreenCounters();
                 if (MenuCursor == 0) {
                     D_800F4D8A = 3;

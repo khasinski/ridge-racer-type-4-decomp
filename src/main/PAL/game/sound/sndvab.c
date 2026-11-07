@@ -148,12 +148,12 @@ void TriggerSfx(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         var_a0 = (s16) temp_v0;
         var_a1 = (s16) temp_v0;
     }
-    var_v1 = var_a0 * D_800F4DD0;
+    var_v1 = var_a0 * SoundGain;
     if (var_v1 < 0) {
         var_v1 += 0x7F;
     }
 
-    var_a0_2 = var_a1 * D_800F4DD0;
+    var_a0_2 = var_a1 * SoundGain;
     first_div=var_v1>>7;
     if (var_a0_2 < 0) {
         var_a0_2 += 0x7F;

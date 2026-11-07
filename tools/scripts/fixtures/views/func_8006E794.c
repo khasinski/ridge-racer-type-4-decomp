@@ -1,9 +1,9 @@
 #include "types.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4C38 (*(unsigned char (*)[])&D_800F4C38)
+#define ViewSegmentIndices (*(unsigned char (*)[])&ViewSegmentIndices)
 
-#undef D_800F4C38
+#undef ViewSegmentIndices
 
 extern short CourseIndex;
 
@@ -13,7 +13,7 @@ extern int ViewUsesCarTrackNode;
 
 extern int D_800AD5B8;
 
-extern char D_800F4C38[];
+extern char ViewSegmentIndices[];
 
 void InitViewState(void) {
     int i;
@@ -30,7 +30,7 @@ void InitViewState(void) {
         }
     }
     i = 0x1F;
-    p = D_800F4C38 + i;
+    p = ViewSegmentIndices + i;
     do {
         *p-- = 0;
         i--;

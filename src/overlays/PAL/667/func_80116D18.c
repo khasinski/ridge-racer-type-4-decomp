@@ -10,8 +10,8 @@ extern s8 LinkEntryState[];
 extern s32 UiRowCount;
 /* Resident word reached through its enclosing array object (aliases row stores). */
 extern s32 MenuActivePlayerPlusOne[1];
-extern s16 D_800FFC18;
-extern s16 D_800AD508;
+extern s16 MenuResultCode;
+extern s16 LinkRoleSlot;
 extern u8 ovl667_D_80118E10[4];
 extern s8 ovl667_D_80118E14[2][4];
 extern s8 ovl667_D_80118E1C[2][2][4];
@@ -185,7 +185,7 @@ void ovl667_func_80116D18(void) {
             }
             modelReady = 0;
             MenuArenas.first = LoadCursor;
-            if ((SelectionPlayer & 1) > 0 || LinkEntryState[(1 - D_800AD508) * 2 + 1] != 1) {
+            if ((SelectionPlayer & 1) > 0 || LinkEntryState[(1 - LinkRoleSlot) * 2 + 1] != 1) {
                 D_800F4D8A = 5;
                 for (i = 0; i < UiRowCount; i++) {
                     if (UiRows[i].byte14 == 2) {
@@ -245,7 +245,7 @@ void ovl667_func_80116D18(void) {
         MenuFadeTimer = (u16)MenuFadeTimer - 1;
         AddScreenFadeTiles(&CurrentDrawBuf->ordering.ordering70[0], (0x40 - MenuFadeTimer) * 4, 0x45);
         if (MenuFadeTimer <= 0) {
-            D_800FFC18 = 2;
+            MenuResultCode = 2;
             ModeGroup = 1;
             ModeId = 71;
             D_800F4D8A = 0;

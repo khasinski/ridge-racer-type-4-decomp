@@ -36,7 +36,7 @@ void ovl662_func_8011F888(s32 mode) {
                     PlaySfx(1);
                 }
             } else if (ovl662_D_801276A8.fade00 == 0) {
-                D_800FFC18 = 6;
+                MenuResultCode = 6;
                 ModeGroup = 1;
                 ModeId = 71;
                 D_800F4D8A = 0;

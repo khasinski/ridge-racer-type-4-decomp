@@ -9,12 +9,12 @@ struct E { char pad[4]; unsigned char a; char b; unsigned char c; signed char d;
 extern int StepMenuValue();
 extern int CopyStringClearTail();
 extern int PlaySfx();
-extern short D_800FFC18;
+extern short MenuResultCode;
 extern short CardSlot;
 extern short MenuPlayerIndex;
 extern short MenuStateIndex;
-extern short D_800F4D3C;
-extern short D_800F3AF8;
+extern short SaveSlotIndex;
+extern short SaveSlotSelect;
 extern char CardTargetFileName[];
 extern char CardFileNameTemplate[];
 extern char CardSaveFileName[];
@@ -38,16 +38,16 @@ void func_8007B774(void) {
     int i;
     i = MenuStateTable[MenuStateIndex].b;
     s3 = D_800A448C[i][1];
-    switch (D_800FFC18) {
+    switch (MenuResultCode) {
     case 3:
     case 6:
     case 7:
-        StepMenuValue((MenuPlayerIndex & 1) << 2, 2, &D_800F4D3C, 3, 0);
+        StepMenuValue((MenuPlayerIndex & 1) << 2, 2, &SaveSlotIndex, 3, 0);
         if (PlayerControllers[MenuPlayerIndex].x28 != 0) {
             PlaySfx(1);
-            if ((unsigned short)(D_800FFC18 - 6) < 2) {
-                D_800F3AF8 = 0x11;
-                CopyStringClearTail(CardTargetFileName, CardTargetFileNames[D_800F4D3C]);
+            if ((unsigned short)(MenuResultCode - 6) < 2) {
+                SaveSlotSelect = 0x11;
+                CopyStringClearTail(CardTargetFileName, CardTargetFileNames[SaveSlotIndex]);
             } else {
                 CopyStringClearTail(CardTargetFileName, CardSaveFileName);
             }
@@ -59,10 +59,10 @@ void func_8007B774(void) {
         }
         break;
     default:
-        if (D_800FFC18 == 0) {
+        if (MenuResultCode == 0) {
             if (MenuStateIndex == 0x3A) {
                 D_801094A0 = 1;
-                D_800F3AF8 = 0x20;
+                SaveSlotSelect = 0x20;
                 CopyStringClearTail(CardTargetFileName, CardFileNameTemplate);
             } else {
                 CopyStringClearTail(CardTargetFileName, CardSaveFileName);
@@ -166,7 +166,7 @@ void func_8007BB9C()
     s4 = e[1];
     s0 = e[2];
     s3 = e[3];
-    if (D_800FFC18 != 0) goto l54;
+    if (MenuResultCode != 0) goto l54;
     if (MenuStateIndex != 0x3D) goto l54;
     if (CardHasFile(CardFileCounts[CardSlot], CardSaveFileName) == 0) goto l48;
     D_80109490 = 1;

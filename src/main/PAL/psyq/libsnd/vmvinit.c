@@ -13,7 +13,7 @@ extern char D_8010F91A[];
 extern char D_8010F91C[];
 extern char D_8010F91E[];
 extern signed char spuVmMaxVoice;
-extern short D_80110118;
+extern short SvmVoiceIndex;
 extern int _spu_FsetRXXa(int, int);
 extern volatile unsigned short *_spu_RXX;
 extern unsigned short _spu_voice_centerNote[];
@@ -63,7 +63,7 @@ void SsUtAllKeyOff(void) {
                 *(short *)(D_8010F91E + v0) = cff;
                 L.s10 = a1;
                 SpuSetVoiceAttr(&L, a1);
-                D_80110118 = s0;
+                SvmVoiceIndex = s0;
                 _SsVmKeyOffNow(1);
             }
             s0++;

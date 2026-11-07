@@ -74,7 +74,7 @@ extern Pad PlayerControllers[2];
 
 extern Port PadPorts[2];
 
-extern s32 D_800FFC08[2];
+extern s32 PadConnectState[2];
 
 extern s32 D_800AD590[2];
 
@@ -122,7 +122,7 @@ void PadUpdate(void) {
         states[i]->status00 = ports[i]->status00;
         states[i]->type01 = ports[i]->type01;
         if (ports[i]->status00 != 0) {
-            D_800FFC08[i] = 1;
+            PadConnectState[i] = 1;
             D_800F4CD8[i] = 0x22;
             D_800AD590[i] |= 0x10;
         } else if (D_800F4CD8 != NULL) {
@@ -130,7 +130,7 @@ void PadUpdate(void) {
             if (ports[i]->type01 == 0x23) {
                 u16 btn = ~((ports[i]->data02 << 8) | ports[i]->data03);
                 if ((btn & 0x5000) == 0x5000 || (btn & 0xA000) == 0xA000 || (btn & 0x1C4)) {
-                    D_800FFC08[i] = 2;
+                    PadConnectState[i] = 2;
                     D_800F4CD8[i] = 0x22;
                     D_800AD590[i] |= 0x10;
                 }
@@ -143,7 +143,7 @@ void PadUpdate(void) {
             port->type01 = 0;
             pad->type01 = 0;
         } else {
-            D_800FFC08[i] = 0;
+            PadConnectState[i] = 0;
         }
         if (states[i]->type01 != 0 && states[i]->protocol10 < 0) {
             if (states[i]->type01 == 0x41) {
@@ -281,8 +281,8 @@ void PadUpdate(void) {
             states[i]->idleTick58 = 0;
             break;
         default:
-            if (D_800FFC08[i] == 0) {
-                D_800FFC08[i] = 2;
+            if (PadConnectState[i] == 0) {
+                PadConnectState[i] = 2;
             }
             states[i]->status00 = 1;
             states[i]->buttons02 = 0;

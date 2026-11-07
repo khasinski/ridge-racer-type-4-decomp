@@ -75,7 +75,7 @@ s32 SsUtKeyOff(s32 voice,s32 bank,s32 program,s32 instrument,s32 group_input) {
                 vmNoiseOff((u8)voice);
             }else{
 reset:
-                D_80110118=voice;
+                SvmVoiceIndex=voice;
                 _SsVmKeyOffNow(0);
             }
             result=0;

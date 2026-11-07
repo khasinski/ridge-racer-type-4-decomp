@@ -41,7 +41,7 @@ extern s32 StRingHeaderIndex;
 extern u32 StEndFrame;
 extern void *StRingSectorDest;
 extern StHeader *StRingHeaders;
-extern s32 D_80110314;
+extern s32 StRingSize;
 extern void (*StRingFullFunc)(void);
 extern StHeader *StCurHeader;
 
@@ -281,7 +281,7 @@ void StCdInterrupt(void) {
             page_800a[0x68B8 / 4] = st;
             return;
         }
-        if ((u32)(D_80110314 - StRingWriteIndex - 1) < StCurHeader->sector_size) {
+        if ((u32)(StRingSize - StRingWriteIndex - 1) < StCurHeader->sector_size) {
             if (StEndFrame == 0) {
                 /* ASM_BARRIER: Pin cb to v1 so it is loaded before st = 1. */
                 register void (*cb)(void) __asm__("$3");
@@ -348,7 +348,7 @@ void StCdInterrupt(void) {
     }
     D_800A68B8 = 0xA;
     StNextSectorOffset = (u16)StNextSectorOffset + 1;
-    StRingSectorDest = (u8 *)(StRingHeaders + D_80110314) + StRingWriteIndex * 0x7E0;
+    StRingSectorDest = (u8 *)(StRingHeaders + StRingSize) + StRingWriteIndex * 0x7E0;
     var_t0 = 0x11000000;
     if (D_801102D8 != 0) {
         {

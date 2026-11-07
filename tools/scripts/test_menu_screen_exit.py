@@ -23,7 +23,7 @@ class MenuScreenExitTest(unittest.TestCase):
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(offsetof(t,f)==n,"offset")
 #include "rr/menu_screen_exit.h"
 _Static_assert(__builtin_types_compatible_p(__typeof__(ModeGroup),u16),"mode width");
-u16 ModeGroup,D_800AD50A,GameTypeSceneIds[256];
+u16 ModeGroup,SceneId,GameTypeSceneIds[256];
 s16 ModeId,D_800F4D8A,RaceType;
 s32 MaskBitSetting;
 RrGpuRectangle *CurrentDrawBuf;
@@ -34,7 +34,7 @@ static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
 static void mutate(unsigned n){
  ModeGroup=(u16)(case_id+n);ModeId=(s16)(case_id-n);
  D_800F4D8A=(s16)(case_id+n*3);MaskBitSetting=(s32)(case_id+n);
- D_800AD50A=(u16)(case_id^n);RaceType=(s16)((case_id+n)&255);
+ SceneId=(u16)(case_id^n);RaceType=(s16)((case_id+n)&255);
  CurrentDrawBuf=&frames[n].rectangle;
 }
 int SoundSetMasterVolume(s32 a,s32 b){assert(phase++==0);assert(a==0&&b==0);mutate(0);return -1;}
@@ -45,7 +45,7 @@ void AddScreenFadeTiles(u32 *ordering,s32 intensity,u32 mode){
  assert((uintptr_t)ordering>UINT32_MAX);
  assert(intensity==255&&mode==69);
  assert(ModeGroup==1&&ModeId==(which?38:53)&&D_800F4D8A==0);
- assert(D_800AD50A==GameTypeSceneIds[(case_id+2)&255]);
+ assert(SceneId==GameTypeSceneIds[(case_id+2)&255]);
  assert(MaskBitSetting==(s32)(case_id+2));
  assert(memcmp(frames,saved,sizeof(frames))==0);
  ordering[(case_id>>8)%704]^=0x76543210U;
@@ -63,7 +63,7 @@ int main(void){unsigned i,j;
   assert(phase==4);assert(CurrentDrawBuf==&frames[3].rectangle);
   assert(ModeGroup==(u16)(case_id+3));assert(ModeId==(s16)(case_id-3));
   assert(D_800F4D8A==(s16)(case_id+9));assert(MaskBitSetting==(s32)(case_id+3));
-  assert(D_800AD50A==(u16)(case_id^3));
+  assert(SceneId==(u16)(case_id^3));
   saved[2].ordering70[(case_id>>8)%704]^=0x76543210U;
   assert(memcmp(frames,saved,sizeof(frames))==0);
  }

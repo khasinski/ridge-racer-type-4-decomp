@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern s32 D_800A0218;
+extern s32 RaceLoadPhase;
 extern s32 RaceLoadStepIndex;
 extern int RaceLoadState;
 extern int RaceLoadSubState;

@@ -9,7 +9,7 @@ extern s32 ModelBankFormat;
 void BuildCameraMatrices(void);
 void SetupViewport(s32);
 void SetGeomOffset(s32 x,s32 y);
-void func_8002E828(s32 scale,void *matrix);
+void ScaleMatrixRow1(s32 scale,void *matrix);
 void SetupObjectLightMatrices(char *view,char *lighting,
     RrMatrixWords32 *first,RrMatrixWords32 *second);
 u32 *ScaleMatrix(u32 *matrix,s32 scale[3]);

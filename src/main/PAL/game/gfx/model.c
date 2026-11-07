@@ -65,7 +65,7 @@ int GetSegmentViewTable(int a0);
 void SetFogNearFar(s32 a0, s32 a1, s32 a2);
 void InitTimTemplate(int *a0);
 s32 func_8006F6F0(char *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
-void func_800700AC(int *a0);
+void RelocateModelPointers(int *a0);
 void RegisterModelBank(int *a0, int a1);
 void UnrelocateModelBank(int *a0, int a1);
 void SelectModelBank(int a0);
@@ -408,7 +408,7 @@ s32 func_8006F6F0(char *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, 
     return dist;
 }
 
-void func_800700AC(int *a0) {
+void RelocateModelPointers(int *a0) {
     int *a1 = a0 + 1;
     int i = 0;
     int n = a0[0];

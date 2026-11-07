@@ -11,8 +11,8 @@ extern Struct7C SaveProgress;
 extern Struct840 *D_800F399C;
 extern Struct840 *D_800F39A0;
 extern int SaveDataBackup[];
-extern int D_800F4D38;
-extern unsigned short D_800F4D3C;
+extern int PlayTimeFrames;
+extern unsigned short SaveSlotIndex;
 extern Struct10 LapRecords[2][8][5];
 extern Struct2C SaveSlotSelectionsBackup[3];
 
@@ -54,7 +54,7 @@ void BuildSaveData(int arg0) {
                 t1 += ((short *)&SelectionState)[t0];
             }
             SelectionState.f10 = t1;
-            s3->f360[(short)((short)D_800F4D3C % 3)] = SelectionState;
+            s3->f360[(short)((short)SaveSlotIndex % 3)] = SelectionState;
         }
         for (a3 = 0; a3 < 2; a3++) {
             for (t0 = 0; t0 < 8; t0++) {
@@ -84,7 +84,7 @@ void BuildSaveData(int arg0) {
         /* fallthrough */
     case 17:
         p = (SaveBuf11 *)SaveBuffer;
-        p->f280 = D_800F4D38;
+        p->f280 = PlayTimeFrames;
         for (t0 = 0; t0 < 2; t0++) {
             for (a3 = 0; a3 < 0x840; a3++) {
                 if (t0 == 0) {

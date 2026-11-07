@@ -2,7 +2,7 @@
 #include "rr/gpu.h"
 #include "rr/gpu_reset.h"
 #include "rr/interrupts.h"
-extern int D_800ABBF8;
+extern int SavedIntrMask;
 extern char D_801127D0[];
 extern char GpuCmdQueue[];
 int _reset(a0)
@@ -11,7 +11,7 @@ int a0;
     int t;
     t = SetIntrMask(0);
     _qout = 0;
-    D_800ABBF8 = t;
+    SavedIntrMask = t;
     _qin = _qout;
     /* Ordinary register views retain the original reset scheduling. */
     switch (a0 & 7) {
@@ -31,7 +31,7 @@ int a0;
         *(u32 *)GPU_STATUS = 0x01000000;
         break;
     }
-    SetIntrMask(D_800ABBF8);
+    SetIntrMask(SavedIntrMask);
     if ((a0 & 7) == 0) return GPU_CheckVersion(a0);
     return 0;
 }

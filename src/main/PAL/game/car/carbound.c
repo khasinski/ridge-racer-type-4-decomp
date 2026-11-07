@@ -29,7 +29,7 @@ typedef struct { int a, b, c, d; } V4;
 
 extern T *CarTable[];
 extern short NumCars;
-extern short D_800AD508;
+extern short LinkRoleSlot;
 extern int DrawPlayerCar();
 extern int DrawOpponentCar();
 extern RrVehicleBounds08 *CarBoundsTable[];
@@ -43,13 +43,13 @@ void DrawCars();
 void SetCarBounds(RrRaceVehicle *a);
 void ResetCarState(RrRaceVehicle *a);
 void func_8002E5A0();
-void func_8002E828(s32 arg0, void *arg1);
+void ScaleMatrixRow1(s32 arg0, void *arg1);
 
 void DrawCars(a0) int a0; {
     int z; 
     int i, s2, y;
     T **p;
-    D_800ABEC4 = 0;
+    CarDrawSlotOffset = 0;
     switch (a0) {
     case 0:
         z = 0;
@@ -66,13 +66,13 @@ void DrawCars(a0) int a0; {
             }
         } else {
             if (PlayerCount == 2) {
-                { char *bb = (char *)CarTable; DrawOpponentCar(*(T **)(bb + (D_800AD508 << 3)), a0); }
+                { char *bb = (char *)CarTable; DrawOpponentCar(*(T **)(bb + (LinkRoleSlot << 3)), a0); }
             }
         }
         break;
     case 3:
     case 5:
-        D_800ABEC4 = 1;
+        CarDrawSlotOffset = 1;
     case 2:
     case 4:
         s2 = 3;
@@ -89,7 +89,7 @@ void DrawCars(a0) int a0; {
                             DrawPlayerCar(p[0], z);
                         } else {
                             __asm__("" : "=r"(y) : "0"(z)); /* ASM_BARRIER: hide that z==0 from cse so the else-arm copies a1 (move a2,a1) while the then-arm keeps the single hoisted a1=0 */
-                            DrawWheelTrailEffects(p[0], y, y, y, p[0]->f1E6 + D_800ABEC4, 0, 0);
+                            DrawWheelTrailEffects(p[0], y, y, y, p[0]->f1E6 + CarDrawSlotOffset, 0, 0);
                         }
                     } else {
                         DrawOpponentCar(p[0], s2);
@@ -117,7 +117,7 @@ void SetCarBounds(RrRaceVehicle *a)
     int n;
     RrVehicleBounds08 **pp;
     int b;
-    if (D_800AD508 != 0) {
+    if (LinkRoleSlot != 0) {
         n = a != PlayerCars;
     } else {
         n = 3;
@@ -205,13 +205,13 @@ void func_8002E5A0(a0) char *a0; {
     *(V4 *)(a0 + 0xC8) = *(V4 *)(a0 + 0x10);
 }
 
-void func_8002E828(s32 arg0, void *arg1) {
+void ScaleMatrixRow1(s32 arg0, void *arg1) {
     M2C_FIELD(arg1, s16 *, 6) = (s16) (M2C_FIELD(arg1, s16 *, 6) * arg0);
     M2C_FIELD(arg1, s16 *, 8) = (s16) (M2C_FIELD(arg1, s16 *, 8) * arg0);
     M2C_FIELD(arg1, s16 *, 0xA) = (s16) (M2C_FIELD(arg1, s16 *, 0xA) * arg0);
 }
 
-void func_8002E868(a0, a1, a2) int a0; int a1; unsigned char *a2; {
+void SetupCarGridSlot(a0, a1, a2) int a0; int a1; unsigned char *a2; {
     register RrRaceVehicle *p asm("$7"); /* ASM_BARRIER: pin p to a3 */
     int t;
     int v;

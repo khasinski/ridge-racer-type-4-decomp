@@ -17,7 +17,7 @@ class OverlayMinimumTest(unittest.TestCase):
 #include "rr/standings.h"
 static struct World {u32 before[8];s32 values[10];u16 selected;u32 after[8];} world,expected;
 #define LapTimes world.values
-#define D_800AC1A0 world.selected
+#define BestLapIndex world.selected
 ''' + body + r'''
 static u32 seed=0x162d8;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}

@@ -584,7 +584,7 @@ int SceneLoadStep(void)
         RelocateRelativeFile(sp10);
         RelocateOffsetTable(s2);
         RegisterModelBank(sp14, 4);
-        func_800700AC(sp18);
+        RelocateModelPointers(sp18);
         SetTrackNodeData(fp);
         SetLightTable(s6);
         D_8010BF60 = s7;

@@ -149,7 +149,7 @@ void SoundStopAll(void) {
         if (p->flags & 1) SlotKeyOffAll(i);
     }
     for (i = 0; i < 2; i++) SetPlayerVoice(0, 0, 0, i);
-    for (i = 0; i < 2; i++) func_800512C4(i, 0, 0);
+    for (i = 0; i < 2; i++) SetLoopVoiceVolumes(i, 0, 0);
     SetSoundChannelVolLR(0, 0, 0);
     SoundLoopSet(5, 0x1E00, 0, 0x40);
     CdAudioMute();

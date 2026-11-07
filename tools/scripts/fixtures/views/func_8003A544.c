@@ -56,7 +56,7 @@ void UpdateMenuScript(void) {
                 MenuScriptId = (u16) -opcode;
                 MenuScriptStep = -1;
                 if (MenuDispMode == 0) {
-                    func_8005CA14();
+                    StartSceneFadeOut();
                 }
             }
         }
@@ -64,8 +64,8 @@ void UpdateMenuScript(void) {
         if((status==1 && MenuDispMode==status) || (MenuDispMode==0 && status==2) || (MenuDispMode>=2 && status==1)) {
             MenuSceneEntries[MenuScriptId]();
             D_800F4D8A = 0;
-            ModeGroup = (u16) ((u16) D_800AD50A >> 8);
-            ModeId = D_800AD50A & 0xFF;
+            ModeGroup = (u16) ((u16) SceneId >> 8);
+            ModeId = SceneId & 0xFF;
         }
     }
     if (ModeGroup != 1) {

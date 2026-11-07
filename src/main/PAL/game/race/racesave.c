@@ -86,7 +86,7 @@ extern short SteeringRangeTable[];
 extern int ReplayFrame;
 extern int D_800ACBE0[];
 extern int D_800ACBF0[];
-extern short D_800AD508;
+extern short LinkRoleSlot;
 extern U4 *ReplayInputs[];
 extern S_AD528 Options;
 extern unsigned char CarInputs[][4];
@@ -125,7 +125,7 @@ extern int rsin();
 extern int D_800F2A64;
 extern short D_800F2AB4[];
 extern int ModeFrame;
-extern short D_800F4C70[];
+extern short EngineRevDisplay[];
 extern struct { char pad[0x1E4]; short f1e4; } *CarTable[];
 
 void SaveCarSnapshots(int unused);
@@ -322,7 +322,7 @@ void ReadCarInput(char *arg0, int arg1) {
             CarInputs[arg1][2] = a1;
             CarInputs[arg1][3] = t3;
             if (RaceType == 4) {
-                if (D_800AD508 != 0) {
+                if (LinkRoleSlot != 0) {
                     if (arg1 >= 2) {
                         *(int *)CarInputs[arg1] = D_800ACBE0[t2];
                     } else {
@@ -468,8 +468,8 @@ void ReplayModeUpdate(void) {
     if (ReplayFrame >= 0x19) {
         QueueDrawStp();
     }
-    SlotSetLevelProgram(D_800F4C70[0], D_800F2AB4[0], 0);
-    SlotSetLevelProgram(D_800F4C70[1], D_800F2AB4[1], 1);
+    SlotSetLevelProgram(EngineRevDisplay[0], D_800F2AB4[0], 0);
+    SlotSetLevelProgram(EngineRevDisplay[1], D_800F2AB4[1], 1);
     PadClearPulse(0);
     PadClearPulse(1);
     PadRumbleStop(0);

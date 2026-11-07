@@ -43,7 +43,7 @@ static State actual,reference,*w;
 #define CourseIndex w->mapped
 #define D_800F3A1E w->secondary
 #define ModeId w->scene
-#define D_800FFC18 w->settings
+#define MenuResultCode w->settings
 #define D_800F4D8A w->phase
 #define ModeGroup w->enabled
 #define MenuConfirmPressed w->input[0].a

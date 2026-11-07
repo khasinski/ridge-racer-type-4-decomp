@@ -16,9 +16,9 @@ void ovl662_func_8011A518(void)
         ovl662_func_8011E36C(-1);
         ovl662_func_8011D278(-1);
         ovl662_func_8011A414();
-        base=D_800F4D74+4;
+        base=LoadCursorBase+4;
         owner=&ovl662_D_801276A8;
-        base-=((RrGarageArenaAddress)D_800F4D74&3U);
+        base-=((RrGarageArenaAddress)LoadCursorBase&3U);
         second=base+0x840;
         /* Retain each publication of the shared arena cursor. */
         *(void *volatile*)&LoadCursor=base;

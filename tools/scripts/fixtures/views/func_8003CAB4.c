@@ -6,9 +6,9 @@ extern void SetupRace();
 
 extern unsigned short GameTypeSceneIds[];
 
-extern unsigned short D_800AD50A;
+extern unsigned short SceneId;
 
 void SetupRaceAndScene(void) {
     SetupRace();
-    D_800AD50A = GameTypeSceneIds[RaceType];
+    SceneId = GameTypeSceneIds[RaceType];
 }

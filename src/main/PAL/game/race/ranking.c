@@ -48,7 +48,7 @@ extern s16 ModeId;
 extern s16 ModeGroup;
 extern s8 LoadState;
 extern s16 D_800F4D8A;
-extern s16 D_800FFC18;
+extern s16 MenuResultCode;
 extern int SetCdMixMode();
 
 void InitDefaultTimeRecords(void);
@@ -165,13 +165,13 @@ void SplashModeEnter(void) {
     DebugPrintStub(&D_800103B8);
     LoadCursor = CdDirectoryBuffer;
     SplashLogoInit();
-    D_800FFC18 = 0;
+    MenuResultCode = 0;
     LoadSaveFromCardStep(0);
     VSyncThreshold = 0x80;
     ModeFrame = 0;
     D_800F4D8A = 0;
     LoadState = 0;
-    D_8010BFBC = 0;
+    AttractCycleCounter = 0;
     PendingModeId = 0x203;
     ModeGroup = 1;
     ModeId = 2;

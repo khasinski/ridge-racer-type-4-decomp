@@ -3,7 +3,7 @@
 #include "game/gfx/fadein.h"
 extern int RaceContext[];
 
-void func_8005C8D8(int a0) {
+void StartSceneFadeIn(int a0) {
     if (RaceContext[0x41C / 4] == 0) {
         func_8005C7A4();
     }

@@ -43,7 +43,7 @@ typedef struct
   int a88;
 } T38;
 
-extern int func_8002E828();
+extern int ScaleMatrixRow1();
 extern int BuildCameraMatrices();
 extern short D_8009F694[];
 extern short D_8009F6A0[];
@@ -99,11 +99,11 @@ extern int SioDeviceName[];
 extern int LinkWriteHandle;
 extern int LinkReadHandle;
 extern s16 LinkState;
-extern int D_8009F728;
+extern int LinkHandshakeCountdown;
 extern signed char LinkEntryState[];
 extern signed char D_800ABEBE;
 extern int RaceTimeRemaining;
-extern short D_800AD508;
+extern short LinkRoleSlot;
 extern int D_800F3A64;
 
 void SetupMenuCarCamera(int a);
@@ -143,7 +143,7 @@ void SetupMenuCarCamera(int a)
     t = SCRATCH_ROT_MATRIX;
     /* ASM_BARRIER: forces the SCRATCH_ROT_MATRIX li to be scheduled before the li a0,2 (original delay-slot layout) */
     asm volatile("" : "=r"(t) : "0"(t));
-    func_8002E828(2, t);
+    ScaleMatrixRow1(2, t);
   }
   ;
   if (PlayerControllers[SelectionPlayer & 1].b & 4)
@@ -601,9 +601,9 @@ int UpdateLinkHandshake(int a0)
       _sio_control(1, 1, 2);
       if (a0 == 0)
       {
-        D_800AD508 = 0;
+        LinkRoleSlot = 0;
         D_800ABEBE = 1;
-        D_8009F728 = 3;
+        LinkHandshakeCountdown = 3;
         LinkState = 10;
       }
       else
@@ -615,7 +615,7 @@ int UpdateLinkHandshake(int a0)
       _sio_control(1, 1, 2);
       if (a0 == 0)
     {
-      D_800AD508 = 1;
+      LinkRoleSlot = 1;
       LinkEntryState[0] = 1;
       LinkState = 1;
     }
@@ -631,14 +631,14 @@ int UpdateLinkHandshake(int a0)
       break;
 
     case 11:
-      if (D_8009F728 > 0)
+      if (LinkHandshakeCountdown > 0)
     {
       _sio_control(1, 1, 2);
-      D_8009F728 -= 1;
+      LinkHandshakeCountdown -= 1;
       if (k == 1)
       {
         LinkState = 2;
-        D_8009F728 = 0;
+        LinkHandshakeCountdown = 0;
       }
     }
     else
@@ -660,17 +660,17 @@ int UpdateLinkHandshake(int a0)
       if (k == 2)
     {
       LinkState = k;
-      D_8009F728 = 4;
+      LinkHandshakeCountdown = 4;
     }
       break;
 
     case 3:
       _sio_control(1, 1, 1);
-      if (D_8009F728 > 0)
+      if (LinkHandshakeCountdown > 0)
     {
       if (a0 == 0)
       {
-        D_8009F728 -= 1;
+        LinkHandshakeCountdown -= 1;
         break;
       }
     }
@@ -678,7 +678,7 @@ int UpdateLinkHandshake(int a0)
       if (a0 == 0)
     {
       new_var = LinkEntryState;
-      xx = D_800AD508;
+      xx = LinkRoleSlot;
       z = 3;
       new_var2 = xx * 2;
       bp = new_var;
@@ -690,7 +690,7 @@ int UpdateLinkHandshake(int a0)
         if (e->a84 != 0)
         {
           PlaySfx(1);
-          bp[new_var3 - (D_800AD508 * 2)] = 1;
+          bp[new_var3 - (LinkRoleSlot * 2)] = 1;
         }
         else
           if (e->a88 != 0)
@@ -699,7 +699,7 @@ int UpdateLinkHandshake(int a0)
         }
         if (D_800F3A64 != 0)
         {
-          LinkEntryState[1 - (q3 = D_800AD508)] = -1;
+          LinkEntryState[1 - (q3 = LinkRoleSlot)] = -1;
           _sio_control(1, 1, 0, q3);
         }
       }
@@ -719,7 +719,7 @@ int UpdateLinkHandshake(int a0)
         _sio_control(1, 1, 2);
       }
       else
-        if (LinkEntryState[3 - (D_800AD508 * 2)] != 0)
+        if (LinkEntryState[3 - (LinkRoleSlot * 2)] != 0)
       {
         LinkState = 3;
         _sio_control(1, 1, 2);

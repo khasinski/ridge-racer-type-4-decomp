@@ -15,14 +15,14 @@ CASES = [
     ('8009D5B4', 100, '8009D65C', '8009D680', ('CardCmdResultPtrA', 'CardCmdResultPtrB')),
     ('8009D700', 12, '8009D7A0', '8009D7C4', ('CardCmdBuffer',)),
     ('8009DD88', 101, '8009DE30', '8009DE54', ('CardCmdResultPtrA', 'CardCmdResultPtrB')),
-    ('8009D238', 13, '8009D2E0', '8009C610', ('CardCmdSector', 'D_80114728')),
+    ('8009D238', 13, '8009D2E0', '8009C610', ('CardCmdSector', 'CardVarRxLength')),
     ('8009CB84', 14, '8009CC44', '8009CCF0', ('CardCmdSector', 'CardCmdBuffer', 'CardCmdResultPtrA')),
-    ('8009D068', 6, '8009D118', '8009C610', ('CardCmdSector', 'D_80114728')),
+    ('8009D068', 6, '8009D118', '8009C610', ('CardCmdSector', 'CardVarRxLength')),
     ('8009CDFC', 15, '8009CEBC', '8009CF94', ('CardCmdSector', 'CardCmdBuffer', 'CardCmdResultPtrA')),
     ('8009C638', 3, '8009C6D8', '8009C6F8', ('CardCmdBuffer',)),
 ]
 SCALARS = ['CardTxCount', 'CardCommandRequest', 'CardReceiveIndex', 'CardRxCount',
-           'CardCmdSector', 'D_80114728', 'D_8011472C', 'CardBytesRemaining', 'CardCurrentCommand']
+           'CardCmdSector', 'CardVarRxLength', 'D_8011472C', 'CardBytesRemaining', 'CardCurrentCommand']
 POINTERS = ['CardCmdBuffer', 'CardCmdResultPtrA', 'CardCmdResultPtrB', 'CardCommandReader', 'CardWriteHandler']
 
 
@@ -166,7 +166,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
                 self.scalars['CardTxCount'].value = phase
                 self.scalars['CardCmdSector'].value = first
                 self.parameter.value = second
-                self.scalars['D_80114728'].value = third
+                self.scalars['CardVarRxLength'].value = third
                 before = self.snapshot(), bytes(self.parameter_page), bytes(self.parameter)
                 expected = {2: 0x5D, 4: first, 5: second, 6: third}.get(phase, 0)
                 self.assertEqual(reader(), expected)
@@ -244,7 +244,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
                 self.serial_ports[0] = count
                 expected = bytearray(self.buffer)
                 self.assertEqual(writer(-1), 0)
-                self.assertEqual(self.scalars['D_80114728'].value, count)
+                self.assertEqual(self.scalars['CardVarRxLength'].value, count)
                 self.assertEqual(self.pointers['CardCmdBuffer'].value, base)
                 self.scalars['CardRxCount'].value = count + 4
                 self.serial_ports[0] = received
@@ -276,7 +276,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
                 self.pointers['CardCmdBuffer'].value = None
                 self.serial_pointer.value = None
                 self.scalars['CardRxCount'].value = phase
-                self.scalars['D_80114728'].value = 200
+                self.scalars['CardVarRxLength'].value = 200
                 ram, scalars, pointers = self.snapshot()
                 if name == '8009C6F8' and phase == 5:
                     scalars['CardBytesRemaining'] = 0
@@ -295,7 +295,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
             before, union = self.snapshot(), bytes(self.parameter)
             serial_before = bytes(self.serial_ports), self.serial_pointer.value
             ram, scalars, pointers = before
-            scalars['D_80114728'] = byte
+            scalars['CardVarRxLength'] = byte
             self.assertEqual(writer(-2147483648), 0)
             self.assertEqual(self.snapshot(), (ram, scalars, pointers))
             self.assertEqual(bytes(self.parameter), union)
@@ -307,7 +307,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
         writer.restype = C.c_int32
         for byte in range(256):
             self.initialize(1)
-            self.scalars['D_80114728'].value = 7
+            self.scalars['CardVarRxLength'].value = 7
             self.scalars['CardRxCount'].value = 11
             self.serial_ports[0] = byte
             ram, scalars, pointers = self.snapshot()
@@ -332,7 +332,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
                     continue
                 self.initialize(1)
                 self.serial_pointer.value = None
-                self.scalars['D_80114728'].value = count
+                self.scalars['CardVarRxLength'].value = count
                 self.scalars['CardRxCount'].value = phase
                 before = self.snapshot(), bytes(self.parameter), bytes(self.serial_ports)
                 self.assertEqual(writer(-1), 0)
@@ -350,7 +350,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
         self.scalars['CardRxCount'].value = 3
         self.serial_ports[0] = 2
         self.assertEqual(writer(123), 0)
-        self.assertEqual(self.scalars['D_80114728'].value, 2)
+        self.assertEqual(self.scalars['CardVarRxLength'].value, 2)
         self.assertEqual(self.pointers['CardCmdBuffer'].value, buffer)
         self.scalars['CardRxCount'].value = 6
         self.serial_ports[0] = 255
@@ -367,7 +367,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
         for count in (-2147483648, -1, 0, 1, 255, 2147483647):
             self.initialize(1)
             self.pointers['CardCmdBuffer'].value = None
-            self.scalars['D_80114728'].value = count
+            self.scalars['CardVarRxLength'].value = count
             for phase in (-2147483648, -1, *range(11)):
                 self.scalars['CardRxCount'].value = phase
                 ram, scalars, pointers = self.snapshot()
@@ -443,7 +443,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
                     for field, argument in zip(fields, arguments):
                         (pointers if field in POINTERS else scalars)[field] = argument
                     if n in ('8009CB84', '8009CDFC'):
-                        scalars['D_80114728'] = scalars['D_8011472C'] = 0
+                        scalars['CardVarRxLength'] = scalars['D_8011472C'] = 0
                     if n == '8009D068':
                         scalars['D_8011472C'] = 0
                     before_buffer, before_words = bytes(self.buffer), bytes(self.words)
@@ -528,7 +528,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
                 expected_ram[0xBDE4:0xBDE8] = (2).to_bytes(4, 'little')
                 for name in ('CardTxCount', 'CardReceiveIndex', 'CardRxCount', 'CardBytesRemaining'):
                     scalars[name] = 0
-                scalars.update(CardCommandRequest=-77, CardCmdSector=sector, D_80114728=count,
+                scalars.update(CardCommandRequest=-77, CardCmdSector=sector, CardVarRxLength=count,
                                CardCurrentCommand=4 + mode)
                 pointers['CardCmdBuffer'] = C.addressof(self.buffer)
                 read, write = ('8009C87C', '8009C91C') if mode == 0 else ('8009CA8C', '8009CB50')

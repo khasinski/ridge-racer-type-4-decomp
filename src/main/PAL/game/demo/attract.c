@@ -29,7 +29,7 @@ extern short ModeId;
 extern short D_800F4D8A;
 extern int MaskBitSetting;
 extern char RaceContext[];
-extern short D_800AD50A;
+extern short SceneId;
 extern int PsyqRand();
 extern int func_80055300();
 extern int func_80055330();
@@ -147,7 +147,7 @@ void StartAttractDemo(int a0) {
     ModeId = 0x23;
     D_800F4D8A = 0;
     if (a0 == 0) {
-        func_8005C8D8(-1);
+        StartSceneFadeIn(-1);
         RaceBgmListIndex = D_800A19E0[CourseIndex] + 1;
     } else {
         func_8005C13C(0);
@@ -180,7 +180,7 @@ void StartAttractDemo(int a0) {
     *(int *)(c2 + 0x514) = 0x122;
     SoundReverbOffAll();
     ClearTrackObjectStates(0);
-    D_800AD50A = 0x209;
+    SceneId = 0x209;
 }
 
 void AttractDemoRaceEnter(void) {

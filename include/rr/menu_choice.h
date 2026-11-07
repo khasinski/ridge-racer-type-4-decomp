@@ -26,7 +26,7 @@ void SetMenuFrameOptions(s32 first, s32 second, s32 third);
  * may change selection, backing pointers and records. Acceptance uses captured
  * state3 but fresh row/UI pointers after the sound helper. Publishes the fresh
  * full buffer pointer after both state helpers. */
-void func_80036D40(void);
+void UpdateCourseListChoice(void);
 RR_ASSERT_SIZE(RrMenuChoice4, 4);
 RR_ASSERT_SIZE(RrMenuSettings2C, 0x2C);
 RR_ASSERT_OFFSET(RrMenuSettings2C, retries08, 8);

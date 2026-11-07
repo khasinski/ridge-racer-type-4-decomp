@@ -29,7 +29,7 @@ static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorking
 #define DialogueState world.text
 #define MenuConfirmPressed world.accept
 #define ovl662_D_801272E8 world.exit
-#define D_800FFC18 world.slot
+#define MenuResultCode world.slot
 #define ModeId world.scene
 #define ModeGroup world.enable
 #define D_800F4D8A world.state

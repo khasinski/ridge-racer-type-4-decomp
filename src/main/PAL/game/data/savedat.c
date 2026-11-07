@@ -21,7 +21,7 @@ extern Struct840 *D_800F3910;
 extern Struct840 *D_800F3918;
 extern Struct7C SaveProgress;
 extern int SaveDataBackup[];
-extern short D_800F4D3C;
+extern short SaveSlotIndex;
 extern short RaceType;
 extern Struct10 LapRecords[2][8][5];
 extern Struct2C SaveSlotSelectionsBackup[3];
@@ -116,12 +116,12 @@ int ApplySaveData(int arg0) {
         break;
     case 0x10:
         v10 = *(int *)SaveBuffer;
-        D_801272F0[D_800F4D3C] = v10;
+        D_801272F0[SaveSlotIndex] = v10;
         a2 = 1;
         break;
     case 0x11:
         v11 = (p = (SaveBuf11 *)SaveBuffer)->f280;
-        D_800F4D38 = D_801272F0[D_800F4D3C] = v11;
+        PlayTimeFrames = D_801272F0[SaveSlotIndex] = v11;
         for (t0 = 0; t0 < 2; t0++) {
             for (s0 = 0; s0 < 0x840; s0++) {
                 if (t0 == 0) {

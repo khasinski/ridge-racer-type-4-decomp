@@ -149,7 +149,7 @@ extern int SetGeomOffset();
 extern int SetDrawArea();
 
 SkyTri *func_80017310(SkyTri *a0, SkyCtx *a1, int a2);
-SkyQuad17528 *func_80017528(SkyQuad17528 *a0, SkyCtxQuad *a1, int a2);
+SkyQuad17528 *EmitSkyDepthCuedG4(SkyQuad17528 *a0, SkyCtxQuad *a1, int a2);
 SkyQuad177E4 *SkyEmitQuadFT4(SkyQuad177E4 *a0, SkyCtxQuad *a1, int a2);
 SkyTri17A90 *EmitSkyDepthCuedGT3(SkyTri17A90 *a0, SkyCtx *a1, int a2);
 void DrawTrackScenery();
@@ -256,7 +256,7 @@ SkyTri *func_80017310(SkyTri *a0, SkyCtx *a1, int a2) {
     return a0;
 }
 
-SkyQuad17528 *func_80017528(SkyQuad17528 *a0, SkyCtxQuad *a1, int a2) {
+SkyQuad17528 *EmitSkyDepthCuedG4(SkyQuad17528 *a0, SkyCtxQuad *a1, int a2) {
     int v1 = a0->v01;
     int a3 = a0->v23;
     char *verts = a1->verts;
@@ -661,7 +661,7 @@ void DrawTrackScenery(a0) int a0; {
                 w = w >> 16;
                 switch (k) {
                 case 7: r = (int)func_80017310(r, s0, w); break;
-                case 8: r = (int)func_80017528(r, s0, w); break;
+                case 8: r = (int)EmitSkyDepthCuedG4(r, s0, w); break;
                 case 1: r = (int)SkyEmitQuadFT4(r, s0, w); break;
                 case 11: r = (int)EmitSkyDepthCuedGT3(r, s0, w); break;
                 default: DebugPrintStub(D_800100D0, k, w); return;

@@ -10,9 +10,9 @@ s32 _cardCmd5CVarRx(s32 unused) {
         port=CardCmdSioRegs;
         RR_NOP_DEP_ON(port);
         while(!(port->status & 2)) { }
-        D_80114728=CardCmdSioRegs->data;
+        CardVarRxLength=CardCmdSioRegs->data;
     } else if(CardRxCount>=4) {
-        if((u32)CardRxCount==(u32)D_80114728+4) {
+        if((u32)CardRxCount==(u32)CardVarRxLength+4) {
             port=CardCmdSioRegs;
             RR_NOP_DEP_ON(port);
             while(!(port->status & 2)) { }

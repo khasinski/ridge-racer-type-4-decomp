@@ -25,14 +25,14 @@
 
 #undef D_8010E798
 
-extern s16 D_800AD50C;
+extern s16 RearViewMirrorEnabled;
 
 extern s32 D_800F4CE0;
 
 extern s32 D_8010E730;
 
 void ResetRearViewMirror(void) {
-    D_800AD50C = 1;
+    RearViewMirrorEnabled = 1;
     D_800F4CE0 = -0x24;
     D_8010E730 = 0;
 }

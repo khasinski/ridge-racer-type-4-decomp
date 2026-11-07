@@ -36,7 +36,7 @@ void ovl665_func_8011643C(void) {
     BuildCameraMatrices();
     SetupViewport(6);
     SetGeomOffset((s16)ovl665_D_80119768.centerX38, (s16)ovl665_D_80119768.centerY3A);
-    func_8002E828(2, scratch->matrix28.halves);
+    ScaleMatrixRow1(2, scratch->matrix28.halves);
     switch (ovl665_D_80119768.kind18) {
     case 0:
             temp_s1 = &ovl665_D_80119768.view74;

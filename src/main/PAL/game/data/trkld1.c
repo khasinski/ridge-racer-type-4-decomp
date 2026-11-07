@@ -358,7 +358,7 @@ void RaceLoadReset(void) {
     RaceLoadStepIndex = 0;
     RaceLoadState = 0;
     RaceLoadSubState = 0;
-    D_800A0218 = 0;
+    RaceLoadPhase = 0;
     RaceLoadCursor = LoadCursor;
 }
 

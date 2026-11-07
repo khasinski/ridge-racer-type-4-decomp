@@ -15,7 +15,7 @@ void UnpackChoiceGlyph(signed char *a0, int a1);
 s32 PackChoiceGlyph(void *arg0);
 s32 CountChoiceGlyphs(const RrCourseChoice4 *a0);
 
-void func_80036D40(void) {
+void UpdateCourseListChoice(void) {
     s32 state;
     u32 selected=D_800F4D99;
     CourseListIndex=selected;

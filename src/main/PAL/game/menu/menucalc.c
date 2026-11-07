@@ -40,7 +40,7 @@ extern int D_800F4CA8;
 extern unsigned char *UiRows;
 extern short D_800F4D8A;
 extern s32 VSyncThreshold;
-extern s16 D_800AD50A;
+extern s16 SceneId;
 extern int AddScreenFadeTiles();
 extern int ResetScreenCounters();
 extern int PlaySfx();
@@ -51,7 +51,7 @@ extern int LoadCursor;
 extern struct { char pad[1]; signed char b1; } *ImageRows;
 extern struct { char pad[8]; unsigned short h8; char pad2[0x1E]; int w28; } PlayerControllers;
 extern struct { char pad[0x10]; short h10; char pad2[10]; } *BadgeRows;
-extern int D_800F4D74;
+extern int LoadCursorBase;
 extern struct { char pad[6]; signed char b6; char pad2[0xF]; short h16; } *Dialogue;
 
 int func_80030D9C(int x, int a1);
@@ -189,7 +189,7 @@ void func_800311FC(void) {
     SetupDrawDispEnvs(0, 0, 0, 2);
     ModeFrame = 0;
     VSyncThreshold = 0x80;
-    D_800AD50A = 0x10C;
+    SceneId = 0x10C;
 }
 
 /* legacy typing of shared globals in this part of the unit */
@@ -218,7 +218,7 @@ void func_80031244(void) {
                 if (PendingModeId == 0x10F || PendingModeId == 0x12A || PendingModeId == 0x205) {
                     MenuFadeTimer = 0x40;
                     ResetScreenCounters(tab);
-                    LoadCursor = D_800F4D74;
+                    LoadCursor = LoadCursorBase;
                     LoadTimListStep(0);
                     SeqFadeVolume(0, (short)(MenuFadeTimer - 4));
                     D_800F4D8A = 1;

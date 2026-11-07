@@ -12,7 +12,7 @@ extern RrMenuItemState5C PlayerControllers[2];
 extern u32 ScreenFrame;
 extern s16 D_8009EE68[2];
 extern u8 D_8009EE5C[6],D_8009EE64[3];
-extern s16 D_800AD508;
+extern s16 LinkRoleSlot;
 extern RrUiUvRect D_8009EE58;
 s32 GetControllerWarning(s32 player);
 /* Layout1 selects port0 at Y112; layout2 selects port1 at Y240.

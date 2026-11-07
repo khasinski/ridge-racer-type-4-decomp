@@ -148,14 +148,14 @@ void SetupRace(void)
     func_80045830();
     if ((RaceType == 0) || (RaceType == 5))
     {
-        D_800AD50C = 0;
+        RearViewMirrorEnabled = 0;
         D_800AC538 = 0;
         DrawSubOtFlag = 0;
     }
     else
     {
         ResetRearViewMirror();
-        D_800AD50C = 1;
+        RearViewMirrorEnabled = 1;
         D_800AC538 = 0;
         DrawSubOtFlag = 1;
     }
@@ -167,7 +167,7 @@ void SetupRace(void)
     MenuFadeTimer = 0;
     RacePaused = 0;
     PauseCursor = 0;
-    D_80107190 = 0x80;
+    RaceIntroWipeY = 0x80;
     RaceTimeRemaining = 0x3A98;
     if ((RaceType != 1) && (RaceType != 6))
     {
@@ -175,8 +175,8 @@ void SetupRace(void)
     }
     VSyncThreshold = 0x180;
     ClearTrackObjectStates(0);
-    D_800F4C70.first = 0;
-    D_800F4C70.second = 0;
+    EngineRevDisplay.first = 0;
+    EngineRevDisplay.second = 0;
     D_800F2AB4.first = 0;
     D_800F2AB4.second = 0;
     RaceVoiceFlags = 0;

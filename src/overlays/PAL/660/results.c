@@ -9,7 +9,7 @@ void ovl660_func_801154D8(void)
     ModeFrame = 0;
     if (TotalRaceTime != -1) {
         ovl660_func_801162D8();
-        ovl660_race_record_rank = ovl660_func_80115FA8(0, LapTimes[(s16)D_800AC1A0]);
+        ovl660_race_record_rank = ovl660_func_80115FA8(0, LapTimes[(s16)BestLapIndex]);
         ovl660_lap_record_rank = ovl660_func_80115FA8(1, TotalRaceTime);
     } else {
         ovl660_race_record_rank = 6;
@@ -321,5 +321,5 @@ void ovl660_func_801162D8(void)
             }
         }
     }
-    D_800AC1A0 = indices[0];
+    BestLapIndex = indices[0];
 }

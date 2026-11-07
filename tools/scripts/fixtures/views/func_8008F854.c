@@ -27,7 +27,7 @@ s32 StGetNext(u8 **data,RrLibQueueRecord32 **header) {
         /* ASM_BARRIER: Publish acquisition before reading the payload location. */
         __asm__ volatile("" : : : "memory");
         result=0;
-        *data=(u8 *)StRingHeaders+(u32)D_80110314*sizeof(RrLibQueueRecord32)+(u32)D_801102FC*0x7E0;
+        *data=(u8 *)StRingHeaders+(u32)StRingSize*sizeof(RrLibQueueRecord32)+(u32)D_801102FC*0x7E0;
         *header=selected;
     }
 out:

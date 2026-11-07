@@ -241,6 +241,6 @@ void ovl659_rank_standings(void) {
         if (vehicle->steering288.count22 > 0)
             LapTimes[vehicle->steering288.count22 - 1] = rank;
     } else {
-        D_800AC1A0 = indices[0];
+        BestLapIndex = indices[0];
     }
 }

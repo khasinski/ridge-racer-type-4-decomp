@@ -66,7 +66,7 @@ normalizeColumn:
         MenuFadeTimer = (u16) fadeStep;
         AddScreenFadeTiles(&CurrentDrawBuf->head70, (0x40 - fadeStep) * 4, 0x45);
         if ((s16) MenuFadeTimer <= 0) {
-            D_800FFC18 = 5;
+            MenuResultCode = 5;
             ModeGroup = phase;
             ModeId = 0x47;
             D_800F4D8A = 0;

@@ -13,11 +13,11 @@ void RelocateRelativeFile(RrRelativeHeader *input){
  u32 last;
  
  D_800F2EBC=base;
- D_800F39A4=count;
+ RelativeFileCount=count;
  i=0;
  count*=8U;
  /* ASM_BARRIER: Keep the raw count publication before the first relocations. */
- __asm__("" : : "r"(count), "m"(D_800F39A4));
+ __asm__("" : : "r"(count), "m"(RelativeFileCount));
  first=rr_relative_file_address(base,base->first[0].relative);
  second=rr_relative_file_address(base,base->first[1].relative);
  base->first[0].absolute=first;
@@ -49,8 +49,8 @@ void RelocateRelativeFile(RrRelativeHeader *input){
   cursor->absolute=rr_relative_file_address(base,cursor->relative);
   /* ASM_BARRIER: Reload the shared count after each pointer write while
    * retaining its original address register across the loop. */
-  __asm__("" : "+m"(D_800F39A4) : : "$3", "$4");
+  __asm__("" : "+m"(RelativeFileCount) : : "$3", "$4");
   i++;
   cursor++;
- }while(i<D_800F39A4*8U);
+ }while(i<RelativeFileCount*8U);
 }

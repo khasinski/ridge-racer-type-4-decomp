@@ -42,7 +42,7 @@ extern char CourseIndex[];
 extern char NumLaps[];
 extern char D_800F4DA0[];
 extern char D_8010C0A0[];
-extern short D_800AD50A;
+extern short SceneId;
 extern short MenuDispMode;
 extern int AddTextSprites();
 extern int AddDrawModePrim();
@@ -78,7 +78,7 @@ void LinkErrorModeUpdate();
 void LinkBattleEndModeUpdate(void);
 void StopRaceRumble(void);
 void StopRaceAudioAndRumble(void);
-void func_80036098(void);
+void RaceExitToMenuStep(void);
 void func_80036174(void);
 void func_80036270(void);
 void func_80036330(void);
@@ -109,7 +109,7 @@ void DrawLinkEntryScreen(s32 mode) {
             labelY=row*194+64;
             waitY=row*194+150;
             statusY=row*194+120;
-            text[0]=row+((s32)((u32)(D_800AD508^1)<<16)>>15)+49;
+            text[0]=row+((s32)((u32)(LinkRoleSlot^1)<<16)>>15)+49;
             DrawBigFontString(12,labelY,StrPlayerLabel);
             DrawBigFontString(88,labelY,text);
             status=LinkEntryState[1-mode][row];
@@ -138,12 +138,12 @@ void DrawLinkEntryScreen(s32 mode) {
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800AD508 (*(short (*))&D_800AD508)
+#define LinkRoleSlot (*(short (*))&LinkRoleSlot)
 
 int LinkExchange(a0, a1, a2, a3) int a0, a1, a2, a3;
 {
     int r;
-    if (D_800AD508 != 0) {
+    if (LinkRoleSlot != 0) {
         r = -1;
         if (FileWrite(LinkWriteHandle) == a2) {
             if (a3 != 0) {
@@ -164,7 +164,7 @@ zero:
     return 0;
 }
 
-#undef D_800AD508
+#undef LinkRoleSlot
 
 /* legacy typing of shared globals in this part of the unit */
 #define LinkEntryState (*(char (*)[])&LinkEntryState)
@@ -198,7 +198,7 @@ void LinkWaitModeEnter(void) {
 #undef LinkEntryState
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800AD508 (*(s16 (*))&D_800AD508)
+#define LinkRoleSlot (*(s16 (*))&LinkRoleSlot)
 
 void LinkWaitModeUpdate(void) {
     ModeFrame += 1;
@@ -209,7 +209,7 @@ void LinkWaitModeUpdate(void) {
             ModeId = 0x23;
             D_800F4D8A = 0;
         }
-        DrawLinkEntryScreen(D_800AD508);
+        DrawLinkEntryScreen(LinkRoleSlot);
         AddPartialLine(CurrentDrawBuf + 0x70, 8, 0xF0, 0x138, 0xF0, ModeFrame * 8, 1, 8, 8, 8, 0);
         AddPartialLine(CurrentDrawBuf + 0x70, 8, 0x10C, 0x138, 0x10C, ModeFrame * 8, 1, 8, 8, 8, 0);
         SetMenuFrameOptions(1, 1, 1);
@@ -217,7 +217,7 @@ void LinkWaitModeUpdate(void) {
     }
 }
 
-#undef D_800AD508
+#undef LinkRoleSlot
 
 void LinkExchangeModeUpdate(void) {
     int s = LinkState;
@@ -252,7 +252,7 @@ st2:
     _sio_control(3, 0, 0);
     MenuDispMode = 0;
     MenuScriptId = 0xA;
-    D_800AD50A = 0x11A;
+    SceneId = 0x11A;
     ModeGroup = 1;
     ModeId = 0x23;
     D_800F4D8A = 0;
@@ -406,7 +406,7 @@ void StopRaceAudioAndRumble(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
 
-void func_80036098(void) {
+void RaceExitToMenuStep(void) {
     if (D_800F4D8A == 0) {
         SetDispMask(0);
         StopRaceAudioAndRumble();
@@ -435,27 +435,27 @@ void func_80036174(void) {
     switch (RaceType) {
     case 1:
         func_801150CC();
-        D_800AD50A = 0x130;
+        SceneId = 0x130;
         break;
     case 2:
     case 3:
         func_80117C78();
-        D_800AD50A = 0x13A;
+        SceneId = 0x13A;
         break;
     case 0:
         func_801154D8();
-        D_800AD50A = 0x136;
+        SceneId = 0x136;
         break;
     case 4:
         func_80118634();
-        D_800AD50A = 0x13E;
+        SceneId = 0x13E;
         break;
     case 6:
         func_80115388();
-        D_800AD50A = 0x153;
+        SceneId = 0x153;
         break;
     default:
-        D_800AD50A = 0x103;
+        SceneId = 0x103;
         break;
     }
 }

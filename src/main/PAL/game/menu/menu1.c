@@ -31,7 +31,7 @@ extern short ModeGroup;
 extern short D_800F4D8A;
 extern int DrawUiRow();
 extern E *UiRows;
-extern short D_800FFC18;
+extern short MenuResultCode;
 extern struct { int p[10]; int a28; int a2c; } PlayerControllers;
 extern int StepMenuValue();
 extern int PlaySfx();
@@ -169,7 +169,7 @@ L104:
     D_800F4D8A = 0;
     goto END;
 L120:
-    D_800FFC18 = 4;
+    MenuResultCode = 4;
     ModeGroup = s;
     ModeId = 0xD;
     D_800F4D8A = 0;

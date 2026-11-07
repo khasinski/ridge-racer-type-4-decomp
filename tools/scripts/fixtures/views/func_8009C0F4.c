@@ -73,7 +73,7 @@ s32 _cardCmdStep(void) {
     __asm__("" : : : "$2", "$3", "memory");
     if(CardCurrentCommand!=15) goto wait;
 special:
-    if((u32)CardRxCount==(u32)D_80114728+4) goto final_byte;
+    if((u32)CardRxCount==(u32)CardVarRxLength+4) goto final_byte;
 wait:
     {
         RrSerialPortRegisters *port=CardCmdSioRegs;

@@ -7,7 +7,7 @@ int func_8006F1EC();
 s32 YawToOctant(void *arg0);
 unsigned int *GetSegmentViewTable();
 void InitTimTemplate(int *a0);
-void func_800700AC(int *a0);
+void RelocateModelPointers(int *a0);
 int RegisterModelBank();
 
 #endif /* RR_GAME_GFX_MODEL_H */

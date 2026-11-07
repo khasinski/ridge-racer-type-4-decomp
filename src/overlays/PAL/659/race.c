@@ -34,7 +34,7 @@ void ovl659_update_race(void) {
         DrawLapTimeList(0);
         DrawTimeRemaining(RaceTimeRemaining);
         DrawStartCountdown(&CurrentDrawBuf->ordering.ordering70[0], ModeFrame);
-        DrawHudRotatingQuad(D_800F4C70.first, 0);
+        DrawHudRotatingQuad(EngineRevDisplay.first, 0);
         func_800211A4(0);
         DrawHudNumber3((PlayerCars[0].input * 160) / 1168, 0);
         DrawHudDigitMod10(PlayerCars[0].half27A, 0);
@@ -113,7 +113,7 @@ void ovl659_update_race(void) {
     if (((u32)RaceState - 1) < 3U) {
         DrawLapTimeList(0);
         DrawTimeRemaining(RaceTimeRemaining);
-        DrawHudRotatingQuad(D_800F4C70.first, 0);
+        DrawHudRotatingQuad(EngineRevDisplay.first, 0);
         func_800211A4(0);
         DrawHudNumber3((PlayerCars[0].input * 160) / 1168, 0);
         DrawHudDigitMod10(PlayerCars[0].half27A, 0);
@@ -149,14 +149,14 @@ void ovl659_update_race(void) {
         FrameEnvs[0].environment.rgb24 = 1;
         RR_659_SCRATCH->pointers.cursor =
             AddDrawAreaPrim(CurrentDrawBuf->ordering.ordering70 + 702, RR_659_SCRATCH->pointers.cursor, 0,
-                          D_80107190, 320, (s32)(256U - (u32)D_80107190 * 2U));
-        if ((D_80107190 = (s32)((u32)D_80107190 - 16U)) < 0) {
-            D_80107190 = 0;
+                          RaceIntroWipeY, 320, (s32)(256U - (u32)RaceIntroWipeY * 2U));
+        if ((RaceIntroWipeY = (s32)((u32)RaceIntroWipeY - 16U)) < 0) {
+            RaceIntroWipeY = 0;
             FrameEnvs[1].environment.rgb24 = 0;
             FrameEnvs[0].environment.rgb24 = 0;
         }
     }
-    SlotSetLevelProgram(D_800F4C70.first, D_800F2AB4.first, 0);
+    SlotSetLevelProgram(EngineRevDisplay.first, D_800F2AB4.first, 0);
     if (RaceState >= 4) {
         StopRaceRumble();
         if (RaceState == 6) {

@@ -6,7 +6,7 @@
  * entries, ending at the first negative value. Race setup resets all ten. */
 extern s32 LapTimes[10];
 extern s32 TotalRaceTime;
-extern u16 D_800AC1A0;
+extern u16 BestLapIndex;
 /* Publish the first minimum entry's original index; an empty list yields0. */
 void ovl660_func_801162D8(void);
 #endif

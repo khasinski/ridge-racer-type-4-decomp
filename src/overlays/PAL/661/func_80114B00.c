@@ -66,7 +66,7 @@ block_7:
                 
                 temp_s0 = &PlayerCars[var_s2];
                 DrawHudNumber3((temp_s0->input * 0xA0) / 1168, var_s2);
-                DrawHudNumber5(*(s16 *)((u8 *)&D_800F4C70+var_s2*2), var_s2);
+                DrawHudNumber5(*(s16 *)((u8 *)&EngineRevDisplay+var_s2*2), var_s2);
                 DrawHudDigitMod10(temp_s0->half27A, var_s2);
                 UpdateHudRankDisplay(temp_s0->half1EE, var_s2);
                 {register s32 playerArg __asm__("$5")=var_s2;s32 budget=RaceTimeRemaining;__asm__("" : : "r"(budget));{register s32 nextPlayer __asm__("$2")=playerArg+1;__asm__("" : : "r"(nextPlayer));var_s2=nextPlayer;DrawTimeRemainingForPlayer(budget,playerArg);}}
@@ -196,7 +196,7 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
             
                 temp_s0_3 = &PlayerCars[var_s2];
             DrawHudNumber3((temp_s0_3->input * 0xA0) / 1168, var_s2);
-            DrawHudNumber5(*(s16 *)((u8 *)&D_800F4C70+var_s2*2), var_s2);
+            DrawHudNumber5(*(s16 *)((u8 *)&EngineRevDisplay+var_s2*2), var_s2);
             DrawHudDigitMod10(temp_s0_3->half27A, var_s2);
             UpdateHudRankDisplay(temp_s0_3->half1EE, var_s2);
             {register s32 playerArg __asm__("$5")=var_s2;s32 budget=RaceTimeRemaining;__asm__("" : : "r"(budget));{register s32 nextPlayer __asm__("$2")=playerArg+1;__asm__("" : : "r"(nextPlayer));var_s2=nextPlayer;DrawTimeRemainingForPlayer(budget,playerArg);}}
@@ -253,7 +253,7 @@ __asm__("" : : "r"(temp_v0_5),"r"(temp_v1_5));
         temp_s0_4 = var_s2 + 1;
         DrawTrackSceneryForPlayer(temp_s0_4);
         {register s32 playerArg2 __asm__("$6")=var_s2;
-        temp_a0 = *(s16 *)((u8 *)&D_800F4C70+temp_s1);
+        temp_a0 = *(s16 *)((u8 *)&EngineRevDisplay+temp_s1);
         temp_a1_3 = *(s16 *)((u8 *)&D_800F2AB4+temp_s1);
         var_s2 = temp_s0_4;
         SlotSetLevelProgram(temp_a0,temp_a1_3,playerArg2);}

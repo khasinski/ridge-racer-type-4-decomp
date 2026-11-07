@@ -79,7 +79,7 @@ extern struct {
 extern s32 VSyncThreshold;
 extern s16 D_800F7488;
 extern s16 D_800F7624;
-extern void func_8002E828(s32, s32);
+extern void ScaleMatrixRow1(s32, s32);
 extern void UpdateMotionTrack(s16 *);
 extern void UpdateCameraMotion(s16 *);
 extern void func_8005D544(s16 *);
@@ -154,7 +154,7 @@ void StepCameraScript(void) {
         if (RaceContext.q->f50 == 0) {
             SetupViewport(6);
             SetGeomOffset(0xA0, 0xE8);
-            func_8002E828(2, SCRATCH_ROT_MATRIX);
+            ScaleMatrixRow1(2, SCRATCH_ROT_MATRIX);
         }
         g->f60 = 5;
         g->p04 = (s32)&DRAWBUF->tailB70;

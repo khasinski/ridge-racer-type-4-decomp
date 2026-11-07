@@ -74,7 +74,7 @@ void func_8004E414(void) {
     case 4:
         SoundSequenceSet = 1;
         RaceContext.a = 5;
-        if (D_800AD508 != 0) {
+        if (LinkRoleSlot != 0) {
             RaceContext.b = func_8004E3B0(0);
             RaceContext.c = func_8004E3B0(1);
         } else {
@@ -88,10 +88,10 @@ void func_8004E414(void) {
 }
 
 int LoadRaceSoundAndTrackStep(void) {
-    switch (D_800A0218) {
+    switch (RaceLoadPhase) {
     case 0:
         func_8004E414();
-        D_800A0218 += 1;
+        RaceLoadPhase += 1;
     case 1:
         if (LoadRaceSoundStep() != 0) {
             RaceLoadStepIndex = 0;
@@ -102,12 +102,12 @@ int LoadRaceSoundAndTrackStep(void) {
             if (CourseIndex >= 8) {
                 CourseIndex = 7;
             }
-            D_800A0218 += 1;
+            RaceLoadPhase += 1;
         }
         return 0;
     case 2:
         if (LoadTrackStep() != 0) {
-            D_800A0218 += 1;
+            RaceLoadPhase += 1;
             CourseIndex = SavedCourseIndex;
         }
         return 0;

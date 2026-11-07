@@ -133,7 +133,7 @@ extern Car D_80106B58[];
 extern Car D_80106E78[];
 extern Car ComCars[];
 extern short NumCars;
-extern short D_800AD508;
+extern short LinkRoleSlot;
 extern int FindTrackNode();
 extern int Atan2Table();
 extern int FindWheelTrackNodes();
@@ -239,7 +239,7 @@ void InitCarTable(int a) {
         break;
     case 4:
         NumCars = 4;
-        if (D_800AD508 == 1) {
+        if (LinkRoleSlot == 1) {
             CarTable[0] = PlayerCars;
             CarTable[1] = PlayerCars + 1;
             CarTable[2] = ComCars;

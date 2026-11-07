@@ -67,7 +67,7 @@ typedef struct {
 extern RrLibQueueRecord32 *StRingHeaders;
 void StSetRing(RrLibQueueRecord32 *first, s32 second);
 void StSetStream(s32 a, s32 b, s32 c, s32 d, s32 e);
-extern s32 D_801102FC, StEndFrame, D_80110314;
+extern s32 D_801102FC, StEndFrame, StRingSize;
 /* Buffer must contain the configured header table and its 0x7E0-byte payload slots. */
 s32 StGetNext(u8 **data, RrLibQueueRecord32 **header);
 

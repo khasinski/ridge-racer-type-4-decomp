@@ -104,7 +104,7 @@ void SetupRearViewMatrix(void);
 struct P *AddRearViewMirrorTile(struct P *a0);
 void func_80070734(int arg0);
 void func_80070934(int a0, int a1, int *a2, int a3);
-void func_80070ACC(char *p);
+void SetupObjectRotTransMatrix(char *p);
 void func_80070BA4(char *a0, int a1, int a2);
 s32 func_80071338(void);
 s32 func_800713D0(void);
@@ -124,7 +124,7 @@ void RelocateCountedOffsetTable(int *a0) {
 }
 
 void ResetRearViewMirror(void) {
-    D_800AD50C = 1;
+    RearViewMirrorEnabled = 1;
     D_800F4CE0 = -0x24;
     D_8010E730 = 0;
 }
@@ -134,7 +134,7 @@ int SetupRearViewMirror(void) {
     int r = 0;
     int *s = (int *)SCRATCHPAD;
     if (D_8010E730 != 0) {
-        if (D_800AD50C != 0) {
+        if (RearViewMirrorEnabled != 0) {
             if (D_800AC538 == 0) {
                 if (RaceType != 0) {
                     r = RaceState == 2;
@@ -193,7 +193,7 @@ void func_80070734(int arg0) {
         D_8010E730 = 1;
     }
     if (D_8010E730 != 0) {
-        if (D_800AD50C != 0) {
+        if (RearViewMirrorEnabled != 0) {
             if (D_800F4CE0 < 0x12) {
                 D_800F4CE0 += 1;
             }
@@ -322,7 +322,7 @@ void func_80070934(int a0, int a1, int *a2, int a3) {
 
 #undef D_8010E78C
 
-void func_80070ACC(char *p) {
+void SetupObjectRotTransMatrix(char *p) {
     M m10, m30;
     int v[3];
     BuildRotMatrixY(&m10, *(int *)(p + 0xDC));
@@ -439,7 +439,7 @@ void func_80070BA4(char *a0, int a1, int a2) {
                         }
                     }
                 }
-                func_80070ACC(s1);
+                SetupObjectRotTransMatrix(s1);
                 s3 = func_8006DB0C(a0, s3, s1, s2 << 2);
                 if (s3 != s1->e8[DrawBufIndex]) s1->f0[DrawBufIndex] = s3 - 0x14;
                 else s1->f0[DrawBufIndex] = 0;
@@ -479,7 +479,7 @@ void func_80070BA4(char *a0, int a1, int a2) {
 #undef D_8010E78C
 
 s32 func_80071338(void) {
-    return D_800F39A4 * 0x10;
+    return RelativeFileCount * 0x10;
 }
 
 void func_80071348(void) {
@@ -512,7 +512,7 @@ void func_800713C4(s32 arg0) {
 #undef D_8010E790
 
 s32 func_800713D0(void) {
-    return D_800F39A4 * 8;
+    return RelativeFileCount * 8;
 }
 
 int GetOctantTableValue(void) {

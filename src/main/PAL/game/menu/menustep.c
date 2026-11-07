@@ -13,11 +13,11 @@ extern struct
 extern void (*D_800A4548[])();
 extern short MenuStateIndex;
 extern unsigned char CardSlotState[];
-extern unsigned short D_800F3AF8;
-extern short D_800F4D3C;
+extern unsigned short SaveSlotSelect;
+extern short SaveSlotIndex;
 extern short D_800F4D8A;
 extern short CardSlot;
-extern unsigned short D_800FFC18;
+extern unsigned short MenuResultCode;
 extern short D_80109478[];
 extern short D_8010948E;
 extern short MenuPlayerIndex;
@@ -70,9 +70,9 @@ void func_8007B460()
       if (CardSlotState[CardSlot] != fp)
       {
         D_800F4D8A = 0;
-        D_800F4D3C = 0;
-        v = D_800FFC18;
-        D_800F3AF8 = v;
+        SaveSlotIndex = 0;
+        v = MenuResultCode;
+        SaveSlotSelect = v;
         a = (short) v;
         if (a == 0)
         {
@@ -82,7 +82,7 @@ void func_8007B460()
         if (((unsigned short) (v - 6)) < 2)
         {
           MenuStateIndex = 0x29;
-          D_800F3AF8 = 0x10;
+          SaveSlotSelect = 0x10;
           return;
         }
         new_var = 1;
@@ -106,7 +106,7 @@ void func_8007B460()
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800FFC18 (*(short (*))&D_800FFC18)
+#define MenuResultCode (*(short (*))&MenuResultCode)
 
 int func_8007B654()
 {
@@ -114,7 +114,7 @@ int func_8007B654()
     int a2;
     int v;
     a2 = -1;
-    switch (D_800FFC18) {
+    switch (MenuResultCode) {
     case 0:
         a1 = 0;
         break;
@@ -157,4 +157,4 @@ int func_8007B654()
     return a2;
 }
 
-#undef D_800FFC18
+#undef MenuResultCode

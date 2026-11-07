@@ -33,7 +33,7 @@ static u32 pool[8192],expectedPool[8192],initialPool[8192];
 static unsigned scenario,mutation,stageSeen[3],alignmentSeen[4];
 static const s32 counters[8]={-1,0,1,2,3,INT32_MAX,INT32_MIN,-2};
 #define ovl662_D_801276A8 w->s.garage
-#define D_800F4D74 w->s.root
+#define LoadCursorBase w->s.root
 #define LoadCursor w->s.cursor
 #define D_800F3918 w->s.first
 #define D_800F3910 w->s.second

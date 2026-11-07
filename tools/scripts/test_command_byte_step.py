@@ -34,7 +34,7 @@ s32 test_page[0x4000];
 #define RR_NOP_DEP_ON(value) ((void)(value))
 ''' + headers + '''
 s32 CardCommandStatus,CardTxCount,CardCommandRequest,CardReceiveIndex,CardRxCount;
-s32 D_80114728,CardCurrentCommand;
+s32 CardVarRxLength,CardCurrentCommand;
 u8 CardRxTrace[160],D_801147D8[160];
 RrCommandReadCallback CardCommandReader;
 RrCommandWriteCallback CardWriteHandler;
@@ -54,7 +54,7 @@ void test_reset(void) {
  memset(test_ports,0,sizeof(test_ports));
  CardCommandStatus=3;CardTxCount=2;CardCommandRequest=0x123;
  CardReceiveIndex=4;CardRxCount=6;CardBytesRemaining=9;
- D_80114728=0;CardCurrentCommand=0;
+ CardVarRxLength=0;CardCurrentCommand=0;
  test_ports[0].data=0xAB;test_ports[0].status=2;
  test_ports[1].data=0xCD;test_ports[1].status=2;
  CardCmdSioRegs=&test_ports[0];
@@ -214,7 +214,7 @@ void test_reset(void) {
                 self.setUp()
                 calls = []
                 self.put('CardCurrentCommand', subtype)
-                self.put('D_80114728', 3)
+                self.put('CardVarRxLength', 3)
                 self.ports[0].data = byte
                 def writer(value):
                     calls.append(value)
@@ -273,7 +273,7 @@ void test_reset(void) {
                 self.assertEqual(len(types), 1 if subtype == 14 else 2)
 
     def test_separate_subtype_read_and_wrapped_special_length(self):
-        self.put('D_80114728', -4)
+        self.put('CardVarRxLength', -4)
         types, calls = [], []
         def subtype():
             types.append(1)

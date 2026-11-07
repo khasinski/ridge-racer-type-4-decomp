@@ -23,7 +23,7 @@ void InitRaceCars(int a0)
     int *s0;
     D_800AC3FC = 0;
     InitCarTable();
-    D_800ABEC4 = 0;
+    CarDrawSlotOffset = 0;
     switch (a0) {
     case 0:
     default:

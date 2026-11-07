@@ -13,7 +13,7 @@ extern int AddTilePrim();
 extern int AddSpriteWithDrawMode();
 extern int func_80030BEC();
 extern int BuildCameraMatrices();
-extern int func_8002E828();
+extern int ScaleMatrixRow1();
 extern int SetGeomOffset();
 extern int SetGeomScreen();
 extern short D_8009F1A0[];
@@ -68,7 +68,7 @@ void func_800307B4(a0) int a0;
     if (D_800AD4EF >= 4) {
         *(int *)SCRATCHPAD = s1;
         BuildCameraMatrices();
-        func_8002E828(2, SCRATCH_ROT_MATRIX);
+        ScaleMatrixRow1(2, SCRATCH_ROT_MATRIX);
         SetGeomOffset(0xA0, 0x100);
         SetGeomScreen(0x100);
         DrawMenuGridMesh(0, CurrentDrawBuf + 0x74, 1);

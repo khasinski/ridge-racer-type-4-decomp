@@ -98,7 +98,7 @@ extern char *CarRecordPtrs[];
 extern char PlayerControllers[];
 extern int RaceState;
 extern unsigned char CarInputs[][4];
-extern short D_800F4C70[];
+extern short EngineRevDisplay[];
 extern short D_800F2AB4[];
 extern int AngleDiffAbs();
 extern void StepCarStateNormal();
@@ -868,7 +868,7 @@ P *a0;
   }
   if ((((char *) a0) == PlayerCars) || (((char *) a0) == (PlayerCars + 0x320)))
   {
-    d1 = D_800F4C70[q->s24 & 1];
+    d1 = EngineRevDisplay[q->s24 & 1];
     k2 = a0->s1DE;
     if (k2 > 0)
     {
@@ -882,10 +882,10 @@ P *a0;
     {
       k2 = 1;
     }
-    D_800F4C70[q->s24 & 1] = d1 + (((q->s88 - d1) * 0x14) / k2);
-    if (D_800F4C70[q->s24 & 1] < 0x1F5)
+    EngineRevDisplay[q->s24 & 1] = d1 + (((q->s88 - d1) * 0x14) / k2);
+    if (EngineRevDisplay[q->s24 & 1] < 0x1F5)
     {
-      D_800F4C70[q->s24 & 1] += 0x1F4 - ((PsyqRand() * 0x64) / 32767);
+      EngineRevDisplay[q->s24 & 1] += 0x1F4 - ((PsyqRand() * 0x64) / 32767);
     }
     D_800F2AB4[q->s24 & 1] = (q->sAC >= 0x41) && (q->s38 == 0);
   }

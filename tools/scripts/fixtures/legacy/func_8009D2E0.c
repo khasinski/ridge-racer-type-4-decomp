@@ -1,5 +1,5 @@
 /* GCC_VERSION: 2.7.2 */
-extern int CardTxCount, CardCmdSector, D_80114728;
+extern int CardTxCount, CardCmdSector, CardVarRxLength;
 int _cardCmd5ETx() {
     int v = CardTxCount;
     int r;
@@ -19,7 +19,7 @@ c4:
     r = CardCmdSector;
     goto end;
 c5:
-    r = D_80114728;
+    r = CardVarRxLength;
 end:
     return r;
 }

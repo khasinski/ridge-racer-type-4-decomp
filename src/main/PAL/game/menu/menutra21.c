@@ -48,9 +48,9 @@ extern RrMenuItemState5C PlayerControllers[];
 extern s16 CardSlot;
 extern s16 D_8010948C;
 extern unsigned char D_800A4524[][4];
-extern unsigned short D_800F3AF8;
+extern unsigned short SaveSlotSelect;
 extern unsigned short D_800F4D8A;
-extern unsigned short D_800FFC18;
+extern unsigned short MenuResultCode;
 extern short D_80109478[];
 extern short D_8010948E;
 extern int StepMenuValue();
@@ -74,7 +74,7 @@ extern short LinkState;
 extern unsigned short D_800F3A1E;
 extern unsigned short RaceType;
 extern int D_800F4CA8;
-extern short D_800F4D3C;
+extern short SaveSlotIndex;
 extern int D_801272F0[];
 extern s16 D_800A4540[][2];
 extern char *SaveBuffer;
@@ -90,9 +90,9 @@ extern int D_800A45C4;
 extern unsigned char D_800A4478[];
 extern int UpdateDialogue();
 
-void func_8007BD18(void);
+void StepCardSaveLoadState(void);
 void func_8007BDF8(void);
-void func_8007BEF8(void);
+void MenuStepWaitDialogue(void);
 void MenuStepFormatCard(void);
 void func_8007BFF4();
 void func_8007C308(void);
@@ -103,7 +103,7 @@ void func_8007C944(void);
 int func_8007CB44();
 int func_8007CFC0();
 
-void func_8007BD18(void) {
+void StepCardSaveLoadState(void) {
     s32 i = MenuStateTable[MenuStateIndex].i;
     s32 a = D_800A44F4[i].a;
     s32 c = D_800A44F4[i].c;
@@ -152,7 +152,7 @@ void func_8007BDF8(void)
   }
 }
 
-void func_8007BEF8(void) {
+void MenuStepWaitDialogue(void) {
     s32 i = MenuStateTable[MenuStateIndex].i;
     s32 v = D_800A4514[i * 2];
     if (DialogueState[6] == 4) {
@@ -191,14 +191,14 @@ void func_8007BFF4()
     signed char sb;
 
     D_801094A0 = 0;
-    D_800F3AF8 = D_800FFC18;
-    switch ((short)D_800F3AF8) {
+    SaveSlotSelect = MenuResultCode;
+    switch ((short)SaveSlotSelect) {
     case 0: MenuStateIndex = 0; break;
     case 1: case 5: MenuStateIndex = 0x20; break;
     case 2: MenuStateIndex = 0x21; break;
     case 3: MenuStateIndex = 0x18; break;
-    case 6: MenuStateIndex = 0x2A; D_800F3AF8 = 0x10; break;
-    case 7: MenuStateIndex = 0x2B; D_800F3AF8 = 0x10; break;
+    case 6: MenuStateIndex = 0x2A; SaveSlotSelect = 0x10; break;
+    case 7: MenuStateIndex = 0x2B; SaveSlotSelect = 0x10; break;
     }
     base = MenuStateTable;
     p = base + MenuStateIndex;
@@ -254,7 +254,7 @@ void func_8007BFF4()
 #undef PollCardStatus
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800FFC18 (*(short (*))&D_800FFC18)
+#define MenuResultCode (*(short (*))&MenuResultCode)
 
 void func_8007C308(void) {
     int i;
@@ -267,11 +267,11 @@ void func_8007C308(void) {
             }
         }
         BadgeRows->h10 = 4;
-        if (D_800FFC18 == 3 || D_800FFC18 == 6 || D_800FFC18 == 7) {
+        if (MenuResultCode == 3 || MenuResultCode == 6 || MenuResultCode == 7) {
             BadgeRows->h2C = 4;
         }
         MenuFadeTimer = 0x40;
-        if (D_800FFC18 == 0) {
+        if (MenuResultCode == 0) {
             SeqFadeVolume(0, 0x3C);
         }
         ResetScreenCounters();
@@ -290,7 +290,7 @@ void func_8007C308(void) {
         SaveSlotSelections[i] = SaveSlotSelectionsBackup[i];
     }
     ClearScreenOverlayState();
-    switch (D_800FFC18) {
+    switch (MenuResultCode) {
     case 0:
     default:
     case 4:
@@ -355,10 +355,10 @@ void func_8007C308(void) {
     }
 }
 
-#undef D_800FFC18
+#undef MenuResultCode
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800FFC18 (*(short (*))&D_800FFC18)
+#define MenuResultCode (*(short (*))&MenuResultCode)
 
 void func_8007C76C()
 {
@@ -367,21 +367,21 @@ void func_8007C76C()
         D_801272F0[0] = -1;
         D_801272F0[1] = -1;
         D_801272F0[2] = -1;
-        D_800F4D3C = 0;
+        SaveSlotIndex = 0;
         func_8007CFC0(0, 0);
         D_800F4D8A = 1;
         return;
     }
-    if (func_8007CFC0(1, D_800F4D3C) != 0) {
-        t = (unsigned short)D_800F4D3C + 1;
-        D_800F4D3C = t;
+    if (func_8007CFC0(1, SaveSlotIndex) != 0) {
+        t = (unsigned short)SaveSlotIndex + 1;
+        SaveSlotIndex = t;
         if (t == 3) {
-            if (D_800FFC18 == 7) {
+            if (MenuResultCode == 7) {
                 MenuStateIndex = 0x2B;
             } else {
                 MenuStateIndex = 0x2A;
             }
-            D_800F4D3C = 0;
+            SaveSlotIndex = 0;
             D_800F4D8A = 0;
             return;
         }
@@ -389,7 +389,7 @@ void func_8007C76C()
     }
 }
 
-#undef D_800FFC18
+#undef MenuResultCode
 
 /* legacy typing of shared globals in this part of the unit */
 #define MenuStateTable (*(E8 (*)[])&MenuStateTable)
@@ -598,7 +598,7 @@ int a0;
 /* legacy typing of shared globals in this part of the unit */
 #define PollCardStatus ((int (*)())PollCardStatus)
 #define CardLoadStep ((int (*)())CardLoadStep)
-#define D_800F3AF8 (*(short (*))&D_800F3AF8)
+#define SaveSlotSelect (*(short (*))&SaveSlotSelect)
 
 int LoadSaveFromCardStep(a0)
 int a0;
@@ -624,7 +624,7 @@ int a0;
             p--;
         } while (i >= 0);
         CopyStringClearTail(CardTargetFileName, CardSaveFileName);
-        D_800F3AF8 = 0x30;
+        SaveSlotSelect = 0x30;
         D_800A45C0 = 1;
         break;
     case 1:
@@ -676,12 +676,12 @@ set1:
 
 #undef PollCardStatus
 #undef CardLoadStep
-#undef D_800F3AF8
+#undef SaveSlotSelect
 
 /* legacy typing of shared globals in this part of the unit */
 #define PollCardStatus ((int (*)())PollCardStatus)
 #define CardLoadStep ((int (*)())CardLoadStep)
-#define D_800F3AF8 (*(short (*))&D_800F3AF8)
+#define SaveSlotSelect (*(short (*))&SaveSlotSelect)
 
 int func_8007CFC0(a0, a1)
 int a0, a1;
@@ -700,7 +700,7 @@ int a0, a1;
         PollCardStatus(0, 0, 1);
         D_800A45C4 = 1;
         CopyStringClearTail(CardTargetFileName, CardTargetFileNames[a1]);
-        D_800F3AF8 = 0x10;
+        SaveSlotSelect = 0x10;
         break;
     case 1:
         PollCardStatus(0, 0, 0);
@@ -753,12 +753,12 @@ int a0, a1;
 
 #undef PollCardStatus
 #undef CardLoadStep
-#undef D_800F3AF8
+#undef SaveSlotSelect
 
 /* legacy typing of shared globals in this part of the unit */
 #define DialogueState ((char *)DialogueState)
 #define BadgeRows ((short *)BadgeRows)
-#define D_800FFC18 (*(short (*))&D_800FFC18)
+#define MenuResultCode (*(short (*))&MenuResultCode)
 
 void func_8007D1B8(a0, a1, a2, a3, a4, a5) int a0; int a1; int a2; int a3; int a4; int a5; {
     unsigned char *v1;
@@ -780,14 +780,14 @@ done:;
         if (a0 == 5) {
             if (D_801094A0 == 1) {
                 a0 = 0x1A;
-            } else if (D_800FFC18 == 2 && CardSlot == 1) {
+            } else if (MenuResultCode == 2 && CardSlot == 1) {
                 a0 = 0x21;
             }
         }
     }
     if (BadgeRows[8] == 3) {
         if (a0 == -1) {
-            if (D_800FFC18 == 3 || D_800FFC18 == 6 || D_800FFC18 == 7) a0 = 0x19;
+            if (MenuResultCode == 3 || MenuResultCode == 6 || MenuResultCode == 7) a0 = 0x19;
         } else if (a0 == -128) {
             a0 = (signed char)DialogueState[4];
         } else {
@@ -808,9 +808,9 @@ done:;
     }
     func_8007D448(a4, ((s0 & 2) > 0) & (*(short *)(DialogueState + 0x12) >= 6));
     func_8007D560(a4, (s0 & 4) > 0);
-    if (s0 & 8) func_8007D65C(D_800F4D3C);
+    if (s0 & 8) DrawNameTeamMakerHeader(SaveSlotIndex);
 }
 
 #undef DialogueState
 #undef BadgeRows
-#undef D_800FFC18
+#undef MenuResultCode

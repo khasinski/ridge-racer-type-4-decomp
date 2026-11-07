@@ -28,7 +28,7 @@ void data_ready_callback(void);
 int StGetBackloc(int a);
 
 void StClearRing(void) {
-    int a = D_80110314;
+    int a = StRingSize;
     D_801102FC = 0;
     StRingStartIndex = 0;
     StRingWriteIndex = 0;

@@ -9,7 +9,7 @@ import unittest
 
 Write = C.CFUNCTYPE(C.c_int32, C.c_int32)
 SCALARS = ('CardTxCount', 'CardCommandRequest', 'CardReceiveIndex', 'CardRxCount',
-           'CardCmdSector', 'D_80114728', 'CardBytesRemaining', 'CardCurrentCommand')
+           'CardCmdSector', 'CardVarRxLength', 'CardBytesRemaining', 'CardCurrentCommand')
 POINTERS = ('CardCmdBuffer', 'CardCmdResultPtrA', 'CardCmdResultPtrB', 'CardCommandReader', 'CardWriteHandler')
 
 

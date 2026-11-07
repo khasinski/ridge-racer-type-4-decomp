@@ -11,8 +11,8 @@ fixture='''#include "types.h"
 #include <string.h>
 static union { unsigned int align; unsigned char b[16]; } phase,menu,aux;
 #define ModeMenuCursorSaved (*(s16*)(phase.b+6))
-#define D_800AD50A (*(u16*)(menu.b+6))
-#define D_800FFC18 (*(s16*)(aux.b+6))
+#define SceneId (*(u16*)(menu.b+6))
+#define MenuResultCode (*(s16*)(aux.b+6))
 '''+body+'''
 void setup(const void *p){memcpy(phase.b,p,16);memcpy(menu.b,(const char*)p+16,16);memcpy(aux.b,(const char*)p+32,16);}
 void capture(void *p){memcpy(p,phase.b,16);memcpy((char*)p+16,menu.b,16);memcpy((char*)p+32,aux.b,16);}

@@ -18,7 +18,7 @@ void ovl667_func_80116918(void){
  __asm__("" : "+r"(destBase),"+r"(sourceBase));
  offset=0;
  CourseIndex=0;CourseMenuSelection=0;NumLaps=3;
- SelectionPlayer=(1-(s16)D_800AD508)*2;
+ SelectionPlayer=(1-(s16)LinkRoleSlot)*2;
  for(;i<2;i++,offset+=36)for(j=0,repeat=sourceBase,pos=offset;j<9;repeat+=4,j++,pos+=4) {
   u8 *dest=((u8 *)((unsigned long)(long)pos+(unsigned long)destBase));
   __builtin_memcpy(dest,(u8 *)((unsigned long)(long)pos+(unsigned long)sourceBase),4);
@@ -26,7 +26,7 @@ void ovl667_func_80116918(void){
   __asm__("" : : "r"(j),"r"(pos),"r"(repeat));
  }
  for(i=0;i<2;i++)CopyStringClearTail(D_8010C088[SelectionPlayer+i],ovl667_D_80118E00[SelectionPlayer+i]);
- ovl667_func_801161A8((1-(s16)D_800AD508)*2);
+ ovl667_func_801161A8((1-(s16)LinkRoleSlot)*2);
  UnpackChoiceGlyph((s8*)((u8 *)&SelectionRows+SelectionPlayer*4),CourseChoiceTable[0][0].glyph);
  UnpackChoiceGlyph((s8*)((u8 *)&SelectionRows+4+SelectionPlayer*4),CourseChoiceTable[0][0].glyph);
  D_8010C078=8;SeqStartTrack(0);ModeGroup=1;ModeId=60;D_800F4D8A=0;D_8010C0B8=0;

@@ -16,7 +16,7 @@ extern u8 D_8010F90C[];
 
 /* The selected channel belongs to the valid 0..31 control-row range. */
 void _SsVmKeyOffNow(s32 unused_mode) {
-    s32 selected = D_80110118;
+    s32 selected = SvmVoiceIndex;
     u32 index = selected & 0xFFFF;
     u32 high_mask, low_mask;
     s32 offset;

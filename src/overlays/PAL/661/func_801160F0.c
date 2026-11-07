@@ -10,7 +10,7 @@ extern s16 ovl661_D_8011844C[2];          /* selected course per player */
 extern s16 ovl661_D_80118450[2];          /* selected group per player */
 extern RrCourseChoice4 ovl661_D_80118458[2][2][9];
 extern s32 UiRowCount, MenuActivePlayerPlusOne;
-extern s16 D_800FFC18;
+extern s16 MenuResultCode;
 void SetupMenuCarCamera(s32);
 void SetupViewport(s32);
 s32 LoadCarRangeStep(s32, s32);
@@ -287,7 +287,7 @@ void ovl661_func_801160F0(void)
         MenuFadeTimer--;
         AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (0x40 - MenuFadeTimer) * 4, 0x45);
         if (MenuFadeTimer <= 0) {
-            D_800FFC18 = 2;
+            MenuResultCode = 2;
             ModeGroup = 1;
             ModeId = 0x47;
             D_800F4D8A = 0;

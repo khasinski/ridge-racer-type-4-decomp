@@ -105,7 +105,7 @@ void InitComCars(s32 count) {
         car->rot54 = RaceContext.p53C->rot[k];
         car->heading1D4 = car->rot54;
         car->trackNodeF0 = FindTrackNode(car->pos20, car->trackNodeF0);
-        func_8002E868(car);
+        SetupCarGridSlot(car);
         UpdateCarTrackProjection(car);
         sub->laneTimer38 = 10;
         sub->laneStart3A = car->lateralOffset172;

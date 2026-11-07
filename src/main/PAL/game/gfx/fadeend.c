@@ -3,7 +3,7 @@ extern int RaceContext[];
 extern short SoundState[];
 extern void SsVabClose();
 
-void func_8005CA14(void) {
+void StartSceneFadeOut(void) {
     RaceContext[0x434 / 4] = 2;
     RaceContext[0x43C / 4] = 0;
     SetParticleBrightFade(0x20, 0x100, 0);

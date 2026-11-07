@@ -34,7 +34,7 @@ extern s16 ModeGroup;
 extern s16 D_800F4D8A;
 extern int DebugPrintStub();
 extern int SetMenuFrameOptions();
-extern void func_80036D40(void);
+extern void UpdateCourseListChoice(void);
 extern int InitMenuArenas();
 extern int LoadCarRangeStep();
 extern int DrawUiRow();
@@ -224,7 +224,7 @@ void NewCarModeUpdate(void) {
     UpdateScreenFade(a);
     if (func_80036C08(MenuStepDirection) != 0) {
         if (BadgeRows->h10 == 3) {
-            func_80036D40();
+            UpdateCourseListChoice();
             return;
         }
     }
@@ -246,7 +246,7 @@ void NewCarModeUpdate(void) {
                 DebugPrintStub(NewCar0Msg);
                 s1 = LoadCursor;
                 InitMenuArenas();
-                func_80039988();
+                CarPreviewSetup();
                 ModeGroup = r;
                 ModeId = 0x22;
                 D_800F4D8A = 0;

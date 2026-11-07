@@ -189,7 +189,7 @@ InitCARD2 bios-trampoline
 StartCARD2 bios-trampoline
 StopCARD2 bios-trampoline
 func_80095E30 tail-jump
-func_80095E74 tail-jump
+_copy_memcard_patch_end tail-jump
 _patch_card bios-trampoline,store-ra
 _patch_card2 bios-trampoline,store-ra
 _ExitCard bios-trampoline,store-ra

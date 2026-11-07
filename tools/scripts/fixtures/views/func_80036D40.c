@@ -1,6 +1,6 @@
 #include "rr/menu_choice.h"
 
-void func_80036D40(void) {
+void UpdateCourseListChoice(void) {
     s32 state;
     u32 selected=D_800F4D99;
     CourseListIndex=selected;

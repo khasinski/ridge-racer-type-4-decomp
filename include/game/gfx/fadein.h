@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void func_8005C8D8(int a0);
+void StartSceneFadeIn(int a0);
 
 #endif /* RR_GAME_GFX_FADEIN_H */

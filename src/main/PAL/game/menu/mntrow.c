@@ -61,7 +61,7 @@ extern void InitGlyphRow();
 extern void InitUiRow(int,int,int,int,int,int,int,int,int,int,...);
 extern void SeqStartTrack();
 extern short MenuFadeTimer;
-extern short D_800AD50A;
+extern short SceneId;
 extern short D_800AD520;
 extern int ModeFrame;
 extern short CourseListIndex;
@@ -314,7 +314,7 @@ void func_80041434(void) {
     Dialogue->f4 = 1;
     Dialogue->f7 = 0;
     ModeFrame = 0;
-    D_800AD50A = 0x108;
+    SceneId = 0x108;
     MenuFadeTimer = 0;
 }
 

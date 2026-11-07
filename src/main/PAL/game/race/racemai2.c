@@ -699,7 +699,7 @@ l16:
             }
         }
     }
-    func_800512C4(b, s2, s3);
+    SetLoopVoiceVolumes(b, s2, s3);
 }
 
 void CheckFinalLapEvent(RrRaceVehicle *vehicle)

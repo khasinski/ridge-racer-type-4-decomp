@@ -33,7 +33,7 @@ void func_8002F0E0(void) {
 }
 
 void DrawModeSelectRows() {
-    int n = D_800F4CD0 + IsLinkPeerPresent();
+    int n = MainMenuLastIndex + IsLinkPeerPresent();
     int i = 0;
     if (n > 0) {
         do {
@@ -55,8 +55,8 @@ int ModeSelectMenuStep(void)
     int s1, s2, i;
     int v;
 
-    s1 = D_800F4CD0 + IsLinkPeerPresent();
-    if (MenuCursor == D_800F4CD0) {
+    s1 = MainMenuLastIndex + IsLinkPeerPresent();
+    if (MenuCursor == MainMenuLastIndex) {
         if (s1 == MenuCursor) {
             UiRows[s1].b0C = 0;
             MenuCursor = 0;
@@ -77,7 +77,7 @@ int ModeSelectMenuStep(void)
         }
         PlaySfx(1);
         s2 = 1;
-        if (MenuCursor == D_800F4CD0)
+        if (MenuCursor == MainMenuLastIndex)
             func_80034E14();
         else
             _sio_control(1, 1, 0);
@@ -109,7 +109,7 @@ int ModeSelectMenuStep(void)
         case 6:
             break;
         default:
-            if (v == D_800F4CD0) {
+            if (v == MainMenuLastIndex) {
                 RestoreSaveData();
                 RaceType = 4;
                 ModeMenuCursorSaved = 8;
@@ -121,7 +121,7 @@ int ModeSelectMenuStep(void)
             break;
         }
     } else {
-        if (s1 == D_800F4CD0 + 1) {
+        if (s1 == MainMenuLastIndex + 1) {
             if (((_sio_control(0, 0, 0) >> 7) & 3) == 2) {
                 UiRows[MenuCursor].b0C = 0;
                 s2 = 1;

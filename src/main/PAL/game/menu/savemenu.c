@@ -25,10 +25,10 @@ extern char D_800A4648[][0x80];
 extern Struct4000 *SaveBuffer;
 extern Struct2C SelectionState;
 extern Struct2C SaveSlotSelections[3];
-extern short D_800F3AF8;
-extern short D_800F4D3C;
+extern short SaveSlotSelect;
+extern short SaveSlotIndex;
 extern char CardTargetFileName[];
-extern short D_800FFC18;
+extern short MenuResultCode;
 extern Struct2C SaveSlotSelectionsBackup[3];
 extern int D_801272F0[];
 
@@ -50,24 +50,24 @@ int a1;
         i = D_800F3970 != 0;
         if (a0 == 1) {
             D_800A41E9 = 1;
-            if (D_800F3AF8 < 0x10) {
+            if (SaveSlotSelect < 0x10) {
                 BuildCardHeaderStatic(SaveBuffer, CardHeaderTitles[i], 0x250, 0x1FC, 0x254, 0x1D8, D_800A45C8);
-                BuildSaveData(D_800F3AF8);
-            } else if (D_800F3AF8 & 0x10) {
-                BuildCardHeaderStatic(SaveBuffer, CardTitleStrings[D_800F4D3C], 0x250, 0x1FC, 0x254, 0x1D8, D_800A4648[D_800F4D3C]);
-                BuildSaveData(D_800F3AF8);
-            } else if (D_800F3AF8 == 0x20) {
+                BuildSaveData(SaveSlotSelect);
+            } else if (SaveSlotSelect & 0x10) {
+                BuildCardHeaderStatic(SaveBuffer, CardTitleStrings[SaveSlotIndex], 0x250, 0x1FC, 0x254, 0x1D8, D_800A4648[SaveSlotIndex]);
+                BuildSaveData(SaveSlotSelect);
+            } else if (SaveSlotSelect == 0x20) {
                 *SaveBuffer = *CdDirectoryBuffer;
             }
         } else if (a0 >= 2) {
             D_800A41E9 = 0;
-            if (D_800F3AF8 < 0x10) {
+            if (SaveSlotSelect < 0x10) {
                 BuildCardHeaderStatic(SaveBuffer, CardHeaderTitles[i], 0x250, 0x1FC, 0x254, 0x1D8, D_800A45C8);
-                BuildSaveData(D_800F3AF8);
-            } else if (D_800F3AF8 & 0x10) {
-                BuildCardHeaderStatic(SaveBuffer, CardTitleStrings[D_800F4D3C], 0x250, 0x1FC, 0x254, 0x1D8, D_800A4648[D_800F4D3C]);
-                BuildSaveData(D_800F3AF8);
-            } else if (D_800F3AF8 == 0x20) {
+                BuildSaveData(SaveSlotSelect);
+            } else if (SaveSlotSelect & 0x10) {
+                BuildCardHeaderStatic(SaveBuffer, CardTitleStrings[SaveSlotIndex], 0x250, 0x1FC, 0x254, 0x1D8, D_800A4648[SaveSlotIndex]);
+                BuildSaveData(SaveSlotSelect);
+            } else if (SaveSlotSelect == 0x20) {
                 *SaveBuffer = *CdDirectoryBuffer;
             }
         }
@@ -79,7 +79,7 @@ int a1;
     case 2:
         for (i = 0x1D; i >= 0; i--) {
         }
-        if (D_800F3AF8 == 0x20) {
+        if (SaveSlotSelect == 0x20) {
             r = CardWriteFile((short)a1, 0, CardTargetFileName, SaveBuffer, 2, D_800A41E9);
         } else {
             r = CardWriteFile((short)a1, 0, CardTargetFileName, SaveBuffer, 1, D_800A41E9);
@@ -99,9 +99,9 @@ int a1;
         if (i != 0) {
             if (i == 1) {
                 D_800A41E8 = 4;
-                switch (D_800FFC18) {
+                switch (MenuResultCode) {
                 case 3:
-                    SaveSlotSelectionsBackup[D_800F4D3C] = SelectionState;
+                    SaveSlotSelectionsBackup[SaveSlotIndex] = SelectionState;
                     for (i = 0; i < 3; i++) {
                         SaveSlotSelections[i] = SaveSlotSelectionsBackup[i];
                     }
@@ -109,7 +109,7 @@ int a1;
                 case 6:
                 case 7:
                     p = SaveBuffer;
-                    D_801272F0[D_800F4D3C] = *(int *)((char *)p + 0x280);
+                    D_801272F0[SaveSlotIndex] = *(int *)((char *)p + 0x280);
                     break;
                 }
             } else {

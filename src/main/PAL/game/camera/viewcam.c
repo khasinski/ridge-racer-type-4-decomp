@@ -38,7 +38,7 @@ typedef struct {
 
 
 extern int ScaleMatrix();
-extern int D_8010E690;
+extern int ViewSegmentObjectList;
 extern struct S8 CameraViewMatrix;
 extern struct S8 HalfTransViewMatrix;
 extern int SetLightMatrix();
@@ -72,7 +72,7 @@ void func_8006E9E8(int a0, int *a1);
 void SetupViewMatrix(void);
 void SetupViewLighting(void);
 void SetupPlayerView(int ignoredPlayer);
-void func_8006ED4C(void);
+void PrepareViewFrame(void);
 void func_8006EDA4(void);
 void SetGteObjectTransform(short *a0, short *a1, int *a2);
 void BuildLightMatrix(void);
@@ -95,7 +95,7 @@ void func_8006E9E8(int a0, int *a1) {
         g[0x29] = w[1];
         g[0x2A] = w[2];
         ScaleMatrix((SCRATCHPAD + 0x108), x);
-        func_8006E9D4(D_8010E690, a0, a1);
+        func_8006E9D4(ViewSegmentObjectList, a0, a1);
     }
 }
 
@@ -150,7 +150,7 @@ void SetupPlayerView(int ignoredPlayer) {
     SetupViewLighting();
     func_8006E9E8(p, p - 0x30);
     SetupViewMatrix();
-    func_80060C70(SCRATCHPAD, D_8010E690, CourseIndex);
+    func_80060C70(SCRATCHPAD, ViewSegmentObjectList, CourseIndex);
 }
 
 /* legacy typing of shared globals in this part of the unit */
@@ -158,13 +158,13 @@ void SetupPlayerView(int ignoredPlayer) {
 #define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 #define func_80071348 ((int (*)())func_80071348)
 
-void func_8006ED4C(void) {
+void PrepareViewFrame(void) {
     BuildViewSegmentObjectList();
     func_8006E8F8();
     func_80071348();
     SetupViewLighting();
     SetupViewMatrix();
-    func_80060C70(SCRATCHPAD, D_8010E690, CourseIndex);
+    func_80060C70(SCRATCHPAD, ViewSegmentObjectList, CourseIndex);
 }
 
 #undef func_80060C70
@@ -187,7 +187,7 @@ void func_8006EDA4(void) {
     }
     SetupViewLighting();
     SetupViewMatrix();
-    func_80060C70(g, D_8010E690, CourseIndex);
+    func_80060C70(g, ViewSegmentObjectList, CourseIndex);
     g[0x2E] = (short)D_8010E280;
 }
 

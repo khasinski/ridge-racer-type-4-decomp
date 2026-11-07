@@ -355,7 +355,7 @@ int a1;
   int i;
   int c;
   unsigned short ua;
-  s1 = D_800A0F20[*((int *) (D_800AC89C + 0x13C))];
+  s1 = D_800A0F20[*((int *) (SparkCarState + 0x13C))];
   do { c = a0 * 4;
   if (a0 >= 0x20) {
     if (a1 < a0) c = 0x80 - ((a0 - a1) * 4);

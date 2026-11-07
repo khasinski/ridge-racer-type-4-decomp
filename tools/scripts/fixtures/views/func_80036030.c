@@ -1,9 +1,9 @@
 #include "types.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800AD508 (*(short (*))&D_800AD508)
+#define LinkRoleSlot (*(short (*))&LinkRoleSlot)
 
-#undef D_800AD508
+#undef LinkRoleSlot
 
 /* legacy typing of shared globals in this part of the unit */
 #define LinkEntryState (*(char (*)[])&LinkEntryState)
@@ -11,9 +11,9 @@
 #undef LinkEntryState
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800AD508 (*(s16 (*))&D_800AD508)
+#define LinkRoleSlot (*(s16 (*))&LinkRoleSlot)
 
-#undef D_800AD508
+#undef LinkRoleSlot
 
 /* legacy typing of shared globals in this part of the unit */
 #define ModeFrame (*(unsigned int (*))&ModeFrame)

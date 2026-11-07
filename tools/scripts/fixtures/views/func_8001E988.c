@@ -90,7 +90,7 @@ extern int D_800AD568;
 
 extern signed char SelectionState[];
 
-extern short D_800AD508;
+extern short LinkRoleSlot;
 
 extern char RankEntries[];
 
@@ -122,7 +122,7 @@ extern int D_800F4CA8;
 
 extern int MenuArenaBase;
 
-extern short D_800F4BE0;
+extern short SaveNoticeFlags;
 
 extern short RaceType;
 
@@ -172,7 +172,7 @@ void SystemInit(void)
     } while (i >= 0);
     PsyqBzero(PlayerCars, 0x320);
     PsyqBzero(PlayerCars + 0x320, 0x320);
-    D_800F4BE0 = 0;
+    SaveNoticeFlags = 0;
     i = 0;
     c5 = 5;
     q = SaveProgress;
@@ -184,7 +184,7 @@ void SystemInit(void)
         i++;
         q += 4;
     } while (i < 4);
-    D_800AD508 = -1;
+    LinkRoleSlot = -1;
     CopyStringClearTail(SaveProgress, DefaultPlayerName);
     CopyStringClearTail(D_800F39D8, SaveProgress);
     CopyStringClearTail(D_800F39D8 + 0xC, SaveProgress);

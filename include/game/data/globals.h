@@ -10,7 +10,7 @@ extern int SaveBuffer;
 extern signed char D_800AD4EF;
 extern int D_800AD5B8;
 extern unsigned short PendingModeId;
-extern short D_800F4CD0;
+extern short MainMenuLastIndex;
 extern s32 D_800F4CE0;
 extern int FarColorB;
 extern int FarColorG;

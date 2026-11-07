@@ -136,9 +136,9 @@ void UpdatePlayerCar(char *a0, int a1)
   else
     if (RaceState == 0)
   {
-    func_800512C4(a1 & 1, 0, 0);
+    SetLoopVoiceVolumes(a1 & 1, 0, 0);
   }
-  if (D_800AD508 < 0)
+  if (LinkRoleSlot < 0)
   {
     if (GetMappedPadButtons(a1 & 1) != 0)
     {

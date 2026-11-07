@@ -44,7 +44,7 @@ static State actual,reference,*w;
 #define UiRows (w->rows[w->root])
 #define PlayerCars w->vehicles
 #define LoadCursor w->published
-#define D_800F4D74 w->resource
+#define LoadCursorBase w->resource
 #undef RR_MENU_PREVIEW_SCRATCH_WORDS
 #define RR_MENU_PREVIEW_SCRATCH_WORDS w->scratch
 ''' + body + r'''

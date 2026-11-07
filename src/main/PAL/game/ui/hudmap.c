@@ -13,7 +13,7 @@ extern int FormatDecimalDigits();
 extern char StrTotalTimeLabel[];
 extern char LapTimeLabel[];
 extern char StrPressStart[];
-extern short D_800AC1A0;
+extern short BestLapIndex;
 extern int NumLaps;
 extern int TotalRaceTime;
 extern int LapTimes[];
@@ -40,7 +40,7 @@ void DrawRaceTimesScreen(void) {
     int sel;
     *(int *)SCRATCHPAD = AddDrawAreaPrim(CurrentDrawBuf + 0x70, *(int *)SCRATCHPAD, 0, 0, 0x140, 0x100);
     i = 0;
-    sel = D_800AC1A0;
+    sel = BestLapIndex;
     if (NumLaps > 0) {
         y = 0x86;
         q = LapTimes;

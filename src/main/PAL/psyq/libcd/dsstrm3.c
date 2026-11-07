@@ -1,12 +1,12 @@
 /* GCC_VERSION: 2.7.2 */
 extern int D_801102FC;
-extern int D_80110314;
+extern int StRingSize;
 extern char *StRingHeaders;
 int StFreeRing(int a) {
     int i, j, k;
     char *t;
     unsigned short m;
-    i = ((a - ((int)StRingHeaders + (D_80110314 << 5))) >> 2) / 504;
+    i = ((a - ((int)StRingHeaders + (StRingSize << 5))) >> 2) / 504;
     t = StRingHeaders + (i << 5);
     m = *(unsigned short *)(t + 6);
     if (*(short *)t == 4) {

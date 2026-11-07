@@ -1,6 +1,6 @@
 #include "rr/overlay660.h"
 
-void ovl660_func_80114910(void) { D_800AD50A = 0x131; }
+void ovl660_func_80114910(void) { SceneId = 0x131; }
 
 void ovl660_func_80114920(void) {
     RrProjectionScratchPrefix *scratch;
@@ -250,7 +250,7 @@ check_back:
             MenuFadeTimer = (u16) settingsTimer;
             AddScreenFadeTiles(((RrFrameOrderingPrefix *)(void *)CurrentDrawBuf)->ordering70, (0x40 - settingsTimer) * 4, 0x45);
             if ((s16) MenuFadeTimer <= 0) {
-                D_800FFC18 = 1;
+                MenuResultCode = 1;
                 D_800F3A1E = 0x132;
                 ModeGroup = 1;
                 ModeId = 0x47;

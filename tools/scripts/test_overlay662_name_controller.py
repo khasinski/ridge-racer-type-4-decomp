@@ -35,7 +35,7 @@ static struct World {u32 guard[4];RrSaveProgressRecord7C save;u8 name[12],glyphs
 #define PlayerControllers world.input
 #define MenuFadeTimer world.timer
 #define D_800F4D8A world.state
-#define D_800FFC18 world.slot
+#define MenuResultCode world.slot
 #define ModeId world.scene
 #define ModeGroup world.enable
 #define CurrentDrawBuf world.context

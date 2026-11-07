@@ -2,7 +2,7 @@
 #include "psyq/libcard/cardc11.h"
 extern volatile int CardTxCount;
 extern int CardCmdSector;
-extern int D_80114728;
+extern int CardVarRxLength;
 extern int D_8011472C;
 extern unsigned char *CardCmdBuffer;
 
@@ -13,8 +13,8 @@ int _cardCmd5CVarTx() {
     }
     if (CardTxCount < 5) return 0;
     if (D_8011472C == 0) {
-        if (CardTxCount >= D_80114728 + 5) return 0;
+        if (CardTxCount >= CardVarRxLength + 5) return 0;
         return CardCmdBuffer[CardTxCount - 5];
     }
-    return CardCmdBuffer[CardTxCount - D_80114728 - 6];
+    return CardCmdBuffer[CardTxCount - CardVarRxLength - 6];
 }

@@ -28,12 +28,12 @@ typedef uint32_t u32; typedef int32_t s32;
 ''' + header + '''
 int test_ram[0xFA4/4+1];
 #define _snd_ev_flag test_ram[0]
-u16 D_80110118;
+u16 SvmVoiceIndex;
 int calls, seen_mode, seen_lock, seen_selected, mode, nested;
 void _SsVmKeyOffNow(s32 unused_mode) {
-    calls++;seen_mode=unused_mode;seen_lock=_snd_ev_flag;seen_selected=D_80110118;
+    calls++;seen_mode=unused_mode;seen_lock=_snd_ev_flag;seen_selected=SvmVoiceIndex;
     if(mode==1) nested=SsUtKeyOffV(7);
-    if(mode==2) {_snd_ev_flag=-123;D_80110118=0xBEEF;}
+    if(mode==2) {_snd_ev_flag=-123;SvmVoiceIndex=0xBEEF;}
 }
 ''' + body
         (d / 'f.c').write_text(code)
@@ -43,7 +43,7 @@ void _SsVmKeyOffNow(s32 unused_mode) {
         cls.call.argtypes = [C.c_int32]
         cls.call.restype = C.c_int32
         cls.ram = (C.c_int32 * (0xFA4//4+1)).in_dll(cls.lib, 'test_ram')
-        cls.selected = C.c_uint16.in_dll(cls.lib, 'D_80110118')
+        cls.selected = C.c_uint16.in_dll(cls.lib, 'SvmVoiceIndex')
 
     def var(self, name):
         return C.c_int.in_dll(self.lib, name)

@@ -54,7 +54,7 @@ int func_800578D8(int a0)
   RaceContext.p->f100 = (RaceContext.p->fA0 - s1) - (CarBoundsTable->f8 + ((short) (((short) PlayerCars.f10E) / 3)));
   s1 = func_8005642C(&PlayerCars, RaceContext.p->f104, a0, sp10);
   UpdateSparkEffects();
-  func_8002E828(2, SCRATCH_ROT_MATRIX);
+  ScaleMatrixRow1(2, SCRATCH_ROT_MATRIX);
   func_80055C84();
   RaceContext.p->f104 = RaceContext.p->f104 + 1;
   RaceContext.p->f108 = RaceContext.p->f108 + 1;
