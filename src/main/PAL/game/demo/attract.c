@@ -22,7 +22,7 @@ extern int D_800A2124[];
 extern short CourseIndex;
 extern unsigned short D_800A2134;
 extern unsigned short D_800A2138[];
-extern short D_800FFC10;
+extern short MenuDispMode;
 extern short MenuScriptId;
 extern short ModeGroup;
 extern short ModeId;
@@ -37,7 +37,7 @@ extern int func_8005534C();
 extern int ResetScreenCounters();
 
 void StartAttractDemo(int a0);
-void func_8005DD8C(void);
+void AttractDemoRaceEnter(void);
 
 void StartAttractDemo(int a0) {
     int sp[4];
@@ -139,9 +139,9 @@ void StartAttractDemo(int a0) {
         if (n >= 8)
             ShuffleSlotOrder();
     }
-    func_80059314(0, 0);
+    OpeningInit(0, 0);
     RaceType = 5;
-    D_800FFC10 = 0;
+    MenuDispMode = 0;
     MenuScriptId = 0xA;
     ModeGroup = 1;
     ModeId = 0x23;
@@ -183,7 +183,7 @@ void StartAttractDemo(int a0) {
     D_800AD50A = 0x209;
 }
 
-void func_8005DD8C(void) {
+void AttractDemoRaceEnter(void) {
     SetDispMask(0);
     ResetScreenCounters();
     MenuScriptId = 8;

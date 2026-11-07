@@ -43,7 +43,7 @@ extern char NumLaps[];
 extern char D_800F4DA0[];
 extern char D_8010C0A0[];
 extern short D_800AD50A;
-extern short D_800FFC10;
+extern short MenuDispMode;
 extern int AddTextSprites();
 extern int AddDrawModePrim();
 extern int AddTilePrim();
@@ -250,7 +250,7 @@ st1:
     return;
 st2:
     _sio_control(3, 0, 0);
-    D_800FFC10 = 0;
+    MenuDispMode = 0;
     MenuScriptId = 0xA;
     D_800AD50A = 0x11A;
     ModeGroup = 1;

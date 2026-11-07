@@ -34,7 +34,7 @@ static union {uint64_t alignment;u8 bytes[0x4000];} ram;
 #define _svm_voice (*(RrChannelControlRow36 (*)[24])(ram.bytes+0x1908))
 #define _svm_sreg_dirty (*(RrSpuVolumeCache *)(ram.bytes+0x1E18))
 #define D_8011010C (*(RrSpuPitchRequest *)(ram.bytes+0x210C))
-#define D_80110114 (*(s16 *)(ram.bytes+0x2114))
+#define SvmLastChannel (*(s16 *)(ram.bytes+0x2114))
 #define D_80110118 (*(u16 *)(ram.bytes+0x2118))
 ''' + body + r'''
 static int voice,selection_calls,pitch_calls,mutate;
@@ -53,7 +53,7 @@ s32 _SsVmVSetUp(s32 bank,s32 program) {
 }
 u16 note2pitch2(s32 first,s32 second) {
     assert(selection_calls==1);
-    assert(D_80110114==0x21&&D_80110118==voice);
+    assert(SvmLastChannel==0x21&&D_80110118==voice);
     assert(ram.bytes[0x210C]==_svm_voice[voice].pad16[0]);
     assert(first>=0&&first<=65535&&second>=0&&second<=65535);
     pitch_calls++;seen_first=first;seen_second=second;

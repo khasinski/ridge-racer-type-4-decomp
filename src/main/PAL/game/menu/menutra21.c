@@ -40,10 +40,10 @@ extern s32 D_800A4510[];
 extern s16 D_800A4514[];
 extern RrMenuChoice D_800A4520[];
 extern s8 *DialogueState;
-extern s16 D_800AC594;
+extern s16 MenuPlayerIndex;
 extern s32 ModeFrame;
 extern s16 MenuStateIndex;
-extern u8 D_800F3A24[];
+extern u8 CardSlotState[];
 extern RrMenuItemState5C PlayerControllers[];
 extern s16 CardSlot;
 extern s16 D_8010948C;
@@ -57,7 +57,7 @@ extern int StepMenuValue();
 extern int PlaySfx();
 extern int SeqFadeVolume();
 extern int AddScreenFadeTiles();
-extern int func_8003B934();
+extern int LoadDialogueTableStep();
 extern int ClearScreenOverlayState();
 extern int SeqMuteVolume();
 extern int func_80114920();
@@ -93,7 +93,7 @@ extern int UpdateDialogue();
 void func_8007BD18(void);
 void func_8007BDF8(void);
 void func_8007BEF8(void);
-void func_8007BF58(void);
+void MenuStepFormatCard(void);
 void func_8007BFF4();
 void func_8007C308(void);
 void func_8007C76C();
@@ -126,7 +126,7 @@ void func_8007BD18(void) {
 void func_8007BDF8(void)
 {
   s32 a1 = *(D_800A4510 + MenuStateTable[MenuStateIndex].i);
-  if ((&PlayerControllers[D_800AC594])->a != 0)
+  if ((&PlayerControllers[MenuPlayerIndex])->a != 0)
   {
     if (a1 == 0)
     {
@@ -134,7 +134,7 @@ void func_8007BDF8(void)
       if (MenuStateIndex == 0xC)
       {
         MenuStateIndex = D_80109458;
-        D_800F3A24[CardSlot] = 0x5A;
+        CardSlotState[CardSlot] = 0x5A;
         PollCardStatus(CardSlot, 0, 1);
         return;
       }
@@ -142,7 +142,7 @@ void func_8007BDF8(void)
     }
   }
   else
-    if ((&PlayerControllers[D_800AC594])->b != 0)
+    if ((&PlayerControllers[MenuPlayerIndex])->b != 0)
   {
     if (a1 == 0)
     {
@@ -161,7 +161,7 @@ void func_8007BEF8(void) {
     }
 }
 
-void func_8007BF58(void) {
+void MenuStepFormatCard(void) {
     s32 k;
     s32 i;
     s32 a, b;
@@ -228,18 +228,18 @@ void func_8007BFF4()
         }
     }
     if (flag) {
-        StepMenuValue(((unsigned short)D_800AC594 & 1) << 2, 2, D_80109478 + D_8010948E, n, 0);
+        StepMenuValue(((unsigned short)MenuPlayerIndex & 1) << 2, 2, D_80109478 + D_8010948E, n, 0);
     } else {
-        StepMenuValue((((unsigned short)D_800AC594 & 1) << 2) | 1, 2, D_80109478 + D_8010948E, n, 0);
+        StepMenuValue((((unsigned short)MenuPlayerIndex & 1) << 2) | 1, 2, D_80109478 + D_8010948E, n, 0);
     }
     b3 = PlayerControllers;
-    r = b3 + D_800AC594 * 0x5C;
+    r = b3 + MenuPlayerIndex * 0x5C;
     if (*(int *)(r + 0x28) != 0) {
         PlaySfx(1);
         D_800F4D8A = 0;
         MenuStateIndex = arr[D_80109478[D_8010948E]];
         if (MenuStateIndex != 0x43) {
-            D_800F3A24[CardSlot] = 0x5A;
+            CardSlotState[CardSlot] = 0x5A;
             PollCardStatus(CardSlot, 0, 1);
         }
     } else if (*(int *)(r + 0x2C) != 0) {
@@ -282,7 +282,7 @@ void func_8007C308(void) {
         MenuFadeTimer = MenuFadeTimer - 1;
     }
     AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - MenuFadeTimer) << 2, 0x45);
-    if (func_8003B934() != 1) return;
+    if (LoadDialogueTableStep() != 1) return;
     if (MenuFadeTimer > 0) return;
     if (UiRows->b500 != 5) return;
     if (BadgeRows->h10 != 0xB) return;
@@ -398,9 +398,9 @@ void func_8007C848(void) {
  E8 *e = MenuStateTable; int s = MenuStateIndex;
  unsigned char *q = D_800A44A8 + e[s].b*4;
  int x = q[0], y = q[1];
- unsigned c = D_800F3A24[CardSlot];
+ unsigned c = CardSlotState[CardSlot];
  register int d asm("$3"); /* ASM_BARRIER: pin reload value to v1 */
- if (c < 0x10 || x == (d = *(volatile unsigned char *)&D_800F3A24[CardSlot])) { MenuStateIndex = y; return; }
+ if (c < 0x10 || x == (d = *(volatile unsigned char *)&CardSlotState[CardSlot])) { MenuStateIndex = y; return; }
  if (d == 0x14 && s == 2) MenuStateIndex = 8;
 }
 
@@ -517,15 +517,15 @@ int a0;
     ret = 0;
     switch (D_800A45BC) {
     case 0:
-        D_800F3A24[1] = 0x5A;
-        D_800F3A24[0] = 0x5A;
+        CardSlotState[1] = 0x5A;
+        CardSlotState[0] = 0x5A;
         PollCardStatus(CardSlot, 0, 1);
         CopyStringClearTail(CardTargetFileName, CardSaveFileName);
         D_800A45BC = 1;
         break;
     case 1:
         PollCardStatus(CardSlot, 0, 0);
-        if (D_800F3A24[0] < 0x10U) {
+        if (CardSlotState[0] < 0x10U) {
             if (CardHasFile(CardFileCounts, CardTargetFileName) == 1) {
                 D_800A45BE = 0;
                 D_800A45BC = 2;
@@ -534,7 +534,7 @@ int a0;
             }
             break;
         }
-        v = D_800F3A24[0];
+        v = CardSlotState[0];
         switch (v) {
         case 0x14:
         case 0x1E:
@@ -613,8 +613,8 @@ int a0;
     ret = 0;
     switch (D_800A45C0) {
     case 0:
-        D_800F3A24[1] = 0x5A;
-        D_800F3A24[0] = 0x5A;
+        CardSlotState[1] = 0x5A;
+        CardSlotState[0] = 0x5A;
         PollCardStatus(0, 0, 1);
         i = 0x17;
         p = CardTargetFileName + i;
@@ -629,7 +629,7 @@ int a0;
         break;
     case 1:
         PollCardStatus(0, 0, 0);
-        if (D_800F3A24[0] < 0x10U) {
+        if (CardSlotState[0] < 0x10U) {
             if (CardHasFile(CardFileCounts, CardTargetFileName) == 1) {
                 CardLoadStep(2, 0);
                 D_800A45C0 = 2;
@@ -638,7 +638,7 @@ int a0;
             }
             break;
         }
-        v = D_800F3A24[0];
+        v = CardSlotState[0];
         switch (v) {
         case 0x14:
         case 0x1E:
@@ -695,8 +695,8 @@ int a0, a1;
     switch (D_800A45C4) {
     default:
     case 0:
-        D_800F3A24[1] = 0x5A;
-        D_800F3A24[0] = 0x5A;
+        CardSlotState[1] = 0x5A;
+        CardSlotState[0] = 0x5A;
         PollCardStatus(0, 0, 1);
         D_800A45C4 = 1;
         CopyStringClearTail(CardTargetFileName, CardTargetFileNames[a1]);
@@ -704,7 +704,7 @@ int a0, a1;
         break;
     case 1:
         PollCardStatus(0, 0, 0);
-        if (D_800F3A24[0] < 0x10U) {
+        if (CardSlotState[0] < 0x10U) {
             if (CardHasFile(CardFileCounts, CardTargetFileName) == 1) {
                 CardLoadStep(2, 0);
                 D_800A45C4 = 2;
@@ -713,7 +713,7 @@ int a0, a1;
             }
             break;
         }
-        v = D_800F3A24[0];
+        v = CardSlotState[0];
         switch (v) {
         case 0x14:
         case 0x1E:

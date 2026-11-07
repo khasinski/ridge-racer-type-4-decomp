@@ -29,7 +29,7 @@ int CD_init(void) {
         } while (RR_CD_READ8(CD_reg3) & 7);
     }
     command=1;parameters=0;
-    statusBytes=D_800A6764;
+    statusBytes=CdIntrStatusBytes;
     statusBytes[2] = 0U;
     statusBytes[1] = statusBytes[2];
     indexPort=CD_reg0;

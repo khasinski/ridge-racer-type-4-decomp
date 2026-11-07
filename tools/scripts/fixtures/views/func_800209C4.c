@@ -23,7 +23,7 @@ extern char D_8009EC48[];
 
 extern char D_800D0160[];
 
-extern short D_80107178;
+extern short PlayerCount;
 
 void InitRaceHudPackets(int a0)
 {
@@ -47,7 +47,7 @@ void InitRaceHudPackets(int a0)
     case 3:
     case 4:
     case 6:
-        if (D_80107178 == 2 && a0 == 4) goto l60;
+        if (PlayerCount == 2 && a0 == 4) goto l60;
         if (a0 != 6) { n = 12; goto l64; }
     l60:
         n = 6;

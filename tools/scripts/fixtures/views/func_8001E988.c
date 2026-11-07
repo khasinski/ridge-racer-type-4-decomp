@@ -100,7 +100,7 @@ extern char SaveProgress[];
 
 extern char D_800F39D8[];
 
-extern char D_800F3B28[];
+extern char SaveDataBackup[];
 
 extern char SelectionRows[];
 
@@ -219,10 +219,10 @@ void SystemInit(void)
     } while (i >= 0);
     InitDefaultTimeRecords(k, i, r, m);
     InitCourseChoices();
-    InitTimTemplate(D_800F3B28);
-    InitTimTemplate(D_800F3B28 + 0x840);
+    InitTimTemplate(SaveDataBackup);
+    InitTimTemplate(SaveDataBackup + 0x840);
     InitTimTemplate(SaveDataWork);
-    D_800F3B20 = D_800F3B28;
+    D_800F3B20 = SaveDataBackup;
     ResetRankEntries();
     InitCarTable(1);
     ResetGraph(3);

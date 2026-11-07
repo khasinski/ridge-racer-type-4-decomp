@@ -1,7 +1,7 @@
 #include "rr/overlay659.h"
 
 void ovl659_exit_race(void) {
-    func_8003CAB4();
+    SetupRaceAndScene();
     ModeGroup = 1;
     ModeId = 0x2F;
     D_800F4D8A = 0;

@@ -92,10 +92,10 @@ void ovl667_func_801161A8(s32 arg0) {
     }
     temp_a2 = SelectionPlayer & 1;
     UnpackChoiceGlyph((s8 *)&SelectionRows + SelectionPlayer * 4,
-        D_8010BFD8[temp_a2][D_8010C0D8[temp_a2]][D_8010C0D0[temp_a2]].glyph);
+        D_8010BFD8[temp_a2][D_8010C0D8[temp_a2]][CourseMenuCursor[temp_a2]].glyph);
     temp_a2_2 = SelectionPlayer & 1;
     temp_s0 = &D_8010C0D8[temp_a2_2];
-    temp_t0_2 = &D_8010C0D0[temp_a2_2];
+    temp_t0_2 = &CourseMenuCursor[temp_a2_2];
     temp_a3_2 = &PlayerCourseChoices[SelectionPlayer];
     temp_a3_2->first = D_8010BFD8[temp_a2_2][*temp_s0][*temp_t0_2].first;
     temp_a3_2->second = D_8010BFD8[temp_a2_2][*temp_s0][*temp_t0_2].second;

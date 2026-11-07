@@ -200,18 +200,18 @@ void InitMenuScript() {
     switch (MenuScriptId) {
     case 0:
         SetupDrawDispEnvs(0, 0, 0, 1);
-        D_800FFC10 = 1;
+        MenuDispMode = 1;
         LoadCursor = MenuArenas;
         goto l428;
     case 10:
         if (RaceType == 5) goto five;
         SetupDrawDispEnvs(0, 0, 0, 1);
-        D_800FFC10 = 1;
+        MenuDispMode = 1;
         LoadCursor = CdDirectoryBuffer;
         goto l428;
     five:
         SetupDrawDispEnvs(0, 0, 0, 2);
-        D_800FFC10 = 0;
+        MenuDispMode = 0;
         goto l428;
     case 6:
         SetDispMask(0);
@@ -220,18 +220,18 @@ void InitMenuScript() {
     case 1:
     case 4:
         SetupDrawDispEnvs(8, 8, 8, a3 | 2);
-        D_800FFC10 = 2;
+        MenuDispMode = 2;
         goto l418;
     default:
         SetupDrawDispEnvs(0, 0, 0, 2);
-        D_800FFC10 = 0;
+        MenuDispMode = 0;
     }
 l418:
     ClearScreenOverlayState();
     InitMenuArenas();
 l428:
     ResetScreenCounters();
-    if (D_800FFC10 == 1) {
+    if (MenuDispMode == 1) {
         SetDispMask(0);
         a1 = 0;
         switch (RaceType) {
@@ -247,11 +247,11 @@ l428:
         default:
             a0 = 0;
             a1 = a0;
-            D_800FFC10 = 3;
+            MenuDispMode = 3;
             break;
         }
-        if (D_800FFC10 == 1) func_80059314(a0, a1);
-    } else if (D_800FFC10 == 0) {
+        if (MenuDispMode == 1) OpeningInit(a0, a1);
+    } else if (MenuDispMode == 0) {
         IntroScriptStep();
     }
     ModeGroup = 1;
@@ -280,9 +280,9 @@ void UpdateMenuScript(void) {
     if (RaceType == 4) {
         UpdateLinkHandshake(1);
     }
-    mode=D_800FFC10;
+    mode=MenuDispMode;
     if (mode == 1) {
-        status = func_80059E40(ModeFrame);
+        status = OpeningScriptStep(ModeFrame);
     } else {
         if (mode == 0) {
             status = IntroScriptStep();
@@ -300,13 +300,13 @@ void UpdateMenuScript(void) {
             if (opcode < 0) {
                 MenuScriptId = (u16) -opcode;
                 MenuScriptStep = -1;
-                if (D_800FFC10 == 0) {
+                if (MenuDispMode == 0) {
                     func_8005CA14();
                 }
             }
         }
     } else {
-        if((status==1 && D_800FFC10==status) || (D_800FFC10==0 && status==2) || (D_800FFC10>=2 && status==1)) {
+        if((status==1 && MenuDispMode==status) || (MenuDispMode==0 && status==2) || (MenuDispMode>=2 && status==1)) {
             MenuSceneEntries[MenuScriptId]();
             D_800F4D8A = 0;
             ModeGroup = (u16) ((u16) D_800AD50A >> 8);

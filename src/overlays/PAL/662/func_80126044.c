@@ -6,7 +6,7 @@ void ovl662_func_80126044(void) {
     u32 *img38 = ovl662_D_801276A8.image38[ovl662_D_801276A8.active21];
     RrPaletteBytes32 *pal48 = (RrPaletteBytes32 *)(RrPalette16 *)ovl662_D_801276A8.palette48[ovl662_D_801276A8.active21];
 
-    p = D_800F3B28.words;
+    p = SaveDataBackup.words;
     *(RrGarageTimBytes *)p = *src2C;
     *p++ = 0x10;
     *p++ = 8;

@@ -83,7 +83,7 @@ extern RrMenuTextRow60 *MenuTextRows;
 extern RrRaceVehicle *CarTable[8];
 extern RrMenuTextRow60 D_800FFC48[];
 extern s32 D_80107190;
-extern s16 D_8010C134;
+extern s16 LapAnnouncePending;
 
 #include "rr/race_frame_scratch.h"
 #include "game/data/ldscn5.h"

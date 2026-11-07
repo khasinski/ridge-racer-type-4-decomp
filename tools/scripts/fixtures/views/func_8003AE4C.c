@@ -66,7 +66,7 @@ extern struct { short a; short b; } PlayerCourseChoices[];
 
 extern char *D_800F3B24;
 
-extern char D_800F3B28[];
+extern char SaveDataBackup[];
 
 extern unsigned char SelectionRows[][4];
 
@@ -96,7 +96,7 @@ int LoadCarRangeStep(int arg0, int arg1) {
             a1 -= 2;
         } else {
             if (a1 == r) {
-                q3 = D_800F3B28 + (arg0 & 1) * 0x840;
+                q3 = SaveDataBackup + (arg0 & 1) * 0x840;
                 a1 = 0;
             } else {
                 a1 = -1;

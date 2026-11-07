@@ -20,13 +20,13 @@ extern char D_800AE660[];
 
 extern char D_800D0DD8[];
 
-extern short D_80107178;
+extern short PlayerCount;
 
 void InitHudNumberTargets(int a0) {
     switch (a0) {
     case 0: case 1: case 5: break;
     case 2: case 3: case 4: case 6:
-        if (a0 == 4 && D_80107178 == 2) {
+        if (a0 == 4 && PlayerCount == 2) {
         } else if (a0 != 6) {
             goto w3g0b;
         }

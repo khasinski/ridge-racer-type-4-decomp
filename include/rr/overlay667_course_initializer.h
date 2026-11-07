@@ -6,7 +6,7 @@
 #include "rr/selection.h"
 #include "rr/player_status.h"
 #include "rr/course_choices.h"
-extern s16 D_8010C080[4],D_8010C0D0[2],D_8010C0D8[2];
+extern s16 D_8010C080[4],CourseMenuCursor[2],D_8010C0D8[2];
 extern RrSelectionRows SelectionRows;
 extern RrCourseChoice4 D_8010BFD8[2][2][9];
 extern RrCourseChoice4 CourseChoiceTable[2][9];

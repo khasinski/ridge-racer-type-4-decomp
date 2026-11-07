@@ -11,13 +11,13 @@ void ovl666_update_checkpoint(RrRaceCheckpointVehicle *vehicle) {
         (s32)((u32)(s32)control->steering94.count22 * (u32)TrackLength)) {
         if (control->steering94.count22 <= NumLaps) {
             control->steering94.count22 = (s16)((u16)control->steering94.count22 + 1U);
-            D_8010C134 = 0;
+            LapAnnouncePending = 0;
             target = ((u16)(CourseIndex - 6) < 2) ? (s32)((u32)NumLaps - 1U) : NumLaps;
             if (control->steering94.count22 == target) {
                 SaveCarSnapshots(0);
             } else if (control->steering94.count22 > NumLaps) {
                 if (RaceState < 4) {
-                    D_8010C134 = -1;
+                    LapAnnouncePending = -1;
                     RaceState = 4;
                     MenuFadeTimer = 75;
                     SoundSetMasterVolume(0, 33);
@@ -27,7 +27,7 @@ void ovl666_update_checkpoint(RrRaceCheckpointVehicle *vehicle) {
             }
         }
     }
-    if (D_8010C134 == 0) {
+    if (LapAnnouncePending == 0) {
         id = (s32)(9U - ((u32)NumLaps - (u32)(s32)control->steering94.count22));
         if (id == 9) {
             id = 15;
@@ -35,13 +35,13 @@ void ovl666_update_checkpoint(RrRaceCheckpointVehicle *vehicle) {
         if (id >= 6) {
             SoundQueueEnqueue(id, 0);
         }
-        D_8010C134 = -1;
+        LapAnnouncePending = -1;
     }
 }
 
 void ovl666_exit_race(void) {
     StopRaceAudioAndRumble();
-    func_8003CAB4();
+    SetupRaceAndScene();
     ModeGroup = 1;
     ModeId = 82;
     D_800F4D8A = 0;

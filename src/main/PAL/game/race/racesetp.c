@@ -29,7 +29,7 @@ void SetupRace(void)
     DrawSync(0);
     ApplyOptionsPadButtonMaps();
     InitRaceCars(RaceType);
-    if (((RaceType < 2) || (RaceType == 6)) || ((RaceType == 4) && (D_80107178 == 2)))
+    if (((RaceType < 2) || (RaceType == 6)) || ((RaceType == 4) && (PlayerCount == 2)))
     {
         TrackEventSfxEnabled = 1;
     }
@@ -57,10 +57,10 @@ void SetupRace(void)
         }
         while (vehicleIndex < 2);
     }
-    func_8006E794();
+    InitViewState();
     SetupRenderer(5);
     D_8010C13C = 0;
-    D_8010C12C = 2;
+    NextSplitIndex = 2;
     SplitTimes[1] = 0;
     SplitTimes[0] = 0;
     SplitTimes[2] = -1;
@@ -96,7 +96,7 @@ void SetupRace(void)
         BestLapTime = *selectedCount;
 
     }
-    D_8010C134 = -1;
+    LapAnnouncePending = -1;
 
     if (RaceType >= 2)
     {

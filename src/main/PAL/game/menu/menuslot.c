@@ -11,7 +11,7 @@
 extern int AddScreenFadeTiles();
 extern int StepMenuValue();
 extern int ResetScreenCounters();
-extern int func_8003B934();
+extern int LoadDialogueTableStep();
 extern int UpdateBadgeRowAnim();
 extern int DrawUiRow();
 extern int PlaySfx();
@@ -64,7 +64,7 @@ void func_80032600(void) {
         if (MenuFadeTimer > 0) MenuFadeTimer = MenuFadeTimer - 1;
         AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - MenuFadeTimer) * 4, 0x45);
         if (MenuFadeTimer <= 0) {
-            r = func_8003B934();
+            r = LoadDialogueTableStep();
             if (r == 1) {
                 ModeGroup = r;
                 ModeId = 0x47;

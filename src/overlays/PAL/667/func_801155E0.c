@@ -2,7 +2,7 @@
 void ovl667_func_801155E0(void)
 {
     StopRaceAudioAndRumble();
-    func_8003CAB4();
+    SetupRaceAndScene();
     ModeGroup=1;
     ModeId=26;
     D_800F4D8A=0;

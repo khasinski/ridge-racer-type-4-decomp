@@ -33,12 +33,12 @@ extern struct {
     s32 w28ac;
 } SoundState;
 
-s32 func_80059E40(s32 arg0);
+s32 OpeningScriptStep(s32 arg0);
 void func_8005A90C(void);
 void EmitProjectedMarkerSprt(int a0, int a1, int a2);
-void func_8005A9C4(void);
+void AddDrawModeTagToOt(void);
 
-s32 func_80059E40(s32 arg0) {
+s32 OpeningScriptStep(s32 arg0) {
     s32 sp18[6];
     char sp30[16];
     s16 sp40[4];
@@ -305,7 +305,7 @@ void EmitProjectedMarkerSprt(int a0, int a1, int a2)
     g[0] = (int)(p + 0x14);
 }
 
-void func_8005A9C4(void)
+void AddDrawModeTagToOt(void)
 {
     int *g = (int *)SCRATCHPAD;
     char *p = (char *)g[0];

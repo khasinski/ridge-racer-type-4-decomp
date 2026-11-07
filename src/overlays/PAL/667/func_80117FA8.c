@@ -163,6 +163,6 @@ block_63:
 block_64:
         DrawUiRow(0x17);
     }
-    D_800F4CB8 = 0;
+    MenuActivePlayerPlusOne = 0;
     UpdateScreenFade(0x10026);
 }

@@ -132,7 +132,7 @@ void func_8007ABCC(void) {
         __asm__("" : : : "memory");
         __builtin_memcpy(&clockLow, &SelectionPlayer, sizeof(clockLow));
         bank = clockLow & 1;
-        D_800AC594 = bank;
+        MenuPlayerIndex = bank;
         CardSlot = bank;
         ClearScreenOverlayState();
         i = 23;
@@ -160,7 +160,7 @@ void func_8007ABCC(void) {
             InitUiRow(0x25, 0xC, 0xB8, 0x44, 0x20, 0, 0, 1, 0, 0x55);
             MenuStateIndex = 0;
             D_800F3AF8 = 0;
-            D_800A45B8 = 0x1001A;
+            ScreenFadeLayout = 0x1001A;
             SeqStartTrack(0);
         } else if (modeRange < 2U) {
             if (selection == 6) {
@@ -173,7 +173,7 @@ void func_8007ABCC(void) {
                 InitUiRow(0x23, 0xC, 0x68, 0x44, 0x20, 0, 0, 1, 0, 0x55);
                 layout = 0x10012;
             }
-            D_800A45B8 = layout;
+            ScreenFadeLayout = layout;
             /* ASM_BARRIER: publish the layout before the badge status. */
             __asm__("" : : : "memory");
             D_800F3AF8 = 0x10;
@@ -187,7 +187,7 @@ void func_8007ABCC(void) {
             if (selection == 1 || selection == 3 || selection == 5) {
                 InitUiRow(0x22, 0xC, 0x40, 0x44, 0x20, 0, 0, 1, 0, 0x66);
                 InitUiRow(0x23, 0xC, 0x68, 0x44, 0x20, 0, 0, 1, 0, 0x55);
-                D_800A45B8 = 0x10012;
+                ScreenFadeLayout = 0x10012;
                 if (D_800FFC18 == 3) {
                     MenuStateIndex = 0x17;
                 } else {
@@ -197,13 +197,13 @@ void func_8007ABCC(void) {
                 BadgeRows[1].half02 = 1;
                 D_800F3AF8 = (s16) (u16) D_800FFC18;
             } else if (selection == 2) {
-                D_800A45B8 = 0x10016;
+                ScreenFadeLayout = 0x10016;
                 InitUiRow(0x22, 0xC, 0x40, 0x44, 0x20, 0, 0, 1, 0, 0x65);
                 InitUiRow(0x23, 0xC, 0x68, 0x44, 0x20, 0, 0, 1, 0, 0x55);
                 MenuStateIndex = 0x21;
                 D_800F3AF8 = selection;
             } else {
-                D_800A45B8 = 0x1001A;
+                ScreenFadeLayout = 0x1001A;
             }
         }
         InitUiRow(0x26, 0x80, 0xE0, 0x1C, 0x20, 0, 0, 1, 0, 0x68);
@@ -230,7 +230,7 @@ void func_8007ABCC(void) {
         if (ModeId == phase) {
             SetDispMask(1);
         }
-        ready = func_8003B934();
+        ready = LoadDialogueTableStep();
         if (ready == phase) {
             SetDispMask(1);
             ModeGroup = ready;
@@ -239,7 +239,7 @@ void func_8007ABCC(void) {
         }
         break;
     }
-    UpdateScreenFade(D_800A45B8);
+    UpdateScreenFade(ScreenFadeLayout);
     SetMenuFrameOptions(0, 1, 1);
 }
 
@@ -271,7 +271,7 @@ void func_8007B3A0(void) {
 block_6:
         UpdateBadgeRowAnim(1);
     }
-    UpdateScreenFade(D_800A45B8);
+    UpdateScreenFade(ScreenFadeLayout);
     SetMenuFrameOptions(1, 1, 1);
 }
 

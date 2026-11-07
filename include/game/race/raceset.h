@@ -10,6 +10,6 @@ extern s32 D_8010C108;
 extern s32 D_8010C10C;
 extern s32 SplitDeltaTimer;
 void UpdateRaceRanking(void);
-void func_8003CAB4(void);
+void SetupRaceAndScene(void);
 
 #endif /* RR_GAME_RACE_RACESET_H */

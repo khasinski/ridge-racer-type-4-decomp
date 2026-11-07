@@ -16,7 +16,7 @@ void func_8003BFC8(a0) s32 a0;
     s32 c;
     RrSpritePacket *p;
     if (RaceType == 0 && RaceState != 0 && RaceState < 4) {
-        t = SplitTimes[D_8010C12C];
+        t = SplitTimes[NextSplitIndex];
         if (t < 0) {
             s3 = -1;
             s4 = -1;
@@ -41,8 +41,8 @@ void func_8003BFC8(a0) s32 a0;
                 *(RrSpritePacket **)SCRATCHPAD = GameQueueSprite((char *)CurrentDrawBuf + 0x70, *(RrSpritePacket **)SCRATCHPAD, 0x70, 0x60, 0xC, 0xC, s5, 0xA8, 0x7EF8);
                 DrawRaceTime(0x80, 0x60, s1, 0x7EF8, 1);
             } else {
-                s3 = BestSplitTimes[D_8010C12C];
-                s2 = D_8010C12C;
+                s3 = BestSplitTimes[NextSplitIndex];
+                s2 = NextSplitIndex;
             }
         }
         DrawRaceTime(0x14, 0x1C, s3, 0x7EF8, 0);

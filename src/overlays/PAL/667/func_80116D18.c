@@ -4,12 +4,12 @@
 extern RrCourseChoice4 D_8010BFD8[2][2][9];
 extern s16 D_8010C0B8;
 extern s16 D_8010C0C0[2][2];
-extern s16 D_8010C0D0[2];
+extern s16 CourseMenuCursor[2];
 extern s16 D_8010C0D8[2];
 extern s8 LinkEntryState[];
 extern s32 UiRowCount;
 /* Resident word reached through its enclosing array object (aliases row stores). */
-extern s32 D_800F4CB8[1];
+extern s32 MenuActivePlayerPlusOne[1];
 extern s16 D_800FFC18;
 extern s16 D_800AD508;
 extern u8 ovl667_D_80118E10[4];
@@ -69,17 +69,17 @@ void ovl667_func_80116D18(void) {
     case 0:
         SetMenuFrameOptions(1, 1, 1);
         previous = PackChoiceGlyph((s8 *)&SelectionRows + SelectionPlayer * 4);
-        StepMenuValue(((SelectionPlayer & 1) * 4) | 1, 2, (char *)&D_8010C0D0[SelectionPlayer & 1],
+        StepMenuValue(((SelectionPlayer & 1) * 4) | 1, 2, (char *)&CourseMenuCursor[SelectionPlayer & 1],
                       D_8010C0C0[SelectionPlayer & 1][D_8010C0D8[SelectionPlayer & 1]], 0);
         UnpackChoiceGlyph((s8 *)&SelectionRows + SelectionPlayer * 4,
-                      D_8010BFD8[SelectionPlayer & 1][D_8010C0D8[SelectionPlayer & 1]][D_8010C0D0[SelectionPlayer & 1]].glyph);
+                      D_8010BFD8[SelectionPlayer & 1][D_8010C0D8[SelectionPlayer & 1]][CourseMenuCursor[SelectionPlayer & 1]].glyph);
         if (((u32)previous << 16) != ((u32)PackChoiceGlyph((s8 *)&SelectionRows + SelectionPlayer * 4) << 16)) {
             ResetScreenCounters();
             LoadCursor = MenuArenas.first;
             UnpackChoiceGlyph((s8 *)&SelectionRows + SelectionPlayer * 4,
-                          D_8010BFD8[SelectionPlayer & 1][D_8010C0D8[SelectionPlayer & 1]][D_8010C0D0[SelectionPlayer & 1]].glyph);
-            PlayerCourseChoices[SelectionPlayer].first = D_8010BFD8[SelectionPlayer & 1][D_8010C0D8[SelectionPlayer & 1]][D_8010C0D0[SelectionPlayer & 1]].first;
-            PlayerCourseChoices[SelectionPlayer].second = D_8010BFD8[SelectionPlayer & 1][D_8010C0D8[SelectionPlayer & 1]][D_8010C0D0[SelectionPlayer & 1]].second;
+                          D_8010BFD8[SelectionPlayer & 1][D_8010C0D8[SelectionPlayer & 1]][CourseMenuCursor[SelectionPlayer & 1]].glyph);
+            PlayerCourseChoices[SelectionPlayer].first = D_8010BFD8[SelectionPlayer & 1][D_8010C0D8[SelectionPlayer & 1]][CourseMenuCursor[SelectionPlayer & 1]].first;
+            PlayerCourseChoices[SelectionPlayer].second = D_8010BFD8[SelectionPlayer & 1][D_8010C0D8[SelectionPlayer & 1]][CourseMenuCursor[SelectionPlayer & 1]].second;
             ImageRows[1] = 6;
         }
         row = ovl667_D_80118E1C[SelectionPlayer & 1][D_8010C0D8[SelectionPlayer & 1]][MenuCursor];
@@ -103,7 +103,7 @@ void ovl667_func_80116D18(void) {
                 D_8010C0B8 = state;
                 D_800F4D8A = 4;
             } else if (MenuCursor == ovl667_D_80118E14[D_8010C0D8[SelectionPlayer & 1]][1] && D_8010BFD8[SelectionPlayer][1][0].glyph != -1) {
-                D_8010C0D0[SelectionPlayer & 1] = 0;
+                CourseMenuCursor[SelectionPlayer & 1] = 0;
                 MenuCursor = 0;
                 for (i = 0; i < 4; i++) {
                     row = ovl667_D_80118E1C[SelectionPlayer & 1][D_8010C0D8[SelectionPlayer & 1]][i];
@@ -308,6 +308,6 @@ draw_rows:
     }
     UpdateBadgeRowAnim(0);
     UpdateImageRow(0);
-    D_800F4CB8[0] = SelectionPlayer + 1;
+    MenuActivePlayerPlusOne[0] = SelectionPlayer + 1;
     UpdateScreenFade(D_8010C0D8[SelectionPlayer & 1] != 0 ? 0x10036 : 0x10032);
 }

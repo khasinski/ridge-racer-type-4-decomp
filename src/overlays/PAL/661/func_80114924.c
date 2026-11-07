@@ -2,7 +2,7 @@
 
 extern s32 TrackLength;
 extern s32 NumLaps;
-extern s16 D_8010C134;
+extern s16 LapAnnouncePending;
 extern s32 RaceState;
 extern s16 MenuFadeTimer;
 extern s32 TotalRaceTime;
@@ -22,12 +22,12 @@ void ovl661_func_80114924(RrRaceCheckpointVehicle *vehicle) {
         target = NumLaps;
         if (target >= counter) {
             control->steering94.count22=(s16)((u16)control->steering94.count22+1U);
-            D_8010C134 = 0;
+            LapAnnouncePending = 0;
             if (control->steering94.count22 == target) {
                 SaveCarSnapshots(0);
             } else if (target < control->steering94.count22) {
                 if (RaceState < 4) {
-                    D_8010C134 = -1;
+                    LapAnnouncePending = -1;
                     RaceState = 4;
                     MenuFadeTimer = 75;
                     SoundSetMasterVolume(0, 33);
@@ -37,7 +37,7 @@ void ovl661_func_80114924(RrRaceCheckpointVehicle *vehicle) {
             }
         }
     }
-    if (D_8010C134 == 0) {
+    if (LapAnnouncePending == 0) {
         message = (s32)(9U - ((u32)NumLaps - (u32)(s32)control->steering94.count22));
         if (message >= 6) {
             if (message == 9) {
@@ -48,6 +48,6 @@ void ovl661_func_80114924(RrRaceCheckpointVehicle *vehicle) {
                 RaceVoiceFlags |= 0x200U << ((u32)message - 6U);
             }
         }
-        D_8010C134 = -1;
+        LapAnnouncePending = -1;
     }
 }

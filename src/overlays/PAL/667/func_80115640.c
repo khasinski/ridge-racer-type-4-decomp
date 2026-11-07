@@ -29,7 +29,7 @@ typedef struct {
     u8 pad19[0x22778 - 0x19];
 } Ovl667FrameStorage;
 
-extern s16 D_80107178;
+extern s16 PlayerCount;
 extern s32 D_80107190;
 extern char *CurrentDrawBuf;
 extern u32 ModeFrame;
@@ -123,7 +123,7 @@ void ovl667_func_80115640(void) {
     s32 state;
     u16 buttons;
 
-    split = (D_80107178 != 2) << 1;
+    split = (PlayerCount != 2) << 1;
     if (split == 0) {
         frame = CurrentDrawBuf + 0x70;
     } else {

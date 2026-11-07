@@ -48,7 +48,7 @@ RrProjectionScratchPrefix test_scratch;
 #define RR_PROJECTION_SCRATCH (&test_scratch)
 static int scenario, step;
 void StopRaceAudioAndRumble(void) { assert(scenario == 666 && step++ == 0); }
-void func_8003CAB4(void) {
+void SetupRaceAndScene(void) {
     assert((scenario == 659 && step == 0) || (scenario == 666 && step == 1));
     step++;
     ModeGroup = -8; ModeId = -9; D_800F4D8A = -10;

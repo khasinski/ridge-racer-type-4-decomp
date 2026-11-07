@@ -34,7 +34,7 @@ extern Struct10 LapRecords[2][8][5];
 extern char CourseChoiceTable[];
 extern unsigned short D_8009EA80[];
 extern unsigned char SaveDataWork[];
-extern unsigned char D_800F3B28[];
+extern unsigned char SaveDataBackup[];
 /* extern */
 /* extern */
 /* extern */
@@ -145,14 +145,14 @@ loop:
 void BackupSaveData(void) {
     int i;
     for (i = 0; i < 0x840; i++) {
-        D_800F3B28[i] = SaveDataWork[i];
+        SaveDataBackup[i] = SaveDataWork[i];
     }
 }
 
 void RestoreSaveData(void) {
     int i;
     for (i = 0; i < 0x840; i++) {
-        SaveDataWork[i] = D_800F3B28[i];
+        SaveDataWork[i] = SaveDataBackup[i];
     }
 }
 
@@ -164,7 +164,7 @@ void SplashModeEnter(void) {
     SetDispMask(0);
     DebugPrintStub(&D_800103B8);
     LoadCursor = CdDirectoryBuffer;
-    func_80071440();
+    SplashLogoInit();
     D_800FFC18 = 0;
     LoadSaveFromCardStep(0);
     VSyncThreshold = 0x80;

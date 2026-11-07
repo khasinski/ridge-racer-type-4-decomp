@@ -16,7 +16,7 @@ extern const char CdDatasyncNameStr[];
 extern u8 D_800A64A5;
 extern char *CD_comstr[];
 extern char *CD_intstr[];
-extern volatile u8 D_800A6764[];
+extern volatile u8 CdIntrStatusBytes[];
 extern s32 CD_timeout_deadline;
 extern s32 CD_timeout_count;
 extern const char *CdWaitCallerName[];
@@ -64,7 +64,7 @@ s32 CD_datasync(s32 mode) {
     CdWaitCallerName[0] = CdDatasyncNameStr;
     limit = 0x3C0000;
     ac = CD_comstr;
-    st = D_800A6764;
+    st = CdIntrStatusBytes;
     sc = CD_intstr;
     do {
         if (check_alarm(limit, ac, st, sc) != 0) {
@@ -120,10 +120,10 @@ s32 CD_getsector2(u8 *a, u32 b) {
 void CD_set_test_parmnum(int a) { CdTestParamNum = a; }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800A6764 (*(u8 (*)[2])&D_800A6764)
+#define CdIntrStatusBytes (*(u8 (*)[2])&CdIntrStatusBytes)
 
 void CdCommandCallback(void) {
-    u8 *p=&D_800A6764[1];
+    u8 *p=&CdIntrStatusBytes[1];
     u8 *q=p-1;
     s32 saved=*CD_reg0 & 3;
     s32 result;
@@ -160,4 +160,4 @@ void CdCommandCallback(void) {
     *CD_reg0=saved;
 }
 
-#undef D_800A6764
+#undef CdIntrStatusBytes

@@ -9,7 +9,7 @@ extern s16 ovl661_D_80118440[2][2];       /* course count per player/group */
 extern s16 ovl661_D_8011844C[2];          /* selected course per player */
 extern s16 ovl661_D_80118450[2];          /* selected group per player */
 extern RrCourseChoice4 ovl661_D_80118458[2][2][9];
-extern s32 UiRowCount, D_800F4CB8;
+extern s32 UiRowCount, MenuActivePlayerPlusOne;
 extern s16 D_800FFC18;
 void SetupMenuCarCamera(s32);
 void SetupViewport(s32);
@@ -352,10 +352,10 @@ tail:
         DrawMenuStepArrows(0xA0, 0x90, 8, 1, ovl661_D_8011844C[PLAYER], 0,
                       ovl661_D_80118440[PLAYER][ovl661_D_80118450[PLAYER]]);
     }
-    D_800F4CB8 = SelectionPlayer + 1;
+    MenuActivePlayerPlusOne = SelectionPlayer + 1;
     sound = 0x10032;
     /* Integer base address: the original's table read is not disambiguated
-     * from the D_800F4CB8 store above. */
+     * from the MenuActivePlayerPlusOne store above. */
     groups = (s32)ovl661_D_80118450;
     if (*(s16 *)(groups + (SelectionPlayer & 1) * 2) != 0) {
         sound = 0x10036;

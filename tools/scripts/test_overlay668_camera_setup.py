@@ -76,7 +76,7 @@ static void call11(s32 enabled){assert(enabled==1);service(11);}
 #define ovl668_D_80116CC0 (actual.lookup)
 #define SetDispMask call0
 #define SetupDrawDispEnvs call1
-#define func_8006E794 call2
+#define InitViewState call2
 #define SetupRenderer call3
 #define BuildCameraMatrices call4
 #define ovl668_func_80115460 call5

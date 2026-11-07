@@ -1,11 +1,11 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "rr/library.h"
 extern volatile u8 *CD_reg0;
-extern u8 D_800A6764[2];
+extern u8 CdIntrStatusBytes[2];
 extern RrLibDataCallback CD_cbready,CD_cbsync;
 extern s32 getintr(void);
 void CdCommandCallback(void) {
-    u8 *p=&D_800A6764[1];
+    u8 *p=&CdIntrStatusBytes[1];
     u8 *q=p-1;
     s32 saved=*CD_reg0 & 3;
     s32 result;

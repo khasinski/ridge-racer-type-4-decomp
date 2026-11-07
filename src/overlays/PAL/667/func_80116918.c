@@ -10,7 +10,7 @@ void ovl667_func_80116918(void){
  UpdateLinkHandshake(1);
  i=0;
  ClearScreenOverlayState();
- for(;i<2;i++) {D_8010C0D8[i]=0;D_8010C0D0[i]=0;D_8010C080[i]=0;}
+ for(;i<2;i++) {D_8010C0D8[i]=0;CourseMenuCursor[i]=0;D_8010C080[i]=0;}
  for(i=0;i<4;i++) {((RrMenuChoice4 *)((u8 *)&SelectionRows+i*4))->bytes[3]=0;D_8010C080[i]=0;}
  i=0;
  destBase=(u8 *)&D_8010BFD8;

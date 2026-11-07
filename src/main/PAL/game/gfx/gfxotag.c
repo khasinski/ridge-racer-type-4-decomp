@@ -78,7 +78,7 @@ extern void SlotsStartForRace();
 extern void CdAudioSelectTrack();
 extern void CdAudioBeginPlay();
 extern void CdAudioFade();
-extern void func_80059E40();
+extern void OpeningScriptStep();
 extern int PsyqRand();
 extern int D_800AC6EC;
 extern signed char SelectionState[];
@@ -348,7 +348,7 @@ int func_80045868(char *arg0)
       __asm__("" : "+r"(s0) : "r"(x)); /* ASM_BARRIER: keep 0x100 in s0 and prioritize x in v0 */
       s0 -= d;
     }
-    func_80059E40(0x1C2);
+    OpeningScriptStep(0x1C2);
     {
       int w, low, high;
       low = 0xFFFFFF;

@@ -6,7 +6,7 @@
 #include "rr/selection_types.h"
 #include "rr/menu_selection_word.h"
 #include "rr/menu_arena_types.h"
-extern s32 ScreenFrame,ModeFrame,NumLaps,D_800F4CB8,ovl661_D_80118414;
+extern s32 ScreenFrame,ModeFrame,NumLaps,MenuActivePlayerPlusOne,ovl661_D_80118414;
 extern s16 CourseMenuSelection,MenuCursor,MenuItemCount,MenuFadeTimer,CourseIndex,ModeId,MenuScriptId,ModeGroup,RaceType;
 extern s16 ovl661_D_80118448[2];
 extern s16 SelectedCarIndex;

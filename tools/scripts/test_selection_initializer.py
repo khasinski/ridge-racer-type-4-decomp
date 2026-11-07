@@ -48,7 +48,7 @@ static State actual,reference,*w;
 #define D_8010BFD8 w->table
 #define D_8010C0C0 w->counts
 #define D_8010C0D8 w->group
-#define D_8010C0D0 w->index
+#define CourseMenuCursor w->index
 #define PlayerCourseChoices w->point
 #undef RR_PROJECTION_SCRATCH
 #define RR_PROJECTION_SCRATCH (&w->scratch)

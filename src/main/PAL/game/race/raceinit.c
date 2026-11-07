@@ -12,7 +12,7 @@ extern short D_800AC3FC;
 extern short NumCars;
 extern int CarTable[];
 extern int TrackLength;
-extern short D_80107178;
+extern short PlayerCount;
 extern int SavedRaceState;
 extern int TotalRaceTime;
 
@@ -70,7 +70,7 @@ void InitRaceCars(int a0)
                 s1++;
             } while (s1 < NumCars);
         }
-        D_80107178 = s2;
+        PlayerCount = s2;
         func_800293D0(2, 0);
         break;
     case 5:

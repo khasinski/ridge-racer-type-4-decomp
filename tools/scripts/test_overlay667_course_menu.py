@@ -46,7 +46,7 @@ static State actual,reference,*w;
 #define D_8010C0B8 w->waitFlag
 #define D_8010C0C8 w->loadStatus
 #define D_8010C078 w->available
-#define D_800F4CB8 w->clear
+#define MenuActivePlayerPlusOne w->clear
 #define D_800F4D8A w->phase
 #define ModeGroup w->enabled
 #define UiRows w->rows[w->rowRoot]

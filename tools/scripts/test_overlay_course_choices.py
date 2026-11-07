@@ -53,7 +53,7 @@ static unsigned scenario,mutation;
 #define ovl661_D_80118450 w->s.rows661
 #define ovl661_D_8011844C w->s.cols661
 #define D_8010C0D8 w->s.rows667
-#define D_8010C0D0 w->s.cols667
+#define CourseMenuCursor w->s.cols667
 #define PlayerCars w->s.vehicles
 #define RR_COURSE_SCRATCH (&w->s.scratch.projection)
 #define RR_PROJECTION_SCRATCH RR_COURSE_SCRATCH

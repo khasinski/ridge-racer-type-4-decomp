@@ -20,7 +20,7 @@ extern int CourseBestLapTimes[2][8][3];
 extern Struct840 *D_800F3910;
 extern Struct840 *D_800F3918;
 extern Struct7C SaveProgress;
-extern int D_800F3B28[];
+extern int SaveDataBackup[];
 extern short D_800F4D3C;
 extern short RaceType;
 extern Struct10 LapRecords[2][8][5];
@@ -86,7 +86,7 @@ int ApplySaveData(int arg0) {
                 }
             }
             for (s0 = 0; s0 < 0x210; s0++) {
-                D_800F3B28[s0] = s3->fEA4[s0];
+                SaveDataBackup[s0] = s3->fEA4[s0];
             }
             ApplySoundVolumes();
             a2 = 1;
@@ -109,7 +109,7 @@ int ApplySaveData(int arg0) {
                 }
             }
             for (s0 = 0; s0 < 0x210; s0++) {
-                *(int *)((SelectionPlayer & 1) * 0x840 + (s0 << 2) + (int)D_800F3B28) = s3->fEA4[s0];
+                *(int *)((SelectionPlayer & 1) * 0x840 + (s0 << 2) + (int)SaveDataBackup) = s3->fEA4[s0];
             }
             a2 = 1;
         }

@@ -141,7 +141,7 @@ extern int VSyncThreshold;
 extern short ModeId;
 extern short ModeGroup;
 extern short D_800F4D8A;
-extern int D_8010BF74;
+extern int TileRectState;
 extern struct B8 D_8001010C;
 extern struct B8 D_80010114;
 extern int D_8009E268;
@@ -305,7 +305,7 @@ void TileRectSceneModeEnter(void) {
     sp10 = D_80010104;
     ClearImage2(&sp10, 0, 0, 0);
     MenuFadeTimer = 0;
-    D_8010BF74 = 0;
+    TileRectState = 0;
     ModeGroup = 0;
     ModeId = 4;
     D_800F4D8A = 0;
@@ -326,34 +326,34 @@ void TileRectSceneModeUpdate(void) {
         }
     }
 
-    switch (D_8010BF74) {
+    switch (TileRectState) {
     case 0:
         if (CdFileReadStart(GetR4FileIndex(0, D_800AD4EA + 1), LoadCursor) == 0) {
             return;
         }
-        D_8010BF74 = 1;
+        TileRectState = 1;
     case 1:
         if (CdFileBytesLoaded() == 0) {
             return;
         }
         LoadTimList(LoadCursor);
-        D_8010BF74 = 2;
+        TileRectState = 2;
     case 2:
         if (CdFileReadStart(GetR4FileIndex(0, 0x14), LoadCursor) == 0) {
             return;
         }
-        D_8010BF74 = 3;
+        TileRectState = 3;
     case 3:
         if (CdFileBytesLoaded() == 0) {
             return;
         }
         LoadTimImage(LoadCursor);
-        D_8010BF74 = 4;
+        TileRectState = 4;
     case 4:
         if (CdFileReadStart(GetR4FileIndex(0, D_800AD4EA + 0xA), LoadCursor) == 0) {
             return;
         }
-        D_8010BF74 = 5;
+        TileRectState = 5;
     case 5:
         s1 = CdFileBytesLoaded();
         if (s1 == 0) {
@@ -367,9 +367,9 @@ void TileRectSceneModeUpdate(void) {
         PsyqMemset(TileRectScene->unk28, 0, 0x10);
         {
             S_8010BF70 *p = TileRectScene;
-            D_8010BF74 = 6;
+            TileRectState = 6;
             p->s48 = 0x40;
-            /* ASM_BARRIER: keep p in $v0 across D_8010BF74 = 6 and field stores */
+            /* ASM_BARRIER: keep p in $v0 across TileRectState = 6 and field stores */
             __asm__("" : "+r"(p));
             p->w38 = 0;
             p->s3C = 0;
@@ -391,7 +391,7 @@ void TileRectSceneModeUpdate(void) {
             break;
         }
         SetMenuFrameOptions(1, 1, 0);
-        D_8010BF74 = 7;
+        TileRectState = 7;
     case 7:
         if (MenuFadeTimer == 0 && MenuConfirmPressed != 0) {
             MenuFadeTimer = 4;

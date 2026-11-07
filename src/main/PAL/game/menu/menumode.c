@@ -11,7 +11,7 @@ extern int CopyStringClearTail();
 extern int PlaySfx();
 extern short D_800FFC18;
 extern short CardSlot;
-extern short D_800AC594;
+extern short MenuPlayerIndex;
 extern short MenuStateIndex;
 extern short D_800F4D3C;
 extern short D_800F3AF8;
@@ -21,7 +21,7 @@ extern char CardSaveFileName[];
 extern struct { char a[4]; unsigned char b; char c[3]; } MenuStateTable[];
 extern unsigned char D_800A448C[][4];
 extern struct { char pad[0x28]; int x28; int x2c; char pad2[0x2C]; } PlayerControllers[];
-extern unsigned char D_800F3A24[];
+extern unsigned char CardSlotState[];
 extern char *UiRows;
 extern short D_80109478[];
 extern short D_8010948E;
@@ -42,8 +42,8 @@ void func_8007B774(void) {
     case 3:
     case 6:
     case 7:
-        StepMenuValue((D_800AC594 & 1) << 2, 2, &D_800F4D3C, 3, 0);
-        if (PlayerControllers[D_800AC594].x28 != 0) {
+        StepMenuValue((MenuPlayerIndex & 1) << 2, 2, &D_800F4D3C, 3, 0);
+        if (PlayerControllers[MenuPlayerIndex].x28 != 0) {
             PlaySfx(1);
             if ((unsigned short)(D_800FFC18 - 6) < 2) {
                 D_800F3AF8 = 0x11;
@@ -52,7 +52,7 @@ void func_8007B774(void) {
                 CopyStringClearTail(CardTargetFileName, CardSaveFileName);
             }
         } else {
-            if (PlayerControllers[D_800AC594].x2c != 0) {
+            if (PlayerControllers[MenuPlayerIndex].x2c != 0) {
                 MenuStateIndex = 0;
             }
             return;
@@ -109,7 +109,7 @@ void func_8007B954()
     }
     tb = D_800A44A8;
     ia = (int)q * 4;
-    b2 = D_800F3A24;
+    b2 = CardSlotState;
     r = b2 + CardSlot;
     q = (unsigned char *)tb + ia;
     a = q[0];
@@ -117,9 +117,9 @@ void func_8007B954()
     s3 = q[2];
     if (*r < 0x10 || a == *r) {
         if (UiRows[0x56C] == 2) {
-            StepMenuValue(((unsigned short)D_800AC594 & 1) << 2, 2, D_8010948E * 2 + (int)D_80109478, 2, 0);
+            StepMenuValue(((unsigned short)MenuPlayerIndex & 1) << 2, 2, D_8010948E * 2 + (int)D_80109478, 2, 0);
             b3 = PlayerControllers;
-        r2 = (unsigned char *)b3 + D_800AC594 * 0x5C;
+        r2 = (unsigned char *)b3 + MenuPlayerIndex * 0x5C;
             if (*(int *)(r2 + 0x28) != 0) {
                 PlaySfx(1);
                 if (D_80109478[D_8010948E] == 0) {
@@ -181,7 +181,7 @@ l54:
     return;
 ca0:
     if (s0 != 1) goto ce0;
-    if (D_800F3A24[CardSlot] + s3 < 0x10) goto ce0;
+    if (CardSlotState[CardSlot] + s3 < 0x10) goto ce0;
     MenuStateIndex = 0x16;
     return;
 ce0:

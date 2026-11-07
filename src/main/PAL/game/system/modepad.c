@@ -19,7 +19,7 @@ extern int D_800F3AA4;
 extern short MenuScriptId;
 extern int UiRowCount;
 extern int D_800F4CA8;
-extern short D_800FFC10;
+extern short MenuDispMode;
 extern void StepMenuValue();
 extern void PlaySfx();
 extern unsigned _sio_control();
@@ -92,12 +92,12 @@ int ModeSelectMenuStep(void)
             break;
         case 1:
             RaceType = 0;
-            D_800FFC10 = 0;
+            MenuDispMode = 0;
             break;
         case 2:
             RestoreSaveData();
             RaceType = 2;
-            D_800FFC10 = 0;
+            MenuDispMode = 0;
             break;
         case 3:
         case 4:

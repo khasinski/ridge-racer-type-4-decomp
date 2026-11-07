@@ -65,7 +65,7 @@ void DrawCars(a0) int a0; {
                 if (CarTable[i]->f1E8 != -1) DrawOpponentCar(CarTable[i], a0);
             }
         } else {
-            if (D_80107178 == 2) {
+            if (PlayerCount == 2) {
                 { char *bb = (char *)CarTable; DrawOpponentCar(*(T **)(bb + (D_800AD508 << 3)), a0); }
             }
         }
@@ -77,7 +77,7 @@ void DrawCars(a0) int a0; {
     case 4:
         s2 = 3;
         if (RaceType == 4) s2 = 4;
-        if (D_80107178 == 2) s2 = 0;
+        if (PlayerCount == 2) s2 = 0;
         if (NumCars > 0) {
             i = 0;
             p = CarTable;

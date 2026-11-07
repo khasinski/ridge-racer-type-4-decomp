@@ -77,7 +77,7 @@ extern s32 D_8010E234;
 
 extern s32 OpeningSlideTimer;
 
-s32 func_80059E40(s32 arg0) {
+s32 OpeningScriptStep(s32 arg0) {
     s32 sp18[6];
     char sp30[16];
     s16 sp40[4];

@@ -74,7 +74,7 @@ extern char FractionText[];
 extern unsigned char D_8009FBEC[];
 extern char Options[];
 extern char PlayerControllers[];
-extern int D_800F4CB8;
+extern int MenuActivePlayerPlusOne;
 
 int func_80042254();
 int func_80042820();
@@ -400,7 +400,7 @@ int a2;
     p--;
   }
   while (i >= 0);
-  idx = (D_800F4CB8 - 1) & 1;
+  idx = (MenuActivePlayerPlusOne - 1) & 1;
   if (idx < 0)
   {
     idx = 0;

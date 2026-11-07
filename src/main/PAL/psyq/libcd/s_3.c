@@ -36,7 +36,7 @@ extern volatile u8 *CD_reg0;
 extern volatile u8 *CD_REG1;
 extern volatile u8 *CD_REG2;
 extern volatile u8 *CD_reg3;
-extern volatile u8 D_800A6764[];
+extern volatile u8 CdIntrStatusBytes[];
 extern u8 CD_syncResult[];
 extern u8 CdReadyResult[];
 extern u8 D_80110328[];
@@ -148,20 +148,20 @@ s32 getintr(void) {
     switch (intr) {
     case 3:
         if (err) {
-            D_800A6764[0] = 5;
+            CdIntrStatusBytes[0] = 5;
             COPY8(CD_syncResult, res);
             return 2;
         }
         if (CD_comHasCompleteInt[D_800A64A5]) {
-            D_800A6764[0] = 3;
+            CdIntrStatusBytes[0] = 3;
             COPY8(CD_syncResult, res);
             return 1;
         }
-        D_800A6764[0] = 2;
+        CdIntrStatusBytes[0] = 2;
         COPY8(CD_syncResult, res);
         return 2;
     case 2:
-        D_800A6764[0] = err ? 5 : 2;
+        CdIntrStatusBytes[0] = err ? 5 : 2;
         COPY8(CD_syncResult, res);
         return 2;
     case 1:
@@ -170,7 +170,7 @@ s32 getintr(void) {
         }
         {
             u8 v = err ? 5 : 1;
-            volatile u8 *p = D_800A6764;
+            volatile u8 *p = CdIntrStatusBytes;
             p[1] = v;
         }
         COPY8(CdReadyResult, res);
@@ -179,14 +179,14 @@ s32 getintr(void) {
         return 4;
     case 4:
         {
-            volatile u8 *p = D_800A6764;
+            volatile u8 *p = CdIntrStatusBytes;
             p[1] = p[2] = 4;
         }
         COPY8(D_80110328, res);
         COPY8(CdReadyResult, res);
         return 4;
     case 5:
-        D_800A6764[0] = D_800A6764[1] = 5;
+        CdIntrStatusBytes[0] = CdIntrStatusBytes[1] = 5;
         COPY8(CD_syncResult, res);
         COPY8(CdReadyResult, res);
         return 6;
@@ -248,7 +248,7 @@ s32 CD_sync(s32 mode, u8 *result) {
     CdWaitCallerName[0] = StrCdSync;
     ac = CD_comstr;
     sc = CD_intstr;
-    st = D_800A6764;
+    st = CdIntrStatusBytes;
     st1 = st + 1;
     do {
         if (check_alarm(ac, sc, st) != 0) {
@@ -324,7 +324,7 @@ s32 CD_ready(s32 mode, u8 *result) {
     CdWaitCallerName[0] = CdReadyNameStr;
     ac = CD_comstr;
     sc = CD_intstr;
-    st = D_800A6764;
+    st = CdIntrStatusBytes;
     st1 = st + 1;
     st2 = st + 2;
     do {

@@ -38,10 +38,10 @@ extern s32 BestLapTime;
 extern s16 RaceType;
 extern s32 RaceState;
 extern s32 TrackEventSfxEnabled;
-extern s16 D_80107178;
+extern s16 PlayerCount;
 extern s32 D_80107190;
-extern s32 D_8010C12C;
-extern s16 D_8010C134;
+extern s32 NextSplitIndex;
+extern s16 LapAnnouncePending;
 extern s32 D_8010C13C;
 #include "rr/race_setup_types.h"
 #include "game/camera/viewini.h"

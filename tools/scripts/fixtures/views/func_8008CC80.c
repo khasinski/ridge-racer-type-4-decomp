@@ -18,7 +18,7 @@
 
 extern char *CD_comstr[];
 
-extern volatile u8 D_800A6764[];
+extern volatile u8 CdIntrStatusBytes[];
 
 extern u8 CD_syncResult[];
 
@@ -87,7 +87,7 @@ s32 CD_sync(s32 mode, u8 *result) {
     CdWaitCallerName[0] = StrCdSync;
     ac = CD_comstr;
     sc = CD_intstr;
-    st = D_800A6764;
+    st = CdIntrStatusBytes;
     st1 = st + 1;
     do {
         if (check_alarm(ac, sc, st) != 0) {

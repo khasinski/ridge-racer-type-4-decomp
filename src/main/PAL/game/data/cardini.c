@@ -27,7 +27,7 @@ extern int SwCardEvIoe;
 extern int SwCardEvError;
 extern int SwCardEvTimeout;
 extern int SwCardEvNew;
-extern unsigned char D_800F3A24[];
+extern unsigned char CardSlotState[];
 extern char D_800FFC48[];
 extern int CardPortTimer[];
 extern char StrCardDirPatternFmt[];
@@ -80,8 +80,8 @@ void CardSystemInit()
     EnableEvent(SwCardEvError);
     EnableEvent(SwCardEvTimeout);
     EnableEvent(SwCardEvNew);
-    D_800F3A24[1] = 0x5A;
-    D_800F3A24[0] = 0x5A;
+    CardSlotState[1] = 0x5A;
+    CardSlotState[0] = 0x5A;
     SaveBuffer = (int)D_800FFC48;
 }
 

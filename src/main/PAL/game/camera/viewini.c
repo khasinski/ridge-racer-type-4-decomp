@@ -55,7 +55,7 @@ void InitViewLighting(void)
     FarColorB = t[2];
 }
 
-void func_8006E794(void) {
+void InitViewState(void) {
     int i;
     char *p;
     char *g = (char *)SCRATCHPAD;

@@ -148,7 +148,7 @@ extern void PsyqMemset(void *, s32, s32);
 extern s32 D_800A3CDC[];
 extern s32 D_800A3D18[];
 extern SVec CourseLightColors[];
-extern CVec D_800A4088[];
+extern CVec CourseColorTable[];
 extern S_ABEA4 *TrackNodes;
 extern Mat32 LightMatrix;
 extern s32 ReplayState;
@@ -682,9 +682,9 @@ void DrawTrackObjects(s32 arg0) {
 
         case 3:
             for (k = 0; k < 38; k++) {
-                sp128[k].r = (k < 21) ? D_800A4088[CourseIndex - 4].r : D_800A4088[CourseIndex - 4].r - (D_800A4088[CourseIndex - 4].r * (k - 20)) / 17;
-                sp128[k].g = (k < 21) ? D_800A4088[CourseIndex - 4].g : D_800A4088[CourseIndex - 4].g - (D_800A4088[CourseIndex - 4].g * (k - 20)) / 17;
-                sp128[k].b = (k < 21) ? D_800A4088[CourseIndex - 4].b : D_800A4088[CourseIndex - 4].b - (D_800A4088[CourseIndex - 4].b * (k - 20)) / 17;
+                sp128[k].r = (k < 21) ? CourseColorTable[CourseIndex - 4].r : CourseColorTable[CourseIndex - 4].r - (CourseColorTable[CourseIndex - 4].r * (k - 20)) / 17;
+                sp128[k].g = (k < 21) ? CourseColorTable[CourseIndex - 4].g : CourseColorTable[CourseIndex - 4].g - (CourseColorTable[CourseIndex - 4].g * (k - 20)) / 17;
+                sp128[k].b = (k < 21) ? CourseColorTable[CourseIndex - 4].b : CourseColorTable[CourseIndex - 4].b - (CourseColorTable[CourseIndex - 4].b * (k - 20)) / 17;
                 for (j = 0; j < 2; j++) {
                     s3[0x38 / 4] = k * 2 + j;
                     sp638[s3[0x38 / 4]].v0.vx = D_8010E8E8[k + 1].vx;

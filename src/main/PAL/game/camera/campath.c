@@ -97,7 +97,7 @@ void func_8005AA2C(void) {
         i++;
         row++;
     } while (i < 16);
-    func_8005A9C4();
+    AddDrawModeTagToOt();
 }
 
 #undef RaceContext

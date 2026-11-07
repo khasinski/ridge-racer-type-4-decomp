@@ -27,7 +27,7 @@ extern s32 D_800A66CC[];
 extern volatile u8 *CD_reg0;
 extern volatile u8 *CD_REG1;
 extern volatile u8 *CD_REG2;
-extern u8 D_800A6764[];
+extern u8 CdIntrStatusBytes[];
 extern u8 CD_syncResult[];
 extern u8 CdReadyResult[];
 extern s32 CD_timeout_deadline;
@@ -112,9 +112,9 @@ s32 CD_cw(u8 arg0, u8 *arg1, u8 *arg2, s32 arg3) {
     if (arg0 == 0xE) {
         D_800A64A4 = *p;
     }
-    D_800A6764[0] = 0;
+    CdIntrStatusBytes[0] = 0;
     if (((s32 (*)[64])CdCommandParamTable)[0][arg0] != 0) {
-        D_800A6764[1] = 0;
+        CdIntrStatusBytes[1] = 0;
     }
     *CD_reg0 = 0;
     for (i = 0; i < ((s32 (*)[64])CdCommandParamTable)[1][arg0]; i++) {
@@ -128,10 +128,10 @@ s32 CD_cw(u8 arg0, u8 *arg1, u8 *arg2, s32 arg3) {
     CD_timeout_deadline = VSync(-1) + 0x3C0;
     CD_timeout_count = 0;
     CdWaitCallerName = CdCwLabel;
-    if (D_800A6764[0] == 0) {
+    if (CdIntrStatusBytes[0] == 0) {
         char **ac = CD_comstr;
         char **sc = CD_intstr;
-        volatile u8 *st = D_800A6764;
+        volatile u8 *st = CdIntrStatusBytes;
         volatile u8 *st1 = st + 1;
         do {
             if (check_alarm(ac, sc, st)) {
@@ -150,7 +150,7 @@ s32 CD_cw(u8 arg0, u8 *arg1, u8 *arg2, s32 arg3) {
             *dst++ = *src++;
         }
     }
-    return -(((volatile u8 *)D_800A6764)[0] == 5);
+    return -(((volatile u8 *)CdIntrStatusBytes)[0] == 5);
 }
 
 #undef CD_cbsync
@@ -190,7 +190,7 @@ void CD_flush() {
             *CD_REG2 = 7;
         } while (*CD_reg3 & 7);
     }
-    p = D_800A6764;
+    p = CdIntrStatusBytes;
     p[2] = 0;
     p[1] = p[2];
     p[0] = 2;

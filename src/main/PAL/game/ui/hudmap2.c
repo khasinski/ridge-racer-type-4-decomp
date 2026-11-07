@@ -122,7 +122,7 @@ typedef struct {
     void *p;
 } Scratch;
 
-extern s32 D_800A101C;
+extern s32 HudMapPulse;
 extern UvRect HudMapSpriteRects[];
 extern UvRect D_800A1028;
 extern UvRect D_800A102C;
@@ -166,7 +166,7 @@ void DrawMapBitmapIso(s32 arg0, u8 *arg1, s32 *arg2);
 void DrawTrackNodeMap(s32 *arg0);
 void SelectReplayBgmTrack(void);
 void CenterGlyphListX(short *a0, int a1);
-void func_80059314(s32 arg0, s32 arg1);
+void OpeningInit(s32 arg0, s32 arg1);
 void DrawGlyphList(s16 *stream,s32 color,s32 bank);
 void DrawGlyphListSloped();
 void AddBrightnessSprite(unsigned char *a0x, int a1, int a2, int a3);
@@ -334,20 +334,20 @@ void DrawTrackNodeMap(s32 *arg0) {
     sp18.vx += sp10.vx;
     sp18.vy += sp10.vy;
 
-    D_800A101C &= 0xFF;
-    if (D_800A101C & 0x80) {
-        D_800A101C &= 0x7F;
-        if (D_800A101C < 0x7A) {
-            D_800A101C = (D_800A101C + 6) | 0x80;
+    HudMapPulse &= 0xFF;
+    if (HudMapPulse & 0x80) {
+        HudMapPulse &= 0x7F;
+        if (HudMapPulse < 0x7A) {
+            HudMapPulse = (HudMapPulse + 6) | 0x80;
         } else {
-            D_800A101C = 0x7F;
+            HudMapPulse = 0x7F;
         }
     } else {
-        D_800A101C &= 0x7F;
-        if (D_800A101C >= 6) {
-            D_800A101C -= 6;
+        HudMapPulse &= 0x7F;
+        if (HudMapPulse >= 6) {
+            HudMapPulse -= 6;
         } else {
-            D_800A101C = 0x80;
+            HudMapPulse = 0x80;
         }
     }
 
@@ -358,9 +358,9 @@ void DrawTrackNodeMap(s32 *arg0) {
     sprt->v0 = HudMapSpriteRects[0].v;
     sprt->w = HudMapSpriteRects[0].w;
     sprt->h = HudMapSpriteRects[0].h;
-    sprt->r0 = D_800A101C & 0x7F;
-    sprt->g0 = D_800A101C & 0x7F;
-    sprt->b0 = D_800A101C & 0x7F;
+    sprt->r0 = HudMapPulse & 0x7F;
+    sprt->g0 = HudMapPulse & 0x7F;
+    sprt->b0 = HudMapPulse & 0x7F;
     sprt->x0 = sp18.vx - 4;
     sprt->y0 = sp18.vy - 8;
     sprt->code = (sprt->code | 2) & ~1;
@@ -460,7 +460,7 @@ void CenterGlyphListX(short *a0, int a1)
 #define D_800A1090 (*(u8 (*)[])&D_800A1090)
 #define HudGlyphUvRects (*(u8 (*)[])&HudGlyphUvRects)
 
-void func_80059314(s32 arg0, s32 arg1) {
+void OpeningInit(s32 arg0, s32 arg1) {
     s32 i;
 
     D_8010E22C = arg0;

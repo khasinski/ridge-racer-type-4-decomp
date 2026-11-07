@@ -103,7 +103,7 @@ extern Ovl665Text *DialogueState;
 extern Ovl665Frame *CurrentDrawBuf;
 extern s16 MenuFadeTimer;
 extern s32 SelectionPlayer;
-extern s32 D_800F4CB8;
+extern s32 MenuActivePlayerPlusOne;
 extern u8 ScreenFadeState;
 extern Ovl665View14 ovl665_D_80119698[];
 extern Ovl665Colour4 ovl665_D_8011902C[][5];
@@ -722,7 +722,7 @@ void ovl665_func_80116D10(s32 player) {
     }
     if (ST.step0C < 3) {
         UpdateBadgeRowAnim(0);
-        D_800F4CB8 = player + 1;
+        MenuActivePlayerPlusOne = player + 1;
         arg = 0x10072;
     } else {
         UpdateBadgeRowAnim(0);

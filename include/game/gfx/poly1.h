@@ -10,6 +10,6 @@ void func_80071348(void);
 void func_800713C4(s32 arg0);
 int GetOctantTableValue(void);
 void SetOctantLookupTable(s32 arg0);
-void func_80071440(void);
+void SplashLogoInit(void);
 
 #endif /* RR_GAME_GFX_POLY1_H */

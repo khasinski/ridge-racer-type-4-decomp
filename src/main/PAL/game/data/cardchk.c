@@ -4,7 +4,7 @@
 extern int D_8010EF88[];
 extern int D_8010EF90[];
 extern unsigned char CardCheckCounts[];
-extern unsigned char D_800F3A24[];
+extern unsigned char CardSlotState[];
 extern unsigned char CardFileCounts[];
 
 void PollCardStatus(a0, a1, a2)
@@ -36,7 +36,7 @@ int a0; int a1; int a2;
     }
     i = 0;
     flag = 0;
-    b0 = D_800F3A24;
+    b0 = CardSlotState;
     s3 = a0 & 0xFF;
     p0 = b0 + s3;
     p1 = D_8010B2DC + s3;

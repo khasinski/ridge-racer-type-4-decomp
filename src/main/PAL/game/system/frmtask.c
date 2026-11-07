@@ -21,7 +21,7 @@
 
 extern s16 MenuFadeTimer;
 extern s32 FrmTaskState;
-extern short *D_8010BF80;
+extern short *FrmTaskRecord;
 extern int MenuConfirmPressed;
 extern int CdAudioInit();
 extern int CdAudioSelectTrack();
@@ -52,7 +52,7 @@ void FrmTaskModeEnter(void) {
 #undef ModeId
 #undef ModeGroup
 
-void func_8001E378(void) {
+void FrmTaskReset(void) {
     FrmTaskState = 0;
     MenuFadeTimer = -1;
 }
@@ -90,7 +90,7 @@ void FrmTaskModeUpdate(void) {
         LoadTimList(LoadCursor);
         FrmTaskState = 7;
         q = (short *)LoadCursor;
-        D_8010BF80 = q;
+        FrmTaskRecord = q;
         LoadCursor = (int)q + 0x10;
         q[1] = 0;
         q[2] = 0;
@@ -101,7 +101,7 @@ void FrmTaskModeUpdate(void) {
         q[7] = 0;
         q[0] = 0;
     case 7:
-        r = D_8010BF80;
+        r = FrmTaskRecord;
         if (r[0] < 0x40) {
             if (r[0] == 8) {
                 r[4] = 4;
@@ -128,15 +128,15 @@ void FrmTaskModeUpdate(void) {
     case 3: case 4: case 5: case 6:
     default:
     common:
-        p = D_8010BF80;
+        p = FrmTaskRecord;
         RampValueToLimit(p + 1, p + 4, 0x80);
-        p = D_8010BF80;
+        p = FrmTaskRecord;
         RampValueToLimit(p + 2, p + 5, 0x80);
-        p = D_8010BF80;
+        p = FrmTaskRecord;
         RampValueToLimit(p + 3, p + 6, 0x80);
-        EmitPresetSprite(D_8010BF80[1], 0x2F);
-        EmitPresetSprite(D_8010BF80[2], 0x30);
-        p = D_8010BF80;
+        EmitPresetSprite(FrmTaskRecord[1], 0x2F);
+        EmitPresetSprite(FrmTaskRecord[2], 0x30);
+        p = FrmTaskRecord;
         EmitSpriteGrid(p[3]);
         g = (int *)SCRATCHPAD;
         *(int *)(g[0] + 4) = 0xE100022A;
@@ -148,7 +148,7 @@ void FrmTaskModeUpdate(void) {
         *(char *)(g[1] + 3) = 0;
         *(int *)SCRATCHPAD += 8;
         UpdateScreenFade(0x1000C);
-        D_8010BF80[0]++;
+        FrmTaskRecord[0]++;
     }
 }
 

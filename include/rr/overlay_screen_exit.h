@@ -5,6 +5,6 @@
 
 extern u16 ModeGroup,ModeId;
 extern s16 D_800F4D8A;
-void StopRaceAudioAndRumble(void),func_8003CAB4(void);
+void StopRaceAudioAndRumble(void),SetupRaceAndScene(void);
 void ovl667_func_801155E0(void);
 #endif

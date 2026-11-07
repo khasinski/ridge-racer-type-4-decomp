@@ -2,7 +2,7 @@
 
 extern signed char spuVmMaxVoice;
 
-extern short D_80110114;
+extern short SvmLastChannel;
 
 extern short _SsVmPBVoice();
 
@@ -18,7 +18,7 @@ int _SsVmPitchBend(a0, a1, a2, a3) int a0; int a1; int a2; int a3; {
   int t0;
   _SsVmVSetUp(t1 >> 16, t2 >> 16);
   i = 0;
-  D_80110114 = c0;
+  SvmLastChannel = c0;
   s = 0;
   if (spuVmMaxVoice > 0) { t0 = c0 << 16; c0 = c3 & 0xFFFF; do { s += _SsVmPBVoice(i, t0 >> 16, t1 >> 16, t2 >> 16, c0); i++; } while (i < spuVmMaxVoice); }
   return s;

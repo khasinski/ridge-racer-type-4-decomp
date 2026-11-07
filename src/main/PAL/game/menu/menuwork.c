@@ -85,7 +85,7 @@ void StepNameChar(unsigned char *a0) {
 
 void func_8003984C(void) {
     ModeFrame = 0;
-    func_8001E378();
+    FrmTaskReset();
     UpdateScreenFade(0x1000C);
     ModeGroup = 0;
     ModeId = 6;

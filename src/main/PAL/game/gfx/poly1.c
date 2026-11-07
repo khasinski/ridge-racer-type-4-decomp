@@ -100,7 +100,7 @@ extern struct S D_80011344;
 
 void RelocateCountedOffsetTable(int *a0);
 int SetupRearViewMirror(void);
-void func_8007064C(void);
+void SetupRearViewMatrix(void);
 struct P *AddRearViewMirrorTile(struct P *a0);
 void func_80070734(int arg0);
 void func_80070934(int a0, int a1, int *a2, int a3);
@@ -162,7 +162,7 @@ int SetupRearViewMirror(void) {
     return r;
 }
 
-void func_8007064C(void) {
+void SetupRearViewMatrix(void) {
     int *sp = (int *)SCRATCHPAD;
     sp[7] -= 0x800;
     *(S32B *)SCRATCH_ROT_MATRIX = D_8010E710;
@@ -207,7 +207,7 @@ void func_80070734(int arg0) {
             func_8006EDA4(0);
             DrawTrackObjects(2);
             DrawCars(1);
-            func_8007064C();
+            SetupRearViewMatrix();
         }
     }
 }
@@ -529,7 +529,7 @@ void SetOctantLookupTable(s32 arg0) {
 
 #undef D_8010E798
 
-void func_80071440(void) {
+void SplashLogoInit(void) {
     struct S a, b, c, d, e, f;
     a = D_80011324;
     b = D_80011324;

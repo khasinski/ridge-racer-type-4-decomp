@@ -35,9 +35,9 @@ void UpdateMenuScript(void) {
     if (RaceType == 4) {
         UpdateLinkHandshake(1);
     }
-    mode=D_800FFC10;
+    mode=MenuDispMode;
     if (mode == 1) {
-        status = func_80059E40(ModeFrame);
+        status = OpeningScriptStep(ModeFrame);
     } else {
         if (mode == 0) {
             status = IntroScriptStep();
@@ -55,13 +55,13 @@ void UpdateMenuScript(void) {
             if (opcode < 0) {
                 MenuScriptId = (u16) -opcode;
                 MenuScriptStep = -1;
-                if (D_800FFC10 == 0) {
+                if (MenuDispMode == 0) {
                     func_8005CA14();
                 }
             }
         }
     } else {
-        if((status==1 && D_800FFC10==status) || (D_800FFC10==0 && status==2) || (D_800FFC10>=2 && status==1)) {
+        if((status==1 && MenuDispMode==status) || (MenuDispMode==0 && status==2) || (MenuDispMode>=2 && status==1)) {
             MenuSceneEntries[MenuScriptId]();
             D_800F4D8A = 0;
             ModeGroup = (u16) ((u16) D_800AD50A >> 8);

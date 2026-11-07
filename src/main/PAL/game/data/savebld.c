@@ -10,7 +10,7 @@ extern int CourseBestLapTimes[2][8][3];
 extern Struct7C SaveProgress;
 extern Struct840 *D_800F399C;
 extern Struct840 *D_800F39A0;
-extern int D_800F3B28[];
+extern int SaveDataBackup[];
 extern int D_800F4D38;
 extern unsigned short D_800F4D3C;
 extern Struct10 LapRecords[2][8][5];
@@ -68,7 +68,7 @@ void BuildSaveData(int arg0) {
             }
         }
         for (a3 = 0; a3 < 0x210; a3++) {
-            s3->fEA4[a3] = D_800F3B28[a3];
+            s3->fEA4[a3] = SaveDataBackup[a3];
         }
         t1 = 0;
         for (a3 = 0; (unsigned int)a3 < 0x6A9; a3++) {
@@ -79,7 +79,7 @@ void BuildSaveData(int arg0) {
     case 6:
         s3 = SaveBuffer;
         for (a3 = 0; a3 < 0x210; a3++) {
-            s3->fEA4[a3] = D_800F3B28[a3];
+            s3->fEA4[a3] = SaveDataBackup[a3];
         }
         /* fallthrough */
     case 17:

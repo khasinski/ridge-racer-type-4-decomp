@@ -6,8 +6,8 @@
 #include "rr/driver_control.h"
 
 extern char CardSaveFileName[], CardTargetFileName[24];
-extern s32 SelectionPlayer, D_800A45B8, D_800F4CA8, D_801272F0[3];
-extern s16 D_800AC594, MenuStateIndex, D_800F3AF8, ModeGroup;
+extern s32 SelectionPlayer, ScreenFadeLayout, D_800F4CA8, D_801272F0[3];
+extern s16 MenuPlayerIndex, MenuStateIndex, D_800F3AF8, ModeGroup;
 extern s16 D_800F4D3C, RaceType, LinkState, CardSlot, D_800FFC18;
 extern s16 D_8010948C, D_8010948E, D_80109478[3];
 extern u16 ModeId, D_800F4D8A;
@@ -16,7 +16,7 @@ extern RrMenuSettings2C SaveSlotSelections[3], SaveSlotSelectionsBackup[3];
 void CopyStringClearTail(char *destination, char *source);
 int UpdateLinkHandshake();
 void SeqStartTrack(s32 mode);
-s32 func_8003B934(void);
+s32 LoadDialogueTableStep(void);
 void UpdateScreenFade(s32 layout);
 
 /* The initial choice index is0..2. The name terminates within23 bytes and

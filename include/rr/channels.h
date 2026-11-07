@@ -87,7 +87,7 @@ typedef struct {
 } RrChannelValueRecordB0;
 
 extern RrChannelValueRecordB0 *_ss_score[];
-extern s16 D_80110114;
+extern s16 SvmLastChannel;
 extern u16 D_80110118;
 extern s32 _snd_ev_flag;
 

@@ -12,7 +12,7 @@ extern struct
 } MenuStateTable[];
 extern void (*D_800A4548[])();
 extern short MenuStateIndex;
-extern unsigned char D_800F3A24[];
+extern unsigned char CardSlotState[];
 extern unsigned short D_800F3AF8;
 extern short D_800F4D3C;
 extern short D_800F4D8A;
@@ -20,7 +20,7 @@ extern short CardSlot;
 extern unsigned short D_800FFC18;
 extern short D_80109478[];
 extern short D_8010948E;
-extern short D_800AC594;
+extern short MenuPlayerIndex;
 extern struct { char pad[0x28]; int x28; int x2c; char pad2[0x2C]; } PlayerControllers[];
 
 void func_8007B460();
@@ -49,7 +49,7 @@ void func_8007B460()
   t0 = MenuStateTable[MenuStateIndex].a;
   s7 = s0 & 1;
   s3 = MenuStateTable[MenuStateIndex].b;
-  fp = D_800F3A24[CardSlot];
+  fp = CardSlotState[CardSlot];
   if (w4c7_nz(s7))
   {
     PollCardStatus(CardSlot, 0, 0);
@@ -62,12 +62,12 @@ void func_8007B460()
   {
     D_800A4548[s1]();
   }
-  func_8007D1B8(s3, t0, s0, CardSlot, D_80109478[D_8010948E], D_800F3A24[CardSlot]);
+  func_8007D1B8(s3, t0, s0, CardSlot, D_80109478[D_8010948E], CardSlotState[CardSlot]);
   if (w4c7_nz(s7))
   {
     if (fp == 0x1E)
     {
-      if (D_800F3A24[CardSlot] != fp)
+      if (CardSlotState[CardSlot] != fp)
       {
         D_800F4D8A = 0;
         D_800F4D3C = 0;
@@ -135,12 +135,12 @@ int func_8007B654()
     case 4:
         break;
     }
-    v = D_800F3A24[CardSlot];
+    v = CardSlotState[CardSlot];
     switch (v) {
     case 0x28:
     case 0x3C:
     case 0x1E:
-        if (PlayerControllers[D_800AC594].x28 != 0 || PlayerControllers[D_800AC594].x2c != 0) {
+        if (PlayerControllers[MenuPlayerIndex].x28 != 0 || PlayerControllers[MenuPlayerIndex].x2c != 0) {
             MenuStateIndex = a1;
         }
         break;

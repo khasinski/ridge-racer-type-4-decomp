@@ -10,7 +10,7 @@
 extern RrMenuItemState5C PlayerControllers[2];
 extern s16 MenuFadeTimer,D_800AD508,LinkState,D_8010C0B8,D_8010C0C8,ModeId;
 extern u16 D_800F4D8A,ModeGroup;
-extern s32 D_8010C078,NumLaps,D_800F4CB8,ModeFrame,ScreenFrame;
+extern s32 D_8010C078,NumLaps,MenuActivePlayerPlusOne,ModeFrame,ScreenFrame;
 s32 ExitOnLinkLost(void);
 int UpdateLinkHandshake();
 s32 LoadTrackNodesStep(void);

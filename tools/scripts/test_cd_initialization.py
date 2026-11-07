@@ -44,7 +44,7 @@ static struct World {struct State s;unsigned calls;struct {u32 hash;int kind,id;
 static unsigned scenario,mutation;
 #define D_800A64A4 w->s.active
 #define D_800A64A5 w->s.command
-#define D_800A6764 w->s.response
+#define CdIntrStatusBytes w->s.response
 #define CD_status w->s.status
 #define CD_status1 w->s.mode
 #define CD_cbsync w->s.callback1

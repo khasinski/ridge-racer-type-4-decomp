@@ -111,7 +111,7 @@ extern int ClearScreenOverlayState();
 extern int UpdateDialogue();
 extern int ResetScreenCounters();
 extern int InitMenuArenas();
-extern int func_8003B934();
+extern int LoadDialogueTableStep();
 extern int InitBadgeRow();
 extern int UpdateBadgeRowAnim();
 extern int LoadTimImage();
@@ -283,7 +283,7 @@ case 0x2:
     TitleSceneStage = 3;
     LoadCursor += temp_v0;
 case 0x3:
-    if (func_8003B934() == 0) {
+    if (LoadDialogueTableStep() == 0) {
         goto block_248;
     }
     CdAudioInit();

@@ -8,7 +8,7 @@ extern unsigned short GameTypeSceneIds[];
 
 extern unsigned short D_800AD50A;
 
-void func_8003CAB4(void) {
+void SetupRaceAndScene(void) {
     SetupRace();
     D_800AD50A = GameTypeSceneIds[RaceType];
 }

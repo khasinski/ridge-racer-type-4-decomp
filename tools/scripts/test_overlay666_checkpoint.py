@@ -50,7 +50,7 @@ void *SoundQueueEnqueue(s32 a,s32 b){service(2,a,b);return 0;}
 #define RaceState (actual.state)
 #define TotalRaceTime (actual.flag)
 #define MenuFadeTimer (actual.timer)
-#define D_8010C134 (actual.pending)
+#define LapAnnouncePending (actual.pending)
 #define CourseIndex (actual.mode)
 '''+body+r'''
 static void model(void){

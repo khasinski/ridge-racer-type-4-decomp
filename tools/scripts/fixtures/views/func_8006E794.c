@@ -15,7 +15,7 @@ extern int D_800AD5B8;
 
 extern char D_800F4C38[];
 
-void func_8006E794(void) {
+void InitViewState(void) {
     int i;
     char *p;
     char *g = (char *)0x1F800000;

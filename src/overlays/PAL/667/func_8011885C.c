@@ -3,7 +3,7 @@
 extern s32 ModeFrame, TotalRaceTime, MenuConfirmPressed, SelectionPlayer;
 extern u16 D_800F4D8A;
 extern s16 ModeGroup, ModeId, MenuFadeTimer, MenuCursor, D_800AD508;
-extern s16 LinkState, D_8010C068, D_80107178;
+extern s16 LinkState, D_8010C068, PlayerCount;
 extern s16 D_8010C070[4];
 extern s16 D_8010C080[4];
 extern char D_8010C088[4][12];
@@ -65,7 +65,7 @@ void ovl667_func_8011885C(void) {
         /* The original literal occupies 12 bytes (zero word before "WIN "). */
         CopyStringClearTail(MenuTextRows[5].marquee.at28 + 10, "WON !!!\0\0\0");
         for (i = 0; i < 4; i++) {
-            if (i < D_80107178) {
+            if (i < PlayerCount) {
                 player = D_8010C070[i];
                 CopyStringPadSpaces(MenuTextRows[7 + i].marquee.at28 + 5, D_8010C088[player], 9);
                 CopyStringClearTail(MenuTextRows[7 + i].marquee.at28 + 14, "WIN ");

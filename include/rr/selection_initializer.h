@@ -15,7 +15,7 @@ extern void *LoadCursor,*MenuArenaBase;
 extern RrRaceVehicle PlayerCars[2];
 extern RrSelectionRows SelectionRows;
 extern RrCourseChoice4 D_8010BFD8[2][2][9];
-extern s16 D_8010C0C0[2][2],D_8010C0D8[2],D_8010C0D0[2];
+extern s16 D_8010C0C0[2][2],D_8010C0D8[2],CourseMenuCursor[2];
 void ResetScreenCounters(void);
 void InitMenuArenas(void);
 void SetupRenderer(s32);

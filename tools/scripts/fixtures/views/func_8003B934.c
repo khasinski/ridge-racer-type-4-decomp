@@ -80,7 +80,7 @@ extern char D_80104DB0[];
 
 extern Z *DialogueState;
 
-int func_8003B934(void) {
+int LoadDialogueTableStep(void) {
     int r = 0;
     char *s;
     int a1;

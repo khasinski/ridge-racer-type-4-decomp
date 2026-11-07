@@ -32,7 +32,7 @@ extern short CourseIndex;
 extern int UploadCarClut();
 extern struct { short a; short b; } PlayerCourseChoices[];
 extern char *D_800F3B24;
-extern char D_800F3B28[];
+extern char SaveDataBackup[];
 extern unsigned char SelectionRows[][4];
 extern int LoadTimList();
 extern char D_800FFC48[];
@@ -64,7 +64,7 @@ int LoadCarClutStep(void);
 int LoadTimListStep(void);
 int LoadGlyphRowsStep(void);
 int LoadDialogueStep(void);
-int func_8003B934(void);
+int LoadDialogueTableStep(void);
 int LoadTrackNodesStep(void);
 int func_8003BBBC(void);
 
@@ -250,7 +250,7 @@ int LoadAllCarsStep(void) {
             a1 -= 2;
         } else {
             if (a1 == r) {
-                s2 = D_800F3B28 + (s0 & 1) * 0x840;
+                s2 = SaveDataBackup + (s0 & 1) * 0x840;
                 a1 = 0;
             } else {
                 a1 = -1;
@@ -307,7 +307,7 @@ int LoadCarRangeStep(int arg0, int arg1) {
             a1 -= 2;
         } else {
             if (a1 == r) {
-                q3 = D_800F3B28 + (arg0 & 1) * 0x840;
+                q3 = SaveDataBackup + (arg0 & 1) * 0x840;
                 a1 = 0;
             } else {
                 a1 = -1;
@@ -605,7 +605,7 @@ int LoadDialogueStep(void) {
 
 #undef LoadIndex
 
-int func_8003B934(void) {
+int LoadDialogueTableStep(void) {
     int r = 0;
     char *s;
     int a1;

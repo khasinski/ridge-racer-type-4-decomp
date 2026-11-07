@@ -13,7 +13,7 @@ void ovl660_func_80117084(RrRaceVehicleViews *player){
 void ovl660_func_8011712C(void)
 {
     StopRaceAudioAndRumble();
-    func_8003CAB4();
+    SetupRaceAndScene();
     ModeGroup = 1;
     ModeId = 53;
     D_800F4D8A = 0;
