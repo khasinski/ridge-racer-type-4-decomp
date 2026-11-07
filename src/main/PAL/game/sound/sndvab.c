@@ -9,7 +9,7 @@
 extern int SsVabClose();
 extern short SsVabOpenHeadSticky();
 extern int SsVabTransCompleted();
-extern int func_800963C4();
+extern int PsyqExit();
 extern int DebugPrintStub();
 extern char VabOpenHeadErrorStr[];
 extern char VabTransBodyErrorStr[];
@@ -41,13 +41,13 @@ void LoadVab(int *arg0, int arg1, int arg2) {
     t = v;
     if (t == -1) {
         DebugPrintStub(VabOpenHeadErrorStr);
-        func_800963C4(1);
+        PsyqExit(1);
     }
     v2 = SsVabTransBody(arg0[1]);
     p[0x12] = v2;
     if (v2 == -1) {
         DebugPrintStub(VabTransBodyErrorStr);
-        func_800963C4(1);
+        PsyqExit(1);
     }
     SsVabTransCompleted(1);
 }

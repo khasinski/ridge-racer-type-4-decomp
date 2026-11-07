@@ -17,7 +17,7 @@ extern s32 CdReadSync(s32, void *);
 
 extern s32 CdPosToInt(const RrCdLocation *);
 
-extern void func_800963C4(s32);
+extern void PsyqExit(s32);
 
 extern void DebugPrintStub(const char *, ...);
 
@@ -50,7 +50,7 @@ void LoadR4Directory(void)
     message_page=(u8 *)0x80010000U;
     if (!found) {
         DebugPrintStub(StrFileNotFoundFmt,R4BinPath);
-        func_800963C4(1);
+        PsyqExit(1);
     }
     sectors=2;
     /* ASM_BARRIER: keep the saved count and address opaque to constant folding. */

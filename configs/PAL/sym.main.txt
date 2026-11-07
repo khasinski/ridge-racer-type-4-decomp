@@ -2847,3 +2847,6 @@ TrackParticleKindTableA = 0x8010E740; // type:u32
 TrackParticleKindTableB = 0x8010E768; // type:u32
 SpuRQRegBase = 0x8010EE28; // type:u32
 _cardCheckAddress = 0x8009DF14; // type:func
+PsyqExit = 0x800963C4; // type:func
+GPU_cw = 0x80096E24; // type:func
+DisableEvent = 0x80096EC4; // type:func

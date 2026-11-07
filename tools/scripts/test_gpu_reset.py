@@ -60,7 +60,7 @@ static s32 debug(const char *f,...){va_list ap;s32 mode;va_start(ap,f);mode=va_a
 s32 (*GPU_printf)(const char *,...)=debug;
 void GPU_memset(s8 *p,s8 value,s32 n){uintptr_t offset=(uintptr_t)p-(uintptr_t)&g->data.state;assert(offset<=128&&n>=0&&(unsigned)n<=128-offset);event(3,offset,(u8)value,(u32)n);memset(p,(u8)value,(size_t)n);mutate(3);}
 void ResetCallback(void){event(4,0,0,0);mutate(4);}
-s32 func_80096E24(unsigned long address){assert(address==((uintptr_t)g->root&0xFFFFFF));event(5,address,0,0);mutate(5);return -999;}
+s32 GPU_cw(unsigned long address){assert(address==((uintptr_t)g->root&0xFFFFFF));event(5,address,0,0);mutate(5);return -999;}
 s32 _reset(s32 mode){u32 result=(g->seed^((u32)mode>>3))%3;event(6,(u32)mode,result,0);mutate(6);return (s32)result;}
 static s32 reset0(s32 mode){assert(mode==1);event(7,mode,0,0);mutate(7);return (s32)(g->seed^0x81234567U);}
 static s32 reset1(s32 mode){assert(mode==1);event(8,mode,0,0);mutate(8);return (s32)(g->seed^0x76543210U);}
@@ -70,7 +70,7 @@ static s32 model(s32 mode){unsigned low=(u32)mode%8;u16 w,h;
   if(low!=5)DebugPrintStub(ResetGraphFmt,&GpuDriverTable,&g->data.state);
   GPU_memset((s8*)g->data.raw,0,128);
   ResetCallback();
-  func_80096E24((uintptr_t)g->root&0xFFFFFF);
+  GPU_cw((uintptr_t)g->root&0xFFFFFF);
   g->data.raw[0]=(u8)_reset(mode);g->data.raw[1]=1;
   w=g->widths[g->data.raw[0]].value;h=g->heights.dimensions[g->data.raw[0]].value;
   memcpy(g->data.raw+4,&w,2);memcpy(g->data.raw+6,&h,2);

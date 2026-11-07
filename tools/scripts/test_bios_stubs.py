@@ -46,7 +46,7 @@ endlabel FlushCache
                     self.assertEqual(symbol['st_value'], address)
                     self.assertEqual(symbol['st_size'], 12)
                     entries.append(dict(symbol=name, service=macro, levenshtein=0))
-        self.assertEqual(len(entries), 50)
+        self.assertEqual(len(entries), 52)
         self.assertEqual(built, original)
         output = ROOT/'build/smallest10/bios_verified.json'
         output.parent.mkdir(parents=True, exist_ok=True)

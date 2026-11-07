@@ -33,7 +33,7 @@ static s32 operation(struct World *w,u32 kind,s32 a,s32 b,unsigned long argument
  return w->results[index];
 }
 s32 _sio_control(s32 a,s32 b,unsigned long argument){return operation(&world,1,a,b,argument);}
-s32 func_80096EC4(u32 event){return operation(&world,2,0,0,event);}
+s32 DisableEvent(u32 event){return operation(&world,2,0,0,event);}
 s32 FileClose(s32 descriptor){return operation(&world,3,descriptor,0,0);}
 s32 CloseEvent(u32 event){return operation(&world,4,0,0,event);}
 ''' + body + r'''

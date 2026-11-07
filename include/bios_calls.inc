@@ -107,6 +107,14 @@
     endlabel \symbol
 .endm
 
+.macro BIOS_GPU_CW symbol
+    glabel \symbol
+        addiu $t2, $zero, 0xA0
+        jr $t2
+         addiu $t1, $zero, 0x49
+    endlabel \symbol
+.endm
+
 .macro BIOS_BU_INIT symbol
     glabel \symbol
         addiu $t2, $zero, 0xA0
@@ -184,6 +192,22 @@
         addiu $t2, $zero, 0xB0
         jr $t2
          addiu $t1, $zero, 0xB
+    endlabel \symbol
+.endm
+
+.macro BIOS_ENABLE_EVENT symbol
+    glabel \symbol
+        addiu $t2, $zero, 0xB0
+        jr $t2
+         addiu $t1, $zero, 0xC
+    endlabel \symbol
+.endm
+
+.macro BIOS_DISABLE_EVENT symbol
+    glabel \symbol
+        addiu $t2, $zero, 0xB0
+        jr $t2
+         addiu $t1, $zero, 0xD
     endlabel \symbol
 .endm
 
@@ -280,6 +304,14 @@
         addiu $t2, $zero, 0xB0
         jr $t2
          addiu $t1, $zero, 0x36
+    endlabel \symbol
+.endm
+
+.macro BIOS_EXIT symbol
+    glabel \symbol
+        addiu $t2, $zero, 0xB0
+        jr $t2
+         addiu $t1, $zero, 0x38
     endlabel \symbol
 .endm
 

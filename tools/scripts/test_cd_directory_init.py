@@ -48,7 +48,7 @@ s32 CdSearchFile(SearchResult *file, const char *name) {
     if(found){file->location=location;file->size=1234;memset(file->name,0,sizeof(file->name));}
     return found;
 }
-void func_800963C4(s32 code) {assert(code==1 && !found && logs==2);longjmp(exited,1);}
+void PsyqExit(s32 code) {assert(code==1 && !found && logs==2);longjmp(exited,1);}
 void DebugPrintStub(const char *format, ...) {
     va_list ap;va_start(ap,format);
     if(logs==0) {

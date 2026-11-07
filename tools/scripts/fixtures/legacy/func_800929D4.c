@@ -13,7 +13,7 @@ s32 ResetGraph(s32 mode)
         state=&D_800ABAC0;
         GPU_memset((s8 *)state,0,128);
         ResetCallback();
-        func_80096E24((unsigned long)GpuFuncTable & 0xFFFFFF);
+        GPU_cw((unsigned long)GpuFuncTable & 0xFFFFFF);
         state->kind00=_reset(mode);
         state->enabled01=1;
         /* Preserve the explicit byte reload after the reset service. */

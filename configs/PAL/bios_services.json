@@ -66,6 +66,11 @@
   },
   {
     "vector": 160,
+    "service": 73,
+    "macro": "BIOS_GPU_CW"
+  },
+  {
+    "vector": 160,
     "service": 112,
     "macro": "BIOS_BU_INIT"
   },
@@ -113,6 +118,16 @@
     "vector": 176,
     "service": 11,
     "macro": "BIOS_TEST_EVENT"
+  },
+  {
+    "vector": 176,
+    "service": 12,
+    "macro": "BIOS_ENABLE_EVENT"
+  },
+  {
+    "vector": 176,
+    "service": 13,
+    "macro": "BIOS_DISABLE_EVENT"
   },
   {
     "vector": 176,
@@ -173,6 +188,11 @@
     "vector": 176,
     "service": 54,
     "macro": "BIOS_CLOSE"
+  },
+  {
+    "vector": 176,
+    "service": 56,
+    "macro": "BIOS_EXIT"
   },
   {
     "vector": 176,
