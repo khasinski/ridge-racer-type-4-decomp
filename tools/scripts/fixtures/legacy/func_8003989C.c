@@ -1,10 +1,10 @@
-extern unsigned char D_8009F810[];
+extern unsigned char CourseSaveProgressIndex[];
 extern unsigned char SelectionState[];
 void SetSelectionTableIndex(void) {
     int v;
     if (SelectionState[0x1E] == 0x12) {
         int i = SelectionState[0x1C] * 2 + (SelectionState[0x1D] >> 1);
-        v = D_8009F810[i];
+        v = CourseSaveProgressIndex[i];
     } else {
         v = 1;
     }

@@ -77,7 +77,7 @@ extern FontGlyph4 UiFontGlyphs[];
 extern FontGlyph4 D_8009FB80[];
 extern FontGlyph4 UiValueArrowGlyphs[];
 extern s8 UiRowGlyphIds[][4];
-extern s8 D_8009FC7C[][8];
+extern s8 UiRowGlyphIdsWide[][8];
 extern FontGlyph4 UiRowImageUvs[];
 extern s8 UiDigitGlyph[];
 extern s16 SelectedCarIndex;
@@ -275,7 +275,7 @@ s32 DrawUiRow(s32 arg0) {
         break;
     case 2:
         for (s1 = 0; s1 < 7; s1++) {
-            s0 = D_8009FC7C[sp34][s1];
+            s0 = UiRowGlyphIdsWide[sp34][s1];
             if (s0 == -1) {
                 break;
             }
@@ -291,7 +291,7 @@ s32 DrawUiRow(s32 arg0) {
             if (s1 == 0) {
                 s0 = 0x45;
             } else {
-                s0 = D_8009FC7C[sp34][7];
+                s0 = UiRowGlyphIdsWide[sp34][7];
             }
             s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, &UiFontGlyphs[s0], 0x7FF8, 0);
             s4 += 2 + UiFontGlyphs[s0].b2;
@@ -299,7 +299,7 @@ s32 DrawUiRow(s32 arg0) {
         break;
     case 3:
         for (s1 = 0; s1 < 7; s1++) {
-            s0 = D_8009FC7C[sp34][s1];
+            s0 = UiRowGlyphIdsWide[sp34][s1];
             if (s0 == -1) {
                 break;
             }
@@ -333,7 +333,7 @@ s32 DrawUiRow(s32 arg0) {
         if (s2 != 0) {
             s1 = 0;
             do {
-                s0 = D_8009FC7C[sp34][s1];
+                s0 = UiRowGlyphIdsWide[sp34][s1];
                 s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, &UiFontGlyphs[s0], 0x7FF8, 0);
                 s4 += 2 + UiFontGlyphs[s0].b2;
                 s1++;

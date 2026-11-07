@@ -24,6 +24,6 @@ void ovl667_func_80117EF8(void)
     ComCars.words20[1]=0;
     ComCars.words20[2]=0;
     SelectionPlayer=0;
-    D_8010C0B8=0;
+    CourseMenuPhase=0;
     LoadCursor=MenuArenas.second;
 }

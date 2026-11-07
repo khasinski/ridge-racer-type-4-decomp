@@ -19,7 +19,7 @@ extern int TotalRaceTime;
 extern int LapTimes[];
 extern int AddDrawModePrim();
 extern int AddSpritePrim();
-extern char D_8009EE6C[];
+extern char WrongWaySpriteRect[];
 extern int RaceState;
 extern int GameQueueTileTrans();
 extern int AddLineF2SemiTrans();
@@ -90,7 +90,7 @@ void DrawWrongWaySprite(int a0) {
             a3 = 0x78;
             s0 = CurrentDrawBuf + 0x70;
         }
-        *(int *)SCRATCHPAD = AddDrawModePrim(s0, AddSpritePrim(s0, p, 0x6A, a3, D_8009EE6C, 0x7EF8, 0), 0x3E);
+        *(int *)SCRATCHPAD = AddDrawModePrim(s0, AddSpritePrim(s0, p, 0x6A, a3, WrongWaySpriteRect, 0x7EF8, 0), 0x3E);
     }
 }
 

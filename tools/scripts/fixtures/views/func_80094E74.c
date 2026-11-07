@@ -23,7 +23,7 @@ struct GpuQueue {
 
 extern struct GpuSys D_800ABAC0;
 
-extern int D_800ABACC;
+extern int GpuDrawSyncCallback;
 
 extern volatile unsigned int *GPU_STATUS;
 
@@ -44,7 +44,7 @@ int _exeque(void) {
     }
     GpuSavedIntrMask = SetIntrMask(0);
     while (_qin != _qout && (m0 = 0x01000000, (*DMA2_CHCR & m0) == 0)) {
-        if (((_qout + 1) & 0x3F) == _qin && D_800ABACC == 0) {
+        if (((_qout + 1) & 0x3F) == _qin && GpuDrawSyncCallback == 0) {
             DMACallback(2, 0);
         }
         while ((m1 = 0x04000000, (*GPU_STATUS & m1) == 0))

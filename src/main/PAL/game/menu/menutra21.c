@@ -46,7 +46,7 @@ extern s16 MenuStateIndex;
 extern u8 CardSlotState[];
 extern RrMenuItemState5C PlayerControllers[];
 extern s16 CardSlot;
-extern s16 D_8010948C;
+extern s16 CardLoadSucceeded;
 extern unsigned char MenuChoiceNextStates[][4];
 extern unsigned short SaveSlotSelect;
 extern unsigned short ModeSubState;
@@ -80,7 +80,7 @@ extern s16 MenuStateBranchTargets[][2];
 extern char *SaveBuffer;
 extern int D_8010EFA8;
 extern int CopyStringClearTail();
-extern short D_800A45BC;
+extern short CardReadSaveSlotsStepState;
 extern short CardSaveReadRetryCount;
 extern unsigned char CardFileCounts;
 extern char CardSaveFileName[];
@@ -119,7 +119,7 @@ void StepCardSaveLoadState(void) {
         MenuStateIndex = b;
     }
     if (c == 0xD) {
-        if (r == 4) D_8010948C = 1;
+        if (r == 4) CardLoadSucceeded = 1;
     }
 }
 
@@ -338,7 +338,7 @@ void MenuStepExitToNextMode(void) {
         ModeSubState = 0;
         break;
     case 6:
-        if (D_8010948C != 0) {
+        if (CardLoadSucceeded != 0) {
             ModeGroup = 3;
             ModeId = 3;
         } else {
@@ -512,25 +512,25 @@ int a0;
     int q;
     int v;
     if (a0 == 0) {
-        D_800A45BC = 0;
+        CardReadSaveSlotsStepState = 0;
     }
     ret = 0;
-    switch (D_800A45BC) {
+    switch (CardReadSaveSlotsStepState) {
     case 0:
         CardSlotState[1] = 0x5A;
         CardSlotState[0] = 0x5A;
         PollCardStatus(CardSlot, 0, 1);
         CopyStringClearTail(CardTargetFileName, CardSaveFileName);
-        D_800A45BC = 1;
+        CardReadSaveSlotsStepState = 1;
         break;
     case 1:
         PollCardStatus(CardSlot, 0, 0);
         if (CardSlotState[0] < 0x10U) {
             if (CardHasFile(CardFileCounts, CardTargetFileName) == 1) {
                 CardSaveReadRetryCount = 0;
-                D_800A45BC = 2;
+                CardReadSaveSlotsStepState = 2;
             } else {
-                D_800A45BC = 7;
+                CardReadSaveSlotsStepState = 7;
             }
             break;
         }
@@ -540,7 +540,7 @@ int a0;
         case 0x1E:
         case 0x28:
         case 0x3C:
-            D_800A45BC = 7;
+            CardReadSaveSlotsStepState = 7;
             break;
         case 0x32:
         case 0x5A:
@@ -549,7 +549,7 @@ int a0;
         }
         break;
     case 2:
-        D_800A45BC = 3;
+        CardReadSaveSlotsStepState = 3;
         break;
     case 3:
         for (i = 0x63; i >= 0; i--) {
@@ -559,10 +559,10 @@ int a0;
             if (CardSaveReadRetryCount < 3) {
                 CardSaveReadRetryCount = (unsigned short)CardSaveReadRetryCount + 1;
             } else {
-                D_800A45BC = 7;
+                CardReadSaveSlotsStepState = 7;
             }
         } else {
-            D_800A45BC = 4;
+            CardReadSaveSlotsStepState = 4;
         }
         break;
     case 4:
@@ -571,11 +571,11 @@ int a0;
         q = GetHwCardEvent();
         if (q != 0) {
             if (q == 1) {
-                D_800A45BC = 5;
+                CardReadSaveSlotsStepState = 5;
             } else if (CardSaveReadRetryCount >= 3) {
-                D_800A45BC = 7;
+                CardReadSaveSlotsStepState = 7;
             } else {
-                D_800A45BC = 2;
+                CardReadSaveSlotsStepState = 2;
                 CardSaveReadRetryCount = (unsigned short)CardSaveReadRetryCount + 1;
             }
         }

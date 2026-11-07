@@ -34,7 +34,7 @@ extern int PadActiveChannel;
 extern int PadFirstChannel;
 extern int PadFrameHookEnabled;
 extern int (*PadFirstChannelHook)();
-extern int (*D_800ABC94)();
+extern int (*PadFirstChannelHook2)();
 extern int PadMultitapEnabled;
 extern int PadPacketBytesLeft;
 /* Partial transfer state; field purposes beyond this routine are still unknown. */
@@ -76,7 +76,7 @@ void PadRecvStageCommand(o) O *o; {
     if (PadActiveChannel == PadFirstChannel) {
         if (PadFrameHookEnabled != 0) {
             PadFirstChannelHook();
-            D_800ABC94();
+            PadFirstChannelHook2();
         }
     }
     if (PadTapDispatchFlag != 0) {

@@ -8,7 +8,7 @@
 #include "rr/course_choice_types.h"
 #include "rr/projection_state.h"
 extern s32 ModeFrame,ScreenFrame;
-extern s16 MenuCursor,MenuItemCount,D_8010C0B8;
+extern s16 MenuCursor,MenuItemCount,CourseMenuPhase;
 extern u8 *CdDirectoryBuffer;
 extern RrMenuArenas MenuArenas;
 extern void *LoadCursor,*MenuArenaBase;

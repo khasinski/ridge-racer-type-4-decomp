@@ -71,8 +71,8 @@ extern int DrawTrackSceneryForPlayer();
 extern int SetupViewport();
 extern int DrawTrackObjects();
 extern int LineTrailDataBase;
-extern int D_8010E740[];
-extern int D_8010E768[];
+extern int TrackParticleKindTableA[];
+extern int TrackParticleKindTableB[];
 extern int TrackObjectParticleStates;
 extern int VSync();
 extern int PsyqSrand();
@@ -96,7 +96,7 @@ extern struct S SplashLogoClutRect;
 extern struct S SplashClutRect;
 extern struct S SplashLogoImageRect;
 extern struct S SplashLogoRect4;
-extern struct S D_80011344;
+extern struct S SplashLogoParam5;
 
 void RelocateCountedOffsetTable(int *a0);
 int SetupRearViewMirror(void);
@@ -252,8 +252,8 @@ void InitLineG2TrailPool(a0)
     p = (int *)s0;
     b = s0;
     s3 = 0;
-    q = D_8010E768;
-    r = D_8010E740;
+    q = TrackParticleKindTableB;
+    r = TrackParticleKindTableA;
     do {
         *r = b + *p;
         p++;
@@ -301,8 +301,8 @@ void ConfigureTrackObjectParticles(int a0, int a1, int *a2, int a3) {
         t->f34 = 0;
         t->f38 = 0;
         t->f0 = LineTrailDataBase + a0 * 0x23DC;
-        t->f40 = D_8010E740[t->f3C];
-        t->f44 = D_8010E768[t->f3C];
+        t->f40 = TrackParticleKindTableA[t->f3C];
+        t->f44 = TrackParticleKindTableB[t->f3C];
         do {
             t->t48[a1] = 0x52000000;
             t->t88[a1] = 0x52000000;
@@ -536,7 +536,7 @@ void SplashLogoInit(void) {
     c = SplashClutRect;
     d = SplashLogoImageRect;
     e = SplashLogoRect4;
-    f = D_80011344;
+    f = SplashLogoParam5;
     SetDispMask(0);
     SetupDrawDispEnvs(0, 0, 0, 3);
     VSyncThreshold = 0x80;

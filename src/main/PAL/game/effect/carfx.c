@@ -65,7 +65,7 @@ extern Car PlayerCars;
 extern unsigned char HudSpriteUvTable[][4];
 extern u16 HudDigitTPage;
 extern short *HudPanelSpriteLists[];
-extern short *D_800A0F8C[];
+extern short *TeamHudSpriteLists[];
 extern short SelectedTeamIndex;
 extern int PsyqRand();
 extern struct { char pad[0x24C]; struct { char pad[0x140]; int v; } *p; } RaceContext;
@@ -373,7 +373,7 @@ int a1;
       ua = s1[2];
     } while (s1[2] >= 0);
   }
-  s1 = D_800A0F8C[SelectedTeamIndex];
+  s1 = TeamHudSpriteLists[SelectedTeamIndex];
   ua = s1[2];
   if (s1[2] >= 0) {
     do {

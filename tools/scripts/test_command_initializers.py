@@ -73,7 +73,7 @@ RrCommandParameter CardCmdValue;
 s32 test_validation_calls;
 s32 test_validation_results[2];
 s32 test_validation_modes[2], test_validation_values[2];
-s32 func_8009DF14(s32 mode, s32 value) {
+s32 _cardCheckAddress(s32 mode, s32 value) {
     s32 index = test_validation_calls++;
     if (index >= 2) return 0;
     test_validation_modes[index] = mode;

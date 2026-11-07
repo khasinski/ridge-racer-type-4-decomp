@@ -47,7 +47,7 @@ extern RrMenuSettings2C SelectionState;
 extern s16 ReverseCourse;
 extern RrTimeRecord16 RaceRecords[2][8][5];
 extern RrFrameStorage FrameEnvs[2];
-extern s32 D_800F2A64;
+extern s32 TrackViewScratch78Value;
 extern s32 RankEntries;
 extern u8 *ImageRows;
 extern RrRaceSetupPair4 EngineThrottleOn;

@@ -2,7 +2,7 @@
 
 /* Four-player selection: per-pair page, row and course group tables. */
 extern RrCourseChoice4 CourseMenuChoices[2][2][9];
-extern s16 D_8010C0B8;
+extern s16 CourseMenuPhase;
 extern s16 ChoiceGlyphCounts[2][2];
 extern s16 CourseMenuCursor[2];
 extern s16 CourseMenuPage[2];
@@ -100,7 +100,7 @@ void ovl667_func_80116D18(void) {
             PlaySfx(1);
             UiRows[row].cells[0] = 1;
             if (MenuCursor == ovl667_D_80118E14[CourseMenuPage[SelectionPlayer & 1]][0]) {
-                D_8010C0B8 = state;
+                CourseMenuPhase = state;
                 ModeSubState = 4;
             } else if (MenuCursor == ovl667_D_80118E14[CourseMenuPage[SelectionPlayer & 1]][1] && CourseMenuChoices[SelectionPlayer][1][0].glyph != -1) {
                 CourseMenuCursor[SelectionPlayer & 1] = 0;
@@ -156,7 +156,7 @@ void ovl667_func_80116D18(void) {
     case 3:
         row = ovl667_D_80118E1C[(SelectionPlayer - 1) & 1][1][3] + 1;
         if (UiRows[row].byte14 == 5) {
-            D_8010C0B8 = 1;
+            CourseMenuPhase = 1;
             ModeSubState = 0;
         }
         break;
@@ -222,7 +222,7 @@ void ovl667_func_80116D18(void) {
         row = ovl667_D_80118E1C[SelectionPlayer & 1][1][3] + 1;
         if (UiRows[row].byte14 == 5) {
             ModeSubState = 0;
-            D_8010C0B8 = 1;
+            CourseMenuPhase = 1;
             UiRows[row].byte14 = 0;
             UiRows[row + 1].byte14 = 0;
         }
@@ -253,8 +253,8 @@ void ovl667_func_80116D18(void) {
         break;
     }
 draw_rows:
-    if (D_8010C0B8 == 0 && (s8)ImageRows[1] == 2) {
-        D_8010C0B8 = 1;
+    if (CourseMenuPhase == 0 && (s8)ImageRows[1] == 2) {
+        CourseMenuPhase = 1;
         BadgeRows->half02 = 1;
     }
     if (ModeSubState == 3) {
@@ -279,7 +279,7 @@ draw_rows:
         }
         DrawUiRow(row);
     }
-    if (D_8010C0B8 == 2) {
+    if (CourseMenuPhase == 2) {
         row = ovl667_D_80118E1C[player & 1][1][3];
         DrawUiRow(row + 1);
         DrawUiRow(row + 2);

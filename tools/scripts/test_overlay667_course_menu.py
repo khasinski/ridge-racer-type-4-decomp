@@ -43,7 +43,7 @@ static State actual,reference,*w;
 #define ModeId w->scene
 #define LinkRoleSlot w->split
 #define LinkState w->card
-#define D_8010C0B8 w->waitFlag
+#define CourseMenuPhase w->waitFlag
 #define FinalCarRanks w->loadStatus
 #define AvailableCourseCount w->available
 #define MenuActivePlayerPlusOne w->clear

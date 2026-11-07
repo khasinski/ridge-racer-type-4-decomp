@@ -25,7 +25,7 @@ extern int LoadVab();
 extern char RaceVabLoadParams[];
 extern char *RaceLoadOffsetTable;
 extern char VabLoadArgs[];
-extern int D_800A0270[];
+extern int VabTimLoadParams[];
 extern int LoadVab();
 
 void SetupRaceSoundSlots(void);
@@ -218,7 +218,7 @@ int LoadVabAndTimsStep()
             RaceLoadStepIndex++;
     case 1:
             if (CdFileBytesLoaded()) {
-                q = D_800A0270;
+                q = VabTimLoadParams;
                 VabLoadArgs[0] = (int)RaceLoadCursor + RaceLoadCursor[1];
                 VabLoadArgs[1] = (int)RaceLoadCursor + RaceLoadCursor[2];
                 LoadVab(VabLoadArgs, q[1], q[2]);

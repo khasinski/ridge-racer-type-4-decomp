@@ -6,7 +6,7 @@
 #include "psyq/libcard/cardc03.h"
 #include "psyq/libcard/cardc04.h"
 
-extern s32 func_8009DF14(s32, s32);
+extern s32 _cardCheckAddress(s32, s32);
 
 s32 _cardCmd5BBegin(s32 request, u8 *buffer);
 int _cardCmd5BTx();
@@ -77,8 +77,8 @@ s32 _cardCmd5BRangeBegin(s32 request, u8 *buffer, s32 sector, s32 input_count) {
     register s32 count __asm__("$17") = input_count;
     /* ASM_BARRIER: finish preserving count before preparing the first validation call. */
     __asm__("" : "=r"(count) : "0"(count));
-    if (!func_8009DF14(0, sector)) return 0;
-    if (!func_8009DF14(0, (s32)((u32)sector + (u32)count - 1))) return 0;
+    if (!_cardCheckAddress(0, sector)) return 0;
+    if (!_cardCheckAddress(0, (s32)((u32)sector + (u32)count - 1))) return 0;
     if (!rr_command_begin(request)) return 0;
     /* ASM_BARRIER: keep success initialization before the command configuration stores. */
     __asm__ volatile("" : "=r"(result) : "0"(1) : "$3", "memory");
@@ -137,8 +137,8 @@ s32 _cardCmd5CRangeBegin(s32 request, u8 *buffer, s32 sector, s32 input_count) {
     register s32 count __asm__("$17") = input_count;
     /* ASM_BARRIER: finish preserving count before preparing the first validation call. */
     __asm__("" : "=r"(count) : "0"(count));
-    if (!func_8009DF14(1, sector)) return 0;
-    if (!func_8009DF14(1, (s32)((u32)sector + (u32)count - 1))) return 0;
+    if (!_cardCheckAddress(1, sector)) return 0;
+    if (!_cardCheckAddress(1, (s32)((u32)sector + (u32)count - 1))) return 0;
     if (!rr_command_begin(request)) return 0;
     /* ASM_BARRIER: keep success initialization before the command configuration stores. */
     __asm__ volatile("" : "=r"(result) : "0"(1) : "$3", "memory");

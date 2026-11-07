@@ -63,7 +63,7 @@ update_pause_timer:
         BuildCameraMatrices();
         SetupViewport(0);
         DrawCars(0);
-        RR_660_FRAME_SCRATCH->word78 = D_800F2A64;
+        RR_660_FRAME_SCRATCH->word78 = TrackViewScratch78Value;
         SetupPlayerView(0);
         DrawTrackObjects(0);
         DrawTrackSceneryForPlayer(0);
@@ -151,7 +151,7 @@ draw_vehicle:
             DrawWrongWaySprite(0);
         }
     }
-    RR_660_FRAME_SCRATCH->word78 = (s32) D_800F2A64;
+    RR_660_FRAME_SCRATCH->word78 = (s32) TrackViewScratch78Value;
     SetupPlayerView(0);
     DrawTrackObjects(0);
     DrawTrackSceneryForPlayer(0);

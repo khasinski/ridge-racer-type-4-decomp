@@ -47,7 +47,7 @@ extern int D_800ACA2C;
 extern int AttractWork;
 extern int BgmRepeatEnabled;
 extern int D_800ACB2C;
-extern int D_800F2A64;
+extern int TrackViewScratch78Value;
 extern int MaskBitSetting;
 extern short ModeId;
 extern int MenuConfirmPressed;
@@ -497,7 +497,7 @@ void AttractDemoRaceUpdate()
     }
     while (i_s1 < 7);
   }
-  *((int *) (SCRATCHPAD + 0x78)) = D_800F2A64;
+  *((int *) (SCRATCHPAD + 0x78)) = TrackViewScratch78Value;
   SetupPlayerView(0);
   DrawTrackObjects(0);
   DrawTrackSceneryForPlayer(0);

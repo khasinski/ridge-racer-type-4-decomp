@@ -8,7 +8,7 @@
 #include "rr/driver_control.h"
 #include "game/race/racegrid.h"
 extern RrMenuItemState5C PlayerControllers[2];
-extern s16 MenuFadeTimer,LinkRoleSlot,LinkState,D_8010C0B8,FinalCarRanks,ModeId;
+extern s16 MenuFadeTimer,LinkRoleSlot,LinkState,CourseMenuPhase,FinalCarRanks,ModeId;
 extern u16 ModeSubState,ModeGroup;
 extern s32 AvailableCourseCount,NumLaps,MenuActivePlayerPlusOne,ModeFrame,ScreenFrame;
 s32 ExitOnLinkLost(void);

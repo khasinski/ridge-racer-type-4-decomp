@@ -20,8 +20,8 @@ extern int InitMenuGrid();
 extern int ApplyMatrixSV();
 extern int RotMatrix();
 extern V8 IntroClearRect;
-extern V16 D_800101C4;
-extern V16 D_800101D4;
+extern V16 IntroCameraInitVec;
+extern V16 IntroMenuGridZeroVec;
 extern V16 IntroCameraPathPoints;
 extern int SharedWorkBuffer;
 extern char *MenuGridRecords;
@@ -353,7 +353,7 @@ void InitIntroSceneLights(void) {
     SetupRenderer(1);
     sp18 = IntroClearRect;
     ClearImage2(&sp18, 0, 0, 0);
-    *(V16 *)(SCRATCHPAD + 0x18) = D_800101C4;
+    *(V16 *)(SCRATCHPAD + 0x18) = IntroCameraInitVec;
     *(V16 *)(SCRATCHPAD + 0x8) = IntroCameraPathPoints;
     *(int *)(IntroSceneState + 0x24) = 0xFAAB;
     *(int *)(IntroSceneState + 0x28) = 0xFAAB0000;
@@ -438,7 +438,7 @@ void InitIntroSceneLights(void) {
     AllocMenuGridRecords(&SharedWorkBuffer, 1);
     InitMenuGrid(0, 1, 3, 0xB4, 0x60);
     PsyqMemset(MenuGridRecords + 0x1C, 0, 0x10);
-    *(V16 *)(MenuGridRecords + 0xC) = D_800101D4;
+    *(V16 *)(MenuGridRecords + 0xC) = IntroMenuGridZeroVec;
 }
 
 void BuildCameraMatricesScaled(void)

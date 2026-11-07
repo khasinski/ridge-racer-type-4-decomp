@@ -124,7 +124,7 @@ typedef struct {
 
 extern s32 HudMapPulse;
 extern UvRect HudMapSpriteRects[];
-extern UvRect D_800A1028;
+extern UvRect HudMapStartMarkRect;
 extern UvRect D_800A102C;
 extern s16 HudMapStartMarkLines[];
 extern s16 HudMapStartMarkerOffsetsB[];
@@ -141,9 +141,9 @@ extern short RaceType;
 extern int CdAudioInit();
 extern signed char SelectionState[];
 extern int D_800F7660;
-extern s16 D_800A1818[];
-extern s16 D_800A1824[];
-extern s16 *D_800A1950[];
+extern s16 HudExtraGlyphLine0[];
+extern s16 HudExtraGlyphLine1[];
+extern s16 *CourseCardGlyphLists4[];
 extern s16 *HudGlyphListTriples[];
 extern s16 *HudTextLineGlyphLists[];
 extern s32 CourseBgmChoiceTable1[];
@@ -268,7 +268,7 @@ void DrawTrackNodeMap(s32 *arg0) {
 
     if (CourseMenuSelection < 8) {
         s1 = HudMapStartMarkLines;
-        s3 = &D_800A1028;
+        s3 = &HudMapStartMarkRect;
     } else {
         s1 = HudMapStartMarkerOffsetsB;
         s3 = &D_800A102C;
@@ -522,7 +522,7 @@ void OpeningInit(s32 arg0, s32 arg1) {
         CenterGlyphListX(OpeningTitleGlyphLists[i], HudGlyphUvRectsBank0);
         CenterGlyphListX(CourseCardGlyphListsB[i], HudGlyphUvRectsBank0);
         CenterGlyphListX(CourseCardGlyphLists3[i], HudGlyphUvRectsBank0);
-        CenterGlyphListX(D_800A1950[i], HudGlyphUvRectsBank0);
+        CenterGlyphListX(CourseCardGlyphLists4[i], HudGlyphUvRectsBank0);
     }
 
     for (i = 0; i < 5; i++) {
@@ -539,8 +539,8 @@ void OpeningInit(s32 arg0, s32 arg1) {
         CenterGlyphListX(OpeningCaptionGlyphLists[i], HudGlyphUvRectsBank0);
     }
 
-    CenterGlyphListX(D_800A1818, HudGlyphUvRects);
-    CenterGlyphListX(D_800A1824, HudGlyphUvRects);
+    CenterGlyphListX(HudExtraGlyphLine0, HudGlyphUvRects);
+    CenterGlyphListX(HudExtraGlyphLine1, HudGlyphUvRects);
 
     for (i = 0; i < 8; i++) {
         CenterGlyphListX(HudTextLineGlyphLists[i], HudGlyphUvRects);

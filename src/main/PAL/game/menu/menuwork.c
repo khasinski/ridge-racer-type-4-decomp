@@ -23,7 +23,7 @@ extern s32 ModeFrame;
 extern s16 ModeId;
 extern s16 ModeGroup;
 extern s16 ModeSubState;
-extern unsigned char D_8009F810[];
+extern unsigned char CourseSaveProgressIndex[];
 extern unsigned char SelectionState[];
 extern unsigned char D_800AD4EB;
 extern unsigned char SaveProgress[];
@@ -99,7 +99,7 @@ void SetSelectionTableIndex(void) {
     int v;
     if (SelectionState[0x1E] == 0x12) {
         int i = SelectionState[0x1C] * 2 + (SelectionState[0x1D] >> 1);
-        v = D_8009F810[i];
+        v = CourseSaveProgressIndex[i];
     } else {
         v = 1;
     }
@@ -116,7 +116,7 @@ void SetSelectionTableIndex(void) {
 
 void CacheSelectedCourseProgress(void) {
     int i = SelectionState[0x1C] * 2 + (SelectionState[0x1D] >> 1);
-    int v = D_8009F810[i];
+    int v = CourseSaveProgressIndex[i];
     if (v < 0) {
         v = 0;
     } else if (v >= 9) {

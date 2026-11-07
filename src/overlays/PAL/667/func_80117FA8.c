@@ -103,7 +103,7 @@ void ovl667_func_80117FA8(void) {
             if ((waitResult == 0) && (MenuFadeTimer == 0x40)) {
                 DrawUiRow(0x18);
             } else {
-                D_8010C0B8 = 1;
+                CourseMenuPhase = 1;
                 if (MenuFadeTimer > 0) {
                     MenuFadeTimer = (s16)((u16) MenuFadeTimer - 1);
                 }

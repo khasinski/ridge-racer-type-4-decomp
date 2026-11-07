@@ -5,7 +5,7 @@
 
 extern volatile u32 _spu_RQmask;
 extern volatile u32 _spu_env;
-extern volatile u16 D_8010EE28[];
+extern volatile u16 SpuRQRegBase[];
 
 u32 SpuSetAnyVoice(s32 on_off_in, u32 voice_bit_in, s32 addr1, s32 addr2) {
     /* ASM_BARRIER: pin on_off to $t1 as in original register allocation */
@@ -23,11 +23,11 @@ u32 SpuSetAnyVoice(s32 on_off_in, u32 voice_bit_in, s32 addr1, s32 addr2) {
         /* ASM_BARRIER: keep on_off copy before _spu_env load */
         __asm__ volatile("" : "+r"(on_off));
         cond = _spu_env & 1;
-        /* ASM_BARRIER: keep _spu_env & 1 test before D_8010EE28 address load */
+        /* ASM_BARRIER: keep _spu_env & 1 test before SpuRQRegBase address load */
         __asm__ volatile("" : "+r"(cond));
         voice_bit = voice_bit_in;
         if (cond) {
-            p = D_8010EE28;
+            p = SpuRQRegBase;
         } else {
             p = _spu_RXX;
         }
@@ -47,7 +47,7 @@ u32 SpuSetAnyVoice(s32 on_off_in, u32 voice_bit_in, s32 addr1, s32 addr2) {
         __asm__("" : "+r"(addr1), "+r"(addr2));
         if (_spu_env & 1) {
             /* ASM_BARRIER: pin base pointer in case 1 to $a1 */
-            register volatile u16 *p asm("$5") = D_8010EE28;
+            register volatile u16 *p asm("$5") = SpuRQRegBase;
             p[addr1] |= voice_bit;
             p[addr2] |= (voice_bit >> 16) & 0xFF;
             _spu_RQmask |= 1 << ((addr1 - 0xC6) >> 1);
@@ -68,7 +68,7 @@ u32 SpuSetAnyVoice(s32 on_off_in, u32 voice_bit_in, s32 addr1, s32 addr2) {
         __asm__("" : "+r"(addr1), "+r"(addr2));
         if (_spu_env & 1) {
             /* ASM_BARRIER: pin base pointer in case 0 to $a1 */
-            register volatile u16 *p asm("$5") = D_8010EE28;
+            register volatile u16 *p asm("$5") = SpuRQRegBase;
             p[addr1] &= ~voice_bit;
             p[addr2] &= ~((voice_bit >> 16) & 0xFF);
             _spu_RQmask |= 1 << ((addr1 - 0xC6) >> 1);
@@ -89,7 +89,7 @@ u32 SpuSetAnyVoice(s32 on_off_in, u32 voice_bit_in, s32 addr1, s32 addr2) {
         __asm__("" : "+r"(addr1), "+r"(addr2));
         if (_spu_env & 1) {
             /* ASM_BARRIER: pin base pointer in case 8 to $a0 */
-            register volatile u16 *p asm("$4") = D_8010EE28;
+            register volatile u16 *p asm("$4") = SpuRQRegBase;
             p[addr1] = voice_bit;
             p[addr2] = (voice_bit >> 16) & 0xFF;
             _spu_RQmask |= 1 << ((addr1 - 0xC6) >> 1);

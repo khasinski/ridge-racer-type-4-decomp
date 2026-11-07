@@ -8,11 +8,11 @@ extern int AddSpritePrim();
 
 extern int CurrentDrawBuf;
 
-extern unsigned char D_8009F7CC[];
+extern unsigned char SelectionGridIconA[];
 
 extern unsigned char SelectionGridIconB[];
 
-extern unsigned char D_8009F7D4[];
+extern unsigned char SelectionGridIconCol3[];
 
 extern unsigned char SelectionGridIconCol4[];
 
@@ -28,13 +28,13 @@ void DrawSelectionIconGrid(int arg0) {
     int s0;
     int a1;
     int b;
-    unsigned char *t7 = D_8009F7CC;
+    unsigned char *t7 = SelectionGridIconA;
     unsigned char (*q)[4] = SelectionRows;
     unsigned char *p = q[arg0];
     v[0] = t7[p[1]];
     v[1] = SelectionGridIconB[p[1]];
     v[2] = CarRecordPtrs[arg0]->h1D2 > 0 ? 0x18 : 0x19;
-    v[3] = D_8009F7D4[p[0]];
+    v[3] = SelectionGridIconCol3[p[0]];
     v[4] = SelectionGridIconCol4[p[0]];
     v[5] = SelectionGridIcon5[p[0]];
     v[6] = CarRecordPtrs[arg0]->b1F3 + 0x14;

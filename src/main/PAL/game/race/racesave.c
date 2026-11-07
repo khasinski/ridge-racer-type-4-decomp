@@ -122,7 +122,7 @@ extern int SetupViewport();
 extern int UpdateTrackObjects();
 extern int DrawTrackObjects();
 extern int rsin();
-extern int D_800F2A64;
+extern int TrackViewScratch78Value;
 extern short EngineThrottleOn[];
 extern int ModeFrame;
 extern short EngineRevDisplay[];
@@ -461,7 +461,7 @@ void ReplayModeUpdate(void) {
     UpdateTrackObjects(0);
     BuildCameraMatrices();
     DrawCars(6);
-    *(int *)(SCRATCHPAD + 0x78) = D_800F2A64;
+    *(int *)(SCRATCHPAD + 0x78) = TrackViewScratch78Value;
     SetupPlayerView(0);
     DrawTrackObjects(0);
     DrawTrackSceneryForPlayer(0);

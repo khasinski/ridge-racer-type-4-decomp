@@ -53,7 +53,7 @@ void ovl667_func_801161A8(s32 arg0) {
     MenuItemCount = 3;
     ResetScreenCounters();
     InitPreviewImageRows();
-    D_8010C0B8 = 0;
+    CourseMenuPhase = 0;
     LoadCursor = MenuArenaBase;
     if (!(SelectionPlayer & 1)) {
         MenuArenas.first = MenuArenaBase;

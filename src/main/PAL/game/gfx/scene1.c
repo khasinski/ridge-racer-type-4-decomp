@@ -59,11 +59,11 @@ typedef struct { short m[3][3]; short pad[7]; } S70;
 
 extern struct { char pad[0xD4]; s32 a, b, c, d; u8 e, f, g; } RaceContext;
 extern s32 D_800AC724;
-extern Rect D_800A0D04[];
+extern Rect ScreenTileDestRects[];
 extern Rect ScreenTileSourceUvs[][4];
 extern int SetModelTexturePage();
 extern short CamFxHeightCurve;
-extern int D_800A0FB0[];
+extern int CourseCarRowCamMask[];
 extern unsigned short D_800AC006;
 extern int DrawSubOtFlag;
 extern short CourseListIndex;
@@ -151,10 +151,10 @@ void DrawScreenFilterSprites(s32 a0, s32 a1, u8 *a2, s32 a3, s32 a4) {
         s2->r0 = a2[0];
         s2->g0 = a2[1];
         s2->b0 = a2[2];
-        s2->x0 = D_800A0D04[i].x;
-        s2->y0 = D_800A0D04[i].y;
-        s2->w = D_800A0D04[i].w;
-        s2->h = D_800A0D04[i].h;
+        s2->x0 = ScreenTileDestRects[i].x;
+        s2->y0 = ScreenTileDestRects[i].y;
+        s2->w = ScreenTileDestRects[i].w;
+        s2->h = ScreenTileDestRects[i].h;
         offset = (i << 3) + (a0 << 5);
         uv = (Rect *)(offset + base);
         s2->u0 = uv->x;
@@ -263,7 +263,7 @@ int a0, a1;
     W(0x130) = 0x1B8;
     W(0x18) = -0xC0;
     W(0x30) = 0xC0;
-    if (!(D_800A0FB0[CourseListIndex] & ((one = 1) << SelectedCarRow))) {
+    if (!(CourseCarRowCamMask[CourseListIndex] & ((one = 1) << SelectedCarRow))) {
         W(0xA0) = 0xA9;
         W(0xA4) = 0;
     } else {

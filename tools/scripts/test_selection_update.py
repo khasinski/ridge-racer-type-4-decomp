@@ -26,7 +26,7 @@ static RrSelectionRows expected_rows;
 #define SelectionRows native_rows_value
 #define SelectionRankWeights (rom+128)
 #define SelectionRankThresholds ((s8*)rom+144)
-#define D_8009F810 (rom+116)
+#define CourseSaveProgressIndex (rom+116)
 ''' + helper + s+r'''
 static void reference(void) {
  s32 phase=(s8)expected[0x17],level=expected[0x1E],rank=0,group,sum=0;

@@ -31,7 +31,7 @@ static void write32(volatile u32 *port,u32 value);
 #define RR_CD_WRITE32(port,value) write32(port,value)
 #include "rr/cd_init.h"
 const char CD_str_init_prefix[]="CD_init:",StrAddrFmt[]="addr=%08x\n";
-static u8 metadata_buffer[3];u8 *D_800A6768=metadata_buffer;
+static u8 metadata_buffer[3];u8 *CdDebugPtrTable=metadata_buffer;
 static struct Ports {volatile u8 index,irq,enable;volatile u32 control;} ports[3];
 struct State {
  u32 guard[4];u8 active,command,response[3];RrCdDriveStatus status;s32 mode;
@@ -100,7 +100,7 @@ static void write32(volatile u32 *p,u32 value){unsigned b;for(b=0;b<3;b++)if(p==
 s32 PsyqPuts(const char *message){assert(message==CD_str_init_prefix);service(1,0,0);return -1;}
 s32 DebugPrintStub(const char *format,...){
  va_list args;u32 address;assert(format==StrAddrFmt);va_start(args,format);address=va_arg(args,u32);va_end(args);
- assert(address==(u32)(uintptr_t)&D_800A6768);service(2,0,address);return 1;
+ assert(address==(u32)(uintptr_t)&CdDebugPtrTable);service(2,0,address);return 1;
 }
 void ResetCallback(void){
  assert(w->s.active==0 && w->s.command==0 && w->s.callback1==0 && w->s.callback2==0 && w->s.status.word==0 && w->s.mode==0);
@@ -116,7 +116,7 @@ s32 CD_cw(s32 command,const u8 *params,u8 *result,s32 mode){
 s32 CD_sync(s32 mode,u8 *status){assert(mode==0 && status==0);service(6,0,0);return ((scenario>>1)%4)==2?2:3;}
 ''' + body + r'''
 static s32 reference(void){
- PsyqPuts(CD_str_init_prefix);DebugPrintStub(StrAddrFmt,(u32)(uintptr_t)&D_800A6768);
+ PsyqPuts(CD_str_init_prefix);DebugPrintStub(StrAddrFmt,(u32)(uintptr_t)&CdDebugPtrTable);
  w->s.command=0;w->s.active=0;w->s.callback2=0;w->s.callback1=0;w->s.mode=0;w->s.status.word=0;
  ResetCallback();InterruptCallback(2,CdCommandCallback);
  write8(w->s.indexPort,1);

@@ -4,7 +4,7 @@
 #include "rr/menu_overlay_runtime.h"
 #include "game/camera/camview.h"
 
-extern char D_800A0D70[];
+extern char CamFxH70Curve[];
 extern char CamFxHeightCurve[];
 extern char CarIntroHeightCurve[];
 extern char CamFxFallCurve[];
@@ -59,7 +59,7 @@ int a0;
   v0 = InterpCurveEase();
   RaceContext.p->h2a = v0;
   RaceContext.p->h42 = -v0;
-  q = D_800A0D70;
+  q = CamFxH70Curve;
   RaceContext.p->h70 = InterpCurveLinear(q, FindCurveSegment(q, a0, v0), a0);
   q = CamFxHeightCurve;
   s1 = InterpCurveLinear(q, FindCurveSegment(q, a0), a0);

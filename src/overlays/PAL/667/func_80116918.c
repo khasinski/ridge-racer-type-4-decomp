@@ -29,7 +29,7 @@ void ovl667_func_80116918(void){
  ovl667_func_801161A8((1-(s16)LinkRoleSlot)*2);
  UnpackChoiceGlyph((s8*)((u8 *)&SelectionRows+SelectionPlayer*4),CourseChoiceTable[0][0].glyph);
  UnpackChoiceGlyph((s8*)((u8 *)&SelectionRows+4+SelectionPlayer*4),CourseChoiceTable[0][0].glyph);
- AvailableCourseCount=8;SeqStartTrack(0);ModeGroup=1;ModeId=60;ModeSubState=0;D_8010C0B8=0;
+ AvailableCourseCount=8;SeqStartTrack(0);ModeGroup=1;ModeId=60;ModeSubState=0;CourseMenuPhase=0;
  if(((Pair *)((s8 *)&LinkEntryState+SelectionPlayer))->second!=1)D_8010C0D4=0;else D_8010C0D4=2;
  SetMenuFrameOptions(0,1,1);
 }

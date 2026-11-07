@@ -22,7 +22,7 @@ extern S4D8 SelectionState;
 extern char PlayerCars[];
 extern int LoadCursor;
 extern int SavedLoadCursor;
-extern unsigned char D_8009F070[];
+extern unsigned char RaceInitCameraW140Table[];
 extern int MenuConfirmPressed;
 extern unsigned short MenuFadeTimer;
 extern short ModeId;
@@ -48,7 +48,7 @@ void RaceLoadScreenModeUpdate()
                 ResetCarState(PlayerCars);
                 SavedLoadCursor = LoadCursor;
                 r = (p->b17 - 1) / 2;
-                x = D_8009F070[p->b14];
+                x = RaceInitCameraW140Table[p->b14];
                 if (r >= 3) { r = 2; x = x * 3; }
                 InitCameraState(r, x);
                 SetRaceLoadCursor(LoadCursor);

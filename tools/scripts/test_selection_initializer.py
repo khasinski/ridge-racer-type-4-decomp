@@ -38,7 +38,7 @@ static State actual,reference,*w;
 #define MenuCursor w->selection
 #define MenuItemCount w->limit
 #define CourseMenuSelection w->course
-#define D_8010C0B8 w->active
+#define CourseMenuPhase w->active
 #define CdDirectoryBuffer w->base
 #define MenuArenaBase w->buffer
 #define LoadCursor w->published

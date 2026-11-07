@@ -63,9 +63,9 @@ extern R4 SelectionRows[];
 extern int AddTileSemiTransPrim();
 extern u8 SaveListColumnSpacing[];
 extern u8 SaveListRowOffsets[];
-extern u8 D_8009FDFC[];
+extern u8 SaveListColumnHeaderGlyphs[];
 extern u8 SaveListFirstColGlyphs[];
-extern u8 D_8009FE04[];
+extern u8 SaveListMidColGlyphs[];
 extern u8 SaveListCol2GlyphIds[];
 extern u8 SaveListTileWidths[];
 extern S2C SaveSlotSelections[];
@@ -286,7 +286,7 @@ int arg2;
 
     for (i = 0; i < 4; i++) {
         x += SaveListColumnSpacing[i];
-        arg1 = AddSpritePrim(arg0, arg1, x, y, &UiFontGlyphs[D_8009FDFC[i]], 0x7FF8, 0);
+        arg1 = AddSpritePrim(arg0, arg1, x, y, &UiFontGlyphs[SaveListColumnHeaderGlyphs[i]], 0x7FF8, 0);
     }
 
     i = 7;
@@ -304,7 +304,7 @@ int arg2;
         arg1 = AddTextSprites(arg0, arg1, x, y + SaveListRowOffsets[i + 1], sp38, 0x7FF8, 0, 0);
         if ((sp28[2] = SaveSlotSelections[i].b17) != -1) {
             sp28[0] = SaveListFirstColGlyphs[SaveSlotSelections[i].b1C & 3];
-            sp28[1] = D_8009FE04[SaveSlotSelections[i].b1D & 3];
+            sp28[1] = SaveListMidColGlyphs[SaveSlotSelections[i].b1D & 3];
             sp28[2] = SaveListCol2GlyphIds[SaveSlotSelections[i].b17 / 2];
             for (j = 0; j < 3; j++) {
                 x += SaveListColumnSpacing[j + 1];

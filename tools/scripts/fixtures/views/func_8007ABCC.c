@@ -148,7 +148,7 @@ void CardMenuModeEnter(void) {
         for (i = 2; i >= 0; i--) {
             MenuChoiceValues[i] = defaultChoice;
         }
-        D_8010948C = 0;
+        CardLoadSucceeded = 0;
         for (i = 0; i < 3; i++) {
             SaveSlotSelectionsBackup[i] = SaveSlotSelections[i];
         }

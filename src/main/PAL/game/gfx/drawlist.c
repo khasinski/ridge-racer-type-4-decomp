@@ -137,7 +137,7 @@ extern char *CdDirectoryBuffer;
 extern char IntroZeroRotation[];
 extern char IntroModelPos0[];
 extern char IntroSceneModelPos1[];
-extern char D_8009E530[];
+extern char IntroSceneModelPos2[];
 extern char IntroCameraPathPoints[];
 
 void StepIntroScene();
@@ -1253,7 +1253,7 @@ block_237:
         goto block_239;
     }
     SetLightColorsFromAngle(temp_a0_9);
-    DrawIntroSceneModel(2, IntroZeroRotation, D_8009E530);
+    DrawIntroSceneModel(2, IntroZeroRotation, IntroSceneModelPos2);
 block_239:
     temp_a0_10 = G->s72;
     if (temp_a0_10 == 0) {

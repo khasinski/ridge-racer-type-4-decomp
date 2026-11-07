@@ -12,7 +12,7 @@ typedef struct { int x; } __attribute__((packed)) U4;
 extern s16 MenuResultCode;
 extern int PsyqBzero();
 extern int DecodeCourseIndex();
-extern unsigned char D_8009F06C[];
+extern unsigned char GpStagePlaceLimits[];
 extern short SelectedCarIndex;
 extern short CourseMenuSelection;
 extern short SelectedTeamIndex;
@@ -51,7 +51,7 @@ void AdvanceGrandPrixStage() {
     a2 = (unsigned char)SelectionState[0x17];
     i0 = (signed char)a2;
     if (i0 != -1) {
-        if (SelectionState[0x19] <= D_8009F06C[i0 / 2]) {
+        if (SelectionState[0x19] <= GpStagePlaceLimits[i0 / 2]) {
             if (SelectionState[i0] != -1) {
                 SelectionState[0x17] = a2 + 1;
             }

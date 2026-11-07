@@ -11,7 +11,7 @@
 #include "rr/bios_devices.h"
 
 extern int SeqSetVolume();
-extern struct { s32 a, b, c; } D_800A0CD8[];
+extern struct { s32 a, b, c; } SeqStartParams[];
 extern struct {
     char pad[0x24]; s16 h[1];
     char p2[0x2858 - 0x26]; s32 w[1];
@@ -38,7 +38,7 @@ void SeqStartTrack(int a0) {
         SsSeqPlay((s16)SoundState.x2864, 1, 0);
         SeqSetVolume((s16)arr[a0]);
         PsyqBzero(&SoundState.x286C, 0x1C);
-        SoundState.x287C = D_800A0CD8[a0].a;
+        SoundState.x287C = SeqStartParams[a0].a;
         RestartMotionSequence();
     }
 }
