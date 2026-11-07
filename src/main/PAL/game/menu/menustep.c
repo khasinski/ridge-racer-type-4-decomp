@@ -15,23 +15,23 @@ extern short MenuStateIndex;
 extern unsigned char CardSlotState[];
 extern unsigned short SaveSlotSelect;
 extern short SaveSlotIndex;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern short CardSlot;
 extern unsigned short MenuResultCode;
-extern short D_80109478[];
+extern short MenuChoiceValues[];
 extern short D_8010948E;
 extern short MenuPlayerIndex;
 extern struct { char pad[0x28]; int x28; int x2c; char pad2[0x2C]; } PlayerControllers[];
 
-void func_8007B460();
-int func_8007B654();
+void DispatchCardMenuStep();
+int CheckCardSlotReady();
 
 static inline int w4c7_nz(int arg0)
 {
   return arg0 != 0;
 }
 
-void func_8007B460()
+void DispatchCardMenuStep()
 {
   int a;
   int t0;
@@ -56,20 +56,20 @@ void func_8007B460()
   }
   if (s0 & 2)
   {
-    r = func_8007B654();
+    r = CheckCardSlotReady();
   }
   if (r == 1)
   {
     D_800A4548[s1]();
   }
-  func_8007D1B8(s3, t0, s0, CardSlot, D_80109478[D_8010948E], CardSlotState[CardSlot]);
+  UpdateCardMenuDialogue(s3, t0, s0, CardSlot, MenuChoiceValues[D_8010948E], CardSlotState[CardSlot]);
   if (w4c7_nz(s7))
   {
     if (fp == 0x1E)
     {
       if (CardSlotState[CardSlot] != fp)
       {
-        D_800F4D8A = 0;
+        ModeSubState = 0;
         SaveSlotIndex = 0;
         v = MenuResultCode;
         SaveSlotSelect = v;
@@ -108,7 +108,7 @@ void func_8007B460()
 /* legacy typing of shared globals in this part of the unit */
 #define MenuResultCode (*(short (*))&MenuResultCode)
 
-int func_8007B654()
+int CheckCardSlotReady()
 {
     int a1;
     int a2;

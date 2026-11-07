@@ -29,7 +29,7 @@ void ovl663_init_scene(void) {
     SetupDrawDispEnvs(0, 0, 0, 2);
     ModeGroup = 1;
     ModeId = 74;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     DebugPrintStub(ovl663_scene_name);
     ovl663_available_course_count = 0;
     for (i = 0; i < 9; i++) {
@@ -65,7 +65,7 @@ void ovl663_update_menu(void) {
 
     ModeFrame = (s32)((u32)ModeFrame + 1U);
     ScreenFrame = (s32)((u32)ScreenFrame + 1U);
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         i = 0;
         if (UiRows->byte14 == 2) {
@@ -88,7 +88,7 @@ void ovl663_update_menu(void) {
                         PlaySfx(1);
                         closingMode = 2;
                         ResetScreenCounters();
-                        D_800F4D8A = 3;
+                        ModeSubState = 3;
                         LoadCursor = MenuArenaBase;
                     } else {
                         PlaySfx(4);
@@ -98,13 +98,13 @@ void ovl663_update_menu(void) {
                     PlaySfx(1);
                     closingMode = 2;
                     ovl663_record_kind = selected;
-                    D_800F4D8A = 4;
+                    ModeSubState = 4;
                     goto chosen;
                 } else if (selected == 2) {
                     PlaySfx(1);
                     ovl663_record_kind = selected;
                     closingMode = 2;
-                    D_800F4D8A = 5;
+                    ModeSubState = 5;
                     goto chosen;
                 } else {
                     if (selected != 3)
@@ -117,7 +117,7 @@ void ovl663_update_menu(void) {
                 if (PlayerControllers[0].b != 0) {
                 cancel:
                     PlaySfx(cancelSound);
-                    D_800F4D8A = 8;
+                    ModeSubState = 8;
                     closingMode = 1;
                 }
             }
@@ -155,7 +155,7 @@ void ovl663_update_menu(void) {
                 ovl663_init_preview();
                 ModeGroup = loaded;
                 ModeId = 0x4C;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
                 return;
             }
             break;
@@ -171,7 +171,7 @@ void ovl663_update_menu(void) {
             ovl663_init_selection(ovl663_record_kind);
             ModeGroup = 1;
             ModeId = 75;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 8:
@@ -183,7 +183,7 @@ void ovl663_update_menu(void) {
             SeqMuteVolume();
             ModeGroup = 1;
             ModeId = 3;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     default:

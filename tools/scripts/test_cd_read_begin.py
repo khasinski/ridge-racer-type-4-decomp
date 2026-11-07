@@ -23,7 +23,7 @@ class CdReadBeginTest(unittest.TestCase):
         body = re.sub(r'\s+__asm__\("\$\d+"\)', '', body)
         body = re.sub(r',?\s*"\$\d+"', '', body)
         # Global PAL aliases address members of the same full native record.
-        body = body.replace('extern volatile u32 D_800A67BC;', '')
+        body = body.replace('extern volatile u32 DsSavedCdMode;', '')
         decoder = (ROOT/'tools/scripts/fixtures/legacy/func_8008C6A4.c').read_text()
         decoder = re.sub(r'^#include[^\n]*\n', '', decoder, flags=re.M)
         decoder = decoder.replace('CdPosToInt', 'actual_decode')
@@ -73,7 +73,7 @@ static void cb2(void){callback_effect^=4;}
 const char StrCdReadShellOpen[]="CdRead: Shell open...\n";
 const char StrCdReadRetry[]="CdRead: retry...\n";
 #define CdReadState actual.state
-#define D_800A67BC actual.state.mode0C
+#define DsSavedCdMode actual.state.mode0C
 #define CD_read_dma_mode actual.flags
 ''' + body + '\n' + decoder + r'''
 enum {SET0,SET1,SET2,STATUS,CLOCK,LOG,CONTROL,RESET,MODE,PACKET,DECODE,TRANSFER};

@@ -9,7 +9,7 @@ extern int RaceLoadState;
 extern int RaceLoadSubState;
 extern int RaceLoadCursor;
 int LoadCarSpecStep();
-int func_8004D7D8();
+int LoadSelectionTimAndModelStep();
 int func_8004D994();
 int LoadVabPairStep(char *a0);
 s32 func_8004E184(void);

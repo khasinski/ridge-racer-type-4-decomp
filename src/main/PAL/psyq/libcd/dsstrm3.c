@@ -1,5 +1,5 @@
 /* GCC_VERSION: 2.7.2 */
-extern int D_801102FC;
+extern int StRingReadIndex;
 extern int StRingSize;
 extern char *StRingHeaders;
 int StFreeRing(int a) {
@@ -14,7 +14,7 @@ int StFreeRing(int a) {
         if ((short)m > 0) {
             do { k = j + i; j++; *(short *)(StRingHeaders + (k << 5)) = 0; } while (j < (short)m);
         }
-        D_801102FC = j + i;
+        StRingReadIndex = j + i;
         return 0;
     }
     return 1;

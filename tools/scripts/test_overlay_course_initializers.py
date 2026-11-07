@@ -69,7 +69,7 @@ static unsigned scenario,mutation,kind;static u8 seenCounts[4][10];
 #define ovl661_D_80118414 w->s.marker
 #define ModeGroup w->s.course
 #define ModeId w->s.position
-#define D_800F4D8A w->s.selected
+#define ModeSubState w->s.selected
 #define CourseListIndex w->s.clearF3826
 static void effect(unsigned n){
  unsigned i,j,k;u32 value=scenario*0x9e3779b9U+n*47U;

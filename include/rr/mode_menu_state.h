@@ -6,11 +6,11 @@
 #include "rr/driver_control.h"
 
 extern char CardSaveFileName[], CardTargetFileName[24];
-extern s32 SelectionPlayer, ScreenFadeLayout, D_800F4CA8, D_801272F0[3];
+extern s32 SelectionPlayer, ScreenFadeLayout, DialogueContext, D_801272F0[3];
 extern s16 MenuPlayerIndex, MenuStateIndex, SaveSlotSelect, ModeGroup;
 extern s16 SaveSlotIndex, RaceType, LinkState, CardSlot, MenuResultCode;
-extern s16 D_8010948C, D_8010948E, D_80109478[3];
-extern u16 ModeId, D_800F4D8A;
+extern s16 D_8010948C, D_8010948E, MenuChoiceValues[3];
+extern u16 ModeId, ModeSubState;
 extern RrMenuSettings2C SaveSlotSelections[3], SaveSlotSelectionsBackup[3];
 
 void CopyStringClearTail(char *destination, char *source);
@@ -24,6 +24,6 @@ void UpdateScreenFade(s32 layout);
  * each replacement covers two complete RrBadgeRow1C records. Both settings
  * arrays contain three complete records. Only the full word result1 from
  * the readiness service completes state1. */
-void func_8007ABCC(void);
+void CardMenuModeEnter(void);
 
 #endif

@@ -23,7 +23,7 @@ static struct State {
 static u8 banks[3][25*0x840];
 #define ModeFrame w->frame
 #define ScreenFrame w->tick
-#define D_800F4D8A w->state
+#define ModeSubState w->state
 #define ModeId w->scene
 #define ModeGroup w->enable
 #define MenuCursor w->selection
@@ -32,7 +32,7 @@ static u8 banks[3][25*0x840];
 #define UiRows (w->rows[w->root])
 #define BadgeRows (w->badges[w->badgeRoot])
 #define PlayerCourseChoices w->grid
-#define D_800F3B20 w->palette0
+#define DefaultCarClut w->palette0
 #define CarClutData w->palette1
 #define ovl662_D_801272A0 w->map
 #define ovl662_D_801272BE w->current

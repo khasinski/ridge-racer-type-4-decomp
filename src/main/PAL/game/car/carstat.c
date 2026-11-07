@@ -12,7 +12,7 @@ extern char PadPulseState[];
 extern char PadPorts[];
 extern unsigned short PadButtonLayoutPresetsA[][8];
 extern unsigned short PadButtonLayoutPresetsB[][8];
-extern unsigned short D_800A00EC[][8];
+extern unsigned short PadButtonLayoutPresetsC[][8];
 extern unsigned short PadButtonMap[][3][8];
 extern unsigned short D_800F4BF8[][2][8];
 
@@ -32,8 +32,8 @@ void SetPadButtonMapLayout(int a, int b, int c, int d) {
     for (i = 0; i < 8; i++) {
         PadButtonMap[a][0][i] = PadButtonLayoutPresetsA[b][i];
         PadButtonMap[a][1][i] = PadButtonLayoutPresetsB[c][i];
-        PadButtonMap[a][2][i] = D_800A00EC[d][i];
-        D_800F4BF8[0][0][i] = D_800A00EC[b][i];
+        PadButtonMap[a][2][i] = PadButtonLayoutPresetsC[d][i];
+        D_800F4BF8[0][0][i] = PadButtonLayoutPresetsC[b][i];
         D_800F4BF8[0][1][i] = PadButtonLayoutPresetsB[c][i];
     }
 }

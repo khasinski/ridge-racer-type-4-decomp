@@ -14,7 +14,7 @@ s32 _cardCmd5DValueBegin(s32 request, s32 parameter) {
     CardCommandReader = _cardCmd5DTx;
     CardWriteHandler = _cardRxStatusByte;
     active = 2;
-    D_8011472C.value = parameter;
+    CardCmdValue.value = parameter;
     {
         /* ASM_BARRIER: preserve the original assembler temporary for the mapped store. */
         register s32 *base __asm__("$1");

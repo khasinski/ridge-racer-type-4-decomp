@@ -7,10 +7,10 @@
 
 void FormatDecimalDigits(char *output, s32 value, s32 digits);
 void FormatRaceTime(char *output, s32 time);
-extern char D_80010BF0[];
+extern char StrStarSpace[];
 extern char LapTimeTemplateStr[];
 extern u8 *MenuTextTemplates[];
-extern char *D_8009FD8C[];
+extern char *OrdinalSuffixStrs[];
 extern char *D_8009FD9C;
 extern s8 D_800AD4F1;
 extern s16 ReverseCourse;
@@ -79,7 +79,7 @@ void SetMenuTextRow(s32 row, s32 position, s32 phase, s32 style, s32 label) {
             if (value >= 3) {
                 suffixIndex = 3;
             }
-            CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[1], D_8009FD8C[suffixIndex]);
+            CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[1], OrdinalSuffixStrs[suffixIndex]);
             CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[4], LapTimeTemplateStr);
             if (formatKind < 10) {
                 CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[14], LapRecords[ReverseCourse][CourseIndex][value].name);
@@ -98,7 +98,7 @@ void SetMenuTextRow(s32 row, s32 position, s32 phase, s32 style, s32 label) {
             break;
         case 17:
             value = D_800AD4F1;
-            CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[0], D_80010BF0);
+            CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[0], StrStarSpace);
             if (value == 0) {
                 value = 1;
             }
@@ -108,7 +108,7 @@ void SetMenuTextRow(s32 row, s32 position, s32 phase, s32 style, s32 label) {
                 if (value >= 3) {
                     value = 3;
                 }
-                CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[2], D_8009FD8C[value]);
+                CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[2], OrdinalSuffixStrs[value]);
             } else {
                 CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[1], D_8009FD9C);
             }
@@ -122,7 +122,7 @@ void SetMenuTextRow(s32 row, s32 position, s32 phase, s32 style, s32 label) {
             if (value >= 3) {
                 value = 3;
             }
-            CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[2], D_8009FD8C[value]);
+            CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[2], OrdinalSuffixStrs[value]);
             break;
         case 30:
             MenuTextRows[row].rendering.clut = 0x2639;

@@ -15,7 +15,7 @@ void SetupMenuCarCamera(s32);
 void SetupViewport(s32);
 s32 LoadCarRangeStep(s32, s32);
 void SetCarBounds(RrRaceVehicle *);
-void func_8002E5A0(RrRaceVehicle *);
+void PrepareCarDrawPose(RrRaceVehicle *);
 void DrawPreviewCar(RrRaceVehicle *, RrPreviewRgb3, s32, s32);
 void SetMenuFrameOptions(s32, s32, s32);
 void StepMenuValue(s32, s32, char *, s32, s32);
@@ -85,11 +85,11 @@ void ovl661_func_801160F0(void)
         MODE = result;
     }
     active = 1;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 7:
         row = GROUP_ROW(PLAYER, (s16)(ovl661_D_80118450[PLAYER] ^ 1), 0);
         if (UiRows[row].byte14 == 5) {
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
     case 0:
         SetMenuFrameOptions(1, 1, 1);
@@ -129,7 +129,7 @@ void ovl661_func_801160F0(void)
             UiRows[row].cells[0] = 1;
             if (MenuCursor == ovl661_D_8011835C[ovl661_D_80118450[PLAYER]][0]) {
                 ovl661_D_80118438 = i;
-                D_800F4D8A = 4;
+                ModeSubState = 4;
             } else if (MenuCursor == ovl661_D_8011835C[ovl661_D_80118450[PLAYER]][1]
                        && ovl661_D_80118458[SelectionPlayer][1][0].glyph != -1) {
                 ovl661_D_8011844C[PLAYER] = 0;
@@ -151,7 +151,7 @@ void ovl661_func_801160F0(void)
                     }
                     UiRows[row].byte14 = 0;
                 }
-                D_800F4D8A = 7;
+                ModeSubState = 7;
                 ovl661_D_80118450[PLAYER] ^= 1;
             } else if (MenuCursor == ovl661_D_8011835C[ovl661_D_80118450[PLAYER]][2]) {
                 close = 1;
@@ -163,7 +163,7 @@ void ovl661_func_801160F0(void)
                 }
                 MODE = 3;
                 MenuFadeTimer = 0x40;
-                D_800F4D8A = 10;
+                ModeSubState = 10;
                 BadgeRows->state10 = 4;
             }
         } else if (input->b != 0) {
@@ -180,14 +180,14 @@ void ovl661_func_801160F0(void)
             MenuFadeTimer = 0x40;
             BadgeRows->state10 = 4;
             SeqFadeVolume(0, 60);
-            D_800F4D8A = 8;
+            ModeSubState = 8;
         }
         break;
     case 3:
         row = GROUP_ROW((SelectionPlayer - 1) & 1, 1, 3) + 1;
         if (UiRows[row].byte14 == 5) {
             ovl661_D_80118438 = 1;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 4:
@@ -220,7 +220,7 @@ void ovl661_func_801160F0(void)
             active = 0;
             MenuArenas.first = LoadCursor;
             if ((SelectionPlayer & 1) > 0) {
-                D_800F4D8A = 5;
+                ModeSubState = 5;
                 for (i = 0; i < UiRowCount; i++) {
                     if (UiRows[i].byte14 == 2) {
                         UiRows[i].byte14 = 3;
@@ -229,7 +229,7 @@ void ovl661_func_801160F0(void)
                 MODE = 3;
                 BadgeRows->state10 = 4;
             } else {
-                D_800F4D8A = 3;
+                ModeSubState = 3;
                 SelectionPlayer++;
                 ovl661_func_80115F8C();
             }
@@ -237,7 +237,7 @@ void ovl661_func_801160F0(void)
             PlaySfx(2);
             UiRows[row].byte14 = 3;
             UiRows[row + 1].byte14 = 3;
-            D_800F4D8A = 6;
+            ModeSubState = 6;
         }
         break;
     case 5:
@@ -249,13 +249,13 @@ void ovl661_func_801160F0(void)
             ovl661_func_80117350();
             ModeGroup = 1;
             ModeId = 0x39;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 6:
         row = GROUP_ROW(PLAYER, 1, 3) + 1;
         if (UiRows[row].byte14 == 5) {
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             ovl661_D_80118438 = 1;
             UiRows[row].byte14 = 0;
             UiRows[row + 1].byte14 = 0;
@@ -266,7 +266,7 @@ void ovl661_func_801160F0(void)
         status = UiRows[row].byte14;
         if (status == 5 && MODE == status) {
             ovl661_func_80115598(0);
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 8:
@@ -278,7 +278,7 @@ void ovl661_func_801160F0(void)
             SeqMuteVolume();
             ModeGroup = 1;
             ModeId = 3;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 10:
@@ -290,7 +290,7 @@ void ovl661_func_801160F0(void)
             MenuResultCode = 2;
             ModeGroup = 1;
             ModeId = 0x47;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     }
@@ -299,12 +299,12 @@ tail:
         ovl661_D_80118438 = 1;
         BadgeRows->half02 = 1;
     }
-    if (D_800F4D8A == 3) {
+    if (ModeSubState == 3) {
         player = SelectionPlayer - 1;
     } else {
         player = SelectionPlayer;
     }
-    if (D_800F4D8A == 7) {
+    if (ModeSubState == 7) {
         group = ovl661_D_80118450[player & 1] ^ 1;
         row = GROUP_ROW(player & 1, group, 0);
         if (UiRows[row].byte14 == 5) {
@@ -329,7 +329,7 @@ tail:
         i = active;
         if (i == 1) {
             DrawSelectionIconGrid(SelectionPlayer);
-            func_8002E5A0(&PlayerCars[PLAYER]);
+            PrepareCarDrawPose(&PlayerCars[PLAYER]);
             brightness = 0x100;
             if (MODE == i) {
                 last = ~((ImageRows[2] * 0xFF) / 30);

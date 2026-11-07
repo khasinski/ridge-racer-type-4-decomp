@@ -72,7 +72,7 @@ extern s32 CdDirectoryBuffer;
 extern M2C_UNK D_800ACA94;
 extern s16 ModeId;
 extern s16 ModeGroup;
-extern s16 D_800F4D8A;
+extern s16 ModeSubState;
 
 int IntroScriptStep(void);
 void IntroInit(void);
@@ -328,5 +328,5 @@ void IntroInit(void) {
     RaceLoadReset();
     ModeGroup = 2;
     ModeId = 6;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }

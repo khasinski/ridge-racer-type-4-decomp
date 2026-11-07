@@ -23,7 +23,7 @@ extern s16 RaceType;
 extern s32 ScanCurveAhead();
 extern int NumPlayers;
 
-void func_8004638C(RrRaceVehicle *vehicle);
+void UpdateComCarCurrentLane(RrRaceVehicle *vehicle);
 void ProjectToTrackSegment(RrTrackOffsetArgument offsetX, RrTrackOffsetArgument offsetZ, s32 node, s16 *fraction, s16 *lateral, s32 *remaining);
 void UpdateCarTrackProjection(RrRaceVehicle *vehicle);
 s32 FindNearestCarAhead(RrRaceVehicle *vehicle);
@@ -33,7 +33,7 @@ void InterpolateLanePointXZ(const RrTrackSample3C *first, const RrTrackSample3C 
 void InterpolateLanePointXYZ(const RrTrackSample3C *first, const RrTrackSample3C *second, s32 lateral, s32 fraction, s32 *output);
 void UpdateComCarTargetPoint(RrRaceVehicle *vehicle);
 
-void func_8004638C(RrRaceVehicle *vehicle)
+void UpdateComCarCurrentLane(RrRaceVehicle *vehicle)
 {
     struct {
         RrTrackOffsetArgument a;
@@ -521,7 +521,7 @@ void UpdateComCarOvertake(RrRaceVehicle *p)
       {
         q->laneTimer38 = 0;
         q->laneActive6A = 1;
-        func_8004638C(p);
+        UpdateComCarCurrentLane(p);
         v1 = (u16)q->laneTarget3C;
         a0 = (u16)q->laneStart3A;
         q->laneMode88 = 3;

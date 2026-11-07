@@ -29,7 +29,7 @@ EmitPolyFT4TwoTri trapping-arith
 EmitPolyG4TwoTri trapping-arith
 EmitPolyGT4TwoTri trapping-arith
 SubmitModelTwoTri trapping-arith
-func_8005F0D0 trapping-arith
+SubmitModel trapping-arith
 SubmitModel2 trapping-arith
 SubmitModelFaces shared-entry
 EmitPolyF4 trapping-arith
@@ -44,7 +44,7 @@ SubmitCourseModel store-ra
 SubmitCourseModel2 store-ra
 TransformCourseModel trapping-arith
 func_8005FE54 trapping-arith
-func_80060C70 store-ra
+RunCourseDrawChain store-ra
 func_80060D54 trapping-arith
 InterpEdgeVertsA0 store-at
 EmitLineF2G0 custom-abi
@@ -199,7 +199,7 @@ PsyqPuts bios-trampoline
 PsyqSetjmp bios-trampoline
 PsyqStrcmp bios-trampoline
 PsyqStrncmp bios-trampoline
-func_80096424 bios-trampoline
+PsyqStrcpy bios-trampoline
 PsyqBzero bios-trampoline
 PsyqMemcpy bios-trampoline
 PsyqMemset bios-trampoline

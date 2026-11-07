@@ -32,7 +32,7 @@ src=r'''
 #include "rr/tables.h"
 void SetupMenuCarCamera(s32);void SetupViewport(s32);s32 LoadCarRangeStep(s32,s32);s32 PackChoiceGlyph(s8 *);
 void SetCarBounds(RrRaceVehicle *);void SetModelTexturePage(s32);void AddScreenFadeTiles(u32 *,s32,u32);void DrawUiRow(s32);
-void DrawSelectionIconGrid(s32);void func_8002E5A0(RrRaceVehicle *);void DrawPreviewCar(RrRaceVehicle *,RrPreviewRgb3,s32,s32);
+void DrawSelectionIconGrid(s32);void PrepareCarDrawPose(RrRaceVehicle *);void DrawPreviewCar(RrRaceVehicle *,RrPreviewRgb3,s32,s32);
 void UpdateBadgeRowAnim(s32);s32 UpdateImageRow(s32);void UpdateScreenFade(s32);
 void SetMenuFrameOptions(s32,s32,s32);void StepMenuValue(s32,s32,char*,s32,s32);void UnpackChoiceGlyph(s8*,s32);void ResetScreenCounters(void);void PlaySfx(s32);void SeqMuteVolume(void);void SeqFadeVolume(s32,s32);void ovl666_init_menu(void);
 static struct State {u32 guard[4];s32 frame,player,rowCount; u16 state; s16 scene,timer,menu,row,course,d44,limitAlias;u16 enable,be8; s16 highCourse;u8 courseMap[8]; s32 overlayMode,ready; RrMenuSelectionWord32 selected; s16 limits[4];u16 courseTable[4][4];
@@ -41,10 +41,10 @@ static struct State {u32 guard[4];s32 frame,player,rowCount; u16 state; s16 scen
  u8 modes[2][3];unsigned root,badgeRoot,modeRoot,contextRoot;u32 tail[4];} actual,reference,*w;
 static u8 buffers[3][32];
 #define ReverseCourse w->highCourse
-#define D_8009F64C w->courseMap
+#define CourseIndexMap w->courseMap
 #define ModeFrame w->frame
 #define UiRowCount w->rowCount
-#define D_800F4D8A w->state
+#define ModeSubState w->state
 #define ModeId w->scene
 #define ModeGroup w->enable
 #define MenuFadeTimer w->timer
@@ -107,7 +107,7 @@ void ovl666_init_menu(void){record(11,0,0,0,0,0,0,0,0);effect(11);}
 void AddScreenFadeTiles(u32 *p,s32 a,u32 b){assert(p==&w->contexts[w->contextRoot].ordering.ordering70&&(uintptr_t)p>UINT32_MAX);record(12,w->contextRoot,a,b,0,0,0,0,0);effect(12);}
 void DrawUiRow(s32 a){record(13,a,0,0,0,0,0,0,0);effect(13);}
 void DrawSelectionIconGrid(s32 a){record(14,a,0,0,0,0,0,0,0);effect(14);}
-void func_8002E5A0(RrRaceVehicle *p){assert(p==w->vehicles&&(uintptr_t)p>UINT32_MAX);record(15,0,0,0,0,0,0,0,0);effect(15);}
+void PrepareCarDrawPose(RrRaceVehicle *p){assert(p==w->vehicles&&(uintptr_t)p>UINT32_MAX);record(15,0,0,0,0,0,0,0,0);effect(15);}
 void DrawPreviewCar(RrRaceVehicle *p,RrPreviewRgb3 c,s32 a,s32 b){assert(p==w->vehicles);record(16,c.r,c.g,c.b,a,b,0,0,0);effect(16);}
 void UpdateBadgeRowAnim(s32 a){record(17,a,0,0,0,0,0,0,0);effect(17);}
 s32 UpdateImageRow(s32 a){record(18,a,0,0,0,0,0,0,0);effect(18);return half(scenario);}
@@ -145,7 +145,7 @@ static void expected(void){int ready=0;w->frame=word((u32)w->frame+1);w->player=
  }
 footer:
  for(int i=3;i<5;i++)DrawUiRow(i);if(w->overlayMode==2){DrawUiRow(5);DrawUiRow(6);}
- if((u8)((s8)w->modes[w->modeRoot][1]-1)<2&&ready==1){DrawSelectionIconGrid(0);func_8002E5A0(w->vehicles);RrPreviewRgb3 c;int scale,flags;
+ if((u8)((s8)w->modes[w->modeRoot][1]-1)<2&&ready==1){DrawSelectionIconGrid(0);PrepareCarDrawPose(w->vehicles);RrPreviewRgb3 c;int scale,flags;
   if((s8)w->modes[w->modeRoot][1]==ready){colors[0]++;unsigned level=w->modes[w->modeRoot][2];c.r=c.g=c.b=(u8)~(level*255/30);scale=level*256/30;flags=258;}else{colors[1]++;c.r=c.g=c.b=128;scale=256;flags=1;}DrawPreviewCar(w->vehicles,c,scale,flags);}
  UpdateBadgeRowAnim(0);if(UpdateImageRow(0)>0&&w->limits[w->row]>=2)DrawMenuStepArrows(160,144,8,1,w->selected.word,0,w->limits[w->row]);
 title:UpdateScreenFade(0x10036);

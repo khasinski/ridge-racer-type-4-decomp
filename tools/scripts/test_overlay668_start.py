@@ -26,7 +26,7 @@ class Overlay668StartTest(unittest.TestCase):
 #include "rr/overlay668_decode.h"
 static RrStrStreamPrefix streams[3];
 static RrLibQueueRecord32 queues[3][4];
-RrStrStreamPrefix *D_800AC708;
+RrStrStreamPrefix *StrStreamState;
 static unsigned scenario, step;
 static RrLibInterruptCallback requested;
 static void callback0(void) { assert(0); }
@@ -40,14 +40,14 @@ static struct {
 void ovl668_func_80116298(s32 mode) {
  assert(step==0 && mode==0); world.events[step++]=1;
  /* Both preceding boundaries can replace the active root. */
- D_800AC708=&streams[(scenario+1)%3];
+ StrStreamState=&streams[(scenario+1)%3];
  streams[(scenario+2)%3].queue20=&queues[(scenario+1)%3][scenario%4];
 }
 RrLibInterruptCallback ovl668_func_80116534(RrLibInterruptCallback callback) {
  RrLibInterruptCallback previous=world.installed;
  assert(step==1 && callback==requested); world.events[step++]=2;
  world.installed=callback;
- D_800AC708=&streams[(scenario+2)%3];
+ StrStreamState=&streams[(scenario+2)%3];
  streams[(scenario+2)%3].queue20=&queues[(scenario+2)%3][(scenario+1)%4];
  return previous;
 }
@@ -55,7 +55,7 @@ void StSetRing(RrLibQueueRecord32 *queue,s32 count) {
  assert(step==2 && count==32);
  assert(queue==&queues[(scenario+2)%3][(scenario+1)%4]);
  world.events[step++]=3; world.queue=queue; world.count=count;
- D_800AC708=&streams[scenario%3];
+ StrStreamState=&streams[scenario%3];
 }
 void StSetStream(s32 a,s32 b,s32 c,s32 d,s32 e) {
  assert(step==3); world.events[step++]=4;
@@ -80,9 +80,9 @@ int main(void) {
   expected.args[0]=1;expected.args[1]=1;expected.args[2]=-1;
   expected.args[3]=0;expected.args[4]=0;
   for(i=0;i<4;i++)expected.events[i]=i+1;
-  D_800AC708=&streams[scenario%3]; step=0;
+  StrStreamState=&streams[scenario%3]; step=0;
   ovl668_func_80114EE8(requested);
-  assert(step==4 && D_800AC708==&streams[scenario%3]);
+  assert(step==4 && StrStreamState==&streams[scenario%3]);
   assert(memcmp(&world,&expected,sizeof(world))==0);
   for(i=0;i<sizeof(queues);i++)assert(((u8*)queues)[i]==(u8)(scenario+i*17));
   for(i=0;i<3;i++)for(j=0;j<2;j++)assert(streams[i].buffers18[j]==&queues[i][j]);

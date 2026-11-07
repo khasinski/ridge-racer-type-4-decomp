@@ -164,7 +164,7 @@ int _spu_init(s32 warm)
     _spu_inTransfer=1;
     end->halves[213]=0xC000;
     _spu_transferCallback=0;
-    D_800A4814=0;
+    _spu_IRQCallback=0;
     /* ASM_BARRIER: Finish reset stores before the return phase. */
     __asm__("" : : "r"(result) : "memory");
     return result; }

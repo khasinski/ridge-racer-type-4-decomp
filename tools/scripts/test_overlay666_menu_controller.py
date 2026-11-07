@@ -41,7 +41,7 @@ static State actual,reference,*w;
 #define MenuFadeTimer w->timer
 #define MenuCursor w->selected
 #define CourseListIndex w->glyph
-#define D_800F4D8A w->phase
+#define ModeSubState w->phase
 #define ModeGroup w->enable
 #define ModeId w->scene
 #define ovl666_course_counts w->available

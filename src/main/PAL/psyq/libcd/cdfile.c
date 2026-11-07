@@ -41,7 +41,7 @@ extern const char CdNewMediaReadErrorStr[];
 extern const char StrCd001[];
 extern const char CdNewMediaFormatErrorMsg[];
 extern const char StrCdNewmediaReadError[];
-extern const char D_80011C4C[];
+extern const char StrCdNewmediaSearchingDir[];
 extern const char CdFileInfoFmt[];
 extern const char StrCdNewMediaDirCountFmt[];
 extern void PsyqMemcpy(char *, void *, int);
@@ -162,7 +162,7 @@ int DS_newmedia(void) {
     }
     p = p8c;
     if (CD_debug >= 2) {
-        DebugPrintStub(D_80011C4C);
+        DebugPrintStub(StrCdNewmediaSearchingDir);
     }
     i = 0;
     while (p < p8c + 0x800) {

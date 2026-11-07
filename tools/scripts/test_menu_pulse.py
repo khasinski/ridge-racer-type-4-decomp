@@ -20,7 +20,7 @@ static const RrPulseRow *repeat_owner[12],*once_owner[12];
 #define PlayerControllers actual.outputs
 #define PadPulseState actual.states
 #define Options actual.settings
-#define D_8009FFA0 (repeat_owner+4)
+#define PadPulseRepeatRows (repeat_owner+4)
 #define D_8009FF80 (once_owner+4)
 '''+body+r'''
 static const RrPulseRow *mapped(const RrPulseRow *row) {
@@ -36,7 +36,7 @@ static void reference(void) {
   if(expected.settings.controls.pulse[i].disabled02) {out->output19=out->output1A=0;continue;}
   if(state->repeat04) {
    int table_index=state->repeat04+(out->kind1C?-1:2);
-   row=mapped(D_8009FFA0[table_index]+state->repeat_step0C);
+   row=mapped(PadPulseRepeatRows[table_index]+state->repeat_step0C);
    if(out->kind1C){out->output19=row->first;out->output1A=row->second;}
    else {out->output19=64;out->output1A=row->first;}
    state->repeat_tick08++;

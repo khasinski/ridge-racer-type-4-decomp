@@ -44,7 +44,7 @@ void ovl666_exit_race(void) {
     SetupRaceAndScene();
     ModeGroup = 1;
     ModeId = 82;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, 255, 69);
 }
 
@@ -83,8 +83,8 @@ void ovl666_update_race(void) {
             DrawLapCounter(0, PlayerCars[0].steering288.count22);
             DrawRaceMinimap(0);
             DrawSteeringIndicator(&CurrentDrawBuf->ordering.ordering70[0], 0);
-            func_80021C00(1);
-            func_800211A4(0);
+            UpdateFinalLapIndicator(1);
+            DrawHudFrameSprites(0);
             SubmitRaceHudPackets(4);
         }
         if (RaceState == 0 && ModeFrame < 75U) {
@@ -98,7 +98,7 @@ void ovl666_update_race(void) {
         SetupPlayerView(0);
         DrawTrackObjects(0);
         DrawTrackSceneryForPlayer(0);
-        func_80070734(ScreenFrame);
+        DrawRearViewMirror(ScreenFrame);
         return;
     }
 
@@ -138,7 +138,7 @@ void ovl666_update_race(void) {
             if (RaceState == 4 && (ovl666_result_kind = PlayerCars[0].half1EE) == 0) {
                 ModeGroup = 1;
                 ModeId = 21;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
             } else {
                 FinishRace();
             }
@@ -176,8 +176,8 @@ void ovl666_update_race(void) {
         DrawLapCounter(0, PlayerCars[0].steering288.count22);
         DrawRaceMinimap(0);
         DrawSteeringIndicator(&CurrentDrawBuf->ordering.ordering70[0], 0);
-        func_80021C00(1);
-        func_800211A4(0);
+        UpdateFinalLapIndicator(1);
+        DrawHudFrameSprites(0);
         SubmitRaceHudPackets(4);
     }
     if (RaceState == 0 && ModeFrame < 75U) {
@@ -194,8 +194,8 @@ void ovl666_update_race(void) {
     UpdateTrackObjects(0);
     DrawTrackObjects(0);
     DrawTrackSceneryForPlayer(0);
-    func_80070734(ScreenFrame);
-    SlotSetLevelProgram(EngineRevDisplay.first, D_800F2AB4.first, 0);
+    DrawRearViewMirror(ScreenFrame);
+    SlotSetLevelProgram(EngineRevDisplay.first, EngineThrottleOn.first, 0);
     if (RaceState >= 4) {
         StopRaceRumble();
         if (RaceState == 6) {

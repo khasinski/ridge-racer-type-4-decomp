@@ -29,7 +29,7 @@ typedef uint8_t u8; typedef int8_t s8;
 typedef uint16_t u16; typedef int16_t s16;
 typedef uint32_t u32; typedef int32_t s32;
 ''' + header + '''
-const char D_80011F38[]="DrawOTag(%08x)...\\n";
+const char DrawOTagFmt[]="DrawOTag(%08x)...\\n";
 RrGpuDebugSettings D_800ABAC2;
 s32 (*test_debug)(const char *,s32);
 s32 test_printf(const char *format,...) {

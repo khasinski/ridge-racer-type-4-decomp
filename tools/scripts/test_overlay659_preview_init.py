@@ -38,7 +38,7 @@ static State actual,reference,*w;
 #define MenuCursor w->selection
 #define MenuItemCount w->mode
 #define ModeId w->scene
-#define D_800F4D8A w->phase
+#define ModeSubState w->phase
 #define ModeGroup w->enable
 #define SelectionState w->settings
 #define UiRows (w->rows[w->root])

@@ -6,7 +6,7 @@
 /* These scene exits draw through the containing frame's ordering table.
  * The first rectangle is the published screen context. */
 extern u16 ModeGroup;
-extern s16 ModeId,D_800F4D8A;
+extern s16 ModeId,ModeSubState;
 void StopRaceAudioAndRumble(void);
 void ovl660_func_8011712C(void);
 void ovl661_func_80114AA0(void);

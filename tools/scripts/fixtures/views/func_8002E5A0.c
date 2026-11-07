@@ -20,7 +20,7 @@ extern int MulMatrix2();
 
 extern int ApplyMatrix();
 
-void func_8002E5A0(a0) char *a0; {
+void PrepareCarDrawPose(a0) char *a0; {
     struct { int m1[8]; int m2[8]; short v[3]; } L;
     int t1, t2;
     unsigned short u1, u2, u3;

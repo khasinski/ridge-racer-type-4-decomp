@@ -28,7 +28,7 @@ extern struct
 } SoundState;
 extern int CdAudioSetVolume();
 extern int CdAudioMute();
-extern char D_800F7414[];
+extern char CdAudioStatusResult[];
 extern int CdAudioSetVolumeRaw();
 extern int CdDiskReady();
 
@@ -102,8 +102,8 @@ void CdAudioPlayStep()
         }
         break;
     case 3:
-        CdControl(1, 0, D_800F7414);
-        p = (B *)(D_800F7414 - 0x265C);
+        CdControl(1, 0, CdAudioStatusResult);
+        p = (B *)(CdAudioStatusResult - 0x265C);
         if (*((unsigned char *)p + 0x265C) & 0x20) {
             p->f2678 = p->f2678 + 1;
             break;

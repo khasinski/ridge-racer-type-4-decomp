@@ -38,7 +38,7 @@ static unsigned scenario,family,slot,postbyte,expected_map,expected_sound,map_ca
 #define PlayerControllers world.items
 #define MenuResultCode world.pending
 #define ModeId world.scene
-#define D_800F4D8A world.latch
+#define ModeSubState world.latch
 #define ModeGroup world.transition
 '''+data+bodies+r'''
 static u32 rng=0x1FB2C;

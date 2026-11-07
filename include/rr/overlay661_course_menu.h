@@ -10,7 +10,7 @@ extern s32 ScreenFrame,ModeFrame,NumLaps,MenuActivePlayerPlusOne,ovl661_D_801184
 extern s16 CourseMenuSelection,MenuCursor,MenuItemCount,MenuFadeTimer,CourseIndex,ModeId,MenuScriptId,ModeGroup,RaceType;
 extern s16 ovl661_D_80118448[2];
 extern s16 SelectedCarIndex;
-extern u16 D_800F4D8A;
+extern u16 ModeSubState;
 extern RrMenuSelectionWord32 NumCars;
 extern RrSelectionRows SelectionRows;
 extern RrMenuItemState5C PlayerControllers[2];

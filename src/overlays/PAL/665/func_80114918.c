@@ -23,5 +23,5 @@ void ovl665_func_80114918(void)
     scratch->word08=0;scratch->word0C=0;scratch->word10=0;
     scratch->word18=0;scratch->word1C=0;scratch->word20=0;
     ResetScreenCounters();
-    D_800F4CA8=2;ModeGroup=2;ModeId=2;D_800F4D8A=0;
+    DialogueContext=2;ModeGroup=2;ModeId=2;ModeSubState=0;
 }

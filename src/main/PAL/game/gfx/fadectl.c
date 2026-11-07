@@ -7,7 +7,7 @@ extern struct {
     int f424; char pad6[4]; int f42C; int f430; int f434; char pad7[8]; int f440;
 } RaceContext;
 
-void func_8005C7A4(void) {
+void InitSceneFade(void) {
     int v, w, x;
     RaceContext.f434 = 0;
     RaceContext.f440 = 0;

@@ -25,8 +25,8 @@ void ovl667_func_80115068(void) {
                 ovl667_D_80118F8D = ovl667_D_80118F08;
             }
         }
-        D_800ACBE0.choices[0] = ovl667_D_80118F20.packets[ovl667_D_80118F8D].first04;
-        D_800ACBE0.choices[1] = ovl667_D_80118F20.packets[ovl667_D_80118F8D].second08;
+        LinkRemoteInputs.choices[0] = ovl667_D_80118F20.packets[ovl667_D_80118F8D].first04;
+        LinkRemoteInputs.choices[1] = ovl667_D_80118F20.packets[ovl667_D_80118F8D].second08;
         ovl667_D_80118EED = ovl667_D_80118F20.packets[ovl667_D_80118F8D].phase03;
     }
 }

@@ -86,7 +86,7 @@ int _cardVsyncHandler() {
         g[1] &= ~0x80;
         h = CardSio0Regs;
         h[5] = 0;
-        SysDeqIntRP(1, D_800ABDC0);
+        SysDeqIntRP(1, CardSioIrqQueueEntry);
         CardSio0Regs[5] = 0x40;
         CardSio0Regs[7] = 0x88;
         CardSio0Regs[4] = 0xD;
@@ -94,8 +94,8 @@ int _cardVsyncHandler() {
         return 0;
     }
     if (CardCommandStatus & 1) return 0;
-    SysDeqIntRP(1, D_800ABDC0);
-    SysEnqIntRP(1, D_800ABDC0);
+    SysDeqIntRP(1, CardSioIrqQueueEntry);
+    SysEnqIntRP(1, CardSioIrqQueueEntry);
     _cardSioHandler();
     return 0;
 }

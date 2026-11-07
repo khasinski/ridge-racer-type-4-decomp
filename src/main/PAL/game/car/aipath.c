@@ -81,7 +81,7 @@ extern int FindTrackNode();
 
 s32 FindTrackNodeUnbounded(s32 *pos, s32 startIdx);
 void UpdateCarTrackNode(RrRaceVehicle *p);
-void func_8002679C(void *arg0);
+void UpdateWheelSpin(void *arg0);
 void UpdateCarGear();
 void FindTrackNodeAtXZ(int a0, int a1);
 
@@ -295,7 +295,7 @@ void UpdateCarTrackNode(RrRaceVehicle *p)
   p->trackNodeF0 = t;
 }
 
-void func_8002679C(void *arg0) {
+void UpdateWheelSpin(void *arg0) {
     s32 temp_v1;
     s32 var_v1;
 

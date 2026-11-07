@@ -81,7 +81,7 @@ static void notification0(s32,u8*),notification1(s32,u8*);
 const char CdReadSectorErrorMsg[]="CdRead: sector mismatch\n";
 #define CdReadState actual.state
 #define D_800A67B8 (*(RrCdPositionView*)&actual.state.position08)
-#define D_800A67D0 actual.state.completed20
+#define CdReadExpectedPos actual.state.completed20
 #define CD_read_dma_mode actual.flags
 ''' + body + '\n' + decoder + r'''
 enum {SET,READ_IMMEDIATE,READ_DEFERRED,SYNC,DECODE,DIAGNOSTIC,CLOCK,RESTART,COMMAND,NOTIFY};

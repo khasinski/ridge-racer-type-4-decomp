@@ -67,10 +67,10 @@ void ovl660_func_80116530(void) {
         ((s8 *)ImageRows)[1] = loadResult;
     }
     modelReady = 1;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 7:
         if (UiRows[(s16)(ovl660_preview_bank ^ 1) * 3 + 4].byte14 == 5) {
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
     case 0:
         SetMenuFrameOptions(1, 1, 1);
@@ -100,7 +100,7 @@ void ovl660_func_80116530(void) {
             if (MenuCursor == 0) {
                 PlaySfx(1);
                 ovl660_preview_confirmation = selectionState;
-                D_800F4D8A = 4;
+                ModeSubState = 4;
             } else if (MenuCursor == 1 && CourseChoiceTable[1][0].glyph != -1) {
                 PlaySfx(1);
                 ovl660_preview_selection = 0;
@@ -112,7 +112,7 @@ void ovl660_func_80116530(void) {
                     UiRows[(s16)(ovl660_preview_bank ^ 1) * 3 + rowIndex + 4].byte14 = 0;
                     rowIndex += 1;
                 } while (rowIndex < 3);
-                D_800F4D8A = 7;
+                ModeSubState = 7;
                 MenuCursor = 0;
                 ovl660_preview_bank ^= 1;
             } else if (MenuCursor == 2) {
@@ -137,7 +137,7 @@ void ovl660_func_80116530(void) {
             } while (rowIndex < 3);
         close_selection:
             ((s8 *)ImageRows)[1] = 3;
-            D_800F4D8A = 5;
+            ModeSubState = 5;
             BadgeRows->state10 = 4;
         }
         break;
@@ -150,7 +150,7 @@ void ovl660_func_80116530(void) {
             MenuScriptId = 0;
             ModeGroup = 1;
             ModeId = 0x23;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             goto save_preview_arena;
         }
         break;
@@ -166,7 +166,7 @@ void ovl660_func_80116530(void) {
                 UiRows[SelectionRows.selection.pad02[1] + 10].cells[0] = 1;
                 UiRows[10].byte14 = 7;
                 UiRows[11].byte14 = 7;
-                D_800F4D8A = 3;
+                ModeSubState = 3;
                 MenuFadeTimer = 0x40;
                 SeqFadeVolume(0, 0x3C);
             save_preview_arena:
@@ -175,13 +175,13 @@ void ovl660_func_80116530(void) {
                 PlaySfx(2);
                 UiRows[10].byte14 = 3;
                 UiRows[11].byte14 = 3;
-                D_800F4D8A = 6;
+                ModeSubState = 6;
             }
         }
         break;
     case 6:
         if (UiRows[10].byte14 == 5) {
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             ovl660_preview_confirmation = 1;
             UiRows[10].byte14 = 0;
             UiRows[11].byte14 = 0;
@@ -194,7 +194,7 @@ void ovl660_func_80116530(void) {
             ovl660_func_80114920();
             ModeGroup = 1;
             ModeId = 50;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             goto end;
         }
         break;
@@ -215,7 +215,7 @@ draw_rows:
             ovl660_preview_confirmation = 1;
             BadgeRows->half02 = 1;
         }
-        if (D_800F4D8A == 7) {
+        if (ModeSubState == 7) {
             other = (s16)(ovl660_preview_bank ^ 1);
             if (UiRows[other * 3 + 4].byte14 == headerState) {
                 first = ovl660_preview_bank * 3 + 4;
@@ -238,7 +238,7 @@ draw_rows:
     drawModel = modelReady;
     if (((u32)((u8)((s8 *)ImageRows)[1] - 1) < 2U) && (drawModel == 1)) {
         DrawSelectionIconGrid(0);
-        func_8002E5A0(PlayerCars);
+        PrepareCarDrawPose(PlayerCars);
         scale = 0x100;
         if (((s8 *)ImageRows)[1] == drawModel) {
             brightness = ~((ImageRows[2] * 0xFF) / 30);

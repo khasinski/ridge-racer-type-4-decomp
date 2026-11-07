@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void func_800307B4();
+void DrawRaceLoadScreen();
 
 #endif /* RR_GAME_MENU_MENUICON_H */

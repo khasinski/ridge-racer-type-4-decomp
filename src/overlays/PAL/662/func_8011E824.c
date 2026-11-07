@@ -111,7 +111,7 @@ block_36:
                     ovl662_D_801272E8 = 1;
                     ModeGroup = 1;
                     ModeId = 0x45;
-                    D_800F4D8A = 0;
+                    ModeSubState = 0;
                     return;
                 }
                 break;

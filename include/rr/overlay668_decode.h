@@ -10,7 +10,7 @@ typedef struct {
     void *buffers18[2];
     RrLibQueueRecord32 *queue20;
 } RrStrStreamPrefix;
-extern RrStrStreamPrefix *D_800AC708;
+extern RrStrStreamPrefix *StrStreamState;
 void ovl668_func_80114EE8(RrLibInterruptCallback callback);
 RR_ASSERT_OFFSET(RrStrStreamPrefix, commands10, 0x10);
 RR_ASSERT_OFFSET(RrStrStreamPrefix, buffers18, 0x18);

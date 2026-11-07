@@ -6,7 +6,7 @@ void ovl662_func_80118A30(void) {
     s32 phase;
     u8 normalizedRow;
 
-    phase = (u16)D_800F4D8A;
+    phase = (u16)ModeSubState;
     ModeFrame=(u32)ModeFrame+1;
     cancel = 0;
     ScreenFrame=(u32)ScreenFrame+1;
@@ -50,7 +50,7 @@ normalizeColumn:
                 }
 }else if(ovl662_D_801273B4==42){
                 MenuFadeTimer = 0x40;
-                D_800F4D8A = 1;
+                ModeSubState = 1;
                 CopyStringClearTail(SaveProgress.prefix.progress.prefix00.fields.name,(char*)ovl662_D_801273A8);
             }
         } else if (cancel == 1) {
@@ -69,7 +69,7 @@ normalizeColumn:
             MenuResultCode = 5;
             ModeGroup = phase;
             ModeId = 0x47;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
     }
     UpdateBadgeRowAnim(0);

@@ -42,7 +42,7 @@ typedef struct {
     int f1A30;
 } GlobalF4DB8;
 
-extern T D_8010738C[];
+extern T ComCarsControl[];
 extern CurvePt RubberBandCurve[];
 extern short D_8009FE78;
 extern RaceDist *RaceStandings;
@@ -57,9 +57,9 @@ int CalcRubberBandFactor(Vehicle *a0, int a1);
 
 void AverageCarSpec(int x, int y, int z) {
     int i;
-    T *tx = &D_8010738C[x];
-    T *ty = &D_8010738C[y];
-    T *tz = &D_8010738C[z];
+    T *tx = &ComCarsControl[x];
+    T *ty = &ComCarsControl[y];
+    T *tz = &ComCarsControl[z];
     tx->f0 = (ty->f0 + tz->f0) / 2;
     for (i = 0; i < 6; i++) {
         tx->a[i] = (ty->a[i] + tz->a[i]) >> 1;

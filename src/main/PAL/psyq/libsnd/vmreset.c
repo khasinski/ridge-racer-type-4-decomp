@@ -59,7 +59,7 @@ extern s8 spuVmMaxVoice;
 extern s16 SvmVoiceIndex;
 extern u8 _svm_vab_used[];
 extern s16 _svm_vab_count;
-extern u8 D_801101C8[];
+extern u8 SpuMallocTable[];
 
 void _SsVmInit(s32 arg0) {
     SpuVoiceAttr attr;
@@ -70,7 +70,7 @@ void _SsVmInit(s32 arg0) {
 
     _spu_setInTransfer(0);
     _svm_damper = 0;
-    SpuInitMalloc(0x20, D_801101C8);
+    SpuInitMalloc(0x20, SpuMallocTable);
 
     i = 0;
     p = _svm_sreg_buf;

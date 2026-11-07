@@ -17,10 +17,10 @@ s32 CountChoiceGlyphs(const RrCourseChoice4 *a0);
 
 void UpdateCourseListChoice(void) {
     s32 state;
-    u32 selected=D_800F4D99;
+    u32 selected=CourseListSavedIndex;
     CourseListIndex=selected;
     ((u8 *)UiRows)[12+selected]=0;
-    if(D_800F3A42&0x2000) {
+    if(Pad0RepeatButtons&0x2000) {
         if(CourseListIndex<3) {
 
             CourseListIndex=CourseListIndex+1;
@@ -28,7 +28,7 @@ void UpdateCourseListChoice(void) {
             goto changed;
         }
     }
-    if(D_800F3A42&0x8000) {
+    if(Pad0RepeatButtons&0x8000) {
         if(CourseListIndex>0) {
             CourseListIndex=CourseListIndex-1;
             MenuStepDirection=1;
@@ -43,7 +43,7 @@ changed:
     if(CourseListIndex<0)CourseListIndex=0;
     else if(CourseListIndex>=4)CourseListIndex=3;
     Dialogue[4]=(u8)CourseListIndex+34;
-    D_800F4D99=CourseListIndex;
+    CourseListSavedIndex=CourseListIndex;
     GlyphRows[CourseListIndex].control02=-6;
     GlyphRows[CourseListIndex].flags00=0;
     UiRows->byte16=(u8)CourseListIndex+4;
@@ -105,7 +105,7 @@ void DrawTrackSceneryForPlayer(int a0) {
     int v;
     if (ViewUsesCarTrackNode == 1) {
         if (a0 < 2) {
-            v = D_800ABFE8;
+            v = ViewCarTrackNode;
         } else {
             v = D_800AC308;
         }

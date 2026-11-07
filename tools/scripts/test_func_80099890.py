@@ -40,7 +40,7 @@ s32 _padSioRW2(RrTransferState *state, u8 value) {
         subprocess.run(['cc', '-shared', '-fPIC', '-O2', str(directory / 'function.c'),
                         '-o', str(directory / 'function.so')], check=True, capture_output=True)
         cls.library = C.CDLL(str(directory / 'function.so'))
-        cls.function = cls.library.func_80099890
+        cls.function = cls.library._padTxByteChkAck
         cls.function.argtypes = [C.POINTER(State)]
         cls.function.restype = C.c_int32
 

@@ -46,7 +46,7 @@ static const u32 counterBits[7]={0,1,0x7FFFFFFFU,0x80000000U,0xFFFFFFFEU,0xFFFFF
 static u8 buffers[3][32];static const s32 limits[3]={4,8,16};static const s32 modes[6]={-1,0,1,2,0x10001,(s32)0x80000001U};
 #define ModeFrame w->frame
 #define ScreenFrame w->tick
-#define D_800F4D8A w->state
+#define ModeSubState w->state
 #define ModeId w->scene
 #define ModeGroup w->enable
 #define MenuFadeTimer w->timer
@@ -65,7 +65,7 @@ static u8 buffers[3][32];static const s32 limits[3]={4,8,16};static const s32 mo
 #define LapRecords w->banks[1]
 #define LoadCursor w->published
 #define MenuArenaBase w->buffer
-#define D_8009F64C w->mapping
+#define CourseIndexMap w->mapping
 #define ovl663_selected_record w->selected
 #define ovl663_course_count w->limit
 #define ovl663_record_kind w->mode

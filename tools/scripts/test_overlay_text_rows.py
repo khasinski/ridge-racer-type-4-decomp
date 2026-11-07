@@ -80,7 +80,7 @@ int main(void) {
 #include <string.h>
 #include "rr/menu_text_rows.h"
 #include "rr/overlay_menu.h"
-RrMenuTextRow60 D_800FFC48[55];
+RrMenuTextRow60 SharedWorkBuffer[55];
 struct State {
  u32 guard[4];s32 frame,match,table661[22],table667[22];
  s16 selection,mode,scores[2],winners[2],wins[2],participants,ranks[8],counts[8],order[8],reset;
@@ -100,8 +100,8 @@ static unsigned scenario,mutation;
 #define ovl661_D_80118418 w->state.wins
 #define NumCars w->state.participants
 #define D_8010C070 w->state.ranks
-#define D_8010C080 w->state.counts
-#define D_8010C0C8 w->state.order
+#define PlayerWinCounts w->state.counts
+#define FinalCarRanks w->state.order
 #define LinkState w->state.reset
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 static s16 half(u32 n){u16 bits=(u16)n;s16 v;memcpy(&v,&bits,2);return v;}
@@ -133,7 +133,7 @@ static void event(s32 kind,s32 a,s32 b,s32 c,s32 d,s32 e) {
  }
 }
 s32 InitMenuTextRows(RrMenuTextRow60 *rows) {
- assert(rows==D_800FFC48 && (uintptr_t)rows>UINT32_MAX);
+ assert(rows==SharedWorkBuffer && (uintptr_t)rows>UINT32_MAX);
  assert(w->calls==0);event(0,0,0,0,0,0);return -1;
 }
 void SetMenuTextRow(s32 row,s32 position,s32 group,s32 mode,s32 label) {

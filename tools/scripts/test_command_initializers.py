@@ -10,7 +10,7 @@ from c_functions import source_owners
 
 # Constructor, command code, read callback, write callback, parameter globals.
 CASES = [
-    ('8009D198', 7, '8009D118', '8009C610', ('D_8011472C',)),
+    ('8009D198', 7, '8009D118', '8009C610', ('CardCmdValue',)),
     ('8009D348', 8, '8009D3E8', '8009C610', ('CardCmdSector',)),
     ('8009D5B4', 100, '8009D65C', '8009D680', ('CardCmdResultPtrA', 'CardCmdResultPtrB')),
     ('8009D700', 12, '8009D7A0', '8009D7C4', ('CardCmdBuffer',)),
@@ -22,7 +22,7 @@ CASES = [
     ('8009C638', 3, '8009C6D8', '8009C6F8', ('CardCmdBuffer',)),
 ]
 SCALARS = ['CardTxCount', 'CardCommandRequest', 'CardReceiveIndex', 'CardRxCount',
-           'CardCmdSector', 'CardVarRxLength', 'D_8011472C', 'CardBytesRemaining', 'CardCurrentCommand']
+           'CardCmdSector', 'CardVarRxLength', 'CardCmdValue', 'CardBytesRemaining', 'CardCurrentCommand']
 POINTERS = ['CardCmdBuffer', 'CardCmdResultPtrA', 'CardCmdResultPtrB', 'CardCommandReader', 'CardWriteHandler']
 
 
@@ -55,7 +55,7 @@ u8 *CardCmdBuffer;
 void *CardCmdResultPtrA;
 u32 *CardCmdResultPtrB;
 s32 test_callback_calls;
-''' + '\n'.join('s32 ' + name + ';' for name in SCALARS if name not in ('D_8011472C', 'CardCmdSector')) + '''
+''' + '\n'.join('s32 ' + name + ';' for name in SCALARS if name not in ('CardCmdValue', 'CardCmdSector')) + '''
 s32 (*CardCommandReader)(void);
 s32 (*CardWriteHandler)(s32);
 '''
@@ -69,7 +69,7 @@ s32 (*CardWriteHandler)(s32);
         source = prefix + header + serial + asm_header + '''
 RrSerialPortRegisters test_serial_ports[2];
 RrSerialPortRegisters *volatile CardCmdSioRegs = &test_serial_ports[0];
-RrCommandParameter D_8011472C;
+RrCommandParameter CardCmdValue;
 s32 test_validation_calls;
 s32 test_validation_results[2];
 s32 test_validation_modes[2], test_validation_values[2];
@@ -101,7 +101,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
         cls.serial_pointer = C.c_void_p.in_dll(cls.library, 'CardCmdSioRegs')
         cls.ram = (C.c_uint32 * 0x4000).in_dll(cls.library, 'test_ram')
         cls.parameter_page = (C.c_int32 * 0x4000).in_dll(cls.library, 'test_parameter_page')
-        cls.parameter = Parameter.in_dll(cls.library, 'D_8011472C')
+        cls.parameter = Parameter.in_dll(cls.library, 'CardCmdValue')
         cls.scalars = {name: C.c_int32.from_buffer(cls.parameter_page, 0x4724) if name == 'CardCmdSector' else C.c_int32.in_dll(cls.library, name) for name in SCALARS}
         cls.validated_start = cls.library._cardCmd59ParamBegin
         cls.validated_start.argtypes = [C.c_int32, C.c_int32, C.c_void_p]
@@ -313,7 +313,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
             ram, scalars, pointers = self.snapshot()
             union = bytearray(self.parameter)
             union[:4] = (1).to_bytes(4, 'little')
-            scalars['D_8011472C'] = 1
+            scalars['CardCmdValue'] = 1
             scalars['CardBytesRemaining'] = byte + 1
             pointers['CardCmdBuffer'] = pointers['CardCmdResultPtrA']
             serial_before = bytes(self.serial_ports), self.serial_pointer.value
@@ -356,7 +356,7 @@ s32 func_8009DF14(s32 mode, s32 value) {
         self.serial_ports[0] = 255
         self.assertEqual(writer(-1), 0)
         self.assertEqual(self.pointers['CardCmdBuffer'].value, first)
-        self.assertEqual(self.scalars['D_8011472C'].value, 1)
+        self.assertEqual(self.scalars['CardCmdValue'].value, 1)
         self.assertEqual(self.scalars['CardBytesRemaining'].value, 256)
         self.assertEqual(self.calls.value, 0)
 
@@ -443,9 +443,9 @@ s32 func_8009DF14(s32 mode, s32 value) {
                     for field, argument in zip(fields, arguments):
                         (pointers if field in POINTERS else scalars)[field] = argument
                     if n in ('8009CB84', '8009CDFC'):
-                        scalars['CardVarRxLength'] = scalars['D_8011472C'] = 0
+                        scalars['CardVarRxLength'] = scalars['CardCmdValue'] = 0
                     if n == '8009D068':
-                        scalars['D_8011472C'] = 0
+                        scalars['CardCmdValue'] = 0
                     before_buffer, before_words = bytes(self.buffer), bytes(self.words)
                     self.assertEqual(self.functions[n](value, *arguments), 1)
                     self.assertEqual(self.snapshot(), (bytes(expected_ram), scalars, pointers))

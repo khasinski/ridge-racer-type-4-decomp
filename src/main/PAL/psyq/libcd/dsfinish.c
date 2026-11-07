@@ -6,15 +6,15 @@
 #include "rr/library.h"
 #include "rr/overlay668_stream.h"
 
-extern int D_800A67CC[];
+extern int CdReadStartTime[];
 
 s32 CdReadCallback(s32 value);
 s32 CdReadMode(s32 value);
 
 int CdReadSync(a0, a1) int a0, a1; {
     int s0;
-    int *p = D_800A67CC;
-    int *q = D_800A67CC + 2;
+    int *p = CdReadStartTime;
+    int *q = CdReadStartTime + 2;
     for (;;) {
         if (VSync(-1) > p[0] + 0x4B0) {
             s0 = -1;

@@ -48,10 +48,10 @@ static Entry entries[8],actual_entries[8];
 static int count,mutation;
 static unsigned seed;
 static uint64_t arena[32][8];
-#define D_800F4D99 (w->choice.bytes[1])
+#define CourseListSavedIndex (w->choice.bytes[1])
 #define SelectionRows (w->choice)
 #define CourseListIndex (w->selected)
-#define D_800F3A42 (w->buttons)
+#define Pad0RepeatButtons (w->buttons)
 #define MenuStepDirection (w->event)
 #define MenuConfirmPressed (w->accepted)
 #define SelectionState (w->settings)

@@ -77,7 +77,7 @@ void ovl662_func_8011A518(void)
         InitUiRow(1,140,176,28,32,0,0,1,0,105);
         ModeGroup=stage;
         ModeId=4;
-        D_800F4D8A=0;
+        ModeSubState=0;
         break;
     }
 }

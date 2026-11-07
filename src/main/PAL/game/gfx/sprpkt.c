@@ -10,7 +10,7 @@ struct O { char pad[0x70]; u32 addr:24; u32 len:8; };
 extern s32 SoundQueueEnqueue();
 extern s32 RaceState;
 extern s32 SplitTimes[];
-void func_8003BFC8(a0) s32 a0;
+void DrawSplitTimeHud(a0) s32 a0;
 {
     s32 s1, s2, s3, s4, s5, t;
     s32 c;
@@ -25,9 +25,9 @@ void func_8003BFC8(a0) s32 a0;
             s4 = t;
             if (SplitDeltaTimer > 0) {
                 if (a0 == 0) SplitDeltaTimer--;
-                s3 = D_8010C10C;
-                s2 = D_8010C104;
-                s4 = D_8010C108;
+                s3 = LatchedBestSplitTime;
+                s2 = SplitDeltaIndex;
+                s4 = ShownSplitTime;
                 s1 = SplitTimes[s2] - s3;
                 s5 = 0x84;
                 if (s1 < 0) {

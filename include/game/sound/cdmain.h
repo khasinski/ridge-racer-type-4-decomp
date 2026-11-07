@@ -4,6 +4,6 @@
 #include "types.h"
 
 void CdAudioReadyCallback(u8 a0);
-void func_80053A80(void);
+void SeqResetFade(void);
 
 #endif /* RR_GAME_SOUND_CDMAIN_H */

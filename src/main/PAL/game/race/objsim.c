@@ -90,11 +90,11 @@ extern int ModeFrame;
 extern short CourseIndex;
 extern unsigned short PlayerControllers[];
 extern int RaceState;
-extern int D_8010E7A8;
+extern int NodeLerpFromIndex;
 extern int SelectionCountdown;
 extern int NodeLerpIndex;
 extern int NodeLerpStep;
-extern int D_8010E7B8;
+extern int NodeLerpPrevHeading;
 extern int D_8010E7C8[];
 extern S_E8E8 ObjTrailHistory[];
 
@@ -193,7 +193,7 @@ void UpdateTrackObjects(void) {
                         } else if (D_800AC1A2 <= 0 || (CourseIndex == 6 && D_800AC1A2 < 2)) {
                             B4->f8 = 0xB;
                         } else {
-                            switch (D_800AC0E6 + 1) {
+                            switch (PlayerFinishPlace + 1) {
                             case 1:
                                 B4->f8 = 0xC;
                                 break;
@@ -368,7 +368,7 @@ void UpdateTrackObjects(void) {
                                         }
                                         break;
                                     }
-                                    D_8010E7A8 = 0x37;
+                                    NodeLerpFromIndex = 0x37;
                                     SelectionCountdown = 0x36;
                                     NodeLerpIndex = 0x35;
                                     NodeLerpStep = 0x20;
@@ -391,15 +391,15 @@ void UpdateTrackObjects(void) {
                                             v1 += TrackNodeCount;
                                         }
                                         SelectionCountdown = v1;
-                                        v1 = D_8010E7A8 - 1;
-                                        if (D_8010E7A8 <= 0) {
+                                        v1 = NodeLerpFromIndex - 1;
+                                        if (NodeLerpFromIndex <= 0) {
                                             v1 += TrackNodeCount;
                                         }
-                                        D_8010E7A8 = v1;
+                                        NodeLerpFromIndex = v1;
                                     }
-                                    sp[2] = (((AB(SelectionCountdown)->f8 - AB(D_8010E7A8)->f8) * NodeLerpFraction) >> 5) + AB(D_8010E7A8)->f8 * 4;
-                                    sp[3] = (((AB(SelectionCountdown)->f10 - AB(D_8010E7A8)->f10) * NodeLerpFraction) >> 7) + AB(D_8010E7A8)->f10;
-                                    sp[4] = (((AB(SelectionCountdown)->fC - AB(D_8010E7A8)->fC) * NodeLerpFraction) >> 5) + AB(D_8010E7A8)->fC * 4;
+                                    sp[2] = (((AB(SelectionCountdown)->f8 - AB(NodeLerpFromIndex)->f8) * NodeLerpFraction) >> 5) + AB(NodeLerpFromIndex)->f8 * 4;
+                                    sp[3] = (((AB(SelectionCountdown)->f10 - AB(NodeLerpFromIndex)->f10) * NodeLerpFraction) >> 7) + AB(NodeLerpFromIndex)->f10;
+                                    sp[4] = (((AB(SelectionCountdown)->fC - AB(NodeLerpFromIndex)->fC) * NodeLerpFraction) >> 5) + AB(NodeLerpFromIndex)->fC * 4;
                                     sp[5] = ((((AB(NodeLerpIndex)->f8 - AB(SelectionCountdown)->f8) * NodeLerpFraction) >> 5) + AB(SelectionCountdown)->f8 * 4) - sp[2];
                                     sp[6] = ((((AB(NodeLerpIndex)->f10 - AB(SelectionCountdown)->f10) * NodeLerpFraction) >> 7) + AB(SelectionCountdown)->f10) - sp[3];
                                     sp[7] = ((((AB(NodeLerpIndex)->fC - AB(SelectionCountdown)->fC) * NodeLerpFraction) >> 5) + AB(SelectionCountdown)->fC * 4) - sp[4];
@@ -407,9 +407,9 @@ void UpdateTrackObjects(void) {
                                     B4->f10 += sp[3] - 0xFA;
                                     B4->f14 += sp[4];
                                     sp[8] = 0x400 - Atan2Table(sp[5], sp[7]);
-                                    if (sp[8] == D_8010E7B8) {
+                                    if (sp[8] == NodeLerpPrevHeading) {
                                         NodeLerpStep += (NodeLerpStep < 0x2C);
-                                    } else if ((sp[8] >> 4) == (D_8010E7B8 >> 4)) {
+                                    } else if ((sp[8] >> 4) == (NodeLerpPrevHeading >> 4)) {
                                         if (NodeLerpStep < 0x26) {
                                             NodeLerpStep++;
                                         } else if (NodeLerpStep >= 0x27) {
@@ -420,7 +420,7 @@ void UpdateTrackObjects(void) {
                                     }
                                     r6 = sp[8];
                                     B4->f1E = r6;
-                                    D_8010E7B8 = r6;
+                                    NodeLerpPrevHeading = r6;
                                     B4->f1C = 0x400 - Atan2Table(sp[6], CordicSqrt(sp[5] * sp[5] + sp[7] * sp[7]) >> 6);
                                     B4->f20 = 0;
                                 }

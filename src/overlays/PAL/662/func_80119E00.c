@@ -16,7 +16,7 @@ void ovl662_func_80119E00(void) {
 
     ModeFrame = (u32)ModeFrame + 1;
     ScreenFrame = (u32)ScreenFrame + 1;
-    switch ((u16)D_800F4D8A) {
+    switch ((u16)ModeSubState) {
     case 0:
         if (ovl662_D_801272E8 == 0) SetMenuFrameOptions(1,1,1);
         else SetMenuFrameOptions(1,1,0);
@@ -28,7 +28,7 @@ void ovl662_func_80119E00(void) {
             key = (s8)ovl662_D_801272A0[(s16)ovl662_D_801272BE];
             ovl662_D_801272E2 = key;
             if (key == 0) {
-                palette = D_800F3B20;
+                palette = DefaultCarClut;
                 paletteIndex = 0;
             } else {
                 palette = CarClutData;
@@ -61,7 +61,7 @@ void ovl662_func_80119E00(void) {
                             index = 0;
                             ovl662_D_801272D4 = (s16) rowPhase;
                             ovl662_D_80127398 = 0;
-                            D_800F4D8A = (u16) badgePhase;
+                            ModeSubState = (u16) badgePhase;
                             do {
                                 acceptRow = (RrUiRow24 *)(index * sizeof(RrUiRow24) + (unsigned long)UiRows);
                                 if (acceptRow->byte14 == 2) {
@@ -103,7 +103,7 @@ void ovl662_func_80119E00(void) {
                             index += 1;
                         } while (index < 2);
 closeMenu:
-                        D_800F4D8A = 4;
+                        ModeSubState = 4;
                     }
                 }
             }
@@ -127,7 +127,7 @@ enterPalette:
             ovl662_func_80118ED8();
             break;
 publishScene:
-            ModeGroup=3;ModeId=1;D_800F4D8A=0;
+            ModeGroup=3;ModeId=1;ModeSubState=0;
             break;
         }
         goto drawMenu;

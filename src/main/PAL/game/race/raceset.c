@@ -14,7 +14,7 @@ typedef struct { char p[0x184]; int a; int b; char q[0x62]; short n; } W10_O;
 void SaveCarSnapshots(s32);
 void *SoundQueueEnqueue(s32, s32);
 void SoundSetMasterVolume(s16, s16);
-extern u8 D_8009F910[];
+extern u8 GpQualifyRankLimits[];
 extern s16 MenuFadeTimer;
 extern s32 CourseBestLap[2][8];
 extern s16 ReverseCourse;
@@ -77,9 +77,9 @@ void UpdateLapTiming(RrRaceVehicle *arg0) {
             } else {
                 SplitDeltaTimer = 0x3C;
             }
-            D_8010C108 = SplitTimes[NextSplitIndex];
-            D_8010C10C = BestSplitTimes[NextSplitIndex];
-            D_8010C104 = NextSplitIndex;
+            ShownSplitTime = SplitTimes[NextSplitIndex];
+            LatchedBestSplitTime = BestSplitTimes[NextSplitIndex];
+            SplitDeltaIndex = NextSplitIndex;
             NextSplitIndex = 0;
             LapAnnouncePending = 0;
             if (BestLapTime > LapTimes[s0->steering94.count22 - 2]) {
@@ -111,7 +111,7 @@ void UpdateLapTiming(RrRaceVehicle *arg0) {
                     if (RaceType == 1) {
                         /* ASM_BARRIER: clobber msg on entry to mode-1 branch so CSE retains msg = 0x13 and frees $a0 for phase17 */
                         __asm__ volatile("" : "=r"(msg));
-                        if (arg0->half1EE <= D_8009F910[SelectionState.phase17 / 2]) {
+                        if (arg0->half1EE <= GpQualifyRankLimits[SelectionState.phase17 / 2]) {
                             msg = 0x13;
                         } else {
                             if (SelectionState.retries08[SelectionState.phase17] > 0) {
@@ -165,9 +165,9 @@ check_split:
         if (SplitDistances[NextSplitIndex] + TrackLength * (s0->steering94.count22 - 1) <= arg0->second + arg0->first) {
             if (RaceType == 0) {
                 SplitDeltaTimer = 0x3C;
-                D_8010C104 = NextSplitIndex;
-                D_8010C108 = SplitTimes[NextSplitIndex];
-                D_8010C10C = BestSplitTimes[NextSplitIndex];
+                SplitDeltaIndex = NextSplitIndex;
+                ShownSplitTime = SplitTimes[NextSplitIndex];
+                LatchedBestSplitTime = BestSplitTimes[NextSplitIndex];
                 NextSplitIndex += 1;
             }
         }

@@ -58,7 +58,7 @@ static u8 resources[3][0x2D100],arenas[3][128],packets[128];static u32 orders[32
 #define CourseIndex w->s.course
 #define MenuScriptStep w->s.clear1
 #define LoadState w->s.clear2
-#define D_8009F64C w->s.map
+#define CourseIndexMap w->s.map
 #define ovl662_D_801272E4 w->s.index
 #define ovl662_D_801272D4 w->s.local
 #define ovl662_D_801272E0 w->s.count

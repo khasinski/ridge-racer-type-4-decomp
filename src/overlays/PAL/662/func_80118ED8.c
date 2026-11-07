@@ -18,5 +18,5 @@ void ovl662_func_80118ED8(void) {
     ModeGroup = 1;
     ModeId = 68;
     LoadCursor = MenuArenas.first = MenuArenaBase;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }

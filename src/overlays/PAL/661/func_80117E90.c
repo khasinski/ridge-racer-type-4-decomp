@@ -1,7 +1,7 @@
 #include "rr/menu_text_rows.h"
 
 extern s32 ModeFrame, TotalRaceTime, MenuConfirmPressed;
-extern u16 D_800F4D8A;
+extern u16 ModeSubState;
 extern s16 ModeGroup, ModeId, MenuFadeTimer, MenuCursor, MenuScriptId;
 extern s16 ovl661_D_80118410[2];
 extern s16 ovl661_D_80118418[2];
@@ -35,12 +35,12 @@ void ovl661_func_80117E90(void) {
     s32 ready;
 
     ModeFrame++;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         if (TotalRaceTime == -1) {
             group = 1;
             if (MenuTextRows[11].signedBytes[2] >= 2) {
-                D_800F4D8A = 3;
+                ModeSubState = 3;
             }
             break;
         }
@@ -49,7 +49,7 @@ void ovl661_func_80117E90(void) {
             SetMenuFrameOptions(1, 1, group);
             if (MenuConfirmPressed != 0) {
                 PlaySfx(1);
-                D_800F4D8A = 3;
+                ModeSubState = 3;
                 SetMenuFrameOptions(group, 1, group);
             }
         }
@@ -71,7 +71,7 @@ void ovl661_func_80117E90(void) {
                 ResetScreenCounters();
                 InitMenuArenas();
                 MenuFadeTimer = 64;
-                D_800F4D8A = MenuCursor + 4;
+                ModeSubState = MenuCursor + 4;
                 SetMenuFrameOptions(0, 1, 0);
             }
         }
@@ -85,7 +85,7 @@ void ovl661_func_80117E90(void) {
             ovl661_D_80118448[0] = -1;
             ModeGroup = 1;
             ModeId = 35;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 5:
@@ -94,7 +94,7 @@ void ovl661_func_80117E90(void) {
         group = 3;
         if (MenuFadeTimer <= 0) {
             group = -1;
-            D_800F4D8A = 8;
+            ModeSubState = 8;
         }
         break;
     case 6:
@@ -104,7 +104,7 @@ void ovl661_func_80117E90(void) {
         if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
             ModeId = 3;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 8:
@@ -114,7 +114,7 @@ void ovl661_func_80117E90(void) {
             ovl661_func_80115598(0);
             ModeGroup = ready;
             ModeId = 56;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         return;
     }

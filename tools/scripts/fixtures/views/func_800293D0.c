@@ -1,6 +1,6 @@
 #include "rr/record_banks.h"
 
-void func_800293D0(s32 layout,s32 mode) {
+void InitReplayBuffers(s32 layout,s32 mode) {
     /* ASM_BARRIER: keep each loop's index in the consumed mode register. */
     register s32 i __asm__("$5");
     register u32 factor;
@@ -47,7 +47,7 @@ void func_800293D0(s32 layout,s32 mode) {
         SavedRaceState=0;
         i=0;
         if (layout==1) {
-            loaded=D_800FFC48;
+            loaded=SharedWorkBuffer;
             base=loaded;
             source_slots=CarSnapshots;
             offset=0x5468;
@@ -68,7 +68,7 @@ void func_800293D0(s32 layout,s32 mode) {
             __asm__("" : : : "$5");
             i=0;
             factor=901;
-            bankbase=D_800FFC48;
+            bankbase=SharedWorkBuffer;
             bank_source_slots=CarSnapshots;
             bank_offset=0x3850;
             bank_slots=ReplayInputs;
@@ -85,7 +85,7 @@ void func_800293D0(s32 layout,s32 mode) {
                 bank_slots++;
             } while (i<4);
         } else {
-            loaded=D_800FFC48;
+            loaded=SharedWorkBuffer;
             base=loaded;
             source_slots=CarSnapshots;
             offset=0x3844;

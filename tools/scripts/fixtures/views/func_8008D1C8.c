@@ -58,7 +58,7 @@ extern s32 CheckCallback(void);
 
 extern s32 CD_sync(s32, u8 *);
 
-extern const char D_80011AB0[];
+extern const char StrCdComNameFmt[];
 
 extern const char StrCdNoParamFmt[];
 
@@ -78,7 +78,7 @@ extern char *CD_intstr[];
 
 extern s32 CdCommandParamTable[];
 
-extern s32 D_800A66CC[];
+extern s32 CdCommandRequiresParam[];
 
 extern volatile u8 *CD_reg0;
 
@@ -136,9 +136,9 @@ s32 CD_cw(u8 arg0, u8 *arg1, u8 *arg2, s32 arg3) {
     u8 *p;
 
     if (CD_debug >= 2) {
-        DebugPrintStub(D_80011AB0, CD_comstr[arg0]);
+        DebugPrintStub(StrCdComNameFmt, CD_comstr[arg0]);
     }
-    if (D_800A66CC[arg0] != 0 && arg1 == 0) {
+    if (CdCommandRequiresParam[arg0] != 0 && arg1 == 0) {
         if (CD_debug > 0) {
             DebugPrintStub(StrCdNoParamFmt, CD_comstr[arg0]);
         }

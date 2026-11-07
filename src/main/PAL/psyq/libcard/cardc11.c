@@ -3,7 +3,7 @@
 extern volatile int CardTxCount;
 extern int CardCmdSector;
 extern int CardVarRxLength;
-extern int D_8011472C;
+extern int CardCmdValue;
 extern unsigned char *CardCmdBuffer;
 
 int _cardCmd5CVarTx() {
@@ -12,7 +12,7 @@ int _cardCmd5CVarTx() {
     case 3: return CardCmdSector;
     }
     if (CardTxCount < 5) return 0;
-    if (D_8011472C == 0) {
+    if (CardCmdValue == 0) {
         if (CardTxCount >= CardVarRxLength + 5) return 0;
         return CardCmdBuffer[CardTxCount - 5];
     }

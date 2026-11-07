@@ -12,12 +12,12 @@ extern char SelectionState[];
 extern short D_800AD520;
 extern int ModeFrame;
 extern short ModeId;
-extern unsigned short D_800F3A42;
+extern unsigned short Pad0RepeatButtons;
 extern int MenuConfirmPressed;
 extern T3 *BadgeRows;
 extern short ModeGroup;
 extern char *UiRows;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern signed char *GlyphRows;
 extern char *Dialogue;
 
@@ -31,14 +31,14 @@ void func_800417EC()
     int t = SelectionRows[0];
     D_800AD520 = t;
     UiRows[t + 0xC] = 0;
-    if (D_800F3A42 & 0x2000) {
+    if (Pad0RepeatButtons & 0x2000) {
         if (D_800AD520 < 3) {
             D_800AD520 = (unsigned short)D_800AD520 + 1;
             MenuStepDirection = 2;
             goto L_a8;
         }
     }
-    if (D_800F3A42 & 0x8000) {
+    if (Pad0RepeatButtons & 0x8000) {
         if (D_800AD520 > 0) {
             D_800AD520 = (unsigned short)D_800AD520 - 1;
             MenuStepDirection = 1;
@@ -75,7 +75,7 @@ L_54:
             UiRows[0x14] = s0;
             ModeGroup = 1;
             ModeId = 0xB;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
     }
 }

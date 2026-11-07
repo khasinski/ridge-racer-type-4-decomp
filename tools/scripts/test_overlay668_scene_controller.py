@@ -30,7 +30,7 @@ static struct State{u32 guard[4];RrReplayCameraContextPrefix camera;RrReplayEven
 #define D_80127E94 w->textDelta
 #define ModeGroup w->enable
 #define ModeId w->scene
-#define D_800F4D8A w->phase
+#define ModeSubState w->phase
 '''
 rest=r'''
 static struct Event{struct State before;s32 args[4];}trace[90];static unsigned scenario,profile,serial,count,seen,coverage[13],stages[8],modes[3],exitCount,startCount,fadeCalls;static int ref;

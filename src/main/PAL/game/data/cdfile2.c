@@ -53,11 +53,11 @@ extern s32 CdFileIndexCurrent;
 extern s32 (*CdFileStateHandlers[])();
 extern s32 CdFileSectorOffset;
 extern s32 CdFileSectors;
-extern s32 D_80109480;
+extern s32 CdFileDestBuffer;
 extern s32 CdFileBytesRead;
 extern s32 CdFileSyncResult;
 extern RrCdLocation CdFileLocation;
-extern u8 D_80109498;
+extern u8 CdFileCdParam;
 extern RrCdFileEntry CdFileTable[];
 extern unsigned char D_8009DFD8[];
 extern unsigned char D_8009DFEC[];
@@ -65,10 +65,10 @@ extern int LoadCursor;
 extern int *CarBoundsTable[];
 extern struct E CarSlotBuffers[];
 extern int SceneLoadState;
-extern int D_8010943C;
+extern int SceneLoadId;
 extern int D_8010BF60;
 extern void LoadTimList();
-extern int D_80109440;
+extern int CarLoadFileIndex;
 extern int LoadingCarIndex;
 extern int D_80109448;
 extern int D_8010944C;
@@ -101,17 +101,17 @@ s32 CdFileReadRange(s32 a0, s32 a1, s32 a2, s32 a3);
 void RelocateOffsetTable(int *a0);
 void PatchModelBankTexPages(int *a0, int a1);
 void PatchOffsetTableTexPages(int *a0, int a1);
-int func_80012E94(int a0, int a1, int a2, int a3, int a4);
+int BlitCarSlotTexturePatch(int a0, int a1, int a2, int a3, int a4);
 void AllocCarSlotBuffers(struct A *a0, int a1);
 int RequestCarLoad(int a0, int a1, int a2, int a3, int a4);
 void SetupRenderer(s32 shift);
-int func_80013904(char *a0_in, int a1_in);
+int SetCarTrackLighting(char *a0_in, int a1_in);
 
 s32 CdFileStateCheckShell(void) {
     s32 var_v0;
 
-    CdControlB(1, 0, &D_80109498);
-    var_v0 = D_80109498 & 0x10;
+    CdControlB(1, 0, &CdFileCdParam);
+    var_v0 = CdFileCdParam & 0x10;
     if (var_v0 != 0) {
         CdFileState = 5;
         var_v0 = 0;
@@ -136,8 +136,8 @@ s32 CdFileStateReloadDirectory(void) {
 }
 
 s32 CdFileStateSetMode(void) {
-    D_80109498 = 0x80;
-    CdControlF(0xE, &D_80109498);
+    CdFileCdParam = 0x80;
+    CdControlF(0xE, &CdFileCdParam);
     CdFileState = 4;
     CdFileSyncCount = 0;
     return 0;
@@ -160,8 +160,8 @@ s32 CdFileStateWaitSetMode(void) {
 }
 
 s32 CdFileStateWaitShellClose(void) {
-    CdControlB(1, 0, &D_80109498);
-    if (!(D_80109498 & 0x10)) {
+    CdControlB(1, 0, &CdFileCdParam);
+    if (!(CdFileCdParam & 0x10)) {
         CdFileState = 1;
     }
     return 0;
@@ -183,7 +183,7 @@ s32 CdFileStateWaitSetloc(void) {
 }
 
 s32 CdFileStateStartRead(void) {
-    if (CdRead(CdFileSectors, D_80109480, 0x80)) {
+    if (CdRead(CdFileSectors, CdFileDestBuffer, 0x80)) {
         CdFileState = 9;
     } else {
         CdFileState = 0xB;
@@ -209,8 +209,8 @@ void CdFileFinish(void) {
 
 s32 CdFileStateRetry(void)
 {
-    CdControlB(1, 0, &D_80109498);
-    if (D_80109498 & 0x10) {
+    CdControlB(1, 0, &CdFileCdParam);
+    if (CdFileCdParam & 0x10) {
         CdFileState = 5;
         return 0;
     }
@@ -230,7 +230,7 @@ s32 CdFileStep(void) {
 
 s32 CdFileReadStart(s32 a0, s32 a1) {
     if (CdFileState != 0) return 0;
-    D_80109480 = a1;
+    CdFileDestBuffer = a1;
     CdFileIndexCurrent = a0;
     CdFileState = 6;
     CdFileSectorOffset = 0;
@@ -242,7 +242,7 @@ s32 CdFileReadStart(s32 a0, s32 a1) {
 
 s32 CdFileReadRange(s32 a0, s32 a1, s32 a2, s32 a3) {
     if (CdFileState != 0) return 0;
-    D_80109480 = a3;
+    CdFileDestBuffer = a3;
     CdFileIndexCurrent = a0;
     CdFileState = 6;
     CdFileSectorOffset = a1;
@@ -397,7 +397,7 @@ void PatchOffsetTableTexPages(int *a0, int a1) {
     }
 }
 
-int func_80012E94(int a0, int a1, int a2, int a3, int a4)
+int BlitCarSlotTexturePatch(int a0, int a1, int a2, int a3, int a4)
 {
     int b1 = a1;
     int xx;
@@ -520,7 +520,7 @@ int RequestSceneLoad(int a0) {
     if (SceneLoadState != 0) {
         return 0;
     }
-    D_8010943C = a0;
+    SceneLoadId = a0;
     return SceneLoadState = 1;
 }
 
@@ -540,7 +540,7 @@ int SceneLoadStep(void)
 
     switch (SceneLoadState) {
     case 1:
-        if (CdFileReadStart(func_80012208(D_8010943C), LoadCursor) == 0)
+        if (CdFileReadStart(func_80012208(SceneLoadId), LoadCursor) == 0)
             return 0;
         SceneLoadState = 2;
     case 2:
@@ -554,7 +554,7 @@ int SceneLoadStep(void)
         LoadTimList(s0);
         SceneLoadState = 3;
     case 3:
-        if (CdFileReadStart(func_80012208(D_8010943C) + 1, LoadCursor) == 0)
+        if (CdFileReadStart(func_80012208(SceneLoadId) + 1, LoadCursor) == 0)
             return 0;
         SceneLoadState = 4;
     case 4:
@@ -571,7 +571,7 @@ int SceneLoadStep(void)
         a1++; t = *a1; s7 = t + B; *a1 = s7;
         a1++; t = *a1; s3 = t + B; *a1 = s3;
         a1++; t = *a1; s5 = t + B; *a1 = s5;
-        /* ASM_BARRIER: hoist lui of D_8010943C above the store (hi part only) */
+        /* ASM_BARRIER: hoist lui of SceneLoadId above the store (hi part only) */
         a1++; t = *a1; u = B; s4 = t + u; __asm__("" : "=r"(pw) : "0"(0x80110000)); *a1 = s4;
         a1++;
         if (*(int *)((char *)pw - 0x6BC4) == 7) {
@@ -589,7 +589,7 @@ int SceneLoadStep(void)
         SetLightTable(s6);
         D_8010BF60 = s7;
         LoadCursor = LoadCursor + LoadTrackObjects(s3, LoadCursor);
-        func_800713C4(s5);
+        SetSegmentOctantTable(s5);
         SetOctantLookupTable(s4);
         SceneLoadState = 0;
         return 1;
@@ -606,7 +606,7 @@ int RequestCarLoad(int a0, int a1, int a2, int a3, int a4)
     if (SceneLoadState != 0) {
         return 0;
     }
-    D_80109440 = GetCarFileIndex();
+    CarLoadFileIndex = GetCarFileIndex();
     r = 1;
     LoadingCarIndex = a4;
     D_80109448 = p1;
@@ -631,7 +631,7 @@ s32 CarLoadStep(void) {
 
     switch (SceneLoadState) {
     case 1:
-        if (CdFileReadStart(D_80109440, LoadCursor) == 0) {
+        if (CdFileReadStart(CarLoadFileIndex, LoadCursor) == 0) {
             return 0;
         }
         SceneLoadState = 2;
@@ -670,7 +670,7 @@ s32 CarLoadStep(void) {
         LoadCursor = s2;
         AllocCarSlotBuffers(CarOffsetTables[LoadingCarIndex], LoadingCarIndex);
         if (D_80109454 != 0) {
-            func_80012E94(D_80109448, D_8010944C, D_80109450, D_80109454 - 1, LoadingCarIndex);
+            BlitCarSlotTexturePatch(D_80109448, D_8010944C, D_80109450, D_80109454 - 1, LoadingCarIndex);
         }
         SceneLoadState = 0;
         return 1;
@@ -719,15 +719,15 @@ void SetupRenderer(s32 shift) {
     register RrRendererScratch *scratch __asm__("$4");
     *(s32*)(SCRATCHPAD + 0x60)=shift;
     scratch=(RrRendererScratch*)SCRATCHPAD;
-    scratch->renderFlags64=D_800AD568;
-    D_800F3A20.b=128;
-    D_800F3A20.g=128;
-    D_800F3A20.r=128;
-    D_800F3A20.code=0x2C;
-    D_800F3A18.b=255;
-    D_800F3A18.g=255;
-    D_800F3A18.r=255;
-    D_800F3A18.code=0x3C;
+    scratch->renderFlags64=MirrorMode;
+    DefaultFT4Color.b=128;
+    DefaultFT4Color.g=128;
+    DefaultFT4Color.r=128;
+    DefaultFT4Color.code=0x2C;
+    PolyGT4WhiteColor.b=255;
+    PolyGT4WhiteColor.g=255;
+    PolyGT4WhiteColor.r=255;
+    PolyGT4WhiteColor.code=0x3C;
     scratch->viewport6C.rect.w=320;
     scratch->viewport6C.rect.x=0;
     scratch->viewport6C.rect.y=0;
@@ -737,7 +737,7 @@ void SetupRenderer(s32 shift) {
 /* legacy typing of shared globals in this part of the unit */
 #define D_8010BF60 ((short *)D_8010BF60)
 
-int func_80013904(char *a0_in, int a1_in) {
+int SetCarTrackLighting(char *a0_in, int a1_in) {
     /* ASM_BARRIER: keep temp in $v0 */
     register int v0 __asm__("$2");
     /* ASM_BARRIER: keep temp in $v1 */

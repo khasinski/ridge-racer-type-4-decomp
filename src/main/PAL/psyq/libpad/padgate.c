@@ -22,7 +22,7 @@ void PadInitDirect(u8 *first,u8 *second) {
     PadAdvanceChannelFn=_padAdvanceChannel;
     PadResetChannelFn=_padResetChannel;
     PadTxByteCallback=_padGetTxByte;
-    D_800ABC74=_padAllocGates;
+    PadAllocGatesFn=_padAllocGates;
     PadChannelToPortFn=_padChannelToPort;
     PadPortToChannelPtr=_padPortToChannel;
     callback=_padSaveCommand;
@@ -38,7 +38,7 @@ void PadInitDirect(u8 *first,u8 *second) {
     /* ASM_BARRIER: materialize the sentinel and A0 metadata address before the buffers. */
     __asm__("" : "=r"(sentinel) : "0"(sentinel), "r"(slots));
     buffer_b=PadTxBuffers;
-    buffer_a=D_80114448;
+    buffer_a=PadPacketBuffers;
     record[0].status.input30=input_first;
     record[1].status.input30=input_second;
     do {

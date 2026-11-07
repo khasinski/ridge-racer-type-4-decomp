@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern int D_800F3970;
+extern int AllProgressComplete;
 extern s32 AttractCycleCounter;
 
 #endif /* RR_GAME_SYSTEM_MODEINIT_H */

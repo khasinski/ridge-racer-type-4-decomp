@@ -18,7 +18,7 @@ void ovl662_func_80114C4C(void)
     s32 unused[2]; /* never referenced; original frame reserves 8 local bytes */
 
     ModeFrame++;
-    switch ((u16)D_800F4D8A) {
+    switch ((u16)ModeSubState) {
     case 0:
         state = UiRows->byte14;
         if (state != 2) {
@@ -35,7 +35,7 @@ void ovl662_func_80114C4C(void)
                 if (CourseChoiceTable[1][0].glyph != -1) {
                     SetModelTexturePage(-1);
                     PlaySfx(1);
-                    D_800F4D8A = 3;
+                    ModeSubState = 3;
                     MenuFadeTimer = 64;
                     for (i = 0; i < 3; i++) {
                         if (UiRows[i].byte14 == 2) {
@@ -48,7 +48,7 @@ void ovl662_func_80114C4C(void)
             } else if (MenuCursor == 1) {
                 PlaySfx(1);
                 SetModelTexturePage(-1);
-                D_800F4D8A = 4;
+                ModeSubState = 4;
                 for (i = 0; i < 3; i++) {
                     if (UiRows[i].byte14 == 2) {
                         UiRows[i].byte14 = 7;
@@ -58,7 +58,7 @@ void ovl662_func_80114C4C(void)
             } else if (MenuCursor == state) {
                 PlaySfx(1);
                 SetModelTexturePage(-1);
-                D_800F4D8A = 8;
+                ModeSubState = 8;
                 for (i = 0; i < 3; i++) {
                     if (UiRows[i].byte14 == 2) {
                         UiRows[i].byte14 = 3;
@@ -70,7 +70,7 @@ void ovl662_func_80114C4C(void)
         } else if (PlayerControllers[0].b) {
             PlaySfx(2);
             SetModelTexturePage(-1);
-            D_800F4D8A = 8;
+            ModeSubState = 8;
             SetMenuFrameOptions(0, 1, 1);
             for (i = 0; i < 3; i++) {
                 if (UiRows[i].byte14 == 2) {
@@ -88,7 +88,7 @@ void ovl662_func_80114C4C(void)
         if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
             ModeId = 63;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 4:
@@ -100,7 +100,7 @@ void ovl662_func_80114C4C(void)
             UploadCarClut(D_800F4368, 0, 0);
             ModeGroup = 3;
             ModeId = 1;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 8:
@@ -110,7 +110,7 @@ void ovl662_func_80114C4C(void)
         if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
             ModeId = 3;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             SeqMuteVolume();
         }
         break;

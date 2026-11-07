@@ -84,7 +84,7 @@ extern short NumCars;
 extern B800 *CarSnapshots[];
 extern short SteeringRangeTable[];
 extern int ReplayFrame;
-extern int D_800ACBE0[];
+extern int LinkRemoteInputs[];
 extern int D_800ACBF0[];
 extern short LinkRoleSlot;
 extern U4 *ReplayInputs[];
@@ -92,7 +92,7 @@ extern S_AD528 Options;
 extern unsigned char CarInputs[][4];
 extern S30 PadButtonMap[];
 extern S5C PlayerControllers[];
-extern int D_800F3AF0[];
+extern int LinkLocalInputs[];
 extern short RaceType;
 extern int ReplayLength;
 extern short MenuFadeTimer;
@@ -101,13 +101,13 @@ extern int NumLaps;
 extern int MenuConfirmPressed;
 extern int SoundSetMasterVolume();
 extern int AddScreenFadeTiles();
-extern int func_800293D0();
+extern int InitReplayBuffers();
 extern int ClearTrackObjectStates();
 extern int SetModelTexturePage();
 extern int PlayerCars[];
 extern short ModeId;
 extern short ModeGroup;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern int ReplayFocusCarIndex;
 extern int AddSpriteWithDrawMode();
 extern int DrawCars();
@@ -123,7 +123,7 @@ extern int UpdateTrackObjects();
 extern int DrawTrackObjects();
 extern int rsin();
 extern int D_800F2A64;
-extern short D_800F2AB4[];
+extern short EngineThrottleOn[];
 extern int ModeFrame;
 extern short EngineRevDisplay[];
 extern struct { char pad[0x1E4]; short f1e4; } *CarTable[];
@@ -324,16 +324,16 @@ void ReadCarInput(char *arg0, int arg1) {
             if (RaceType == 4) {
                 if (LinkRoleSlot != 0) {
                     if (arg1 >= 2) {
-                        *(int *)CarInputs[arg1] = D_800ACBE0[t2];
+                        *(int *)CarInputs[arg1] = LinkRemoteInputs[t2];
                     } else {
-                        D_800F3AF0[t2] = *(int *)CarInputs[arg1];
+                        LinkLocalInputs[t2] = *(int *)CarInputs[arg1];
                         *(int *)CarInputs[arg1] = D_800ACBF0[t2];
                     }
                 } else {
                     if (arg1 < 2) {
-                        *(int *)CarInputs[arg1] = D_800ACBE0[t2];
+                        *(int *)CarInputs[arg1] = LinkRemoteInputs[t2];
                     } else {
-                        D_800F3AF0[t2] = *(int *)CarInputs[arg1];
+                        LinkLocalInputs[t2] = *(int *)CarInputs[arg1];
                         *(int *)CarInputs[arg1] = D_800ACBF0[t2];
                     }
                 }
@@ -394,7 +394,7 @@ void ReplayModeEnter() {
     SoundInitForRace();
     SelectReplayBgmTrack();
     AddScreenFadeTiles(CurrentDrawBuf + 0x70, 0xFF, 0x25);
-    func_800293D0(0, 2);
+    InitReplayBuffers(0, 2);
     RaceState = SavedRaceState;
     ClearTrackObjectStates(1);
     SetModelTexturePage(10);
@@ -405,7 +405,7 @@ void ReplayModeEnter() {
     MenuFadeTimer = -1;
     ModeGroup = 1;
     ModeId = 0x16;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }
 
 #undef RaceType
@@ -468,8 +468,8 @@ void ReplayModeUpdate(void) {
     if (ReplayFrame >= 0x19) {
         QueueDrawStp();
     }
-    SlotSetLevelProgram(EngineRevDisplay[0], D_800F2AB4[0], 0);
-    SlotSetLevelProgram(EngineRevDisplay[1], D_800F2AB4[1], 1);
+    SlotSetLevelProgram(EngineRevDisplay[0], EngineThrottleOn[0], 0);
+    SlotSetLevelProgram(EngineRevDisplay[1], EngineThrottleOn[1], 1);
     PadClearPulse(0);
     PadClearPulse(1);
     PadRumbleStop(0);

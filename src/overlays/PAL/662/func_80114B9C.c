@@ -18,7 +18,7 @@ void ovl662_func_80114B9C(void) {
     SetModelTexturePage(25);
     ModeGroup = 1;
     ModeId = 40;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     DebugPrintStub(ovl662_D_8011487C);
     if (SaveProgress.prefix.reserved50.words[0] == 1) {
         if (CourseChoiceTable[1][7].glyph >= 0) {

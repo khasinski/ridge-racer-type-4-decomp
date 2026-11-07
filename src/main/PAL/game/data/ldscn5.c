@@ -30,7 +30,7 @@ int LoadCoursePreviewStep(int a) {
         break;
     case 4:
         if (CdFileBytesLoaded() != 0) {
-            D_800AC64C = LoadCursor;
+            SkyCommandList = LoadCursor;
             RelocateOffsetTable(LoadCursor);
             LoadState = 5;
     case 5:

@@ -67,8 +67,8 @@ s32 _drs(RrGpuRectangle *arg0,u32 *arg1) {
     rect->rect.w=side;
     if(signed_side>=0){
         side=raw_side;
-        over=D_800ABAC6<signed_side;
-        limit=(u16)D_800ABAC6;
+        over=GpuVramHeight<signed_side;
+        limit=(u16)GpuVramHeight;
         if(over)side=limit;
     }else side=0;
     adjusted=rect->rect.w*(s16)side+1;

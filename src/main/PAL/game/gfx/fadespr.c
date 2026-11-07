@@ -15,7 +15,7 @@ extern int SsVabClose(t);
 extern char D_800ACA30[];
 extern struct V4 D_80011260;
 extern struct { char pad[0x24]; short s[4]; char pad2[0x2864 - 0x2C]; int i; } SoundState;
-extern unsigned char D_800A1FC4[];
+extern unsigned char FadeTintColor[];
 extern unsigned char RaceContext[];
 extern RrSpritePacket *AddSpritePrim(u32 *, RrSpritePacket *, s32, s32,
                                   RrUiUvRect *, u16, s32);
@@ -74,16 +74,16 @@ void func_8005C13C(int a0) {
             SoundState.s[v.a[i]] = -1;
         }
     }
-    func_80053A80();
+    SeqResetFade();
     MotionSequenceIndex = -1;
 }
 
 void UpdateFadeTint(int a0) {
     int v1, a, v2;
-    RaceContext[0x3F0] = (D_800A1FC4[0] * a0) / 255;
-    RaceContext[0x3F1] = (D_800A1FC4[1] * a0) / 255;
+    RaceContext[0x3F0] = (FadeTintColor[0] * a0) / 255;
+    RaceContext[0x3F1] = (FadeTintColor[1] * a0) / 255;
     v1 = RaceContext[0x3F0] * *(int *)(RaceContext + 0x3E8);
-    RaceContext[0x3F2] = (D_800A1FC4[2] * a0) / 255;
+    RaceContext[0x3F2] = (FadeTintColor[2] * a0) / 255;
     if (v1 < 0) v1 += 0xFF;
     a = RaceContext[0x3F1] * *(int *)(RaceContext + 0x3E8);
     RaceContext[0x3F0] = v1 >> 8;

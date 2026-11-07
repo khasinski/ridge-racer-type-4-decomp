@@ -30,7 +30,7 @@ extern int TrackEventSfxEnabled;
 extern int ReplayState;
 extern int D_800AC538;
 extern char PlayerCars[];
-extern short func_80022848(void);
+extern short IsCarFacingBackward(void);
 extern void ResetCarSlotBuffers();
 
 void ComputeWheelOffsets(char *a0);
@@ -117,7 +117,7 @@ void UpdatePlayerCar(char *a0, int a1)
   int *pp = pad;
   if (RaceState > 0)
   {
-    *((short *) (a0 + 0x1EA)) = func_80022848();
+    *((short *) (a0 + 0x1EA)) = IsCarFacingBackward();
     UpdateCarGear(a0, a1);
     UpdatePlayerSteering(a0, a1);
     UpdateCarEngine(a0);

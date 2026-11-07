@@ -43,7 +43,7 @@ void ovl662_func_80116E10(void)
         ImageRows[1] = ready;
     }
     shown = 1;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         SetMenuFrameOptions(1, 1, 1);
         before = PackChoiceGlyph((s8 *)&SelectionRows);
@@ -84,7 +84,7 @@ void ovl662_func_80116E10(void)
                 if (status == 1) {
                     PlaySfx(1);
                     SetModelTexturePage(-1);
-                    D_800F4D8A = 3;
+                    ModeSubState = 3;
                     BadgeRows[0].state10 = 4;
                     BadgeRows[1].state10 = 4;
                     ImageRows[1] = 3;
@@ -109,7 +109,7 @@ void ovl662_func_80116E10(void)
                     }
                 }
                 MenuFadeTimer = 64;
-                D_800F4D8A = 8;
+                ModeSubState = 8;
             }
         } else if (PlayerControllers[0].b) {
             PlaySfx(2);
@@ -124,7 +124,7 @@ void ovl662_func_80116E10(void)
                 }
             }
             MenuFadeTimer = 64;
-            D_800F4D8A = 8;
+            ModeSubState = 8;
         }
         break;
     case 3:
@@ -139,7 +139,7 @@ void ovl662_func_80116E10(void)
             ovl662_func_8011512C();
             ModeGroup = ready;
             ModeId = steps;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             return;
         }
         break;
@@ -152,7 +152,7 @@ void ovl662_func_80116E10(void)
             ovl662_func_8011512C();
             ModeGroup = ready;
             ModeId = steps;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             return;
         }
         break;
@@ -172,7 +172,7 @@ common:
     i = shown;
     if ((u8)(ImageRows[1] - 1) < 2 && i == 1) {
         DrawSelectionIconGrid(0);
-        func_8002E5A0(PlayerCars);
+        PrepareCarDrawPose(PlayerCars);
         fadeLevel = 0x100;
         if ((s8)ImageRows[1] == i) {
             shade = ~((ImageRows[2] * 255) / 30);

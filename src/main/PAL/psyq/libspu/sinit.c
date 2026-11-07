@@ -4,7 +4,7 @@
 #include "rr/channels.h"
 #include "rr/library.h"
 extern unsigned short SsVoiceInitRegs[];
-extern unsigned short D_800A4914[];
+extern unsigned short SpuCommonInitRegs[];
 extern int _snd_openflag;
 extern int VBLANK_MINUS;
 void _SsInit(void) {
@@ -20,7 +20,7 @@ void _SsInit(void) {
     } while (i < 0x18);
     d = (unsigned short *)0x1F801D80;
     i = 0;
-    s = D_800A4914;
+    s = SpuCommonInitRegs;
     do { *d++ = *s++; i++; } while (i < 0x10);
     _SsVmInit(0x18, j, d, p);
     for (j = 0; j < 0x20; j++)

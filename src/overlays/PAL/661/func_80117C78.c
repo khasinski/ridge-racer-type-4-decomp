@@ -15,7 +15,7 @@ extern void SetMenuFrameOptions(s32, s32, s32);
 void ovl661_func_80117C78(void) {
     s32 i;
 
-    InitMenuTextRows(D_800FFC48);
+    InitMenuTextRows(SharedWorkBuffer);
     MenuCursor = 0;
     MenuItemCount = 3;
     for (i = 0; i < 11; i++) {

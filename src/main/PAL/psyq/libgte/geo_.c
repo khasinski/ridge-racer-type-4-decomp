@@ -5,7 +5,7 @@
 #include "psyq/libcd/dsstrm32.h"
 
 extern const char DmaStatusErrorFmt[];
-extern volatile s32 *D_800A6888;
+extern volatile s32 *CdDpcrReg;
 extern volatile s32 *DICR;
 extern void DebugPrintStub(const char *, ...);
 
@@ -88,7 +88,7 @@ after_loop:
         p = (volatile s32 *)(bcr + (s32)p);
         /* ASM_BARRIER: prevent constant folding of p + 1 */
         __asm__ volatile("" : "=r"(p), "=r"(mask3) : "0"(p), "1"(mask3));
-        d88 = D_800A6888;
+        d88 = CdDpcrReg;
         /* ASM_BARRIER: allocate madr to s2 before bcr_hi/bcr_lo to s3/s4 */
         __asm__ volatile("" : : "r"(madr));
         bcr = (bcr_hi << 16) | bcr_lo;

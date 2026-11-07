@@ -16,7 +16,7 @@ s32 _cardCmd5DBegin(s32 request, s32 parameter, s32 count) {
     active = 2;
     CardCmdSector = parameter;
     CardVarRxLength = count;
-    D_8011472C.value = 0;
+    CardCmdValue.value = 0;
     {
         /* ASM_BARRIER: preserve the original assembler temporary for the mapped store. */
         register s32 *base __asm__("$1");

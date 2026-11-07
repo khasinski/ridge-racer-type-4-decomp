@@ -18,7 +18,7 @@ extern int PlaySfx();
 extern short MenuFadeTimer;
 extern short MenuCursor;
 extern short ModeId;
-extern unsigned short D_800F4D8A;
+extern unsigned short ModeSubState;
 extern int LoadCursor;
 extern int ModeFrame;
 extern int MenuConfirmPressed;
@@ -26,7 +26,7 @@ extern int LoadCursorBase;
 extern struct { char pad[8]; short s8, sA; char padC[4]; short s10; } *BadgeRows;
 extern struct w3g2e { char pad[0xC]; char c; char pad2[7]; unsigned char b14; char pad3[0x23]; char b38; } *UiRows;
 extern struct { char pad[4]; char b4; char pad5[2]; char b7; } *Dialogue;
-extern int D_800F4CA8;
+extern int DialogueContext;
 extern int AddDrawModePrim();
 extern int AddSpritePrim();
 extern int rsin();
@@ -37,7 +37,7 @@ void func_80032600(void);
 void func_80032600(void) {
     int r;
     ModeFrame += 1;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         *((char *)UiRows + MenuCursor * 0x24 + 0xC) = 0;
         StepMenuValue(0, 2, &MenuCursor, 2, 0);
@@ -53,9 +53,9 @@ void func_80032600(void) {
                 LoadCursor = LoadCursorBase;
                 ResetScreenCounters();
                 if (MenuCursor == 0) {
-                    D_800F4D8A = 3;
+                    ModeSubState = 3;
                 } else if (MenuCursor == 1) {
-                    D_800F4D8A = 4;
+                    ModeSubState = 4;
                 }
             }
         }
@@ -68,7 +68,7 @@ void func_80032600(void) {
             if (r == 1) {
                 ModeGroup = r;
                 ModeId = 0x47;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
             }
         }
         break;
@@ -80,7 +80,7 @@ void func_80032600(void) {
             if (r == 1) {
                 ModeGroup = r;
                 ModeId = 0xF;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
             }
         }
         break;
@@ -100,7 +100,7 @@ void InitDialogueState(signed char *a0) {
     PsyqBzero(a0, 0x348);
     a0[5] = -1;
     a0[4] = 0;
-    if (D_800F4CA8 == 1) {
+    if (DialogueContext == 1) {
         SelectDialogueScript();
     }
 }

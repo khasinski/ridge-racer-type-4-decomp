@@ -41,7 +41,7 @@ miss:
                 }
 scan_done:
                 if(found) {
-                    value=(s32)((u32)D_800ABCB0+((const RrChannelGateEntry5 *)((const u8 *)((unsigned long)offset+(unsigned long)record->status.entries04)))->cost03);
+                    value=(s32)((u32)PadActuatorPowerUsed+((const RrChannelGateEntry5 *)((const u8 *)((unsigned long)offset+(unsigned long)record->status.entries04)))->cost03);
                     if(value<61) {
                         /* ASM_BARRIER: stage the mapped budget address in AT after acceptance. */
                         register s32 *budget_page asm("$1");
@@ -83,12 +83,12 @@ reserved:
     if(((u32)value-4U)<2U || value==7) {
         if(!record->status.pending && record->status.length34>=2) {
             data=record->status.data28;
-            if((data[0]&0xC0)==0x40 && (data[1]&1) && (s32)((u32)D_800ABCB0+10U)<61) {
+            if((data[0]&0xC0)==0x40 && (data[1]&1) && (s32)((u32)PadActuatorPowerUsed+10U)<61) {
                 register s32 enable=1;
                 record->status.gates57[1]=enable;
                 record->status.gates57[0]=enable;
                 {
-                    s32 total=(s32)((u32)D_800ABCB0+10U);
+                    s32 total=(s32)((u32)PadActuatorPowerUsed+10U);
                     /* ASM_BARRIER: finish the wrapped increment before forming its AT address. */
                     register s32 *tail_page asm("$1");
                     __asm__("" : : "r"(total) : "$1");

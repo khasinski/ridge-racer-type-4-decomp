@@ -51,7 +51,7 @@ void ovl666_init_scene(void) {
     ovl666_init_menu();
     ModeGroup = 1;
     ModeId = 79;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     SeqStartTrack(0);
 }
 
@@ -72,7 +72,7 @@ void ovl666_update_menu(void) {
     ScreenFrame = (s32)((u32)ScreenFrame + 1U);
     ready = LoadGlyphRowsStep();
     if (ready == 1) {
-        switch (D_800F4D8A) {
+        switch (ModeSubState) {
         case 0:
             glyphCount = 0;
             do {
@@ -80,7 +80,7 @@ void ovl666_update_menu(void) {
                     (s32)((u32)GlyphRows[glyphCount].phase18 + 0x30000U);
                 glyphCount++;
             } while (glyphCount < 4);
-            D_800F4D8A = 1;
+            ModeSubState = 1;
             goto title;
         case 1:
             SetMenuFrameOptions(1, 1, 1);
@@ -103,7 +103,7 @@ void ovl666_update_menu(void) {
                 if (selected == 0) {
                     if (ovl666_course_counts[CourseListIndex] > 0) {
                         closing = 1;
-                        D_800F4D8A = 3;
+                        ModeSubState = 3;
                         PlaySfx(1);
                         choiceRow = 0;
 
@@ -141,7 +141,7 @@ void ovl666_update_menu(void) {
                         }
                         choiceRow += 1;
                     } while (choiceRow < 3);
-                    D_800F4D8A = 8;
+                    ModeSubState = 8;
                     MenuFadeTimer = 0x40;
                     SeqFadeVolume(0, 0x3C);
                 }
@@ -153,7 +153,7 @@ void ovl666_update_menu(void) {
                 ovl666_init_preview();
                 ModeGroup = ready;
                 ModeId = 0x50;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
             } else {
                 goto title;
             }
@@ -166,7 +166,7 @@ void ovl666_update_menu(void) {
             if ((s16)MenuFadeTimer <= 0) {
                 ModeGroup = ready;
                 ModeId = 3;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
                 SeqMuteVolume();
             }
             goto update_rows;
@@ -200,14 +200,14 @@ void ovl666_update_course_selection(void) {
         s32 selected = CourseListIndex;
         ui[2].cells[selected] = 0;
     }
-    if (D_800F3A42 & 0x2000) {
+    if (Pad0RepeatButtons & 0x2000) {
         if (CourseListIndex < 3) {
             CourseListIndex++;
             MenuStepDirection = 2;
             goto changed;
         }
     }
-    if (D_800F3A42 & 0x8000) {
+    if (Pad0RepeatButtons & 0x8000) {
         if (CourseListIndex > 0) {
             CourseListIndex--;
             MenuStepDirection = 1;

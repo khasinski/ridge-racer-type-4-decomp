@@ -42,7 +42,7 @@ extern int ApplyMatrix();
 void DrawCars();
 void SetCarBounds(RrRaceVehicle *a);
 void ResetCarState(RrRaceVehicle *a);
-void func_8002E5A0();
+void PrepareCarDrawPose();
 void ScaleMatrixRow1(s32 arg0, void *arg1);
 
 void DrawCars(a0) int a0; {
@@ -156,7 +156,7 @@ void ResetCarState(RrRaceVehicle *a)
     *(struct V *)a->savedRotC8 = *(struct V *)&a->rot50;
 }
 
-void func_8002E5A0(a0) char *a0; {
+void PrepareCarDrawPose(a0) char *a0; {
     struct { int m1[8]; int m2[8]; short v[3]; } L;
     int t1, t2;
     unsigned short u1, u2, u3;

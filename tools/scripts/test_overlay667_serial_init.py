@@ -63,8 +63,8 @@ static unsigned scenario,mutation;
 #define ovl667_D_80118F20 w->state.ring
 #define ovl667_D_80118F10 w->state.rx
 #define ovl667_D_80118F80 w->state.tx
-#define D_800F3AF0 w->state.payload
-#define D_800ACBE0 w->state.incoming
+#define LinkLocalInputs w->state.payload
+#define LinkRemoteInputs w->state.incoming
 #define D_800ACBF0 w->state.outgoing
 static s32 word(u32 bits){s32 v;memcpy(&v,&bits,4);return v;}
 static s32 boundary(s32 kind,s32 command,s32 operation,unsigned long argument) {

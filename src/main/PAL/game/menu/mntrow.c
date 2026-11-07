@@ -54,7 +54,7 @@ extern E_1 *GlyphRows;
 extern s32 VSyncThreshold;
 extern s16 ModeId;
 extern s16 ModeGroup;
-extern s16 D_800F4D8A;
+extern s16 ModeSubState;
 extern void InitBadgeRow();
 extern void InitRect16Row();
 extern void InitGlyphRow();
@@ -73,7 +73,7 @@ extern int MenuConfirmPressed;
 extern char *UiRows;
 
 void func_800411D4();
-void func_80041320();
+void SetMenuTextRowCursor();
 void func_800413E0(void);
 void func_80041434(void);
 void func_80041588();
@@ -237,7 +237,7 @@ void func_800411D4()
 /* legacy typing of shared globals in this part of the unit */
 #define MenuTextRows ((E *)MenuTextRows)
 
-void func_80041320(a0, a1, a2)
+void SetMenuTextRowCursor(a0, a1, a2)
 int a0;
 int a1;
 int a2;
@@ -289,7 +289,7 @@ void func_800413E0(void) {
     VSyncThreshold = 0x80;
     ModeGroup = 1;
     ModeId = 8;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }
 
 /* legacy typing of shared globals in this part of the unit */

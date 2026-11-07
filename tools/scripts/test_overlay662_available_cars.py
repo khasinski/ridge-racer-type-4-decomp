@@ -31,7 +31,7 @@ static unsigned count,seen,serial,n,profile;static int reference_run;
 #define MenuCursor world.row
 #define MenuItemCount world.layout
 #define ModeId world.scene
-#define D_800F4D8A world.state
+#define ModeSubState world.state
 #define ModeGroup world.enabled
 #define CdDirectoryBuffer world.resource
 #define LoadCursor world.ui

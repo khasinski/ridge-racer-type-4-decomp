@@ -123,7 +123,7 @@ extern s32 WheelDeadzoneTable[];
 
 extern s32 PadGetState(s32);
 extern void PadSetMainMode(s32, s32, s32);
-extern s32 func_8004E8CC(void);
+extern s32 LoadModelBank8Step(void);
 extern s32 ovl665_func_8011629C(s32);
 extern void func_8005B2D4(s32);
 extern void StepMenuValue(s32, s32, void *, s32, s32);
@@ -224,7 +224,7 @@ void ovl665_func_80116D10(s32 player) {
             }
         }
         SelectionPlayer = player;
-        if (func_8004E8CC() == 0) {
+        if (LoadModelBank8Step() == 0) {
             break;
         }
         if (ovl665_D_80119760 == 0) {

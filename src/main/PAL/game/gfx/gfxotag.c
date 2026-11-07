@@ -63,7 +63,7 @@ extern int ModelBankFormat;
 extern short CourseIndex;
 extern void SetGteObjectTransform();
 extern void SelectModelBank();
-extern void func_8005F0D0();
+extern void SubmitModel();
 extern void BuildCameraMatrices();
 extern void ApplyMatrix();
 extern void SetGeomScreen();
@@ -80,14 +80,14 @@ extern void CdAudioBeginPlay();
 extern void CdAudioFade();
 extern void OpeningScriptStep();
 extern int PsyqRand();
-extern int D_800AC6EC;
+extern int RaceIntroDone;
 extern signed char SelectionState[];
 extern signed char Options[];
 extern int ViewUsesCarTrackNode;
 
 void func_80044EC4(void);
 void ApplyCameraState(int *a);
-int func_800452CC(Arg0Struct *a0, int a1, int a2);
+int InterpCameraKeyframes(Arg0Struct *a0, int a1, int a2);
 int func_80045868(char *arg0);
 
 void func_80044EC4(void) {
@@ -99,7 +99,7 @@ void func_80044EC4(void) {
 
     s5 = g[0x18];
     s2 = RaceContext.f55C + (D_800AD520 << 7);
-    func_80044920(s2, sp10);
+    SetupLightMatrices(s2, sp10);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), s2, sp10);
     s1 = RotTransPersOrigin(sp10, s2);
     if (s1 > 0) {
@@ -112,18 +112,18 @@ void func_80044EC4(void) {
         SelectModelBank(8);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), s2, sp10);
         g[0x1E] = 0;
-        func_8005F0D0(SCRATCHPAD, ModelBankFormat < 1, 0, 0);
+        SubmitModel(SCRATCHPAD, ModelBankFormat < 1, 0, 0);
         s1 >>= s5;
         s1 += 0x6E;
         if (s1 > 0) {
-            func_80044BA0(s1 + 1);
+            AddShadowDiscPrims(s1 + 1);
             ((P_TAG *)g[1])->addr = ((P_TAG *)&DRAWBUF->ot[s1])->addr;
             ((P_TAG *)&DRAWBUF->ot[s1])->addr = g[1] + 0x578;
         }
     }
     if (D_8009FE60[CourseIndex] == 7) {
         s2 = RaceContext.f55C + (D_800AD520 << 7) + 0x40;
-        func_80044920(s2, sp10);
+        SetupLightMatrices(s2, sp10);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), s2, sp10);
         s1 = RotTransPersOrigin(sp10, s2);
         if (s1 > 0) {
@@ -136,11 +136,11 @@ void func_80044EC4(void) {
             SelectModelBank(9);
             SetGteObjectTransform((SCRATCHPAD + 0x7C), s2, sp10);
             *(int *)(SCRATCHPAD + 0x78) = 0;
-            func_8005F0D0(SCRATCHPAD, ModelBankFormat < 1, 0, 0);
+            SubmitModel(SCRATCHPAD, ModelBankFormat < 1, 0, 0);
             s1 >>= s5;
             s1 += 0x6E;
             if (s1 > 0) {
-                func_80044BA0(s1 + 1);
+                AddShadowDiscPrims(s1 + 1);
                 ((P_TAG *)g[1])->addr = ((P_TAG *)&DRAWBUF->ot[s1])->addr;
                 ((P_TAG *)&DRAWBUF->ot[s1])->addr = g[1] + 0x578;
             }
@@ -177,7 +177,7 @@ void ApplyCameraState(int *a) {
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(Context650 (*))&RaceContext)
 
-int func_800452CC(Arg0Struct *a0, int a1, int a2) {
+int InterpCameraKeyframes(Arg0Struct *a0, int a1, int a2) {
     int pad[4];
     V4 sp20;
     V4 sp30;
@@ -317,7 +317,7 @@ int func_80045868(char *arg0)
   {
     if (s0 == 1)
     {
-      func_8005A90C();
+      ResetOpeningFadeTimer();
       if (gB[0x94 / 4] == s0)
       {
         CdAudioBeginPlay(0);
@@ -413,7 +413,7 @@ int func_80045868(char *arg0)
   switch (gD[0x94 / 4])
   {
     case 1:
-      func_800452CC(arg0, gD[0x88 / 4], D_800AD520);
+      InterpCameraKeyframes(arg0, gD[0x88 / 4], D_800AD520);
       if (Pad0Buttons & 0x800)
     {
       if (gD[0x88 / 4] >= 0x1A)
@@ -507,7 +507,7 @@ int func_80045868(char *arg0)
           CdAudioSelectTrack(0, BgmNumberToCdTrack[RaceBgmListIndex - 1]);
         }
       }
-      D_800AC6EC = 2;
+      RaceIntroDone = 2;
     }
     s0 = 0;
     p = RaceContext;
@@ -525,7 +525,7 @@ int func_80045868(char *arg0)
   {
     DrawSubOtFlag = 0;
   }
-  return D_800AC6EC;
+  return RaceIntroDone;
 }
 
 #undef RaceContext

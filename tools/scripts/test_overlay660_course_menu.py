@@ -44,10 +44,10 @@ static State actual,reference,*w;
 #define D_800F3A1E w->secondary
 #define ModeId w->scene
 #define MenuResultCode w->settings
-#define D_800F4D8A w->phase
+#define ModeSubState w->phase
 #define ModeGroup w->enabled
 #define MenuConfirmPressed w->input[0].a
-#define D_800F3A64 w->input[0].b
+#define MenuCancelPressed w->input[0].b
 #define ImageRows w->modes[w->modeRoot]
 #define UiRowCount w->rowCount
 #define UiRows w->rows[w->rowRoot]

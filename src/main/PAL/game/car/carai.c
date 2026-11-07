@@ -87,7 +87,7 @@ void UpdateComCars(void) {
                 }
             } else {
                 ApplyRubberBandSpec(s0);
-                func_8004638C(s0);
+                UpdateComCarCurrentLane(s0);
                 UpdateComCarOvertake(s0);
                 UpdateComCarTargetPoint(s0);
                 UpdateComCarDrive(s0);

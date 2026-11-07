@@ -59,8 +59,8 @@ s32 _clr(RrGpuRectangle *arg0, u32 arg1) {
     signed_side=rect->rect.h;raw_side=(u16)rect->rect.h;
     rect->rect.w=width;
     if(signed_side>=0){
-        over=D_800ABAC6-1<signed_side;
-        limit=(u16)D_800ABAC6;
+        over=GpuVramHeight-1<signed_side;
+        limit=(u16)GpuVramHeight;
         if(over)height=limit-1;else height=raw_side;
     }else height=0;
     rect->rect.h=height;

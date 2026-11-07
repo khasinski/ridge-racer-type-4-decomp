@@ -73,9 +73,9 @@ extern u8 D_800ABAC2[];
 
 extern u8 D_800ABAC3;
 
-extern char D_800ABB2C[];
+extern char GpuDispEnv[];
 
-extern URECT16 D_800ABB34;
+extern URECT16 GpuLastDispScreen;
 
 extern HRANGE DispHRangeTable[2][5];
 
@@ -137,10 +137,10 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
         GpuFuncTable->f10(mode);
         env->pad0 = 8;
     }
-    if ((s16)D_800ABB34.x != env->screen.x ||
-        (s16)D_800ABB34.y != env->screen.y ||
-        (s16)D_800ABB34.w != env->screen.w ||
-        (s16)D_800ABB34.h != env->screen.h ||
+    if ((s16)GpuLastDispScreen.x != env->screen.x ||
+        (s16)GpuLastDispScreen.y != env->screen.y ||
+        (s16)GpuLastDispScreen.w != env->screen.w ||
+        (s16)GpuLastDispScreen.h != env->screen.h ||
         env->pad0 == 8) {
         s32 x0;
         /* ASM_BARRIER: keep x1 in $v1 */
@@ -191,6 +191,6 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
         x1 = (y1 & 0x3FF) << 10;
         GpuFuncTable->f10(0x07000000 | x1 | (y0 & 0x3FF));
     }
-    PsyqMemcpy(D_800ABB2C, env, 0x14);
+    PsyqMemcpy(GpuDispEnv, env, 0x14);
     return env;
 }

@@ -18,7 +18,7 @@ extern s8 MenuScriptStep;
 extern u16 MenuScriptId,ModeGroup;
 extern s16 RaceType;
 extern s8 LoadState;
-extern s16 D_800F4D8A;
+extern s16 ModeSubState;
 extern u16 MenuDispMode;
 int UpdateLinkHandshake();
 s32 OpeningScriptStep(s32);

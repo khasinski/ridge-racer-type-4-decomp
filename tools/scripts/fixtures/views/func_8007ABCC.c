@@ -8,11 +8,11 @@
 /* legacy typing of shared globals in this part of the unit */
 #define ModeId (*(short (*))&ModeId)
 
-#define D_800F4D8A (*(short (*))&D_800F4D8A)
+#define ModeSubState (*(short (*))&ModeSubState)
 
 #undef ModeId
 
-#undef D_800F4D8A
+#undef ModeSubState
 
 /* legacy typing of shared globals in this part of the unit */
 #define UpdateScreenFade ((int (*)())UpdateScreenFade)
@@ -31,7 +31,7 @@
 
 #undef _sio_control
 
-void func_8007ABCC(void) {
+void CardMenuModeEnter(void) {
     unsigned long clearAddress;
     u16 clockLow;
     s32 selection;
@@ -49,14 +49,14 @@ void func_8007ABCC(void) {
             _sio_control(1, 1, 0);
         }
     }
-    phase = D_800F4D8A;
+    phase = ModeSubState;
     switch (phase) {
     case 0:
         SetDispMask(0);
         SetupDrawDispEnvs(0x20, 0x20, 0x20, 2);
         ModeFrame = 0;
         SaveSlotIndex = 0;
-        D_80109478[D_8010948E] = 3;
+        MenuChoiceValues[D_8010948E] = 3;
         /* ASM_BARRIER: finish the choice write before the clock read. */
         __asm__("" : : : "memory");
         __builtin_memcpy(&clockLow, &SelectionPlayer, sizeof(clockLow));
@@ -143,16 +143,16 @@ void func_8007ABCC(void) {
         defaultChoice = 3;
         /* ASM_BARRIER: keep the initialized fill value apart from the count. */
         __asm__("" : "+r"(defaultChoice));
-        D_800F4CA8 = 3;
+        DialogueContext = 3;
         D_8010948E = 0;
         for (i = 2; i >= 0; i--) {
-            D_80109478[i] = defaultChoice;
+            MenuChoiceValues[i] = defaultChoice;
         }
         D_8010948C = 0;
         for (i = 0; i < 3; i++) {
             SaveSlotSelectionsBackup[i] = SaveSlotSelections[i];
         }
-        D_800F4D8A = 1;
+        ModeSubState = 1;
         break;
     case 1:
         ModeFrame = (s32)((u32)ModeFrame + 1U);
@@ -164,7 +164,7 @@ void func_8007ABCC(void) {
             SetDispMask(1);
             ModeGroup = ready;
             ModeId = 0x48;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     }

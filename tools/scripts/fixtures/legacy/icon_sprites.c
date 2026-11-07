@@ -64,6 +64,6 @@ void EmitIconSpriteRow120(s32 index,s32 color) {
     RR_ICON_SPRITE_BODY(120)
 }
 
-void func_80059D34(s32 index,s32 color) {
+void EmitIconSpriteRow128(s32 index,s32 color) {
     RR_ICON_SPRITE_BODY(128)
 }

@@ -20,27 +20,27 @@
 
 #define ModeId (*(unsigned short (*))&ModeId)
 
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 
 #undef ModeFrame
 
 #undef ModeId
 
-#undef D_800F4D8A
+#undef ModeSubState
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 
 #define ModeFrame (*(unsigned int (*))&ModeFrame)
 
-#undef D_800F4D8A
+#undef ModeSubState
 
 #undef ModeFrame
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 
-#undef D_800F4D8A
+#undef ModeSubState
 
 /* legacy typing of shared globals in this part of the unit */
 #define ModeFrame (*(u32 (*))&ModeFrame)

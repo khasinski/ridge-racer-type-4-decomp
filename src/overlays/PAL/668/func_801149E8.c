@@ -21,5 +21,5 @@ void ovl668_func_801149E8(void)
     ovl668_func_80114910(RaceContext.resourceB0, &file, &sectors);
     ModeGroup = 2;
     ModeId = 4;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }

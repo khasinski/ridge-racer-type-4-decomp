@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-int func_8002F0E0();
+int RunIntroScriptStep();
 void DrawModeSelectRows();
 int ModeSelectMenuStep(void);
 

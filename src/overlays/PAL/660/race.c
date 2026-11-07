@@ -16,7 +16,7 @@ void ovl660_func_8011712C(void)
     SetupRaceAndScene();
     ModeGroup = 1;
     ModeId = 53;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     AddScreenFadeTiles(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70, 255, 69);
 }
 
@@ -50,11 +50,11 @@ update_pause_timer:
         UpdatePauseMenu(RaceType);
         ModeFrame = (s32)((u32)ModeFrame - 1U);
         DrawPauseMenu(CurrentDrawBuf->ordering.ordering70, PauseCursor);
-        func_8003BFC8(1);
+        DrawSplitTimeHud(1);
         DrawLapTimeList(0);
         DrawStartCountdown(CurrentDrawBuf->ordering.ordering70, ModeFrame);
         DrawHudRotatingQuad(EngineRevDisplay.first, 0);
-        func_800211A4(0);
+        DrawHudFrameSprites(0);
         DrawHudNumber3((PlayerCars[0].input * 0xA0) / 1168, 0);
         DrawHudDigitMod10(PlayerCars[0].half27A, 0);
         DrawRaceMinimap(0);
@@ -67,7 +67,7 @@ update_pause_timer:
         SetupPlayerView(0);
         DrawTrackObjects(0);
         DrawTrackSceneryForPlayer(0);
-        func_80070734(ScreenFrame);
+        DrawRearViewMirror(ScreenFrame);
         return;
     }
     ScreenFrame = (s32)((u32)ScreenFrame + 1U);
@@ -94,7 +94,7 @@ update_pause_timer:
                 if (RaceState == 4) {
                     ModeGroup = 1;
                     ModeId = 0x15;
-                    D_800F4D8A = 0;
+                    ModeSubState = 0;
                 } else {
                     FinishRace();
                 }
@@ -114,7 +114,7 @@ update_pause_timer:
             RR_660_FRAME_SCRATCH->pointers.cursor = AddDrawAreaPrim(CurrentDrawBuf->ordering.ordering70, RR_660_FRAME_SCRATCH->pointers.cursor, 0, 0, 0x140, 0x100);
     }
     UpdateLapTiming(PlayerCars);
-    func_8003BFC8(0);
+    DrawSplitTimeHud(0);
     ovl660_func_80117084((RrRaceVehicleViews *)(void *)PlayerCars);
     UpdateRaceRanking();
     if (RaceState < 4) {
@@ -125,7 +125,7 @@ update_pause_timer:
     if (((u32)RaceState - 1U) < 3U) {
         DrawLapTimeList(0);
         DrawHudRotatingQuad(EngineRevDisplay.first, 0);
-        func_800211A4(0);
+        DrawHudFrameSprites(0);
         DrawHudNumber3((PlayerCars[0].input * 0xA0) / 1168, 0);
         DrawHudDigitMod10(PlayerCars[0].half27A, 0);
         DrawRaceMinimap(0);
@@ -155,7 +155,7 @@ draw_vehicle:
     SetupPlayerView(0);
     DrawTrackObjects(0);
     DrawTrackSceneryForPlayer(0);
-    SlotSetLevelProgram(EngineRevDisplay.first, D_800F2AB4.first, 0);
+    SlotSetLevelProgram(EngineRevDisplay.first, EngineThrottleOn.first, 0);
     if (RaceState >= 4) {
         StopRaceRumble();
         if (RaceState == 6) {

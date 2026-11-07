@@ -76,9 +76,9 @@ extern Port PadPorts[2];
 
 extern s32 PadConnectState[2];
 
-extern s32 D_800AD590[2];
+extern s32 PadActiveHistory[2];
 
-extern s32 D_800F4CD8[2];
+extern s32 PadConnectTimer[2];
 
 extern s16 SteeringRangeTable[4];
 
@@ -90,7 +90,7 @@ extern s32 PadDeadzoneTable[8];
 
 extern s32 VSyncThreshold;
 
-extern s16 D_800F3824;
+extern s16 SteeringRangeIndex;
 
 int abs(int);
 
@@ -123,21 +123,21 @@ void PadUpdate(void) {
         states[i]->type01 = ports[i]->type01;
         if (ports[i]->status00 != 0) {
             PadConnectState[i] = 1;
-            D_800F4CD8[i] = 0x22;
-            D_800AD590[i] |= 0x10;
-        } else if (D_800F4CD8 != NULL) {
-            D_800F4CD8[i]--;
+            PadConnectTimer[i] = 0x22;
+            PadActiveHistory[i] |= 0x10;
+        } else if (PadConnectTimer != NULL) {
+            PadConnectTimer[i]--;
             if (ports[i]->type01 == 0x23) {
                 u16 btn = ~((ports[i]->data02 << 8) | ports[i]->data03);
                 if ((btn & 0x5000) == 0x5000 || (btn & 0xA000) == 0xA000 || (btn & 0x1C4)) {
                     PadConnectState[i] = 2;
-                    D_800F4CD8[i] = 0x22;
-                    D_800AD590[i] |= 0x10;
+                    PadConnectTimer[i] = 0x22;
+                    PadActiveHistory[i] |= 0x10;
                 }
             }
         }
-        D_800AD590[i] >>= 1;
-        if (D_800AD590[i] != 0) {
+        PadActiveHistory[i] >>= 1;
+        if (PadActiveHistory[i] != 0) {
             Port *port = ports[i];
             Pad *pad = states[i];
             port->type01 = 0;
@@ -162,7 +162,7 @@ void PadUpdate(void) {
             states[i]->buttons02 = ~((ports[i]->data02 << 8) | ports[i]->data03);
             states[i]->pressed08 = states[i]->buttons02 & ~states[i]->previous04;
             states[i]->released06 = states[i]->previous04 & (states[i]->buttons02 ^ states[i]->previous04);
-            states[i]->steering20 = (((states[i]->buttons02 >> 13) & 1) - ((states[i]->buttons02 & 0x8000) ? 1 : 0)) * SteeringRangeTable[D_800F3824] + 0x80;
+            states[i]->steering20 = (((states[i]->buttons02 >> 13) & 1) - ((states[i]->buttons02 & 0x8000) ? 1 : 0)) * SteeringRangeTable[SteeringRangeIndex] + 0x80;
             states[i]->pressure22 = (states[i]->buttons02 & 0x40) ? 0x6A : 0;
             states[i]->pressure24 = (states[i]->buttons02 & 0x80) ? 0x6A : 0;
             states[i]->pressure26 = (states[i]->buttons02 & 4) ? 0x6A : 0;

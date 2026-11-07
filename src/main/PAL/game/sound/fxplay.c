@@ -19,7 +19,7 @@ extern struct {
     char p4[0x287C - 0x2870]; s32 x287C;
 } SoundState;
 extern int SeqFadeVolume();
-extern s16 D_800F761C;
+extern s16 MusicSeqAccessNum;
 
 void SeqStartTrack(int a0);
 void SeqMuteVolume(void);
@@ -48,9 +48,9 @@ void SeqMuteVolume(void) {
 }
 
 void SeqMusicPause(void) {
-    SsSeqPause(D_800F761C);
+    SsSeqPause(MusicSeqAccessNum);
 }
 
 void SeqMusicResume(void) {
-    SsSeqReplay(D_800F761C);
+    SsSeqReplay(MusicSeqAccessNum);
 }

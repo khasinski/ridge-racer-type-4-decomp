@@ -26,9 +26,9 @@ typedef struct {
 } RrCommandContextPrefix;
 
 extern s32 CardRetriesLeft;
-extern u8 D_800ABDC0[];
+extern u8 CardSioIrqQueueEntry[];
 /* Received and transmitted command bytes, indexed by CardRxCount/F4. */
-extern u8 CardRxTrace[], D_801147D8[];
+extern u8 CardRxTrace[], CardTxTrace[];
 s32 _cardSioHandler(void);
 s32 _cardCmdStep(void);
 s32 _cardCmdReset(s32 request);
@@ -38,13 +38,13 @@ extern u8 *CardCmdBuffer;
 extern void *CardCmdResultPtrA;
 extern u32 *CardCmdResultPtrB;
 extern s32 CardCmdSector, CardVarRxLength, CardBytesRemaining, CardCurrentCommand;
-extern RrCommandParameter D_8011472C;
+extern RrCommandParameter CardCmdValue;
 extern RrCommandReadCallback CardCommandReader;
 extern RrCommandWriteCallback CardWriteHandler;
 
 /* Command 11 block transfer and its checksum-producing byte reader. */
 extern s32 CardChecksum;
-extern u8 D_80114714;
+extern u8 CardReadChecksum;
 s32 _cardSectorBegin(s32 request, s32 block, s32 mode);
 s32 _cardSectorTx(void);
 s32 _cardSectorRx(s32 value);

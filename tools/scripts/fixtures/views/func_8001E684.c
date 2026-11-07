@@ -52,7 +52,7 @@ void MainLoop(void) {
     ModeFrame=0;
     ModeGroup=1;
     ModeId=1;
-    D_800F4D8A=0;
+    ModeSubState=0;
     FrameCounter=0;
     for (;;) {
         {

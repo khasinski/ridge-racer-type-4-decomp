@@ -7,14 +7,14 @@ void ovl662_func_80116690(void)
         s32 selected=D_800AD520;
         ((RrMenuUiBank *)ui)->cell_view.cells0C[selected]=0;
     }
-    if (D_800F3A42&0x2000) {
+    if (Pad0RepeatButtons&0x2000) {
         if (D_800AD520<3) {
             D_800AD520++;
             MenuStepDirection=2;
             goto changed;
         }
     }
-    if (D_800F3A42&0x8000) {
+    if (Pad0RepeatButtons&0x8000) {
         if (D_800AD520>0) {
             D_800AD520--;
             MenuStepDirection=1;

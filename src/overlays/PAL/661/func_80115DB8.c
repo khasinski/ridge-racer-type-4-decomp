@@ -9,7 +9,7 @@ extern RrCourseChoice4 ovl661_D_80118458[2][2][9];
 extern char ovl661_D_80118420[24],ovl661_D_8011487C[];
 extern const char ovl661_D_80114888[];
 extern u16 ModeGroup;
-extern s16 ModeId,D_800F4D8A;
+extern s16 ModeId,ModeSubState;
 void SetDispMask(s32 mode);
 void ClearScreenOverlayState(void);
 void CopyStringClearTail(char *destination,char *source);
@@ -51,7 +51,7 @@ void ovl661_func_80115DB8(void)
     ovl661_D_80118414 = 8;
     ModeGroup = 1;
     ModeId = 56;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     DebugPrintStub(ovl661_D_80114888);
     SetMenuFrameOptions(0, 1, 1);
 }

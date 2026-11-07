@@ -13,7 +13,7 @@ head='''#include <stdint.h>
 #include "rr/audio_cd_controller.h"
 static struct {u8 before[64];RrAudioState owner;u8 after[64];} storage;
 #define SoundState storage.owner
-#define D_800F746C SoundState.request26B4
+#define CdAudioStopRequest SoundState.request26B4
 char XaRepeatMsg[12];
 typedef uintptr_t(*Callback)(unsigned,uintptr_t*);static Callback cb;
 void set_callback(Callback p){cb=p;}

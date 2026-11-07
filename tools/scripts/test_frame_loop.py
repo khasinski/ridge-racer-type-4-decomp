@@ -28,7 +28,7 @@ u8 *CurrentDrawBuf;
 u32 FrameCounter;
 s32 VSyncThreshold,DrawSubOtFlag,ModeFrame;
 u16 ModeGroup,ModeId;
-s16 D_800F4D8A;
+s16 ModeSubState;
 static struct {u8 prefix[0x4BF0];s32 bank;} native_bank;
 static u8 *native_scratch[2];
 static RrFrameStorage alternate[8];
@@ -47,7 +47,7 @@ void func_8007D710(void) {expect(0);}
 s32 SetVideoMode(s32 n) {expect(1);assert(n==1);return INT_MIN;}
 void ResetCallback(void) {expect(2);}
 void SetMem(s32 n) {expect(3);assert(n==2);}
-void SystemInit(void) {expect(4);FrameCounter=42;ModeFrame=77;ModeGroup=0;ModeId=0;D_800F4D8A=-2;}
+void SystemInit(void) {expect(4);FrameCounter=42;ModeFrame=77;ModeGroup=0;ModeId=0;ModeSubState=-2;}
 void SetDispMask(s32 n) {expect(5);assert(n==0 && VSyncThreshold==128);FrameCounter=0xFFFFFFFFU;}
 u32 *ClearOTagR(u32 *p,s32 n) {
  assert(n==704);
@@ -56,7 +56,7 @@ u32 *ClearOTagR(u32 *p,s32 n) {
   assert(FrameCounter==expected_counter && CurrentDrawBuf==base && native_bank.bank==(s32)bank);
   assert(p==(u32 *)(base+0x70));
   assert(native_scratch[0]==base+0x1670 && native_scratch[1]==base+0x70);
-  if(!frame_no)assert(ModeFrame==0 && ModeGroup==1 && ModeId==1 && D_800F4D8A==0);
+  if(!frame_no)assert(ModeFrame==0 && ModeGroup==1 && ModeId==1 && ModeSubState==0);
   expect(6);CurrentDrawBuf=alternate[0].bytes;
  }else {expect(7);assert(p==(u32 *)(alternate[0].bytes+0xB70));CurrentDrawBuf=alternate[1].bytes;}
  return (u32 *)alternate[7].bytes;

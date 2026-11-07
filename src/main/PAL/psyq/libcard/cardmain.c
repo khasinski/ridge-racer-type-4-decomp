@@ -25,7 +25,7 @@ s32 _cardCmdStep(void) {
         __asm__ __volatile__("" : "+r"(one));
         header=*(u8 *)&CardCommandRequest;
         count=CardReceiveIndex;
-        D_801147D8[0]=(header&15)-0x7F;
+        CardTxTrace[0]=(header&15)-0x7F;
         CardReceiveIndex=count+1;
         answer=0;goto done;
     }
@@ -47,7 +47,7 @@ s32 _cardCmdStep(void) {
         register s32 *count=&CardReceiveIndex;
         u32 index;
         index=*count;
-        D_801147D8[index]=byte;
+        CardTxTrace[index]=byte;
         *count=index+1;
         value=_cardXferByte(byte);
     }

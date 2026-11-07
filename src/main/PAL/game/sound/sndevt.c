@@ -41,7 +41,7 @@ extern struct {
     char pad0[0x10];
     s32 count10;
 } RaceContext;
-extern s32 D_800AC660;
+extern s32 ComCarCount;
 extern Car ComCars[];
 extern s32 D_800F6748;
 extern w3t1_E PlayerCars[];
@@ -53,7 +53,7 @@ extern s32 rsin();
 void SoundListenerInit(short arg0, short arg1);
 void SoundFindNearestCars(s32 arg0);
 void SoundCalcCarParams(s32 idx);
-void func_800523C8(int arg0);
+void UpdateNearCarSound(int arg0);
 
 void SoundListenerInit(short arg0, short arg1) {
     int t;
@@ -102,7 +102,7 @@ void SoundFindNearestCars(s32 arg0) {
         min_idx[0] = -1;
         min_dist[1] = TrackLength;
         min_dist[0] = TrackLength;
-        for (i = 0; i < D_800AC660; i++) {
+        for (i = 0; i < ComCarCount; i++) {
             car = &ComCars[i];
             dist = (car->w184 + car->w188) - SoundState.unk18E4;
             dist %= TrackLength;
@@ -273,7 +273,7 @@ void SoundCalcCarParams(s32 idx) {
 /* legacy typing of shared globals in this part of the unit */
 #define SoundState (*(char (*)[])&SoundState)
 
-void func_800523C8(int arg0) {
+void UpdateNearCarSound(int arg0) {
  int k = arg0 * 3; int t = arg0 + 2; char *v, *s, *b;
  SoundCalcCarParams(t); b = SoundState; s = b + (((k << 4) + arg0) << 5); v = b + t * 0x1C;
  *(int *)(s + 0x68) = *(int *)(v + 0x18FC);

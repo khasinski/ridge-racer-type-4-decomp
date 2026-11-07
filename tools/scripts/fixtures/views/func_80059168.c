@@ -87,22 +87,22 @@
 #undef HudGlyphUvRects
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800A1090 (*(u8 (*)[])&D_800A1090)
+#define HudGlyphUvRectsBank0 (*(u8 (*)[])&HudGlyphUvRectsBank0)
 
 #define HudGlyphUvRects (*(u8 (*)[])&HudGlyphUvRects)
 
-#undef D_800A1090
+#undef HudGlyphUvRectsBank0
 
 #undef HudGlyphUvRects
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800A1090 (*(char (*)[])&D_800A1090)
+#define HudGlyphUvRectsBank0 (*(char (*)[])&HudGlyphUvRectsBank0)
 
 #define HudGlyphUvRects (*(char (*)[])&HudGlyphUvRects)
 
 #define CurrentDrawBuf ((char *)CurrentDrawBuf)
 
-#undef D_800A1090
+#undef HudGlyphUvRectsBank0
 
 #undef HudGlyphUvRects
 
@@ -127,7 +127,7 @@ extern signed char SelectionState[];
 
 extern int BgmNumberToCdTrack[];
 
-extern int D_800F3970;
+extern int AllProgressComplete;
 
 extern int RaceBgmListIndex;
 
@@ -141,7 +141,7 @@ void SelectCourseBgmTrack() {
     } else {
         a0 = 1;
     }
-    if (D_800F3970 != 0 && RaceType != 1) {
+    if (AllProgressComplete != 0 && RaceType != 1) {
         D_800F7660 = 0x10;
     } else {
         D_800F7660 = 0xF;

@@ -140,7 +140,7 @@ extern short MenuFadeTimer;
 extern int VSyncThreshold;
 extern short ModeId;
 extern short ModeGroup;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern int TileRectState;
 extern struct B8 D_8001010C;
 extern struct B8 D_80010114;
@@ -163,7 +163,7 @@ void EmitTiledRect(RrGpuRectangleFields *rectangle, s32 intensity, u32 *head);
 void TileRectSceneModeEnter(void);
 void TileRectSceneModeUpdate(void);
 void func_8001A52C(int a0);
-int *func_8001AC24(S_8001AC24 *a0, int *a1, int *a2);
+int *EmitModelTrisG3(S_8001AC24 *a0, int *a1, int *a2);
 
 void EmitTiledRect(RrGpuRectangleFields *rectangle, s32 intensity, u32 *head) {
     register s32 value;
@@ -308,7 +308,7 @@ void TileRectSceneModeEnter(void) {
     TileRectState = 0;
     ModeGroup = 0;
     ModeId = 4;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }
 
 void TileRectSceneModeUpdate(void) {
@@ -322,7 +322,7 @@ void TileRectSceneModeUpdate(void) {
             ResetScreenCounters();
             ModeGroup = 1;
             ModeId = 0xB;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
     }
 
@@ -359,7 +359,7 @@ void TileRectSceneModeUpdate(void) {
         if (s1 == 0) {
             return;
         }
-        RelocateOffsetTable(D_800AC64C = LoadCursor);
+        RelocateOffsetTable(SkyCommandList = LoadCursor);
         TileRectScene = (S_8010BF70 *)(LoadCursor += s1);
         LoadCursor = (char *)TileRectScene + 0x4C;
         SetupRenderer(3);
@@ -699,7 +699,7 @@ void DrawTrackObjectFlashQuads(int a0) {
     *(int **)SCRATCHPAD = pkt;
 }
 
-int *func_8001AC24(S_8001AC24 *a0, int *a1, int *a2) {
+int *EmitModelTrisG3(S_8001AC24 *a0, int *a1, int *a2) {
     Tri20 *p = a0->p30;
     char *verts = a0->p2C;
     /* ASM_BARRIER: allocate count to $t5 ($13) so verts gets $t6 ($14) */

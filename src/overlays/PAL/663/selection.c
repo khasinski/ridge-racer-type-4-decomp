@@ -11,11 +11,11 @@ void ovl663_update_selection(void) {
 
     ModeFrame = (u32)ModeFrame + 1;
     ScreenFrame = (u32)ScreenFrame + 1;
-    switch ((u16)D_800F4D8A) {
+    switch ((u16)ModeSubState) {
     case 0:
         i = 0;
         if (BadgeRows[1].state10 == 3) {
-            D_800F4D8A = 1;
+            ModeSubState = 1;
             SetMenuFrameOptions(1, 1, 1);
             i = 0;
         }
@@ -46,7 +46,7 @@ void ovl663_update_selection(void) {
             UiRows[MenuCursor].cells[0] = 1;
             if (MenuCursor == 0) {
                 ovl663_selected_record = 0;
-                D_800F4D8A = 2;
+                ModeSubState = 2;
             } else if (MenuCursor == 1) {
                 i = 1;
             }
@@ -58,7 +58,7 @@ void ovl663_update_selection(void) {
             SetMenuFrameOptions(0, 1, 1);
             i = 0;
             MenuFadeTimer = 0x40;
-            D_800F4D8A = 8;
+            ModeSubState = 8;
             do {
                 UiRows[i].byte14 = 3;
                 i += 1;
@@ -70,10 +70,10 @@ void ovl663_update_selection(void) {
         StepMenuValue(0, 4, (char *)&ovl663_selected_record, 5, 0);
         if (PlayerControllers[0].b != 0) {
             PlaySfx(2);
-            D_800F4D8A = 1;
+            ModeSubState = 1;
         } else if (PlayerControllers[0].a != 0) {
             SetMenuFrameOptions(0, 1, 1);
-            D_800F4D8A = 3;
+            ModeSubState = 3;
             ResetScreenCounters();
             LoadCursor = MenuArenaBase;
             mirrorSet = CourseMenuSelection >= 8;
@@ -109,7 +109,7 @@ void ovl663_update_selection(void) {
             ovl663_init_result_preview();
             ModeGroup = modelReady;
             ModeId = 0x4D;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 8:
@@ -121,7 +121,7 @@ void ovl663_update_selection(void) {
             ovl663_init_menu();
             ModeGroup = 1;
             ModeId = 0x4A;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             return;
         }
         break;

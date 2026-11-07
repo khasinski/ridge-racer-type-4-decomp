@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void func_8005C024(void);
+void DrawCameraMotionModel(void);
 
 #endif /* RR_GAME_CAMERA_CAMMOVE_H */

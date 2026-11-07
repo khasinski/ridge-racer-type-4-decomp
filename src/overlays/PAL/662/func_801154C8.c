@@ -49,7 +49,7 @@ void ovl662_func_801154C8(void) {
         (*(s8*)(ImageRows+1)) = temp_v0_2;
     }
     var_s6 = 1;
-    switch ((u16)D_800F4D8A) {
+    switch ((u16)ModeSubState) {
     case 0:
         SetMenuFrameOptions(1, 1, 1);
         temp_s0 = PackChoiceGlyph((s8*)&SelectionRows);
@@ -99,7 +99,7 @@ void ovl662_func_801154C8(void) {
                             PlaySfx(1);
                             var_s0 = 0;
 
-                            D_800F4D8A = (u16) temp_s1;
+                            ModeSubState = (u16) temp_s1;
                             BadgeRows->state10 = 4;
                             closePhase = 3;
                             __asm__("" : "+r"(closePhase));
@@ -131,14 +131,14 @@ void ovl662_func_801154C8(void) {
 
                         } while (var_s0 < 4);
                         MenuFadeTimer = 0x40;
-                        D_800F4D8A = 5;
+                        ModeSubState = 5;
                     } else if (MenuCursor == temp_s3) {
                         if (temp_s5 == 0) {
                             SetModelTexturePage(-1);
                             PlaySfx(1);
                             var_s0 = 0;
 
-                            D_800F4D8A = 4;
+                            ModeSubState = 4;
                             BadgeRows->state10 = 4;
                             (*(s8*)(ImageRows+1)) = (s8) temp_s1;
                             do {
@@ -192,7 +192,7 @@ block_40:
                     }
 block_54:
                     MenuFadeTimer = 0x40;
-                    D_800F4D8A = 8;
+                    ModeSubState = 8;
                 }
             }
         }
@@ -201,7 +201,7 @@ block_54:
         if (((*(s8*)(ImageRows+1)) == 5) && (BadgeRows->state10 == 0xB)) {
             ModeGroup = 1;
             ModeId = 0x41;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             ovl662_D_801272BA = (u16) ovl662_D_801272E4;
         }
         goto block_67;
@@ -219,7 +219,7 @@ block_54:
         if ((s16) MenuFadeTimer <= 0) {
             ModeGroup = 1;
             ModeId = 0x1B;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         goto block_67;
     case 8:
@@ -229,7 +229,7 @@ block_54:
         if ((s16) MenuFadeTimer <= 0) {
             ModeGroup = 1;
             ModeId = 0x27;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         goto block_67;
     default:
@@ -249,7 +249,7 @@ block_67:
         var_s0 = var_s6;
         if (((u32) ((u8) (*(s8*)(ImageRows+1)) - 1) < 2U) && (var_s0 == 1)) {
             DrawSelectionIconGrid(0);
-            func_8002E5A0((char *)(void *)PlayerCars);
+            PrepareCarDrawPose((char *)(void *)PlayerCars);
             var_a2_2 = 0x100;
             if ((*(s8*)(ImageRows+1)) == var_s0) {
                 temp_v0_3 = ~((ImageRows[2] * 0xFF) / 30);

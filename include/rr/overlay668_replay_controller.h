@@ -7,7 +7,7 @@ typedef struct {s32 key,action;} RrReplayEvent;
 extern RrReplayEvent ovl668_D_80116CA8[3];
 extern RrIconSpriteContext *CurrentDrawBuf;
 extern RrMenuItemState5C PlayerControllers[2];
-extern s16 ModeGroup,ModeId,D_800F4D8A;
+extern s16 ModeGroup,ModeId,ModeSubState;
 void AddScreenFadeTiles(u32*,s32,u32);void CdAudioBeginPlay(s32);void CdAudioFade(u16,s32);void SetupPlayerView(s32);void DrawTrackSceneryForPlayer(s32);
 void ovl668_func_80115BD0(s32);void ovl668_func_801159C0(s32,s32);
 /* The three-entry event table contains a negative sentinel within its owner.

@@ -23,7 +23,7 @@ extern u16 MenuFadeTimer,ModeGroup;
 extern s16 ovl662_D_801272D4,ovl662_D_801272E0,ovl662_D_801272E4;
 extern u16 ovl662_D_801272BA;
 void SetupMenuCarCamera(s32);void SetupViewport(s32);s32 LoadCarRangeStep(s32,s32);
-void SetCarBounds(RrRaceVehicle*);void func_8002E5A0(char*);
+void SetCarBounds(RrRaceVehicle*);void PrepareCarDrawPose(char*);
 void SetMenuFrameOptions(s32,s32,s32);void StepMenuValue(s32,s32,char*,s32,s32);
 void UnpackChoiceGlyph(s8*,s32);s32 PackChoiceGlyph(void*);
 void ResetScreenCounters(void);void SetModelTexturePage(s32);void PlaySfx(s32);

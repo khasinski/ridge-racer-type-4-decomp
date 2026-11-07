@@ -62,7 +62,7 @@ extern int CdFileReadStart();
 
 extern int CdFileBytesLoaded();
 
-extern char D_800FFC48[];
+extern char SharedWorkBuffer[];
 
 extern int CdFileReadRange();
 
@@ -72,7 +72,7 @@ extern int SetupDialogueTable();
 
 extern int LoadTimImage();
 
-extern int D_800F4CA8;
+extern int DialogueContext;
 
 extern int D_800AD564;
 
@@ -89,22 +89,22 @@ int LoadDialogueTableStep(void) {
         LoadState = 1;
         LoadIndex = 0;
     case 1:
-        if (CdFileReadStart(GetR4FileIndex(1, 0x42), D_800FFC48)) {
+        if (CdFileReadStart(GetR4FileIndex(1, 0x42), SharedWorkBuffer)) {
             LoadState = 2;
         }
         break;
     case 2:
         if (CdFileBytesLoaded()) {
-            s = D_800FFC48;
+            s = SharedWorkBuffer;
             LoadTimImage(s);
             s += 0x4E20;
             LoadState = 3;
             DialogueState = (Z *)s;
             InitDialogueState(s);
     case 3:
-            if (D_800F4CA8 == 2) {
+            if (DialogueContext == 2) {
                 a1 = 0x44;
-            } else if (D_800F4CA8 == 4) {
+            } else if (DialogueContext == 4) {
                 a1 = 0x46;
                 DialogueState->b = 2;
             } else {

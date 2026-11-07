@@ -46,7 +46,7 @@ void FrmTaskModeEnter(void) {
     MenuFadeTimer = -1;
     ModeGroup = 0;
     ModeId = 6;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }
 
 #undef ModeId
@@ -119,7 +119,7 @@ void FrmTaskModeUpdate(void) {
             if (MenuFadeTimer == 0) {
                 ModeGroup = 1;
                 ModeId = 3;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
             }
         } else if (MenuConfirmPressed) {
             MenuFadeTimer = 0x40;
@@ -172,7 +172,7 @@ void MainLoop(void) {
     ModeFrame=0;
     ModeGroup=1;
     ModeId=1;
-    D_800F4D8A=0;
+    ModeSubState=0;
     FrameCounter=0;
     for (;;) {
         {

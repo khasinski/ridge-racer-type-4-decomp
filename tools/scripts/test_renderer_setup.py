@@ -44,9 +44,9 @@ typedef struct {
     u8 suffix[16];
 } World;
 static World actual,expected;
-#define D_800AD568 actual.flags
-#define D_800F3A18 actual.gouraud
-#define D_800F3A20 actual.flat
+#define MirrorMode actual.flags
+#define PolyGT4WhiteColor actual.gouraud
+#define DefaultFT4Color actual.flat
 ''' + body + r'''
 static void store(size_t offset,u32 value,int size) {
     for(int i=0;i<size;i++)((u8*)&expected)[offset+i]=value>>(8*i);

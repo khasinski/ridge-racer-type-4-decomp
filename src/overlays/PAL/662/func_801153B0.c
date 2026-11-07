@@ -10,6 +10,6 @@ void ovl662_func_801153B0(void) {
     PlayerCourseChoices[0].second = CourseChoiceTable[1][ovl662_D_801272E4].second;
     ModeGroup = 1;
     ModeId = 0x40;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     DebugPrintStub(ovl662_D_80114888);
 }

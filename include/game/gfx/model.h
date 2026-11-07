@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-int func_8006F1EC();
+int GetViewTrackSegment();
 s32 YawToOctant(void *arg0);
 unsigned int *GetSegmentViewTable();
 void InitTimTemplate(int *a0);

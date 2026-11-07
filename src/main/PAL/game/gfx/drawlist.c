@@ -23,7 +23,7 @@
 #include "game/gfx/polygt4.h"
 #include "game/gfx/drawbuf.h"
 
-#define G D_8010BF78
+#define G IntroSceneState
 #define H BadgeRows
 #define K DialogueState
 #define SPP (*(struct P **)SCRATCHPAD)
@@ -121,7 +121,7 @@ extern int CdAudioBeginPlay();
 extern int CdAudioFade();
 extern int SetupViewport();
 extern int SetGeomOffset();
-extern struct GS *D_8010BF78;
+extern struct GS *IntroSceneState;
 extern struct HS *BadgeRows;
 extern struct KS *DialogueState;
 extern short MenuFadeTimer;
@@ -130,8 +130,8 @@ extern char ScreenFadeState;
 extern short ModeId;
 extern short MenuScriptId;
 extern short ModeGroup;
-extern int D_800F4CA8;
-extern short D_800F4D8A;
+extern int DialogueContext;
+extern short ModeSubState;
 extern short D_8009E4EC;
 extern char *CdDirectoryBuffer;
 extern char D_800101EC[];
@@ -218,7 +218,7 @@ void StepIntroScene() {
     register struct P *temp_t1 asm("$9"); /* ASM_BARRIER: pin packet pointer to $t1 */
     struct SPD *spd, *spd2;
     int col;
-    temp_s5 = func_800534B4();
+    temp_s5 = GetCdAudioPosition();
     if (TitleSceneStage < 5) {
         goto block_9;
     }
@@ -234,11 +234,11 @@ block_4:
     if (MenuFadeTimer < 0x100) {
         goto block_6;
     }
-    D_800F4CA8 = 0;
+    DialogueContext = 0;
     MenuScriptId = 1;
     ModeGroup = 1;
     ModeId = 0x23;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 block_6:
     AddScreenFadeTiles(CurrentDrawBuf + 0x70, MenuFadeTimer, 0x45);
     MenuFadeTimer = (u16) MenuFadeTimer + 4;
@@ -259,7 +259,7 @@ case 0x0:
     ScreenFadeState = 2;
     InitMenuArenas();
     ResetScreenCounters();
-    D_800F4CA8 = 4;
+    DialogueContext = 4;
     InitBadgeRow(0, 0xC, 0x130, 0x128, 0x58, 0, 0);
     TitleSceneStage = 1;
 case 0x1:
@@ -278,7 +278,7 @@ case 0x2:
     LoadTimImage(LoadCursor + ((int *)LoadCursor)[3]);
     LoadTimImage(temp_s0);
     RegisterModelBank(temp_s1, 4);
-    D_800AC64C = temp_s2;
+    SkyCommandList = temp_s2;
     RelocateOffsetTable(temp_s2);
     TitleSceneStage = 3;
     LoadCursor += temp_v0;
@@ -1027,7 +1027,7 @@ case 0x32:
     sp4[6] = 0x400;
     sp4[7] = 0;
     sp4[8] = 0;
-    __asm__ volatile("" : "=r"(st) :: "memory"); /* ASM_BARRIER: clobber $a0 so %hi(D_8010BF78) stays in $a1 across sp4 stores */
+    __asm__ volatile("" : "=r"(st) :: "memory"); /* ASM_BARRIER: clobber $a0 so %hi(IntroSceneState) stays in $a1 across sp4 stores */
     src = D_8009E540;
     g_v1 = G;
     __asm__ volatile("" : "+r"(src), "+r"(g_v1) :: "$8", "$9"); /* ASM_BARRIER: emit src and G reload before state lui and reserve $t0-$t1 for sp2 in $t5 */
@@ -1214,7 +1214,7 @@ block_227:
     }
     SetLightColorsFromAngle(temp_a0_4);
     G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(0, G->uA2 & 1));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(1, G->uA2 & 2, D_8010BF78));
+    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(1, G->uA2 & 2, IntroSceneState));
 block_229:
     temp_a0_5 = G->s68;
     if (temp_a0_5 == 0) {
@@ -1222,7 +1222,7 @@ block_229:
     }
     SetLightColorsFromAngle(temp_a0_5);
     G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(2, G->uA2 & 4));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(3, G->uA2 & 8, D_8010BF78));
+    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(3, G->uA2 & 8, IntroSceneState));
 block_231:
     temp_a0_6 = G->s6A;
     if (temp_a0_6 == 0) {
@@ -1230,9 +1230,9 @@ block_231:
     }
     SetLightColorsFromAngle(temp_a0_6);
     G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(4, G->uA2 & 0x10));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(5, G->uA2 & 0x20, D_8010BF78));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(6, G->uA2 & 0x40, D_8010BF78));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(7, G->uA2 & 0x80, D_8010BF78));
+    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(5, G->uA2 & 0x20, IntroSceneState));
+    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(6, G->uA2 & 0x40, IntroSceneState));
+    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(7, G->uA2 & 0x80, IntroSceneState));
 block_233:
     temp_a0_7 = G->s6C;
     if (temp_a0_7 == 0) {

@@ -130,7 +130,7 @@ typedef struct { unsigned short h[16]; } MH;
 
 extern void func_8001A52C(s32);
 extern void func_8001ADA0(s32, s32);
-extern void func_8005F0D0(void *, s32, s32, s32);
+extern void SubmitModel(void *, s32, s32, s32);
 extern void SubmitCourseModel2(void *, s32);
 extern void SelectModelBank(s32);
 extern void EmitSemiTransG3List(Poly38 *, s32, s32);
@@ -157,9 +157,9 @@ extern s16 CourseIndex;
 extern s8 RacePaused;
 extern S_F4D90 *TrackLightTable;
 extern s32 RaceState;
-extern s32 D_8010E840;
-extern s32 D_8010E848[];
-extern Vec16 D_8010E8C8;
+extern s32 TrackObjSoundPrevDist;
+extern s32 ObjSfxLastFrame[];
+extern Vec16 ObjSoundPrevPos;
 extern Vec16 ObjTrailHistory[];
 extern S_ECAC *TrackObjectKeyframes;
 extern S_ECB0 *TrackObjectDefs;
@@ -170,8 +170,8 @@ extern int BuildRotMatrixX();
 extern int MulMatrix2();
 extern int CameraViewMatrix[];
 extern int *D_8010E8D8;
-extern int *D_8010E8DC;
-extern int D_8010E8E0;
+extern int *TrackObjectDefsPtr;
+extern int TrackObjectStatesBase;
 
 void DrawTrackObjects(s32 arg0);
 void BuildObjectMatrix(int unused, short *p, M *out, int flag);
@@ -259,7 +259,7 @@ void DrawTrackObjects(s32 arg0) {
             SetLightMatrix(&sp58);
             SetTrackObjectTransform(i, &sp18, 0);
             SelectModelBank(4);
-            func_8005F0D0(SCRATCH_BASE, TrackObjectDefs[i].f00, 0, 0);
+            SubmitModel(SCRATCH_BASE, TrackObjectDefs[i].f00, 0, 0);
             break;
 
         case 2:
@@ -284,7 +284,7 @@ void DrawTrackObjects(s32 arg0) {
                         PlaySfxVolPan(0x27, 0x7F, 0x40, -1);
                     }
                 }
-                func_80070BA4(SCRATCH_BASE, TrackObjectDefs[i].f00, RacePaused == 0);
+                UpdateTrackObjectParticles(SCRATCH_BASE, TrackObjectDefs[i].f00, RacePaused == 0);
                 SetDrawMode(SCRATCH_PRIM, 0, 1, 0x2A, 0);
                 AddPrim(SCRATCH_OT + 0x900, SCRATCH_PRIM);
                 SCRATCH_PRIM += 0xC;
@@ -321,17 +321,17 @@ void DrawTrackObjects(s32 arg0) {
             SetLightMatrix(&sp58);
             SetTrackObjectTransform(i, &sp18, 0);
             SelectModelBank(4);
-            func_8005F0D0(SCRATCH_BASE, 1, 0, 0);
+            SubmitModel(SCRATCH_BASE, 1, 0, 0);
             if (TrackObjectDefs[i].f08 != 14) {
                 v = (0x898 - dist) / 20;
                 if (dist >= 0x899) {
                     v = 0;
                 }
-                s3[0x00 / 4] = D_8010E8C8.vx - SCRATCH_CAMX;
-                s3[0x04 / 4] = D_8010E8C8.vy - SCRATCH_CAMY;
-                s3[0x08 / 4] = D_8010E8C8.vz - SCRATCH_CAMZ;
+                s3[0x00 / 4] = ObjSoundPrevPos.vx - SCRATCH_CAMX;
+                s3[0x04 / 4] = ObjSoundPrevPos.vy - SCRATCH_CAMY;
+                s3[0x08 / 4] = ObjSoundPrevPos.vz - SCRATCH_CAMZ;
                 s3[0x10 / 4] = CordicSqrt((s3[0x00 / 4] * s3[0x00 / 4] + s3[0x04 / 4] * s3[0x04 / 4] + s3[0x08 / 4] * s3[0x08 / 4]) >> 10) >> 2;
-                if (dist < D_8010E840) {
+                if (dist < TrackObjSoundPrevDist) {
                     s3[0x10 / 4] = -s3[0x10 / 4];
                 }
                 {
@@ -340,8 +340,8 @@ void DrawTrackObjects(s32 arg0) {
                         SoundLoopSet(5, t, v, 0x40);
                     }
                 }
-                D_8010E8C8 = *(Vec16 *)(fp + 8);
-                D_8010E840 = dist;
+                ObjSoundPrevPos = *(Vec16 *)(fp + 8);
+                TrackObjSoundPrevDist = dist;
             }
             break;
 
@@ -477,13 +477,13 @@ void DrawTrackObjects(s32 arg0) {
                 pan = 0x7F;
             }
             if ((u32)((u16)RaceType - 2) < 3U) {
-                if (D_8010E848[i] == ModeFrame) {
+                if (ObjSfxLastFrame[i] == ModeFrame) {
                     SetSoundChannelVolLR(1, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
                 } else {
                     SetSoundChannelVolLR(0, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
                     SetSoundChannelVolLR(1, 0, 0);
                 }
-                D_8010E848[i] = ModeFrame;
+                ObjSfxLastFrame[i] = ModeFrame;
             } else {
                 SetSoundChannelVolLR(0, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
             }
@@ -507,13 +507,13 @@ void DrawTrackObjects(s32 arg0) {
                 v = 0;
             }
             if ((u32)((u16)RaceType - 2) < 3U) {
-                if (D_8010E848[i] == ModeFrame) {
+                if (ObjSfxLastFrame[i] == ModeFrame) {
                     SetSoundChannelVolLR(1, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
                 } else {
                     SetSoundChannelVolLR(0, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
                     SetSoundChannelVolLR(1, 0, 0);
                 }
-                D_8010E848[i] = ModeFrame;
+                ObjSfxLastFrame[i] = ModeFrame;
             } else {
                 SetSoundChannelVolLR(0, (s16)((v * pan) >> 7), (s16)((v * (0x80 - pan)) >> 7));
             }
@@ -739,10 +739,10 @@ void DrawTrackObjects(s32 arg0) {
                 s3[0x00 / 4] = CordicSqrt((dx * dx + dz * dz) >> 12);
             }
             if ((u32)((u16)RaceType - 2) < 3U) {
-                if (D_8010E848[i] != ModeFrame && RacePaused == 0) {
+                if (ObjSfxLastFrame[i] != ModeFrame && RacePaused == 0) {
                     TrackObjectStates[i].f08 = (TrackObjectStates[i].f08 + (((i & 1) == 0) ? 0x20 : 0xFE0)) % 0x1000;
                 }
-                D_8010E848[i] = ModeFrame;
+                ObjSfxLastFrame[i] = ModeFrame;
             } else if (RacePaused == 0) {
                 TrackObjectStates[i].f08 = (TrackObjectStates[i].f08 + (((i & 1) == 0) ? 0x20 : 0xFE0)) % 0x1000;
             }
@@ -942,9 +942,9 @@ int LoadTrackObjects(int *a, int b) {
     int n = *a;
     int s;
     a++;
-    D_8010E8DC = a;
+    TrackObjectDefsPtr = a;
     TrackObjectDefs = a;
-    D_8010E8E0 = b;
+    TrackObjectStatesBase = b;
     TrackObjectStates = b;
     a = a + n * 12;
     TrackObjectCount = n;

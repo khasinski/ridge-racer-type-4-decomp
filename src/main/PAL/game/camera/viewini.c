@@ -11,24 +11,24 @@ typedef struct { int a, b, c, d, e, f, g, h; } w3g6_32;
 
 typedef struct { int x, y; } __attribute__((packed)) w3g6_U;
 
-extern w3g6_32 D_800A3B00;
+extern w3g6_32 DefaultColorMatrix;
 extern w3g6_U D_800A3B20[];
 extern w3g6_U D_800A3B28[];
 extern w3g6_U D_800A3B30[];
 extern int CourseFarColorTable[];
 extern w3g6_32 ColorMatrix;
-extern short D_800AD5BC[];
-extern w3g6_U D_800F38F8[];
+extern short LightDirMagnitude[];
+extern w3g6_U LightAngles[];
 extern int ViewUsesCarTrackNode;
 extern char ViewSegmentIndices[];
-extern unsigned int *D_800ADAD0;
+extern unsigned int *SegmentViewTablePtr;
 extern int RelFileViewRecords;
-extern unsigned int D_8010E290[];
+extern unsigned int ViewSegmentObjects[];
 extern unsigned int *ViewSegmentObjectList;
 
 void InitViewLighting(void);
 void BuildViewSegmentObjectList(void);
-void func_8006E8F8();
+void AddUniqueViewSegmentRecords();
 void func_8006E9CC(void);
 void func_8006E9D4(void);
 
@@ -37,13 +37,13 @@ void InitViewLighting(void)
     int *t;
     int *b;
     int i;
-    ColorMatrix = D_800A3B00;
-    D_800F38F8[0] = D_800A3B20[0];
-        D_800F38F8[1] = D_800A3B28[0];
-    D_800F38F8[2] = D_800A3B30[0];
-    D_800AD5BC[0] = 0x1000;
-    D_800AD5BC[1] = 0x1000;
-    D_800AD5BC[2] = 0x1000;
+    ColorMatrix = DefaultColorMatrix;
+    LightAngles[0] = D_800A3B20[0];
+        LightAngles[1] = D_800A3B28[0];
+    LightAngles[2] = D_800A3B30[0];
+    LightDirMagnitude[0] = 0x1000;
+    LightDirMagnitude[1] = 0x1000;
+    LightDirMagnitude[2] = 0x1000;
     BackColorR = 0x13;
     BackColorG = 0x1D;
     BackColorB = 0x1C;
@@ -80,27 +80,27 @@ void InitViewState(void) {
 void BuildViewSegmentObjectList(void) {
     unsigned int *t;
     unsigned int i;
-    ViewSegmentObjectList = D_8010E290;
+    ViewSegmentObjectList = ViewSegmentObjects;
     t = GetSegmentViewTable();
-    D_800ADAD0 = t;
-    D_8010E290[0] = *t;
-    if (D_8010E290[0] >= 0x100) {
-        D_8010E290[0] = 0xFF;
+    SegmentViewTablePtr = t;
+    ViewSegmentObjects[0] = *t;
+    if (ViewSegmentObjects[0] >= 0x100) {
+        ViewSegmentObjects[0] = 0xFF;
     }
     t++;
     i = 0;
-    if (D_8010E290[0] != 0) {
+    if (ViewSegmentObjects[0] != 0) {
         do {
-            D_8010E290[i + 1] = RelFileViewRecords + ((unsigned short *)t)[i] * 0x50;
+            ViewSegmentObjects[i + 1] = RelFileViewRecords + ((unsigned short *)t)[i] * 0x50;
             i++;
-        } while (i < D_8010E290[0]);
+        } while (i < ViewSegmentObjects[0]);
     }
 }
 
 /* legacy typing of shared globals in this part of the unit */
 #define ViewSegmentIndices (*(unsigned char (*)[])&ViewSegmentIndices)
 
-void func_8006E8F8() {
+void AddUniqueViewSegmentRecords() {
     int *t1;
     int v;
     int t0;

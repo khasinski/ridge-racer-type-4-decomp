@@ -21,7 +21,7 @@ typedef struct {
 extern u16 D_8010F90C[];
 extern s16 _svm_sreg_buf[];
 extern s16 D_8010FE3A[];
-extern s16 D_8010FE3C[];
+extern s16 SvmSregPitch[];
 extern SvmCur _svm_cur;
 extern char D_8010F916[];
 extern char D_8010F918[];
@@ -87,7 +87,7 @@ void _SsVmKeyOnNow(s16 arg0, s16 arg1) {
         left = (left * left) / 16383U;
         right = (right * right) / 16383U;
     }
-    D_8010FE3C[voice_off] = arg1;
+    SvmSregPitch[voice_off] = arg1;
     _svm_sreg_buf[voice_off] = left;
     D_8010FE3A[voice_off] = right;
     ((u8 *)&_svm_sreg_dirty)[_svm_cur.f18] |= 7;
@@ -116,7 +116,7 @@ void _SsVmKeyOnNow(s16 arg0, s16 arg1) {
 
 /* legacy typing of shared globals in this part of the unit */
 #define _svm_sreg_dirty (*(char (*)[])&_svm_sreg_dirty)
-#define D_8010FE3C (*(char (*)[])&D_8010FE3C)
+#define SvmSregPitch (*(char (*)[])&SvmSregPitch)
 #define _svm_tn (*(int (*))&_svm_tn)
 
 int _SsVmPBVoice(short a0, short a1, short a2, short a3, int a4) {
@@ -166,8 +166,8 @@ int _SsVmPBVoice(short a0, short a1, short a2, short a3, int a4) {
                 *(unsigned char *)D_8011010C = *(unsigned char *)(D_8010F91E + a0 * 0x36);
                 *(short *)(D_8011010C + 0xC) = a0;
                 ret = note2pitch2(s, e & 0xFFFF);
-                *(short *)(D_8010FE3C + a0 * 16) = ret;
-                /* ASM_BARRIER: prevent scheduling _svm_sreg_dirty load before D_8010FE3C store */
+                *(short *)(SvmSregPitch + a0 * 16) = ret;
+                /* ASM_BARRIER: prevent scheduling _svm_sreg_dirty load before SvmSregPitch store */
                 __asm__ volatile("");
                 *(unsigned char *)(_svm_sreg_dirty + a0) |= 4;
                 /* ASM_BARRIER: keep ret ($v0) live across _svm_sreg_dirty update and allocate d9 to $t2 so mfhi picks $t2 */
@@ -182,5 +182,5 @@ int _SsVmPBVoice(short a0, short a1, short a2, short a3, int a4) {
 }
 
 #undef _svm_sreg_dirty
-#undef D_8010FE3C
+#undef SvmSregPitch
 #undef _svm_tn

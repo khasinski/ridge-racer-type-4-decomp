@@ -85,8 +85,8 @@ void SetDrawEnv2(u32 *arg0, RrFrameEnvironment *arg1) {
         signed_side=rect.rect.h;
         raw_side=(u16)rect.rect.h;
         if(signed_side>=0) {
-            over=(D_800ABAC6-1)<signed_side;
-            raw_limit=(u16)D_800ABAC6;
+            over=(GpuVramHeight-1)<signed_side;
+            raw_limit=(u16)GpuVramHeight;
             if(over)height=raw_limit-1;
             else height=raw_side;
         }else height=0;

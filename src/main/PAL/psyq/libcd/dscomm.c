@@ -26,7 +26,7 @@ extern void cb_data(void);
 extern void CdFlush(void);
 extern const char StrCdReadShellOpen[];
 extern const char StrCdReadRetry[];
-extern volatile u32 D_800A67BC;
+extern volatile u32 DsSavedCdMode;
 extern RrLibCompletionCallback volatile D_800A67DC;
 
 void cb_read(s32 event,u8 *data);
@@ -63,7 +63,7 @@ void cb_read(s32 event,u8 *data) {
                     CdGetSector(header,3);
                 }
                 now=CdPosToInt(header);
-                completed=&D_800A67D0;
+                completed=&CdReadExpectedPos;
                 /* ASM_BARRIER: capture the complete counter address before load. */
                 __asm__("" : "+r"(completed));
                 if ((u32)now!=*completed) {
@@ -218,7 +218,7 @@ s32 cd_read_retry(s32 restart) {
     CdFlush();
     /* ASM_BARRIER: form the captured mode address after reset returns. */
     __asm__("" : : : "$17");
-    mode_slot = &D_800A67BC;
+    mode_slot = &DsSavedCdMode;
     /* ASM_BARRIER: preserve the complete address before the mode load. */
     __asm__("" : "+r"(mode_slot));
     requested = *mode_slot;

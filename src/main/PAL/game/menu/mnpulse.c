@@ -16,7 +16,7 @@ void PadStepPulse(void) {
     s32 small;
     port = 0;
     settings = Options.controls.pulse;
-    repeat = D_8009FFA0;
+    repeat = PadPulseRepeatRows;
     small = 64;
     once = D_8009FF80;
     next_output = PlayerControllers;

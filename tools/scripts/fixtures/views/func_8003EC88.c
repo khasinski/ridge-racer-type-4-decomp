@@ -66,9 +66,9 @@ extern s32 rsin();
 
 extern s32 rcos();
 
-extern char D_80010924[];
+extern char StrOne[];
 
-extern char D_80010928[];
+extern char StrDigit2[];
 
 extern char StrPleaseWait[];
 
@@ -277,7 +277,7 @@ s32 DrawUiRow(s32 arg0) {
             }
             s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, &UiFontGlyphs[s0], 0x7FF8, 0);
         } else if ((u32)(s6 - 8) < 2U) {
-            s3 = AddTextSprites(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, (s6 == 8) ? D_80010924 : D_80010928, fp | 0x7FF8, 0, s2);
+            s3 = AddTextSprites(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, (s6 == 8) ? StrOne : StrDigit2, fp | 0x7FF8, 0, s2);
         }
         break;
     case 2:

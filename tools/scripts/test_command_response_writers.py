@@ -32,7 +32,7 @@ s32 test_ram[0x4000];
 u8 *CardCmdBuffer;
 void *CardCmdResultPtrA;
 u32 *CardCmdResultPtrB;
-RrCommandParameter D_8011472C;
+RrCommandParameter CardCmdValue;
 RrCommandReadCallback CardCommandReader;
 RrCommandWriteCallback CardWriteHandler;
 s32 _cardCmd59Tx(void) { return 0; }
@@ -45,7 +45,7 @@ void test_initialize(void) {
  memset(test_results,0xA5,sizeof(test_results));
  CardCmdBuffer=(u8 *)&test_results[0][1];
  CardCmdResultPtrA=&test_results[0][3]; CardCmdResultPtrB=&test_results[1][11];
- D_8011472C.buffer=(u8 *)&test_results[0][2];
+ CardCmdValue.buffer=(u8 *)&test_results[0][2];
  CardCommandReader=_cardCmd59Tx; CardWriteHandler=0;
 }
 '''

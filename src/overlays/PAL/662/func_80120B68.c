@@ -108,7 +108,7 @@ block_34:
                     MenuResultCode = 7;
                     ModeGroup = 1;
                     ModeId = 0x47;
-                    D_800F4D8A = 0;
+                    ModeSubState = 0;
                     return;
                 }
                 break;

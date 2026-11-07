@@ -147,8 +147,8 @@ void _padStartCom(void);
 
 typedef void (*RrChannelErrorCallback)(s32 status);
 extern RrChannelErrorCallback PadAdvanceChannelFn;
-extern s32 D_800ABCD0, PadFirstChannel, PadLastChannel;
-extern s32 PadActiveChannel, PadRecvStage, D_800ABCB0;
+extern s32 PadChkVsyncFlag, PadFirstChannel, PadLastChannel;
+extern s32 PadActiveChannel, PadRecvStage, PadActuatorPowerUsed;
 extern s32 PadPortTimeoutCounts[2];
 s32 _padInitSioMode(RrChannelRecordF0 *channel);
 /* Entry stage must be in 0..4; the handler sees its incremented value. */

@@ -27,7 +27,7 @@ static struct {u8 pre[16];RrStrDisplayConfig c;u8 post[16];} cfg;
 static struct {u8 pre[16];RrStrStreamPrefix s[3];u8 post[16];} streams, saved;
 static u8 backing[3][6][64],saved_backing[3][6][64];
 static RrLibQueueRecord32 queues[3],saved_queues[3];
-RrStrStreamPrefix *D_800AC708;
+RrStrStreamPrefix *StrStreamState;
 static unsigned scenario,polls,limit,event;
 static u8 expected[40];
 static const u32 selectors[6]={0,1,2,0xffffffffU,0x80000000U,0x10000};
@@ -37,7 +37,7 @@ static void change(unsigned salt){unsigned i;for(i=0;i<40;i++)expected[i]=(u8)(s
 u8 *ovl668_func_80115164(RrStrDisplayConfig *c){
  u32 selector;assert(c==&cfg.c&&event==0);check();polls++;change(0);
  selector=selectors[(scenario/6+polls)%6];memcpy(expected,&selector,4);memcpy(&cfg.c,expected,40);
- D_800AC708=&streams.s[(scenario+polls)%3];
+ StrStreamState=&streams.s[(scenario+polls)%3];
  return polls==limit?backing[scenario%3][5]:0;
 }
 void ovl668_func_80116958(u8 *data,void *commands){
@@ -46,11 +46,11 @@ void ovl668_func_80116958(u8 *data,void *commands){
  memcpy(expected,&selector,4);check();
  assert(commands==streams.s[(scenario+polls)%3].commands10[selector]);
  assert((uintptr_t)data>UINT32_MAX&&(uintptr_t)commands>UINT32_MAX);
- change(31);D_800AC708=&streams.s[(scenario+polls+1)%3];
+ change(31);StrStreamState=&streams.s[(scenario+polls+1)%3];
 }
 s32 StFreeRing(void *data){
  assert(event++==1&&data==backing[scenario%3][5]);check();change(63);
- D_800AC708=&streams.s[(scenario+polls+2)%3];return results[(scenario/36)%6];
+ StrStreamState=&streams.s[(scenario+polls+2)%3];return results[(scenario/36)%6];
 }
 '''
 TAIL=r'''
@@ -69,13 +69,13 @@ int main(void){unsigned i,j;const unsigned limits[6]={1,2,1999,2000,2001,17};
    streams.s[i].queue20=&queues[i];
   }
   saved=streams;memcpy(saved_backing,backing,sizeof backing);memcpy(saved_queues,queues,sizeof queues);
-  polls=event=0;limit=limits[scenario%6];memcpy(expected,&cfg.c,40);D_800AC708=&streams.s[scenario%3];
+  polls=event=0;limit=limits[scenario%6];memcpy(expected,&cfg.c,40);StrStreamState=&streams.s[scenario%3];
   s32 result=ovl668_func_801150D8(&cfg.c);
   assert(polls==(limit>2000?2000:limit));assert(event==(limit>2000?0:2));check();
   assert(result==(limit>2000?-1:results[(scenario/36)%6]));
   assert(!memcmp(&streams,&saved,sizeof streams));assert(!memcmp(backing,saved_backing,sizeof backing));assert(!memcmp(queues,saved_queues,sizeof queues));
   for(i=0;i<16;i++)assert(cfg.pre[i]==0xA5&&cfg.post[i]==0xA5);
-  printf("%08x %u %u %ld ",(u32)result,polls,event,(long)(D_800AC708-streams.s));
+  printf("%08x %u %u %ld ",(u32)result,polls,event,(long)(StrStreamState-streams.s));
   for(i=0;i<40;i++)printf("%02x",((u8*)&cfg.c)[i]);puts("");
  }return 0;
 }

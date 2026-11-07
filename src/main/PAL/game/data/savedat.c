@@ -25,16 +25,16 @@ extern short SaveSlotIndex;
 extern short RaceType;
 extern Struct10 LapRecords[2][8][5];
 extern Struct2C SaveSlotSelectionsBackup[3];
-extern Struct48 D_8010BFD8[2];
-extern StructC D_8010C088[];
+extern Struct48 CourseMenuChoices[2];
+extern StructC PlayerNames[];
 extern StructC D_80118420[];
 extern Struct48 D_80118458[2];
 extern int D_801272F0[];
 extern int StoreImage();
 extern char StrFmtPercentS[];
 extern short SaveStoreRect[];
-extern char D_80011568[];
-extern short D_8010EFA0[];
+extern char StrCrd0[];
+extern short SaveIconRect[];
 
 void BuildCardHeaderAnim();
 
@@ -104,8 +104,8 @@ int ApplySaveData(int arg0) {
                     D_80118458[SelectionPlayer & 1].f24[s0] = s3->f33C[s0];
                     CopyStringClearTail(&D_80118420[SelectionPlayer & 1], &s3->f280);
                 } else if (RaceType == 4) {
-                    D_8010BFD8[SelectionPlayer & 1].f24[s0] = s3->f33C[s0];
-                    CopyStringClearTail(&D_8010C088[SelectionPlayer], &s3->f280);
+                    CourseMenuChoices[SelectionPlayer & 1].f24[s0] = s3->f33C[s0];
+                    CopyStringClearTail(&PlayerNames[SelectionPlayer], &s3->f280);
                 }
             }
             for (s0 = 0; s0 < 0x210; s0++) {
@@ -189,20 +189,20 @@ B *a6;
     PsyqSprintf(a0 + 4, StrFmtPercentS, a1);
     a0[0x50] = 1;
     a0[0x51] = 0;
-    PsyqSprintf(a0 + 0x52, StrFmtPercentS, D_80011568);
-    D_8010EFA0[0] = a2;
-    D_8010EFA0[2] = 0x10;
-    D_8010EFA0[1] = a3;
-    D_8010EFA0[3] = 1;
-    StoreImage(D_8010EFA0, a0 + 0x60);
+    PsyqSprintf(a0 + 0x52, StrFmtPercentS, StrCrd0);
+    SaveIconRect[0] = a2;
+    SaveIconRect[2] = 0x10;
+    SaveIconRect[1] = a3;
+    SaveIconRect[3] = 1;
+    StoreImage(SaveIconRect, a0 + 0x60);
     DrawSync(0);
     i = 0;
     do {
-        D_8010EFA0[0] = a4;
-        D_8010EFA0[1] = a5;
-        D_8010EFA0[2] = 4;
-        D_8010EFA0[3] = 0x10;
-        StoreImage(D_8010EFA0, a0 + 0x80 + i * 0x80);
+        SaveIconRect[0] = a4;
+        SaveIconRect[1] = a5;
+        SaveIconRect[2] = 4;
+        SaveIconRect[3] = 0x10;
+        StoreImage(SaveIconRect, a0 + 0x80 + i * 0x80);
         DrawSync(0);
         i++;
         a4 += 4;

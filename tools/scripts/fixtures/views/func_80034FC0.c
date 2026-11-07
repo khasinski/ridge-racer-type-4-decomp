@@ -31,7 +31,7 @@ extern short ModeId;
 
 extern short ModeGroup;
 
-extern short D_800F4D8A;
+extern short ModeSubState;
 
 extern int _sio_control();
 
@@ -41,7 +41,7 @@ int ExitOnLinkLost(void) {
     if (LinkState == -1) {
         ModeGroup = 1;
         ModeId = 0x2D;
-        D_800F4D8A = 0;
+        ModeSubState = 0;
         _sio_control(1, 1, 0);
         return 1;
     }

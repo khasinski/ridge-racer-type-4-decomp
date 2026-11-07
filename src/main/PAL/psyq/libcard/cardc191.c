@@ -27,7 +27,7 @@ s32 _cardSectorTx(void) {
 high: result=((u8 *)&CardCmdSector)[1];goto done;
     case 6:
 low: result=*(u8 *)&CardCmdSector;goto done;
-    case 133: result=D_8011472C.value;checksum=CardChecksum^result;goto fold;
+    case 133: result=CardCmdValue.value;checksum=CardChecksum^result;goto fold;
     case 134: result=CardChecksum;goto done;
     case 135: result=((CardCmdSector>>8)^CardCmdSector)&255;goto done;
     default:
@@ -80,7 +80,7 @@ s32 _cardSectorRx(s32 input) {
             /* ASM_BARRIER: Preserve the original byte comparison temporary and branch delay. */
             register u32 byte __asm__("$3")=value&255;
             if(byte!=0x5D){result=-8;goto done;}
-            D_80114714=0;result=0;goto done;
+            CardReadChecksum=0;result=0;goto done;
         }
         case 9:
             if((result=value&255)!=((u8 *)&CardCmdSector)[1]){result=-9;goto done;}
@@ -88,16 +88,16 @@ s32 _cardSectorRx(s32 input) {
         case 10:
             if((result=value&255)!=*(u8 *)&CardCmdSector){result=-10;goto done;}
 fold_original:
-            result=D_80114714;
+            result=CardReadChecksum;
             result^=original;
-            D_80114714=result;result=0;goto done;
+            CardReadChecksum=result;result=0;goto done;
         case 139:
-            if((result=value&255)==D_80114714)goto success;
+            if((result=value&255)==CardReadChecksum)goto success;
             result=-139;goto done;
         case 140:
             if((value&255)!=0x47){result=-140;goto done;}
         default:
-            if((u32)CardRxCount-11<128)D_80114714^=value;
+            if((u32)CardRxCount-11<128)CardReadChecksum^=value;
             result=0;goto done;
         }
     } else {

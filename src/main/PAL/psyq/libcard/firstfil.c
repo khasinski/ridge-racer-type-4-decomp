@@ -13,7 +13,7 @@ static __inline__ s32 save_first_file_handler(void) {
     if (device < end) {
         limit = end;
         do {
-            if (device->name && PsyqStrcmp(device->name, D_801143C0) == 0) {
+            if (device->name && PsyqStrcmp(device->name, CardFirstFileDeviceName) == 0) {
                 CardFirstFileHandler = device->handler;
                 return 1;
             }
@@ -29,7 +29,7 @@ void *firstfile(char *path, void *directory) {
     RrBiosDevice *device, *end, *limit;
 
     input = (s8 *)path;
-    output = D_801143C0;
+    output = CardFirstFileDeviceName;
     /* The BIOS prefix ends at ':' or any lower signed character. */
     while (*input > ':') {
         *output++ = (u8)*input++;
@@ -46,7 +46,7 @@ void *firstfile(char *path, void *directory) {
     if (device < end) {
         limit = end;
         do {
-            if (device->name && PsyqStrcmp(device->name, D_801143C0) == 0) {
+            if (device->name && PsyqStrcmp(device->name, CardFirstFileDeviceName) == 0) {
                 device->handler = _firstfile_hook;
                 break;
             }

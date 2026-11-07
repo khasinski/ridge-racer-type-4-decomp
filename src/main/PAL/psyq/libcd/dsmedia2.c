@@ -18,7 +18,7 @@ extern s32 D_800A64A8;
 extern s8 *D_800A6800;
 extern s8 *D_800A680C;
 extern s32 D_80112754;
-extern RrLibPackedWord D_80112750;
+extern RrLibPackedWord StLastReadyLoc;
 extern void (*StDataReadyFunc)(void);
 extern int CdPosToInt();
 
@@ -29,12 +29,12 @@ int StGetBackloc(int a);
 
 void StClearRing(void) {
     int a = StRingSize;
-    D_801102FC = 0;
+    StRingReadIndex = 0;
     StRingStartIndex = 0;
     StRingWriteIndex = 0;
-    D_801102EC = 0;
+    StDataReadyPending = 0;
     init_ring_status(0, a);
-    D_801102DC = 0;
+    StCdIntrFlag = 0;
     StNextSectorOffset = 0;
     StCurFrameNo = 0;
 }
@@ -67,7 +67,7 @@ void data_ready_callback(void)
     register void (*callback)(void) __asm__("$4");
     RrLibQueueRecord32 *p = StRingHeaders + StRingStartIndex;
     p->state = 2;
-    D_80112750 = p->word1C;
+    StLastReadyLoc = p->word1C;
     value = p->value08;
     next = StRingWriteIndex;
     callback = StDataReadyFunc;
@@ -84,16 +84,16 @@ void data_ready_callback(void)
         *(s32 *)(base + 0x2F8) = next;
     }
     if (callback != 0) callback();
-    D_801102EC = 0;
+    StDataReadyPending = 0;
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_80112750 (*(char (*)[])&D_80112750)
+#define StLastReadyLoc (*(char (*)[])&StLastReadyLoc)
 
 int StGetBackloc(int a) {
     int r;
     if (D_80110348 == 0) {
-        CdIntToPos(CdPosToInt(D_80112750) + 1, a);
+        CdIntToPos(CdPosToInt(StLastReadyLoc) + 1, a);
         r = D_80112754;
     } else {
         r = -1;
@@ -101,4 +101,4 @@ int StGetBackloc(int a) {
     return r;
 }
 
-#undef D_80112750
+#undef StLastReadyLoc

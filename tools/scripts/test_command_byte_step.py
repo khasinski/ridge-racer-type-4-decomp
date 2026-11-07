@@ -35,7 +35,7 @@ s32 test_page[0x4000];
 ''' + headers + '''
 s32 CardCommandStatus,CardTxCount,CardCommandRequest,CardReceiveIndex,CardRxCount;
 s32 CardVarRxLength,CardCurrentCommand;
-u8 CardRxTrace[160],D_801147D8[160];
+u8 CardRxTrace[160],CardTxTrace[160];
 RrCommandReadCallback CardCommandReader;
 RrCommandWriteCallback CardWriteHandler;
 RrSerialPortRegisters test_ports[2];
@@ -50,7 +50,7 @@ u8 test_data_read(RrSerialPortRegisters *p) {return test_data(p);}
 void test_reset(void) {
  memset(test_page,0xA5,sizeof(test_page));
  memset(CardRxTrace,0xA5,sizeof(CardRxTrace));
- memset(D_801147D8,0xA5,sizeof(D_801147D8));
+ memset(CardTxTrace,0xA5,sizeof(CardTxTrace));
  memset(test_ports,0,sizeof(test_ports));
  CardCommandStatus=3;CardTxCount=2;CardCommandRequest=0x123;
  CardReceiveIndex=4;CardRxCount=6;CardBytesRemaining=9;
@@ -81,7 +81,7 @@ void test_reset(void) {
         cls.lib = C.CDLL(str(directory/'function.so'))
         cls.page = (C.c_int32 * 0x4000).in_dll(cls.lib, 'test_page')
         cls.rx = (C.c_uint8 * 160).in_dll(cls.lib, 'CardRxTrace')
-        cls.tx = (C.c_uint8 * 160).in_dll(cls.lib, 'D_801147D8')
+        cls.tx = (C.c_uint8 * 160).in_dll(cls.lib, 'CardTxTrace')
         cls.ports = (Port * 2).in_dll(cls.lib, 'test_ports')
         cls.step = cls.lib._cardCmdStep
         cls.step.argtypes = []

@@ -48,7 +48,7 @@ int _padIntPad(void) {
     PadRecvStage=0;
     PadActiveChannel=first;
     if(!_padInitSioMode((RrChannelRecordF0 *)((unsigned long)PadChannelRecords+(long)(s32)((shifted-(u32)first)*(sizeof(RrChannelRecordF0)/15)+(u32)first*(sizeof(RrChannelRecordF0)%15)))))PadAdvanceChannelFn(65535);
-    D_800ABCB0=0;
+    PadActuatorPowerUsed=0;
     while(PadActiveChannel<=PadLastChannel)_padSioStageStep(PadChannelRecords+PadActiveChannel);
     PadSio0Base->baud=0x88;
 out:
@@ -56,12 +56,12 @@ out:
 }
 
 s32 _padChkVsync(void) {
-    s32 previous = D_800ABCD0;
+    s32 previous = PadChkVsyncFlag;
     /* ASM_BARRIER: use the original assembler temporary for the store address. */
     register s32 *base __asm__("$1");
     /* ASM_BARRIER: load the prior value before materializing the store address. */
     __asm__ volatile("" : "=r"(previous) : "0"(previous) : "$1");
-    /* PAL RAM mapping: D_800ABCD0 is base plus the signed offset below. */
+    /* PAL RAM mapping: PadChkVsyncFlag is base plus the signed offset below. */
     base = (s32 *)0x800B0000U;
     /* ASM_BARRIER: expose a register-relative store so it can occupy the return slot. */
     __asm__("" : "=r"(base) : "0"(base));

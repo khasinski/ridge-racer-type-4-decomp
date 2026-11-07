@@ -5,8 +5,8 @@
 
 extern unsigned char D_800A44A8[];
 extern int CardTargetFileNames[];
-extern unsigned short D_80109458;
-extern short D_80109490;
-extern short D_801094A0;
+extern unsigned short SavedMenuStateIndex;
+extern short CardSaveFileExists;
+extern short CardTemplateNameFlag;
 
 #endif /* RR_GAME_MENU_MENUMODE_H */

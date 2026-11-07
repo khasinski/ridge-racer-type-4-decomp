@@ -22,7 +22,7 @@ extern int StepMenuValue();
 extern s32 ModeFrame;
 extern s16 ModeId;
 extern s16 ModeGroup;
-extern s16 D_800F4D8A;
+extern s16 ModeSubState;
 extern unsigned char D_8009F810[];
 extern unsigned char SelectionState[];
 extern unsigned char D_800AD4EB;
@@ -39,7 +39,7 @@ extern s32 VSyncThreshold;
 extern s16 SceneId;
 extern int SetMenuFrameOptions();
 extern int DrawPreviewCar();
-extern int func_8002E5A0();
+extern int PrepareCarDrawPose();
 extern int ScaleMatrixRow1();
 extern int UpdateImageRow();
 extern int CdAudioFade();
@@ -63,7 +63,7 @@ extern void InitMotionController();
 
 void GetNameChar(unsigned char *a0, int a1);
 void StepNameChar(unsigned char *a0);
-void func_8003984C(void);
+void EnterFrmTaskFromResults(void);
 void func_80039894(void);
 void func_8003989C(void);
 void func_80039920(void);
@@ -83,13 +83,13 @@ void StepNameChar(unsigned char *a0) {
     *a0 = NameCharset[i];
 }
 
-void func_8003984C(void) {
+void EnterFrmTaskFromResults(void) {
     ModeFrame = 0;
     FrmTaskReset();
     UpdateScreenFade(0x1000C);
     ModeGroup = 0;
     ModeId = 6;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }
 
 void func_80039894(void) {
@@ -146,29 +146,29 @@ void CarPreviewSetup(void) {
 
 /* legacy typing of shared globals in this part of the unit */
 #define PlayerCars (*(char (*)[])&PlayerCars)
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 
 void CarPreviewModeUpdate(void) {
     ModeFrame += 1;
     SetupViewport(6);
-    if (D_800F4D8A == 0) {
-        if (func_800578D8(D_8009F818[D_800AD4EF / 2]) != 0) {
+    if (ModeSubState == 0) {
+        if (StepCarPreviewDrive(D_8009F818[D_800AD4EF / 2]) != 0) {
             MenuFadeTimer = 0x40;
             CdAudioFade(0, 0x3C);
-            D_800F4D8A = 1;
+            ModeSubState = 1;
             CarPreviewSetup();
             ImageRows[1] = 0;
         }
     } else {
         BuildCameraMatrices();
         ScaleMatrixRow1(2, SCRATCH_ROT_MATRIX);
-        func_8002E5A0(PlayerCars);
+        PrepareCarDrawPose(PlayerCars);
         DrawPreviewCar(PlayerCars, 0, 0x100, 1);
         UpdateImageRow(0);
         if (ImageRows[1] == 2) {
             ModeGroup = 1;
             ModeId = 0x22;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             SeqStartTrack(0);
         }
     }
@@ -177,18 +177,18 @@ void CarPreviewModeUpdate(void) {
 }
 
 #undef PlayerCars
-#undef D_800F4D8A
+#undef ModeSubState
 
 /* legacy typing of shared globals in this part of the unit */
 #define PlayerCars (*(char (*)[])&PlayerCars)
 #define SelectionState (*(char (*)[])&SelectionState)
 #define ImageRows ((W7C0_S *)ImageRows)
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 #define UpdateScreenFade ((void (*)())UpdateScreenFade)
 #define SetMenuFrameOptions ((void (*)())SetMenuFrameOptions)
 #define StepMenuValue ((void (*)())StepMenuValue)
 #define DrawPreviewCar ((void (*)())DrawPreviewCar)
-#define func_8002E5A0 ((void (*)())func_8002E5A0)
+#define PrepareCarDrawPose ((void (*)())PrepareCarDrawPose)
 #define SetupMenuCarCamera ((void (*)())SetupMenuCarCamera)
 #define ResetScreenCounters ((void (*)())ResetScreenCounters)
 #define UpdateImageRow ((void (*)())UpdateImageRow)
@@ -207,7 +207,7 @@ void func_80039C0C(void)
     s2 = LoadCarRangeStep(1, 3);
     if (s2 == 1) {
         v1 = LoadCursor;
-        s0 = D_800F4D8A;
+        s0 = ModeSubState;
         MenuArenas = v1;
         if (s0 == s2)
             goto b1;
@@ -229,7 +229,7 @@ void func_80039C0C(void)
                 P8(UiRows, 0xC) = s2;
                 P8(UiRows, 0x38) = 0;
                 P8(UiRows, 0x5C) = 0;
-                D_800F4D8A = s2;
+                ModeSubState = s2;
             }
         }
         goto end;
@@ -251,7 +251,7 @@ void func_80039C0C(void)
                     P8(UiRows, a1 * 0x24 + 0x14) = 3;
             }
         } else if (v1 == 5) {
-            D_800F4D8A = c2;
+            ModeSubState = c2;
         }
         goto end;
     b2:
@@ -268,7 +268,7 @@ void func_80039C0C(void)
         InitMotionController();
         ModeGroup = s2;
         ModeId = 0xB;
-        D_800F4D8A = 0;
+        ModeSubState = 0;
     }
 end:
     SetupMenuCarCamera(1);
@@ -288,7 +288,7 @@ end:
         DrawUiRow(1);
         DrawUiRow(2);
         DrawSelectionIconGrid(0);
-        func_8002E5A0(PlayerCars);
+        PrepareCarDrawPose(PlayerCars);
         DrawPreviewCar(PlayerCars, *(int *)sp18, s1, 1);
     }
     UpdateBadgeRowAnim(0);
@@ -298,12 +298,12 @@ end:
 #undef PlayerCars
 #undef SelectionState
 #undef ImageRows
-#undef D_800F4D8A
+#undef ModeSubState
 #undef UpdateScreenFade
 #undef SetMenuFrameOptions
 #undef StepMenuValue
 #undef DrawPreviewCar
-#undef func_8002E5A0
+#undef PrepareCarDrawPose
 #undef SetupMenuCarCamera
 #undef ResetScreenCounters
 #undef UpdateImageRow

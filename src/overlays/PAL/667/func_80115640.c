@@ -45,8 +45,8 @@ extern s8 RacePaused;
 extern s8 PauseCursor;
 extern s16 RaceType;
 extern s16 EngineRevDisplay[];
-extern s16 D_800F2AB4[];
-extern u16 D_8010C0C8[];
+extern s16 EngineThrottleOn[];
+extern u16 FinalCarRanks[];
 extern Ovl667Vehicle PlayerCars[];
 extern Ovl667Vehicle *CarTable[];
 extern Ovl667FrameStorage FrameEnvs[2];
@@ -63,13 +63,13 @@ extern char *AddDrawAreaPrim();
 extern char *AddTilePrim();
 extern void AddScreenFadeTiles();
 extern void SubmitRaceHudPackets();
-extern void func_800211A4();
+extern void DrawHudFrameSprites();
 extern void DrawHudRotatingQuad();
 extern void DrawHudNumber3();
 extern void DrawHudNumber5();
 extern void DrawHudDigitMod10();
 extern void UpdateHudRankDisplay();
-extern void func_80021C00();
+extern void UpdateFinalLapIndicator();
 extern void DrawLapCounter();
 extern void DrawRaceMinimap();
 extern void DrawSteeringIndicator();
@@ -101,7 +101,7 @@ extern void CdAudioBeginPlay();
 extern void BuildCameraMatrices();
 extern void SetupPlayerView();
 extern void SetupViewport();
-extern void func_80070734();
+extern void DrawRearViewMirror();
 extern void UpdateTrackObjects();
 extern void DrawTrackObjects();
 extern void SetDispMask();
@@ -170,7 +170,7 @@ void ovl667_func_80115640(void) {
                 ovl667_func_80114A40();
             }
             for (i = 0; i < NumCars; i++) {
-                D_8010C0C8[i] = CarTable[i]->rank1EE;
+                FinalCarRanks[i] = CarTable[i]->rank1EE;
             }
             FinishRace();
             _sio_control(1, 1, 3);
@@ -280,12 +280,12 @@ void ovl667_func_80115640(void) {
             DrawHudDigitMod10(PlayerCars[i].half27A, i);
             UpdateHudRankDisplay((s16)PlayerCars[i].rank1EE, i);
             DrawTimeRemainingForPlayer(RaceTimeRemaining, i);
-            func_80021C00(i + 1);
+            UpdateFinalLapIndicator(i + 1);
             if (i == 1) {
                 DrawSplitScreenDivider(0);
             }
         }
-        func_800211A4(split);
+        DrawHudFrameSprites(split);
         SubmitRaceHudPackets(3);
     }
 
@@ -311,7 +311,7 @@ void ovl667_func_80115640(void) {
             DrawTrackObjects(0);
             DrawTrackSceneryForPlayer(i + 1);
             if (n == 1) {
-                func_80070734(ScreenFrame);
+                DrawRearViewMirror(ScreenFrame);
             }
             if (RaceState == 0 && n == 1) {
                 FrameEnvs[1].enable18 = n;
@@ -326,7 +326,7 @@ void ovl667_func_80115640(void) {
                     }
                 }
             }
-            SlotSetLevelProgram(EngineRevDisplay[i], D_800F2AB4[i], i);
+            SlotSetLevelProgram(EngineRevDisplay[i], EngineThrottleOn[i], i);
             if (i == 0) {
                 ovl667_func_801151E0();
             }

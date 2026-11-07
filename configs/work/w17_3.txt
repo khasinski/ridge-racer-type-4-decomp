@@ -1,7 +1,7 @@
-func_80019144
+EmitSkyLitFT4
 InitSelectionRows
 DrawHudDigit
-func_8005F0D0
+SubmitModel
 ClearTrackObjectStates
 __divdf3
 __gtdf2
@@ -49,7 +49,7 @@ PsyqMemmove
 _patch_pad
 _padInitSioMode
 _padRecvAtLoadInfo
-func_80099890
+_padTxByteChkAck
 _padGetTxByte
 chkRC2wait
 _sio_read

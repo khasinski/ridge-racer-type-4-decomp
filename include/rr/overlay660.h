@@ -23,11 +23,11 @@ extern s16 ovl660_preview_bank;
 
 extern s32 D_800AD564;
 extern s16 SceneId;
-extern s32 D_800F3A64, D_800F3A48;
+extern s32 MenuCancelPressed, D_800F3A48;
 extern s16 D_800F3A1E, MenuResultCode;
 void CopyStringClearTail(char *destination, char *source);
 void StepNameChar(char *text);
-void func_8003BFC8(s32 paused);
+void DrawSplitTimeHud(s32 paused);
 s32 CountChoiceGlyphs(const RrCourseChoice4 *choices);
 s32 EncodeRecordPassword(s32 course, s32 selection, s32 car, s32 mode, s32 value, u8 *output);
 

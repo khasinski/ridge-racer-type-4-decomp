@@ -25,7 +25,7 @@ void ApplySoundVolumes(void) {
     char *p = SoundState;
     CdAudioSetVolumeRaw(*(unsigned short *)(p + 0x26C4));
     SeqSetVolume(*(short *)(p + 0x2888));
-    SetCdMixMode(D_800AD55A);
+    SetCdMixMode(SoundMonoFlag);
 }
 
 void HsvToRgb(const RrHsvColor input,RrRgbColor output) {

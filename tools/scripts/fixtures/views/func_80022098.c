@@ -41,7 +41,7 @@ void DrawSteeringIndicator(u32 *ordering, s32 layout) {
     status = input->status10;
     if (status == 2) {
         if (input->buttons08 & 0x100) {
-            toggle = (u16 *)&D_8009EE68[player];
+            toggle = (u16 *)&SteeringGaugeVisible[player];
             *toggle ^= 1;
         }
         i = GetControllerWarning(player);
@@ -60,7 +60,7 @@ drawWarning:
             }
         }
         i = 0;
-        if (D_8009EE68[player] != 0) {
+        if (SteeringGaugeVisible[player] != 0) {
             cursor = RR_HUD_SCRATCH->cursor;
             widthBase = 2;
             heightBase = 6;
@@ -84,7 +84,7 @@ drawWarning:
 drawNeedle:
                 i = 0;
             }
-            shapeBase = D_8009EE5C;
+            shapeBase = SteeringNeedleShape;
             shapeOffset = 1;
             outputPoint = triangle.half;
             shapeX = shapeBase;

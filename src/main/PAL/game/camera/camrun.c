@@ -82,7 +82,7 @@ extern s16 D_800F7624;
 extern void ScaleMatrixRow1(s32, s32);
 extern void UpdateMotionTrack(s16 *);
 extern void UpdateCameraMotion(s16 *);
-extern void func_8005D544(s16 *);
+extern void UpdateMotionControllerPanel(s16 *);
 extern void UpdateScrollTrack(s16 *);
 extern void BuildCameraMatrices(void);
 extern void SetupViewport(s32);
@@ -129,9 +129,9 @@ void StepCameraScript(void) {
         break;
     case 1:
         if (a2 != 0) {
-            func_8005D500(RaceContext.q->f70);
+            InitMotionControllerPanel(RaceContext.q->f70);
         }
-        func_8005D544(s0);
+        UpdateMotionControllerPanel(s0);
         break;
     case 2:
         if (a2 != 0) {
@@ -161,7 +161,7 @@ void StepCameraScript(void) {
         if (RaceContext.q->f54 != 0) {
             switch (RaceContext.q->f6c) {
             case 0:
-                func_8005C024();
+                DrawCameraMotionModel();
                 break;
             case 1:
                 DrawMotionControllerPanel();
@@ -170,7 +170,7 @@ void StepCameraScript(void) {
                 DrawRingEffects();
                 break;
             case 3:
-                func_8005AA2C();
+                DrawMarkerBitmapGrid();
                 break;
             }
         }

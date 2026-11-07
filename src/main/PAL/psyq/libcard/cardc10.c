@@ -25,7 +25,7 @@ s32 _cardCmd5BVarRx(s32 value) {
             while(!(port->status & 2)) { }
             received=CardCmdSioRegs->data;
             CardCmdBuffer=CardCmdResultPtrA;
-            D_8011472C.value=1;
+            CardCmdValue.value=1;
             CardBytesRemaining=received+1;
         }
         {
@@ -57,7 +57,7 @@ s32 _cardCmd5CVarBegin(s32 request, s32 parameter, u8 *buffer, u8 *first) {
     CardCmdBuffer = buffer;
     CardCmdResultPtrA = first;
     CardVarRxLength = 0;
-    D_8011472C.value = 0;
+    CardCmdValue.value = 0;
     {
         /* ASM_BARRIER: preserve the original assembler temporary for the mapped store. */
         register s32 *base __asm__("$1");

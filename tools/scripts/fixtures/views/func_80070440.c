@@ -1,9 +1,9 @@
 #include "types.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4CE0 (*(unsigned short (*))&D_800F4CE0)
+#define RearViewMirrorOffsetY (*(unsigned short (*))&RearViewMirrorOffsetY)
 
-#undef D_800F4CE0
+#undef RearViewMirrorOffsetY
 
 /* legacy typing of shared globals in this part of the unit */
 #define D_8010E78C ((char *)D_8010E78C)
@@ -21,18 +21,18 @@
 #undef D_8010E790
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_8010E798 (*(s32 (*))&D_8010E798)
+#define OctantLookupTable (*(s32 (*))&OctantLookupTable)
 
-#undef D_8010E798
+#undef OctantLookupTable
 
 extern s16 RearViewMirrorEnabled;
 
-extern s32 D_800F4CE0;
+extern s32 RearViewMirrorOffsetY;
 
-extern s32 D_8010E730;
+extern s32 RearViewMirrorReady;
 
 void ResetRearViewMirror(void) {
     RearViewMirrorEnabled = 1;
-    D_800F4CE0 = -0x24;
-    D_8010E730 = 0;
+    RearViewMirrorOffsetY = -0x24;
+    RearViewMirrorReady = 0;
 }

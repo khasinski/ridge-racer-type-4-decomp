@@ -35,7 +35,7 @@ static unsigned scenario,mutation,seenMap,seenFlags;
 #define BadgeRows (w->s.badges[w->s.root])
 #define MenuArenas w->s.arenas
 #define LoadCursor w->s.published
-#define D_800F3B20 w->s.palette0
+#define DefaultCarClut w->s.palette0
 #define CarClutData w->s.palette1
 #define ModeFrame w->s.frame
 #define ScreenFrame w->s.pulse

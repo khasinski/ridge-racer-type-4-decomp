@@ -11,10 +11,10 @@ extern int SkipDialoguePage();
 extern int UpdateBadgeRowAnim();
 extern int UpdateGlyphRow();
 extern s16 CourseListIndex;
-extern u8 D_800F4D99;
+extern u8 CourseListSavedIndex;
 extern void *Dialogue;
 
-s32 func_80036C08(void) {
+s32 CourseListMenuStep(void) {
     s32 var_s2;
 
     var_s2 = 0;
@@ -34,7 +34,7 @@ s32 func_80036C08(void) {
 block_6:
             if (M2C_FIELD(BadgeRows, s16 *, 0x10) < 4) {
                 DrawMenuStepArrows(0xA0, 0xCC, 0x30, 0, (s32) CourseListIndex, 0, 4);
-                var_s2 = UpdateGlyphRow(D_800F4D99);
+                var_s2 = UpdateGlyphRow(CourseListSavedIndex);
             }
         }
     }

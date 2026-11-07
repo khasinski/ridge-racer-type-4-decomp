@@ -25,7 +25,7 @@ extern struct
 } SelectionState;
 extern int AddTilePrim();
 extern int rsin();
-extern unsigned char D_8009F1EC[];
+extern unsigned char StepProgressBarWidths[];
 extern int ModeFrame;
 extern int SetMenuFrameOptions();
 extern int InitBadgeRow();
@@ -36,9 +36,9 @@ extern int InitImageRow();
 extern int UpdateImageRow();
 extern short ModeId;
 extern short ModeGroup;
-extern int D_800F4CA8;
+extern int DialogueContext;
 extern unsigned char *UiRows;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern s32 VSyncThreshold;
 extern s16 SceneId;
 extern int AddScreenFadeTiles();
@@ -123,7 +123,7 @@ int DrawStepProgressBar(int a0, int a1) {
     int i = 0;
     int v, y;
     do {
-        s0 += D_8009F1EC[i];
+        s0 += StepProgressBarWidths[i];
         if (sel == i) {
             v = rsin((ModeFrame << 6) & 0xFC0) / 64 + 0xBF;
         } else if (i < sel) {
@@ -163,17 +163,17 @@ void func_80031064(void)
         UpdateImageRow(0);
     }
     if (ModeFrame >= 3) {
-        D_800F4CA8 = 1;
+        DialogueContext = 1;
         t = LoadDialogueStep();
         if (t == 1) {
-            if (func_8003D108(3) == 3) {
+            if (GetMenuRowsSettledMask(3) == 3) {
                 ModeFrame = 0;
                 InitBadgeRow(0, 0xC, 0x130, 0x128, 0x6C, 0, 0);
                 InitRect16Row(0, 0x10, 0x48, 0x120, 0x120, 0, 0);
                 InitImageRow(0, -1, 0, 0);
                 ModeGroup = t;
                 ModeId = 0xC;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
             }
         }
     } else {
@@ -193,7 +193,7 @@ void func_800311FC(void) {
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 
 void func_80031244(void) {
     int s0;
@@ -221,16 +221,16 @@ void func_80031244(void) {
                     LoadCursor = LoadCursorBase;
                     LoadTimListStep(0);
                     SeqFadeVolume(0, (short)(MenuFadeTimer - 4));
-                    D_800F4D8A = 1;
+                    ModeSubState = 1;
                 } else if (PendingModeId == 0x111) {
                     MenuFadeTimer = 0x40;
                     SeqFadeVolume(0, 0x3C);
-                    D_800F4D8A = 1;
+                    ModeSubState = 1;
                 }
             }
         }
     }
-    if (D_800F4D8A == 1) {
+    if (ModeSubState == 1) {
         if ((short)MenuFadeTimer > 0) {
             MenuFadeTimer -= 1;
         }
@@ -243,7 +243,7 @@ void func_80031244(void) {
                 SeqMuteVolume();
             if ((short)MenuFadeTimer <= 0) {
                 unsigned c = PendingModeId;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
                 ModeGroup = c >> 8;
                 ModeId = c & 0xFF;
             }
@@ -251,14 +251,14 @@ void func_80031244(void) {
                 SeqMuteVolume();
             if ((short)MenuFadeTimer <= 0) {
                 unsigned c = PendingModeId;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
                 ModeGroup = c >> 8;
                 ModeId = c & 0xFF;
             }
             } else {
             if ((short)MenuFadeTimer <= 0) {
                 unsigned c = PendingModeId;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
                 ModeGroup = c >> 8;
                 ModeId = c & 0xFF;
             }
@@ -269,7 +269,7 @@ done:
     UpdateScreenFade(0x1000A);
 }
 
-#undef D_800F4D8A
+#undef ModeSubState
 
 void AddScreenBackdropTile(void) {
     int *g = (int *)SCRATCHPAD;

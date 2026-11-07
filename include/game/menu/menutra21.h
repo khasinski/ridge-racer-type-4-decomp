@@ -4,6 +4,6 @@
 #include "types.h"
 
 int LoadSaveFromCardStep();
-void func_8007D1B8();
+void UpdateCardMenuDialogue();
 
 #endif /* RR_GAME_MENU_MENUTRA21_H */

@@ -25,7 +25,7 @@ typedef struct {
 } RrBiosDevice;
 
 extern RrBiosDeviceHandler CardFirstFileHandler;
-extern char D_801143C0[];
+extern char CardFirstFileDeviceName[];
 s32 PsyqStrcmp(const char *first, const char *second);
 /* Install the one-shot BIOS first-file workaround, then enumerate into directory.
  * Returns the BIOS result, or NULL when the pathname's device is not registered. */

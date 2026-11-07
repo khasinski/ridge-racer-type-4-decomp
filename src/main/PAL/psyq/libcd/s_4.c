@@ -4,18 +4,18 @@
 #include "psyq/libcd/s_4.h"
 #include "rr/library.h"
 
-extern int D_801143A8[];
-extern int D_801143AC[];
-extern int D_801143B0[];
+extern int CdAltSyncCallbackPtr[];
+extern int CdAltReadyCallbackFunc[];
+extern int CdAltReadCallbackFunc[];
 
 int CdAltSyncCallback();
 int CdAltReadCallback();
 
-int CdAltSyncCallback(a0) int a0; { int *p = D_801143A8; int r = *p; *p = a0; return r; }
+int CdAltSyncCallback(a0) int a0; { int *p = CdAltSyncCallbackPtr; int r = *p; *p = a0; return r; }
 
-int CdAltReadyCallback(a0) int a0; { int *p = D_801143AC; int r = *p; *p = a0; return r; }
+int CdAltReadyCallback(a0) int a0; { int *p = CdAltReadyCallbackFunc; int r = *p; *p = a0; return r; }
 
-int CdAltReadCallback(a0) int a0; { int *p = D_801143B0; int r = *p; *p = a0; return r; }
+int CdAltReadCallback(a0) int a0; { int *p = CdAltReadCallbackFunc; int r = *p; *p = a0; return r; }
 
 void CdAltDataCallback(s32 arg0) {
     DMACallback(3, arg0);

@@ -1,5 +1,5 @@
 EmitSkyLitGT4
-func_800293D0
+InitReplayBuffers
 SoundQueueEnqueue
 EmitTexturedPanel
 RelocateRelativeFile

@@ -34,7 +34,7 @@ typedef uint32_t u32; typedef int32_t s32;
 RrLibQueueRecord32 test_records[4096];
 RrLibQueueRecord32 *StRingHeaders=test_records;
 s32 test_page[0x10000/4];
-#define D_801102FC test_page[0x2FC/4]
+#define StRingReadIndex test_page[0x2FC/4]
 s32 StEndFrame,StRingSize;
 s32 reads,change_after_first;
 u16 test_read(RrLibQueueRecord32 *p) {

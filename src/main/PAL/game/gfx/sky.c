@@ -148,21 +148,21 @@ extern char D_8009E248[];
 extern int SetGeomOffset();
 extern int SetDrawArea();
 
-SkyTri *func_80017310(SkyTri *a0, SkyCtx *a1, int a2);
+SkyTri *EmitSkyDepthCuedG3(SkyTri *a0, SkyCtx *a1, int a2);
 SkyQuad17528 *EmitSkyDepthCuedG4(SkyQuad17528 *a0, SkyCtxQuad *a1, int a2);
 SkyQuad177E4 *SkyEmitQuadFT4(SkyQuad177E4 *a0, SkyCtxQuad *a1, int a2);
 SkyTri17A90 *EmitSkyDepthCuedGT3(SkyTri17A90 *a0, SkyCtx *a1, int a2);
 void DrawTrackScenery();
-char *func_80017F84(char *a0, char *a1);
+char *EmitSkyEnvMapGT3(char *a0, char *a1);
 char *func_800183EC(char *a0, char *a1);
 char *SkyEmitLitQuadG4(char *a0, char *a1);
 char *EmitSkyLitGT4(char *a0, char *a1);
-char *func_80019144(char *a0, char *a1);
+char *EmitSkyLitFT4(char *a0, char *a1);
 void RunSkyCommandList(char *a0, int a1);
 void func_800195BC(char *a0, volatile unsigned short *a1);
 void RenderSkyToRect(int a0, int a1, short *a2, int a3);
 
-SkyTri *func_80017310(SkyTri *a0, SkyCtx *a1, int a2) {
+SkyTri *EmitSkyDepthCuedG3(SkyTri *a0, SkyCtx *a1, int a2) {
     int v0 = a0->v01;
     int a3 = a0->v2;
     char *verts = a1->verts;
@@ -660,7 +660,7 @@ void DrawTrackScenery(a0) int a0; {
                 k = w & 0xFFFF;
                 w = w >> 16;
                 switch (k) {
-                case 7: r = (int)func_80017310(r, s0, w); break;
+                case 7: r = (int)EmitSkyDepthCuedG3(r, s0, w); break;
                 case 8: r = (int)EmitSkyDepthCuedG4(r, s0, w); break;
                 case 1: r = (int)SkyEmitQuadFT4(r, s0, w); break;
                 case 11: r = (int)EmitSkyDepthCuedGT3(r, s0, w); break;
@@ -673,7 +673,7 @@ void DrawTrackScenery(a0) int a0; {
     }
 }
 
-char *func_80017F84(char *a0, char *a1) {
+char *EmitSkyEnvMapGT3(char *a0, char *a1) {
     volatile int *hw;
     int n;
     int *pkt;
@@ -1124,7 +1124,7 @@ char *EmitSkyLitGT4(char *a0, char *a1) {
     return a0;
 }
 
-char *func_80019144(char *a0, char *a1) {
+char *EmitSkyLitFT4(char *a0, char *a1) {
     volatile int *hw = (volatile int *)SCRATCHPAD;
     int n = *(int *)(a1 + 0xE4);
     int *pkt = (int *)hw[0];
@@ -1210,7 +1210,7 @@ void RunSkyCommandList(char *a0, int a1)
         s[0x39] = w >> 16;
         switch (w & 0xFFFF) {
         case 9:
-            p = func_80017F84(p, s);
+            p = EmitSkyEnvMapGT3(p, s);
             break;
         case 10:
             p = func_800183EC(p, s);
@@ -1222,7 +1222,7 @@ void RunSkyCommandList(char *a0, int a1)
             p = EmitSkyLitGT4(p, s);
             break;
         case 16:
-            p = func_80019144(p, s);
+            p = EmitSkyLitFT4(p, s);
             break;
         }
         w = *p++;
@@ -1251,7 +1251,7 @@ void func_800195BC(char *a0, volatile unsigned short *a1)
     p[8] = a1[8];
     RR_GTE_SETROT(p);
     RR_GTE_SETTR(a0);
-    RunSkyCommandList(D_800AC64C, 0);
+    RunSkyCommandList(SkyCommandList, 0);
 }
 
 void RenderSkyToRect(int a0, int a1, short *a2, int a3) {

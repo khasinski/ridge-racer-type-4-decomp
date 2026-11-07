@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern int MotionSequenceIndex;
-void func_8005AA2C(void);
+void DrawMarkerBitmapGrid(void);
 void InitMotionTrack(int a0);
 void RestartMotionSequence(void);
 

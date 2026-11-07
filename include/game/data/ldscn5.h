@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern int D_800AC64C;
+extern int SkyCommandList;
 s32 LoadCoursePreviewStep(s32);
 
 #endif /* RR_GAME_DATA_LDSCN5_H */

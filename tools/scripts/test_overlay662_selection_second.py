@@ -24,9 +24,9 @@ class Overlay662SelectionSecondTest(unittest.TestCase):
 #include "rr/menu_ui_bank.h"
 static struct World {u32 guard[4];s16 selection;RrMenuChoice4 choice;u16 buttons;s32 direction;RrUiRow24 *ui;RrMenuGlyphRow1C *glyphs;RrMenuUiBank backing[3];RrMenuGlyphRow1C records[3][4];u32 calls;s32 sound_args[5];u32 tail[4];} world,expected;
 #define CourseListIndex world.selection
-#define D_800F4D99 world.choice.bytes[1]
+#define CourseListSavedIndex world.choice.bytes[1]
 #define SelectionRows world.choice
-#define D_800F3A42 world.buttons
+#define Pad0RepeatButtons world.buttons
 #define MenuStepDirection world.direction
 #define UiRows world.ui
 #define GlyphRows world.glyphs

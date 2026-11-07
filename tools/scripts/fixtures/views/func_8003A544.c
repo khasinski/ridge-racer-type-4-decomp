@@ -63,7 +63,7 @@ void UpdateMenuScript(void) {
     } else {
         if((status==1 && MenuDispMode==status) || (MenuDispMode==0 && status==2) || (MenuDispMode>=2 && status==1)) {
             MenuSceneEntries[MenuScriptId]();
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             ModeGroup = (u16) ((u16) SceneId >> 8);
             ModeId = SceneId & 0xFF;
         }

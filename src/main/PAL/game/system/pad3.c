@@ -51,7 +51,7 @@ extern T PlayerControllers[];
 extern Settings4BC5C Options;
 extern s16 PadRangeLimits[];
 extern s32 VSyncThreshold;
-extern char D_8009FFDC[];
+extern char PadActAlignTable[];
 extern char PadActAlignBytes[];
 extern int PadGetState();
 extern int PadInfoMode();
@@ -270,7 +270,7 @@ B:
         s1->c40 = s3;
     }
     PadSetAct(s2, (char *)s1 + 0x19, 2);
-    if (PadSetActAlign(s2, D_8009FFDC) == 0)
+    if (PadSetActAlign(s2, PadActAlignTable) == 0)
       return;
     ((unsigned char *)s1)[0x1B] = 1;
     s1->h1E = 0;

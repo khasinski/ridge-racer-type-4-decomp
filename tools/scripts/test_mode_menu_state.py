@@ -8,7 +8,7 @@ import ctypes as C,struct,subprocess,sys,json,time
 from unicorn import Uc,UC_ARCH_MIPS,UC_MODE_MIPS32,UC_MODE_LITTLE_ENDIAN,UC_HOOK_CODE
 from unicorn.mips_const import UC_MIPS_REG_SP,UC_MIPS_REG_RA,UC_MIPS_REG_PC,UC_MIPS_REG_A0,UC_MIPS_REG_A1,UC_MIPS_REG_A2,UC_MIPS_REG_A3,UC_MIPS_REG_V0
 assert sys.byteorder=='little', 'The native fixture models PAL little-endian storage'
-P=Path('build/tests/mode_menu_state');P.mkdir(parents=True,exist_ok=True);raw=Path('assets/PAL/main.exe').read_bytes();source=Path(sys.argv[2] if len(sys.argv)>2 else Path('tools/scripts/fixtures/views/func_8007ABCC.c')).read_text();body=source[source.index('void func_8007ABCC(void) {'):]
+P=Path('build/tests/mode_menu_state');P.mkdir(parents=True,exist_ok=True);raw=Path('assets/PAL/main.exe').read_bytes();source=Path(sys.argv[2] if len(sys.argv)>2 else Path('tools/scripts/fixtures/views/func_8007ABCC.c')).read_text();body=source[source.index('void CardMenuModeEnter(void) {'):]
 class Core(C.Structure):
  _fields_=[('head',C.c_uint32*4),('words',C.c_uint32*6),('half',C.c_uint16*13),('choices',C.c_int16*3),('name',C.c_ubyte*24),('text',C.c_ubyte*24),('stored',C.c_ubyte*132),('snapshot',C.c_ubyte*132),('records',C.c_int32*3),('badges',C.c_ubyte*112),('root',C.c_uint32),('tail',C.c_uint32*4)]
 assert C.sizeof(Core)==528
@@ -119,7 +119,7 @@ int main(int argc,char**argv){
  for(caseIndex=0;fread(&before,sizeof(Core),1,file)==1;caseIndex++){
   assert(fread(&expected,sizeof(Core),1,file)==1);assert(fread(&eventCount,4,1,file)==1);assert(eventCount<=32);assert(fread(expectedEvents,sizeof(Event),eventCount,file)==eventCount);
   memcpy(&active,&before,sizeof(Core));badgeRoot=active.badges[active.root];eventIndex=0;
-  func_8007ABCC();assert(eventIndex==eventCount);assert(badgeRoot==active.badges[active.root]);
+  CardMenuModeEnter();assert(eventIndex==eventCount);assert(badgeRoot==active.badges[active.root]);
   if(memcmp(&active,&expected,sizeof(Core)))mismatch(&active,&expected,sizeof(Core));
  }
  assert(feof(file));fclose(file);printf("%u cases passed; exact guarded state before every service and after original MIPS execution; actual string helper\n",caseIndex);return 0;

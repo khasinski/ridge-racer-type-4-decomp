@@ -164,9 +164,9 @@
 
 #undef D_800ABAC2
 
-extern char D_800ABB6C[];
+extern char GpuOtTerminator[];
 
-extern int D_800ABB80;
+extern int OTagTerminator;
 
 extern char StrClearOTagRFmt[];
 
@@ -174,8 +174,8 @@ unsigned *ClearOTagR(unsigned *a, int b) {
     int *q;
     if (D_800ABAC2 >= 2) GPU_printf(StrClearOTagRFmt, a, b);
     (*(int (**)())(GpuFuncTable + 0x2C))(a, b);
-    q = &D_800ABB80;
-    *q = ((int)D_800ABB6C & 0xFFFFFF) | 0x04000000;
+    q = &OTagTerminator;
+    *q = ((int)GpuOtTerminator & 0xFFFFFF) | 0x04000000;
     *a = (int)q & 0xFFFFFF;
     return a;
 }

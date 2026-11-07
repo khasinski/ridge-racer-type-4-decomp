@@ -58,7 +58,7 @@ extern s8 ScreenFadeState;
 extern s16 ModeId;
 extern s16 ModeGroup;
 extern s16 SaveSlotIndex;
-extern s16 D_800F4D8A;
+extern s16 ModeSubState;
 extern int AddScreenFadeTiles();
 extern int UpdateScreenFade();
 extern int SetMenuFrameOptions();
@@ -76,7 +76,7 @@ extern w3g2S SaveSlotSelections[];
 extern struct { char pad[0x28]; int w28, w2C; } PlayerControllers;
 extern struct { char pad[8]; short s8, sA; char padC[4]; short s10; char pad12[0x2C - 0x12]; short s2C; } *BadgeRows;
 extern char *UiRows;
-extern unsigned short D_800F3A42;
+extern unsigned short Pad0RepeatButtons;
 extern int D_8010BFC0;
 extern int UpdateScreenFade();
 extern void InitUiRow(int,int,int,int,int,int,int,int,int,int,...);
@@ -91,8 +91,8 @@ void func_80031DA0(void);
 void func_80031DA8(void);
 void ResetRankEntries();
 void ResetRankEntriesForCars(void);
-void func_80031F1C(void);
-void func_80031FE8(void);
+void SaveSlotSelectModeEnter(void);
+void SaveSlotSelectModeUpdate(void);
 void func_8003244C(void);
 void func_800324F8(void);
 
@@ -423,7 +423,7 @@ void InitSelectionRows(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define BadgeRows ((void *)BadgeRows)
 
-void func_80031F1C(void) {
+void SaveSlotSelectModeEnter(void) {
     ClearScreenOverlayState();
     ScreenFadeState = 2;
     SaveSlotIndex = 0;
@@ -434,18 +434,18 @@ void func_80031F1C(void) {
     SetMenuFrameOptions(0, 1, 1);
     ModeGroup = 1;
     ModeId = 0xE;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }
 
 #undef BadgeRows
 
 /* legacy typing of shared globals in this part of the unit */
 #define SelectionState (*(w3g2S (*))&SelectionState)
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 
-void func_80031FE8(void) {
+void SaveSlotSelectModeUpdate(void) {
     int s0;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         *(UiRows + SaveSlotIndex * 0x24 + 0xC) = 0;
         StepMenuValue(0, 2, &SaveSlotIndex, 3, 0);
@@ -457,7 +457,7 @@ void func_80031FE8(void) {
                 if (PlayerControllers.w28 != 0) {
                     if (SaveSlotSelections[SaveSlotIndex].b17 > 0) {
                         PlaySfx(1);
-                        D_800F4D8A = 1;
+                        ModeSubState = 1;
                         MenuFadeTimer = 0x40;
                         ResetScreenCounters();
                         LoadCursor = LoadCursorBase;
@@ -468,7 +468,7 @@ void func_80031FE8(void) {
                     }
                 } else if (PlayerControllers.w2C != 0) {
                     PlaySfx(2);
-                    D_800F4D8A = 2;
+                    ModeSubState = 2;
                     MenuFadeTimer = 0x40;
                     ResetScreenCounters();
                     LoadCursor = LoadCursorBase;
@@ -488,7 +488,7 @@ void func_80031FE8(void) {
                 SelectionState = SaveSlotSelections[SaveSlotIndex];
                 ModeGroup = 1;
                 ModeId = 0xF;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
                 return;
             }
         }
@@ -502,7 +502,7 @@ void func_80031FE8(void) {
             MenuScriptId = 1;
             ModeGroup = 1;
             ModeId = 0x23;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             return;
         }
     default:
@@ -518,12 +518,12 @@ void func_80031FE8(void) {
 }
 
 #undef SelectionState
-#undef D_800F4D8A
+#undef ModeSubState
 
 void func_8003244C(void) {
-    if (D_800F3A42 & 0x1000) {
+    if (Pad0RepeatButtons & 0x1000) {
         D_8010BFC0 = D_8010BFC0 - 1;
-    } else if (D_800F3A42 & 0x4000) {
+    } else if (Pad0RepeatButtons & 0x4000) {
         D_8010BFC0 = D_8010BFC0 + 1;
     }
     if (D_8010BFC0 < 0) {
@@ -534,7 +534,7 @@ void func_8003244C(void) {
     if (Pad0Buttons & 0x800) {
         ModeGroup = 1;
         ModeId = 0xF;
-        D_800F4D8A = 0;
+        ModeSubState = 0;
     }
 }
 
@@ -551,7 +551,7 @@ void func_800324F8(void) {
     InitBadgeRow(0, 0xC, 0x130, 0x128, 0x58, 0, 0);
     ModeGroup = 1;
     ModeId = 0x2B;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     M2C_FIELD(BadgeRows, s16 *, 2) = 1;
     UpdateScreenFade(0x10086);
 }

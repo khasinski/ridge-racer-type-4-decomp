@@ -45,14 +45,14 @@ extern int SetLightMatrix();
 extern M2C_UNK ColorMatrix;
 extern char D_800ABF48[];
 extern short CourseIndex;
-extern void func_80060C70();
+extern void RunCourseDrawChain();
 extern unsigned short D_8010E280;
-extern unsigned int D_8010E290;
+extern unsigned int ViewSegmentObjects;
 extern int ApplyMatrix();
 extern int RotMatrixYXZ();
 extern short LightMatrix[][3];
-extern char D_800F38F8[][8];
-extern unsigned short D_800AD5BC[];
+extern char LightAngles[][8];
+extern unsigned short LightDirMagnitude[];
 extern s16 ViewOffsetX[];
 extern s16 ViewOffsetY[];
 extern s32 ViewScreenH[];
@@ -73,7 +73,7 @@ void SetupViewMatrix(void);
 void SetupViewLighting(void);
 void SetupPlayerView(int ignoredPlayer);
 void PrepareViewFrame(void);
-void func_8006EDA4(void);
+void PrepareRearViewFrame(void);
 void SetGteObjectTransform(short *a0, short *a1, int *a2);
 void BuildLightMatrix(void);
 void SetupViewport(s32 a0);
@@ -150,49 +150,49 @@ void SetupPlayerView(int ignoredPlayer) {
     SetupViewLighting();
     func_8006E9E8(p, p - 0x30);
     SetupViewMatrix();
-    func_80060C70(SCRATCHPAD, ViewSegmentObjectList, CourseIndex);
+    RunCourseDrawChain(SCRATCHPAD, ViewSegmentObjectList, CourseIndex);
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_80060C70 ((int (*)())func_80060C70)
+#define RunCourseDrawChain ((int (*)())RunCourseDrawChain)
 #define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 #define func_80071348 ((int (*)())func_80071348)
 
 void PrepareViewFrame(void) {
     BuildViewSegmentObjectList();
-    func_8006E8F8();
+    AddUniqueViewSegmentRecords();
     func_80071348();
     SetupViewLighting();
     SetupViewMatrix();
-    func_80060C70(SCRATCHPAD, ViewSegmentObjectList, CourseIndex);
+    RunCourseDrawChain(SCRATCHPAD, ViewSegmentObjectList, CourseIndex);
 }
 
-#undef func_80060C70
+#undef RunCourseDrawChain
 #undef BuildViewSegmentObjectList
 #undef func_80071348
 
 /* legacy typing of shared globals in this part of the unit */
 #define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
-#define func_80060C70 ((int (*)())func_80060C70)
+#define RunCourseDrawChain ((int (*)())RunCourseDrawChain)
 
-void func_8006EDA4(void) {
+void PrepareRearViewFrame(void) {
     short *g = (short *)SCRATCHPAD;
     unsigned int v; int pad[12];
     D_8010E280 = (unsigned short)g[0x2E];
     g[0x2E] = -1;
     BuildViewSegmentObjectList();
     v = GetOctantTableValue();
-    if (v < D_8010E290) {
-        D_8010E290 = v;
+    if (v < ViewSegmentObjects) {
+        ViewSegmentObjects = v;
     }
     SetupViewLighting();
     SetupViewMatrix();
-    func_80060C70(g, ViewSegmentObjectList, CourseIndex);
+    RunCourseDrawChain(g, ViewSegmentObjectList, CourseIndex);
     g[0x2E] = (short)D_8010E280;
 }
 
 #undef BuildViewSegmentObjectList
-#undef func_80060C70
+#undef RunCourseDrawChain
 
 void SetGteObjectTransform(short *a0, short *a1, int *a2) {
     short *g = (short *)SCRATCHPAD;
@@ -215,8 +215,8 @@ void BuildLightMatrix(void) {
     s.b = 0;
     s.a = 0;
     for (i = 0; i < 3; i++) {
-        s.c = -D_800AD5BC[i];
-        RotMatrixYXZ(D_800F38F8[i], m);
+        s.c = -LightDirMagnitude[i];
+        RotMatrixYXZ(LightAngles[i], m);
         SetRotMatrix(m);
         ApplyRotMatrix(&s, &r);
         LightMatrix[i][0] = r.x;
@@ -242,7 +242,7 @@ void SetupViewport(s32 a0) {
     /* ASM_BARRIER: Materialize $s2 = SCRATCHPAD at start of prologue. */
     __asm__("" : "=r"(s2) : "0"(s2));
     s3 = s2->f00;
-    D_800AC5D8 = a0;
+    CurrentViewIndex = a0;
     s1 = (a0 == 1);
     SetGeomOffset(ViewOffsetX[a0], ViewOffsetY[a0]);
     s5 = (a0 == 1);
@@ -250,13 +250,13 @@ void SetupViewport(s32 a0) {
     s2->f6C = D_800A3BE0[a0];
     v1 = D_800A3BF0[a0];
     if (s1) {
-        v1 += D_800F4CE0;
+        v1 += RearViewMirrorOffsetY;
     }
     s2->f6E = v1;
     s2->f70 = D_800A3C00[a0];
     v1 = D_800A3C10[a0];
     if (s1) {
-        v1 += D_800F4CE0;
+        v1 += RearViewMirrorOffsetY;
     }
     s2->f72 = v1;
     p = &D_800A3C20[DrawBufIndex][a0];
@@ -264,7 +264,7 @@ void SetupViewport(s32 a0) {
         s2->f64 = 0;
     } else {
         s2->f64 = 1;
-        a0_val = D_800F4CE0;
+        a0_val = RearViewMirrorOffsetY;
         if (a0_val < 0) {
             a0_val = 0;
         }

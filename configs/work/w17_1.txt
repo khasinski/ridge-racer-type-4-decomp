@@ -2,7 +2,7 @@ SkyEmitLitQuadG4
 EmitSpriteGrid
 InitMenuGrid
 func_8005C988
-func_8006E8F8
+AddUniqueViewSegmentRecords
 __adddf3
 __fixdfsi
 _mainasu

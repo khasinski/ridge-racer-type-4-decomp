@@ -40,11 +40,11 @@
 /* legacy typing of shared globals in this part of the unit */
 #define SelectionState (*(w3g2S (*))&SelectionState)
 
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 
 #undef SelectionState
 
-#undef D_800F4D8A
+#undef ModeSubState
 
 /* legacy typing of shared globals in this part of the unit */
 #define BadgeRows ((void *)BadgeRows)

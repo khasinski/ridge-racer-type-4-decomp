@@ -3,7 +3,7 @@
 #include "rr/channels.h"
 
 extern RrChannelRecordF0 PadChannelRecordArray[];
-extern s32 D_800ABCC0[];
+extern s32 PadChannelPendingPackets[];
 extern u16 *D_800ABD00;
 void _dirFailAuto(u8 *channel);
 /* The current index must select accessible record/flag storage and must not

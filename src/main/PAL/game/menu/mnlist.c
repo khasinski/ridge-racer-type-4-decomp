@@ -61,8 +61,8 @@ extern char *CarRecordPtrs[];
 extern char *BadgeRows;
 extern R4 SelectionRows[];
 extern int AddTileSemiTransPrim();
-extern u8 D_8009FDF4[];
-extern u8 D_8009FDF8[];
+extern u8 SaveListColumnSpacing[];
+extern u8 SaveListRowOffsets[];
 extern u8 D_8009FDFC[];
 extern u8 D_8009FE00[];
 extern u8 D_8009FE04[];
@@ -77,7 +77,7 @@ extern char PlayerControllers[];
 extern int MenuActivePlayerPlusOne;
 
 int func_80042254();
-int func_80042820();
+int DrawSaveSlotList();
 char *FormatCountOfTotal(int a, int b, int c);
 void func_80042DBC();
 
@@ -265,7 +265,7 @@ int arg2;
 #define FormatDecimalDigits ((void (*)())FormatDecimalDigits)
 #define UiFontGlyphs (*(R4_1 (*)[])&UiFontGlyphs)
 
-int func_80042820(arg0, arg1, arg2)
+int DrawSaveSlotList(arg0, arg1, arg2)
 int arg0;
 int arg1;
 int arg2;
@@ -285,7 +285,7 @@ int arg2;
     y += 0x20;
 
     for (i = 0; i < 4; i++) {
-        x += D_8009FDF4[i];
+        x += SaveListColumnSpacing[i];
         arg1 = AddSpritePrim(arg0, arg1, x, y, &UiFontGlyphs[D_8009FDFC[i]], 0x7FF8, 0);
     }
 
@@ -301,27 +301,27 @@ int arg2;
     for (i = 0; i < 3; i++) {
         x = *(short *)(BadgeRows + arg2 * 0x1C + 4) + 8;
         FormatDecimalDigits(sp38, i + 1, 0);
-        arg1 = AddTextSprites(arg0, arg1, x, y + D_8009FDF8[i + 1], sp38, 0x7FF8, 0, 0);
+        arg1 = AddTextSprites(arg0, arg1, x, y + SaveListRowOffsets[i + 1], sp38, 0x7FF8, 0, 0);
         if ((sp28[2] = SaveSlotSelections[i].b17) != -1) {
             sp28[0] = D_8009FE00[SaveSlotSelections[i].b1C & 3];
             sp28[1] = D_8009FE04[SaveSlotSelections[i].b1D & 3];
             sp28[2] = D_8009FE08[SaveSlotSelections[i].b17 / 2];
             for (j = 0; j < 3; j++) {
-                x += D_8009FDF4[j + 1];
-                arg1 = AddSpritePrim(arg0, arg1, x, y + D_8009FDF8[i + 1], &UiFontGlyphs[sp28[j]], 0x7FF8, 0);
+                x += SaveListColumnSpacing[j + 1];
+                arg1 = AddSpritePrim(arg0, arg1, x, y + SaveListRowOffsets[i + 1], &UiFontGlyphs[sp28[j]], 0x7FF8, 0);
                 if (j == 2 && SaveSlotSelections[i].b17 < 4) {
                     x += 0xE;
-                    arg1 = AddSpritePrim(arg0, arg1, x, y + D_8009FDF8[i + 1], &UiFontGlyphs[38], 0x7FF8, 0);
+                    arg1 = AddSpritePrim(arg0, arg1, x, y + SaveListRowOffsets[i + 1], &UiFontGlyphs[38], 0x7FF8, 0);
                 }
             }
         } else {
             for (j = 0; j < 3; j++) {
-                x += D_8009FDF4[j + 1];
-                arg1 = AddTilePrim(arg0, arg1, x, y + D_8009FDF8[i + 1] + 8, D_8009FE0C[j], 2, 0xFF, 0xFF, 0xFF);
+                x += SaveListColumnSpacing[j + 1];
+                arg1 = AddTilePrim(arg0, arg1, x, y + SaveListRowOffsets[i + 1] + 8, D_8009FE0C[j], 2, 0xFF, 0xFF, 0xFF);
             }
         }
         if (i == SaveSlotIndex) {
-            arg1 = AddTileSemiTransPrim(arg0, arg1, *(short *)(BadgeRows + arg2 * 0x1C + 4), y + D_8009FDF8[i + 1] - 4, sp40, 0x18, 0x20, 0x20, 0x20);
+            arg1 = AddTileSemiTransPrim(arg0, arg1, *(short *)(BadgeRows + arg2 * 0x1C + 4), y + SaveListRowOffsets[i + 1] - 4, sp40, 0x18, 0x20, 0x20, 0x20);
         }
     }
 
@@ -333,8 +333,8 @@ int arg2;
     for (i = 0; i < 4; i++) {
         x = *(short *)(BadgeRows + arg2 * 0x1C + 4);
         for (j = 0; j < 3; j++) {
-            x += D_8009FDF4[j + 1];
-            arg1 = AddTilePrim(arg0, arg1, x, y + D_8009FDF8[i], 2, 0x10, 0xFF, 0xFF, 0xFF);
+            x += SaveListColumnSpacing[j + 1];
+            arg1 = AddTilePrim(arg0, arg1, x, y + SaveListRowOffsets[i], 2, 0x10, 0xFF, 0xFF, 0xFF);
         }
     }
 

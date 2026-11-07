@@ -39,7 +39,7 @@ void ovl662_func_80119068(void) {
         (*(s8*)(ImageRows+1)) = ready;
     }
     active = 1;
-    switch ((u16)D_800F4D8A) {
+    switch ((u16)ModeSubState) {
     case 0:
         SetMenuFrameOptions(1, 1, 1);
         prev = ovl662_D_801272BC;
@@ -75,7 +75,7 @@ void ovl662_func_80119068(void) {
             if (MenuCursor == 0) {
                 SetModelTexturePage(-1);
                 PlaySfx(1);
-                D_800F4D8A = phase;
+                ModeSubState = phase;
                 i = 0;
                 do {
                     p = (RrUiRow24 *)((unsigned long)i * sizeof(RrUiRow24) + (unsigned long)UiRows);
@@ -92,7 +92,7 @@ void ovl662_func_80119068(void) {
                 if (ovl662_D_801272BC > 0) {
                     SetModelTexturePage(-1);
                     PlaySfx(1);
-                    D_800F4D8A = 4;
+                    ModeSubState = 4;
                     i = 0;
                     do {
                         p = (RrUiRow24 *)((unsigned long)i * sizeof(RrUiRow24) + (unsigned long)UiRows);
@@ -139,7 +139,7 @@ void ovl662_func_80119068(void) {
             } while (i < 4);
 close:
             MenuFadeTimer = 0x40;
-            D_800F4D8A = 8;
+            ModeSubState = 8;
         }
         break;
     case 3:
@@ -153,14 +153,14 @@ close:
         ovl662_func_8011512C();
         ModeGroup = 1;
         ModeId = 0x40;
-        D_800F4D8A = 0;
+        ModeSubState = 0;
         return;
     case 4:
         if (UiRows[0].byte14 == 5 && (*(s8*)(ImageRows+1)) == 5) {
             ovl662_D_801272E8 = 0;
             ModeGroup = 1;
             ModeId = 0x45;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 8:
@@ -171,7 +171,7 @@ close:
         ovl662_func_8011512C();
         ModeGroup = 1;
         ModeId = 0x40;
-        D_800F4D8A = 0;
+        ModeSubState = 0;
         return;
     }
 tail:
@@ -189,7 +189,7 @@ tail:
     i = active;
     if (((u32)((u8)(*(s8*)(ImageRows+1)) - 1) < 2U) && (i == 1)) {
         DrawSelectionIconGrid(0);
-        func_8002E5A0((char *)(void *)PlayerCars);
+        PrepareCarDrawPose((char *)(void *)PlayerCars);
         tint = 0x100;
         if ((*(s8*)(ImageRows+1)) == i) {
             shade = ~((ImageRows[2] * 0xFF) / 30);

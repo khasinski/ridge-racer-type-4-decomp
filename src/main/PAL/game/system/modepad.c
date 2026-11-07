@@ -18,17 +18,17 @@ extern int MenuConfirmPressed;
 extern int D_800F3AA4;
 extern short MenuScriptId;
 extern int UiRowCount;
-extern int D_800F4CA8;
+extern int DialogueContext;
 extern short MenuDispMode;
 extern void StepMenuValue();
 extern void PlaySfx();
 extern unsigned _sio_control();
 
-void func_8002F0E0(void);
+void RunIntroScriptStep(void);
 void DrawModeSelectRows();
 int ModeSelectMenuStep(void);
 
-void func_8002F0E0(void) {
+void RunIntroScriptStep(void) {
     IntroScriptStep();
 }
 
@@ -78,10 +78,10 @@ int ModeSelectMenuStep(void)
         PlaySfx(1);
         s2 = 1;
         if (MenuCursor == MainMenuLastIndex)
-            func_80034E14();
+            EnableLinkSioTx();
         else
             _sio_control(1, 1, 0);
-        D_800F4CA8 = 2;
+        DialogueContext = 2;
         MenuScriptId = 8;
         PendingModeId = 0x123;
         ModeMenuCursorSaved = MenuCursor;
@@ -104,7 +104,7 @@ int ModeSelectMenuStep(void)
             RaceType = 0;
             break;
         case 5:
-            D_800F4CA8 = 3;
+            DialogueContext = 3;
             break;
         case 6:
             break;

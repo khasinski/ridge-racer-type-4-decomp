@@ -12,8 +12,8 @@ extern int SsVabTransCompleted();
 extern int func_800963C4();
 extern int DebugPrintStub();
 extern char VabOpenHeadErrorStr[];
-extern char D_800110F0[];
-extern s32 D_800F7650;
+extern char VabTransBodyErrorStr[];
+extern s32 SoundReverbDepth;
 
 void LoadVab(int *arg0, int arg1, int arg2);
 void SetReverb(int a0, int a1);
@@ -46,7 +46,7 @@ void LoadVab(int *arg0, int arg1, int arg2) {
     v2 = SsVabTransBody(arg0[1]);
     p[0x12] = v2;
     if (v2 == -1) {
-        DebugPrintStub(D_800110F0);
+        DebugPrintStub(VabTransBodyErrorStr);
         func_800963C4(1);
     }
     SsVabTransCompleted(1);
@@ -72,7 +72,7 @@ void ReverbReset(void) {
 #undef SoundState
 
 void SetReverbDepthBoth(s32 arg0) {
-    D_800F7650 = arg0;
+    SoundReverbDepth = arg0;
     SsUtSetReverbDepth((s16) arg0, (s16) arg0);
 }
 

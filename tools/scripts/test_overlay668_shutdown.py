@@ -41,7 +41,7 @@ static struct World {
 #define D_800A680C world.port1
 #define ModeGroup world.screen
 #define ModeId world.step
-#define D_800F4D8A world.counter
+#define ModeSubState world.counter
 static void callback(void) {assert(0);}
 static void event(struct World *w,s32 kind,s32 a){Event *e;assert(w->calls<8);e=&w->events[w->calls++];e->kind=kind;e->argument=a;}
 static void exchange_effect(struct World *w,s32 channel,RrLibInterruptCallback cb){

@@ -4,7 +4,7 @@ void ovl659_exit_race(void) {
     SetupRaceAndScene();
     ModeGroup = 1;
     ModeId = 0x2F;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }
 
 void ovl659_update_race(void) {
@@ -29,19 +29,19 @@ void ovl659_update_race(void) {
     if (RacePaused != 0) {
         UpdatePauseMenu(RaceType);
         ModeFrame = (u32)ModeFrame - 1;
-        func_8003BFC8();
+        DrawSplitTimeHud();
         DrawPauseMenu(&CurrentDrawBuf->ordering.ordering70[0], PauseCursor);
         DrawLapTimeList(0);
         DrawTimeRemaining(RaceTimeRemaining);
         DrawStartCountdown(&CurrentDrawBuf->ordering.ordering70[0], ModeFrame);
         DrawHudRotatingQuad(EngineRevDisplay.first, 0);
-        func_800211A4(0);
+        DrawHudFrameSprites(0);
         DrawHudNumber3((PlayerCars[0].input * 160) / 1168, 0);
         DrawHudDigitMod10(PlayerCars[0].half27A, 0);
         UpdateHudRankDisplay(PlayerCars[0].half1EE, 0);
         DrawRaceMinimap(0);
         DrawSteeringIndicator(&CurrentDrawBuf->ordering.ordering70[0], 0);
-        func_80021C00(0);
+        UpdateFinalLapIndicator(0);
         SubmitRaceHudPackets(RaceType);
         BuildCameraMatrices();
         DrawCars(0);
@@ -49,7 +49,7 @@ void ovl659_update_race(void) {
         SetupPlayerView(0);
         DrawTrackObjects(0);
         DrawTrackSceneryForPlayer(0);
-        func_80070734(ScreenFrame);
+        DrawRearViewMirror(ScreenFrame);
         return;
     }
 
@@ -64,7 +64,7 @@ void ovl659_update_race(void) {
         }
     }
 
-    if (D_800AC6EC != 0 && RaceState == 0) {
+    if (RaceIntroDone != 0 && RaceState == 0) {
         ScreenFrame = 75;
         ModeFrame = 75;
         SlotsStartForRace();
@@ -94,7 +94,7 @@ void ovl659_update_race(void) {
                 RaceState == 4) {
                 ModeGroup = 1;
                 ModeId = 21;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
             } else {
                 FinishRace();
             }
@@ -114,20 +114,20 @@ void ovl659_update_race(void) {
         DrawLapTimeList(0);
         DrawTimeRemaining(RaceTimeRemaining);
         DrawHudRotatingQuad(EngineRevDisplay.first, 0);
-        func_800211A4(0);
+        DrawHudFrameSprites(0);
         DrawHudNumber3((PlayerCars[0].input * 160) / 1168, 0);
         DrawHudDigitMod10(PlayerCars[0].half27A, 0);
         UpdateHudRankDisplay(PlayerCars[0].half1EE, 0);
         DrawRaceMinimap(0);
         DrawSteeringIndicator(&CurrentDrawBuf->ordering.ordering70[0], 0);
-        func_80021C00(0);
+        UpdateFinalLapIndicator(0);
         SubmitRaceHudPackets(RaceType);
     }
     StepRaceFrame(RaceType);
     if (RaceState == 0) {
         func_80045868(PlayerCars);
     } else if (RaceState == 7) {
-        func_80033808(&PlayerCars[1]);
+        UpdateCoastingCarCamera(&PlayerCars[1]);
     } else {
         UpdateRaceChaseCamera((struct w3g2p *)(void *)PlayerCars);
     }
@@ -141,7 +141,7 @@ void ovl659_update_race(void) {
     SetupPlayerView(0);
     DrawTrackObjects(0);
     DrawTrackSceneryForPlayer(0);
-    func_80070734(ScreenFrame);
+    DrawRearViewMirror(ScreenFrame);
     if (RaceState == 0) {
         RR_659_SCRATCH->pointers.cursor = AddDrawAreaPrim(
             CurrentDrawBuf->ordering.ordering70 + 2, RR_659_SCRATCH->pointers.cursor, 0, 0, 320, 256);
@@ -156,7 +156,7 @@ void ovl659_update_race(void) {
             FrameEnvs[0].environment.rgb24 = 0;
         }
     }
-    SlotSetLevelProgram(EngineRevDisplay.first, D_800F2AB4.first, 0);
+    SlotSetLevelProgram(EngineRevDisplay.first, EngineThrottleOn.first, 0);
     if (RaceState >= 4) {
         StopRaceRumble();
         if (RaceState == 6) {

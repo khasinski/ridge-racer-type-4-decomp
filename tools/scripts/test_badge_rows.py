@@ -179,7 +179,7 @@ int main(void) {
   }
   void *start=iteration&1?(void *)(actual->arena+32):(void *)&actual->rows[0][2];
   memcpy(expected,actual,sizeof(*actual));
-  void *want=reference(start,style,index),*got=func_80030BEC(start,style,index);
+  void *want=reference(start,style,index),*got=DrawBadgePatternRows(start,style,index);
   assert(got==want && actual->calls==14);
   if(memcmp(actual,expected,sizeof(*actual))){fprintf(stderr,"row case %u failed\n",iteration);abort();}
  }

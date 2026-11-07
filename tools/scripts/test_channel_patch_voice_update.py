@@ -47,10 +47,10 @@ u32 test_layout[] = {sizeof(RrLibStateB0), offsetof(RrLibStateB0,c0),
  offsetof(RrLibStateB0,w90), offsetof(RrLibStateB0,b1b),
  offsetof(RrLibStateB0,b1a), offsetof(RrLibStateB0,b15), offsetof(RrLibStateB0,b1d),
  offsetof(RrLibStateB0,b1c), offsetof(RrLibStateB0,b1f), offsetof(RrLibStateB0,c8)};
-RrLibControllerCallback SsCtrlHandlerCC6,D_8010EFE4,D_8010EFE8,D_8010EFEC,SsCtrlHandlerCC64;
-RrLibControllerCallback SsCtrlHandlerCC98,D_8010EFF8,D_8010EFFC,D_8010F000,D_8010F004;
+RrLibControllerCallback SsCtrlHandlerCC6,SsCtrlHandlerCC7,SsCtrlHandlerCC10,SsCtrlHandlerCC11,SsCtrlHandlerCC64;
+RrLibControllerCallback SsCtrlHandlerCC98,SsCtrlHandlerCC99,SsCtrlHandlerCC100,SsCtrlHandlerCC101,SsCtrlHandlerCC91;
 RrLibControllerResetCallback SsCtrlHandlerCC121;
-void test_bind_controller(void) { D_8010EFEC=_SsContExpression; }
+void test_bind_controller(void) { SsCtrlHandlerCC11=_SsContExpression; }
 s32 (*test_patch)(s32,s32,s32);
 void (*test_voice)(s32,s32,s32,u32,u32);
 s32 _SsVmSetProgVol(s16 device,s16 channel,s32 value) { return test_patch(device,channel,value); }
@@ -72,13 +72,13 @@ void test_prepare(s32 bank,s32 row,const u8 *input,u32 length,u32 accumulator) {
  test_records[bank+4][row+8].w88=accumulator;
 }
 '''
-        source = source.replace('D_8010EFEC=_SsContExpression',
-                                {'80080434': 'D_8010EFE4=_SsContMainVol',
+        source = source.replace('SsCtrlHandlerCC11=_SsContExpression',
+                                {'80080434': 'SsCtrlHandlerCC7=_SsContMainVol',
                                  '800806C4': 'SsCtrlHandlerCC64=_SsContDamper',
-                                 '80080774': 'D_8010F004=_SsContExternal',
+                                 '80080774': 'SsCtrlHandlerCC91=_SsContExternal',
                                  '80080804': 'SsCtrlHandlerCC98=_SsContNrpn1',
-                                 '80080904': 'D_8010EFF8=_SsContNrpn2'}.get(
-                                     cls.handler, 'D_8010EFEC=_SsContExpression'))
+                                 '80080904': 'SsCtrlHandlerCC99=_SsContNrpn2'}.get(
+                                     cls.handler, 'SsCtrlHandlerCC11=_SsContExpression'))
         for name in ('80080434', '800805D4', '800806C4', '80080774', '80080804', '80080904', '80081E04', '800818B4',
                      '80087044', '80087054', '80086554'):
             body = (root / ('tools/scripts/fixtures/views/func_' + name + '.c')).read_text()

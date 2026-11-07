@@ -19,7 +19,7 @@
 #include "game/data/screenframe.h"
 
 extern int CdDirectoryBuffer;
-extern char D_8001075C[];
+extern char StrCdReadPtrFmt[];
 extern int LoadCursor;
 extern int MenuArenas[];
 extern int StopRaceAudioAndRumble();
@@ -174,13 +174,13 @@ void InitMenuArenas()
   MenuTextRowCount = 0x37;
   MenuArenas[1] = CdDirectoryBuffer + c;
   LoadCursor = MenuArenas[1];
-  DebugPrintStub(D_8001075C, LoadCursor, 0x2D000);
+  DebugPrintStub(StrCdReadPtrFmt, LoadCursor, 0x2D000);
   LoadCursor = LoadCursor + AllocBadgeRows(LoadCursor);
   LoadCursor = LoadCursor + AllocRect16Rows(LoadCursor);
   LoadCursor = LoadCursor + AllocGlyphRows(LoadCursor);
   LoadCursor = LoadCursor + AllocImageRows(LoadCursor);
   LoadCursor = LoadCursor + AllocUiRows(LoadCursor);
-  D_800ACC1C = LoadCursor;
+  LoadCursorMark = LoadCursor;
   MenuArenas[1] = LoadCursor + 0x19000;
   LoadCursor = LoadCursor + 0x19000;
 }
@@ -256,7 +256,7 @@ l428:
     }
     ModeGroup = 1;
     ModeId = 0x24;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }
 
 #undef SetDispMask
@@ -308,7 +308,7 @@ void UpdateMenuScript(void) {
     } else {
         if((status==1 && MenuDispMode==status) || (MenuDispMode==0 && status==2) || (MenuDispMode>=2 && status==1)) {
             MenuSceneEntries[MenuScriptId]();
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             ModeGroup = (u16) ((u16) SceneId >> 8);
             ModeId = SceneId & 0xFF;
         }

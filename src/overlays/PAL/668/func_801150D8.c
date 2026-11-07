@@ -16,6 +16,6 @@ s32 ovl668_func_801150D8(RrStrDisplayConfig *config) {
 found:
     index = &config->word00;
     *index = *index < 1U;
-    ovl668_func_80116958(data, D_800AC708->commands10[*index]);
+    ovl668_func_80116958(data, StrStreamState->commands10[*index]);
     return StFreeRing(data);
 }

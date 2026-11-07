@@ -82,21 +82,21 @@ void ovl667_func_801161A8(s32 arg0) {
         var_s1 += 1;
         var_s0++;
     } while (var_s1 < 2);
-    D_8010C0C0[0][0] = CountChoiceGlyphs(D_8010BFD8[0][0]);
-    D_8010C0C0[0][1] = CountChoiceGlyphs(D_8010BFD8[0][1]);
-    D_8010C0C0[1][0] = CountChoiceGlyphs(D_8010BFD8[1][0]);
-    D_8010C0C0[1][1] = CountChoiceGlyphs(D_8010BFD8[1][1]);
+    ChoiceGlyphCounts[0][0] = CountChoiceGlyphs(CourseMenuChoices[0][0]);
+    ChoiceGlyphCounts[0][1] = CountChoiceGlyphs(CourseMenuChoices[0][1]);
+    ChoiceGlyphCounts[1][0] = CountChoiceGlyphs(CourseMenuChoices[1][0]);
+    ChoiceGlyphCounts[1][1] = CountChoiceGlyphs(CourseMenuChoices[1][1]);
     temp_a0 = arg0 & 1;
-    if (D_8010C0C0[temp_a0][1] == 0) {
-        D_8010C0D8[temp_a0] = 0;
+    if (ChoiceGlyphCounts[temp_a0][1] == 0) {
+        CourseMenuPage[temp_a0] = 0;
     }
     temp_a2 = SelectionPlayer & 1;
     UnpackChoiceGlyph((s8 *)&SelectionRows + SelectionPlayer * 4,
-        D_8010BFD8[temp_a2][D_8010C0D8[temp_a2]][CourseMenuCursor[temp_a2]].glyph);
+        CourseMenuChoices[temp_a2][CourseMenuPage[temp_a2]][CourseMenuCursor[temp_a2]].glyph);
     temp_a2_2 = SelectionPlayer & 1;
-    temp_s0 = &D_8010C0D8[temp_a2_2];
+    temp_s0 = &CourseMenuPage[temp_a2_2];
     temp_t0_2 = &CourseMenuCursor[temp_a2_2];
     temp_a3_2 = &PlayerCourseChoices[SelectionPlayer];
-    temp_a3_2->first = D_8010BFD8[temp_a2_2][*temp_s0][*temp_t0_2].first;
-    temp_a3_2->second = D_8010BFD8[temp_a2_2][*temp_s0][*temp_t0_2].second;
+    temp_a3_2->first = CourseMenuChoices[temp_a2_2][*temp_s0][*temp_t0_2].first;
+    temp_a3_2->second = CourseMenuChoices[temp_a2_2][*temp_s0][*temp_t0_2].second;
 }

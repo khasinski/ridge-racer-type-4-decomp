@@ -47,7 +47,7 @@ int a1;
     case 0:
         D_800A41EA = 0;
         PsyqBzero(SaveBuffer, 0x1AA8);
-        i = D_800F3970 != 0;
+        i = AllProgressComplete != 0;
         if (a0 == 1) {
             D_800A41E9 = 1;
             if (SaveSlotSelect < 0x10) {

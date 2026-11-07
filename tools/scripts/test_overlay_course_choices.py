@@ -48,11 +48,11 @@ static unsigned scenario,mutation;
 #define ImageRows w->s.ui[scenario%4]
 #define CourseChoiceTable w->s.main
 #define ovl661_D_80118458 w->s.table661
-#define D_8010BFD8 w->s.table667
+#define CourseMenuChoices w->s.table667
 #define SelectionPlayer w->s.player
 #define ovl661_D_80118450 w->s.rows661
 #define ovl661_D_8011844C w->s.cols661
-#define D_8010C0D8 w->s.rows667
+#define CourseMenuPage w->s.rows667
 #define CourseMenuCursor w->s.cols667
 #define PlayerCars w->s.vehicles
 #define RR_COURSE_SCRATCH (&w->s.scratch.projection)

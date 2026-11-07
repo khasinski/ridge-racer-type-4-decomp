@@ -19,6 +19,6 @@ void ovl662_func_80119B44(void) {
  if((s16)val>0)ovl662_D_801272BE=val-1;else ovl662_D_801272BE=0;}
  ovl662_D_801272E2=(s8)ovl662_D_801272A0[ovl662_D_801272BE];
  val=ovl662_D_801272E2;
- if(!val)UploadCarClut(D_800F3B20,0,0);else UploadCarClut(CarClutData,val-1,0);
+ if(!val)UploadCarClut(DefaultCarClut,0,0);else UploadCarClut(CarClutData,val-1,0);
  ovl662_D_801272D4=0;
 }

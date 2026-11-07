@@ -4,7 +4,7 @@ void ovl662_func_80115EC4(s32 arg0) {
     s32 i;
     ovl662_D_801272C0 = 0;
     CourseListIndex = 0;
-    D_800F4D99 = 0;
+    CourseListSavedIndex = 0;
     for (i = 0; i < 4; i++) {
         /* Unsigned addition wraps; the PAL signed-word conversion keeps its bits. */
         GlyphRows[arg0 + i].phase18 = (s32)((u32)GlyphRows[i].phase18 + 0x30000U);

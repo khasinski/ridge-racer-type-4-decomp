@@ -39,7 +39,7 @@ void ovl662_func_8011F888(s32 mode) {
                 MenuResultCode = 6;
                 ModeGroup = 1;
                 ModeId = 71;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
             }
         }
     } else if (ovl662_func_8011E734(6) == 0 && (ovl662_D_80127668.words[1] & 1)) {

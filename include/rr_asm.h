@@ -88,7 +88,7 @@
 #define RR_GTE_MTC2_IR1(x) __asm__ volatile ("mtc2 %0, $9" : : "r"(x))
 #define RR_GTE_CTC2_FCR(x) __asm__ volatile ("ctc2 %0, $21" : : "r"(x))
 #define RR_GTE_SWC2_IR1(p) __asm__ volatile ("swc2 $9, 0(%0)" : : "r"(p) : "memory")
-/* func_80014068 GTE helpers (one macro per distinct instruction/sequence). */
+/* EmitRroLitQuadsG4 GTE helpers (one macro per distinct instruction/sequence). */
 #define RR_GTE14_LWC2_V012(p) __asm__ volatile ("lwc2 $0, 0(%0); lwc2 $1, 4(%0); lwc2 $2, 8(%0); lwc2 $3, 12(%0); lwc2 $4, 16(%0); lwc2 $5, 20(%0)" : : "r"(p) : "memory")
 #define RR_GTE14_LWC2_V0(p) __asm__ volatile ("lwc2 $0, 0(%0); lwc2 $1, 4(%0)" : : "r"(p) : "memory")
 #define RR_GTE14_LWC2_V0_V1_V2(a, b, c) __asm__ volatile ("lwc2 $0, 0(%0); lwc2 $1, 4(%0); lwc2 $2, 0(%1); lwc2 $3, 4(%1); lwc2 $4, 0(%2); lwc2 $5, 4(%2)" : : "r"(a), "r"(b), "r"(c) : "memory")

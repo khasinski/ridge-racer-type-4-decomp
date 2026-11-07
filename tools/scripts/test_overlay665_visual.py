@@ -40,10 +40,10 @@ static u8 arenas[3][256];static u32 ordering[3][704];
 #define ScreenFrame world.s.counter
 #define LoadState world.s.flag1
 #define MenuScriptStep world.s.flag2
-#define D_800F4CA8 world.s.mode
+#define DialogueContext world.s.mode
 #define ModeGroup world.s.selector
 #define ModeId world.s.scene
-#define D_800F4D8A world.s.phase
+#define ModeSubState world.s.phase
 ''' + reset + body + r'''
 static u32 seed=0x14918,scenario;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}

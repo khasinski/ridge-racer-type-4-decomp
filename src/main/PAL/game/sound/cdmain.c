@@ -127,9 +127,9 @@ block_34:
     temp_a0 = var_v0->request26B4;
     if (temp_a0 != 0 && var_v0->action2670 == -1) {
         switch (temp_a0) {
-        case 1:CdAudioRequestPause();D_800F746C=0;break;
-        case 2:CdAudioMute();D_800F746C=0;break;
-        default:D_800F746C=0;break;
+        case 1:CdAudioRequestPause();CdAudioStopRequest=0;break;
+        case 2:CdAudioMute();CdAudioStopRequest=0;break;
+        default:CdAudioStopRequest=0;break;
         }
     }
     if (SoundState.state269C == 1) {
@@ -234,7 +234,7 @@ void CdAudioReadyCallback(u8 a0) {
 /* legacy typing of shared globals in this part of the unit */
 #define SoundState (*(struct { char pad[0x288A]; s16 a, b, c, d; } (*))&SoundState)
 
-void func_80053A80(void) {
+void SeqResetFade(void) {
     SoundState.a = 0;
     SoundState.b = 0;
     SoundState.c = 0;

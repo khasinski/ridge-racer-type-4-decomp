@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern volatile u8 *CD_REG0_STRM;
-extern int D_801102EC;
+extern int StDataReadyPending;
 extern int StRingWriteIndex;
 extern int StRingStartIndex;
 extern int StRingBase;

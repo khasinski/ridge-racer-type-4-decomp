@@ -44,10 +44,10 @@ static State actual,reference,*w;
 #define LinkRoleSlot w->split
 #define LinkState w->card
 #define D_8010C0B8 w->waitFlag
-#define D_8010C0C8 w->loadStatus
-#define D_8010C078 w->available
+#define FinalCarRanks w->loadStatus
+#define AvailableCourseCount w->available
 #define MenuActivePlayerPlusOne w->clear
-#define D_800F4D8A w->phase
+#define ModeSubState w->phase
 #define ModeGroup w->enabled
 #define UiRows w->rows[w->rowRoot]
 #define PlayerControllers w->input
@@ -55,7 +55,7 @@ static State actual,reference,*w;
 #define CurrentDrawBuf (&w->frames[w->frameRoot])
 #define MenuArenas w->arenas
 #define LoadCursor w->published
-#define D_8009F64C w->map
+#define CourseIndexMap w->map
 ''' + body + mapper + r'''
 typedef struct {unsigned kind;s32 args[7];State before;} Event;
 static Event events[32];

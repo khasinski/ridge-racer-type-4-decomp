@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern int Rect16RowCount;
-extern int D_800ACC1C;
+extern int LoadCursorMark;
 extern int ImageRowCount;
 extern int GlyphRowCount;
 

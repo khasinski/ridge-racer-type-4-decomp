@@ -43,7 +43,7 @@ void DrawBadgeRow(s32 index) {
         {
             void *call_cursor=cursor;
             
-            if(callback)call_cursor=D_8009F984[callback-1](order,call_cursor,which);
+            if(callback)call_cursor=PanelDrawCallbacks[callback-1](order,call_cursor,which);
             cursor=call_cursor;
         }
         cursor=DrawBadgeTitleBar(order,cursor,x,y,status&255);

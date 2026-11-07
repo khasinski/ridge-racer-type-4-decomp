@@ -31,7 +31,7 @@ extern struct DirPath DS_pathTable[];
 extern CdlFILE DsDirFileCache[];
 extern const char CdCacheFileDirNotFoundMsg[];
 extern const char CdCacheFileSearchMsg[];
-extern unsigned short D_80011CE0;
+extern unsigned short DsDirNameDot;
 extern short D_80011CE4;
 extern char D_80011CE6;
 extern const char CdFileEntryFmt[];
@@ -70,7 +70,7 @@ int DS_cachefile(int dir) {
         *(U4 *)&DsDirFileCache[i].size = *(U4 *)(p + 10);
         switch (i) {
         case 0:
-            __builtin_memcpy(DsDirFileCache[0].name, &D_80011CE0, 2);
+            __builtin_memcpy(DsDirFileCache[0].name, &DsDirNameDot, 2);
             break;
         case 1:
             __builtin_memcpy(DsDirFileCache[1].name, &D_80011CE4, 3);

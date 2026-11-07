@@ -111,8 +111,8 @@ extern void *CarBoundsTable[];
 extern s16 RaceType;
 extern u8 CarSlotBuffers[];
 
-void *func_80013D48(char *a0_in, int *a1_in, int a2_in);
-void *func_80014068(char *a0_in, int *a1_in, int a2_in);
+void *EmitRroQuadsFT4(char *a0_in, int *a1_in, int a2_in);
+void *EmitRroLitQuadsG4(char *a0_in, int *a1_in, int a2_in);
 void *EmitRroEnvMapQuads(char *a0_in, int *a1_in, int a2_in);
 void SetModelTexturePage(s32 arg0);
 int DrawRroModel(int a0, int a1, int a2, int a3);
@@ -121,12 +121,12 @@ void func_80014F34(s32 *a0_in, char *a1_in);
 void func_80015110(s32 *a0_in, char *a1_in);
 void func_800153FC();
 void DrawGlowFan(char *a0, char *a1);
-int *func_8001577C(int *a0, int a1, char *a2);
+int *EmitModelQuadsFT4(int *a0, int a1, char *a2);
 void func_80015918(Tri0C *a0, int a1, char *a2);
 char *func_80015D00(char *a0_in, s32 a1_in, char *a2_in);
 void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 arg5, s32 arg6);
 
-void *func_80013D48(char *a0_in, int *a1_in, int a2_in) {
+void *EmitRroQuadsFT4(char *a0_in, int *a1_in, int a2_in) {
     /* ASM_BARRIER: keep temp in $v0 */
     register int r_v0 __asm__("$2");
     /* ASM_BARRIER: keep temp in $v1 */
@@ -382,7 +382,7 @@ void *func_80013D48(char *a0_in, int *a1_in, int a2_in) {
     return t7;
 }
 
-void *func_80014068(char *a0_in, int *a1_in, int a2_in) {
+void *EmitRroLitQuadsG4(char *a0_in, int *a1_in, int a2_in) {
     /* ASM_BARRIER: keep temp in $v0 */
     register int r_v0 __asm__("$2");
     /* ASM_BARRIER: keep temp in $v1 */
@@ -1236,7 +1236,7 @@ int DrawRroModel(int a0, int a1, int a2, int a3)
         break;
 
       case 2:
-        p = (int *) func_80014068(p, s0, t);
+        p = (int *) EmitRroLitQuadsG4(p, s0, t);
         break;
 
       case 3:
@@ -2113,7 +2113,7 @@ void DrawGlowFan(char *a0, char *a1) {
     }
 }
 
-int *func_8001577C(int *a0, int a1, char *a2) {
+int *EmitModelQuadsFT4(int *a0, int a1, char *a2) {
     int verts = (int)(a2 + 0x1A0);
     volatile int *hw = (volatile int *)SCRATCHPAD;
     int shift = hw[0x60 / 4] + 4;
@@ -2698,7 +2698,7 @@ void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 ar
     }
 
     if (*(u8 *)(SP->w[0x25] + 0xA) == 2 && (RaceType == 6 || RaceType == 0)) {
-        if (D_800AC5D8 != 6) {
+        if (CurrentViewIndex != 6) {
             func_800153FC(s4, s2);
         }
     }
@@ -2869,7 +2869,7 @@ void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 ar
             }
             SP->w[0x58] = 0x2E808080;
             p = *(s32 **)(S4->w[0] + 0x24);
-            func_8001577C(p + 1, *(volatile s32 *)p >> 16, s2);
+            EmitModelQuadsFT4(p + 1, *(volatile s32 *)p >> 16, s2);
             GTE_LWC2_IR0(s2 + 0xC0);
             RR_GTE14_NOP2();
             RR_GTE_OP(0x4A780010);
@@ -3007,7 +3007,7 @@ void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 ar
             s32 c = S4->w[0x18];
             SP->w[0x58] = 0x2E000000 | (c << 16) | (c << 8) | c;
             p = *(s32 **)(S4->w[0] + 0x48);
-            func_8001577C(p + 1, *(volatile s32 *)p >> 16, s2);
+            EmitModelQuadsFT4(p + 1, *(volatile s32 *)p >> 16, s2);
         }
         {
             char *v0 = *(char **)(S4->w[0] + 0x28);
@@ -3027,7 +3027,7 @@ void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 ar
             s32 c = S4->w[0x19];
             SP->w[0x58] = 0x2E000000 | (c << 16) | (c << 8) | c;
             p = *(s32 **)(S4->w[0] + 0x30);
-            func_8001577C(p + 1, *(volatile s32 *)p >> 16, s2);
+            EmitModelQuadsFT4(p + 1, *(volatile s32 *)p >> 16, s2);
         }
     }
 

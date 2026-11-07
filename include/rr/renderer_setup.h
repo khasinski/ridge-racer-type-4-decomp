@@ -10,8 +10,8 @@ typedef struct {
     u32 reserved68;
     RrGpuRectangle viewport6C;
 } RrRendererScratch;
-extern s32 D_800AD568;
-extern RrGpuColorCommand D_800F3A20,D_800F3A18;
+extern s32 MirrorMode;
+extern RrGpuColorCommand DefaultFT4Color,PolyGT4WhiteColor;
 
 /* Captures the raw depth shift and current render flags in scratchpad; resets
  * the two RGB/command templates and the viewport to (0,0,320,256). */

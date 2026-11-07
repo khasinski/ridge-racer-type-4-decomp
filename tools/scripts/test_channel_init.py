@@ -28,12 +28,12 @@ static World actual,expected;
 static RrChannelRecordF0 external_record;
 static union {void *align;u8 bytes[0x4388];} callback_page;
 #define PadChannelRecordArray actual.records
-#define D_80114448 actual.buffers_a
+#define PadPacketBuffers actual.buffers_a
 #define PadTxBuffers actual.buffers_b
 #define PadPacketDoneCallback (*(RrChannelUpdateCallback *)(callback_page.bytes+8))
 RrChannelRecordF0 *PadChannelRecords;
 RrChannelErrorCallback PadAdvanceChannelFn;
-RrChannelUpdateCallback PadResetChannelFn,D_800ABC74;
+RrChannelUpdateCallback PadResetChannelFn,PadAllocGatesFn;
 u32 (*PadTxByteCallback)(const RrChannelTransferView *);
 s32 (*PadChannelToPortFn)(void *);
 RrChannelRecordCallback PadPortToChannelPtr;
@@ -54,7 +54,7 @@ void _padPacketDone(void *p) {(void)p;}
 '''+registrar+r'''
 static void check_callbacks(void) {
  assert(PadAdvanceChannelFn==_padAdvanceChannel && PadResetChannelFn==_padResetChannel);
- assert(PadTxByteCallback==_padGetTxByte && D_800ABC74==_padAllocGates);
+ assert(PadTxByteCallback==_padGetTxByte && PadAllocGatesFn==_padAllocGates);
  assert(PadChannelToPortFn==_padChannelToPort && PadPortToChannelPtr==_padPortToChannel);
  assert(PadSaveCommandCallback==_padSaveCommand);
  assert(PadChannelDispatchPtr==_padChannelDispatch && PadChannelBusyFn==_padChannelBusy && PadPacketDoneCallback==_padPacketDone);

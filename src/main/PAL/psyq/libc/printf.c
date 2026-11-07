@@ -26,7 +26,7 @@ typedef struct {
     s32 prec;
 } FmtState;
 
-extern FmtState D_800ABC20;
+extern FmtState PrintfFmtState;
 extern const s8 HexDigitsUpper[];
 extern const s8 StrHexDigitsLower[];
 
@@ -59,12 +59,12 @@ s32 PsyqSprintf(s8 *dst, const s8 *fmt, ...) {
                 goto literal;
             }
             {
-                register FmtState *pst asm("a1"); /* ASM_BARRIER: pin &D_800ABC20 to a1 */
+                register FmtState *pst asm("a1"); /* ASM_BARRIER: pin &PrintfFmtState to a1 */
                 register s32 w0 asm("v0"); /* ASM_BARRIER: pin struct copy w0 to v0 */
                 register s32 w1 asm("v1"); /* ASM_BARRIER: pin struct copy w1 to v1 */
                 register s32 w2 asm("a0"); /* ASM_BARRIER: pin struct copy w2 to a0 */
-                pst = &D_800ABC20;
-                __asm__ volatile("" : "+r"(pst)); /* ASM_BARRIER: materialize &D_800ABC20 in a1 */
+                pst = &PrintfFmtState;
+                __asm__ volatile("" : "+r"(pst)); /* ASM_BARRIER: materialize &PrintfFmtState in a1 */
                 w0 = ((s32 *)pst)[0];
                 w1 = ((s32 *)pst)[1];
                 w2 = ((s32 *)pst)[2];

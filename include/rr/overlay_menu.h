@@ -3,7 +3,7 @@
 #include "rr/menu_choice.h"
 
 extern s16 MenuCursor,MenuItemCount;
-void func_80041320(s32 row,s32 first,s32 second);
+void SetMenuTextRowCursor(s32 row,s32 first,s32 second);
 void StepMenuValue(s32 mode,s32 width,char *selection,s32 limit,s32 flags);
 void DrawMenuStepArrows(s32 x,s32 y,s32 width,s32 mode,s32 selected,s32 first,s32 second);
 s32 UpdateGlyphRow(s32 selected);

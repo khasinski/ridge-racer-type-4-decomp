@@ -4,7 +4,7 @@
 #include "types.h"
 
 int UpdateCarTrackNode();
-void func_8002679C(void *arg0);
+void UpdateWheelSpin(void *arg0);
 void UpdateCarGear();
 int FindTrackNodeAtXZ();
 

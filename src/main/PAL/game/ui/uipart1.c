@@ -96,7 +96,7 @@ extern int LapTimes[];
 extern int AddPrim();
 extern char TimeTextMMSS[];
 extern unsigned short D_8009F01C[];
-extern char D_8009F020[];
+extern char MsTimeText[];
 extern int ReplayState;
 extern int AngleDiffAbs();
 extern int rcos();
@@ -816,14 +816,14 @@ void DrawTimeRemainingForPlayer(int a, int b)
 void FormatMillisecondsTime(int t)
 {
     int a, b, c;
-    /* ASM_BARRIER: pins the D_8009F020 base to $v0 (original allocates it before the digit temporaries) */
+    /* ASM_BARRIER: pins the MsTimeText base to $v0 (original allocates it before the digit temporaries) */
     register char *p asm("$2");
 
     a = t / 1000;
     b = a / 60;
     c = a % 60;
     a = t % 1000;
-    p = D_8009F020;
+    p = MsTimeText;
     p[0] = b / 10 + '0';
     p[1] = b % 10 + '0';
     p[3] = c / 10 + '0';

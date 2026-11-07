@@ -28,7 +28,7 @@ extern int ModeFrame;
 extern T SaveSlotSelections[];
 extern short ModeId;
 extern short ModeGroup;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern int DrawUiRow();
 extern E *UiRows;
 extern short MenuResultCode;
@@ -44,7 +44,7 @@ extern int LoadCursor;
 extern int *MenuGridRecords;
 extern short MenuFrameState;
 extern int MenuArenaBase;
-extern char D_800FFC48[];
+extern char SharedWorkBuffer[];
 
 void func_8002FCEC();
 void func_8002FE98(void);
@@ -80,7 +80,7 @@ void func_8002FCEC() {
     func_8002F688();
     ModeGroup = 0;
     ModeId = 1;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     goto E2;
     T:
     a1 = 1;
@@ -92,7 +92,7 @@ void func_8002FCEC() {
     SetMenuFrameOptions(0, 1, 1);
     ModeGroup = 1;
     ModeId = 6;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     E2:
 }
 
@@ -109,7 +109,7 @@ void DrawFirstThreeUiRows(void) {
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800F4D8A (*(unsigned short (*))&D_800F4D8A)
+#define ModeSubState (*(unsigned short (*))&ModeSubState)
 #define MenuFadeTimer (*(unsigned short (*))&MenuFadeTimer)
 #define ModeId (*(unsigned short (*))&ModeId)
 #define ModeGroup (*(unsigned short (*))&ModeGroup)
@@ -117,7 +117,7 @@ void DrawFirstThreeUiRows(void) {
 void func_8002FEFC() {
     int s;
     int v, t, w;
-    s = D_800F4D8A;
+    s = ModeSubState;
     if (s != 0) goto C1;
     UiRows[MenuCursor].a = 0;
     StepMenuValue(0, 2, &MenuCursor, 3, 0);
@@ -134,7 +134,7 @@ void func_8002FEFC() {
     UiRows[1].b = v;
     UiRows[2].b = v;
     MenuFadeTimer = 0x40;
-    D_800F4D8A = 1;
+    ModeSubState = 1;
     goto END;
 L0C:
     if (PlayerControllers.a2c == 0) goto END;
@@ -145,7 +145,7 @@ L0C:
     UiRows[1].b = v;
     UiRows[2].b = v;
     MenuFadeTimer = 0x40;
-    D_800F4D8A = 1;
+    ModeSubState = 1;
     goto END;
 C1:
     if (s != 1) goto END;
@@ -166,23 +166,23 @@ L104:
     func_8002F688();
     ModeGroup = 0;
     ModeId = s;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     goto END;
 L120:
     MenuResultCode = 4;
     ModeGroup = s;
     ModeId = 0xD;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     goto END;
 L13C:
     ModeGroup = s;
     ModeId = 3;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 END:
     return;
 }
 
-#undef D_800F4D8A
+#undef ModeSubState
 #undef MenuFadeTimer
 #undef ModeId
 #undef ModeGroup
@@ -194,7 +194,7 @@ void func_8003016C(void)
 {
     int *sp = (int *)SCRATCHPAD;
     int *p;
-    AllocMenuGridRecords(D_800FFC48, 1);
+    AllocMenuGridRecords(SharedWorkBuffer, 1);
     InitMenuGrid(0, 0, 3, 0xF0, 0xA0);
     PsyqBzero((SCRATCHPAD + 0x8), 0x20);
     p = MenuGridRecords;
@@ -218,7 +218,7 @@ void func_8003016C(void)
     sp[0] = AddTileGrid2x2(CurrentDrawBuf + 0x70, sp[0], 0, 0, 0x140, 0x200, 8, 8, 8);
     ModeGroup = 1;
     ModeId = 0x10;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }
 
 #undef CurrentDrawBuf

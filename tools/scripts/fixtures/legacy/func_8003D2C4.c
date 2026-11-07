@@ -31,11 +31,11 @@ RrSpritePacket *DrawBadgeTitleBar(u32 *order,RrSpritePacket *cursor,s32 x,s32 y,
     y_stage=(s32)((u32)ypos+5U);
     offset=4;
     index=0;
-    descriptor_base=(u8*)D_8009F968;
+    descriptor_base=(u8*)UiBarDescriptors;
     selector=(u32)style*sizeof(RrUiBarDescriptor);
     descriptor=(RrUiBarDescriptor*)(descriptor_base+selector);
     cursor=AddSpritePrim(ordering,cursor,x_stage,y_stage,
-                       &D_8009F94C[descriptor->glyph],0x7FFB,0);
+                       &UiBarGlyphRects[descriptor->glyph],0x7FFB,0);
     out_order=ordering;
     out_cursor=cursor;
     x_stage=xpos;

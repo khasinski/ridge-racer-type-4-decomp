@@ -1,8 +1,8 @@
 /* RODATA 0x8001140C 0x4c */
 #include "game/data/cardini.h"
 #include "game/data/cardchk.h"
-extern int D_8010EF88[];
-extern int D_8010EF90[];
+extern int CardPollResult[];
+extern int CardLastUpdateResult[];
 extern unsigned char CardCheckCounts[];
 extern unsigned char CardSlotState[];
 extern unsigned char CardFileCounts[];
@@ -17,9 +17,9 @@ int a0; int a1; int a2;
 
     k = a0 & 0xFF;
     r = CardUpdate(k, a1 & 0xFF);
-    D_8010EF88[k] = r;
+    CardPollResult[k] = r;
     if (r != 0) {
-        D_8010EF90[k] = r;
+        CardLastUpdateResult[k] = r;
         switch (r) {
         case -2: CardCheckCounts[0]++; break;
         case -1: CardCheckCounts[1]++; break;
@@ -32,7 +32,7 @@ int a0; int a1; int a2;
         default: CardCheckCounts[8]++; break;
         }
     } else {
-        D_8010EF90[k] = 0;
+        CardLastUpdateResult[k] = 0;
     }
     i = 0;
     flag = 0;

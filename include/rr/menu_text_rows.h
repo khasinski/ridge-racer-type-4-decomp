@@ -20,7 +20,7 @@ typedef union {
  struct {u8 prefix[4];u8 at4[24];u8 at28[32];} marquee;
  struct {u8 prefix[0x34];s16 d34;u16 e36;u8 suffix[4];} state;
 } RrMenuTextRow60;
-extern RrMenuTextRow60 D_800FFC48[],*MenuTextRows;
+extern RrMenuTextRow60 SharedWorkBuffer[],*MenuTextRows;
 extern s32 MenuTextRowCount;
 /* Publish the full storage pointer, clear60*count bytes and return that captured
  * byte count. Count is in0..35791394 and the supplied owner covers all rows. */

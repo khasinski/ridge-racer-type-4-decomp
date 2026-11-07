@@ -42,7 +42,7 @@ int _cardCmd5BFixedBegin(a0,a1) int a0; int a1; {
 #undef CardWriteHandler
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_8011472C (*(char (*))&D_8011472C)
+#define CardCmdValue (*(char (*))&CardCmdValue)
 #define CardCmdBuffer ((char *)CardCmdBuffer)
 #define CardCommandReader ((int *)CardCommandReader)
 #define CardWriteHandler ((int *)CardWriteHandler)
@@ -66,7 +66,7 @@ int _cardCmd5CFixedBegin(a0, a1) int a0; int a1; {
     } else {
         CardCmdSector = 0xD800004;
     }
-    p = &D_8011472C;
+    p = &CardCmdValue;
     CardCmdBuffer = p;
     *p = 2;
     CardVarRxLength = 1;
@@ -77,7 +77,7 @@ int _cardCmd5CFixedBegin(a0, a1) int a0; int a1; {
     return 1;
 }
 
-#undef D_8011472C
+#undef CardCmdValue
 #undef CardCmdBuffer
 #undef CardCommandReader
 #undef CardWriteHandler

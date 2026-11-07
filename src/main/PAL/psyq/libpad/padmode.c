@@ -6,7 +6,7 @@ extern int PadComActive;
 extern int PadFirstChannel;
 extern int PadLastChannel;
 extern int PadPortTimeoutCounts;
-extern int D_8011442C;
+extern int PadPort2TimeoutCount;
 extern int _padIntPad();
 extern int D_8011441C[];
 
@@ -34,7 +34,7 @@ int PadEnableCom(int a0) {
             PadFirstChannel = 1;
         }
         if (a0 & 2) {
-            q = &D_8011442C;
+            q = &PadPort2TimeoutCount;
             PadLastChannel = 1;
             if (*q >= 0x96) {
                 PadResetChannelFn(PadChannelRecords + 0xF0);

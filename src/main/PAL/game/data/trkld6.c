@@ -31,8 +31,8 @@ extern int LoadVab();
 void func_8004E414(void);
 int LoadRaceSoundAndTrackStep(void);
 int LoadTrackVabsStep(void);
-int func_8004E8CC(void);
-int func_8004E990();
+int LoadModelBank8Step(void);
+int LoadVabAndTimsStep();
 
 void func_8004E414(void) {
     switch (RaceType) {
@@ -175,7 +175,7 @@ int LoadTrackVabsStep(void)
 #define RegisterModelBank ((int (*)())RegisterModelBank)
 #define RaceLoadCursor ((char *)RaceLoadCursor)
 
-int func_8004E8CC(void) {
+int LoadModelBank8Step(void) {
     int v;
     switch (RaceLoadStepIndex) {
     case 0:
@@ -207,7 +207,7 @@ int func_8004E8CC(void) {
 #define VabLoadArgs (*(int (*)[])&VabLoadArgs)
 #define LoadTimList ((int (*)())LoadTimList)
 
-int func_8004E990()
+int LoadVabAndTimsStep()
 {
     int r;
     int *q;

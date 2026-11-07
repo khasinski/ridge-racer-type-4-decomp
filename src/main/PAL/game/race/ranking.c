@@ -47,7 +47,7 @@ extern s32 ModeFrame;
 extern s16 ModeId;
 extern s16 ModeGroup;
 extern s8 LoadState;
-extern s16 D_800F4D8A;
+extern s16 ModeSubState;
 extern s16 MenuResultCode;
 extern int SetCdMixMode();
 
@@ -58,7 +58,7 @@ void RestoreSaveData(void);
 void func_8001F2CC(void);
 void SplashModeEnter(void);
 void SplashModeUpdate(void);
-void func_8001F400(void);
+void DrawTextStub(void);
 
 void InitDefaultTimeRecords(void) {
     int i, j, k;
@@ -169,13 +169,13 @@ void SplashModeEnter(void) {
     LoadSaveFromCardStep(0);
     VSyncThreshold = 0x80;
     ModeFrame = 0;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     LoadState = 0;
     AttractCycleCounter = 0;
     PendingModeId = 0x203;
     ModeGroup = 1;
     ModeId = 2;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }
 
 /* legacy typing of shared globals in this part of the unit */
@@ -185,12 +185,12 @@ void SplashModeEnter(void) {
 void SplashModeUpdate(void) {
     s32 temp_v0;
 
-    temp_v0 = func_8003BBBC();
+    temp_v0 = LoadSplashAssetsStep();
     if (temp_v0 == 1) {
         ModeFrame += 1;
         if (SplashLogoUpdate(LoadSaveFromCardStep(1) == 1) == temp_v0) {
-            SetCdMixMode(D_800AD55A);
-            D_800F4D8A = 0;
+            SetCdMixMode(SoundMonoFlag);
+            ModeSubState = 0;
             ModeGroup = (s16) ((u16) PendingModeId >> 8);
             ModeId = PendingModeId & 0xFF;
         }
@@ -200,6 +200,6 @@ void SplashModeUpdate(void) {
 #undef LoadSaveFromCardStep
 #undef PendingModeId
 
-void func_8001F400(void){ int a[6];
+void DrawTextStub(void){ int a[6];
 /* ASM_BARRIER: empty-frame function needs jr/addiu sp delay-slot epilogue form */
 asm volatile("" ::: "memory"); }

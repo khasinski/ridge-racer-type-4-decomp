@@ -1,6 +1,6 @@
 #include "rr/badge_rows.h"
 
-void *func_80030BEC(void *cursor, s32 style, s32 index) {
+void *DrawBadgePatternRows(void *cursor, s32 style, s32 index) {
     /* ASM_BARRIER: stage each returned cursor in A3 before outgoing arguments. */
     register void *result asm("$7") = cursor;
     /* ASM_BARRIER: preserve the unscaled style index in S7 across helpers. */

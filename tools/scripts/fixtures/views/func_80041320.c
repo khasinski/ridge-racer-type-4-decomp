@@ -68,7 +68,7 @@ extern RrRow60 *MenuTextRows;
 
 extern unsigned short D_8009FDA0[];
 
-void func_80041320(a0, a1, a2)
+void SetMenuTextRowCursor(a0, a1, a2)
 int a0;
 int a1;
 int a2;

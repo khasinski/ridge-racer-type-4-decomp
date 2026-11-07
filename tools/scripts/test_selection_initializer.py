@@ -45,9 +45,9 @@ static State actual,reference,*w;
 #define MenuArenas w->arenas
 #define PlayerCars w->vehicles
 #define SelectionRows w->selectionRows
-#define D_8010BFD8 w->table
-#define D_8010C0C0 w->counts
-#define D_8010C0D8 w->group
+#define CourseMenuChoices w->table
+#define ChoiceGlyphCounts w->counts
+#define CourseMenuPage w->group
 #define CourseMenuCursor w->index
 #define PlayerCourseChoices w->point
 #undef RR_PROJECTION_SCRATCH

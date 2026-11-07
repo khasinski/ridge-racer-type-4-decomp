@@ -57,7 +57,7 @@ void CdAudioStopStep()
 /* legacy typing of shared globals in this part of the unit */
 #define SoundState (*(struct { char pad[0x269C]; s32 a; char pad2[0x50]; s32 b; } (*))&SoundState)
 
-int func_800534B4(void) {
+int GetCdAudioPosition(void) {
     if (SoundState.a == 1) return SoundState.b;
     return -1;
 }

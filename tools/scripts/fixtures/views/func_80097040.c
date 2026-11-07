@@ -3,9 +3,9 @@
 #include "rr/counters.h"
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800ABC30 ((u32 *)D_800ABC30)
+#define I_STAT_RCnt ((u32 *)I_STAT_RCnt)
 
-#undef D_800ABC30
+#undef I_STAT_RCnt
 
 s32 GetRCnt(u32 id) {
     s32 index=id & 0xFFFF;

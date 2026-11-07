@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern short D_800AD55A;
+extern short SoundMonoFlag;
 void ApplySoundVolumes(void);
 
 #endif /* RR_GAME_GFX_COLOR_H */

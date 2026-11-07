@@ -20,13 +20,13 @@ extern int SlotOrder[];
 extern char D_800ACB0C[];
 extern int D_800A2124[];
 extern short CourseIndex;
-extern unsigned short D_800A2134;
-extern unsigned short D_800A2138[];
+extern unsigned short AttractCourseButtonMask;
+extern unsigned short DemoCourseButtonMap[];
 extern short MenuDispMode;
 extern short MenuScriptId;
 extern short ModeGroup;
 extern short ModeId;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern int MaskBitSetting;
 extern char RaceContext[];
 extern short SceneId;
@@ -117,10 +117,10 @@ void StartAttractDemo(int a0) {
     } while (i < 4);
     CourseIndex = -1;
     if (a0 == 1) {
-        m = D_800F3A3A & D_800A2134;
+        m = D_800F3A3A & AttractCourseButtonMask;
         if (m != 0) {
             i = 0;
-            e = D_800A2138;
+            e = DemoCourseButtonMap;
             do {
                 if (m == e[0])
                     CourseIndex = e[1];
@@ -145,10 +145,10 @@ void StartAttractDemo(int a0) {
     MenuScriptId = 0xA;
     ModeGroup = 1;
     ModeId = 0x23;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     if (a0 == 0) {
         StartSceneFadeIn(-1);
-        RaceBgmListIndex = D_800A19E0[CourseIndex] + 1;
+        RaceBgmListIndex = CourseBgmChoiceTable2[CourseIndex] + 1;
     } else {
         func_8005C13C(0);
         func_8005C988(2);
@@ -189,7 +189,7 @@ void AttractDemoRaceEnter(void) {
     MenuScriptId = 8;
     ModeGroup = 1;
     ModeId = 0x23;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     func_8005C13C(0);
     func_8005C988(1);
     DrawSubOtFlag = 0;

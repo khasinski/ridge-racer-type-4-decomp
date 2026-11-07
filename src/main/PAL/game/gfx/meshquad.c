@@ -46,7 +46,7 @@ RrMeshQuadG4 *DrawMeshQuadG4(RrMeshQuadG4 *p, s32 *s);
 RrMeshQuadF4 *DrawMeshQuadF4(RrMeshQuadF4 *p, s32 *s);
 void DrawMeshPrimList(int arg0, int arg1, int arg2);
 
-int func_800578D8(int a0)
+int StepCarPreviewDrive(int a0)
 {
   int sp10[2];
   int s1;

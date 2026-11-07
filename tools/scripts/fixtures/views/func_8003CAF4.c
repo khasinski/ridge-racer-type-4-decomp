@@ -177,8 +177,8 @@ void SetupRace(void)
     ClearTrackObjectStates(0);
     EngineRevDisplay.first = 0;
     EngineRevDisplay.second = 0;
-    D_800F2AB4.first = 0;
-    D_800F2AB4.second = 0;
+    EngineThrottleOn.first = 0;
+    EngineThrottleOn.second = 0;
     RaceVoiceFlags = 0;
     StopAllSoundAndReset();
     SelectCourseBgmTrack();

@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void func_8005D500(s32 arg0);
+void InitMotionControllerPanel(s32 arg0);
 void DrawMotionControllerPanel(void);
 void ResetSlotOrder(void);
 

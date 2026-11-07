@@ -3,7 +3,7 @@ extern int SetIntrMask(), GPU_CheckVersion(), GPU_memset();
 #include "rr/gpu.h"
 extern int _qin, SavedIntrMask;
 extern int _qout;
-extern char D_801127D0[], GpuCmdQueue[];
+extern char GpuCtlBuf[], GpuCmdQueue[];
 int _reset(a0)
 int a0;
 {
@@ -19,7 +19,7 @@ int a0;
         *(u32 *)DMA2_CHCR = 0x401;
         *(u32 *)DPCR |= 0x800;
         *(u32 *)GPU_STATUS = 0;
-        GPU_memset(D_801127D0, 0, 0x100);
+        GPU_memset(GpuCtlBuf, 0, 0x100);
         GPU_memset(GpuCmdQueue, 0, 0x1800);
         break;
     case 1:

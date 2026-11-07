@@ -18,7 +18,7 @@ typedef struct { int a, b, c, d; } w3g2V;
 struct w3g2q { int pad0[4]; int f10, f14, f18, f1C; char pad1[0x10]; int f30; int pad34; int f38; char pad2[0x18]; int f54;
   char pad3[0x1D4 - 0x58]; short s1D4, s1D6; short s1D8; short s1DA, s1DC, s1DE; unsigned short u1E0; short s1E2, s1E4, s1E6, s1E8, s1EA; };
 
-void func_80033808(struct w3g2q *p) {
+void UpdateCoastingCarCamera(struct w3g2q *p) {
     int sp[3];
     int v, t, u, v2, v3, v4;
     int *g = (int *)SCRATCHPAD;
@@ -37,7 +37,7 @@ void func_80033808(struct w3g2q *p) {
     t = AngleDiffSigned(p->f54, p->s1D4);
     *q = 0;
     p->f54 = p->f54 + t / 2;
-    func_8002679C(p);
+    UpdateWheelSpin(p);
     UpdateCarSteering(p);
     IntegrateCarMotion(p);
     UpdateCarTrackNode(p);

@@ -6,7 +6,7 @@
 typedef struct { u8 *position08; u32 mode0C,step10; } RrCdPositionView;
 typedef void (*RrCdDataNotify)(s32 event,u8 *result);
 extern RrCdPositionView D_800A67B8;
-extern u32 D_800A67D0;
+extern u32 CdReadExpectedPos;
 
 /* ILP32 PAL and LP64 native layouts: the first scalar word is padded to pointer
  * alignment, followed by two pointers and the remaining scalar fields. Native

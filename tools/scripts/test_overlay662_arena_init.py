@@ -38,7 +38,7 @@ static const s32 counters[8]={-1,0,1,2,3,INT32_MAX,INT32_MIN,-2};
 #define D_800F3918 w->s.first
 #define D_800F3910 w->s.second
 #define ovl662_D_8012625C w->s.stage
-#define D_800F4D8A w->s.phase
+#define ModeSubState w->s.phase
 #define ModeId w->s.nextScene
 #define ModeGroup w->s.scene
 #define ovl662_D_8012624C w->s.rects[0]

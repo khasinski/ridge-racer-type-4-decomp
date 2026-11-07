@@ -15,8 +15,8 @@ void ovl661_func_80117430(void) {
 
     ModeFrame=(u32)ModeFrame+1;
     ScreenFrame=(u32)ScreenFrame+1;
-    if ((D_800F4D8A == 3) || (LoadTrackNodesStep() == 1)) {
-        switch (D_800F4D8A) {
+    if ((ModeSubState == 3) || (LoadTrackNodesStep() == 1)) {
+        switch (ModeSubState) {
         case 0:
             SetMenuFrameOptions(1, 1, 1);
             temp_s0 = CourseMenuSelection;
@@ -76,16 +76,16 @@ void ovl661_func_80117430(void) {
                         MenuFadeTimer = 0x40;
                         LoadCursor = MenuArenas.first;
                         SeqFadeVolume(0, 0x3C);
-                        D_800F4D8A = 3;
+                        ModeSubState = 3;
                         SetMenuFrameOptions(0, 1, 1);
                     } else if ((s16) MenuCursor == 1) {
                         UiRows[23].byte14 = 0U;
-                        D_800F4D8A = 4;
+                        ModeSubState = 4;
                     } else if ((s16) MenuCursor == temp_s0_2) {
                         UiRows[24].byte14 = 0U;
                         UiRows[25].byte14 = 0;
                         MenuCursor = 0;
-                        D_800F4D8A = 5;
+                        ModeSubState = 5;
                     } else if ((s16) MenuCursor == 3) {
                         var_s2 = 1;
                     }
@@ -104,7 +104,7 @@ void ovl661_func_80117430(void) {
                         }
                         var_s0 += 1;
                     } while (var_s0 < 5);
-                    D_800F4D8A = 8;
+                    ModeSubState = 8;
                 }
             }
         default:
@@ -130,7 +130,7 @@ block_42:
                     MenuScriptId = 0;
                     ModeGroup = 1;
                     ModeId = 0x23;
-                    D_800F4D8A = 0;
+                    ModeSubState = 0;
                 }
             }
             goto block_63;
@@ -175,7 +175,7 @@ block_42:
             }
             goto block_59;
 block_57:
-            D_800F4D8A=0;
+            ModeSubState=0;
 block_59:
             DrawCourseMapPreview((s16) CourseMenuSelection, 1);
             goto block_63;
@@ -184,7 +184,7 @@ block_59:
                 ovl661_func_80115598(0);
                 ModeGroup = 1;
                 ModeId = 0x38;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
                 goto block_64;
             }
             var_s0=0;
@@ -200,14 +200,14 @@ block_64:
         DrawUiRow(var_s0 + 0x12);
         var_s0 += 1;
     } while (var_s0 < 5);
-    if ((UiRows[18].byte14 == 2) && ((u32) (D_800F4D8A - 4) >= 2U)) {
+    if ((UiRows[18].byte14 == 2) && ((u32) (ModeSubState - 4) >= 2U)) {
         DrawMenuStepArrows(0xCE, 0xD0, 0x5E, 0, (s32) (s16) CourseMenuSelection, -1, ovl661_D_80118414 + 1);
     }
-    if (D_800F4D8A == 4) {
+    if (ModeSubState == 4) {
         var_a0_3 = 0x17;
         goto block_73;
     }
-    if (D_800F4D8A == 5) {
+    if (ModeSubState == 5) {
         DrawUiRow(0x18);
         var_a0_3 = 0x19;
 block_73:

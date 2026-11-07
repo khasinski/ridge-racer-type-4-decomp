@@ -32,7 +32,7 @@ static unsigned scenario,mutation,selectedSeen[3],resourceSeen[128],clearSeen;
 #define LoadCursor w->s.cursor
 #define ModeGroup w->s.channel
 #define ModeId w->s.mode
-#define D_800F4D8A w->s.status
+#define ModeSubState w->s.status
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 static u32 next(void){u32 n=w->s.rng;n^=n<<13;n^=n>>17;n^=n<<5;return w->s.rng=n;}
 static unsigned ownerIndex(const void *p){unsigned i;assert((uintptr_t)p>UINT32_MAX);for(i=0;i<3;i++)if(p==&owners[i].player)return i;assert(0);return 0;}

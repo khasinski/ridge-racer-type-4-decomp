@@ -17,7 +17,7 @@ extern int InitMenuArenas();
 extern int CdAudioBeginPlay();
 extern int AddTileGrid2x2();
 extern unsigned int ModeFrame;
-extern unsigned short D_800F4D8A;
+extern unsigned short ModeSubState;
 extern S4D8 SelectionState;
 extern char PlayerCars[];
 extern int LoadCursor;
@@ -40,7 +40,7 @@ void func_800302C0()
     S4D8 *p;
     ModeFrame++;
     if (ModeFrame > 0x7FFFF) ModeFrame = 0x1000;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         p = &SelectionState;
         if (p->h1A == 6) {
@@ -52,30 +52,30 @@ void func_800302C0()
                 if (r >= 3) { r = 2; x = x * 3; }
                 InitCameraState(r, x);
                 SetRaceLoadCursor(LoadCursor);
-                D_800F4D8A = 3;
+                ModeSubState = 3;
                 goto tail;
             }
         } else if (ModeFrame >= 0x96) {
             if (MenuConfirmPressed == 0) {
                 if (ModeFrame < 0x177) goto tail;
             }
-            D_800F4D8A = 1;
+            ModeSubState = 1;
         } else {
             goto tail;
         }
         break;
     case 1:
         MenuFadeTimer = 0x20;
-        D_800F4D8A = 5;
+        ModeSubState = 5;
         break;
     case 3:
-        if (func_8004D7D8(SelectionRows[0], SelectionRows[1])) D_800F4D8A = 4;
+        if (LoadSelectionTimAndModelStep(SelectionRows[0], SelectionRows[1])) ModeSubState = 4;
         break;
     case 4:
         if (MenuConfirmPressed == 0 && ModeFrame < 0x177) goto tail;
         CdAudioInit();
         CdAudioSelectTrack(0, 1);
-        D_800F4D8A = 1;
+        ModeSubState = 1;
         break;
     case 5:
         MenuFadeTimer--;
@@ -86,13 +86,13 @@ void func_800302C0()
                 InitMenuArenas();
                 ModeGroup = 1;
                 ModeId = 0x21;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
                 LoadCursor = SavedLoadCursor;
                 CdAudioBeginPlay(0);
             } else {
                 ModeGroup = 1;
                 ModeId = 0x11;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
             }
             return;
         }
@@ -101,7 +101,7 @@ void func_800302C0()
         break;
     }
 tail:
-    func_800307B4(ModeFrame);
+    DrawRaceLoadScreen(ModeFrame);
     r = x = ModeFrame;
     if (x < 0x20) {
         sp[0] = (int)(x * 255 + (0x20 - x) * 8) / 32;

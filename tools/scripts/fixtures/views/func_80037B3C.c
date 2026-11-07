@@ -6,7 +6,7 @@ extern int InitPlayerCar();
 
 extern int InitComCars();
 
-extern int func_800293D0();
+extern int InitReplayBuffers();
 
 extern int PsyqBzero();
 
@@ -43,25 +43,25 @@ void InitRaceCars(int a0)
     default:
         i = 0;
         InitPlayerCar(PlayerCars, i, i);
-        func_800293D0(0, 0);
+        InitReplayBuffers(0, 0);
         break;
     case 1:
         InitPlayerCar(PlayerCars, 0, 7);
         InitComCars(7);
-        func_800293D0(0, 0);
+        InitReplayBuffers(0, 0);
         break;
     case 2:
         i = 0;
         InitPlayerCar(PlayerCars, i, i);
         i = 1;
         InitPlayerCar(PlayerCars + 1, i, i);
-        func_800293D0(1, 0);
+        InitReplayBuffers(1, 0);
         break;
     case 3:
         InitPlayerCar(PlayerCars, 0, NumCars - 2);
         InitPlayerCar(PlayerCars + 1, 1, NumCars - 1);
         InitComCars(NumCars - 2);
-        func_800293D0(1, 0);
+        InitReplayBuffers(1, 0);
         break;
     case 4:
         s1 = 0;
@@ -85,18 +85,18 @@ void InitRaceCars(int a0)
             } while (s1 < NumCars);
         }
         PlayerCount = s2;
-        func_800293D0(2, 0);
+        InitReplayBuffers(2, 0);
         break;
     case 5:
         PsyqBzero(PlayerCars, 0x320);
         InitComCars(7);
-        func_800293D0(1, 0);
+        InitReplayBuffers(1, 0);
         SavedRaceState = 2;
         break;
     case 6:
         InitPlayerCar(PlayerCars, 0, 1);
         InitComCars(1);
-        func_800293D0(0, 0);
+        InitReplayBuffers(0, 0);
         break;
     }
     TotalRaceTime = 0;

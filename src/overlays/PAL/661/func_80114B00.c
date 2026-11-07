@@ -73,10 +73,10 @@ block_7:
                 DrawLapCounter(var_s2, temp_s0->steering288.count22);
                 DrawRaceMinimap(var_s2);
                 DrawSteeringIndicator(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, var_s2);
-                func_80021C00(var_s2);
+                UpdateFinalLapIndicator(var_s2);
             } while (var_s2 < 2);
             DrawSplitScreenDivider(0);
-            func_800211A4(2);
+            DrawHudFrameSprites(2);
             SubmitRaceHudPackets(2);
         }
         var_s2 = 0;
@@ -159,7 +159,7 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
                 if (RaceState == 4) {
                     ModeGroup = 1;
                     ModeId = 0x15;
-                    D_800F4D8A = 0;
+                    ModeSubState = 0;
                 } else {
                     FinishRace();
                 }
@@ -203,10 +203,10 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
             DrawLapCounter(var_s2, temp_s0_3->steering288.count22);
             DrawRaceMinimap(var_s2);
             DrawSteeringIndicator(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, var_s2);
-            func_80021C00(var_s2);
+            UpdateFinalLapIndicator(var_s2);
         } while (var_s2 < 2);
         DrawSplitScreenDivider(0);
-        func_800211A4(2);
+        DrawHudFrameSprites(2);
         SubmitRaceHudPackets(2);
     }
     var_s2 = 0;
@@ -254,7 +254,7 @@ __asm__("" : : "r"(temp_v0_5),"r"(temp_v1_5));
         DrawTrackSceneryForPlayer(temp_s0_4);
         {register s32 playerArg2 __asm__("$6")=var_s2;
         temp_a0 = *(s16 *)((u8 *)&EngineRevDisplay+temp_s1);
-        temp_a1_3 = *(s16 *)((u8 *)&D_800F2AB4+temp_s1);
+        temp_a1_3 = *(s16 *)((u8 *)&EngineThrottleOn+temp_s1);
         var_s2 = temp_s0_4;
         SlotSetLevelProgram(temp_a0,temp_a1_3,playerArg2);}
         __asm__("" : : "r"(temp_s1));

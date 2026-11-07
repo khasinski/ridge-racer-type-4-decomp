@@ -51,8 +51,8 @@ extern struct {
 extern void (*GPU_printf)(const char *, ...);
 extern u8 D_800ABAC2[];
 extern u8 D_800ABAC3;
-extern char D_800ABB2C[];
-extern URECT16 D_800ABB34;
+extern char GpuDispEnv[];
+extern URECT16 GpuLastDispScreen;
 extern HRANGE DispHRangeTable[2][5];
 extern u8 DispDotClockDivisors[5];
 extern u32 D_80112788[10];
@@ -138,10 +138,10 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
         GpuFuncTable->f10(mode);
         env->pad0 = 8;
     }
-    if ((s16)D_800ABB34.x != env->screen.x ||
-        (s16)D_800ABB34.y != env->screen.y ||
-        (s16)D_800ABB34.w != env->screen.w ||
-        (s16)D_800ABB34.h != env->screen.h ||
+    if ((s16)GpuLastDispScreen.x != env->screen.x ||
+        (s16)GpuLastDispScreen.y != env->screen.y ||
+        (s16)GpuLastDispScreen.w != env->screen.w ||
+        (s16)GpuLastDispScreen.h != env->screen.h ||
         env->pad0 == 8) {
         s32 x0;
         /* ASM_BARRIER: keep x1 in $v1 */
@@ -192,14 +192,14 @@ DISPENV_T *PutDispEnv(DISPENV_T *env) {
         x1 = (y1 & 0x3FF) << 10;
         GpuFuncTable->f10(0x07000000 | x1 | (y0 & 0x3FF));
     }
-    PsyqMemcpy(D_800ABB2C, env, 0x14);
+    PsyqMemcpy(GpuDispEnv, env, 0x14);
     return env;
 }
 
 /* legacy typing of shared globals in this part of the unit */
 #define PsyqMemcpy ((int (*)())PsyqMemcpy)
 
-int GetDispEnv(int a) { PsyqMemcpy(a, D_800ABB2C, 0x14); return a; }
+int GetDispEnv(int a) { PsyqMemcpy(a, GpuDispEnv, 0x14); return a; }
 
 #undef PsyqMemcpy
 
@@ -299,8 +299,8 @@ void SetDrawEnv(u32 *arg0, RrFrameEnvironment *arg1) {
         signed_side=rect.rect.h;
         raw_side=(u16)rect.rect.h;
         if(signed_side>=0) {
-            over=(D_800ABAC6-1)<signed_side;
-            raw_limit=(u16)D_800ABAC6;
+            over=(GpuVramHeight-1)<signed_side;
+            raw_limit=(u16)GpuVramHeight;
             if(over)height=raw_limit-1;
             else height=raw_side;
         }else height=0;
@@ -371,8 +371,8 @@ void SetDrawEnv2(u32 *arg0, RrFrameEnvironment *arg1) {
         signed_side=rect.rect.h;
         raw_side=(u16)rect.rect.h;
         if(signed_side>=0) {
-            over=(D_800ABAC6-1)<signed_side;
-            raw_limit=(u16)D_800ABAC6;
+            over=(GpuVramHeight-1)<signed_side;
+            raw_limit=(u16)GpuVramHeight;
             if(over)height=raw_limit-1;
             else height=raw_side;
         }else height=0;
@@ -456,10 +456,10 @@ u32 get_cs(s32 a0, s32 a1) {
     shifted=(s32)((u32)a1<<16);
     coordinate=shifted>>16;
     if (coordinate >= 0) {
-        c = D_800ABAC6 - 1 < coordinate;
+        c = GpuVramHeight - 1 < coordinate;
         /* ASM_BARRIER: Preserve the separate unsigned limit reload after the signed comparison. */
         __asm__ volatile("" : "=r"(c) : "0"(c) : "memory");
-        t = *(u16 *)&D_800ABAC6;
+        t = *(u16 *)&GpuVramHeight;
         u = a1 & 0x3FF;
         if (c) {
             /* ASM_BARRIER: Preserve the original y value on the unclamped path. */
@@ -502,10 +502,10 @@ u32 get_ce(s32 a0, s32 a1) {
     shifted=(s32)((u32)a1<<16);
     coordinate=shifted>>16;
     if (coordinate >= 0) {
-        c = D_800ABAC6 - 1 < coordinate;
+        c = GpuVramHeight - 1 < coordinate;
         /* ASM_BARRIER: Preserve the separate unsigned limit reload after the signed comparison. */
         __asm__ volatile("" : "=r"(c) : "0"(c) : "memory");
-        t = *(u16 *)&D_800ABAC6;
+        t = *(u16 *)&GpuVramHeight;
         u = a1 & 0x3FF;
         if (c) {
             /* ASM_BARRIER: Preserve the original y value on the unclamped path. */
@@ -602,8 +602,8 @@ s32 _clr(RrGpuRectangle *arg0, u32 arg1) {
     signed_side=rect->rect.h;raw_side=(u16)rect->rect.h;
     rect->rect.w=width;
     if(signed_side>=0){
-        over=D_800ABAC6-1<signed_side;
-        limit=(u16)D_800ABAC6;
+        over=GpuVramHeight-1<signed_side;
+        limit=(u16)GpuVramHeight;
         if(over)height=limit-1;else height=raw_side;
     }else height=0;
     rect->rect.h=height;
@@ -737,8 +737,8 @@ s32 _dws(RrGpuRectangle *arg0,const u32 *arg1) {
     rect->rect.w=side;
     if(signed_side>=0){
         side=raw_side;
-        over=D_800ABAC6<signed_side;
-        limit=(u16)D_800ABAC6;
+        over=GpuVramHeight<signed_side;
+        limit=(u16)GpuVramHeight;
         if(over)side=limit;
     }else side=0;
     adjusted=rect->rect.w*(s16)side+1;
@@ -849,8 +849,8 @@ s32 _drs(RrGpuRectangle *arg0,u32 *arg1) {
     rect->rect.w=side;
     if(signed_side>=0){
         side=raw_side;
-        over=D_800ABAC6<signed_side;
-        limit=(u16)D_800ABAC6;
+        over=GpuVramHeight<signed_side;
+        limit=(u16)GpuVramHeight;
         if(over)side=limit;
     }else side=0;
     adjusted=rect->rect.w*(s16)side+1;
@@ -948,7 +948,7 @@ void _ctl(u32 command) {
     index = command >> 24;
     /* ASM_BARRIER: finish the port write before binding the history address. */
     __asm__ volatile("" : "=r"(index) : "0"(index) : "$1", "memory");
-    /* PAL RAM mapping: D_801127D0 is base plus 0x27D0. */
+    /* PAL RAM mapping: GpuCtlBuf is base plus 0x27D0. */
     base = (u8 *)0x80110000U;
     /* ASM_BARRIER: retain the base-plus-index byte store in the return delay slot. */
     __asm__("" : "=r"(base) : "0"(base));
@@ -959,7 +959,7 @@ void _ctl(u32 command) {
 #undef GPU_STATUS
 
 s32 _getctl(s32 index) {
-    /* PAL RAM mapping: D_801127D0 is 0x27D0 bytes into this page. */
+    /* PAL RAM mapping: GpuCtlBuf is 0x27D0 bytes into this page. */
     u8 *base = (u8 *)0x80110000U;
     /* ASM_BARRIER: retain the base register through the indexed byte load. */
     __asm__("" : "=r"(base) : "0"(base));

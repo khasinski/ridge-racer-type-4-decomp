@@ -5,7 +5,7 @@ void ovl659_init_results(void) {
     s32 offset;
 
     ovl659_rank_standings();
-    InitMenuTextRows(D_800FFC48);
+    InitMenuTextRows(SharedWorkBuffer);
     MenuCursor = 0;
     MenuItemCount = 2;
     offset = 0;
@@ -36,7 +36,7 @@ void ovl659_update_results(void) {
     s32 ready;
 
     ModeFrame = (s32)((u32)ModeFrame + 1U);
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         group = 0;
         if (MenuTextRows[3].signedBytes[3] >= 16) {
@@ -47,10 +47,10 @@ void ovl659_update_results(void) {
                 if (SelectionState.mode1A == 4) {
                     InitMenuArenas();
                     ResetScreenCounters();
-                    D_800F4D8A = 5;
+                    ModeSubState = 5;
                     break;
                 } else {
-                    D_800F4D8A = 3;
+                    ModeSubState = 3;
                 }
             }
         }
@@ -70,9 +70,9 @@ void ovl659_update_results(void) {
                 break;
             }
             if (i + lapOffset == PlayerCars[0].steering288.finish20) {
-                func_80041320(i + rowOffset, 1, -1);
+                SetMenuTextRowCursor(i + rowOffset, 1, -1);
             } else {
-                func_80041320(i + rowOffset, 0, -1);
+                SetMenuTextRowCursor(i + rowOffset, 0, -1);
             }
             FormatDecimalDigits((char *)&MenuTextRows[i + rowOffset].bytes[32], i + lapOffset + 1, 0);
             FormatRaceTime((char *)&MenuTextRows[i + rowOffset].bytes[35], LapTimes[i + lapOffset]);
@@ -81,23 +81,23 @@ void ovl659_update_results(void) {
     case 3:
         group = 1;
         if (SelectionState.retries08[SelectionState.phase17] == 0) {
-            D_800F4D8A = 7;
+            ModeSubState = 7;
         } else if (MenuTextRows[38].signedBytes[3] >= 14) {
             SetMenuFrameOptions(1, 1, 0);
-            func_80041320(MenuCursor + 37, 0, 0);
+            SetMenuTextRowCursor(MenuCursor + 37, 0, 0);
             StepMenuValue(0, 2, (char *)&MenuCursor, MenuItemCount, 0);
-            func_80041320(MenuCursor + 37, 1, 1);
+            SetMenuTextRowCursor(MenuCursor + 37, 1, 1);
             if (MenuConfirmPressed != 0) {
                 SetMenuFrameOptions(0, 1, 0);
                 PlaySfx(1);
                 if (MenuCursor == 0) {
-                    D_800F4D8A = 4;
+                    ModeSubState = 4;
                     MenuFadeTimer = 64;
                     SelectionState.retries08[SelectionState.phase17]--;
                     FormatDecimalDigits((char *)&MenuTextRows[40].bytes[36],
                                   SelectionState.retries08[SelectionState.phase17], 0);
                 } else {
-                    D_800F4D8A = 7;
+                    ModeSubState = 7;
                 }
             }
         }
@@ -111,7 +111,7 @@ void ovl659_update_results(void) {
             MenuScriptId = 0;
             ModeGroup = 1;
             ModeId = 35;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 5:
@@ -123,7 +123,7 @@ void ovl659_update_results(void) {
             }
         }
         if (MenuTextRows[0].signedBytes[2] == 9) {
-            D_800F4D8A = 6;
+            ModeSubState = 6;
             ovl659_preview_timer = 64;
         }
         break;
@@ -145,7 +145,7 @@ void ovl659_update_results(void) {
                 ModeGroup = ready;
                 ModeId = 11;
             }
-            D_800F4D8A = 0;
+            ModeSubState = 0;
             UpdateScreenFade(0x1000C);
             return;
         }
@@ -159,14 +159,14 @@ void ovl659_update_results(void) {
             }
         }
         if (MenuTextRows[0].signedBytes[2] == 9) {
-            D_800F4D8A = 8;
+            ModeSubState = 8;
         }
         break;
     case 8:
         InitMenuArenas();
         ModeGroup = 1;
         ModeId = 31;
-        D_800F4D8A = 0;
+        ModeSubState = 0;
         UpdateScreenFade(0x1000C);
         return;
     default:
@@ -185,7 +185,7 @@ void ovl659_update_results(void) {
             i++;
         } while (i < 11);
     }
-    if (MenuTextRows[0].signedBytes[2] >= 3 && D_800F4D8A < 6) {
+    if (MenuTextRows[0].signedBytes[2] >= 3 && ModeSubState < 6) {
         func_800411D4();
     }
 }

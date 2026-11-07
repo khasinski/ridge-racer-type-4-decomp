@@ -31,7 +31,7 @@ static unsigned scenario,mutation,phaseSeen[10];
 #define ovl663_available_courses choices
 #define ovl663_selected_record w->s.selection
 #define ovl663_available_course_count w->s.limit
-#define D_800F4D8A w->s.phase
+#define ModeSubState w->s.phase
 #define ModeGroup w->s.scene
 #define ModeId w->s.nextScene
 #define MenuFadeTimer w->s.timer

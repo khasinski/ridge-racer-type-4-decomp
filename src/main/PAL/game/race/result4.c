@@ -31,7 +31,7 @@ extern int GlyphRows;
 extern s32 VSyncThreshold;
 extern s16 ModeId;
 extern s16 ModeGroup;
-extern s16 D_800F4D8A;
+extern s16 ModeSubState;
 extern int DebugPrintStub();
 extern int SetMenuFrameOptions();
 extern void UpdateCourseListChoice(void);
@@ -46,7 +46,7 @@ extern struct { char pad[0x10]; short h10; } *BadgeRows;
 extern struct { char pad[4]; signed char b4; char b5; signed char b6; } *Dialogue;
 
 void func_8003662C();
-void func_8003687C(int a0);
+void InitNewCarScreen(int a0);
 void NewCarModeEnter(void);
 void NewCarModeUpdate(void);
 
@@ -169,7 +169,7 @@ int a0;
 #define BadgeRows ((X *)BadgeRows)
 #define Dialogue ((Y *)Dialogue)
 
-void func_8003687C(int a0) {
+void InitNewCarScreen(int a0) {
     int i = 0;
     int a;
     int t;
@@ -198,12 +198,12 @@ void func_8003687C(int a0) {
 
 void NewCarModeEnter(void) {
     UpdateScreenFade(0x10006);
-    func_8003687C(0);
+    InitNewCarScreen(0);
     ModeFrame = 0;
     VSyncThreshold = 0x80;
     ModeGroup = 1;
     ModeId = 0xA;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }
 
 /* legacy typing of shared globals in this part of the unit */
@@ -222,7 +222,7 @@ void NewCarModeUpdate(void) {
         a = 0x10007;
     }
     UpdateScreenFade(a);
-    if (func_80036C08(MenuStepDirection) != 0) {
+    if (CourseListMenuStep(MenuStepDirection) != 0) {
         if (BadgeRows->h10 == 3) {
             UpdateCourseListChoice();
             return;
@@ -249,7 +249,7 @@ void NewCarModeUpdate(void) {
                 CarPreviewSetup();
                 ModeGroup = r;
                 ModeId = 0x22;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
                 LoadCursor = s1;
                 DebugPrintStub(StrNewCarLog);
             }

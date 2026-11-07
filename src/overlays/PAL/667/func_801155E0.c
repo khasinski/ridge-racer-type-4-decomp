@@ -5,6 +5,6 @@ void ovl667_func_801155E0(void)
     SetupRaceAndScene();
     ModeGroup=1;
     ModeId=26;
-    D_800F4D8A=0;
+    ModeSubState=0;
     AddScreenFadeTiles(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,255,69);
 }

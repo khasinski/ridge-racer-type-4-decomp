@@ -52,11 +52,11 @@ s32 _cardSioHandler(void) {
                     __asm__("" : : : "$4", "memory");
                     flag=1;
                 }
-                event=D_800ABDC0;
+                event=CardSioIrqQueueEntry;
                 /* Ordinary write view preserves the original jump-delay store. */
                 *(u16 *)&CardSio0Regs->control=0;
             } else {
-                event=D_800ABDC0;
+                event=CardSioIrqQueueEntry;
                 /* Ordinary write view preserves the original jump-delay store. */
                 *(u16 *)&CardSio0Regs->control=0;
                 CardCommandStatus=0x21;

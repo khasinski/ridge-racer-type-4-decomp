@@ -33,7 +33,7 @@ s32 test_ram[0x4000];
 #define CardRxCount test_ram[0xBDF8/4]
 ''' + headers + '''
 s32 CardRetriesLeft,CardBytesRemaining;
-u8 D_800ABDC0[16];
+u8 CardSioIrqQueueEntry[16];
 RrInterruptRegisters test_irq[2],*I_STAT_Card;
 RrSerialPortRegisters test_serial[2],*CardSio0Regs;
 s32 (*test_poll)(void);void (*test_restart_hook)(void);
@@ -142,7 +142,7 @@ void test_reset(void) {
                     self.assertEqual(self.scalar('test_event_flag').value, 1)
                     self.assertEqual(self.scalar('test_event_counter').value, 0)
                     self.assertEqual(self.scalar('test_event_state').value, state)
-                    event = (C.c_uint8 * 16).in_dll(self.lib, 'D_800ABDC0')
+                    event = (C.c_uint8 * 16).in_dll(self.lib, 'CardSioIrqQueueEntry')
                     self.assertEqual(self.pointer('test_event_pointer').value, C.addressof(event))
                 self.assertEqual(bytes(self.serial), bytes(expected))
 

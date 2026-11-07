@@ -46,7 +46,7 @@ extern s32 D_8010C13C;
 #include "rr/race_setup_types.h"
 #include "game/camera/viewini.h"
 #include "game/race/raceinit.h"
-extern RrRaceSetupPair4 EngineRevDisplay,D_800F2AB4;
+extern RrRaceSetupPair4 EngineRevDisplay,EngineThrottleOn;
 extern RrRaceVehicle PlayerCars[2];
 extern s32 BestSplitTimes[3],SplitTimes[3],SplitDistances[3];
 extern s32 CourseBestLapTimes[48],CourseBestLap[16],CourseBestLapRecords[8];

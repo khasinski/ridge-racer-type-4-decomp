@@ -11,7 +11,7 @@ void ovl662_func_8011AA84(void) {
     if (count.value >= 28) {
         ModeGroup = 3;
         ModeId = 5;
-        D_800F4D8A = 0;
+        ModeSubState = 0;
     }
     }
 }

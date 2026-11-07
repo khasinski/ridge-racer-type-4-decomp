@@ -12,7 +12,7 @@
 #include "game/gfx/model.h"
 #include "game/sound/sndsys.h"
 
-extern int D_800A02BC;
+extern int CarSpecFileIndex;
 extern int D_800A029C[];
 extern short RaceType;
 extern int LoadTimList();
@@ -31,7 +31,7 @@ extern int D_800ACBBC;
 int LoadCarSpecStep();
 void SetRaceLoadCursor(s32 arg0);
 s32 GetRaceLoadCursor(void);
-int func_8004D7D8();
+int LoadSelectionTimAndModelStep();
 int func_8004D994();
 int LoadSlotBankStep(int a0, int a1);
 int LoadComSlotBankStep(int a0);
@@ -59,19 +59,19 @@ int a2;
       switch (RaceType)
     {
       case 1:
-        D_800A02BC = GetR4FileIndex(2, D_800A029C[a0] + (a2 + v));
+        CarSpecFileIndex = GetR4FileIndex(2, D_800A029C[a0] + (a2 + v));
         break;
 
       case 3:
-        D_800A02BC = GetR4FileIndex(2, (a0 * 4) + (a2 + e));
+        CarSpecFileIndex = GetR4FileIndex(2, (a0 * 4) + (a2 + e));
         break;
 
       case 5:
-        D_800A02BC = GetR4FileIndex(2, a0 + 0x74);
+        CarSpecFileIndex = GetR4FileIndex(2, a0 + 0x74);
         break;
 
       case 6:
-        D_800A02BC = GetR4FileIndex(2, (a0 * 2) + 0x64);
+        CarSpecFileIndex = GetR4FileIndex(2, (a0 * 2) + 0x64);
         break;
 
       default:
@@ -81,7 +81,7 @@ int a2;
     }
 
     case 1:
-      v = CdFileReadStart(D_800A02BC, RaceLoadCursor);
+      v = CdFileReadStart(CarSpecFileIndex, RaceLoadCursor);
       if (v != 0)
     {
       RaceLoadState++;
@@ -116,7 +116,7 @@ s32 GetRaceLoadCursor(void) {
 #define RaceLoadCursor ((int *)RaceLoadCursor)
 #define RaceContext (*(struct { char pad[0x24C]; char *p; char pad2[0x560 - 0x250]; char *r560; } (*))&RaceContext)
 
-int func_8004D7D8(a0, a1) int a0, a1;
+int LoadSelectionTimAndModelStep(a0, a1) int a0, a1;
 {
     int v, t, e;
     e = 0x86;

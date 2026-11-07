@@ -10,7 +10,7 @@ typedef struct { s16 value; unsigned short :16; } RrTrackOffsetArgument;
 
 void ProjectToTrackSegment(RrTrackOffsetArgument x, RrTrackOffsetArgument z, s32 node,
     s16 *fraction, s16 *lateral, s32 *remaining);
-void func_8004638C(RrRaceVehicle *vehicle);
+void UpdateComCarCurrentLane(RrRaceVehicle *vehicle);
 void UpdateCarTrackProjection(RrRaceVehicle *vehicle);
 
 RR_ASSERT_SIZE(RrTrackOffsetArgument,4);

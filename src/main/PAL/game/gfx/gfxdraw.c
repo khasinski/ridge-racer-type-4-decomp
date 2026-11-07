@@ -85,10 +85,10 @@ extern s32 rcos();
 
 void UpdateRaceCamera(int arg0, void *arg1);
 void func_800448EC(void);
-void func_80044920();
+void SetupLightMatrices();
 void RotTransPersOrigin(void);
 void InitRaceContextBuffers(void);
-u8 *func_80044BA0(s32 a0);
+u8 *AddShadowDiscPrims(s32 a0);
 
 void UpdateRaceCamera(int arg0, void *arg1) {
     int sp10[4];
@@ -212,7 +212,7 @@ void UpdateRaceCamera(int arg0, void *arg1) {
         sp38[0] = s2->f10;
         sp38[1] = s2->f14;
         sp38[2] = s2->f18;
-        func_80043ED4(sp38, s2->f2C, &scratch[2]);
+        SetCamAnglesRotateNegZ(sp38, s2->f2C, &scratch[2]);
         scratch[8] = LerpAngleWrap4096(s2, RaceContext.f48);
         scratch[2] += RaceContext.f20;
         scratch[3] += RaceContext.f24;
@@ -247,7 +247,7 @@ void func_800448EC(void) {
     D_800AC548[6] = 0;
 }
 
-void func_80044920(a0, a1) A0 *a0; V8 *a1;
+void SetupLightMatrices(a0, a1) A0 *a0; V8 *a1;
 {
     struct { V8 m10; V8 m30; V8 m50; } s;
     struct { short a[3][3]; short pad[7]; } t70;
@@ -306,7 +306,7 @@ void InitRaceContextBuffers(void) {
 
 #undef RaceContext
 
-u8 *func_80044BA0(s32 a0) {
+u8 *AddShadowDiscPrims(s32 a0) {
     w3t1_G *g = (w3t1_G *)(SCRATCHPAD + 0x7C);
     u8 *p = *(u8 **)SCRATCHPAD;
     s32 i;

@@ -35,13 +35,13 @@ extern char *CarClutData;
 extern char SaveDataBackup[];
 extern unsigned char SelectionRows[][4];
 extern int LoadTimList();
-extern char D_800FFC48[];
+extern char SharedWorkBuffer[];
 extern int InitMotionController();
 extern int func_8005B2D4();
 extern int SeqStartTrack();
 extern int LoadTimImage();
 extern struct { char pad[4]; signed char f4; char pad2[0x1B]; int f20; } *Dialogue;
-extern int D_800F4CA8;
+extern int DialogueContext;
 extern struct { char pad[0x17]; signed char f17; char pad2[2]; short f1A; unsigned char f1C; } SelectionState;
 extern int D_800AD564;
 extern unsigned char D_800AD4F4;
@@ -51,10 +51,10 @@ extern char *TrackNodes;
 extern int TrackNodeCount;
 extern char D_8010C220[];
 
-int func_8003A79C(void);
+int LoadRaceSceneStep(void);
 int LoadModeMenuAssetsStep(void);
-int func_8003A9E8(void);
-int func_8003AAE8(void);
+int LoadSelectedModeFileStep(void);
+int ReinitMenuArenasStep(void);
 int LoadSceneStep(void);
 int LoadAllCarsStep(void);
 int LoadCarRangeStep(int arg0, int arg1);
@@ -66,9 +66,9 @@ int LoadGlyphRowsStep(void);
 int LoadDialogueStep(void);
 int LoadDialogueTableStep(void);
 int LoadTrackNodesStep(void);
-int func_8003BBBC(void);
+int LoadSplashAssetsStep(void);
 
-int func_8003A79C(void) {
+int LoadRaceSceneStep(void) {
     int r = 0;
     int i;
     switch (LoadState) {
@@ -144,7 +144,7 @@ int LoadModeMenuAssetsStep(void) {
 #define LoadIndex (*(unsigned char (*))&LoadIndex)
 #define ModeMenuCursorSaved (*(unsigned char (*))&ModeMenuCursorSaved)
 
-int func_8003A9E8(void) {
+int LoadSelectedModeFileStep(void) {
     int r = 0;
     int v;
     switch (LoadState) {
@@ -176,7 +176,7 @@ int func_8003A9E8(void) {
 #undef LoadIndex
 #undef ModeMenuCursorSaved
 
-int func_8003AAE8(void) {
+int ReinitMenuArenasStep(void) {
     int r = 0;
     switch (LoadState) {
     case 0:
@@ -341,7 +341,7 @@ int LoadIndexedTimStep(void) {
     int r = 0;
     switch (LoadState) {
     case 0:
-        LoadCursor = (int)D_800FFC48;
+        LoadCursor = (int)SharedWorkBuffer;
         LoadState = 1;
         LoadIndex = 0;
     case 1:
@@ -379,7 +379,7 @@ int LoadResultsSceneStep(void) {
         if (CdFileBytesLoaded()) {
             LoadTimList(LoadCursor);
             LoadState = 3;
-            LoadCursor = D_800ACC1C;
+            LoadCursor = LoadCursorMark;
             RaceLoadReset();
         }
         break;
@@ -512,14 +512,14 @@ int LoadDialogueStep(void) {
         Dialogue = (void *)v0;
         v0 += 0x348;
         LoadDestCursor = v0;
-        if (D_800F4CA8 == 1 && SelectionState.f17 == 7 && SelectionState.f1A == 4) {
+        if (DialogueContext == 1 && SelectionState.f17 == 7 && SelectionState.f1A == 4) {
             SeqStartTrack(1);
         }
         InitDialogueState(Dialogue);
         LoadState = 1;
         break;
     case 1:
-        if (D_800F4CA8 == 1) {
+        if (DialogueContext == 1) {
             s2 = 0x41;
             s1 = 0x14;
             s2 = SelectionState.f1C * 9 + (SelectionState.f17 + s1);
@@ -556,10 +556,10 @@ int LoadDialogueStep(void) {
         a0 = LoadIndex;
         s0 = D_800ACBFC[Dialogue->f4 * 8 + a0];
         if (s0 != -1) {
-            if (D_800F4CA8 == 0) {
+            if (DialogueContext == 0) {
                 s1 = 8;
                 s0 <<= 3;
-            } else if (D_800F4CA8 == 1) {
+            } else if (DialogueContext == 1) {
                 s1 = 8;
                 if (a0 == 0) {
                     s1 = 0x2E;
@@ -614,22 +614,22 @@ int LoadDialogueTableStep(void) {
         LoadState = 1;
         LoadIndex = 0;
     case 1:
-        if (CdFileReadStart(GetR4FileIndex(1, 0x42), D_800FFC48)) {
+        if (CdFileReadStart(GetR4FileIndex(1, 0x42), SharedWorkBuffer)) {
             LoadState = 2;
         }
         break;
     case 2:
         if (CdFileBytesLoaded()) {
-            s = D_800FFC48;
+            s = SharedWorkBuffer;
             LoadTimImage(s);
             s += 0x4E20;
             LoadState = 3;
             DialogueState = (Z *)s;
             InitDialogueState(s);
     case 3:
-            if (D_800F4CA8 == 2) {
+            if (DialogueContext == 2) {
                 a1 = 0x44;
-            } else if (D_800F4CA8 == 4) {
+            } else if (DialogueContext == 4) {
                 a1 = 0x46;
                 DialogueState->b = 2;
             } else {
@@ -682,7 +682,7 @@ int LoadTrackNodesStep(void) {
 #define RaceLoadReset ((void (*)())RaceLoadReset)
 #define SoundCloseVabsAndReset ((void (*)())SoundCloseVabsAndReset)
 
-int func_8003BBBC(void) {
+int LoadSplashAssetsStep(void) {
     int r = 0;
     int t;
     switch (LoadState) {

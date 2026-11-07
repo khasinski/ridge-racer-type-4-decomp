@@ -42,7 +42,7 @@ void cb_read(s32 event,u8 *data) {
                     CdGetSector(header,3);
                 }
                 now=CdPosToInt(header);
-                completed=&D_800A67D0;
+                completed=&CdReadExpectedPos;
                 /* ASM_BARRIER: capture the complete counter address before load. */
                 __asm__("" : "+r"(completed));
                 if ((u32)now!=*completed) {

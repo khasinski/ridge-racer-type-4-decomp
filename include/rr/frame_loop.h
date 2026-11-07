@@ -10,7 +10,7 @@ extern u8 *CurrentDrawBuf;
 extern u32 FrameCounter;
 extern s32 VSyncThreshold, DrawSubOtFlag, ModeFrame, DrawBufIndex;
 extern u16 ModeGroup, ModeId;
-extern s16 D_800F4D8A;
+extern s16 ModeSubState;
 
 /* Initializes once, then runs indefinitely. Helpers may replace the current
  * context, frame counter, dispatch selectors and frame-wait threshold.

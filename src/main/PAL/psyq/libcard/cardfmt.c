@@ -4,7 +4,7 @@
 s32 _card_format(s32 arg0){
     register s32 port=arg0;
     register s32 i=0;
-    RrCardFormatSector *scratch=&D_80114328;
+    RrCardFormatSector *scratch=&CardFormatSectorBuf;
     RrCardDirectoryRecord *base=CardFormatDirRecords;
     register s32 state=0xA0,last=0xFFFF,success=1;
     register s32 next;

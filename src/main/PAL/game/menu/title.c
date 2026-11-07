@@ -54,7 +54,7 @@ extern int MenuConfirmPressed;
 extern int D_800F3A68;
 extern int D_800F3A6C;
 extern short ModeGroup;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern int ViewUsesCarTrackNode;
 extern int CarTable[];
 extern Car ComCars[];
@@ -304,8 +304,8 @@ void AttractDemoRaceUpdate()
   else
   {
     ViewUsesCarTrackNode = 1;
-    D_800ABFE8 = ComCars[0].wF0;
-    func_800437D8(ComCars, &RaceContext.w4ec);
+    ViewCarTrackNode = ComCars[0].wF0;
+    SetCarAttachedCamera(ComCars, &RaceContext.w4ec);
   }
   if (RaceContext.w4c4 >= 0x178)
   {
@@ -354,7 +354,7 @@ void AttractDemoRaceUpdate()
         ModeGroup = 2;
         ModeId = 8;
       }
-      D_800F4D8A = 0;
+      ModeSubState = 0;
       MaskBitSetting = 0;
       __asm__ volatile("" ::: "memory"); /* ASM_BARRIER: prevent hoisting argument setup for SoundSetMasterVolume before stores */
       SoundSetMasterVolume(0, 0);
@@ -366,7 +366,7 @@ void AttractDemoRaceUpdate()
     AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x19 - D_800ACB0C) * 8, 0x45);
   }
   {
-    register int c8_2 asm("a2") = RaceContext.w4c8; /* ASM_BARRIER: pin w4c8 to a2 across w28a4 clamping and func_800534B4 third argument */
+    register int c8_2 asm("a2") = RaceContext.w4c8; /* ASM_BARRIER: pin w4c8 to a2 across w28a4 clamping and GetCdAudioPosition third argument */
     if (c8_2 == 1)
     {
       if (RaceContext.w538 == 0)
@@ -391,7 +391,7 @@ void AttractDemoRaceUpdate()
         if (old != SoundState.w28a4)
         {
           RaceContext.w4d4 = 0x1D;
-          if (func_800534B4(&SoundState, old, c8_2) >= 0)
+          if (GetCdAudioPosition(&SoundState, old, c8_2) >= 0)
         {
           if (RaceContext.w4d0 == 0)
           {
@@ -408,7 +408,7 @@ void AttractDemoRaceUpdate()
       {
         if (RaceContext.w4dc == 0)
         {
-          if (func_800534B4() < 0)
+          if (GetCdAudioPosition() < 0)
           {
             if (RaceContext.w4d8 == 0)
             {

@@ -15,5 +15,5 @@ void ovl662_func_80118930(void) {
     SetMenuFrameOptions(0, 1, 1);
     ModeGroup = 1;
     ModeId = 28;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
 }

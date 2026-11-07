@@ -59,7 +59,7 @@ static u8 seenCounts[10];
 #define CourseMenuSelection w->s.setting
 #define ModeGroup w->s.mode
 #define ModeId w->s.position
-#define D_800F4D8A w->s.timer
+#define ModeSubState w->s.timer
 #define ModelTexturePage w->s.driverSetting
 #define ovl660_title format660
 #define ovl662_D_8011487C format662

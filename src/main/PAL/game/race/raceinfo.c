@@ -33,7 +33,7 @@ extern struct T *TrackNodes;
 extern int TrackNodeCount;
 extern short ReverseCourse;
 extern char Options[];
-extern short D_8010BFD0[];
+extern short RaceIntroCameraOffset[];
 extern void ResetCarSlotBuffers();
 extern void BuildRotMatrixZ();
 extern void BuildRotMatrixY();
@@ -179,9 +179,9 @@ void UpdateRaceIntroCamera(RrRaceVehicle *a0, int a1)
   if (a1 < 2)
   {
     ResetCarSlotBuffers();
-    D_8010BFD0[0] = 0;
-    D_8010BFD0[2] = -0x100;
-    D_8010BFD0[1] = -0x100;
+    RaceIntroCameraOffset[0] = 0;
+    RaceIntroCameraOffset[2] = -0x100;
+    RaceIntroCameraOffset[1] = -0x100;
     if ((a1 == 1) && (a0 == PlayerCars))
     {
       i = 0;
@@ -203,7 +203,7 @@ void UpdateRaceIntroCamera(RrRaceVehicle *a0, int a1)
   {
     s0 = (a1 << 11) / 75;
     v0 = rsin(s0);
-    s5 = D_8010BFD0;
+    s5 = RaceIntroCameraOffset;
     if (v0 < 0)
     {
       v0 += 7;
@@ -222,7 +222,7 @@ void UpdateRaceIntroCamera(RrRaceVehicle *a0, int a1)
   MulMatrix(m20, m40);
   BuildRotMatrixZ(m40, a0->rot58);
   MulMatrix2(m20, m40);
-  ApplyMatrix(m40, D_8010BFD0, sp10);
+  ApplyMatrix(m40, RaceIntroCameraOffset, sp10);
   g[2] = a0->pos10[0] + sp10[0];
   g[3] = a0->pos10[1] + sp10[1];
   g[4] = a0->pos10[2] + sp10[2];

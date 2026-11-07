@@ -8,13 +8,13 @@
 #undef LightMatrix
 
 /* legacy typing of shared globals in this part of the unit */
-#define func_80060C70 ((int (*)())func_80060C70)
+#define RunCourseDrawChain ((int (*)())RunCourseDrawChain)
 
 #define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 
 #define func_80071348 ((int (*)())func_80071348)
 
-#undef func_80060C70
+#undef RunCourseDrawChain
 
 #undef BuildViewSegmentObjectList
 
@@ -23,11 +23,11 @@
 /* legacy typing of shared globals in this part of the unit */
 #define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 
-#define func_80060C70 ((int (*)())func_80060C70)
+#define RunCourseDrawChain ((int (*)())RunCourseDrawChain)
 
 #undef BuildViewSegmentObjectList
 
-#undef func_80060C70
+#undef RunCourseDrawChain
 
 extern int SetTransMatrix();
 

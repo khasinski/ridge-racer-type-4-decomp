@@ -43,7 +43,7 @@ void func_80051248(int a0) {
 
 void SetLoopVoiceVolumes(int a0, int a1, int a2) {
     int i;
-    if (D_800AD55A == 0) {
+    if (SoundMonoFlag == 0) {
         SoundState.e[a0].d[0] = a1;
         SoundState.e[a0].d[1] = a2;
     } else {

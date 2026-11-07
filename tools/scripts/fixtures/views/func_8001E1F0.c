@@ -2,7 +2,7 @@
 
 #include "rr/animated_sprite_grid.h"
 
-#define G D_8010BF78
+#define G IntroSceneState
 
 #define H BadgeRows
 

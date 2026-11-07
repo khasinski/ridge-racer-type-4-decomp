@@ -14,6 +14,6 @@ int RequestCarLoad(int a0, int a1, int a2, int a3, int a4);
 s32 CarLoadStep(void);
 int RequestVramImageLoad(void);
 int VramImageLoadStep(void);
-int func_80013904(char *a0_in, int a1_in);
+int SetCarTrackLighting(char *a0_in, int a1_in);
 
 #endif /* RR_GAME_DATA_CDFILE2_H */

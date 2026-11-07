@@ -29,7 +29,7 @@ RrBiosDevice test_devices[8],test_other_devices[8];
 RrBiosDevice *test_kernel_table;
 u32 test_kernel_bytes;
 char test_name_page[65536];
-#define D_801143C0 (test_name_page+0x43C0)
+#define CardFirstFileDeviceName (test_name_page+0x43C0)
 char *test_requested_path;
 void *test_directory;
 u32 test_first_calls;

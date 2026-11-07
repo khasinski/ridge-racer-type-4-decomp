@@ -12,7 +12,7 @@ extern RrLibCompletionCallback CdDataCallback(RrLibCompletionCallback);
 extern s32 CdPosToInt(void *);
 extern s32 PsyqPuts(const char *, ...);
 extern const char StrCdReadShellOpen[], StrCdReadRetry[];
-extern volatile u32 D_800A67BC;
+extern volatile u32 DsSavedCdMode;
 extern void cb_read(s32, u8 *);
 extern void cb_data(void);
 
@@ -67,7 +67,7 @@ s32 cd_read_retry(s32 restart) {
     CdFlush();
     /* ASM_BARRIER: form the captured mode address after reset returns. */
     __asm__("" : : : "$17");
-    mode_slot = &D_800A67BC;
+    mode_slot = &DsSavedCdMode;
     /* ASM_BARRIER: preserve the complete address before the mode load. */
     __asm__("" : "+r"(mode_slot));
     requested = *mode_slot;

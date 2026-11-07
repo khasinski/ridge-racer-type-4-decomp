@@ -11,7 +11,7 @@ extern int UpdateBadgeRowAnim();
 extern int AddDrawAreaPrim();
 extern int AddTilePrim();
 extern int AddSpriteWithDrawMode();
-extern int func_80030BEC();
+extern int DrawBadgePatternRows();
 extern int BuildCameraMatrices();
 extern int ScaleMatrixRow1();
 extern int SetGeomOffset();
@@ -25,13 +25,13 @@ typedef struct { short h0, h2, h4, h6, h8, ha, hc, he, h10, h12, h14, h16, h18, 
 extern char *BadgeRows;
 #define G ((E1C *)BadgeRows)
 
-void func_800307B4(a0) int a0;
+void DrawRaceLoadScreen(a0) int a0;
 {
     int s0, s1, t0;
     char *p;
     int one;
     s1 = *(int *)SCRATCHPAD;
-    if (a0 < 2 && D_800F4D8A == 0) {
+    if (a0 < 2 && ModeSubState == 0) {
         s0 = 0;
         do {
             t0 = (s0 == 1 || s0 == 7) ? 8 : 0;
@@ -58,7 +58,7 @@ void func_800307B4(a0) int a0;
     s1 = AddSpriteWithDrawMode(CurrentDrawBuf + 0x70, s1, G->h4 + 0x18, G->h6, 0x1C, 0x20, 0x7C, 0x3C, 0x4A, 0x2E29, 0, 0x80);
     s1 = AddSpriteWithDrawMode(CurrentDrawBuf + 0x70, s1, G->h4 + 0x38, G->h6, 0xA8, 0x20, 0, 0, 0x4A, 0x2E28, 1, 0x80);
     s1 = AddDrawAreaPrim(CurrentDrawBuf + 0x70, s1, G->h14, G->h16, G->h18, G->h1a);
-    s1 = func_80030BEC(s1, 0x12, 2);
+    s1 = DrawBadgePatternRows(s1, 0x12, 2);
     s1 = AddBadgeSpriteStrip(0xE, CurrentDrawBuf + 0x70, s1, G->h20, G->h22, 0x80);
     s1 = AddBadgeSpriteStrip(0xF, CurrentDrawBuf + 0x70, s1, G->h20 + 0x90, G->h22, 0x80);
     s1 = AddBadgeSpriteStrip(0x10, CurrentDrawBuf + 0x70, s1, G->h20, G->h22, 0x80);

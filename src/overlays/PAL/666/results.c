@@ -5,7 +5,7 @@ void ovl666_init_results(void) {
     s32 base;
 
     /* The selected label bank is0..2; the two progress selectors are0..3. */
-    InitMenuTextRows(D_800FFC48);
+    InitMenuTextRows(SharedWorkBuffer);
     MenuCursor = 0;
     MenuItemCount = 3;
     if (ovl666_result_kind == 0) {
@@ -29,9 +29,9 @@ void ovl666_init_results(void) {
 }
 
 s32 ovl666_update_retry_choice(s32 mode) {
-    func_80041320(MenuCursor + 37, 0, 0);
+    SetMenuTextRowCursor(MenuCursor + 37, 0, 0);
     StepMenuValue(0, 2, (char *)&MenuCursor, 3, 0);
-    func_80041320(MenuCursor + 37, 1, 1);
+    SetMenuTextRowCursor(MenuCursor + 37, 1, 1);
     if (MenuConfirmPressed) {
         PlaySfx(1);
         return MenuCursor;
@@ -48,12 +48,12 @@ void ovl666_update_results(void) {
 
     ModeFrame = (s32)((u32)ModeFrame + 1U);
     ScreenFrame++;
-    switch (D_800F4D8A) {
+    switch (ModeSubState) {
     case 0:
         if (TotalRaceTime == -1) {
             group = 1;
             if (MenuTextRows[11].signedBytes[2] >= 2) {
-                D_800F4D8A = 3;
+                ModeSubState = 3;
             }
         } else {
             group = 0;
@@ -61,7 +61,7 @@ void ovl666_update_results(void) {
                 SetMenuFrameOptions(1, 1, 0);
                 if (MenuConfirmPressed != 0) {
                     PlaySfx(1);
-                    D_800F4D8A = 3;
+                    ModeSubState = 3;
                     SetMenuFrameOptions(0, 1, 0);
                 }
             }
@@ -81,7 +81,7 @@ void ovl666_update_results(void) {
                 ResetScreenCounters();
                 InitMenuArenas();
                 MenuFadeTimer = 64;
-                D_800F4D8A = MenuCursor + 4;
+                ModeSubState = MenuCursor + 4;
             }
         }
         break;
@@ -96,7 +96,7 @@ void ovl666_update_results(void) {
             MenuScriptId = 0;
             ModeGroup = 1;
             ModeId = 35;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 5:
@@ -107,7 +107,7 @@ void ovl666_update_results(void) {
         group = 3;
         if (MenuFadeTimer <= 0) {
             group = -1;
-            D_800F4D8A = 8;
+            ModeSubState = 8;
         }
         break;
     case 6:
@@ -119,7 +119,7 @@ void ovl666_update_results(void) {
         if (MenuFadeTimer <= 0) {
             ModeGroup = 1;
             ModeId = 3;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     case 8:
@@ -129,7 +129,7 @@ void ovl666_update_results(void) {
             ovl666_init_menu();
             ModeGroup = ready;
             ModeId = 79;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         return;
     default:

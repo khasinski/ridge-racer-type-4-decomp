@@ -6,15 +6,15 @@
 extern int RaceContext[];
 extern short ModeId;
 extern short ModeGroup;
-extern short D_800F4D8A;
+extern short ModeSubState;
 extern void CdAudioInit();
 extern void CdAudioSelectTrack();
 extern void StartSceneFadeOut();
 extern int IntroScriptStep();
 
-void func_8005D310(void);
+void IntroUpdate(void);
 
-void func_8005D310(void) {
+void IntroUpdate(void) {
     int s1 = IntroScriptStep();
     switch (RaceContext[0x444 / 4]) {
     case 0:
@@ -34,7 +34,7 @@ void func_8005D310(void) {
             ModeGroup = s1;
             ModeId = 7;
             RaceContext[0x444 / 4] = 0;
-            D_800F4D8A = 0;
+            ModeSubState = 0;
         }
         break;
     }

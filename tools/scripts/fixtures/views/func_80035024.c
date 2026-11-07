@@ -57,7 +57,7 @@ extern int RaceTimeRemaining;
 
 extern short LinkRoleSlot;
 
-extern int D_800F3A64;
+extern int MenuCancelPressed;
 
 int UpdateLinkHandshake(int a0)
 {
@@ -179,7 +179,7 @@ int UpdateLinkHandshake(int a0)
         {
           *t = -1;
         }
-        if (D_800F3A64 != 0)
+        if (MenuCancelPressed != 0)
         {
           LinkEntryState[1 - (q3 = LinkRoleSlot)] = -1;
           _sio_control(1, 1, 0, q3);

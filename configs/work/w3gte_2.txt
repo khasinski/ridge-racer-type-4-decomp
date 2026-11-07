@@ -26,7 +26,7 @@ DrawWireQuadVerts1 0x8006d5a4 0x4a0 gte
 func_8006DB0C 0x8006db0c 0x524 gte
 SetFogNearFar 0x8006f2e0 0x310 gte
 func_8006F6F0 0x8006f6f0 0x9bc gte
-func_80070BA4 0x80070ba4 0x794 gte
+UpdateTrackObjectParticles 0x80070ba4 0x794 gte
 DrawTrackObjects 0x800747ec 0x3248 gte
 SetTrackObjectTransform 0x80077bac 0x15c gte
 InitGeom 0x800907fc 0x80 gte

@@ -303,7 +303,7 @@ block_34:
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(struct { char pad[0x3D8]; char *p; } (*))&RaceContext)
 
-void func_8005C024(void)
+void DrawCameraMotionModel(void)
 {
     char sp10[32];
     char sp30[32];

@@ -23,10 +23,10 @@ u32 get_cs(s32 a0, s32 a1) {
     shifted=(s32)((u32)a1<<16);
     coordinate=shifted>>16;
     if (coordinate >= 0) {
-        c = D_800ABAC6 - 1 < coordinate;
+        c = GpuVramHeight - 1 < coordinate;
         /* ASM_BARRIER: Preserve the separate unsigned limit reload after the signed comparison. */
         __asm__ volatile("" : "=r"(c) : "0"(c) : "memory");
-        t = *(u16 *)&D_800ABAC6;
+        t = *(u16 *)&GpuVramHeight;
         u = a1 & 0x3FF;
         if (c) {
             /* ASM_BARRIER: Preserve the original y value on the unclamped path. */
@@ -69,10 +69,10 @@ u32 get_ce(s32 a0, s32 a1) {
     shifted=(s32)((u32)a1<<16);
     coordinate=shifted>>16;
     if (coordinate >= 0) {
-        c = D_800ABAC6 - 1 < coordinate;
+        c = GpuVramHeight - 1 < coordinate;
         /* ASM_BARRIER: Preserve the separate unsigned limit reload after the signed comparison. */
         __asm__ volatile("" : "=r"(c) : "0"(c) : "memory");
-        t = *(u16 *)&D_800ABAC6;
+        t = *(u16 *)&GpuVramHeight;
         u = a1 & 0x3FF;
         if (c) {
             /* ASM_BARRIER: Preserve the original y value on the unclamped path. */

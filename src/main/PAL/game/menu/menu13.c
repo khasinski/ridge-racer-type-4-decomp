@@ -50,7 +50,7 @@ void UpdateDialogue(int a0, int a1, S *s) {
     }
     switch (s->st) {
     case 0:
-        p = D_800F2ED0[(signed char)(s->b4 % 40)];
+        p = DialogueLinePtrs[(signed char)(s->b4 % 40)];
         s->p = p;
         s->sC = p[0] & 0xFFF;
         s->p = p + 1;
@@ -176,7 +176,7 @@ void SkipDialoguePage(void *arg0) {
 
 s32 DecodeCourseIndex(s32 a0) {
     ReverseCourse = a0 >= 8;
-    return D_8009F64C[a0 & 7];
+    return CourseIndexMap[a0 & 7];
 }
 
 void func_80032EC8(a0, a1, a2, a3, a4) int a0, a1, a2, a3, a4;

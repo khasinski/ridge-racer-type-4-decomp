@@ -27,7 +27,7 @@ class ChannelAdvanceTest(unittest.TestCase):
 #include "types.h"
 ''' + header + r'''
 RrChannelRecordF0 PadChannelRecordArray[2];
-s32 D_800ABCC0[2], PadActiveChannel, PadRecvStage, PadLastChannel;
+s32 PadChannelPendingPackets[2], PadActiveChannel, PadRecvStage, PadLastChannel;
 u16 packet_a[12], packet_b[12], *D_800ABD00;
 static int scenario, trace[32], trace_count, ready_count, ready_result;
 static int id(void *p) {
@@ -56,7 +56,7 @@ s32 _padInitSioMode(RrChannelRecordF0 *channel) {
 static void reset(int start,int last,int result) {
     scenario=0;trace_count=0;ready_count=0;ready_result=result;
     PadActiveChannel=start;PadLastChannel=last;PadRecvStage=0x12345678;
-    D_800ABCC0[0]=0x13579;D_800ABCC0[1]=0x24680;
+    PadChannelPendingPackets[0]=0x13579;PadChannelPendingPackets[1]=0x24680;
     memset(PadChannelRecordArray,0x5A,sizeof(PadChannelRecordArray));
     for(int i=0;i<12;i++){packet_a[i]=0xA5A5;packet_b[i]=0x5A5A;}
     D_800ABD00=packet_a;
@@ -85,8 +85,8 @@ static void basic(s32 mode,int start,int last,int result) {
     _padAdvanceChannel(mode);
     expect_trace(expected,n);
     assert(PadActiveChannel==(start==0&&last==1&&result==0?2:start+1));
-    assert(D_800ABCC0[0]==(mode==0&&start==0?0:0x13579));
-    assert(D_800ABCC0[1]==(mode==0&&start==1?0:0x24680));
+    assert(PadChannelPendingPackets[0]==(mode==0&&start==0?0:0x13579));
+    assert(PadChannelPendingPackets[1]==(mode==0&&start==1?0:0x24680));
     assert(D_800ABD00==packet_a);packets(1,0);
 }
 static void basic_cases(void) {

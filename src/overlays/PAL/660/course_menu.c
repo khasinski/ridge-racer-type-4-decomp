@@ -65,7 +65,7 @@ void ovl660_func_80114C40(void)
     UnpackChoiceGlyph((s8*)&SelectionRows,CourseChoiceTable[0][0].glyph);
     ModeGroup = 1;
     ModeId = 50;
-    D_800F4D8A = 0;
+    ModeSubState = 0;
     DebugPrintStub(ovl660_title);
     SeqStartTrack(0);
 }
@@ -90,7 +90,7 @@ void ovl660_func_80114D38(void) {
     ModeFrame = (s32)((u32)ModeFrame + 1U);
     ScreenFrame = (s32)((u32)ScreenFrame + 1U);
     if (LoadTrackNodesStep() == 1) {
-        switch (D_800F4D8A) {
+        switch (ModeSubState) {
         case 0:
             SetMenuFrameOptions(1, 1, 1);
             previousCourse = CourseMenuSelection;
@@ -135,7 +135,7 @@ void ovl660_func_80114D38(void) {
                             row += 1;
                             previewIndex++;
                         } while (row < 4);
-                        D_800F4D8A = 3;
+                        ModeSubState = 3;
                     } else if ((s16) MenuCursor == 1) {
                         row = 0;
                         if (UiRowCount > 0) {
@@ -151,7 +151,7 @@ void ovl660_func_80114D38(void) {
                             } while (row < loopCount);
                         }
                         MenuFadeTimer = 0x40;
-                        D_800F4D8A = 0xA;
+                        ModeSubState = 0xA;
                     } else if ((s16) MenuCursor == activeState) {
                         row = 0;
                         if (UiRowCount > 0) {
@@ -167,7 +167,7 @@ void ovl660_func_80114D38(void) {
                             } while (row < loopCount);
                         }
                         MenuFadeTimer = 0x40;
-                        D_800F4D8A = 8;
+                        ModeSubState = 8;
                         SeqFadeVolume(0, 0x3C);
                     }
                 } else {
@@ -175,7 +175,7 @@ void ovl660_func_80114D38(void) {
                 }
             } else {
 check_back:
-                if ((D_800F3A64 != 0) && (UiRows[0].byte14 == 2)) {
+                if ((MenuCancelPressed != 0) && (UiRows[0].byte14 == 2)) {
                     PlaySfx(2);
                     SetMenuFrameOptions(0, 1, 1);
                     row = 0;
@@ -192,7 +192,7 @@ check_back:
                         } while (row < loopCount);
                     }
                     MenuFadeTimer = 0x40;
-                    D_800F4D8A = 8;
+                    ModeSubState = 8;
                 }
             default:;
             }
@@ -200,7 +200,7 @@ check_back:
         case 2:
             if (MenuConfirmPressed != 0) {
                 if (UiRows[0].byte14 == 5) {
-                    D_800F4D8A = 4;
+                    ModeSubState = 4;
                     InitUiRow(3, 0x78, 0xDC, 0x44, 0x20, 0, 0, 1, 0, 0, 0, 0);
                     InitUiRow(4, 0x78, 0x104, 0x44, 0x20, 0, 0, 1, 0, 0, 0, 0);
                 }
@@ -209,7 +209,7 @@ check_back:
         case 4:
             if (MenuConfirmPressed != 0) {
                 if (UiRows[3].byte14 == 2) {
-                    D_800F4D8A = 5;
+                    ModeSubState = 5;
                     ImageRows[1] = 3;
                     UiRows[3].byte14 = 3U;
                     UiRows[4].byte14 = 3;
@@ -221,7 +221,7 @@ check_back:
                 UiRows[0].byte14 = 0U;
                 UiRows[1].byte14 = 0;
                 UiRows[2].byte14 = 0;
-                D_800F4D8A = 0;
+                ModeSubState = 0;
             }
             goto draw_course;
         case 3:
@@ -229,7 +229,7 @@ check_back:
                 ovl660_func_801163C4();
                 ModeGroup = 1;
                 ModeId = 0x33;
-                D_800F4D8A=0;
+                ModeSubState=0;
                 goto draw_rows;
             }
             break;
@@ -241,7 +241,7 @@ check_back:
                 SeqMuteVolume();
                 ModeGroup = 1;
                 ModeId = 3;
-                D_800F4D8A=0;
+                ModeSubState=0;
                 goto draw_rows;
             }
             break;
@@ -254,7 +254,7 @@ check_back:
                 D_800F3A1E = 0x132;
                 ModeGroup = 1;
                 ModeId = 0x47;
-                D_800F4D8A=0;
+                ModeSubState=0;
                 goto draw_rows;
             }
             break;

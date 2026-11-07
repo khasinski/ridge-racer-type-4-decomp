@@ -6,10 +6,10 @@ extern int AllocGlyphRows();
 extern int AllocUiRows();
 extern int AllocImageRows();
 extern int CdDirectoryBuffer;
-extern char D_8001075C[];
+extern char StrCdReadPtrFmt[];
 extern int Rect16RowCount;
 extern int LoadCursor;
-extern int D_800ACC1C;
+extern int LoadCursorMark;
 extern int ImageRowCount;
 extern int BadgeRowCount;
 extern int UiRowCount;
@@ -28,13 +28,13 @@ void InitMenuArenas()
   MenuTextRowCount = 0x37;
   MenuArenas[1] = CdDirectoryBuffer + c;
   LoadCursor = MenuArenas[1];
-  DebugPrintStub(D_8001075C, LoadCursor, 0x2D000);
+  DebugPrintStub(StrCdReadPtrFmt, LoadCursor, 0x2D000);
   LoadCursor = LoadCursor + AllocBadgeRows(LoadCursor);
   LoadCursor = LoadCursor + AllocRect16Rows(LoadCursor);
   LoadCursor = LoadCursor + AllocGlyphRows(LoadCursor);
   LoadCursor = LoadCursor + AllocImageRows(LoadCursor);
   LoadCursor = LoadCursor + AllocUiRows(LoadCursor);
-  D_800ACC1C = LoadCursor;
+  LoadCursorMark = LoadCursor;
   MenuArenas[1] = LoadCursor + 0x19000;
   LoadCursor = LoadCursor + 0x19000;
 }

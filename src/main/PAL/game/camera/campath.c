@@ -42,7 +42,7 @@ extern struct { char pad[0x250]; char pad2[0x3D8 - 0x250]; struct Q *q; } RaceCo
 extern short D_800A1E60[];
 extern int *MotionSequenceTable[];
 
-void func_8005AA2C(void);
+void DrawMarkerBitmapGrid(void);
 void InitMotionTrack(int a0);
 void InitMotionController(void);
 void RestartMotionSequence(void);
@@ -53,7 +53,7 @@ void func_8005B2F4(s32 arg0);
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(char (*)[])&RaceContext)
 
-void func_8005AA2C(void) {
+void DrawMarkerBitmapGrid(void) {
     w3t1_F f;
     char *b = RaceContext;
     char *c;
@@ -257,7 +257,7 @@ void InitMotionController(void) {
         InitCameraMotion(RaceContext.q->f70);
         break;
     case 1:
-        func_8005D500(RaceContext.q->f70);
+        InitMotionControllerPanel(RaceContext.q->f70);
         break;
     case 2:
         InitScrollTrack(RaceContext.q->f70);
@@ -285,7 +285,7 @@ void RestartMotionSequence(void) {
         InitCameraMotion(RaceContext.q->f70);
         break;
     case 1:
-        func_8005D500(RaceContext.q->f70);
+        InitMotionControllerPanel(RaceContext.q->f70);
         break;
     case 2:
         InitScrollTrack(RaceContext.q->f70);

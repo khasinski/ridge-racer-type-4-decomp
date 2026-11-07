@@ -114,17 +114,17 @@ c6:
         goto dispatch;
 c7:
         argument_bank = normalized_bank;
-        callback = D_8010EFE4;
+        callback = SsCtrlHandlerCC7;
         argument_row = normalized_row;
         goto dispatch;
 c10:
         argument_bank = normalized_bank;
-        callback = D_8010EFE8;
+        callback = SsCtrlHandlerCC10;
         argument_row = normalized_row;
         goto dispatch;
 c11:
         argument_bank = normalized_bank;
-        callback = D_8010EFEC;
+        callback = SsCtrlHandlerCC11;
         argument_row = normalized_row;
         goto dispatch;
 c64:
@@ -134,7 +134,7 @@ c64:
         goto dispatch;
 c91:
         argument_bank = normalized_bank;
-        callback = D_8010F004;
+        callback = SsCtrlHandlerCC91;
         argument_row = normalized_row;
         goto dispatch;
 c98:
@@ -144,18 +144,18 @@ c98:
         goto dispatch;
 c99:
         argument_bank = normalized_bank;
-        callback = D_8010EFF8;
+        callback = SsCtrlHandlerCC99;
         argument_row = normalized_row;
         goto dispatch;
 c100:
         argument_bank = normalized_bank;
-        callback = D_8010EFFC;
+        callback = SsCtrlHandlerCC100;
         argument_row = normalized_row;
         goto dispatch;
 c101:
         argument_bank = normalized_bank;
         argument_row = normalized_row;
-        callback = D_8010F000;
+        callback = SsCtrlHandlerCC101;
         /* ASM_BARRIER: Pipeline annotation: fill the indirect-target load delay on the fallthrough dispatch path. */
         RR_NOP_DEP_ON(callback);
 dispatch:

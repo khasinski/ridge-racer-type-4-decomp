@@ -24,7 +24,7 @@ class MenuScreenExitTest(unittest.TestCase):
 #include "rr/menu_screen_exit.h"
 _Static_assert(__builtin_types_compatible_p(__typeof__(ModeGroup),u16),"mode width");
 u16 ModeGroup,SceneId,GameTypeSceneIds[256];
-s16 ModeId,D_800F4D8A,RaceType;
+s16 ModeId,ModeSubState,RaceType;
 s32 MaskBitSetting;
 RrGpuRectangle *CurrentDrawBuf;
 static RrFrameOrderingPrefix frames[4],saved[4];
@@ -33,7 +33,7 @@ static u32 rng=0x1712C;
 static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
 static void mutate(unsigned n){
  ModeGroup=(u16)(case_id+n);ModeId=(s16)(case_id-n);
- D_800F4D8A=(s16)(case_id+n*3);MaskBitSetting=(s32)(case_id+n);
+ ModeSubState=(s16)(case_id+n*3);MaskBitSetting=(s32)(case_id+n);
  SceneId=(u16)(case_id^n);RaceType=(s16)((case_id+n)&255);
  CurrentDrawBuf=&frames[n].rectangle;
 }
@@ -44,7 +44,7 @@ void AddScreenFadeTiles(u32 *ordering,s32 intensity,u32 mode){
  assert(phase++==3);assert(ordering==frames[2].ordering70);
  assert((uintptr_t)ordering>UINT32_MAX);
  assert(intensity==255&&mode==69);
- assert(ModeGroup==1&&ModeId==(which?38:53)&&D_800F4D8A==0);
+ assert(ModeGroup==1&&ModeId==(which?38:53)&&ModeSubState==0);
  assert(SceneId==GameTypeSceneIds[(case_id+2)&255]);
  assert(MaskBitSetting==(s32)(case_id+2));
  assert(memcmp(frames,saved,sizeof(frames))==0);
@@ -57,12 +57,12 @@ int main(void){unsigned i,j;
  for(which=0;which<2;which++)for(case_id=0;case_id<65536;case_id++){
   for(j=0;j<sizeof(frames);j++)((u8*)frames)[j]=(u8)next();
   memcpy(saved,frames,sizeof(frames));phase=0;
-  ModeGroup=(u16)case_id;ModeId=(s16)case_id;D_800F4D8A=(s16)~case_id;
+  ModeGroup=(u16)case_id;ModeId=(s16)case_id;ModeSubState=(s16)~case_id;
   CurrentDrawBuf=&frames[3].rectangle;
   if(which)ovl661_func_80114AA0();else ovl660_func_8011712C();
   assert(phase==4);assert(CurrentDrawBuf==&frames[3].rectangle);
   assert(ModeGroup==(u16)(case_id+3));assert(ModeId==(s16)(case_id-3));
-  assert(D_800F4D8A==(s16)(case_id+9));assert(MaskBitSetting==(s32)(case_id+3));
+  assert(ModeSubState==(s16)(case_id+9));assert(MaskBitSetting==(s32)(case_id+3));
   assert(SceneId==(u16)(case_id^3));
   saved[2].ordering70[(case_id>>8)%704]^=0x76543210U;
   assert(memcmp(frames,saved,sizeof(frames))==0);

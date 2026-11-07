@@ -17,7 +17,7 @@ code=r'''
 typedef struct {u8 guard0[32];RrChannelRecordF0 record;u8 data[8];RrChannelGateEntry5 entries[256];u8 guard1[32];} World;
 static World actual,expected;
 static union {void *align;u8 bytes[0x4358];} native_budget_page;
-#define D_800ABCB0 (*(s32 *)native_budget_page.bytes)
+#define PadActuatorPowerUsed (*(s32 *)native_budget_page.bytes)
 static s32 expected_budget;
 static unsigned test_seed,calls;
 static void hook(RrChannelRecordF0 *r) {
@@ -90,9 +90,9 @@ int main(void) {
    actual.record.status.entries04=(RrChannelGateEntry5 *)actual.record.status.gates57;
   }
   for(j=0;j<6;j++)actual.record.status.payload5D[j]=(n&1)?next():(n+j)%17;
-  D_800ABCB0=expected_budget=budgets[n%10];
+  PadActuatorPowerUsed=expected_budget=budgets[n%10];
   memcpy(&expected,&actual,sizeof(actual));reference();_padAllocGates(&actual.record);
-  assert(calls==1 && D_800ABCB0==expected_budget && !memcmp(&actual,&expected,sizeof(actual)));
+  assert(calls==1 && PadActuatorPowerUsed==expected_budget && !memcmp(&actual,&expected,sizeof(actual)));
   assert(native_budget_page.bytes[4]==0xA5 && native_budget_page.bytes[0x4357]==0xA5);
  }
  puts("32768 gate cases passed with UBSan");return 0;

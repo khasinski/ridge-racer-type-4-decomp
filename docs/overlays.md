@@ -20,8 +20,8 @@ Evidence:
   `CdFileReadStart(GetR4FileIndex(1, mode + 0xB), LoadCursor)`.
   The category-1 mapper adds `0x292`, so this selects entries 669..673 for
   mode 0..4. These include copies of the executable menu modules.
-- `func_8003A9E8` likewise requests entries `659 + ModeMenuCursorSaved` into that buffer.
-- `func_8003BBBC` and `func_8003BD2C` explicitly load entry 668
+- `LoadSelectedModeFileStep` likewise requests entries `659 + ModeMenuCursorSaved` into that buffer.
+- `LoadSplashAssetsStep` and `func_8003BD2C` explicitly load entry 668
   (`0x292 + 10`) into the reset buffer.
 - Absolute jump tables and intra-overlay calls agree with this base.
   For example, entry 660 has a function prologue at file offset `0xA8`,

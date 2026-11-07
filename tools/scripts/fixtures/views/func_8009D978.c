@@ -26,7 +26,7 @@ s32 _cardSectorTx(void) {
 high: result=((u8 *)&CardCmdSector)[1];goto done;
     case 6:
 low: result=*(u8 *)&CardCmdSector;goto done;
-    case 133: result=D_8011472C.value;checksum=CardChecksum^result;goto fold;
+    case 133: result=CardCmdValue.value;checksum=CardChecksum^result;goto fold;
     case 134: result=CardChecksum;goto done;
     case 135: result=((CardCmdSector>>8)^CardCmdSector)&255;goto done;
     default:

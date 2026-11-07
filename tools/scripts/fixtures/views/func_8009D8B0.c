@@ -17,7 +17,7 @@ s32 _cardSectorBegin(s32 a0, s32 a1, s32 a2) {
             CardCommandRequest = a0;
         }
         if (r != 0) {
-            D_8011472C.value = a2 != 0;
+            CardCmdValue.value = a2 != 0;
             CardCurrentCommand = 0xB;
             CardCommandReader = _cardSectorTx;
             CardWriteHandler = _cardSectorRx;

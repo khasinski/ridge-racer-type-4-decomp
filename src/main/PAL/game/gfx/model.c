@@ -36,13 +36,13 @@ typedef struct {
 } Scratch;
 
 extern int ViewUsesCarTrackNode;
-extern short D_800F4C58;
-extern int D_800F3820;
+extern short ViewTrackSegYaw;
+extern int SegmentViewTables;
 extern s32 __fixdfsi(s64);
 extern s64 __floatsidf(s32);
 extern s32 __ltdf2(s64, s64);
 extern s64 __negdf2(s64);
-extern void func_8005F0D0(s32, s32, s32, s32);
+extern void SubmitModel(s32, s32, s32, s32);
 extern void BuildRotMatrixZ(MATRIX *, s32);
 extern void BuildRotMatrixY(MATRIX *, s32);
 extern void BuildRotMatrixX(MATRIX *, s32);
@@ -56,10 +56,10 @@ extern s32 ModelBankFormat;
 extern s16 *CarBoundsTable[];
 extern int D_800F2EC0;
 extern int *ModelBankTable[];
-extern int D_8010E6D8[];
+extern int VramImageSlots[];
 extern char D_800A3C90[];
 
-int func_8006F1EC();
+int GetViewTrackSegment();
 s32 YawToOctant(void *arg0);
 int GetSegmentViewTable(int a0);
 void SetFogNearFar(s32 a0, s32 a1, s32 a2);
@@ -72,14 +72,14 @@ void SelectModelBank(int a0);
 void SetVramImageSlot(int a0, int a1);
 void LoadVramImageSlot(int a0);
 
-int func_8006F1EC(a0)
+int GetViewTrackSegment(a0)
 int a0;
 {
     int t, n;
     if (ViewUsesCarTrackNode == 0) {
         t = GetViewTrackNode(a0);
         n = *(int *)(a0 + 0x14);
-        a0 = (int)&D_800F4C58;
+        a0 = (int)&ViewTrackSegYaw;
         GetTrackSegmentAndYaw(t, n, a0);
         return *(short *)a0;
     }
@@ -99,8 +99,8 @@ s32 YawToOctant(void *arg0) {
 }
 
 int GetSegmentViewTable(int a0) {
-    int t = func_8006F1EC((SCRATCHPAD + 0x8), a0);
-    return *(int *)(((t * 8) + YawToOctant((SCRATCHPAD + 0x8))) * 4 + D_800F3820);
+    int t = GetViewTrackSegment((SCRATCHPAD + 0x8), a0);
+    return *(int *)(((t * 8) + YawToOctant((SCRATCHPAD + 0x8))) * 4 + SegmentViewTables);
 }
 
 void SetFogNearFar(s32 a0, s32 a1, s32 a2) {
@@ -302,52 +302,52 @@ s32 func_8006F6F0(char *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, 
         if (ModelBankFormat >= 4) {
             a1 = 3;
         }
-        func_8005F0D0(SCRATCHPAD, a1, 0, s5);
+        SubmitModel(SCRATCHPAD, a1, 0, s5);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), &v198[1], &mD8[1]);
         G->col78 = 0x05000000;
-        func_8005F0D0(SCRATCHPAD, ModelBankFormat < 1, arg6, s5);
+        SubmitModel(SCRATCHPAD, ModelBankFormat < 1, arg6, s5);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), &v198[2], &mD8[2]);
         a1 = 1;
         G->col78 = 0x05000000;
         if (ModelBankFormat >= 10) {
             a1 = 9;
         }
-        func_8005F0D0(SCRATCHPAD, a1, 0, s5);
+        SubmitModel(SCRATCHPAD, a1, 0, s5);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), &v198[2], &mD8[3]);
         a1 = 1;
         G->col78 = 0x05000000;
         if (ModelBankFormat >= 7) {
             a1 = 6;
         }
-        func_8005F0D0(SCRATCHPAD, a1, arg6, s5);
+        SubmitModel(SCRATCHPAD, a1, arg6, s5);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), &v198[3], &mD8[4]);
         a1 = 1;
         G->col78 = 0x05000000;
         if (ModelBankFormat >= 9) {
             a1 = 8;
         }
-        func_8005F0D0(SCRATCHPAD, a1, 0, s5);
+        SubmitModel(SCRATCHPAD, a1, 0, s5);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), &v198[4], &mD8[4]);
         a1 = 1;
         G->col78 = 0x05000000;
         if (ModelBankFormat >= 8) {
             a1 = 7;
         }
-        func_8005F0D0(SCRATCHPAD, a1, 0, s5);
+        SubmitModel(SCRATCHPAD, a1, 0, s5);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), &v198[3], &mD8[5]);
         a1 = 1;
         G->col78 = 0x05000000;
         if (ModelBankFormat >= 6) {
             a1 = 5;
         }
-        func_8005F0D0(SCRATCHPAD, a1, arg6, s5);
+        SubmitModel(SCRATCHPAD, a1, arg6, s5);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), &v198[4], &mD8[5]);
         a1 = 1;
         G->col78 = 0x05000000;
         if (ModelBankFormat >= 5) {
             a1 = 4;
         }
-        func_8005F0D0(SCRATCHPAD, a1, arg6, s5);
+        SubmitModel(SCRATCHPAD, a1, arg6, s5);
     } else if (i < arg4) {
         s5 = 0;
         if (G->flag64 != 0) {
@@ -380,10 +380,10 @@ s32 func_8006F6F0(char *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, 
         if (ModelBankFormat >= 4) {
             a1 = 3;
         }
-        func_8005F0D0(SCRATCHPAD, a1, 0, s5);
+        SubmitModel(SCRATCHPAD, a1, 0, s5);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), &v198[1], &mD8[1]);
         G->col78 = 0;
-        func_8005F0D0(SCRATCHPAD, 1, arg6, s5);
+        SubmitModel(SCRATCHPAD, 1, arg6, s5);
     } else if (i < arg5) {
         s5 = 0;
         if (G->flag64 != 0) {
@@ -403,7 +403,7 @@ s32 func_8006F6F0(char *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, 
         if (ModelBankFormat >= 3) {
             a1 = 2;
         }
-        func_8005F0D0(SCRATCHPAD, a1, 0, s5);
+        SubmitModel(SCRATCHPAD, a1, 0, s5);
     }
     return dist;
 }
@@ -474,9 +474,9 @@ void SelectModelBank(int a0) {
 }
 
 void SetVramImageSlot(int a0, int a1) {
-    D_8010E6D8[a1] = a0;
+    VramImageSlots[a1] = a0;
 }
 
 void LoadVramImageSlot(int a0) {
-    LoadImage(D_800A3C90, D_8010E6D8[a0]);
+    LoadImage(D_800A3C90, VramImageSlots[a0]);
 }

@@ -40,7 +40,7 @@ static struct World {
 #define MenuItemCount world.limit
 #define MenuConfirmPressed world.accepted
 #define SelectionRows world.choice
-#define D_800F4D99 world.choice.bytes[1]
+#define CourseListSavedIndex world.choice.bytes[1]
 static Event *event(struct World *w,s32 kind){Event *e;assert(w->calls<8);e=&w->events[w->calls++];e->kind=kind;return e;}
 static void draw(struct World *w,s32 row,s32 a,s32 b){
  Event *e=event(w,1);e->args[0]=row;e->args[1]=a;e->args[2]=b;
@@ -56,7 +56,7 @@ static void sound(struct World *w,s32 a,s32 b,s32 c,s32 d){
  Event *e=event(w,3);e->args[0]=a;e->args[1]=b;e->args[2]=c;e->args[3]=d;
  w->selection=w->sound_selection;w->accepted=w->sound_accept;
 }
-void func_80041320(s32 a,s32 b,s32 c){draw(&world,a,b,c);}
+void SetMenuTextRowCursor(s32 a,s32 b,s32 c){draw(&world,a,b,c);}
 void StepMenuValue(s32 a,s32 b,char *p,s32 c,s32 d){choose(&world,a,b,p,c,d);}
 int PlaySfxVolPan(s32 a,s32 b,s32 c,s32 d){sound(&world,a,b,c,d);return -1;}
 void DrawMenuStepArrows(s32 a,s32 b,s32 c,s32 d,s32 f,s32 g,s32 h){

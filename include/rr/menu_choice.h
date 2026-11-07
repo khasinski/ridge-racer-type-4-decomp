@@ -12,10 +12,10 @@ extern s32 MenuStepDirection, MenuConfirmPressed;
 extern void *LoadCursor, *MenuArenaBase;
 extern RrMenuSettings2C SelectionState;
 extern s16 CourseListIndex;
-extern u16 D_800F3A42;
+extern u16 Pad0RepeatButtons;
 extern RrMenuGlyphRow1C *GlyphRows;
 extern RrMenuChoice4 SelectionRows;
-extern u8 D_800F4D99; /* Alias of SelectionRows.bytes[1]. */
+extern u8 CourseListSavedIndex; /* Alias of SelectionRows.bytes[1]. */
 extern u8 *Dialogue;
 void PlaySfx(s32 mode);
 void ResetScreenCounters(void);

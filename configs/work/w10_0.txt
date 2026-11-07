@@ -1,4 +1,4 @@
-func_80013904 0x80013904 0x444 gte
+SetCarTrackLighting 0x80013904 0x444 gte
 func_80015110 0x80015110 0x2ec gte
 DrawGlowFan 0x800155d8 0x1a4 gte
 SetSineLightColors 0x80019c90 0xcc gte
@@ -45,4 +45,4 @@ DrawWireQuadG12 0x8006bc30 0x4a0 gte
 EmitLineStripG11 0x8006d0dc 0x5c 
 FloodFill4bppStep 0x800717d0 0x1a8 
 EmitSemiTransG4List 0x80071b94 0x270 
-func_8007C944 0x8007c944 0x200 
+MenuStepLoadSaveSlots 0x8007c944 0x200 

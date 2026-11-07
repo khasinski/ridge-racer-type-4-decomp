@@ -23,7 +23,7 @@ static struct State{u32 guard[4];s32 frame,tick,mode,available,table[9];s16 menu
  RrUiRow24 rows[2][4];RrMenuItemState5C input[2];RrFrameStorage *context;void *published,*buffer;unsigned root;u32 tail[4];}actual,reference,*w;
 #define ModeFrame w->frame
 #define ScreenFrame w->tick
-#define D_800F4D8A w->state
+#define ModeSubState w->state
 #define ModeGroup w->enable
 #define ModeId w->scene
 #define MenuCursor w->menu

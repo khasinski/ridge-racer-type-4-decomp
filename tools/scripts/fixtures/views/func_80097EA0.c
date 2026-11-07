@@ -40,7 +40,7 @@ s32 _padIntPad(void) {
     PadRecvStage=0;
     PadActiveChannel=first;
     if(!_padInitSioMode((RrChannelRecordF0 *)((unsigned long)PadChannelRecords+(long)(s32)((shifted-(u32)first)*(sizeof(RrChannelRecordF0)/15)+(u32)first*(sizeof(RrChannelRecordF0)%15)))))PadAdvanceChannelFn(65535);
-    D_800ABCB0=0;
+    PadActuatorPowerUsed=0;
     while(PadActiveChannel<=PadLastChannel)_padSioStageStep(PadChannelRecords+PadActiveChannel);
     PadSio0Base->baud=0x88;
 out:

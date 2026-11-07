@@ -32,7 +32,7 @@ static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorking
 #define MenuResultCode world.slot
 #define ModeId world.scene
 #define ModeGroup world.enable
-#define D_800F4D8A world.state
+#define ModeSubState world.state
 '''+s+r'''
 static struct Event {unsigned kind;s32 a;struct World before;} events[4];
 static unsigned count,seen,serial,scenario,profile,coverage[5],choices[5],phases[12];static int reference_run;

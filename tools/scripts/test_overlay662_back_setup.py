@@ -33,7 +33,7 @@ static unsigned scenario,mutation,kind;
 #define ovl662_D_801276A8 w->s.garage
 #define ModeGroup w->s.row
 #define ModeId w->s.position
-#define D_800F4D8A w->s.selection
+#define ModeSubState w->s.selection
 #define ovl662_D_801148F0 save_message
 #define ovl662_D_80114900 load_message
 static void effect(unsigned n){

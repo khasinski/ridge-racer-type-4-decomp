@@ -10,7 +10,7 @@ void RelocateRelativeFile(RrRelativeHeader *input){
  u8 *first,*second;
  u32 last;
  
- D_800F2EBC=base;
+ RelativeFileBase=base;
  RelativeFileCount=count;
  i=0;
  count*=8U;
@@ -27,21 +27,21 @@ void RelocateRelativeFile(RrRelativeHeader *input){
  RelFileViewRecords=base->first[2].absolute;
  RelFileSection00=rr_relative_file_address(base,base->offsets[0]);
  RelFileSection01=rr_relative_file_address(base,base->offsets[1]);
- D_800ADAE8=rr_relative_file_address(base,base->offsets[2]);
+ RelFileSection02=rr_relative_file_address(base,base->offsets[2]);
  RelFileOffsetPtr3=rr_relative_file_address(base,base->offsets[3]);
- D_800F4C60=rr_relative_file_address(base,base->offsets[4]);
+ RelFileOffsetPtr4=rr_relative_file_address(base,base->offsets[4]);
  RelFileSection05=rr_relative_file_address(base,base->offsets[5]);
  RelFileOffsetPtr6=rr_relative_file_address(base,base->offsets[6]);
  RelFileOffsetPtr7=rr_relative_file_address(base,base->offsets[7]);
  D_800FFC40=rr_relative_file_address(base,base->offsets[8]);
  RelFileOffsetPtr9=rr_relative_file_address(base,base->offsets[9]);
- D_800ABEA0=rr_relative_file_address(base,base->offsets[10]);
+ RelFileOffsetPtr10=rr_relative_file_address(base,base->offsets[10]);
  RelFileSection11=rr_relative_file_address(base,base->offsets[11]);
  RelFileOffsetPtr12=rr_relative_file_address(base,base->offsets[12]);
  RelFileOffsetPtr13=rr_relative_file_address(base,base->offsets[13]);
- D_800ABEB4=rr_relative_file_address(base,base->offsets[14]);
+ RelFileOffsetPtr14=rr_relative_file_address(base,base->offsets[14]);
  last=base->offsets[15];
- D_800F3820=cursor;
+ SegmentViewTables=cursor;
  RelFileSection15=rr_relative_file_address(base,last);
  if(count!=0)do {
   cursor->absolute=rr_relative_file_address(base,cursor->relative);

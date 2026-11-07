@@ -27,19 +27,19 @@ extern char StrSetDispMaskFmt[];
 extern M2C_UNK DrawSyncFmt;
 extern char StrBadRectFmt[];
 extern char StrRectFmt[];
-extern char D_80011EC8[];
+extern char GpuLabelColonFmt[];
 extern char StrClearImage[];
 extern char ClearImage2Name[];
 /* extern */
 extern M2C_UNK LoadImageName;
 extern char ClearOTagFmt[];
-extern char D_800ABB6C[];
-extern int D_800ABB80;
+extern char GpuOtTerminator[];
+extern int OTagTerminator;
 extern char StrClearOTagRFmt[];
 extern int PsyqMemcpy();
 extern char PutDrawEnvFmt[];
 extern char StrDrawOTagEnvFmt[];
-extern char D_800ABAD0[];
+extern char CurrentDrawEnv[];
 
 int LoadTPage(int *pix, int tp, int abr, int x, int y, int w, int h);
 int LoadClut(int a, int b, int c);
@@ -167,7 +167,7 @@ s32 ResetGraph(s32 mode)
         state->kind00=_reset(mode);
         state->enabled01=1;
         /* Preserve the explicit byte reload after the reset service. */
-        state->debug02.width=D_800ABB40[*(volatile u8 *)&state->kind00].value;
+        state->debug02.width=GpuVramWidthTable[*(volatile u8 *)&state->kind00].value;
         state->debug02.height=D_800ABB4C.dimensions[state->kind00].value;
         GPU_memset((s8 *)state->queue10,-1,0x5C);
         GPU_memset((s8 *)state->tail6C,-1,0x14);
@@ -324,7 +324,7 @@ invalid:
         format+=0x1EA8;
         goto report;
     case 2:
-        format=D_80011EC8;
+        format=GpuLabelColonFmt;
 report:
         GPU_printf(format,label);
         {
@@ -426,8 +426,8 @@ int *ClearOTag(a0, a1) int *a0; int a1; {
             p = q;
         } while (n != 0);
     }
-    t = &D_800ABB80;
-    *t = ((int)D_800ABB6C & 0xFFFFFF) | 0x04000000;
+    t = &OTagTerminator;
+    *t = ((int)GpuOtTerminator & 0xFFFFFF) | 0x04000000;
     *p = (int)t & 0xFFFFFF;
     return p;
 }
@@ -444,8 +444,8 @@ unsigned *ClearOTagR(unsigned *a, int b) {
     int *q;
     if (D_800ABAC2 >= 2) GPU_printf(StrClearOTagRFmt, a, b);
     (*(int (**)())(GpuFuncTable + 0x2C))(a, b);
-    q = &D_800ABB80;
-    *q = ((int)D_800ABB6C & 0xFFFFFF) | 0x04000000;
+    q = &OTagTerminator;
+    *q = ((int)GpuOtTerminator & 0xFFFFFF) | 0x04000000;
     *a = (int)q & 0xFFFFFF;
     return a;
 }
@@ -474,7 +474,7 @@ void DrawOTag(s32 ordering_table) {
     register s32 second;
     register s32 third;
     RrLibGraphicsDriverPrefix *driver;
-    if (D_800ABAC2.level >= 2) GPU_printf(D_80011F38, ordering_table);
+    if (D_800ABAC2.level >= 2) GPU_printf(DrawOTagFmt, ordering_table);
     second = ordering_table;
     driver = GpuFuncTable;
     /* ASM_BARRIER: Load the current driver before preparing the dispatch zeros. */
@@ -527,4 +527,4 @@ void DrawOTagEnv(int a, W3L2_P *b) {
 #undef GPU_printf
 #undef D_800ABAC2
 
-int GetDrawEnv(int a) { PsyqMemcpy(a, D_800ABAD0, 0x5C); return a; }
+int GetDrawEnv(int a) { PsyqMemcpy(a, CurrentDrawEnv, 0x5C); return a; }

@@ -1,4 +1,4 @@
-func_8006F1EC 0x8006f1ec 0x74 
+GetViewTrackSegment 0x8006f1ec 0x74 
 RelocateModelPointers 0x800700ac 0x5c 
 SelectModelBank 0x800701c4 0x58 
 RelocateRelativeFile 0x8007026c 0x194 
@@ -23,13 +23,13 @@ BuildSaveData 0x80079200 0x5e0
 ApplySaveData 0x800797e0 0x6f8 
 BuildCardHeaderAnim 0x80079ed8 0x120 
 CardSaveStep 0x8007a310 0x6bc 
-func_8007ABCC 0x8007abcc 0x7d4 
-func_8007B460 0x8007b460 0x1f4  near-miss:src/failed/PAL/func_8007B460.c
-func_8007B774 0x8007b774 0x1e0 
-func_8007B954 0x8007b954 0x248 
-func_8007BB9C 0x8007bb9c 0x17c 
-func_8007BDF8 0x8007bdf8 0x100 
-func_8007BFF4 0x8007bff4 0x314 
+CardMenuModeEnter 0x8007abcc 0x7d4 
+DispatchCardMenuStep 0x8007b460 0x1f4  near-miss:src/failed/PAL/DispatchCardMenuStep.c
+MenuStepSelectCardFile 0x8007b774 0x1e0 
+MenuStepYesNoPrompt 0x8007b954 0x248 
+MenuStepCheckSaveFile 0x8007bb9c 0x17c 
+MenuStepConfirmCancel 0x8007bdf8 0x100 
+MenuStepRootChoice 0x8007bff4 0x314 
 func_8007C308 0x8007c308 0x464 
-func_8007C848 0x8007c848 0x8c 
-func_8007C944 0x8007c944 0x200 
+MenuStepWaitCardStatus 0x8007c848 0x8c 
+MenuStepLoadSaveSlots 0x8007c944 0x200 

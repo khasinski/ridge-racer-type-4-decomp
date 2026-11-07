@@ -42,7 +42,7 @@ extern int _padCmd4C();
 extern int _padCmd46();
 extern int _padCmd47();
 extern int _padCmd4B();
-extern unsigned char *D_80114438;
+extern unsigned char *PadPatchWritePtr;
 extern int (*PadChannelBusyFn)();
 /* Partial layout: six input slot IDs, per-group limits, six output IDs. */
 typedef struct {
@@ -134,9 +134,9 @@ int _padRecvActInfoReply(struct S_1 *s) {
             e8->b0 = s->c48 = q->b4;
             src = &s->q->b5;
             if (s->cnt == 0) {
-                D_80114438 = e8->p4 = (unsigned char *)(s->f8 + s->ca);
+                PadPatchWritePtr = e8->p4 = (unsigned char *)(s->f8 + s->ca);
             } else {
-                D_80114438 = e8->p4 = e8[-1].p4 + ((e8[-1].b0 + 3) & 0x1FC);
+                PadPatchWritePtr = e8->p4 = e8[-1].p4 + ((e8[-1].b0 + 3) & 0x1FC);
             }
         } else {
             i = 5;
@@ -144,16 +144,16 @@ int _padRecvActInfoReply(struct S_1 *s) {
         }
         while (i-- != 0) {
             if (s->c48 == 0) break;
-            if (D_80114438 >= &s->c3) {
+            if (PadPatchWritePtr >= &s->c3) {
                 s->cnt = 0;
                 s->c48 = 0;
                 return 0;
             }
-            if (*D_80114438 != *src) {
+            if (*PadPatchWritePtr != *src) {
                 s->se = 0xFFFF;
             }
             {
-                unsigned char **pp = &D_80114438;
+                unsigned char **pp = &PadPatchWritePtr;
                 unsigned char *p = *pp;
                 *p = *src++;
                 *pp = p + 1;

@@ -23,19 +23,19 @@ typedef uint8_t u8;typedef uint32_t u32;typedef int32_t s32;
 ''' + header + '''
 s32 CardCommandStatus,CardTxCount,CardCommandRequest,CardRetriesLeft,CardReceiveIndex,CardRxCount;
 s32 CardChecksum,CardCmdSector,CardVarRxLength,CardBytesRemaining,CardCurrentCommand;
-RrCommandParameter D_8011472C;
+RrCommandParameter CardCmdValue;
 RrCommandReadCallback CardCommandReader;
 RrCommandWriteCallback CardWriteHandler;
 u8 CardRxTrace[160];
 s32 (*test_tick)(void),(*test_phase)(void);
-u8 D_80114714;
+u8 CardReadChecksum;
 void test_reset(void) {
  memset(CardRxTrace,0xA5,sizeof(CardRxTrace));
  CardCommandStatus=3;CardTxCount=2;CardCommandRequest=0x123;CardRetriesLeft=0;
  CardReceiveIndex=4;CardRxCount=6;CardBytesRemaining=9;
- D_80114714=0xB7;
+ CardReadChecksum=0xB7;
  CardChecksum=0x13579BDF;CardCmdSector=0x12345678;
- D_8011472C.value=-123;CardCurrentCommand=99;
+ CardCmdValue.value=-123;CardCurrentCommand=99;
  CardCommandReader=0;CardWriteHandler=0;
 }
 '''
@@ -69,8 +69,8 @@ void test_reset(void) {
         cls.writer = cls.lib._cardSectorRx
         cls.writer.argtypes = [C.c_int32]
         cls.writer.restype = C.c_int32
-        cls.checksum = C.c_uint8.in_dll(cls.lib, 'D_80114714')
-        cls.parameter = C.c_int32.in_dll(cls.lib, 'D_8011472C')
+        cls.checksum = C.c_uint8.in_dll(cls.lib, 'CardReadChecksum')
+        cls.parameter = C.c_int32.in_dll(cls.lib, 'CardCmdValue')
         cls.read_pointer = C.c_void_p.in_dll(cls.lib, 'CardCommandReader')
         cls.write_pointer = C.c_void_p.in_dll(cls.lib, 'CardWriteHandler')
 

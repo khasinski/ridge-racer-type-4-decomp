@@ -2,7 +2,7 @@ DrawPreviewCar 0x8002cc88 0x52c gte
 DrawPlayerCar 0x8002d1b4 0x5d0 gte
 DrawOpponentCar 0x8002d784 0x954 gte
 DrawMenuGridMesh 0x80041bf0 0x664 gte
-func_80044BA0 0x80044ba0 0x324 gte
+AddShadowDiscPrims 0x80044ba0 0x324 gte
 UpdateComCarSpeed 0x80048a6c 0x344 gte
 SoundCalcCarParams 0x80052024 0x3a4 gte
 DrawMeshQuadGT4 0x80057a44 0x20c gte
@@ -11,7 +11,7 @@ DrawMeshQuadF4 0x80057e3c 0x1fc gte
 SubmitModelFacesTwoTri 0x80058118 0x1f4 gte
 EmitPolyG4TwoTri 0x80058400 0x17c gte
 EmitPolyGT4TwoTri 0x8005857c 0x1ec gte
-func_8005AA2C 0x8005aa2c 0x180 gte
+DrawMarkerBitmapGrid 0x8005aa2c 0x180 gte
 DrawRing 0x8005e900 0x3d4 gte
 SubmitModel2 0x8005f14c 0xb4 gte
 SubmitModelFaces 0x8005f200 0x1d0 gte
@@ -23,7 +23,7 @@ EmitPolyG4Fog 0x8005f920 0x184 gte
 EmitPolyGT4Fog 0x8005faa4 0x1d0 gte
 TransformCourseModel 0x8005fd24 0x130 gte
 func_8005FE54 0x8005fe54 0xe1c gte
-func_80060C70 0x80060c70 0xe4 gte
+RunCourseDrawChain 0x80060c70 0xe4 gte
 func_80060D54 0x80060d54 0x45c gte
 InterpEdgeVertsA0 0x800611b0 0x1d4 gte
 EmitQuadLinesG0 0x800614c4 0x3a4 gte
