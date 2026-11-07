@@ -21,7 +21,7 @@ class Overlay662ScrollbarTest(unittest.TestCase):
 #define RR_ASSERT_SIZE(t,n) _Static_assert(sizeof(void*)!=4 || sizeof(t)==n,"PAL size")
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
 #include "rr/overlay662_scrollbar.h"
-RrGarageSelectionPrefix garage_D_801276A8;
+RrGarageSelectionPrefix garage_logo_state;
 static RrGarageSelectionPrefix saved;
 static u32 pixels[8];
 '''+body+r'''
@@ -29,16 +29,16 @@ static s16 half(u32 bits){u16 h=(u16)bits;s16 value;memcpy(&value,&h,2);return v
 static s16 narrow(int64_t value){u16 bits=(u16)((uint64_t)value&65535U);s16 result;memcpy(&result,&bits,2);return result;}
 int main(void){unsigned zoom,coord,axis;uint64_t cases=0;
  static const s32 modes[]={1,-1,65536,INT32_MIN,INT32_MAX};
- memset(&garage_D_801276A8,0,sizeof(garage_D_801276A8));
- garage_D_801276A8.image38[0]=pixels;garage_D_801276A8.image40[1]=pixels+3;garage_D_801276A8.palette48[0]=pixels+5;
- garage_D_801276A8.fade00=INT32_MIN;garage_D_801276A8.word04=INT32_MAX;
+ memset(&garage_logo_state,0,sizeof(garage_logo_state));
+ garage_logo_state.image38[0]=pixels;garage_logo_state.image40[1]=pixels+3;garage_logo_state.palette48[0]=pixels+5;
+ garage_logo_state.fade00=INT32_MIN;garage_logo_state.word04=INT32_MAX;
  for(zoom=2;zoom<256;zoom++){
   if(zoom==3)continue;
-  garage_D_801276A8.config1C=(u8)zoom;
+  garage_logo_state.config1C=(u8)zoom;
   for(coord=0;coord<65536;coord++){
-   garage_D_801276A8.reset08[0]=half(coord);
-   garage_D_801276A8.reset08[1]=half(coord*73U+17);
-   memcpy(&saved,&garage_D_801276A8,sizeof(saved));
+   garage_logo_state.reset08[0]=half(coord);
+   garage_logo_state.reset08[1]=half(coord*73U+17);
+   memcpy(&saved,&garage_logo_state,sizeof(saved));
    for(axis=0;axis<2;axis++){
     struct {u16 before;RrGpuRectangleFields rect;u16 after;} output;
     RrGpuRectangleFields expected;
@@ -50,11 +50,11 @@ int main(void){unsigned zoom,coord,axis;uint64_t cases=0;
     expected.x=axis?216:narrow(position);expected.y=axis?narrow(position):337;
     expected.w=axis?4:(s16)length;expected.h=axis?(s16)length:8;
     memset(&output,0,sizeof(output));output.before=0xFACE;output.after=0xBEAD;
-    garage_func_8011C174(axis?modes[(coord+zoom)%5]:0,&output.rect);
+    garage_get_scrollbar_thumb(axis?modes[(coord+zoom)%5]:0,&output.rect);
     assert(memcmp(&output.rect,&expected,sizeof(expected))==0);
     assert(output.before==0xFACE&&output.after==0xBEAD);cases++;
    }
-   assert(memcmp(&saved,&garage_D_801276A8,sizeof(saved))==0);
+   assert(memcmp(&saved,&garage_logo_state,sizeof(saved))==0);
   }
  }
  assert(cases==33161216ULL);return 0;

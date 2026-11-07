@@ -24,15 +24,15 @@ class OverlayOptionsTest(unittest.TestCase):
 /* Record schema is now shared with the real mapper. */
 static struct World {u32 before[8];RrGarageSelectionPrefix state;
  RrGarageOptionRecord records[8][5];u32 buffer[512],after[8];} world,expected;
-#define garage_D_801276A8 world.state
-#define garage_D_801268CC world.records[0]
-#define garage_D_80126994 world.records[1]
-#define garage_D_801269E4 world.records[2]
-#define garage_D_80126A34 world.records[3]
-#define garage_D_80126A84 world.records[4]
-#define garage_D_80126AFC world.records[5]
-#define garage_D_80126BC4 world.records[6]
-#define garage_D_80126BEC world.records[7]
+#define garage_logo_state world.state
+#define garage_nav_grid_h0 world.records[0]
+#define garage_nav_grid_h1 world.records[1]
+#define garage_nav_grid_h2 world.records[2]
+#define garage_nav_grid_v0 world.records[3]
+#define garage_nav_grid_v1 world.records[4]
+#define garage_nav_grid_v2 world.records[5]
+#define garage_nav_grid_v3 world.records[6]
+#define garage_nav_grid_v4 world.records[7]
 ''' + body + r'''
 static u32 seed=0x1d278;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -60,7 +60,7 @@ int main(void){unsigned k,i;
    memset(expected.state.selectorsB8,0,sizeof(expected.state.selectorsB8));
   }
   assert((uintptr_t)&world.records[0]>UINT32_MAX);
-  garage_func_8011D278(mode);
+  garage_init_option_tables(mode);
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

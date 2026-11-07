@@ -42,27 +42,27 @@ static struct World {
  unsigned calls,probes,statuses;struct Event events[40];
 } actual,expected,initial,*w;
 static unsigned scenario,mutation;
-#define serial_link_D_80118EC8 w->state.command
+#define serial_link_sync_state w->state.command
 #define serial_link_D_80118ED0 w->state.peer
-#define serial_link_D_80118ED4 w->state.halt
-#define serial_link_D_80118F0C w->state.pending
+#define serial_link_shutdown_state w->state.halt
+#define serial_link_tx_state w->state.pending
 #define serial_link_D_80118EF4 w->state.serial
-#define serial_link_D_80118EF8 w->state.rxcount
-#define serial_link_D_80118EFC w->state.timeout
-#define serial_link_D_80118F00 w->state.txcount
-#define serial_link_D_80118F04 w->state.failures
-#define serial_link_D_80118EE8 w->state.event
-#define serial_link_D_80118EEC w->state.phase
-#define serial_link_D_80118EEF w->state.error
-#define serial_link_D_80118F08 w->state.read
-#define serial_link_D_80118F09 w->state.write
-#define serial_link_D_80118F8D w->state.selected
-#define serial_link_D_80118F8C w->state.limit
-#define serial_link_D_80118EED w->state.received
-#define serial_link_D_80118EEE w->state.sent
-#define serial_link_D_80118F20 w->state.ring
-#define serial_link_D_80118F10 w->state.rx
-#define serial_link_D_80118F80 w->state.tx
+#define serial_link_rx_count w->state.rxcount
+#define serial_link_rx_miss_count w->state.timeout
+#define serial_link_tx_count w->state.txcount
+#define serial_link_tx_fail_count w->state.failures
+#define serial_link_rx_pending w->state.event
+#define serial_link_local_menu_buttons w->state.phase
+#define serial_link_checksum_error w->state.error
+#define serial_link_rx_sequence w->state.read
+#define serial_link_tx_sequence w->state.write
+#define serial_link_rx_cursor w->state.selected
+#define serial_link_last_rx_cursor w->state.limit
+#define serial_link_remote_menu_buttons w->state.received
+#define serial_link_sent_menu_buttons w->state.sent
+#define serial_link_rx_ring w->state.ring
+#define serial_link_rx_packet w->state.rx
+#define serial_link_tx_packet w->state.tx
 #define LinkLocalInputs w->state.payload
 #define LinkRemoteInputs w->state.incoming
 #define LinkSentLocalInputs w->state.outgoing
@@ -90,7 +90,7 @@ void SetDispMask(s32 mode){assert(mode==0);(void)boundary(0,mode,0,0);}
 s32 _sio_control(s32 command,s32 operation,unsigned long argument) {
  if(command==4) {
   s32 (*registered)(s32,u32)=(s32(*)(s32,u32))argument;
-  assert(operation==0 && registered==serial_link_func_8011492C);
+  assert(operation==0 && registered==serial_link_sio_timeout_check);
   assert(argument>UINT32_MAX);
   assert(registered(2,24999)==1 && registered(2,25000)==0);
   assert(registered(1,UINT32_MAX)==1);
@@ -104,7 +104,7 @@ static void reference(unsigned long configuration) {
  (void)boundary(0,0,0,0);
  (void)boundary(1,1,3,configuration);
  (void)boundary(1,1,4,4);
- (void)boundary(1,4,0,(unsigned long)serial_link_func_8011492C);
+ (void)boundary(1,4,0,(unsigned long)serial_link_sio_timeout_check);
  w->state.error=0;w->state.selected=0;w->state.limit=7;
  w->state.read=0;w->state.write=0;
  w->state.timeout=0;w->state.failures=0;w->state.rxcount=0;w->state.txcount=0;
@@ -141,7 +141,7 @@ int main(void) {
   for(i=0;i<4;i++){initial.guard[i]=0x12345678U+i;initial.tail[i]=0x87654321U-i;}
   configuration=(scenario&16)?(unsigned long)&initial:((unsigned long)scenario<<16)|scenario;
   actual=initial;expected=initial;
-  w=&actual;serial_link_func_80114AF8(configuration);
+  w=&actual;serial_link_init_connection(configuration);
   w=&expected;reference(configuration);
   assert(memcmp(&actual,&expected,sizeof(actual))==0);
   assert(actual.calls>=9 && actual.calls<40);

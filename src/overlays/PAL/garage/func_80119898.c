@@ -2,9 +2,9 @@
 #ifndef RR_GPU_SCRATCH
 #define RR_GPU_SCRATCH ((RrGpuScratchPointers *)0x1F800000U)
 #endif
-void garage_func_80119898(s32 mode) {
+void garage_draw_color_preview_image(s32 mode) {
  RrGarageFadeGeometry quad;
- s32 amount=garage_D_80127398;
+ s32 amount=garage_image_fade_phase;
  s32 high,low,uv;
  s32 i,*x,*y,*u,*v;
  s32 color;
@@ -35,18 +35,18 @@ void garage_func_80119898(s32 mode) {
   cursor=EmitPolyFT3(&CurrentDrawBuf->head70,cursor,quad.x+1,quad.y+1,quad.u+1,quad.v+1,42,0x1028,0,(u16)amount);
   cursor=AddTilePrim(&CurrentDrawBuf->head70,cursor,quad.x[0],quad.y[0],(s32)((u32)quad.x[1]-(u32)quad.x[0]),(s32)((u32)quad.y[2]-(u32)quad.y[0]),color,color,color);
  }else cursor=AddTilePrim(&CurrentDrawBuf->head70,cursor,quad.x[0],quad.y[0],(s32)((u32)quad.x[1]-(u32)quad.x[0]),(s32)((u32)quad.y[2]-(u32)quad.y[0]),0,0,0);
- fresh=garage_D_80127398;
+ fresh=garage_image_fade_phase;
 
- previous=(u16)garage_D_80127398;
+ previous=(u16)garage_image_fade_phase;
  RR_GPU_SCRATCH->cursor=cursor;
 
- if(fresh>=128)garage_D_80127398=128;
+ if(fresh>=128)garage_image_fade_phase=128;
  else {
-  garage_D_80127398=previous+4;
+  garage_image_fade_phase=previous+4;
   if(mode==1){
    /* Empty compiler barrier preserves the conditional phase update. */
    __asm__("" : : : "memory");
-   garage_D_80127398=previous+8;
+   garage_image_fade_phase=previous+8;
   }
  }
 }

@@ -1,14 +1,14 @@
 #include "rr/overlay668_dispatch.h"
-void movie_playback_func_80114AA8(void) {
+void movie_playback_update(void) {
     switch (RaceContextMoviePhase) {
     case 0:
-        movie_playback_func_80114B2C(LoadCursor);
+        movie_playback_start(LoadCursor);
         break;
     case 1:
-        movie_playback_func_80114C3C();
+        movie_playback_step();
         break;
     case 2:
-        movie_playback_func_80114DF4();
+        movie_playback_shutdown();
         break;
     }
 }

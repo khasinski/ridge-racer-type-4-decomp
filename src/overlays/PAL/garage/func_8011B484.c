@@ -18,11 +18,11 @@ typedef struct {
     u32 from, to;
 } RrGaragePanelTrack;
 
-extern RrGaragePanelElement garage_D_80126800, garage_D_80126810, garage_D_80126820,
-    garage_D_80126830, garage_D_80126840;
-extern RrGaragePanelTrack *garage_D_8012688C[5];
+extern RrGaragePanelElement garage_panel_anim_bar0, garage_panel_anim_bar1, garage_panel_anim_box0,
+    garage_panel_anim_box1, garage_panel_anim_box2;
+extern RrGaragePanelTrack *garage_panel_anim_tracks[5];
 
-void garage_func_8011B484(void)
+void garage_draw_animated_panels(void)
 {
     RrGpuScratchPointers *scratch = RR_GPU_SCRATCH;
     u32 *ordering = scratch->order + 128;
@@ -31,12 +31,12 @@ void garage_func_8011B484(void)
     s32 t;
     s32 range;
 
-    if (garage_D_801276A8.flagsD1 != 0) {
+    if (garage_logo_state.flagsD1 != 0) {
         return;
     }
     for (i = 0; i < 5; i++) {
-        t = garage_D_801276A8.word04 - garage_D_8012688C[i]->start;
-        range = garage_D_8012688C[i]->end - garage_D_8012688C[i]->start;
+        t = garage_logo_state.word04 - garage_panel_anim_tracks[i]->start;
+        range = garage_panel_anim_tracks[i]->end - garage_panel_anim_tracks[i]->start;
         if (t < 0) {
             continue;
         }
@@ -45,36 +45,36 @@ void garage_func_8011B484(void)
         } else {
             t = (t << 12) / range;
         }
-        RR_GARAGE_GTE_LERP(t, &garage_D_8012688C[i]->from, &point);
+        RR_GARAGE_GTE_LERP(t, &garage_panel_anim_tracks[i]->from, &point);
         switch (i) {
         case 0:
-            scratch->cursor = (u8 *)garage_func_8011AD3C(ordering + garage_D_80126800.order, (RrGpuTilePacket *)scratch->cursor,
-                garage_D_80126800.x, garage_D_80126800.y, point.x, garage_D_80126800.r, garage_D_80126800.g, garage_D_80126800.b);
+            scratch->cursor = (u8 *)garage_add_hline_double(ordering + garage_panel_anim_bar0.order, (RrGpuTilePacket *)scratch->cursor,
+                garage_panel_anim_bar0.x, garage_panel_anim_bar0.y, point.x, garage_panel_anim_bar0.r, garage_panel_anim_bar0.g, garage_panel_anim_bar0.b);
             break;
         case 1:
-            scratch->cursor = (u8 *)garage_func_8011AD3C(ordering + garage_D_80126810.order, (RrGpuTilePacket *)scratch->cursor,
-                garage_D_80126810.x, garage_D_80126810.y, point.x, garage_D_80126810.r, garage_D_80126810.g, garage_D_80126810.b);
+            scratch->cursor = (u8 *)garage_add_hline_double(ordering + garage_panel_anim_bar1.order, (RrGpuTilePacket *)scratch->cursor,
+                garage_panel_anim_bar1.x, garage_panel_anim_bar1.y, point.x, garage_panel_anim_bar1.r, garage_panel_anim_bar1.g, garage_panel_anim_bar1.b);
             break;
         case 2:
-            scratch->cursor = (u8 *)garage_func_8011B034(ordering + garage_D_80126820.order, (RrGpuTilePacket *)scratch->cursor,
-                point.x, point.y, garage_D_80126820.w, garage_D_80126820.h, garage_D_80126820.r, garage_D_80126820.g, garage_D_80126820.b);
-            scratch->cursor = (u8 *)garage_func_8011AEC4(ordering + garage_D_80126820.order, (RrGpuLineF4Packet *)scratch->cursor,
-                (s16)(point.x - 1), (s16)(point.y - 2), (s16)(garage_D_80126820.w + 2), (s16)(garage_D_80126820.h + 4), 255, 255, 255);
+            scratch->cursor = (u8 *)garage_add_tile(ordering + garage_panel_anim_box0.order, (RrGpuTilePacket *)scratch->cursor,
+                point.x, point.y, garage_panel_anim_box0.w, garage_panel_anim_box0.h, garage_panel_anim_box0.r, garage_panel_anim_box0.g, garage_panel_anim_box0.b);
+            scratch->cursor = (u8 *)garage_add_rect_outline(ordering + garage_panel_anim_box0.order, (RrGpuLineF4Packet *)scratch->cursor,
+                (s16)(point.x - 1), (s16)(point.y - 2), (s16)(garage_panel_anim_box0.w + 2), (s16)(garage_panel_anim_box0.h + 4), 255, 255, 255);
             break;
         case 3:
-            if (garage_D_801276A8.layer23) {
+            if (garage_logo_state.layer23) {
                 point.y += 80;
             }
-            scratch->cursor = (u8 *)garage_func_8011B034(ordering + garage_D_80126830.order, (RrGpuTilePacket *)scratch->cursor,
-                point.x, point.y, garage_D_80126830.w, garage_D_80126830.h, garage_D_80126830.r, garage_D_80126830.g, garage_D_80126830.b);
-            scratch->cursor = (u8 *)garage_func_8011AEC4(ordering + garage_D_80126830.order, (RrGpuLineF4Packet *)scratch->cursor,
-                point.x, (s16)(point.y - 2), (s16)(garage_D_80126830.w + 1), (s16)(garage_D_80126830.h + 4), 255, 255, 255);
+            scratch->cursor = (u8 *)garage_add_tile(ordering + garage_panel_anim_box1.order, (RrGpuTilePacket *)scratch->cursor,
+                point.x, point.y, garage_panel_anim_box1.w, garage_panel_anim_box1.h, garage_panel_anim_box1.r, garage_panel_anim_box1.g, garage_panel_anim_box1.b);
+            scratch->cursor = (u8 *)garage_add_rect_outline(ordering + garage_panel_anim_box1.order, (RrGpuLineF4Packet *)scratch->cursor,
+                point.x, (s16)(point.y - 2), (s16)(garage_panel_anim_box1.w + 1), (s16)(garage_panel_anim_box1.h + 4), 255, 255, 255);
             break;
         case 4:
-            scratch->cursor = (u8 *)garage_func_8011B034(ordering + garage_D_80126840.order, (RrGpuTilePacket *)scratch->cursor,
-                point.x, point.y, garage_D_80126840.w, garage_D_80126840.h, garage_D_80126840.r, garage_D_80126840.g, garage_D_80126840.b);
-            scratch->cursor = (u8 *)garage_func_8011AEC4(ordering + garage_D_80126840.order, (RrGpuLineF4Packet *)scratch->cursor,
-                (s16)(point.x - 1), (s16)(point.y - 2), (s16)(garage_D_80126840.w + 2), (s16)(garage_D_80126840.h + 4), 255, 255, 255);
+            scratch->cursor = (u8 *)garage_add_tile(ordering + garage_panel_anim_box2.order, (RrGpuTilePacket *)scratch->cursor,
+                point.x, point.y, garage_panel_anim_box2.w, garage_panel_anim_box2.h, garage_panel_anim_box2.r, garage_panel_anim_box2.g, garage_panel_anim_box2.b);
+            scratch->cursor = (u8 *)garage_add_rect_outline(ordering + garage_panel_anim_box2.order, (RrGpuLineF4Packet *)scratch->cursor,
+                (s16)(point.x - 1), (s16)(point.y - 2), (s16)(garage_panel_anim_box2.w + 2), (s16)(garage_panel_anim_box2.h + 4), 255, 255, 255);
             break;
         }
     }

@@ -1,29 +1,29 @@
 #include "rr/overlay662_pixel_dispatch.h"
 
-void garage_func_80124974(s32 actionCode)
+void garage_canvas_input(s32 actionCode)
 {
     s32 i;
     u32 *clear;
 
-    garage_func_8012571C();
-    clear = garage_D_801276A8.scratch34;
+    garage_map_cursor_to_cell();
+    clear = garage_logo_state.scratch34;
     for (i = 511; i >= 0; i--) {
         *clear++ = 0;
     }
-    if (garage_D_801276A8.config20 != 2) {
-        switch (garage_D_801276A8.config1E) {
-        case 0: garage_func_80124ABC(); break;
-        case 1: garage_func_80124C94(); break;
-        case 2: garage_func_80124E4C(); break;
-        case 3: garage_func_80124FD8(); break;
-        case 4: garage_func_801251AC(); break;
+    if (garage_logo_state.config20 != 2) {
+        switch (garage_logo_state.config1E) {
+        case 0: garage_pencil_stroke(); break;
+        case 1: garage_line_stroke(); break;
+        case 2: garage_fill_at_cursor(); break;
+        case 3: garage_erase_stroke(); break;
+        case 4: garage_move_layer_drag(); break;
         }
     }
-    if (garage_D_801276A8.config20 != 1) {
-        switch (garage_D_801276A8.config1F) {
-        case 0: garage_func_80125370(); break;
-        case 1: garage_func_80125500(); break;
-        case 2: garage_func_801256D4(); break;
+    if (garage_logo_state.config20 != 1) {
+        switch (garage_logo_state.config1F) {
+        case 0: garage_pick_color(); break;
+        case 1: garage_alt_erase_stroke(); break;
+        case 2: garage_alt_undo_toggle(); break;
         }
     }
 }

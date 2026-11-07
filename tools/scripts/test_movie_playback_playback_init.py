@@ -56,7 +56,7 @@ void PsyqBzero(void *p,u32 count){unsigned i=ownerIndex(p);Event *e=event(3);Own
 s32 ResetGraph(s32 mode){event(4)->args[0]=mode;change();return word(0xF0123456U);}
 s32 CdSync(s32 mode,u8 *status){Event *e=event(5);e->args[0]=mode;assert(status==0);change();return -1;}
 s32 CdControl(s32 command,const u8 *parameters,u8 *result){Event *e=event(6);e->args[0]=command;assert(parameters==0&&result==0);change();return scenario%3;}
-void movie_playback_func_80114910(s32 resource,RrStrCdFileInfo *file,u32 *sectors){Event *e=event(7);uintptr_t f=(uintptr_t)file,s=(uintptr_t)sectors;
+void movie_playback_get_movie_file_info(s32 resource,RrStrCdFileInfo *file,u32 *sectors){Event *e=event(7);uintptr_t f=(uintptr_t)file,s=(uintptr_t)sectors;
  assert(f>UINT32_MAX&&s>UINT32_MAX);assert(s+sizeof(*sectors)<=f||f+sizeof(*file)<=s);assert(resource>=0&&resource<128);resourceSeen[resource]++;
  e->args[0]=resource;
  /* Like sector-to-location conversion, only the three address bytes are
@@ -68,7 +68,7 @@ static void expected(void){RrStrCdFileInfo file;u32 sectors;void *captured;
  SetDispMask(0);SetupDrawDispEnvs(0,0,0,5);captured=w->s.base;
  w->s.cursor=captured;RaceContext.activeB8=captured;w->s.cursor=(u8*)captured+sizeof(RrStrPlaybackState);
  PsyqBzero(captured,sizeof(RrStrPlaybackState));ResetGraph(3);CdSync(0,0);CdControl(9,0,0);
- RaceContext.phaseB4=0;RaceContext.stopD0=0;movie_playback_func_80114910(RaceContext.resourceB0,&file,&sectors);
+ RaceContext.phaseB4=0;RaceContext.stopD0=0;movie_playback_get_movie_file_info(RaceContext.resourceB0,&file,&sectors);
  w->s.channel=2;w->s.mode=4;w->s.status=0;
 }
 int main(void){unsigned i;uint64_t cases=0;
@@ -80,7 +80,7 @@ int main(void){unsigned i;uint64_t cases=0;
   RaceContext.resourceB0=scenario%128;RaceContext.phaseB4=word(next());RaceContext.stopD0=word(next());
   w->s.channel=(s16)next();w->s.mode=(s16)next();w->s.status=(s16)next();
   actual=reference=initial;memcpy(owners,initialOwners,sizeof(owners));memcpy(expectedOwners,initialOwners,sizeof(owners));
-  w=&actual;movie_playback_func_801149E8();w=&reference;expected();
+  w=&actual;movie_playback_init();w=&reference;expected();
   assert(actual.count==7&&!memcmp(&actual,&reference,sizeof(actual)));assert(!memcmp(owners,expectedOwners,sizeof(owners)));cases++;
  }
  assert(cases==32768&&clearSeen==65536);for(i=0;i<3;i++)assert(selectedSeen[i]);for(i=0;i<128;i++)assert(resourceSeen[i]);return 0;

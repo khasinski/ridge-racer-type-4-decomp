@@ -1,5 +1,5 @@
 #include "rr/overlay665_menu.h"
-void options_func_80116070(void) {
+void options_init_controller_config(void) {
     ClearScreenOverlayState();
     InitUiRow(0,56,160,64,32,0,0,0,1,22);
     InitUiRow(1,128,160,64,32,0,0,0,0,109);
@@ -11,14 +11,14 @@ void options_func_80116070(void) {
     InitUiRow(7,200,120,28,32,0,0,1,0,108);
     ScreenFadeState[0]=2;
     InitBadgeRow(0,16,96,76,40,0,0xD01);
-    options_D_80119760=0;
+    options_pad_mode_ready=0;
     BadgeRows[0].half02=1;
-    options_D_80119768.view74.position00.words[2]=0;
-    options_D_80119768.view74.position00.words[1]=0;
-    options_D_80119768.view74.position00.words[0]=0;
-    options_D_80119768.view74.rotation14=0;
-    options_D_80119768.view74.rotation12=0;
-    options_D_80119768.view74.rotation10=0;
-    options_D_80119768.reset2C=0;
+    options_menu_state.view74.position00.words[2]=0;
+    options_menu_state.view74.position00.words[1]=0;
+    options_menu_state.view74.position00.words[0]=0;
+    options_menu_state.view74.rotation14=0;
+    options_menu_state.view74.rotation12=0;
+    options_menu_state.view74.rotation10=0;
+    options_menu_state.reset2C=0;
     SetMenuFrameOptions(1,1,0);
 }

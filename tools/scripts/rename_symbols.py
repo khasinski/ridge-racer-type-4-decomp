@@ -23,6 +23,12 @@ def registry():
         m = re.match(r'^(\w+)\s*=\s*0x([0-9A-Fa-f]+);\s*//\s*type:(?!func)', l)
         if m and not re.fullmatch(r'D_[0-9A-F]{8}', m.group(1)):
             out[f'D_{int(m.group(2), 16):08X}'] = m.group(1)
+    ovl = ROOT / 'configs/PAL/overlays/symbols.txt'     # overlays: <module>_func_<ADDR>/<module>_D_<ADDR> -> name
+    if ovl.exists():
+        for l in ovl.read_text().splitlines():
+            m = re.match(r'^(\w+)\s*=\s*0x([0-9A-Fa-f]+);\s*//\s*overlay:(\w+)\s+type:(\w+)', l)
+            if m:
+                out[f'{m[3]}_{"func" if m[4] == "func" else "D"}_{int(m[2], 16):08X}'] = m[1]
     return out
 
 

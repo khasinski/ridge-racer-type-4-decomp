@@ -34,8 +34,8 @@ typedef union {u32 words[704];struct {u32 prefix[128];RrSpritePacket packets[64]
 typedef union {RrGarageSpriteRecord records[4];struct {u32 prefix;RrSpritePacket packets[3];} view;u32 words[20];} Aliased;
 static struct World {u32 guard[4];RrGpuScratchPointers scratch;RrGarageSpriteRecord records[72];RrGarageSpriteRecord *lookup[72];Ordering order;Aliased alias;RrSpritePacket packets[4];u32 tail[4];} world,expected;
 #define RR_GPU_SCRATCH (&world.scratch)
-#define garage_D_80126260 world.records
-#define garage_D_80127548 world.lookup
+#define garage_sprite_records world.records
+#define garage_logo_sprites world.lookup
 ''' + original + body + r'''
 static u32 seed=0x1b2d4;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -69,7 +69,7 @@ int main(void){unsigned k,i,index,mode;const u32 negatives[]={0x80000000U,0xffff
   world.scratch.order=world.order.words;world.scratch.cursor=(u8*)world.packets;
   memcpy(&expected,&world,sizeof(world));
   for(i=0;i<72;i++)expected.lookup[world.records[i].key0C]=&world.records[i];
-  returned=garage_func_8011B2D4(signed_word(negatives[k&3]),0,signed_word(next()),signed_word(next()));
+  returned=garage_add_ui_sprite(signed_word(negatives[k&3]),0,signed_word(next()),signed_word(next()));
   assert(returned==0 && memcmp(&world,&expected,sizeof(world))==0);
   for(i=0;i<72;i++)assert((uintptr_t)world.lookup[i]>UINT32_MAX);
  }
@@ -85,7 +85,7 @@ int main(void){unsigned k,i,index,mode;const u32 negatives[]={0x80000000U,0xffff
   r->width04=(u16)k;r->height06=(u16)(k*40503U+17U);r->u08=(u8)k;r->v09=(u8)(k>>8);r->clut0A=(u16)(k*73U);r->flags10=next();
   x=signed_word((next()&0xffff0000U)|(k&0xffffU));y=signed_word((next()&0xffff0000U)|((k*40503U+17U)&0xffffU));
   memcpy(&expected,&world,sizeof(world));reference(mode,index,x,y);
-  returned=garage_func_8011B2D4(index,(u8*)packet(&world,mode),x,y);
+  returned=garage_add_ui_sprite(index,(u8*)packet(&world,mode),x,y);
   assert(returned==(u8*)(packet(&world,mode)+1) && (uintptr_t)returned>UINT32_MAX);
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }

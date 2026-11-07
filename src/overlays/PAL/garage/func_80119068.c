@@ -1,9 +1,9 @@
 #include "rr/overlay662_course_controller.h"
 extern s16 garage_D_801272BC;
-extern s32 garage_D_801272E8;
-void garage_func_8011512C(void);
+extern s32 garage_returned_from_logo_editor;
+void garage_init_car_info(void);
 
-void garage_func_80119068(void) {
+void garage_update_car_select(void) {
     union {RrPreviewRgb3 rgb; u8 channel[3];} color;
     s8 active;
     s32 ready;
@@ -147,17 +147,17 @@ close:
         MenuFadeTimer = fade;
         AddScreenFadeTiles(((RrFrameStorage*)(void*)CurrentDrawBuf)->ordering.ordering70, (0x40 - fade) * 4, 0x45);
         if ((s16)MenuFadeTimer > 0) break;
-        CourseChoiceTable[1][garage_D_801272E4].glyph = PackChoiceGlyph(&SelectionRows);
-        CourseChoiceTable[1][garage_D_801272E4].first = PlayerCourseChoices[0].first;
-        CourseChoiceTable[1][garage_D_801272E4].second = PlayerCourseChoices[0].second;
-        garage_func_8011512C();
+        CourseChoiceTable[1][garage_car_index].glyph = PackChoiceGlyph(&SelectionRows);
+        CourseChoiceTable[1][garage_car_index].first = PlayerCourseChoices[0].first;
+        CourseChoiceTable[1][garage_car_index].second = PlayerCourseChoices[0].second;
+        garage_init_car_info();
         ModeGroup = 1;
         ModeId = 0x40;
         ModeSubState = 0;
         return;
     case 4:
         if (UiRows[0].byte14 == 5 && (*(s8*)(ImageRows+1)) == 5) {
-            garage_D_801272E8 = 0;
+            garage_returned_from_logo_editor = 0;
             ModeGroup = 1;
             ModeId = 0x45;
             ModeSubState = 0;
@@ -168,7 +168,7 @@ close:
         MenuFadeTimer = fade;
         AddScreenFadeTiles(((RrFrameStorage*)(void*)CurrentDrawBuf)->ordering.ordering70, (0x40 - fade) * 4, 0x45);
         if ((s16)MenuFadeTimer > 0) break;
-        garage_func_8011512C();
+        garage_init_car_info();
         ModeGroup = 1;
         ModeId = 0x40;
         ModeSubState = 0;

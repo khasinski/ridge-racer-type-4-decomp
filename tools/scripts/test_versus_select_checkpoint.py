@@ -106,7 +106,7 @@ int main(void){unsigned raw,phase,i;uint64_t cases=0;
    actual.vehicle.second=sign32(0xffffffffU-(u32)actual.vehicle.first);
   }
   mutation=(raw+phase)&15;expected=actual;count=index_=0;
-  model();versus_select_func_80114924(&actual.vehicle);
+  model();versus_select_update_lap_progress(&actual.vehicle);
   assert(index_==count);assert(!memcmp(&actual,&expected,sizeof(actual)));cases++;
  }
  for(i=0;i<12;i++)assert(paths[i]);

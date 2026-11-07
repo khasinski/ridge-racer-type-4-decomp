@@ -92,8 +92,8 @@ typedef struct {
     s16 x0, y0, x1, y1;
 } Ovl665Line;
 
-extern Ovl665CarState options_D_80119768;
-extern s32 options_D_80119760;
+extern Ovl665CarState options_menu_state;
+extern s32 options_pad_mode_ready;
 extern Ovl665Pad5C PlayerControllers[2];
 extern Ovl665Settings Options;
 extern Ovl665Entry28 PadPorts[];
@@ -105,18 +105,18 @@ extern s16 MenuFadeTimer;
 extern s32 SelectionPlayer;
 extern s32 MenuActivePlayerPlusOne;
 extern u8 ScreenFadeState;
-extern Ovl665View14 options_D_80119698[];
-extern Ovl665Colour4 options_D_8011902C[][5];
-extern Ovl665Colour4 options_D_801190CC[][5];
-extern Ovl665Colour4 options_D_8011916C[][5];
-extern void *options_D_80119290[][5];
-extern void *options_D_801193E8[][5];
-extern void *options_D_80119558[][5];
-extern void *options_D_801195F8[][5];
-extern s32 options_D_80119740[];
-extern s32 options_D_80119724[];
-extern u8 options_D_8011973C[];
-extern u8 options_D_80119020[], options_D_80119024[];
+extern Ovl665View14 options_controller_view_presets[];
+extern Ovl665Colour4 options_pad_layout_colors[][5];
+extern Ovl665Colour4 options_negcon_layout_colors[][5];
+extern Ovl665Colour4 options_jogcon_layout_colors[][5];
+extern void *options_pad_button_guides[][5];
+extern void *options_negcon_button_guides[][5];
+extern void *options_dualshock_button_guides[][5];
+extern void *options_jogcon_button_guides[][5];
+extern s32 options_twist_play_swing_table[];
+extern s32 options_twist_play_marker_offsets[];
+extern u8 options_marker_line_color[];
+extern u8 options_left_arrow_uv[], options_right_arrow_uv[];
 extern s16 SteeringRangeTable[];
 extern s16 PadRangeLimits[];
 extern s32 WheelDeadzoneTable[];
@@ -124,30 +124,30 @@ extern s32 WheelDeadzoneTable[];
 extern s32 PadGetState(s32);
 extern void PadSetMainMode(s32, s32, s32);
 extern s32 LoadModelBank8Step(void);
-extern s32 options_func_8011629C(s32);
+extern s32 options_get_controller_kind(s32);
 extern void SetMotionControllerVisible(s32);
 extern void StepMenuValue(s32, s32, void *, s32, s32);
 extern void SetPadButtonMapLayout(s32, s32, s32, s32);
 /* Sound cue; several call sites pass the freshly computed offset as a
  * second (ignored) argument, so it is declared without a prototype. */
 extern void PlaySfx();
-extern void options_func_80116AA4(void *, s32);
+extern void options_draw_button_guides(void *, s32);
 extern void *AddSpritePrim(void *, void *, s32, s32, void *, s32, s32);
-extern void options_func_8011643C(void);
+extern void options_draw_controller_model(void);
 extern void DrawUiRow(s32);
 extern void AddScreenFadeTiles(void *, s32, s32);
-extern void options_func_80114A24(void);
+extern void options_init_main_menu(void);
 extern void ClearScreenOverlayState();
 extern void InitBadgeRow(s32, s32, s32, s32, s32, s32, s32);
 extern void SetMenuFrameOptions(s32, s32, s32);
 extern s32 rsin(s32);
 extern void PadSetRumbleFlags(s32, s32);
-extern void options_func_801169BC(s32);
+extern void options_draw_angle_marker(s32);
 extern void UpdateBadgeRowAnim(s32);
 extern void UpdateDialogue(s32, s32, void *);
 extern void UpdateScreenFade(s32);
 
-#define ST options_D_80119768
+#define ST options_menu_state
 
 typedef struct {
     void *cursor;
@@ -185,7 +185,7 @@ typedef struct {
         SCRATCH->cursor = packet;                                           \
     }
 
-void options_func_80116D10(s32 player) {
+void options_update_controller_config(s32 player) {
     Ovl665Colour4 *src;
     Ovl665Entry28 *entry;
     s32 changed;
@@ -207,7 +207,7 @@ void options_func_80116D10(s32 player) {
     changed = 0;
     switch (ST.step0C) {
     case 0:
-        if (options_D_80119760 == 0) {
+        if (options_pad_mode_ready == 0) {
             if (PlayerControllers[player].ready40 == 1) {
                 if (ST.ready2C == 0) {
                     if (PlayerControllers[player].course01 != 0xE3) {
@@ -216,53 +216,53 @@ void options_func_80116D10(s32 player) {
                         }
                     } else {
                         ST.ready2C = 1;
-                        options_D_80119760 = 1;
+                        options_pad_mode_ready = 1;
                     }
                 }
             } else {
-                options_D_80119760 = 1;
+                options_pad_mode_ready = 1;
             }
         }
         SelectionPlayer = player;
         if (LoadModelBank8Step() == 0) {
             break;
         }
-        if (options_D_80119760 == 0) {
+        if (options_pad_mode_ready == 0) {
             break;
         }
-        kind = options_func_8011629C(player);
+        kind = options_get_controller_kind(player);
         ST.kind18 = kind;
         if (kind >= 0) {
             switch (kind) {
             case 0:
             case 1:
                 index = Options.a[player].car00;
-                src = options_D_8011902C[index];
+                src = options_pad_layout_colors[index];
                 index <<= 12;
                 ST.rotation86 = index;
                 break;
             case 2:
                 index = Options.b[player].h[6];
-                src = options_D_801190CC[index];
+                src = options_negcon_layout_colors[index];
                 index <<= 12;
                 ST.rotation86 = index;
                 break;
             case 3:
                 if (PlayerControllers[player].course01 != 0xE3) {
                     index = Options.a[player].car00;
-                    src = options_D_8011902C[index];
+                    src = options_pad_layout_colors[index];
                     index <<= 12;
                 ST.rotation86 = index;
                 } else {
                     index = Options.c[player].c[3];
-                    src = options_D_8011916C[index];
+                    src = options_jogcon_layout_colors[index];
                     index <<= 12;
                 ST.rotation86 = index;
                 }
                 ST.course2A = PlayerControllers[player].course01;
                 break;
             }
-            ST.view38 = options_D_80119698[ST.kind18];
+            ST.view38 = options_controller_view_presets[ST.kind18];
             COPY_COLOURS(src);
         } else {
             CLOSE_ROWS(8);
@@ -283,7 +283,7 @@ void options_func_80116D10(s32 player) {
         break;
     case 1:
         if (BadgeRows->state10 == 3 && UiRows[0].byte14 == 2) {
-            if (options_func_8011629C(player) < 0) {
+            if (options_get_controller_kind(player) < 0) {
                 CLOSE_ROWS(8);
                 MenuFadeTimer = 64;
                 ST.step0C = 2;
@@ -306,7 +306,7 @@ void options_func_80116D10(s32 player) {
                     } else {
                         ST.angle1C += 0x1000;
                     }
-                    src = options_D_8011902C[Options.a[player].car00];
+                    src = options_pad_layout_colors[Options.a[player].car00];
                     COPY_COLOURS(src);
                     ST.fade24 = 0;
                     SetPadButtonMapLayout(player, Options.a[player].car00, Options.b[player].h[6],
@@ -319,13 +319,13 @@ void options_func_80116D10(s32 player) {
                     ST.step0C = 2;
                     ST.next14 = 0;
                 }
-                options_func_80116AA4(options_D_80119290[Options.a[player].car00], ST.fade24);
+                options_draw_button_guides(options_pad_button_guides[Options.a[player].car00], ST.fade24);
                 cursor = CURSOR;
                 if (Options.a[player].car00 > 0) {
-                    cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 280, options_D_80119020, 0x7F38, 255);
+                    cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 280, options_left_arrow_uv, 0x7F38, 255);
                 }
                 if (Options.a[player].car00 < 7) {
-                    cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 280, options_D_80119024, 0x7F38, 255);
+                    cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 280, options_right_arrow_uv, 0x7F38, 255);
                 }
                 CURSOR = cursor;
                 break;
@@ -338,7 +338,7 @@ void options_func_80116D10(s32 player) {
                     } else {
                         ST.angle1C += 0x1000;
                     }
-                    src = options_D_801190CC[Options.b[player].h[6]];
+                    src = options_negcon_layout_colors[Options.b[player].h[6]];
                     COPY_COLOURS(src);
                     ST.fade24 = 0;
                     SetPadButtonMapLayout(player, Options.a[player].car00, Options.b[player].h[6],
@@ -354,13 +354,13 @@ void options_func_80116D10(s32 player) {
                     ST.step0C = 2;
                     ST.next14 = 3;
                 }
-                options_func_80116AA4(options_D_801193E8[Options.b[player].h[6]], ST.fade24);
+                options_draw_button_guides(options_negcon_button_guides[Options.b[player].h[6]], ST.fade24);
                 cursor = CURSOR;
                 if (Options.b[player].h[6] > 0) {
-                    cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 280, options_D_80119020, 0x7F38, 255);
+                    cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 280, options_left_arrow_uv, 0x7F38, 255);
                 }
                 if (Options.b[player].h[6] < 7) {
-                    cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 280, options_D_80119024, 0x7F38, 255);
+                    cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 280, options_right_arrow_uv, 0x7F38, 255);
                 }
                 CURSOR = cursor;
                 break;
@@ -383,7 +383,7 @@ void options_func_80116D10(s32 player) {
                                       Options.c[player].c[3]);
                     }
                     if (changed) {
-                        src = options_D_8011902C[Options.a[player].car00];
+                        src = options_pad_layout_colors[Options.a[player].car00];
                         COPY_COLOURS(src);
                         ST.fade24 = 0;
                     }
@@ -394,13 +394,13 @@ void options_func_80116D10(s32 player) {
                         ST.step0C = 2;
                         ST.next14 = 0;
                     }
-                    options_func_80116AA4(options_D_80119558[Options.a[player].car00], ST.fade24);
+                    options_draw_button_guides(options_dualshock_button_guides[Options.a[player].car00], ST.fade24);
                     cursor = CURSOR;
                     if (Options.a[player].car00 > 0) {
-                        cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 280, options_D_80119020, 0x7F38, 255);
+                        cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 280, options_left_arrow_uv, 0x7F38, 255);
                     }
                     if (Options.a[player].car00 < 7) {
-                        cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 280, options_D_80119024, 0x7F38, 255);
+                        cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 280, options_right_arrow_uv, 0x7F38, 255);
                     }
                     CURSOR = cursor;
                 } else {
@@ -417,7 +417,7 @@ void options_func_80116D10(s32 player) {
                                       Options.c[player].c[3]);
                     }
                     if (changed) {
-                        src = options_D_8011916C[Options.c[player].c[3]];
+                        src = options_jogcon_layout_colors[Options.c[player].c[3]];
                         COPY_COLOURS(src);
                         ST.fade24 = 0;
                     }
@@ -430,13 +430,13 @@ void options_func_80116D10(s32 player) {
                         ST.step0C = 2;
                         ST.next14 = 4;
                     }
-                    options_func_80116AA4(options_D_801195F8[Options.c[player].c[3]], ST.fade24);
+                    options_draw_button_guides(options_jogcon_button_guides[Options.c[player].c[3]], ST.fade24);
                     cursor = CURSOR;
                     if (Options.c[player].c[3] > 0) {
-                        cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 280, options_D_80119020, 0x7F38, 255);
+                        cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 280, options_left_arrow_uv, 0x7F38, 255);
                     }
                     if (Options.c[player].c[3] < 7) {
-                        cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 280, options_D_80119024, 0x7F38, 255);
+                        cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 280, options_right_arrow_uv, 0x7F38, 255);
                     }
                     CURSOR = cursor;
                 }
@@ -453,7 +453,7 @@ void options_func_80116D10(s32 player) {
             ST.fade24 = 0;
         }
         LINK_PACKET();
-        options_func_8011643C();
+        options_draw_controller_model();
         for (i = 0; i < 5; i++) {
             DrawUiRow(i);
         }
@@ -469,7 +469,7 @@ void options_func_80116D10(s32 player) {
         AddScreenFadeTiles(&CurrentDrawBuf->ordering70, (64 - timer) * 4, 69);
         if (MenuFadeTimer <= 0) {
             if (ST.next14 == 0) {
-                options_func_80114A24();
+                options_init_main_menu();
                 ST.step0C = 0;
                 SelectionPlayer = 0;
                 ST.scene00--;
@@ -479,7 +479,7 @@ void options_func_80116D10(s32 player) {
             ST.detail10 = 0;
             ST.next14 = 0;
         }
-        options_func_8011643C();
+        options_draw_controller_model();
         for (i = 0; i < 5; i++) {
             DrawUiRow(i);
         }
@@ -492,7 +492,7 @@ void options_func_80116D10(s32 player) {
             InitBadgeRow(0, 12, 304, 296, 88, 0, 0);
             BadgeRows->h02 = 1;
             SetMenuFrameOptions(1, 0, 0);
-            ST.view38 = options_D_80119698[4];
+            ST.view38 = options_controller_view_presets[4];
             ST.rotation86 = 0;
             ST.angle1C = 0;
             DialogueState->b4 = 9;
@@ -509,7 +509,7 @@ void options_func_80116D10(s32 player) {
                 Options.b[player].h[2] = entry->b6;
                 Options.b[player].h[3] = entry->b7;
                 DialogueState->b4 = Options.b[player].h[4] + 10;
-                ST.view38 = options_D_80119698[5];
+                ST.view38 = options_controller_view_presets[5];
                 ST.phase20 = 0;
                 ST.detail10++;
                 SetMenuFrameOptions(1, 1, 0);
@@ -521,7 +521,7 @@ void options_func_80116D10(s32 player) {
             if (old != Options.b[player].h[4]) {
                 DialogueState->b4 = Options.b[player].h[4] + 10;
             }
-            value = rsin(ST.phase20) * options_D_80119740[Options.b[player].h[4]] / 512;
+            value = rsin(ST.phase20) * options_twist_play_swing_table[Options.b[player].h[4]] / 512;
             ST.offset8C = value;
             ST.offset94 = -value;
             phase = ST.phase20;
@@ -532,26 +532,26 @@ void options_func_80116D10(s32 player) {
             if (PlayerControllers[player].buttons08 & 0x840) {
                 PlaySfx(1, value);
                 DialogueState->b4 = Options.b[player].h[5] + 14;
-                ST.view38 = options_D_80119698[5];
+                ST.view38 = options_controller_view_presets[5];
                 ST.phase20 = 0;
                 ST.detail10++;
             }
             line.x0 = 148;
             line.x1 = 172;
             line.y0 = line.y1 = ST.view38.y02;
-            AddLineF2Prim((const s16 *)&line, options_D_8011973C, 0, 0);
+            AddLineF2Prim((const s16 *)&line, options_marker_line_color, 0, 0);
             if (Options.b[player].h[4] > 0) {
-                line.y0 = line.y1 = ST.view38.y02 + options_D_80119724[Options.b[player].h[4] - 1];
-                AddLineF2Prim((const s16 *)&line, options_D_8011973C, 0, 0);
-                line.y0 = line.y1 = ST.view38.y02 - options_D_80119724[Options.b[player].h[4] - 1];
-                AddLineF2Prim((const s16 *)&line, options_D_8011973C, 0, 0);
+                line.y0 = line.y1 = ST.view38.y02 + options_twist_play_marker_offsets[Options.b[player].h[4] - 1];
+                AddLineF2Prim((const s16 *)&line, options_marker_line_color, 0, 0);
+                line.y0 = line.y1 = ST.view38.y02 - options_twist_play_marker_offsets[Options.b[player].h[4] - 1];
+                AddLineF2Prim((const s16 *)&line, options_marker_line_color, 0, 0);
             }
             cursor = CURSOR;
             if (Options.b[player].h[4] > 0) {
-                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 182, options_D_80119020, 0x7F38, 255);
+                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 182, options_left_arrow_uv, 0x7F38, 255);
             }
             if (Options.b[player].h[4] < 3) {
-                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 182, options_D_80119024, 0x7F38, 255);
+                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 182, options_right_arrow_uv, 0x7F38, 255);
             }
             CURSOR = cursor;
             break;
@@ -577,22 +577,22 @@ void options_func_80116D10(s32 player) {
             }
             cursor = CURSOR;
             if (Options.b[player].h[5] > 0) {
-                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 182, options_D_80119020, 0x7F38, 255);
+                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 182, options_left_arrow_uv, 0x7F38, 255);
             }
             if (Options.b[player].h[5] < 3) {
-                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 182, options_D_80119024, 0x7F38, 255);
+                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 182, options_right_arrow_uv, 0x7F38, 255);
             }
             CURSOR = cursor;
             break;
         }
-        if (options_func_8011629C(player) < 0) {
+        if (options_get_controller_kind(player) < 0) {
             CLOSE_ROWS(8);
             MenuFadeTimer = 64;
             ST.step0C = 2;
             ST.next14 = 0;
         }
         LINK_PACKET();
-        options_func_8011643C();
+        options_draw_controller_model();
         break;
     case 4:
         switch (ST.detail10) {
@@ -602,7 +602,7 @@ void options_func_80116D10(s32 player) {
             InitBadgeRow(0, 12, 304, 296, 88, 0, 0);
             BadgeRows->h02 = 1;
             SetMenuFrameOptions(1, 0, 0);
-            ST.view38 = options_D_80119698[6];
+            ST.view38 = options_controller_view_presets[6];
             ST.rotation86 = 0;
             ST.angle1C = 0;
             DialogueState->b4 = 8;
@@ -640,15 +640,15 @@ void options_func_80116D10(s32 player) {
                 ST.detail10++;
             }
             if (Options.c[player].c[0] > 0) {
-                options_func_801169BC(WheelDeadzoneTable[Options.c[player].c[0]] << 5);
-                options_func_801169BC(-WheelDeadzoneTable[Options.c[player].c[0]] << 5);
+                options_draw_angle_marker(WheelDeadzoneTable[Options.c[player].c[0]] << 5);
+                options_draw_angle_marker(-WheelDeadzoneTable[Options.c[player].c[0]] << 5);
             }
             cursor = CURSOR;
             if (Options.c[player].c[0] > 0) {
-                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 182, options_D_80119020, 0x7F38, 255);
+                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 182, options_left_arrow_uv, 0x7F38, 255);
             }
             if (Options.c[player].c[0] < 3) {
-                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 182, options_D_80119024, 0x7F38, 255);
+                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 182, options_right_arrow_uv, 0x7F38, 255);
             }
             CURSOR = cursor;
             break;
@@ -673,10 +673,10 @@ void options_func_80116D10(s32 player) {
             }
             cursor = CURSOR;
             if (Options.c[player].c[1] > 0) {
-                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 182, options_D_80119020, 0x7F38, 255);
+                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 182, options_left_arrow_uv, 0x7F38, 255);
             }
             if (Options.c[player].c[1] < 4) {
-                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 182, options_D_80119024, 0x7F38, 255);
+                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 182, options_right_arrow_uv, 0x7F38, 255);
             }
             CURSOR = cursor;
             break;
@@ -702,22 +702,22 @@ void options_func_80116D10(s32 player) {
             }
             cursor = CURSOR;
             if (Options.c[player].c[2] > 0) {
-                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 182, options_D_80119020, 0x7F38, 255);
+                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 56, 182, options_left_arrow_uv, 0x7F38, 255);
             }
             if (Options.c[player].c[2] < 2) {
-                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 182, options_D_80119024, 0x7F38, 255);
+                cursor = AddSpritePrim(&CurrentDrawBuf->ordering70, cursor, 254, 182, options_right_arrow_uv, 0x7F38, 255);
             }
             CURSOR = cursor;
             break;
         }
-        if (options_func_8011629C(player) < 0 || PlayerControllers[player].course01 != 0xE3) {
+        if (options_get_controller_kind(player) < 0 || PlayerControllers[player].course01 != 0xE3) {
             CLOSE_ROWS(8);
             MenuFadeTimer = 64;
             ST.step0C = 2;
             ST.next14 = 0;
         }
         LINK_PACKET();
-        options_func_8011643C();
+        options_draw_controller_model();
         break;
     }
     if (ST.step0C < 3) {

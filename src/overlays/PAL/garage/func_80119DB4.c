@@ -1,7 +1,7 @@
 #include "rr/overlay662_transition.h"
 
-void garage_func_80119DB4(void) {
-    garage_func_80119B44();
+void garage_enter_color_select(void) {
+    garage_init_color_select();
     ModeGroup = 1;
     ModeId = 0x46;
     ModeSubState = 0;

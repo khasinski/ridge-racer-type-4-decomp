@@ -1,9 +1,9 @@
 #include "rr/overlay662_primitives.h"
 
-RrGpuTilePacket *garage_func_8011B034(u32 *ordering, RrGpuTilePacket *packet, u32 x, u32 y, u32 w, u32 h, u32 r, u32 g, u32 b)
+RrGpuTilePacket *garage_add_tile(u32 *ordering, RrGpuTilePacket *packet, u32 x, u32 y, u32 w, u32 h, u32 r, u32 g, u32 b)
 {
-    u16 baseX=garage_D_801276A8.halfC8;
-    u16 baseY=garage_D_801276A8.halfCA;
+    u16 baseX=garage_logo_state.halfC8;
+    u16 baseY=garage_logo_state.halfCA;
     packet->tag.bytes.length=3;
     packet->code=0x60;
     packet->x=baseX+x;

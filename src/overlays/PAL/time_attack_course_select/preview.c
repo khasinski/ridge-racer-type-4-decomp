@@ -1,6 +1,6 @@
 #include "rr/overlay660.h"
 
-void time_attack_course_select_func_801163C4(void)
+void time_attack_course_select_init_preview(void)
 {
     RrRaceVehicle *state;
     RrProjectionScratchPrefix *scratch;
@@ -33,7 +33,7 @@ void time_attack_course_select_func_801163C4(void)
     time_attack_course_select_available_car_counts[1] = CountChoiceGlyphs(&CourseChoiceTable[1][0]);
 }
 
-void time_attack_course_select_func_80116530(void) {
+void time_attack_course_select_update_preview(void) {
     RrPreviewColor color;
     s32 drawFlags;
     s32 scale;
@@ -191,7 +191,7 @@ void time_attack_course_select_func_80116530(void) {
         closingState = UiRows[time_attack_course_select_preview_bank * 3 + 4].byte14;
         if (closingState == 5 && ((s8 *)ImageRows)[1] == closingState) {
             ResetScreenCounters();
-            time_attack_course_select_func_80114920();
+            time_attack_course_select_init_menu();
             ModeGroup = 1;
             ModeId = 50;
             ModeSubState = 0;

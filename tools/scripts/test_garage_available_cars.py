@@ -26,8 +26,8 @@ static unsigned count,seen,serial,n,profile;static int reference_run;
 #define ModeFrame world.frame
 #define ScreenFrame world.clock
 #define garage_D_801272D4 world.phase
-#define garage_D_801272E4 world.pick
-#define garage_D_801272E0 world.count
+#define garage_car_index world.pick
+#define garage_car_list_count world.count
 #define MenuCursor world.row
 #define MenuItemCount world.layout
 #define ModeId world.scene
@@ -40,8 +40,8 @@ static unsigned count,seen,serial,n,profile;static int reference_run;
 #define SelectionRows world.choice
 #define SaveProgress world.save
 #define CourseChoiceTable world.courses
-#define garage_D_80127300 world.status
-#define garage_D_80127348 world.cars
+#define garage_car_status world.status
+#define garage_collected_cars world.cars
 #define PlayerCourseChoices world.grid
 '''+codecs+body+r'''
 static u32 seed=0x16960;static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -101,7 +101,7 @@ int main(void){assert(sizeof(void*)==8&&(uintptr_t)resources>UINT32_MAX);memset(
   for(unsigned g=0;g<4;g++)for(unsigned t=0;t<4;t++)world.save.prefix.progress.progress10[g][t]=profile%4==0?0:profile%4==1?0xFFFFFFFFU:profile%4==2?1U<<((n+g+t)%20):next();
   for(unsigned i=0;i<20;i++){world.cars[i].value=half(n*17U+i);world.cars[i].reserved=(u16)(n+i);world.status[i]=half(n+i);}
   for(unsigned g=0;g<2;g++)for(unsigned i=0;i<9;i++)world.courses[g][i].glyph=half(n*73U+i*17U+g);
-  expected=world;count=seen=serial=0;reference_run=1;reference();reference_run=0;serial=0;garage_func_80116960();assert(count==seen&&memcmp(&world,&expected,sizeof(world))==0);
+  expected=world;count=seen=serial=0;reference_run=1;reference();reference_run=0;serial=0;garage_init_car_list();assert(count==seen&&memcmp(&world,&expected,sizeof(world))==0);
  }
  for(unsigned i=0;i<sizeof(resources);i++)assert(((u8*)resources)[i]==0x69);
  puts("65536 cases;actual glyph codecs,full native arenas,live masks/car records and complete service snapshots");return 0;

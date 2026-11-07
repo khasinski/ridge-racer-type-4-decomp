@@ -10,11 +10,11 @@
  * slots occupy27348..27398;the following storage is the image-fade phase. */
 typedef struct {s16 value;u16 reserved;} RrGarageAvailableCar;
 extern RrCourseChoice4 CourseChoiceTable[2][9];
-extern s16 garage_D_801272D4,garage_D_801272E0,garage_D_801272E4;
+extern s16 garage_D_801272D4,garage_car_list_count,garage_car_index;
 extern s16 MenuCursor,MenuItemCount,ModeId,ModeSubState;
 extern u16 ModeGroup;
-extern s16 garage_D_80127300[20];
-extern RrGarageAvailableCar garage_D_80127348[20];
+extern s16 garage_car_status[20];
+extern RrGarageAvailableCar garage_collected_cars[20];
 void SetupRenderer(s32);void InitPreviewImageRows(void);s32 PackChoiceGlyph(void *);
 /* Resource base owns at least0x2D000 bytes for the initial arena offset.
  * Services may replace full arena/UI pointers;progress group bytes remain
@@ -24,7 +24,7 @@ void SetupRenderer(s32);void InitPreviewImageRows(void);s32 PackChoiceGlyph(void
  * The final glyph decode reads slot0 even when no cars were appended,so it
  * remains a readable initialized record. Count is0..20. Final UI and arena
  * first pointer both capture the fresh screen root after the last decoder. */
-void garage_func_80116960(void);
+void garage_init_car_list(void);
 RR_ASSERT_SIZE(RrGarageAvailableCar,4);
 RR_ASSERT_OFFSET(RrGarageAvailableCar,reserved,2);
 #endif

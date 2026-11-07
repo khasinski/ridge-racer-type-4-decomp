@@ -1,5 +1,5 @@
 #include "rr/overlay662_input.h"
-void garage_func_8011D338(RrGaragePoint *output)
+void garage_read_analog_motion(RrGaragePoint *output)
 {
     RrGaragePoint point;
     s32 step,delta;
@@ -11,31 +11,31 @@ void garage_func_8011D338(RrGaragePoint *output)
         axis=PlayerControllers[0].axis16;
         if (axis <112) {
             delta=((s32)axis-112)*step;
-            if (garage_D_80126C14[0] <0) garage_D_80126C14[0]+=delta;
-            else garage_D_80126C14[0]=delta;
-            point.x=garage_D_80126C14[0]/112;
-            garage_D_80126C14[0]-=point.x*112;
+            if (garage_analog_cursor_remainder[0] <0) garage_analog_cursor_remainder[0]+=delta;
+            else garage_analog_cursor_remainder[0]=delta;
+            point.x=garage_analog_cursor_remainder[0]/112;
+            garage_analog_cursor_remainder[0]-=point.x*112;
         } else if (axis>=145) {
             delta=((s32)axis-143)*step;
-            if (garage_D_80126C14[0] >0) garage_D_80126C14[0]+=delta;
-            else garage_D_80126C14[0]=delta;
-            point.x=garage_D_80126C14[0]/112;
-            garage_D_80126C14[0]-=point.x*112;
-        } else garage_D_80126C14[0]=0;
+            if (garage_analog_cursor_remainder[0] >0) garage_analog_cursor_remainder[0]+=delta;
+            else garage_analog_cursor_remainder[0]=delta;
+            point.x=garage_analog_cursor_remainder[0]/112;
+            garage_analog_cursor_remainder[0]-=point.x*112;
+        } else garage_analog_cursor_remainder[0]=0;
         axis=PlayerControllers[0].axis17;
         if (axis <112) {
             delta=((s32)axis-112)*step;
-            if (garage_D_80126C14[1] <0) garage_D_80126C14[1]+=delta;
-            else garage_D_80126C14[1]=delta;
-            point.y=(s16)(garage_D_80126C14[1]/112)*2;
-            garage_D_80126C14[1]-=point.y*112;
+            if (garage_analog_cursor_remainder[1] <0) garage_analog_cursor_remainder[1]+=delta;
+            else garage_analog_cursor_remainder[1]=delta;
+            point.y=(s16)(garage_analog_cursor_remainder[1]/112)*2;
+            garage_analog_cursor_remainder[1]-=point.y*112;
         } else if (axis>=145) {
             delta=((s32)axis-143)*step;
-            if (garage_D_80126C14[1] >0) garage_D_80126C14[1]+=delta;
-            else garage_D_80126C14[1]=delta;
-            point.y=(s16)(garage_D_80126C14[1]/112)*2;
-            garage_D_80126C14[1]-=point.y*112;
-        } else garage_D_80126C14[1]=0;
+            if (garage_analog_cursor_remainder[1] >0) garage_analog_cursor_remainder[1]+=delta;
+            else garage_analog_cursor_remainder[1]=delta;
+            point.y=(s16)(garage_analog_cursor_remainder[1]/112)*2;
+            garage_analog_cursor_remainder[1]-=point.y*112;
+        } else garage_analog_cursor_remainder[1]=0;
     }
     if ((u16)point.x | (u16)point.y) {output->x=point.x;output->y=point.y;}
 }

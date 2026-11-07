@@ -63,7 +63,7 @@ static u8 seenCounts[10];
 #define ModeSubState w->s.timer
 #define ModelTexturePage w->s.driverSetting
 #define time_attack_course_select_title format660
-#define garage_D_8011487C format662
+#define garage_scene_name format662
 #define records_scene_name format663
 static s32 word(u32 bits){s32 result;memcpy(&result,&bits,4);return result;}
 static void effect(unsigned n){
@@ -103,8 +103,8 @@ static void event(s32 service,s32 a,s32 b,s32 c,s32 d){
 void SetDispMask(s32 mode){assert(mode==0);event(1,mode,0,0,0);}
 void ClearScreenOverlayState(void){event(2,0,0,0,0);}
 void SetupDrawDispEnvs(s32 r,s32 g,s16 b,u32 flags){event(3,r,g,b,(s32)flags);}
-void time_attack_course_select_func_80114920(void){event(4,0,0,0,0);}
-void garage_func_80114998(void){event(5,0,0,0,0);}
+void time_attack_course_select_init_menu(void){event(4,0,0,0,0);}
+void garage_init_main_menu(void){event(5,0,0,0,0);}
 void records_init_menu(void){
  if(w==&actual){assert(w->s.count>=0 && w->s.count<=9);seenCounts[w->s.count]=1;}
  event(6,0,0,0,0);
@@ -120,11 +120,11 @@ static void reference(void){
   copy_name(w->s.name,w->s.save.prefix.progress.prefix00.fields.name);SetupDrawDispEnvs(0,0,0,2);
   flags=w->s.save.prefix.progress.prefix00.fields.configuration0C;w->s.setting=0;
   w->s.zoom=flags>=16?8:4;if((u32)flags&256)w->s.zoom=16;
-  time_attack_course_select_func_80114920();
+  time_attack_course_select_init_menu();
   {s32 glyph=w->s.choices[0][0].glyph;w->s.current.bytes[0]=(u8)(glyph/160);w->s.current.bytes[1]=(u8)(glyph/40-(glyph/160)*4);w->s.current.bytes[2]=(u8)(glyph%40);}
   w->s.mode=1;w->s.position=50;w->s.timer=0;DebugPrintStub(format660);SeqStartTrack(0);
  }else if(kind==1){
-  ClearScreenOverlayState();garage_func_80114998();SetupDrawDispEnvs(0,0,0,2);w->s.driverSetting=25;
+  ClearScreenOverlayState();garage_init_main_menu();SetupDrawDispEnvs(0,0,0,2);w->s.driverSetting=25;
   w->s.mode=1;w->s.position=40;w->s.timer=0;DebugPrintStub(format662);
   if(w->s.save.prefix.reserved50.words[0]==1 && w->s.choices[1][7].glyph>=0){w->s.choices[1][8].glyph=359;w->s.choices[1][8].first=1;}
   SeqStartTrack(0);
@@ -143,7 +143,7 @@ int main(void){unsigned i;
   memset(&initial,0,sizeof(initial));w=&initial;effect(9);
   for(i=0;i<4;i++){w->s.guard[i]=0x12345678U+i;w->s.tail[i]=0x87654321U-i;}
   actual=initial;expected=initial;w=&actual;
-  if(kind==0)time_attack_course_select_func_80114C40();else if(kind==1)garage_func_80114B9C();else records_init_scene();
+  if(kind==0)time_attack_course_select_init_scene();else if(kind==1)garage_enter_main_menu();else records_init_scene();
   w=&expected;reference();assert(memcmp(&actual,&expected,sizeof(actual))==0);
  }
  for(i=0;i<10;i++)assert(seenCounts[i]);return 0;

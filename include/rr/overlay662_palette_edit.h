@@ -5,18 +5,18 @@
 /* Palette pointers address words[0] of a complete32-byte RrPalette16 owner.
  * active21 is0/1 and config22 is0..15. Active horizontal clips give x149..212
  * (component0..31). Backup copies both512-word images and8 palette words. */
-extern s32 garage_D_80127780,garage_D_80127788,garage_D_80127790;
-extern u16 garage_D_80127784,garage_D_8012778C,garage_D_80127794;
-void garage_func_80124258(void);
-void garage_func_801243DC(void);
-void garage_func_80124560(void);
+extern s32 garage_red_slider_backed_up,garage_green_slider_backed_up,garage_blue_slider_backed_up;
+extern u16 garage_red_slider_start,garage_green_slider_start,garage_blue_slider_start;
+void garage_palette_red_slider(void);
+void garage_palette_green_slider(void);
+void garage_palette_blue_slider(void);
 /* Step buttons capture the selected palette entry before input handling.
  * Timer is published before sound. After sound, update the captured entry
  * using its fresh contents and the component captured before backup/sound. */
-void garage_func_8012349C(void);
-void garage_func_801235F4(void);
-void garage_func_80123750(void);
-void garage_func_801238AC(void);
-void garage_func_80123A0C(void);
-void garage_func_80123B68(void);
+void garage_palette_red_down(void);
+void garage_palette_red_up(void);
+void garage_palette_green_down(void);
+void garage_palette_green_up(void);
+void garage_palette_blue_down(void);
+void garage_palette_blue_up(void);
 #endif

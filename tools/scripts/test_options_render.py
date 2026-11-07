@@ -29,7 +29,7 @@ class Overlay665RenderTest(unittest.TestCase):
         static u8 pixels[4][256];static u32 heads[4][32],programs[10][6];
         static const u32 *table[10];
         #define RR_PREVIEW_RENDER_SCRATCH (&w->s.scratch)
-        #define options_D_80119768 w->s.visual
+        #define options_menu_state w->s.visual
         #define ModelBankFormat w->s.meshes
         #define LightMatrix w->s.basis
         static const s32 kinds[]={INT32_MIN,-1,0,1,2,3,4,INT32_MAX};
@@ -126,7 +126,7 @@ class Overlay665RenderTest(unittest.TestCase):
          SetupObjectLightMatrices((char*)&w->s.visual.view74,(char*)&w->s.visual.lighting4C,&first->matrix,&second->matrix);
          (void)ScaleMatrix(first->words,scales);SetGeomScreen(w->s.visual.depth40);
         }
-        static void light(RrPreviewMatrixWorkspace *matrix){options_func_80116358(matrix,&w->s.visual.lighting4C.matrix);}
+        static void light(RrPreviewMatrixWorkspace *matrix){options_set_preview_light_matrix(matrix,&w->s.visual.lighting4C.matrix);}
         static void project(RrPreviewMatrixWorkspace *matrix){SetGteObjectTransform(w->s.scratch.tail7C.projection.halves,w->s.visual.view74.position00.halves,(s32*)matrix->words);}
         static void draw(s32 threshold,s32 object) {
          s32 chosen=w->s.meshes>=threshold?object:1;
@@ -172,7 +172,7 @@ class Overlay665RenderTest(unittest.TestCase):
           for(i=0;i<4;i++){w->s.guard[i]=0x12345678U+i;w->s.tail[i]=0x87654321U-i;}
           w->s.visual.kind18=kinds[scenario%8];
           w->s.scratch.depth60=word(scenario*0x98765431U);
-          actual=initial;expected=initial;w=&actual;options_func_8011643C();w=&expected;reference();
+          actual=initial;expected=initial;w=&actual;options_draw_controller_model();w=&expected;reference();
           assert(memcmp(&actual,&expected,sizeof(actual))==0);
           for(n=0;n<4;n++){assert(actual.s.guard[n]==initial.s.guard[n]);assert(actual.s.tail[n]==initial.s.tail[n]);}
          }

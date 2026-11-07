@@ -46,7 +46,7 @@ int main(void){unsigned k,i;
   for(i=0;i<6 && world.values[i]>=0;i++)
    if(world.values[i]<world.values[wanted])wanted=i;
   memcpy(&expected,&world,sizeof(world));expected.selected=wanted;
-  time_attack_course_select_func_801162D8();
+  time_attack_course_select_find_best_lap();
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

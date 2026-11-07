@@ -1,6 +1,6 @@
 #include "rr/overlay660.h"
 
-void time_attack_course_select_func_80117084(RrRaceVehicleViews *player){
+void time_attack_course_select_check_race_end(RrRaceVehicleViews *player){
  RrRaceVehicleControl *control=&player->parts.control;
  if((u32)RaceState-2U<2){
   s32 allow=0;
@@ -10,7 +10,7 @@ void time_attack_course_select_func_80117084(RrRaceVehicleViews *player){
  }
 }
 
-void time_attack_course_select_func_8011712C(void)
+void time_attack_course_select_exit_race(void)
 {
     StopRaceAudioAndRumble();
     SetupRaceAndScene();
@@ -20,7 +20,7 @@ void time_attack_course_select_func_8011712C(void)
     AddScreenFadeTiles(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70, 255, 69);
 }
 
-void time_attack_course_select_func_8011718C(void) {
+void time_attack_course_select_update_race(void) {
     s32 fadeFlags;
     s8 paused;
 
@@ -115,7 +115,7 @@ update_pause_timer:
     }
     UpdateLapTiming(PlayerCars);
     DrawSplitTimeHud(0);
-    time_attack_course_select_func_80117084((RrRaceVehicleViews *)(void *)PlayerCars);
+    time_attack_course_select_check_race_end((RrRaceVehicleViews *)(void *)PlayerCars);
     UpdateRaceRanking();
     if (RaceState < 4) {
         DrawStartCountdown(CurrentDrawBuf->ordering.ordering70, ModeFrame);

@@ -53,7 +53,7 @@ static void finish_effect(struct World *w){event(w,4,0,0,0,w->active);w->counter
 void ResetScreenCounters(void){rr_real_reset();assert(world.flag0==0 && world.flag1==0 && world.counter==0);reset_effect(&world);}
 void InitMenuArenas(void){load_effect(&world);}
 void SetMenuFrameOptions(s32 a,s32 b,s32 c){ui_effect(&world,a,b,c);}
-void garage_func_80116020(void){finish_effect(&world);}
+void garage_init_team_select(void){finish_effect(&world);}
 ''' + body + r'''
 static u32 seed=0x16148;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -78,7 +78,7 @@ int main(void){unsigned k,i,j;
   expected.slots.second=&arena[index][offset+0x2d000];
   load_effect(&expected);expected.active=expected.slots.second;
   ui_effect(&expected,0,1,1);finish_effect(&expected);
-  garage_func_80116148();
+  garage_init_collection();
   assert(memcmp(&world,&expected,sizeof(world))==0);
   assert((uintptr_t)world.base>UINT32_MAX && (uintptr_t)world.slots.second>UINT32_MAX);
  }

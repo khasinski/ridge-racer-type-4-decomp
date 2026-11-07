@@ -34,13 +34,13 @@ static u8 banks[3][25*0x840];
 #define PlayerCourseChoices w->grid
 #define DefaultCarClut w->palette0
 #define CarClutData w->palette1
-#define garage_D_801272A0 w->map
-#define garage_D_801272BE w->current
+#define garage_car_color_map w->map
+#define garage_clut_list_index w->current
 #define garage_D_801272D4 w->phase
-#define garage_D_801272E2 w->key
-#define garage_D_801272E8 w->mode
-#define garage_D_80127398 w->fade
-#define garage_D_8012739A w->total
+#define garage_clut_choice w->key
+#define garage_returned_from_logo_editor w->mode
+#define garage_image_fade_phase w->fade
+#define garage_clut_list_count w->total
 '''+body+r'''
 static struct Event {unsigned kind;s32 a[7];struct State before;} events[24];
 static unsigned scenario,profile,serial,count,seen,coverage[11],action[4],exitRoute[2],mapped[26],readyOut[2];
@@ -79,12 +79,12 @@ void UploadCarClut(void *p,s32 a,s32 b){unsigned bank;assert((uintptr_t)p>UINT32
 }
 void PlaySfx(s32 a){assert(a==1||a==2||a==4);record(4,a,0,0,0,0,0,0);change(4);}
 s32 UpdateRect16Row(s32 a){record(5,a,0,0,0,0,0,0);change(5);return (scenario&1)?1:word(scenario*0x1020304U);}
-void garage_func_80119898(s32 a){record(6,a,0,0,0,0,0,0);change(6);}
+void garage_draw_color_preview_image(s32 a){record(6,a,0,0,0,0,0,0);change(6);}
 void DrawMenuStepArrows(s32 a,s32 b,s32 c,s32 d,s32 e,s32 f,s32 g){record(7,a,b,c,d,e,f,g);change(7);}
 void DrawUiRow(s32 a){assert(a>=0&&a<4);record(8,a,0,0,0,0,0,0);change(8);}
 void UpdateBadgeRowAnim(s32 a){record(9,a,0,0,0,0,0,0);change(9);}
 void UpdateScreenFade(s32 a){record(10,a,0,0,0,0,0,0);change(10);}
-void garage_func_80118ED8(void){exitRoute[0]++;record(10,-1,0,0,0,0,0,0);change(10);}
+void garage_init_car_select(void){exitRoute[0]++;record(10,-1,0,0,0,0,0,0);change(10);}
 static void closeRows(void){for(unsigned i=0;i<2;i++)if(w->rows[w->root][i].byte14==2)w->rows[w->root][i].byte14=3;}
 static void expected(void){unsigned state=(u16)w->state;int complete=0;
  w->frame=word((u32)w->frame+1);w->tick=word((u32)w->tick+1);
@@ -104,12 +104,12 @@ static void expected(void){unsigned state=(u16)w->state;int complete=0;
  }else if(state==3||state==4){SetMenuFrameOptions(0,1,w->mode==0);
   if(w->rows[w->root][0].byte14==5&&w->badges[w->badgeRoot][0].state10==11){
    if(state==3)w->grid[0].second=half((u16)w->key+1);
-   if(w->mode==0)garage_func_80118ED8();else{exitRoute[1]++;w->enable=3;w->scene=1;w->state=0;}
+   if(w->mode==0)garage_init_car_select();else{exitRoute[1]++;w->enable=3;w->scene=1;w->state=0;}
    complete=1;
   }
  }
  if(!complete){if(w->phase==0){s32 v=UpdateRect16Row(0);readyOut[v==1]++;if(v==1)w->phase=1;}
-  else{garage_func_80119898(w->phase-1);DrawMenuStepArrows(160,192,48,0,w->current,0,w->total);}
+  else{garage_draw_color_preview_image(w->phase-1);DrawMenuStepArrows(160,192,48,0,w->current,0,w->total);}
   for(int i=0;i<w->count;i++)DrawUiRow(i);UpdateBadgeRowAnim(0);
  }
  UpdateScreenFade(0x1004A);
@@ -121,7 +121,7 @@ int main(void){assert(sizeof(void*)==8);for(scenario=0;scenario<65536;scenario++
  actual.input[0].a=(scenario>>7)&1;actual.input[0].b=(scenario>>8)&1;
  actual.palette0=banks[scenario%3];actual.palette1=banks[(scenario+1)%3];for(unsigned i=0;i<25;i++)actual.map[i]=(scenario+i)%26;
  for(unsigned j=0;j<2;j++){actual.badges[j][0].state10=((scenario>>10)&1)?3:11;for(unsigned i=0;i<4;i++)actual.rows[j][i].byte14=((scenario>>9)&1)?2:5;}
- reference=actual;count=seen=serial=0;referenceRun=1;w=&reference;expected();serial=0;referenceRun=0;w=&actual;garage_func_80119E00();assert(seen==count&&!memcmp(&actual,&reference,sizeof(actual)));
+ reference=actual;count=seen=serial=0;referenceRun=1;w=&reference;expected();serial=0;referenceRun=0;w=&actual;garage_update_color_select();assert(seen==count&&!memcmp(&actual,&reference,sizeof(actual)));
  }
  for(unsigned i=0;i<11;i++)assert(coverage[i]);for(unsigned i=0;i<4;i++)assert(action[i]);for(unsigned i=0;i<26;i++)assert(mapped[i]);assert(exitRoute[0]&&exitRoute[1]&&readyOut[0]&&readyOut[1]);
  puts("524288 cases passed; guarded states,all palette mappings,accept/reject/cancel paths and fresh native roots");

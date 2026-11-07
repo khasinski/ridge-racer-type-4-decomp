@@ -93,7 +93,7 @@ int main(void){unsigned k,i;const u32 edges[]={0,3,0x7fffffffU,0x80000000U,0xfff
   world.scratch.pointers.cursor=world.arena[k%3]+24;world.scratch.pointers.order=world.order;
   random_value[0]=(k&8)?next():edges[k&7];random_value[1]=(k&16)?next():edges[(k>>3)&7];
   assert((uintptr_t)world.scratch.pointers.cursor>UINT32_MAX && (uintptr_t)world.arenas.second>UINT32_MAX);
-  memcpy(&expected,&world,sizeof(world));reference();versus_select_func_80117350();assert(memcmp(&world,&expected,sizeof(world))==0);
+  memcpy(&expected,&world,sizeof(world));reference();versus_select_init_course_select();assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  /* The other initializer has no random/UI boundaries: execute its complete
   * resident selection/reset closure for every signed16 selector. */
@@ -106,7 +106,7 @@ int main(void){unsigned k,i;const u32 edges[]={0,3,0x7fffffffU,0x80000000U,0xfff
   expected.flag=expected.selected>=8;expected.mapped=codes[(u16)expected.selected&7];expected.flag1=0;expected.flag2=0;
   expected.scratch.word18=512;expected.scratch.word0C=-416;expected.scratch.word1C=0;expected.scratch.word20=0;expected.scratch.word08=0;expected.scratch.word10=0;
   expected.scene.words20[0]=0;expected.scene.words20[1]=0;expected.scene.words20[2]=0;expected.bank=0;expected.selectionCounter=0;expected.published=expected.arenas.second;
-  serial_link_func_80117EF8();assert(memcmp(&world,&expected,sizeof(world))==0);
+  serial_link_init_course_select();assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;
 }

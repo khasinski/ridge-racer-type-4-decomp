@@ -22,7 +22,7 @@ class OverlayRodataVerifierTest(unittest.TestCase):
         (cls.root/'include').symlink_to(ROOT/'include',target_is_directory=True)
         cls.source=cls.root/'src/overlays/PAL/garage/func_80114998.c';cls.source.parent.mkdir(parents=True)
         cls.source.write_text(''.join(f'void func_{0x80011100+i*16:08X}(void);\n' for i in range(5))+
-            'void garage_func_80114998(int mode){switch(mode){'+''.join(f'case {i}:func_{0x80011100+i*16:08X}();break;' for i in range(5))+'default:break;}}\n')
+            'void garage_init_main_menu(int mode){switch(mode){'+''.join(f'case {i}:func_{0x80011100+i*16:08X}();break;' for i in range(5))+'default:break;}}\n')
         cls.obj=cls.root/'fixture.o';cls.elf=cls.root/'fixture.elf';ld=cls.root/'fixture.ld'
         subprocess.run([str(ROOT/'tools/scripts/cc.sh'),str(cls.source),str(cls.obj)],check=True,capture_output=True)
         ld.write_text(''.join(f'func_{0x80011100+i*16:08X} = 0x{0x80011100+i*16:X};\n' for i in range(5))+

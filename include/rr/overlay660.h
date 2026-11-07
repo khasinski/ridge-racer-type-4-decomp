@@ -31,20 +31,20 @@ void DrawSplitTimeHud(s32 paused);
 s32 CountChoiceGlyphs(const RrCourseChoice4 *choices);
 s32 EncodeRecordPassword(s32 course, s32 selection, s32 car, s32 mode, s32 value, u8 *output);
 
-void time_attack_course_select_func_80114910(void);
-void time_attack_course_select_func_80114920(void);
-void time_attack_course_select_func_80114C40(void);
-void time_attack_course_select_func_80114D38(void);
-void time_attack_course_select_func_801154D8(void);
+void time_attack_course_select_set_scene_id(void);
+void time_attack_course_select_init_menu(void);
+void time_attack_course_select_init_scene(void);
+void time_attack_course_select_update_menu(void);
+void time_attack_course_select_init_results(void);
 /* The results controller explicitly passes zero in a0. */
-s32 time_attack_course_select_func_801156A8(s32 reserved);
-void time_attack_course_select_func_8011572C(void);
-s32 time_attack_course_select_func_80115FA8(s32 mode, s32 time);
-void time_attack_course_select_func_801162D8(void);
-void time_attack_course_select_func_801163C4(void);
-void time_attack_course_select_func_80116530(void);
-void time_attack_course_select_func_8011712C(void);
-void time_attack_course_select_func_8011718C(void);
+s32 time_attack_course_select_update_results_choice(s32 reserved);
+void time_attack_course_select_update_results(void);
+s32 time_attack_course_select_insert_record(s32 mode, s32 time);
+void time_attack_course_select_find_best_lap(void);
+void time_attack_course_select_init_preview(void);
+void time_attack_course_select_update_preview(void);
+void time_attack_course_select_exit_race(void);
+void time_attack_course_select_update_race(void);
 
 typedef RrRaceFrameScratch Rr660FrameScratch;
 #ifndef RR_660_FRAME_SCRATCH

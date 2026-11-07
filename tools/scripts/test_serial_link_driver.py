@@ -59,7 +59,7 @@ int main(void){unsigned k,i;const u32 terminals[]={1,0xffffffffU,0x80000000U,0x7
   record(&expected,4,5,0,0);record(&expected,5,3,0,0);
   record(&expected,6,0,0,0);record(&expected,7,1,0,0);
   expected.remaining=0;expected.attempts=world.planned+1;expected.active=0;expected.phase=7;
-  serial_link_func_80115494();
+  serial_link_reset_graph_and_sio();
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

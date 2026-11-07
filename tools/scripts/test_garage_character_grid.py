@@ -30,11 +30,11 @@ static u8 arena[2048];static u32 ordering[4];static unsigned scenario,mutation;
 static unsigned selectedSeen[43],clutSeen[2],sineSeen[9];
 static const s32 sineValues[9]={INT32_MIN,-4096,-1,0,1,63,64,4096,INT32_MAX};
 u8 NameCharset[]=" 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!?&@";
-s8 garage_D_80126230[3]={0,1,2};
+s8 garage_name_entry_button_glyphs[3]={0,1,2};
 RrBadgeRow1C *BadgeRows;
 #define UiFontGlyphs w->s.uv
 #define ScreenFrame w->s.tick
-#define garage_D_801273B4 w->s.selection
+#define garage_name_key_index w->s.selection
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 static u32 next(void){u32 x=w->s.rng;x^=x<<13;x^=x>>17;x^=x<<5;return w->s.rng=x;}
 static void change(void){unsigned i;if(!mutation)return;
@@ -77,7 +77,7 @@ static void expected(s32 row){s32 x=w->s.rows[row].x04+36,y=w->s.rows[row].y06+5
  p=AddTilePrim(ordering,p,x-16,y+136,256,2,255,255,255);
  for(i=0;i<4;i++){
   p=AddTilePrim(ordering,p,x-12+dx,y+144,1,16,255,255,255);dx+=4;
-  if(i!=3){unsigned key=garage_D_80126230[i];pulse((u32)w->s.selection==40+i,&clut,&color);
+  if(i!=3){unsigned key=garage_name_entry_button_glyphs[i];pulse((u32)w->s.selection==40+i,&clut,&color);
    p=AddSpritePrim(ordering,p,x-12+dx,y+144,&w->s.uv[key],clut,color);dx+=4+w->s.uv[key].w;
   }
  }
@@ -92,7 +92,7 @@ int main(void){unsigned i,j;uint64_t cases=0;
   w->s.tick=word(next());w->s.selection=(s32)(scenario%50)-3;
   if(scenario%64==0)w->s.selection=INT32_MIN;else if(scenario%64==1)w->s.selection=INT32_MAX;
   if((u32)w->s.selection<43)selectedSeen[w->s.selection]++;
-  actual=reference=initial;w=&actual;BadgeRows=w->s.rows;garage_func_80117F54(ordering,arena,scenario%4);
+  actual=reference=initial;w=&actual;BadgeRows=w->s.rows;garage_draw_name_char_grid(ordering,arena,scenario%4);
   w=&reference;BadgeRows=w->s.rows;expected(scenario%4);
   assert(!memcmp(&actual,&reference,sizeof(actual)));cases++;
  }

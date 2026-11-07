@@ -1,6 +1,6 @@
 #include "rr/overlay662_available_cars.h"
 
-void garage_func_80116960(void){
+void garage_init_car_list(void){
  u8 parts[3];
  s32 decoded;
  s32 arenaOffset;
@@ -8,7 +8,7 @@ void garage_func_80116960(void){
  s16 *status;RrGarageAvailableCar *entry;
  u8 *choice;
  RrGarageAvailableCar *captured;
- ModeFrame=0;ScreenFrame=0;garage_D_801272D4=0;garage_D_801272E4=0;MenuCursor=0;MenuItemCount=2;
+ ModeFrame=0;ScreenFrame=0;garage_D_801272D4=0;garage_car_index=0;MenuCursor=0;MenuItemCount=2;
  ResetScreenCounters();
  arenaOffset=0x2D000;i=0;count=i;
  MenuArenas.second=CdDirectoryBuffer+arenaOffset;
@@ -16,7 +16,7 @@ void garage_func_80116960(void){
  InitUiRow(0,24,88,68,32,0,0,1,0,83);
  InitUiRow(1,24,128,68,32,0,0,1,0,85);
  InitPreviewImageRows();InitBadgeRow(1,24,192,84,34,0,0x201);SetupRenderer(5);
- status=garage_D_80127300;entry=garage_D_80127348;
+ status=garage_car_status;entry=garage_collected_cars;
  do{
   SelectionRows.bytes[2]=i;
   *status=(SaveProgress.prefix.progress.progress10[SelectionRows.bytes[0]][SelectionRows.bytes[1]]>>i)&1;
@@ -33,8 +33,8 @@ void garage_func_80116960(void){
   }
   i++;status++;
  }while(i<20);
- garage_D_801272E0=count;
- UnpackChoiceGlyph((s8*)&SelectionRows,garage_D_80127348[0].value);
+ garage_car_list_count=count;
+ UnpackChoiceGlyph((s8*)&SelectionRows,garage_collected_cars[0].value);
  PlayerCourseChoices[0].first=0;PlayerCourseChoices[0].second=0;
  ModeGroup=1;ModeId=67;ModeSubState=0;
  LoadCursor=MenuArenaBase;MenuArenas.first=MenuArenaBase;

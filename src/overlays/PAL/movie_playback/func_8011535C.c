@@ -1,5 +1,5 @@
 #include "rr/overlay668_display.h"
-void movie_playback_func_8011535C(RrStrDisplayConfig *config,s32 mode)
+void movie_playback_sync(RrStrDisplayConfig *config,s32 mode)
 {
     u32 ready=config->ready0C;
     volatile u32 counter=0x800000;

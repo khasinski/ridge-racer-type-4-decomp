@@ -7,7 +7,7 @@ root=next(p for p in Path(__file__).resolve().parents if (p/'tools/scripts/cc.sh
 stage=root/'build/goal_50/parallel660'
 public=root/'src/overlays/PAL/time_attack_course_select/func_80114D38.c'
 use_public=True
-body=read_c_source(public);body=body[body.index('void time_attack_course_select_func_80114D38'):]
+body=read_c_source(public);body=body[body.index('void time_attack_course_select_update_menu'):]
 body=re.sub(r' __asm__\("\$\d+"\)','',body)
 source=r'''
 #include <assert.h>
@@ -87,7 +87,7 @@ s32 DecodeCourseIndex(s32 a){const s32 args[12]={a};record(5,args);w->style=a>=8
 void PlaySfx(s32 a){const s32 args[12]={a};record(6,args);effect(6);}
 void SeqFadeVolume(s32 a,s32 b){const s32 args[12]={a,b};record(7,args);effect(7);}
 void InitUiRow(s32 a,s32 b,s32 c,s32 d,s32 e,s32 f,s32 g,s32 h,s32 i,s32 j,...){va_list ap;va_start(ap,j);s32 x=va_arg(ap,s32),y=va_arg(ap,s32);va_end(ap);const s32 args[12]={a,b,c,d,e,f,g,h,i,j,x,y};record(8,args);effect(8);}
-void time_attack_course_select_func_801163C4(void){service(9);}
+void time_attack_course_select_init_preview(void){service(9);}
 void AddScreenFadeTiles(u32 *p,s32 b,u32 c){unsigned k;for(k=0;k<2&&p!=w->frames[k].ordering70;k++){}assert(k<2&&(uintptr_t)p>UINT32_MAX);const s32 args[12]={k,b,(s32)c};record(10,args);effect(10);}
 void SeqMuteVolume(void){service(11);}
 void DrawCourseInfoPanel(s32 a,s32 b){const s32 args[12]={a,b};record(12,args);effect(12);}
@@ -111,7 +111,7 @@ static void expected(void){w->frame=word((u32)w->frame+1);w->tick=word((u32)w->t
   }else if(phase==2){if(w->input[0].a&&w->rows[w->rowRoot][0].byte14==5){w->phase=4;InitUiRow(3,120,220,68,32,0,0,1,0,0,0,0);InitUiRow(4,120,260,68,32,0,0,1,0,0,0,0);}
   }else if(phase==4||phase==5){if(phase==4&&w->input[0].a&&w->rows[w->rowRoot][3].byte14==2){w->phase=5;w->modes[w->modeRoot][1]=3;w->rows[w->rowRoot][3].byte14=3;w->rows[w->rowRoot][4].byte14=3;}
    if(w->rows[w->rowRoot][3].byte14==5){for(unsigned i=0;i<3;i++)w->rows[w->rowRoot][i].byte14=0;w->phase=0;}
-  }else if(phase==3){course=0;if(w->rows[w->rowRoot][0].byte14==5){exits[0]++;time_attack_course_select_func_801163C4();w->enabled=1;w->scene=51;w->phase=0;}
+  }else if(phase==3){course=0;if(w->rows[w->rowRoot][0].byte14==5){exits[0]++;time_attack_course_select_init_preview();w->enabled=1;w->scene=51;w->phase=0;}
   }else if(phase==8||phase==10){course=0;s16 timer=half((u16)w->timer-1);w->timer=timer;AddScreenFadeTiles(w->frames[w->frameRoot].ordering70,(64-(s32)timer)*4,69);
    if(w->timer<=0){exits[phase==8?1:2]++;if(phase==8){SeqMuteVolume();w->enabled=1;w->scene=3;}else{w->settings=1;w->secondary=306;w->enabled=1;w->scene=71;}w->phase=0;}
   }
@@ -127,7 +127,7 @@ int main(void){assert(sizeof(void*)==8);u16 endian=1;assert(*(u8*)&endian==1);
  w->input[0].a=(scenario>>6)&1;w->input[0].b=(scenario>>7)&1;
  for(unsigned i=0;i<16;i++)for(unsigned j=0;j<2;j++)w->rows[j][i].byte14=(scenario/256+i+j)%8;
  for(unsigned j=0;j<2;j++)w->rows[j][3].byte02=(scenario+j)%9;for(unsigned i=0;i<8;i++)w->map[i]=(u8)(scenario+31*i);
- reference=actual;serial=count=seen=0;referenceRun=1;w=&reference;expected();serial=0;referenceRun=0;w=&actual;time_attack_course_select_func_80114D38();assert(count==seen&&!memcmp(&actual,&reference,sizeof(actual)));
+ reference=actual;serial=count=seen=0;referenceRun=1;w=&reference;expected();serial=0;referenceRun=0;w=&actual;time_attack_course_select_update_menu();assert(count==seen&&!memcmp(&actual,&reference,sizeof(actual)));
  }
  for(unsigned i=0;i<16;i++)assert(coverage[i]);for(unsigned i=0;i<8;i++)assert(states[i]);for(unsigned i=0;i<4;i++)assert(choices[i]);for(unsigned i=0;i<3;i++)assert(exits[i]);assert(readiness[0]&&readiness[1]&&courseChange[0]&&courseChange[1]);
  puts("1179648 cases passed; complete phase/timer/course sweeps, four choices, three exits, full-word readiness, fresh roots/counts and exact pre-service state");

@@ -1,6 +1,6 @@
 #include "rr/overlay668_playback_init.h"
 
-void movie_playback_func_801149E8(void)
+void movie_playback_init(void)
 {
     RrStrCdFileInfo file;
     u32 sectors;
@@ -18,7 +18,7 @@ void movie_playback_func_801149E8(void)
     CdControl(9, 0, 0);
     RaceContext.phaseB4 = 0;
     RaceContext.stopD0 = 0;
-    movie_playback_func_80114910(RaceContext.resourceB0, &file, &sectors);
+    movie_playback_get_movie_file_info(RaceContext.resourceB0, &file, &sectors);
     ModeGroup = 2;
     ModeId = 4;
     ModeSubState = 0;

@@ -11,5 +11,5 @@ s32 rcos(s32);
  * Helper return values are full native arena pointers. Globals remain live
  * across service calls; the row position and current label byte are captured. */
 void *records_draw_record_labels(u32 *,void *,s32);
-void garage_func_80118238(u32 *,void *,s32);
+void garage_draw_name_entry_field(u32 *,void *,s32);
 #endif

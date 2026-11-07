@@ -1,6 +1,6 @@
 #include "rr/overlay662_image_scroll.h"
 
-void garage_func_80125DE0(u32 *source,u32 *destination,s32 x,s32 y)
+void garage_shift_image_wrap(u32 *source,u32 *destination,s32 x,s32 y)
 {
     u32 buffer[512];
     struct {s16 column,row;} cursor;

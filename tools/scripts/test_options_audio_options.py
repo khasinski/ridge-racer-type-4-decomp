@@ -6,7 +6,7 @@ import subprocess
 
 root = Path(__file__).resolve().parents[2]
 body = (root/'src/overlays/PAL/options/func_801151A4.c').read_text()
-body = body[body.index('void options_func_801151A4'):]
+body = body[body.index('void options_update_audio_menu'):]
 body = re.sub(r' __asm__\("\$\d+"\)', '', body)
 source = r'''
 #include <assert.h>
@@ -34,9 +34,9 @@ typedef struct {
  unsigned rowRoot,frameRoot;u32 tail[4];
 } State;
 static State actual,reference,*w;
-#define options_D_80119768 w->visual
-#define options_D_80119754 w->music
-#define options_D_80119758 w->effects
+#define options_menu_state w->visual
+#define options_music_volume_setting w->music
+#define options_sfx_volume_setting w->effects
 #define Options w->settings
 #define MenuFadeTimer w->timer
 #define MusicSeqVolume w->gain
@@ -65,7 +65,7 @@ static void effect(unsigned kind){unsigned n=serial++;if(!(profile&1))return;
  for(unsigned i=0;i<8;i++)for(unsigned j=0;j<2;j++)w->rows[j][i].byte14=(scenario/256+n+i+j)%9;
 }
 static void service(unsigned kind){const s32 args[5]={0};record(kind,args);effect(kind);}
-void options_func_80114FD8(void){service(0);}
+void options_init_audio_rows(void){service(0);}
 void AddScreenFadeTiles(u32 *p,s32 b,u32 c){unsigned k,slot;int found=0;for(k=0;k<2&&!found;k++)for(slot=0;slot<2;slot++)if(p==&w->frames[k].ordering70[slot?702:0]){found=1;goto selected;}
 selected:assert(found&&(uintptr_t)p>UINT32_MAX);fadeKinds[slot]++;const s32 args[5]={k,slot,b,(s32)c};record(1,args);effect(1);}
 void SetMotionControllerVisible(s32 a){const s32 args[5]={a};record(2,args);effect(2);}
@@ -86,7 +86,7 @@ void SetMenuFrameOptions(s32 a,s32 b,s32 c){const s32 args[5]={a,b,c};record(5,a
 void SeqSetVolume(s16 a){const s32 args[5]={a};record(6,args);effect(6);}
 void SetCdMixMode(s32 a){const s32 args[5]={a};record(7,args);effect(7);}
 void DrawUiRow(s32 a){const s32 args[5]={a};record(8,args);effect(8);}
-void options_func_80114A24(void){service(9);}
+void options_init_main_menu(void){service(9);}
 void UpdateScreenFade(s32 a){const s32 args[5]={a};record(10,args);effect(10);}
 static void expectedInput(unsigned kind,s32 mode,s32 width,s32 limit){unsigned char *p=kind==0?(unsigned char*)&w->visual.exit34.halves[0]:kind==3?(unsigned char*)&w->settings.audio.mono32:&w->settings.bytes[kind==1?48:49];
  const s32 args[5]={mode,width,kind,limit,0};inputKinds[kind]++;record(3,args);effect(3);
@@ -121,7 +121,7 @@ int main(void){assert(sizeof(void*)==8);u16 endian=1;assert(*(u8*)&endian==1);
  w->visual.scene00=word(scenario*0x1234567U);w->visual.exit34.word=scenario&3;w->settings.audio.mono32=(scenario>>2)&1;w->settings.bytes[48]=(u8)scenario;w->settings.bytes[49]=(u8)(scenario>>8);
  w->timer=half(scenario);w->gain=half(scenario*13);w->rowRoot=scenario&1;w->frameRoot=(scenario>>1)&1;w->input[0].a=(scenario>>6)&1;w->input[0].b=(scenario>>7)&1;
  for(unsigned i=0;i<8;i++)for(unsigned j=0;j<2;j++)w->rows[j][i].byte14=(scenario/256+i+j)%9;
- reference=actual;serial=count=seen=0;referenceRun=1;w=&reference;expected();serial=0;referenceRun=0;w=&actual;options_func_801151A4();assert(count==seen&&!memcmp(&actual,&reference,sizeof(actual)));
+ reference=actual;serial=count=seen=0;referenceRun=1;w=&reference;expected();serial=0;referenceRun=0;w=&actual;options_update_audio_menu();assert(count==seen&&!memcmp(&actual,&reference,sizeof(actual)));
  }
  for(unsigned i=0;i<11;i++)assert(coverage[i]);for(unsigned i=0;i<11;i++)assert(states[i]);for(unsigned i=0;i<4;i++)assert(inputKinds[i]);assert(fadeKinds[0]&&fadeKinds[1]&&fadeTaken[0]&&fadeTaken[1]);for(unsigned i=0;i<3;i++)assert(audioTaken[i]);
  puts("1441792 cases passed; all ten layouts, complete timer/layout sweeps, mixed-width index edits, both order heads, three audio paths and fresh UI/frame/settings state");

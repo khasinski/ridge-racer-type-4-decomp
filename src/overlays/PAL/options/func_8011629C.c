@@ -1,5 +1,5 @@
 #include "rr/menu_pulse.h"
-s32 options_func_8011629C(s32 index)
+s32 options_get_controller_kind(s32 index)
 {
     RrMenuItemState5C *item=&PlayerControllers[index];
     s32 result=-1;

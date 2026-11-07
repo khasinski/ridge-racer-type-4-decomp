@@ -2,7 +2,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import subprocess,re
 root=Path(__file__).resolve().parents[2];body=(root/'src/overlays/PAL/garage/func_80119898.c').read_text();body=re.sub(r'__asm__\("(?:v0|v1)"\)','',body)
-body=body.replace('extern s32 ScreenFrame;','').replace('extern s16 garage_D_80127398;','')
+body=body.replace('extern s32 ScreenFrame;','').replace('extern s16 garage_image_fade_phase;','')
 source=r'''
 #include <assert.h>
 #include <stdint.h>
@@ -20,7 +20,7 @@ static struct Event {unsigned id;u32 args[12];u8 *cursor;u32 *head;struct World 
 static unsigned count,seen,scenario;static int ref;static s32 sineReturns[2];static unsigned sineIndex;static s32 geometry[4][4];static u16 expectedShade;
 #define CurrentDrawBuf world.context
 #define ScreenFrame world.clock
-#define garage_D_80127398 world.phase
+#define garage_image_fade_phase world.phase
 #define RR_GPU_SCRATCH (&world.scratch)
 '''+body+r'''
 static s32 bits32(u32 b){s32 r;memcpy(&r,&b,4);return r;}
@@ -60,7 +60,7 @@ int main(void){assert(sizeof(void*)==8&&(uintptr_t)world.arena>UINT32_MAX);
  for(scenario=0;scenario<196608;scenario++){
   memset(&world,0xA5,sizeof(world));world.context=&world.contexts[0];world.phase=bits16(scenario);world.clock=bits32(scenario*0x8642ABCDU);world.scratch.cursor=(u8*)world.arena+16;world.scratch.order=(u32*)&world.contexts[0];
   s32 mode=scenario/65536==0?0:scenario/65536==1?1:-7;sineReturns[0]=returns[scenario%13];sineReturns[1]=returns[(scenario/13)%13];
-  expected=world;count=seen=sineIndex=0;ref=1;reference(mode);ref=0;sineIndex=0;garage_func_80119898(mode);assert(count==seen&&memcmp(&world,&expected,sizeof(world))==0);
+  expected=world;count=seen=sineIndex=0;ref=1;reference(mode);ref=0;sineIndex=0;garage_draw_color_preview_image(mode);assert(count==seen&&memcmp(&world,&expected,sizeof(world))==0);
  }
  puts("196608 cases:all phase encodings in three modes,full32 sine stress,full native pointers and service snapshots");return 0;
 }

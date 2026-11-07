@@ -51,15 +51,15 @@ static struct World {struct State s;unsigned calls;struct {s32 service,args[4];u
 static unsigned scenario,mutation,kind;static u8 seenCounts[4][10];
 #define SaveProgress w->s.save
 #define CourseChoiceTable w->s.source
-#define versus_select_D_80118458 w->s.versus
+#define versus_select_choice_tables w->s.versus
 #define extra_course_select_available_courses w->s.extra
-#define versus_select_D_80118420 w->s.names
-#define versus_select_D_8011487C player2
-#define versus_select_D_80114888 format661
+#define versus_select_player_names w->s.names
+#define versus_select_player2_name_str player2
+#define versus_select_car_info_job_str format661
 #define extra_course_select_scene_name format666
-#define versus_select_D_80118418 w->s.selections
-#define versus_select_D_80118450 w->s.rows
-#define versus_select_D_8011844C w->s.columns
+#define versus_select_win_counts w->s.selections
+#define versus_select_choice_group w->s.rows
+#define versus_select_choice_index w->s.columns
 #define extra_course_select_course_counts w->s.counts
 #define SelectedCarIndex w->s.clearABEC8
 #define CourseMenuSelection w->s.clearAC648
@@ -67,7 +67,7 @@ static unsigned scenario,mutation,kind;static u8 seenCounts[4][10];
 #define NumCars w->s.modeAC59C
 #define MenuCursor w->s.flag
 #define NumLaps w->s.laps
-#define versus_select_D_80118414 w->s.marker
+#define versus_select_course_menu_limit w->s.marker
 #define ModeGroup w->s.course
 #define ModeId w->s.position
 #define ModeSubState w->s.selected
@@ -107,7 +107,7 @@ static void event(s32 service,s32 a,s32 b,s32 c,s32 d){
 void SetDispMask(s32 mode){assert(mode==0);event(1,mode,0,0,0);}
 void ClearScreenOverlayState(void){event(2,0,0,0,0);}
 void SetupDrawDispEnvs(s32 r,s32 g,s16 b,u32 flags){event(3,r,g,b,(s32)flags);}
-void versus_select_func_80115598(s32 mode){assert(mode==0);event(4,mode,0,0,0);}
+void versus_select_init_selection_screen(s32 mode){assert(mode==0);event(4,mode,0,0,0);}
 void SeqStartTrack(s32 mode){assert(mode==0);event(5,mode,0,0,0);}
 void SetMenuFrameOptions(s32 a,s32 b,s32 c){event(6,a,b,c,0);}
 s32 DebugPrintStub(const char *format,...){
@@ -132,7 +132,7 @@ static void reference(void){unsigned i,j,k;
   w->s.clearABEC8=0;w->s.clearAC648=0;w->s.clearF3914=0;w->s.laps=3;w->s.modeAC59C=2;
   for(i=0;i<2;i++)for(j=0;j<9;j++){w->s.versus[0][i][j]=w->s.source[i][j];w->s.versus[1][i][j]=w->s.source[0][j];}
   reference_copy(w->s.names,(char*)w->s.save.prefix.progress.prefix00.bytes);reference_copy(w->s.names+12,player2);
-  SetupDrawDispEnvs(0,0,0,2);versus_select_func_80115598(0);
+  SetupDrawDispEnvs(0,0,0,2);versus_select_init_selection_screen(0);
   reference_glyph((s8*)&w->s.choice.complete,w->s.source[0][0].glyph);
   reference_glyph((s8*)&w->s.choice.complete+4,w->s.source[0][0].glyph);
   SeqStartTrack(0);w->s.marker=8;w->s.course=1;w->s.position=56;w->s.selected=0;
@@ -158,7 +158,7 @@ int main(void){unsigned i,j;
   memset(&initial,0,sizeof(initial));w=&initial;effect(9);
   for(i=0;i<4;i++){w->s.guard[i]=0x12345678U+i;w->s.tail[i]=0x87654321U-i;}
   actual=initial;expected=initial;w=&actual;
-  if(kind)extra_course_select_init_scene();else versus_select_func_80115DB8();
+  if(kind)extra_course_select_init_scene();else versus_select_init_versus_mode();
   w=&expected;reference();assert(memcmp(&actual,&expected,sizeof(actual))==0);
  }
  for(i=0;i<4;i++)for(j=0;j<10;j++)assert(seenCounts[i][j]);

@@ -41,9 +41,9 @@ static struct World {
  RrGarageRectangle *table[16];
  u32 guard1[8];
 } world,initial,expected;
-#define garage_D_801276A8 world.state
-#define garage_D_80127668 world.clip.storage
-#define garage_D_801273B8 world.table
+#define garage_logo_state world.state
+#define garage_logo_work world.clip.storage
+#define garage_logo_buttons world.table
 ''' + bodies + r'''
 static u32 seed=0xe694;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -95,24 +95,24 @@ int main(void){
   world.state.saved64[0]=world.state.current60;
   for(i=0;i<4;i++)world.state.saved64[i+1]=world.state.selectorsB8[i];
   memcpy(&expected,&world,sizeof(world));memcpy(&world,&initial,sizeof(world));
-  garage_func_8011E694();check(k,0);
+  garage_save_cursor_selection();check(k,0);
 
   memcpy(&world,&initial,sizeof(world));
   answer=outside(low16(args[0]),low16(args[1]),low16(args[2]),low16(args[3]));
   memcpy(&expected,&world,sizeof(world));
-  assert(garage_func_8011E6C8(args[0],args[1],args[2],args[3])==answer);check(k,1);
+  assert(garage_cursor_outside_rect(args[0],args[1],args[2],args[3])==answer);check(k,1);
 
   selected=world.table[index];
   answer=outside(low16((*selected)[0]),low16((*selected)[1]),
                  low16((*selected)[2]),low16((*selected)[3]));
-  assert(garage_func_8011E734(index)==answer);check(k,2);
+  assert(garage_cursor_outside_button(index)==answer);check(k,2);
 
   for(i=0;i<4;i++){
    u16 bits=(*selected)[i];
    memcpy(&world.clip.halves[24+i],&bits,2);
   }
   memcpy(&expected,&world,sizeof(world));memcpy(&world,&initial,sizeof(world));
-  garage_func_8011E7DC(index);check(k,3);
+  garage_set_clip_from_button(index);check(k,3);
  }
  puts("262144 native garage cases with UBSan passed");return 0;
 }

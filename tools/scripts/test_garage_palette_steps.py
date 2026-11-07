@@ -25,9 +25,9 @@ class Overlay662PaletteStepsTest(unittest.TestCase):
 #include "rr/overlay662_tool_action.h"
 #include "rr/audio_pan.h"
 static struct World {u32 head[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;u32 image[4][512];RrPalette16 palette[2];RrGarageButton buttons[46];RrGarageRectangle *table[46];u32 tail[4];} world,expected,checkpoint;
-#define garage_D_801276A8 world.garage
-#define garage_D_80127668 world.work
-#define garage_D_801273B8 world.table
+#define garage_logo_state world.garage
+#define garage_logo_work world.work
+#define garage_logo_buttons world.table
 '''+bodies+r'''
 static u32 rng=0x24258;static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
 static s16 half(u32 x){u16 n=(u16)x;s16 v;memcpy(&v,&n,2);return v;}
@@ -62,7 +62,7 @@ static void run(void){unsigned j,k,n;int x=(family&1)?213:141,y=355+(int)(family
  world.work.words[0]=0xA5510000U|((flags&1)?8:0);world.work.words[1]=0xAAE00000U|((flags&2)?4:0)|((flags&4)?1:0)|((flags&8)?0x40U:0);
  world.work.points.cursor14=(RrGaragePoint){(s16)(x+((flags&16)?0:8)),(s16)y};
  expected_sound=calls=0;expected=world;reference();switch(family){
- case 0:garage_func_8012349C();break;case 1:garage_func_801235F4();break;case 2:garage_func_80123750();break;case 3:garage_func_801238AC();break;case 4:garage_func_80123A0C();break;case 5:garage_func_80123B68();break;}
+ case 0:garage_palette_red_down();break;case 1:garage_palette_red_up();break;case 2:garage_palette_green_down();break;case 3:garage_palette_green_up();break;case 4:garage_palette_blue_down();break;case 5:garage_palette_blue_up();break;}
  assert(calls==expected_sound);assert(memcmp(&world,&expected,sizeof(world))==0);assert((uintptr_t)world.palette>UINT32_MAX);cases++;
 }
 int main(void){unsigned path;

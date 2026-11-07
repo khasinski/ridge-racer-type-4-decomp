@@ -1,6 +1,6 @@
 #include "rr/overlay661_course_menu.h"
 
-void versus_select_func_80117430(void) {
+void versus_select_update_course_select(void) {
     s32 var_a0_3;
     s32 var_s2;
     s32 var_s0;
@@ -20,7 +20,7 @@ void versus_select_func_80117430(void) {
         case 0:
             SetMenuFrameOptions(1, 1, 1);
             temp_s0 = CourseMenuSelection;
-            StepMenuValue(3, 2, (char *)&CourseMenuSelection, versus_select_D_80118414, 0);
+            StepMenuValue(3, 2, (char *)&CourseMenuSelection, versus_select_course_menu_limit, 0);
             if ((s16) temp_s0 != (s16) CourseMenuSelection) {
                 ResetScreenCounters();
             } else {
@@ -126,7 +126,7 @@ void versus_select_func_80117430(void) {
 block_42:
                 if (MenuFadeTimer <= 0) {
                     SeqMuteVolume();
-                    versus_select_D_80118448[0] = -1;
+                    versus_select_finish_ranks[0] = -1;
                     MenuScriptId = 0;
                     ModeGroup = 1;
                     ModeId = 0x23;
@@ -181,7 +181,7 @@ block_59:
             goto block_63;
         case 8:
             if (UiRows[18].byte14 == 5) {
-                versus_select_func_80115598(0);
+                versus_select_init_selection_screen(0);
                 ModeGroup = 1;
                 ModeId = 0x38;
                 ModeSubState = 0;
@@ -201,7 +201,7 @@ block_64:
         var_s0 += 1;
     } while (var_s0 < 5);
     if ((UiRows[18].byte14 == 2) && ((u32) (ModeSubState - 4) >= 2U)) {
-        DrawMenuStepArrows(0xCE, 0xD0, 0x5E, 0, (s32) (s16) CourseMenuSelection, -1, versus_select_D_80118414 + 1);
+        DrawMenuStepArrows(0xCE, 0xD0, 0x5E, 0, (s32) (s16) CourseMenuSelection, -1, versus_select_course_menu_limit + 1);
     }
     if (ModeSubState == 4) {
         var_a0_3 = 0x17;

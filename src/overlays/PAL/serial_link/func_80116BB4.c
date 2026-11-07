@@ -1,7 +1,7 @@
 #include "rr/course_choices.h"
 extern RrCourseChoice4 CourseMenuChoices[2][2][9];
 extern s16 CourseMenuPage[2],CourseMenuCursor[2];
-void serial_link_func_80116BB4(void) {
+void serial_link_load_player_choice(void) {
     ResetScreenCounters();
     LoadCursor = MenuArenas.first;
     UnpackChoiceGlyph(

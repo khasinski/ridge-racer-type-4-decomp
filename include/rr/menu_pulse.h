@@ -33,6 +33,6 @@ extern const RrPulseRow *PadPulseOnceRows[], *PadPulseRepeatRows[];
 extern RrMenuItemState5C PlayerControllers[];
 extern RrPulseState18 PadPulseState[];
 void PadStepPulse(void);
-s32 options_func_8011629C(s32 index);
+s32 options_get_controller_kind(s32 index);
 
 #endif

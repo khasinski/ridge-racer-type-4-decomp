@@ -8,5 +8,5 @@
 extern s16 garage_D_801272D4;
 void InitPreviewImageRows(void);
 /* Loader and layout callbacks may replace the published arenas. */
-void garage_func_80118ED8(void);
+void garage_init_car_select(void);
 #endif

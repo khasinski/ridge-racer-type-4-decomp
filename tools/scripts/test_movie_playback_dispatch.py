@@ -30,13 +30,13 @@ static void finish(unsigned chosen){
  RaceContextMoviePhase=(s32)((chosen+1)%3);
  LoadCursor=resources[(case_id+1)&1]+(258-offset);
 }
-void movie_playback_func_80114B2C(u8 *resource){
+void movie_playback_start(u8 *resource){
  assert(resource==resources[case_id&1]+offset);
  assert((uintptr_t)resource>UINT32_MAX);
  *resource^=0xA5;finish(0);
 }
-void movie_playback_func_80114C3C(void){finish(1);}
-void movie_playback_func_80114DF4(void){finish(2);}
+void movie_playback_step(void){finish(1);}
+void movie_playback_shutdown(void){finish(2);}
 '''+body+r'''
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 int main(void){unsigned mode,j;u32 bits;
@@ -47,7 +47,7 @@ int main(void){unsigned mode,j;u32 bits;
   bits=mode==3 ? ((case_id<<16)|((case_id^0xB935U)&65535)) : mode;
   initial=word(bits);RaceContextMoviePhase=initial;
   LoadCursor=mode==0 ? resources[case_id&1]+offset : 0;
-  movie_playback_func_80114AA8();
+  movie_playback_update();
   if(mode<3){
    assert(calls==1&&selected==mode);
    assert(RaceContextMoviePhase==(s32)((mode+1)%3));

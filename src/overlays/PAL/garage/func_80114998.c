@@ -1,6 +1,6 @@
 #include "rr/overlay662_progress_init.h"
 
-void garage_func_80114998(void)
+void garage_init_main_menu(void)
 {
     s32 i,j,k;
     ModeFrame=0; ScreenFrame=0; MenuCursor=0; MenuItemCount=3;
@@ -12,17 +12,17 @@ void garage_func_80114998(void)
     InitUiRow(1,118,216,68,32,0,0,1,1,15);
     InitUiRow(2,118,256,68,32,0,0,1,0,85);
     SetupRenderer(5);
-    garage_D_801272FC=0;
+    garage_total_car_count=0;
     LoadCursor=MenuArenaBase;
     MenuArenas.first=MenuArenaBase;
     for(i=0;i<4;i++) {
-        garage_D_801272D8[i]=0;
+        garage_team_car_counts[i]=0;
         for(j=0;j<4;j++) {
-            garage_D_80127328[i][j]=0;
+            garage_team_maker_car_counts[i][j]=0;
             for(k=0;k<20;k++)
-                garage_D_80127328[i][j]+=(SaveProgress.prefix.progress.progress10[i][j]>>k)&1;
-            garage_D_801272D8[i]+=garage_D_80127328[i][j];
+                garage_team_maker_car_counts[i][j]+=(SaveProgress.prefix.progress.progress10[i][j]>>k)&1;
+            garage_team_car_counts[i]+=garage_team_maker_car_counts[i][j];
         }
-        garage_D_801272FC+=garage_D_801272D8[i];
+        garage_total_car_count+=garage_team_car_counts[i];
     }
 }

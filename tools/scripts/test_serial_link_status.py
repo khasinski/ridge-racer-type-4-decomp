@@ -37,20 +37,20 @@ int main(void){unsigned i,b;u32 calls=0;
  static const u32 elapsed[]={0,1,24999,25000,25001,65535,65536,0x7FFFFFFFU,0x80000000U,0xFFFFFFFFU};
  static const s32 outcome[]={1,1,1,0,0,0,0,0,0,0};
  for(i=0;i<10;i++){
-  assert(serial_link_func_8011492C(2,elapsed[i])==outcome[i]);calls++;
-  for(b=0;b<32;b++){s32 kind=word(2U^(1U<<b));assert(serial_link_func_8011492C(kind,elapsed[i])==1);calls++;}
+  assert(serial_link_sio_timeout_check(2,elapsed[i])==outcome[i]);calls++;
+  for(b=0;b<32;b++){s32 kind=word(2U^(1U<<b));assert(serial_link_sio_timeout_check(kind,elapsed[i])==1);calls++;}
  }
  for(i=0;i<65536;i++){
   u32 shifted=(i<<16)|i;unsigned j;
-  assert(serial_link_func_8011492C(2,i)==(i<=24999));calls++;
-  assert(serial_link_func_8011492C(2,0x80000000U|i)==0);calls++;
-  assert(serial_link_func_8011492C(word(0x10002U),shifted)==1);calls++;
+  assert(serial_link_sio_timeout_check(2,i)==(i<=24999));calls++;
+  assert(serial_link_sio_timeout_check(2,0x80000000U|i)==0);calls++;
+  assert(serial_link_sio_timeout_check(word(0x10002U),shifted)==1);calls++;
   for(j=0;j<sizeof(world);j++)((u8*)&world)[j]=(u8)next();
   world.marker=(u16)i;world.status=word(shifted);
   memcpy(&snapshot,&world,sizeof(world));
   assert(serial_link_func_80115058()==snapshot.status);
   assert(memcmp(&world,&snapshot,sizeof(world))==0);
-  serial_link_func_80117EE8();assert(world.marker==315);
+  serial_link_set_scene_id();assert(world.marker==315);
   world.marker=snapshot.marker;assert(memcmp(&world,&snapshot,sizeof(world))==0);
  }
  assert(calls==196938);return 0;

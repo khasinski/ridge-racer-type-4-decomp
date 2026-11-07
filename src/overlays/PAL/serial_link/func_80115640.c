@@ -51,10 +51,10 @@ extern Ovl667Vehicle PlayerCars[];
 extern Ovl667Vehicle *CarTable[];
 extern Ovl667FrameStorage FrameEnvs[2];
 
-extern s32 serial_link_D_80118ED4;
-extern s32 serial_link_D_80118ECC;
-extern u8 serial_link_D_80118F8D, serial_link_D_80118F8C;
-extern u8 serial_link_D_80118EEC, serial_link_D_80118EED, serial_link_D_80118EEE;
+extern s32 serial_link_shutdown_state;
+extern s32 serial_link_pause_sequence;
+extern u8 serial_link_rx_cursor, serial_link_last_rx_cursor;
+extern u8 serial_link_local_menu_buttons, serial_link_remote_menu_buttons, serial_link_sent_menu_buttons;
 extern Ovl667Vector16 serial_link_D_80118E88[];
 extern Ovl667Vector16 serial_link_D_80118EA8[];
 
@@ -106,15 +106,15 @@ extern void UpdateTrackObjects();
 extern void DrawTrackObjects();
 extern void SetDispMask();
 extern void _sio_control();
-extern void serial_link_func_80114A40(void);
-extern void serial_link_func_80115068(void);
-extern void serial_link_func_801151E0(void);
-extern void serial_link_func_801153F0(void);
-extern void serial_link_func_80115508();
+extern void serial_link_close_sio(void);
+extern void serial_link_update_receive(void);
+extern void serial_link_update_send(void);
+extern void serial_link_check_link_lost(void);
+extern void serial_link_update_checkpoint();
 
 #define SCRATCH_CURSOR (*(char **)0x1F800000)
 
-void serial_link_func_80115640(void) {
+void serial_link_update_race(void) {
     s32 split;
     char *frame;
     s32 fade;
@@ -136,13 +136,13 @@ void serial_link_func_80115640(void) {
         SetDispMask(1);
     }
     SetModelTexturePage(-1);
-    if (serial_link_D_80118ED4 == 2) {
-        serial_link_func_80114A40();
-        serial_link_D_80118ED4 = 3;
-    } else if (serial_link_D_80118ED4 == 3) {
+    if (serial_link_shutdown_state == 2) {
+        serial_link_close_sio();
+        serial_link_shutdown_state = 3;
+    } else if (serial_link_shutdown_state == 3) {
         _sio_control(1, 1, 3);
     }
-    serial_link_func_80115068();
+    serial_link_update_receive();
 
     if (ModeFrame >= 75 && RaceState == 0) {
         RaceState = 1;
@@ -166,8 +166,8 @@ void serial_link_func_80115640(void) {
             SCRATCH_CURSOR = AddDrawAreaPrim(frame, SCRATCH_CURSOR, 0, 0, 320, 256);
         }
         if (MenuFadeTimer <= 0) {
-            if (serial_link_D_80118ED4 != 3) {
-                serial_link_func_80114A40();
+            if (serial_link_shutdown_state != 3) {
+                serial_link_close_sio();
             }
             for (i = 0; i < NumCars; i++) {
                 FinalCarRanks[i] = CarTable[i]->rank1EE;
@@ -183,26 +183,26 @@ void serial_link_func_80115640(void) {
     }
 
     for (i = 0; i < NumCars; i++) {
-        serial_link_func_80115508(CarTable[i]);
+        serial_link_update_checkpoint(CarTable[i]);
     }
     UpdateRaceRanking();
 
-    if (serial_link_D_80118F8D != serial_link_D_80118F8C) {
+    if (serial_link_rx_cursor != serial_link_last_rx_cursor) {
         buttons = Pad0Buttons;
-        serial_link_D_80118EEC = (buttons & 0x800) && MenuFadeTimer == 0;
-        serial_link_D_80118EEC |= (buttons & 0x1000) ? 2 : 0;
-        serial_link_D_80118EEC |= (buttons & 0x4000) ? 4 : 0;
+        serial_link_local_menu_buttons = (buttons & 0x800) && MenuFadeTimer == 0;
+        serial_link_local_menu_buttons |= (buttons & 0x1000) ? 2 : 0;
+        serial_link_local_menu_buttons |= (buttons & 0x4000) ? 4 : 0;
         state = RaceState;
         if ((u32)(state - 1) < 3) {
-            if ((serial_link_D_80118EEE | serial_link_D_80118EED) & 1) {
+            if ((serial_link_sent_menu_buttons | serial_link_remote_menu_buttons) & 1) {
                 RacePaused ^= 1;
-                serial_link_D_80118ECC = serial_link_D_80118F8D;
+                serial_link_pause_sequence = serial_link_rx_cursor;
                 if (RacePaused == 0) {
                     MenuFadeTimer = 10;
                     SoundResume();
                     ApplyPauseMenuChoice(RaceType);
                     if (PauseCursor != 0) {
-                        serial_link_func_80114A40();
+                        serial_link_close_sio();
                         StopRaceAudioAndRumble();
                         return;
                     }
@@ -226,13 +226,13 @@ void serial_link_func_80115640(void) {
             }
             StepRaceFrame(4);
         } else {
-            if ((serial_link_D_80118EEE | serial_link_D_80118EED) & 2) {
+            if ((serial_link_sent_menu_buttons | serial_link_remote_menu_buttons) & 2) {
                 if (PauseCursor > 0) {
                     PlaySfx(0);
                     PauseCursor--;
                 }
             }
-            if ((serial_link_D_80118EEE | serial_link_D_80118EED) & 4) {
+            if ((serial_link_sent_menu_buttons | serial_link_remote_menu_buttons) & 4) {
                 if (PauseCursor < 2) {
                     PlaySfx(0);
                     PauseCursor++;
@@ -241,13 +241,13 @@ void serial_link_func_80115640(void) {
             DrawPauseMenu(frame, PauseCursor);
             InitPlayerRumble();
         }
-        serial_link_D_80118F8C = serial_link_D_80118F8D;
+        serial_link_last_rx_cursor = serial_link_rx_cursor;
     } else {
-        serial_link_D_80118EEC = 0;
+        serial_link_local_menu_buttons = 0;
     }
 
     n = 1;
-    serial_link_func_801151E0();
+    serial_link_update_send();
     if (split != 0) {
         n = 2;
     }
@@ -328,7 +328,7 @@ void serial_link_func_80115640(void) {
             }
             SlotSetLevelProgram(EngineRevDisplay[i], EngineThrottleOn[i], i);
             if (i == 0) {
-                serial_link_func_801151E0();
+                serial_link_update_send();
             }
         }
     }
@@ -339,7 +339,7 @@ void serial_link_func_80115640(void) {
             StopRaceAudioAndRumble();
         }
     }
-    if (serial_link_D_80118ED4 == 0) {
-        serial_link_func_801153F0();
+    if (serial_link_shutdown_state == 0) {
+        serial_link_check_link_lost();
     }
 }

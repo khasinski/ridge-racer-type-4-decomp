@@ -21,11 +21,11 @@ class PreviewDragTest(unittest.TestCase):
 static struct World {u32 guard[4];RrGarageSelectionPrefix g;RrGarageWorkingStorage w;RrGaragePreviewGrab grab;s32 thumb,travel;u32 tail[4];} world,expected;
 static struct Event {unsigned id;s32 args[4];struct World before;} events[3];
 static unsigned count,seen,n,profile,hits;static int reference_run;
-#define garage_D_801276A8 world.g
-#define garage_D_80127668 world.w
-#define garage_D_80127290 world.grab
-#define garage_D_80127294 world.thumb
-#define garage_D_80127298 world.travel
+#define garage_logo_state world.g
+#define garage_logo_work world.w
+#define garage_preview_drag_grab world.grab
+#define garage_preview_drag_thumb world.thumb
+#define garage_preview_drag_travel world.travel
 '''+body+r'''
 static u32 seed=0x246e4;static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
 static s16 half(u32 b){u16 u=(u16)b;s16 r;memcpy(&r,&u,2);return r;}
@@ -42,8 +42,8 @@ static void service(unsigned id,s32 x,s32 y,s32 width,s32 height){s32 a[4]={x,y,
  else{assert(seen<count);struct Event *e=&events[seen++];assert(e->id==id&&memcmp(e->args,a,sizeof(a))==0&&memcmp(w,&e->before,sizeof(*w))==0);}
  effect(w,id);
 }
-s32 garage_func_8011E6C8(s32 x,s32 y,s32 width,s32 height){unsigned id=hits++==0?0:2;service(id,x,y,width,height);return id==0?(profile>>2)&1:(profile>>4)&1;}
-void garage_func_8011E7C0(s32 x,s32 y,s32 width,s32 height){service(1,x,y,width,height);}
+s32 garage_cursor_outside_rect(s32 x,s32 y,s32 width,s32 height){unsigned id=hits++==0?0:2;service(id,x,y,width,height);return id==0?(profile>>2)&1:(profile>>4)&1;}
+void garage_set_cursor_bounds(s32 x,s32 y,s32 width,s32 height){service(1,x,y,width,height);}
 static void reference(void){
  int active=(expected.w.words[0]&8)!=0;
  if(active){if(expected.w.words[1]&4){expected.w.words[0]&=~8U;service(1,13,63,294,346);return;}}
@@ -71,7 +71,7 @@ int main(void){assert(sizeof(void*)==8);
   world.w.words[0]=(world.w.words[0]&~8U)|(profile&1?8:0);world.w.words[1]=(world.w.words[1]&~4U)|(profile&8?4:0);
   world.g.config1C=(u8)n;world.w.points.cursor14.x=half(n);world.w.points.cursor14.y=half(n*73U);
   world.g.reset08[0]=half(n*13U);world.g.reset08[1]=half(n*17U);world.grab[0]=(u16)n;world.grab[1]=(u16)(n*31U);world.thumb=(s32)(n%33);world.travel=32+(s32)(n%33);
-  expected=world;count=seen=hits=0;reference_run=1;reference();reference_run=0;hits=0;garage_func_801246E4();assert(seen==count&&memcmp(&world,&expected,sizeof(world))==0);
+  expected=world;count=seen=hits=0;reference_run=1;reference();reference_run=0;hits=0;garage_drag_preview_viewport();assert(seen==count&&memcmp(&world,&expected,sizeof(world))==0);
  }
  puts("2097152 guarded cases;paired grabs,all16-bit coordinates and fresh hit/clip services");return 0;
 }

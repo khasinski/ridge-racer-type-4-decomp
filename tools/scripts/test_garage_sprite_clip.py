@@ -24,7 +24,7 @@ typedef union {u8 bytes[128];u32 words[32];RrSpritePacket packets[6];} Buffer;
 typedef struct {u8 *cursor,*published;u32 *ordering,*root;u32 args[6];} Event;
 static struct World {u32 guard[4];RrGpuScratchPointers scratch;RrGarageWorkingStorage work;u32 orders[3][704];Buffer buffers[3];u32 calls;Event events[2];u32 tail[4];} world,expected;
 #define RR_GPU_SCRATCH (&world.scratch)
-#define garage_D_80127668 world.work
+#define garage_logo_work world.work
 static unsigned root_id,buffer_id,offset;
 static u32 seed=0x1b8b4;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -42,13 +42,13 @@ static void changes(struct World *v,unsigned step){
 }
 /* ABI-confirmed unrecovered helper boundaries. Their packet strides are20/12;
  * adversarial mutations make any unintended caller reload observable. */
-u8 *garage_func_8011B2D4(s32 index,u8 *packet,s32 x,s32 y){
+u8 *garage_add_ui_sprite(s32 index,u8 *packet,s32 x,s32 y){
  unsigned i;assert(world.calls==0 && index>=0 && index<72 && packet==cursor(0));
  record(&world,packet,0,(u32)index,(u32)x,(u32)y,0);
  for(i=0;i<20;i++)packet[i]=(u8)(i*19U+(u32)index+(u32)x+(u32)y);
  changes(&world,0);return packet+20;
 }
-u8 *garage_func_8011ABB4(u32 *ordering,u8 *packet,u32 x,u32 y,u32 width,u32 height){
+u8 *garage_add_draw_area(u32 *ordering,u8 *packet,u32 x,u32 y,u32 width,u32 height){
  unsigned i;assert(world.calls==1 && ordering==world.orders[root_id]+132 && packet==cursor(20));
  assert(world.scratch.cursor==packet && x==0 && y==0 && width==320 && height==480);
  record(&world,packet,ordering,x,y,width,height);
@@ -77,7 +77,7 @@ int main(void){unsigned k,i;
   world.work.halves[10]=half(k>>1);world.work.halves[11]=half((k>>1)*40503U+17U);
   memcpy(&expected,&world,sizeof(world));reference();
   assert((uintptr_t)world.scratch.cursor>UINT32_MAX && (uintptr_t)world.scratch.order>UINT32_MAX);
-  garage_func_8011B8B4();assert(memcmp(&world,&expected,sizeof(world))==0);
+  garage_draw_cursor_sprite();assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;
 }

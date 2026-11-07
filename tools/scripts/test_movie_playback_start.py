@@ -37,13 +37,13 @@ static struct {
  u32 guard[4]; RrLibInterruptCallback installed;
  RrLibQueueRecord32 *queue; s32 count,args[5]; unsigned events[4]; u32 tail[4];
 } world, expected;
-void movie_playback_func_80116298(s32 mode) {
+void movie_playback_dec_dct_reset(s32 mode) {
  assert(step==0 && mode==0); world.events[step++]=1;
  /* Both preceding boundaries can replace the active root. */
  StrStreamState=&streams[(scenario+1)%3];
  streams[(scenario+2)%3].queue20=&queues[(scenario+1)%3][scenario%4];
 }
-RrLibInterruptCallback movie_playback_func_80116534(RrLibInterruptCallback callback) {
+RrLibInterruptCallback movie_playback_dec_dct_out_callback(RrLibInterruptCallback callback) {
  RrLibInterruptCallback previous=world.installed;
  assert(step==1 && callback==requested); world.events[step++]=2;
  world.installed=callback;
@@ -81,7 +81,7 @@ int main(void) {
   expected.args[3]=0;expected.args[4]=0;
   for(i=0;i<4;i++)expected.events[i]=i+1;
   StrStreamState=&streams[scenario%3]; step=0;
-  movie_playback_func_80114EE8(requested);
+  movie_playback_stream_init(requested);
   assert(step==4 && StrStreamState==&streams[scenario%3]);
   assert(memcmp(&world,&expected,sizeof(world))==0);
   for(i=0;i<sizeof(queues);i++)assert(((u8*)queues)[i]==(u8)(scenario+i*17));

@@ -1,31 +1,31 @@
 #include "rr/overlay662_palette_edit.h"
 #include "rr/overlay662_tool_action.h"
 
-void garage_func_8012349C(void) {
-    u16 *pal = (u16 *)((RrPaletteAddress)(RrPalette16 *)garage_D_801276A8.palette48[garage_D_801276A8.active21]+(garage_D_801276A8.config22*2));
+void garage_palette_red_down(void) {
+    u16 *pal = (u16 *)((RrPaletteAddress)(RrPalette16 *)garage_logo_state.palette48[garage_logo_state.active21]+(garage_logo_state.config22*2));
     s32 val = *pal & 0x1F;
 
-    if (garage_D_80127668.words[0] & 8) {
-        if (garage_D_80127668.words[1] & 4) {
-            garage_D_80127668.words[0] &= ~8;
-            garage_func_8011E7C0(13, 63, 294, 346);
+    if (garage_logo_work.words[0] & 8) {
+        if (garage_logo_work.words[1] & 4) {
+            garage_logo_work.words[0] &= ~8;
+            garage_set_cursor_bounds(13, 63, 294, 346);
             return;
         }
     } else {
-        if (garage_func_8011E6C8(141, 355, 8, 12) != 0) {
+        if (garage_cursor_outside_rect(141, 355, 8, 12) != 0) {
             return;
         }
-        if (!(garage_D_80127668.words[1] & 1)) {
+        if (!(garage_logo_work.words[1] & 1)) {
             return;
         }
-        garage_D_80127668.words[4] = 40;
-        garage_D_80127668.words[0] |= 8;
-        garage_func_8011E7DC(40);
-        garage_func_8011D120();
+        garage_logo_work.words[4] = 40;
+        garage_logo_work.words[0] |= 8;
+        garage_set_clip_from_button(40);
+        garage_save_undo_copy();
     }
-    if (garage_D_80127668.words[1] & 0x40) {
+    if (garage_logo_work.words[1] & 0x40) {
         val--;
-        ((RrGarageButton *)garage_D_801273B8[40])->timer0E = 7;
+        ((RrGarageButton *)garage_logo_buttons[40])->timer0E = 7;
         if (val < 0) {
             val = 0;
             PlaySfx(4);

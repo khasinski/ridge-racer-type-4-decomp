@@ -26,15 +26,15 @@ class OverlayWaitTest(unittest.TestCase):
 #include "rr/overlay668_wait.h"
 static struct World { u32 before[8],input,output,calls,after[8];
  const char *message; } world,expected;
-u32 *movie_playback_D_80116E54,*movie_playback_D_80116E34;
-char movie_playback_D_801148DC[]="input timeout";
-char movie_playback_D_801148EC[]="output timeout";
-s32 movie_playback_func_801168A4(const char *message){
- assert(message==movie_playback_D_801148DC || message==movie_playback_D_801148EC);
+u32 *movie_playback_mdec_ctrl_reg,*movie_playback_mdec_out_dma_chcr;
+char movie_playback_mdec_in_sync_name[]="input timeout";
+char movie_playback_mdec_out_sync_name[]="output timeout";
+s32 movie_playback_mdec_timeout(const char *message){
+ assert(message==movie_playback_mdec_in_sync_name || message==movie_playback_mdec_out_sync_name);
  world.calls++;world.message=message;
  world.input^=0x13579bdfU;world.output^=0x2468ace0U;
  /* The wait must return the timeout result even if diagnosis clears busy. */
- if(message==movie_playback_D_801148DC)world.input&=~0x20000000U;
+ if(message==movie_playback_mdec_in_sync_name)world.input&=~0x20000000U;
  else world.output&=~0x01000000U;
  return 0;
 }
@@ -42,23 +42,23 @@ s32 movie_playback_func_801168A4(const char *message){
 static void initialize(u32 k){unsigned i;memset(&world,0,sizeof(world));
  for(i=0;i<8;i++){world.before[i]=k+i;world.after[i]=~(k+i);}
  world.input=k*0x9e3779b9U;world.output=~world.input;
- movie_playback_D_80116E54=&world.input;movie_playback_D_80116E34=&world.output;
- assert((uintptr_t)movie_playback_D_80116E54>UINT32_MAX);
+ movie_playback_mdec_ctrl_reg=&world.input;movie_playback_mdec_out_dma_chcr=&world.output;
+ assert((uintptr_t)movie_playback_mdec_ctrl_reg>UINT32_MAX);
 }
 static void idle(void){u32 k;for(k=0;k<65536;k++){
  initialize(k);world.input&=~0x20000000U;world.output&=~0x01000000U;
- expected=world;assert(movie_playback_func_80116764()==0);
+ expected=world;assert(movie_playback_mdec_in_sync()==0);
  assert(memcmp(&world,&expected,sizeof(world))==0);
- assert(movie_playback_func_801167F8()==0);
+ assert(movie_playback_mdec_out_sync()==0);
  assert(memcmp(&world,&expected,sizeof(world))==0);
 }}
 static void timeout(void){u32 k;unsigned channel;for(k=0;k<8;k++)for(channel=0;channel<2;channel++){
  initialize(k*0x174935U);world.input|=0x20000000U;world.output|=0x01000000U;
  expected=world;expected.calls=1;
- expected.message=channel?movie_playback_D_801148EC:movie_playback_D_801148DC;
+ expected.message=channel?movie_playback_mdec_out_sync_name:movie_playback_mdec_in_sync_name;
  expected.input^=0x13579bdfU;expected.output^=0x2468ace0U;
  if(channel)expected.output&=~0x01000000U;else expected.input&=~0x20000000U;
- assert((channel?movie_playback_func_801167F8():movie_playback_func_80116764())==-1);
+ assert((channel?movie_playback_mdec_out_sync():movie_playback_mdec_in_sync())==-1);
  assert(memcmp(&world,&expected,sizeof(world))==0);
 }}
 int main(int argc,char **argv){assert(argc==2);if(argv[1][0]=='i')idle();else timeout();return 0;}

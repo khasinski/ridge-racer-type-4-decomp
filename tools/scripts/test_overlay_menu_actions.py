@@ -79,10 +79,10 @@ static void initialize(u32 k){unsigned i;memset(&world,0,sizeof(world));
  world.second_accept=(k&1)?(s32)(next()|1):0;world.sound_accept=(k&2)?0:-1;
  for(i=0;i<4;i++){world.choice.bytes[i]=next();world.changed_choice[i]=next();}
 }
-static s32 results_menu(void){return time_attack_course_select_func_801156A8(0);}
+static s32 results_menu(void){return time_attack_course_select_update_results_choice(0);}
 static s32 retry_menu(void){return extra_course_select_update_retry_choice(0);}
 static void menus(unsigned which){u32 k;const s32 offsets[]={37,38,37,39};
- s32 (*functions[])(void)={results_menu,versus_select_func_80117E10,retry_menu,serial_link_func_801187DC};
+ s32 (*functions[])(void)={results_menu,versus_select_update_results_choice,retry_menu,serial_link_update_retry_choice};
  for(k=0;k<65536;k++){
   s32 result,wanted,limit;initialize(k);memcpy(&expected,&world,sizeof(world));
   draw(&expected,(s32)expected.selection+offsets[which],0,0);
@@ -105,7 +105,7 @@ static void choices(void){u32 k,m;
   e->args[0]=160;e->args[1]=204;e->args[2]=48;e->args[3]=0;e->args[4]=captured;e->args[5]=0;e->args[6]=4;
   memcpy(expected.choice.bytes,expected.changed_choice,4);
   e=event(&expected,5);e->args[0]=captured;expected.accepted^=0x12345678;
-  assert(garage_func_8011662C(next(),m?(k&1?-1:1):0)==-123);
+  assert(garage_draw_select_arrows(next(),m?(k&1?-1:1):0)==-123);
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
 }

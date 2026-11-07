@@ -1,6 +1,6 @@
 #include "rr/overlay667_course_menu.h"
 
-void serial_link_func_80117FA8(void) {
+void serial_link_update_course_select(void) {
     s32 previewIndex;
     s32 waitResult;
     s32 backIndex;
@@ -137,7 +137,7 @@ void serial_link_func_80117FA8(void) {
             break;
         case 8:
             if (UiRows[18].byte14 == 5) {
-                serial_link_func_801161A8((1 - LinkRoleSlot) * 2);
+                serial_link_init_car_select((1 - LinkRoleSlot) * 2);
                 ModeGroup = 1;
                 ModeId = 0x3C;
                 ModeSubState = 0;

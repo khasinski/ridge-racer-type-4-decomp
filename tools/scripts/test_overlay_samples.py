@@ -42,9 +42,9 @@ RrFrameStorage *CurrentDrawBuf, display_buffer;
 RrBadgeRow1C first, second, *BadgeRows;
 s16 *sample665_badges;
 u8 ScreenFadeState;
-RrGarageWorkingStorage garage_D_80127668;
-s32 serial_link_D_80118EE0;
-u32 *movie_playback_D_80116E54;
+RrGarageWorkingStorage garage_logo_work;
+s32 serial_link_error_count;
+u32 *movie_playback_mdec_ctrl_reg;
 RrProjectionScratchPrefix test_scratch;
 #define RR_PROJECTION_SCRATCH (&test_scratch)
 static int scenario, step;
@@ -102,31 +102,31 @@ int main(void) {
     scenario = 659; step = 0;
     race_results_exit_race();
     assert(step == 1 && ModeGroup == 1 && ModeId == 47 && ModeSubState == 0);
-    time_attack_course_select_func_80114910(); assert(SceneId == 0x131);
+    time_attack_course_select_set_scene_id(); assert(SceneId == 0x131);
     versus_select_func_80117340(); assert(SceneId == 0x137);
     for (unsigned i = 0; i < 65536; i++) {
-        memset(&garage_D_80127668, 0xA5, sizeof(garage_D_80127668));
+        memset(&garage_logo_work, 0xA5, sizeof(garage_logo_work));
         s32 args[4] = {(s32)(0x12340000U|i), (s32)(0xFFFF0000U|i),
                        (s32)(0x80000000U|(i^0xFFFF)), (s32)(0x7FFF0000U|i)};
-        garage_func_8011E7C0(args[0],args[1],args[2],args[3]);
+        garage_set_cursor_bounds(args[0],args[1],args[2],args[3]);
         for (int j = 0; j < 32; j++) {
             u16 expected = j >= 24 && j < 28 ? (u16)args[j-24] : 0xA5A5;
-            assert((u16)garage_D_80127668.halves[j] == expected);
+            assert((u16)garage_logo_work.halves[j] == expected);
         }
         u32 bits = (i << 16) | (i ^ 0xFFFF);
-        serial_link_D_80118EE0 = (s32)bits;
-        assert((u32)serial_link_func_80115048() == bits);
+        serial_link_error_count = (s32)bits;
+        assert((u32)serial_link_get_error_count() == bits);
         u32 values[3] = {bits, ~bits, i};
         for (int j = 0; j < 3; j++) {
-            movie_playback_D_80116E54 = &values[j];
-            assert(movie_playback_func_8011688C() == values[j]);
+            movie_playback_mdec_ctrl_reg = &values[j];
+            assert(movie_playback_mdec_status() == values[j]);
         }
     }
     for (int module = 663; module <= 665; module += 2) {
         scenario = module; step = 0;
         memset(&first, 0xA5, sizeof(first)); memset(&second, 0x5A, sizeof(second));
         BadgeRows = &first; sample665_badges=(s16 *)&first; ModeFrame = 99;
-        if (module == 663) records_init_result_preview(); else options_func_80115C8C();
+        if (module == 663) records_init_result_preview(); else options_init_brightness_test();
         assert(step == 3);
         for (unsigned j = 0; j < sizeof(first); j++) {
             assert(((u8 *)&first)[j] == 0xA5);

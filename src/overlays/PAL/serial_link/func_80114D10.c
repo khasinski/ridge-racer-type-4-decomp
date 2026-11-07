@@ -1,9 +1,9 @@
 #include "rr/overlay667_events.h"
 
-s32 serial_link_func_80114D10(void) {
+s32 serial_link_error_callback(void) {
     union {u32 bits;s32 value;} count;
-    count.bits=(u32)serial_link_D_80118EE0+1U;
-    serial_link_D_80118EE0=count.value;
-    serial_link_D_80118EE8 = 0;
+    count.bits=(u32)serial_link_error_count+1U;
+    serial_link_error_count=count.value;
+    serial_link_rx_pending = 0;
     return 0;
 }

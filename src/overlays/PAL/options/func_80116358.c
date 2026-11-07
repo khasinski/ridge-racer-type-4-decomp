@@ -1,7 +1,7 @@
 /* CC1_FLAGS: -fno-strength-reduce */
 #include "rr/overlay665_matrix.h"
 
-void options_func_80116358(const RrPreviewMatrixWorkspace *arg0, const RrPreviewLightInput36 *input) {
+void options_set_preview_light_matrix(const RrPreviewMatrixWorkspace *arg0, const RrPreviewLightInput36 *input) {
     RrPreviewMatrixWorkspace mat[2];
     s32 i;
     u16 *dst1,*dst2;

@@ -1,2 +1,2 @@
 #include "rr/overlay668_decode.h"
-u32 movie_playback_func_801163F0(const RrStrCommandHeader *header){return header->halves[0];}
+u32 movie_playback_dec_dct_buf_size(const RrStrCommandHeader *header){return header->halves[0];}

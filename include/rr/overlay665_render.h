@@ -19,5 +19,5 @@ void SetGteObjectTransform(s16 *output,s16 *view,s32 *matrix);
 void BuildRotMatrixZ(s16 *matrix,s32 angle);
 void BuildRotMatrixX(void *matrix,s32 angle);
 void SubmitModelTwoTri(RrPreviewRenderScratch *scratch,s32 object,s32 blend,s32 depth);
-void options_func_8011643C(void);
+void options_draw_controller_model(void);
 #endif

@@ -38,7 +38,7 @@ int main(void){
   if(scenario%257<3)for(i=0;i<512;i++)world.words[from+i]=scenario%257==0?0:scenario%257==1?0xFFFFFFFFU:0x76543210U^(i*0x01010101U);
   memcpy(&expected,&world,sizeof(world));reference(from,to,x,y);
   assert((uintptr_t)&world.words[from]>UINT32_MAX && (uintptr_t)&world.words[to]>UINT32_MAX);
-  garage_func_80125DE0(&world.words[from],&world.words[to],x,y);
+  garage_shift_image_wrap(&world.words[from],&world.words[to],x,y);
   assert(memcmp(&world,&expected,sizeof(world))==0);scenario++;
  }
  assert(scenario==80645);return 0;

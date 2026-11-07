@@ -2,9 +2,9 @@
 #define RR_OVERLAY667_RESET_H
 #include "rr/frame_loop.h"
 
-extern s32 serial_link_D_80118F04,serial_link_D_80118EFC;
-extern s32 serial_link_D_80118EF8,serial_link_D_80118F00,serial_link_D_80118EE8;
-extern u8 serial_link_D_80118EEF;
-void serial_link_func_80114A40(void);
-void serial_link_func_801153F0(void);
+extern s32 serial_link_tx_fail_count,serial_link_rx_miss_count;
+extern s32 serial_link_rx_count,serial_link_tx_count,serial_link_rx_pending;
+extern u8 serial_link_checksum_error;
+void serial_link_close_sio(void);
+void serial_link_check_link_lost(void);
 #endif

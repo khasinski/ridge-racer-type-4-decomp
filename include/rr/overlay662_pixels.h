@@ -5,5 +5,5 @@
 /* Blend 512 packed words. Zero nibbles preserve the destination.
  * The forward operation permits overlapping buffers and reloads each source
  * word after masking the destination. */
-void garage_func_80125F60(const u32 *source,u32 *destination);
+void garage_blend_image_nibbles(const u32 *source,u32 *destination);
 #endif

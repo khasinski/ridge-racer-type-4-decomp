@@ -19,8 +19,8 @@ static struct World {
  u32 before[8],event0,event1;s32 descriptor0,descriptor1;
  u32 calls;Event events[10];s32 results[10];u32 after[8];
 } world,expected;
-#define serial_link_D_80118ED8 world.event0
-#define serial_link_D_80118EDC world.event1
+#define serial_link_rx_event world.event0
+#define serial_link_error_event world.event1
 #define LinkWriteHandle world.descriptor0
 #define LinkReadHandle world.descriptor1
 static s32 word(u32 raw){s32 value;memcpy(&value,&raw,4);return value;}
@@ -53,7 +53,7 @@ int main(void){unsigned k,i;
   operation(&expected,3,expected.descriptor0,0,0);operation(&expected,3,expected.descriptor1,0,0);
   operation(&expected,4,0,0,expected.event0);operation(&expected,4,0,0,expected.event1);
   operation(&expected,1,4,0,0);operation(&expected,1,1,1,1);
-  serial_link_func_80114A40();
+  serial_link_close_sio();
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

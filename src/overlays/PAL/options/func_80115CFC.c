@@ -1,40 +1,40 @@
 #include "rr/overlay665_panels.h"
-void options_func_80115CFC(void) {
+void options_update_brightness_test(void) {
     s32 i,x;
     const RrUiUvRect *glyph;
     void *cursor;
     RrGpuSingleCommandPacket *packet;
-    switch(options_D_80119768.layout0C) {
+    switch(options_menu_state.layout0C) {
     case 0:
-        options_func_80115C8C();
+        options_init_brightness_test();
         SetMotionControllerVisible(0);
-        options_D_80119768.layout0C=(s32)((u32)options_D_80119768.layout0C+1U);
+        options_menu_state.layout0C=(s32)((u32)options_menu_state.layout0C+1U);
         break;
     case 1:
-        if(BadgeRows[0].state10==3)options_D_80119768.layout0C=2;
+        if(BadgeRows[0].state10==3)options_menu_state.layout0C=2;
         break;
     case 2:
         if(MenuConfirmPressed) {
             PlaySfx(1);
             BadgeRows[0].state10=4;
             MenuFadeTimer=64;
-            options_D_80119768.layout0C=(s32)((u32)options_D_80119768.layout0C+1U);
+            options_menu_state.layout0C=(s32)((u32)options_menu_state.layout0C+1U);
         }
         break;
     case 3:
         MenuFadeTimer--;
         AddScreenFadeTiles(((RrFrameOrderingPrefix*)CurrentDrawBuf)->ordering70,(64-MenuFadeTimer)*4,69);
         if(MenuFadeTimer<=0 && BadgeRows[0].state10==11) {
-            options_func_80114A24();
-            options_D_80119768.layout0C=0;
-            options_D_80119768.scene00=(s32)((u32)options_D_80119768.scene00-1U);
+            options_init_main_menu();
+            options_menu_state.layout0C=0;
+            options_menu_state.scene00=(s32)((u32)options_menu_state.scene00-1U);
             return;
         }
         break;
     }
     cursor=RR_PROJECTION_SCRATCH->pointers.cursor;
     i=0;
-    glyph=&options_D_80119028;
+    glyph=&options_brightness_swatch_uv;
     x=24;
     for(;i<8;x+=36,i++) {
         cursor=AddSpritePrim(((RrFrameOrderingPrefix*)CurrentDrawBuf)->ordering70,cursor,x,144,glyph,0x7F38,((7-i)*223)/7+32);

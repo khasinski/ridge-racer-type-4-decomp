@@ -63,6 +63,12 @@ def address_of(name):
         m = re.match(r'^(\w+)\s*=\s*0x([0-9A-Fa-f]+);', line)   # registered data names (CarTable, ScreenFrame)
         if m and m.group(1) == name:
             return int(m.group(2), 16)
+    ovl = Path(__file__).resolve().parents[2] / 'configs/PAL/overlays/symbols.txt'   # registered overlay names
+    if ovl.exists():
+        for line in ovl.read_text().splitlines():
+            m = re.match(r'^(\w+)\s*=\s*0x([0-9A-Fa-f]+);', line)
+            if m and m.group(1) == name:
+                return int(m.group(2), 16)
     raise KeyError(name)
 
 

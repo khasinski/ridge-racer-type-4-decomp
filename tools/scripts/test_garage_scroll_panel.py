@@ -40,10 +40,10 @@ static void service(unsigned kind,u32 *ordering,u8 *cursor,const u32 *args){
  else{assert(seen<count);struct Event *e=&events[seen++];assert(e->kind==kind&&e->cursor==cursor&&memcmp(e->args,args,40)==0&&memcmp(&world,&e->before,sizeof(world))==0);}
  effect(w,kind,args,cursor);
 }
-void garage_func_8011C174(s32 mode,RrGpuRectangleFields *out){u32 args[10]={(u32)mode};service(0,0,0,args);*out=rectangle;}
-RrGpuTilePacket *garage_func_8011B034(u32 *o,RrGpuTilePacket *p,u32 x,u32 y,u32 w,u32 h,u32 r,u32 g,u32 b){u32 a[10]={x,y,w,h,r,g,b};service(1,o,(u8*)p,a);return (RrGpuTilePacket*)((u8*)p+sizeof(*p));}
-RrGpuLineF4Packet *garage_func_8011AEC4(u32 *o,RrGpuLineF4Packet *p,u32 x,u32 y,u32 w,u32 h,u32 r,u32 g,u32 b){u32 a[10]={x,y,w,h,r,g,b};service(2,o,(u8*)p,a);return (RrGpuLineF4Packet*)((u8*)p+sizeof(*p));}
-RrPolyG4Storage *garage_func_8011B0CC(u32 *o,RrPolyG4Storage *p,u32 x,u32 y,u32 w,u32 h,u32 r,u32 g,u32 b,u32 r1,u32 g1,u32 b1){u32 a[10]={x,y,w,h,r,g,b,r1,g1,b1};service(3,o,(u8*)p,a);return (RrPolyG4Storage*)((u8*)p+sizeof(*p));}
+void garage_get_scrollbar_thumb(s32 mode,RrGpuRectangleFields *out){u32 args[10]={(u32)mode};service(0,0,0,args);*out=rectangle;}
+RrGpuTilePacket *garage_add_tile(u32 *o,RrGpuTilePacket *p,u32 x,u32 y,u32 w,u32 h,u32 r,u32 g,u32 b){u32 a[10]={x,y,w,h,r,g,b};service(1,o,(u8*)p,a);return (RrGpuTilePacket*)((u8*)p+sizeof(*p));}
+RrGpuLineF4Packet *garage_add_rect_outline(u32 *o,RrGpuLineF4Packet *p,u32 x,u32 y,u32 w,u32 h,u32 r,u32 g,u32 b){u32 a[10]={x,y,w,h,r,g,b};service(2,o,(u8*)p,a);return (RrGpuLineF4Packet*)((u8*)p+sizeof(*p));}
+RrPolyG4Storage *garage_add_gradient_rect(u32 *o,RrPolyG4Storage *p,u32 x,u32 y,u32 w,u32 h,u32 r,u32 g,u32 b,u32 r1,u32 g1,u32 b1){u32 a[10]={x,y,w,h,r,g,b,r1,g1,b1};service(3,o,(u8*)p,a);return (RrPolyG4Storage*)((u8*)p+sizeof(*p));}
 static void emit(unsigned kind,u32 *args){u8 *cursor=expected.scratch.cursor;service(kind,captured,cursor,args);expected.scratch.cursor=cursor+(kind==1?sizeof(RrGpuTilePacket):kind==2?sizeof(RrGpuLineF4Packet):sizeof(RrPolyG4Storage));}
 static void reference(s32 mode){
  captured=world.orders[0]+140;
@@ -60,7 +60,7 @@ int main(void){
   memset(&world,0x6A,sizeof(world));world.scratch.order=world.orders[0];world.scratch.cursor=(u8*)world.arena+16;
   rectangle.x=half(scenario);rectangle.y=half(scenario*73U);rectangle.w=half(scenario*13U);rectangle.h=half(scenario*31U);
   s32 mode;if(scenario<65536)mode=half(scenario);else if(scenario&1)mode=46+(scenario%5);else {u32 bits=next();memcpy(&mode,&bits,4);}
-  expected=world;count=seen=0;reference_run=1;reference(mode);reference_run=0;garage_func_8011C37C(mode);
+  expected=world;count=seen=0;reference_run=1;reference(mode);reference_run=0;garage_draw_slider_track(mode);
   assert(seen==count&&memcmp(&world,&expected,sizeof(world))==0);
  }
  puts("131072 cases; full service snapshots, fresh cursor publication and captured ordering slot");return 0;

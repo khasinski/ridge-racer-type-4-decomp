@@ -70,7 +70,7 @@ int main(void){unsigned raw,phase,i;uint64_t cases=0;
   actual.vehicle.first=sign32(next());
   actual.vehicle.second=sign32((u32)threshold-(u32)actual.vehicle.first+(phase>=8?0xffffffffU:0U));
   mutation=(raw+phase)&3;expected=actual;eventCount=eventIndex=0;
-  model();serial_link_func_80115508(&actual.vehicle);
+  model();serial_link_update_checkpoint(&actual.vehicle);
   assert(eventIndex==eventCount);assert(!memcmp(&actual,&expected,sizeof(actual)));
   if(lap==32767&&actual.vehicle.control.steering94.count22==-32768)paths[6]++;
   if(mutation&&eventCount)paths[7]++;cases++;

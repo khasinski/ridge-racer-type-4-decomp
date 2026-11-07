@@ -4,5 +4,5 @@
 
 /* Opaque saved word: resident code copies its 32 bits to/from buffer offset0x280. */
 extern u32 PlayTimeFrames;
-void garage_func_8011A414(void);
+void garage_init_editor_state(void);
 #endif

@@ -1,6 +1,6 @@
 #include "rr/overlay_extra_labels.h"
 
-void garage_func_80118238(u32 *arg0, void *arg1, s32 arg2) {
+void garage_draw_name_entry_field(u32 *arg0, void *arg1, s32 arg2) {
     char buf[4];
     s32 i;
     s32 offset;
@@ -19,8 +19,8 @@ void garage_func_80118238(u32 *arg0, void *arg1, s32 arg2) {
         buf[i] = 0;
     }
     for (i = 0, offset = i; i < 8; i++, offset += 12) {
-        buf[0] = garage_D_801273A8[i];
-        if (i == garage_D_801273A0) {
+        buf[0] = garage_name_buffer[i];
+        if (i == garage_name_cursor) {
             clut = 0x7FF8;
             val = rcos((s32)(((u32)ScreenFrame << 7) - 682U));
             c = 0xFF;

@@ -27,7 +27,7 @@ static u32 heads[2][704],headSnapshot[2][704],arena[256];
 static unsigned scenario,mutation;
 #undef RR_GARAGE_SCRATCH
 #define RR_GARAGE_SCRATCH (&w->s.scratch)
-#define garage_D_801276A8 w->s.garage
+#define garage_logo_state w->s.garage
 static u8 *service(unsigned kind,u32 *order,u8 *cursor,const u32 *args,unsigned n){unsigned i;u32 hash=2166136261U;Event *e;
  assert(w->calls<6);assert(order>=heads[0]&&order<heads[0]+704);
  assert(cursor>=(u8*)arena&&cursor<(u8*)(arena+256));assert((uintptr_t)cursor>UINT32_MAX);
@@ -36,9 +36,9 @@ static u8 *service(unsigned kind,u32 *order,u8 *cursor,const u32 *args,unsigned 
  if(mutation){w->s.scratch.order=heads[1]+scenario%128;w->s.scratch.cursor=(u8*)arena+768;w->s.garage.config1C=0;w->s.garage.reset08[0]=(s16)~scenario;w->s.garage.reset08[1]=(s16)(scenario*13);w->s.garage.shadeD0=(u8)~scenario;}
  return cursor+(4*(w->calls+1));
 }
-RrGpuLineF4Packet *garage_func_8011AEC4(u32 *o,RrGpuLineF4Packet *p,u32 x,u32 y,u32 width,u32 height,u32 r,u32 g,u32 b){u32 args[]={x,y,width,height,r,g,b};return (RrGpuLineF4Packet*)service(1,o,(u8*)p,args,7);}
-u8 *garage_func_8011ABB4(u32 *o,u8 *p,u32 x,u32 y,u32 width,u32 height){u32 args[]={x,y,width,height};return service(2,o,p,args,4);}
-RrGpuPolyFT4Packet *garage_func_8011B1CC(u32 *o,RrGpuPolyFT4Packet *p,u32 x,u32 y,u32 width,u32 height,u32 u,u32 v,u32 uw,u32 vh,u32 clut,u32 page){u32 args[]={x,y,width,height,u,v,uw,vh,clut,page};return (RrGpuPolyFT4Packet*)service(3,o,(u8*)p,args,10);}
+RrGpuLineF4Packet *garage_add_rect_outline(u32 *o,RrGpuLineF4Packet *p,u32 x,u32 y,u32 width,u32 height,u32 r,u32 g,u32 b){u32 args[]={x,y,width,height,r,g,b};return (RrGpuLineF4Packet*)service(1,o,(u8*)p,args,7);}
+u8 *garage_add_draw_area(u32 *o,u8 *p,u32 x,u32 y,u32 width,u32 height){u32 args[]={x,y,width,height};return service(2,o,p,args,4);}
+RrGpuPolyFT4Packet *garage_add_textured_rect(u32 *o,RrGpuPolyFT4Packet *p,u32 x,u32 y,u32 width,u32 height,u32 u,u32 v,u32 uw,u32 vh,u32 clut,u32 page){u32 args[]={x,y,width,height,u,v,uw,vh,clut,page};return (RrGpuPolyFT4Packet*)service(3,o,(u8*)p,args,10);}
 ''' + body + r'''
 static s16 narrow(unsigned bits){u16 u=bits;s16 v;memcpy(&v,&u,2);return v;}
 static void expected(void){State *s=&w->s;u32 *order=s->scratch.order+136;u32 width=64/(s->garage.config1C/2),height=128/(s->garage.config1C/2);
@@ -54,7 +54,7 @@ int main(void){unsigned i;
   initial.s.garage.reset08[0]=narrow(scenario);initial.s.garage.reset08[1]=narrow(scenario*17);initial.s.garage.shadeD0=scenario;
   for(i=0;i<4;i++){initial.s.guard[i]=scenario+i;initial.s.tail[i]=~(scenario+i);}
   initial.s.scratch.cursor=(u8*)arena+4*(scenario%64);initial.s.scratch.order=heads[0]+scenario%128;
-  actual=reference=initial;w=&actual;{void (*render)(s32)=garage_func_8011C610;render(0);}w=&reference;expected();assert(!memcmp(&actual,&reference,sizeof(actual)));assert(actual.calls==6);
+  actual=reference=initial;w=&actual;{void (*render)(s32)=garage_draw_preview_window;render(0);}w=&reference;expected();assert(!memcmp(&actual,&reference,sizeof(actual)));assert(actual.calls==6);
  }
  assert(!memcmp(heads,headSnapshot,sizeof(heads)));for(i=0;i<sizeof(arena);i++)assert(((u8*)arena)[i]==0x93);return 0;
 }

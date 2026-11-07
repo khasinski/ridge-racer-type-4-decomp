@@ -2,7 +2,7 @@
 #include "rr/tables.h"
 extern RrMenuItemState5C PlayerControllers[];
 extern void *PsyqMemset(void *, s32, u32);
-void garage_func_8011D58C(RrGaragePoint *output)
+void garage_read_mouse_motion(RrGaragePoint *output)
 {
     RrGaragePoint point;
     s32 value;

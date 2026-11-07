@@ -1,5 +1,5 @@
 #include "rr/overlay662_car_layout.h"
-void garage_func_8011512C(void) {
+void garage_init_car_info(void) {
     s32 i;
     RrRaceVehicle *vehicle;
     RrProjectionScratchPrefix *scratch;
@@ -48,9 +48,9 @@ void garage_func_8011512C(void) {
         i++;
         vehicle++;
     } while(i<2);
-    UnpackChoiceGlyph((s8*)SelectionRows.bytes,CourseChoiceTable[1][garage_D_801272E4].glyph);
-    PlayerCourseChoices[0].first=CourseChoiceTable[1][garage_D_801272E4].first;
-    PlayerCourseChoices[0].second=CourseChoiceTable[1][garage_D_801272E4].second;
-    garage_D_801272E0=CountChoiceGlyphs(CourseChoiceTable[1]);
+    UnpackChoiceGlyph((s8*)SelectionRows.bytes,CourseChoiceTable[1][garage_car_index].glyph);
+    PlayerCourseChoices[0].first=CourseChoiceTable[1][garage_car_index].first;
+    PlayerCourseChoices[0].second=CourseChoiceTable[1][garage_car_index].second;
+    garage_car_list_count=CountChoiceGlyphs(CourseChoiceTable[1]);
     SetMenuFrameOptions(0,1,1);
 }

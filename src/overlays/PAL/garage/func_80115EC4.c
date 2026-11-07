@@ -1,6 +1,6 @@
 #include "rr/overlay662_setup.h"
 
-void garage_func_80115EC4(s32 arg0) {
+void garage_init_maker_select(s32 arg0) {
     s32 i;
     garage_D_801272C0 = 0;
     CourseListIndex = 0;

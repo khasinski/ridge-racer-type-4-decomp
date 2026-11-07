@@ -24,9 +24,9 @@ class MirrorTest(unittest.TestCase):
 static struct World {u32 guard[4];RrGarageSelectionPrefix g;RrGarageWorkingStorage w;RrGarageButton buttons[3];RrGarageRectangle *table[3];u32 images[4][512];u32 tail[4];} world,expected;
 static struct Event {unsigned id;int arg;struct World before;} events[5];
 static unsigned count,seen,scenario;static int reference_run;
-#define garage_D_801276A8 world.g
-#define garage_D_80127668 world.w
-#define garage_D_801273B8 world.table
+#define garage_logo_state world.g
+#define garage_logo_work world.w
+#define garage_logo_buttons world.table
 '''+body+r'''
 static u32 seed=0x1effc;static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
 static void effect(struct World *w,unsigned id){
@@ -42,11 +42,11 @@ static void service(unsigned id,int arg){
  else {assert(seen<count);assert(events[seen].id==id&&events[seen].arg==arg);assert(memcmp(w,&events[seen].before,sizeof(*w))==0);seen++;}
  effect(w,id);
 }
-s32 garage_func_8011E734(s32 n){assert(n==2);service(0,n);return (scenario>>1)&1;}
-void garage_func_8011E694(void){service(1,0);}
-void garage_func_8011D120(void){service(2,0);}
+s32 garage_cursor_outside_button(s32 n){assert(n==2);service(0,n);return (scenario>>1)&1;}
+void garage_save_cursor_selection(void){service(1,0);}
+void garage_save_undo_copy(void){service(2,0);}
 void PlaySfx(s32 n){service(3,n);}
-void garage_func_8011E5C0(s32 n){service(4,n);}
+void garage_navigate_to_option(s32 n){service(4,n);}
 static unsigned slot(u32 *p){for(unsigned i=0;i<4;i++)if(p==world.images[i])return i;assert(0);return 0;}
 static void reference(s32 command){
  RrGarageSelectionPrefix *g=&expected.g;
@@ -78,12 +78,12 @@ int main(void){
   /* Additional sparse inputs distinguish packed-nibble permutations. */
   if(scenario&256){memset(world.images,0,sizeof(world.images));unsigned pixel=(scenario>>1)&4095;for(unsigned i=0;i<4;i++)world.images[i][pixel/8]=((scenario>>13)&15U)<<(4*(pixel%8));}
   s32 command=commands[(scenario>>7)&15];expected=world;count=seen=0;reference_run=1;reference(command);reference_run=0;
-  garage_func_8011EFFC(command);assert(seen==count);assert(memcmp(&world,&expected,sizeof(world))==0);
+  garage_mirror_tool_action(command);assert(seen==count);assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  scenario=4;
  for(unsigned pixel=0;pixel<4096;pixel++)for(unsigned value=1;value<16;value++){
   memset(world.images,0,sizeof(world.images));for(unsigned i=0;i<4;i++)world.images[i][pixel/8]=value<<(4*(pixel%8));
-  expected=world;count=seen=0;reference_run=1;reference(0);reference_run=0;garage_func_8011EFFC(0);
+  expected=world;count=seen=0;reference_run=1;reference(0);reference_run=0;garage_mirror_tool_action(0);
   assert(seen==count&&memcmp(&world,&expected,sizeof(world))==0);
  }
  puts("192512 guarded cases; packed pixel oracle, full native pointers and pre-service snapshots");return 0;

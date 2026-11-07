@@ -1,17 +1,17 @@
 #include "rr/overlay662_garage.h"
 
-#define SEL garage_D_801276A8
-#define CUR garage_D_80127668.points.cursor14
+#define SEL garage_logo_state
+#define CUR garage_logo_work.points.cursor14
 
 /* Map the cursor inside the 128x256 image area (at 82,71) to image cells:
  * reset08[2..5] is the zoom window origin/extent centred on the cursor,
  * reset08[6..9] the single cell under the cursor. Both are clamped to the
  * 128/config1C grid. Outside the area everything is cleared. */
-void garage_func_8012571C(void) {
+void garage_map_cursor_to_cell(void) {
     RrGaragePoint p;
     s32 size, max, zoom, x, y;
 
-    if (garage_func_8011E6C8(82, 71, 128, 256) != 0) {
+    if (garage_cursor_outside_rect(82, 71, 128, 256) != 0) {
         SEL.reset08[2] = 0;
         SEL.reset08[3] = 0;
         SEL.reset08[4] = 0;

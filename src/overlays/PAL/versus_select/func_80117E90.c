@@ -3,12 +3,12 @@
 extern s32 ModeFrame, TotalRaceTime, MenuConfirmPressed;
 extern u16 ModeSubState;
 extern s16 ModeGroup, ModeId, MenuFadeTimer, MenuCursor, MenuScriptId;
-extern s16 versus_select_D_80118410[2];
-extern s16 versus_select_D_80118418[2];
-extern char versus_select_D_80118420[2][12];
-extern s16 versus_select_D_80118448[2];
-extern char versus_select_D_801148EC[];
-extern char versus_select_D_801148F8[];
+extern s16 versus_select_result_order[2];
+extern s16 versus_select_win_counts[2];
+extern char versus_select_player_names[2][12];
+extern s16 versus_select_finish_ranks[2];
+extern char versus_select_won_str[];
+extern char versus_select_win_str[];
 extern u8 *CurrentDrawBuf;
 
 void SetMenuFrameOptions(s32, s32, s32);
@@ -25,10 +25,10 @@ void UpdateMenuTextRow(s32);
 void EmitMenuRowTransitionGrid(void);
 s32 LoadResultsSceneStep(void);
 void SeqStartTrack(s32);
-s32 versus_select_func_80117E10(s32);
-void versus_select_func_80115598(s32);
+s32 versus_select_update_results_choice(s32);
+void versus_select_init_selection_screen(s32);
 
-void versus_select_func_80117E90(void) {
+void versus_select_update_results(void) {
     s32 group;
     s32 i;
     s32 player;
@@ -53,21 +53,21 @@ void versus_select_func_80117E90(void) {
                 SetMenuFrameOptions(group, 1, group);
             }
         }
-        FormatDecimalDigits(MenuTextRows[4].marquee.at28 + 8, versus_select_D_80118410[0] + 1, 0);
-        CopyStringPadSpaces(MenuTextRows[5].marquee.at28 + 1, versus_select_D_80118420[versus_select_D_80118410[0]], 9);
-        CopyStringClearTail(MenuTextRows[5].marquee.at28 + 10, versus_select_D_801148EC);
+        FormatDecimalDigits(MenuTextRows[4].marquee.at28 + 8, versus_select_result_order[0] + 1, 0);
+        CopyStringPadSpaces(MenuTextRows[5].marquee.at28 + 1, versus_select_player_names[versus_select_result_order[0]], 9);
+        CopyStringClearTail(MenuTextRows[5].marquee.at28 + 10, versus_select_won_str);
         for (i = 0; i < 2; i++) {
-            player = versus_select_D_80118410[i];
-            CopyStringPadSpaces(MenuTextRows[7 + i].marquee.at28 + 5, versus_select_D_80118420[player], 9);
-            CopyStringClearTail(MenuTextRows[7 + i].marquee.at28 + 14, versus_select_D_801148F8);
-            FormatDecimalDigits(MenuTextRows[7 + i].marquee.at28 + 18, versus_select_D_80118418[player], 1);
+            player = versus_select_result_order[i];
+            CopyStringPadSpaces(MenuTextRows[7 + i].marquee.at28 + 5, versus_select_player_names[player], 9);
+            CopyStringClearTail(MenuTextRows[7 + i].marquee.at28 + 14, versus_select_win_str);
+            FormatDecimalDigits(MenuTextRows[7 + i].marquee.at28 + 18, versus_select_win_counts[player], 1);
         }
         break;
     case 3:
         group = 3;
         if (MenuTextRows[39].signedBytes[3] >= 17) {
             SetMenuFrameOptions(1, 1, 0);
-            if (versus_select_func_80117E10(0) >= 0) {
+            if (versus_select_update_results_choice(0) >= 0) {
                 ResetScreenCounters();
                 InitMenuArenas();
                 MenuFadeTimer = 64;
@@ -82,7 +82,7 @@ void versus_select_func_80117E90(void) {
         group = 3;
         if (MenuFadeTimer <= 0) {
             MenuScriptId = 0;
-            versus_select_D_80118448[0] = -1;
+            versus_select_finish_ranks[0] = -1;
             ModeGroup = 1;
             ModeId = 35;
             ModeSubState = 0;
@@ -111,7 +111,7 @@ void versus_select_func_80117E90(void) {
         ready = LoadResultsSceneStep();
         if (ready == 1) {
             SeqStartTrack(0);
-            versus_select_func_80115598(0);
+            versus_select_init_selection_screen(0);
             ModeGroup = ready;
             ModeId = 56;
             ModeSubState = 0;

@@ -57,7 +57,7 @@ void SetDrawMode(void *output,s32 display,s32 dither,s32 page,RrGpuRectangleFiel
  *head(step)=0xAB345600U+step;
  change_roots(&world,step);
 }
-u8 *garage_func_8011ABB4(u32 *ordering,u8 *packet,u32 x,u32 y,u32 width,u32 height){
+u8 *garage_add_draw_area(u32 *ordering,u8 *packet,u32 x,u32 y,u32 width,u32 height){
  assert(world.calls==0 && ordering==head(0) && packet==cursor(0));
  assert(x==12 && y==61 && width==296 && height==352);
  record(&world,packet,x,y,width,height,0);
@@ -94,7 +94,7 @@ int main(void){unsigned k,i;
   world.scratch.cursor=cursor(0);world.scratch.order=world.orders[root_id];world.calls=0;
   memcpy(&expected,&world,sizeof(world));reference();
   assert((uintptr_t)world.scratch.cursor>UINT32_MAX && (uintptr_t)world.scratch.order>UINT32_MAX);
-  garage_func_8011B400();
+  garage_add_editor_draw_env();
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

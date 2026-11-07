@@ -4,16 +4,16 @@
 #endif
 
 /* The mode cycle established by1A788/1A414 and1FB2C is0..2. */
-void garage_func_8011BDC8(s32 index)
+void garage_draw_mode_button(s32 index)
 {
     RrGpuScratchPointers *scratch = RR_GPU_SCRATCH;
-    RrGarageButton *button = (RrGarageButton *)garage_D_801273B8[index];
+    RrGarageButton *button = (RrGarageButton *)garage_logo_buttons[index];
     s32 sprite0;
     s32 sprite1;
 
     if (button->timer0E == 0) {
         sprite0 = 16;
-        switch (garage_D_801276A8.config1F) {
+        switch (garage_logo_state.config1F) {
         case 0:
             sprite1 = 18;
             break;
@@ -26,7 +26,7 @@ void garage_func_8011BDC8(s32 index)
         }
     } else {
         sprite0 = 17;
-        switch (garage_D_801276A8.config1F) {
+        switch (garage_logo_state.config1F) {
         case 0:
             sprite1 = 19;
             break;
@@ -41,6 +41,6 @@ void garage_func_8011BDC8(s32 index)
             button->timer0E--;
         }
     }
-    scratch->cursor = garage_func_8011B2D4(sprite0, scratch->cursor, 19, 173);
-    scratch->cursor = garage_func_8011B2D4(sprite1, scratch->cursor, 39, 173);
+    scratch->cursor = garage_add_ui_sprite(sprite0, scratch->cursor, 19, 173);
+    scratch->cursor = garage_add_ui_sprite(sprite1, scratch->cursor, 39, 173);
 }

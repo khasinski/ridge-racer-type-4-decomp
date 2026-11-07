@@ -1,6 +1,6 @@
 #include "rr/overlay665_audio_options.h"
 
-void options_func_801151A4(void) {
+void options_update_audio_menu(void) {
     s16 openingTimer;
     s32 signedTimer;
     s16 closingTimer;
@@ -17,13 +17,13 @@ void options_func_801151A4(void) {
     RrUiRow24 *closingRow;
     RrUiRow24 *clearingRow;
 
-    layout = (u32)options_D_80119768.layout0C;
+    layout = (u32)options_menu_state.layout0C;
     switch (layout) {
     case 0:
         row = 0;
-        options_func_80114FD8();
+        options_init_audio_rows();
         MenuFadeTimer = 0x40;
-        options_D_80119768.layout0C = (s32) ((u32)options_D_80119768.layout0C + 1U);
+        options_menu_state.layout0C = (s32) ((u32)options_menu_state.layout0C + 1U);
         break;
     case 1:
         signedTimer=MenuFadeTimer;
@@ -37,27 +37,27 @@ void options_func_801151A4(void) {
         if (UiRows[0].byte14 == 2) {
             row = 0;
             if (MenuFadeTimer == 0) {
-                options_D_80119768.layout0C = (s32) ((u32)options_D_80119768.layout0C + 1U);
+                options_menu_state.layout0C = (s32) ((u32)options_menu_state.layout0C + 1U);
             }
         } else {
             goto reset_rows;
         }
         break;
     case 2:
-        UiRows[options_D_80119768.exit34.word].cells[0] = 0;
-        StepMenuValue(0, 2, (char *)&options_D_80119768.exit34.halves[0], 4, 0);
-        UiRows[options_D_80119768.exit34.word].cells[0] = 2;
+        UiRows[options_menu_state.exit34.word].cells[0] = 0;
+        StepMenuValue(0, 2, (char *)&options_menu_state.exit34.halves[0], 4, 0);
+        UiRows[options_menu_state.exit34.word].cells[0] = 2;
         if (PlayerControllers[0].a != 0) {
             PlaySfx(1);
-            UiRows[options_D_80119768.exit34.word].cells[0] = 1;
-            options_D_80119768.layout0C = (s32) (options_D_80119768.exit34.word + 3);
+            UiRows[options_menu_state.exit34.word].cells[0] = 1;
+            options_menu_state.layout0C = (s32) (options_menu_state.exit34.word + 3);
             SetMenuFrameOptions(1, 1, 0);
             row = 0;
         } else {
             if (PlayerControllers[0].b != 0) {
                 PlaySfx(2);
                 MenuFadeTimer = 0x40;
-                options_D_80119768.layout0C = 6;
+                options_menu_state.layout0C = 6;
             }
             goto reset_rows;
         }
@@ -67,12 +67,12 @@ void options_func_801151A4(void) {
         if (musicState == 2) {
             UiRows[4].cells[0] = musicState;
             StepMenuValue(1, -1, (char *)&Options.bytes[0x30], 0x11, 0);
-            options_D_80119754 = (s32) Options.bytes[0x30];
+            options_music_volume_setting = (s32) Options.bytes[0x30];
             SeqSetVolume(MusicSeqVolume);
             if (MenuConfirmPressed != 0) {
                 PlaySfx(1);
                 UiRows[4].cells[0] = 1U;
-                options_D_80119768.layout0C = 7U;
+                options_menu_state.layout0C = 7U;
                 SetMenuFrameOptions(1, 1, 1);
             }
         }
@@ -84,11 +84,11 @@ void options_func_801151A4(void) {
         if (effectsState == 2) {
             UiRows[5].cells[0] = effectsState;
             StepMenuValue(1, -1, (char *)&Options.bytes[0x31], 0x11, 0);
-            options_D_80119758 = (s32) Options.bytes[0x31];
+            options_sfx_volume_setting = (s32) Options.bytes[0x31];
             if (MenuConfirmPressed != 0) {
                 PlaySfx(1);
                 UiRows[5].cells[0] = 1U;
-                options_D_80119768.layout0C = 7U;
+                options_menu_state.layout0C = 7U;
                 SetMenuFrameOptions(1, 1, 1);
             }
         }
@@ -104,7 +104,7 @@ void options_func_801151A4(void) {
             if (MenuConfirmPressed != 0) {
                 PlaySfx(1);
                 UiRows[Options.audio.mono32+6].cells[0] = 1;
-                options_D_80119768.layout0C = 7U;
+                options_menu_state.layout0C = 7U;
                 SetMenuFrameOptions(1, 1, 1);
                 SetCdMixMode(Options.audio.mono32);
             }
@@ -125,7 +125,7 @@ void options_func_801151A4(void) {
             closeIndex++;
         } while (row < 4);
         MenuFadeTimer = 0x40;
-        options_D_80119768.layout0C = 9U;
+        options_menu_state.layout0C = 9U;
         goto reset_rows;
     case 7:
         row = 4;
@@ -136,7 +136,7 @@ void options_func_801151A4(void) {
             if (detailState == 2) {
                 detail->byte14 = 3U;
             } else if (detailState == 6) {
-                options_D_80119768.layout0C = 8;
+                options_menu_state.layout0C = 8;
             }
             if ((u8) UiRows[detailIndex].byte14 >= 2U) {
                 DrawUiRow(row);
@@ -157,7 +157,7 @@ void options_func_801151A4(void) {
             row += 1;
             clearIndex++;
         } while (row < 8);
-        options_D_80119768.layout0C = 1U;
+        options_menu_state.layout0C = 1U;
         goto reset_rows;
     case 9:
         closingTimer = (u16) MenuFadeTimer - 1;
@@ -165,9 +165,9 @@ void options_func_801151A4(void) {
         AddScreenFadeTiles(&((RrFrameOrderingPrefix *)(void *)CurrentDrawBuf)->ordering70[0], (0x40 - closingTimer) * 4, 0x45);
         row = 0;
         if (MenuFadeTimer <= 0) {
-            options_func_80114A24();
-            options_D_80119768.layout0C = 0;
-            options_D_80119768.scene00 = (s32) ((u32)options_D_80119768.scene00 - 1U);
+            options_init_main_menu();
+            options_menu_state.layout0C = 0;
+            options_menu_state.scene00 = (s32) ((u32)options_menu_state.scene00 - 1U);
             goto reset_rows;
         }
         break;

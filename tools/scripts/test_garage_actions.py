@@ -32,8 +32,8 @@ static struct World {
  u32 sound_index,sound_record,sound_kind,next_index,next_record,next_kind;
  u32 calls,actions,sounds;Event log[3];u32 after[8];
 } world,expected;
-#define garage_D_801276A8 world.state
-#define garage_D_80127470 world.table
+#define garage_logo_state world.state
+#define garage_logo_actions world.table
 static void action_a(s32 code);
 static void action_b(s32 code);
 static Event *event(struct World *w,s32 kind){Event *e;assert(w->calls<3);e=&w->log[w->calls++];e->kind=kind;e->index=w->state.current60;return e;}
@@ -79,7 +79,7 @@ int main(void){unsigned k,i;
   if(flags)sound_effect(&expected,0,127,64,0x1e00,-1);
   if(flags%4!=0)model_action((flags&1)?1:2);
   if((flags/4)%4!=0)model_action((flags&4)?4:8);
-  garage_func_8011DCDC(flags);
+  garage_dispatch_direction_input(flags);
   assert(memcmp(&world,&expected,sizeof(world))==0);
   assert((uintptr_t)&world.records[0]>UINT32_MAX);
   assert((uintptr_t)action_a>UINT32_MAX && (uintptr_t)action_b>UINT32_MAX);

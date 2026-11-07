@@ -5,5 +5,5 @@
  * Both buffers cover512 words and may overlap. Shifts are differences of
  * coordinates0..63, hence x/y lie in[-63,63]. Positive shifts move the image
  * right/down, wrapping at64. The complete input is staged before any output. */
-void garage_func_80125DE0(u32 *source,u32 *destination,s32 x,s32 y);
+void garage_shift_image_wrap(u32 *source,u32 *destination,s32 x,s32 y);
 #endif

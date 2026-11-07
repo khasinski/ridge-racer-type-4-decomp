@@ -1,6 +1,6 @@
 #include "rr/overlay662_history_labels.h"
 
-void garage_func_80117AA4(u32 *arg0, void *arg1, s32 arg2) {
+void garage_draw_maker_count_label(u32 *arg0, void *arg1, s32 arg2) {
     s32 i;
     s32 x;
     s32 y;
@@ -16,17 +16,17 @@ void garage_func_80117AA4(u32 *arg0, void *arg1, s32 arg2) {
         }
     }
     for (i = 0; i < 3; i++) {
-        if (garage_D_80126224[i] == -1) {
+        if (garage_maker_cars_label_glyphs[i] == -1) {
             arg1 = AddTextSprites(
                 arg0, arg1, x, y,
-                FormatCountOfTotal(garage_D_80127328[SelectionRows.bytes[0]][SelectionRows.bytes[1]], 20, 1),
+                FormatCountOfTotal(garage_team_maker_car_counts[SelectionRows.bytes[0]][SelectionRows.bytes[1]], 20, 1),
                 flag + 0x7FF8, 0, 0);
             break;
         }
-        arg1 = AddSpritePrim(arg0, arg1, x, y, &UiFontGlyphs[garage_D_80126224[i]], 0x7FF8, 0);
+        arg1 = AddSpritePrim(arg0, arg1, x, y, &UiFontGlyphs[garage_maker_cars_label_glyphs[i]], 0x7FF8, 0);
         /* ASM_BARRIER: boost arg1 register allocation priority to $s2 */
         __asm__("" : "+r"(arg1));
-        x += UiFontGlyphs[garage_D_80126224[i]].w + 2;
+        x += UiFontGlyphs[garage_maker_cars_label_glyphs[i]].w + 2;
     }
     AddDrawModePrim(arg0, arg1, 56);
 }

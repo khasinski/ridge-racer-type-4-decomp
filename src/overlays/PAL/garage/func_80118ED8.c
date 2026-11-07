@@ -1,5 +1,5 @@
 #include "rr/overlay662_screen_init.h"
-void garage_func_80118ED8(void) {
+void garage_init_car_select(void) {
     ModeFrame = 0;
     ScreenFrame = 0;
     garage_D_801272D4 = 0;

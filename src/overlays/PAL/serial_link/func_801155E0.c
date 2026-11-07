@@ -1,5 +1,5 @@
 #include "rr/overlay_screen_exit.h"
-void serial_link_func_801155E0(void)
+void serial_link_exit_race(void)
 {
     StopRaceAudioAndRumble();
     SetupRaceAndScene();

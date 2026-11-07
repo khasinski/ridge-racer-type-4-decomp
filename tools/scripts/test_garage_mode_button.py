@@ -35,10 +35,10 @@ static struct World {
  u32 order[704];RrSpritePacket packets[5];u32 tail[4];
 } world,expected;
 #define RR_GPU_SCRATCH (&world.scratch)
-#define garage_D_801276A8 world.garage
-#define garage_D_801273B8 world.table
-#define garage_D_80126260 world.records
-#define garage_D_80127548 world.lookup
+#define garage_logo_state world.garage
+#define garage_logo_buttons world.table
+#define garage_sprite_records world.records
+#define garage_logo_sprites world.lookup
 '''+data+child+body+r'''
 static u32 rng=0x1BDC8;
 static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
@@ -63,7 +63,7 @@ static void reference(unsigned index,unsigned slot){
 int main(void){unsigned bits,mode,index,at,j,step;uint64_t calls=0;
  memset(&world,0,sizeof(world));memcpy(world.buttons,original_buttons,sizeof(original_buttons));memcpy(world.records,original_sprites,sizeof(original_sprites));
  for(j=0;j<46;j++)world.table[(unsigned)world.buttons[j].key0C]=&world.buttons[j].rectangle;
- world.scratch.order=world.order;assert(garage_func_8011B2D4(-1,0,0,0)==0);
+ world.scratch.order=world.order;assert(garage_add_ui_sprite(-1,0,0,0)==0);
  for(bits=0;bits<65536;bits++)for(mode=0;mode<3;mode++){
   index=bits%46;at=(unsigned)((RrGarageButton*)world.table[index]-world.buttons);
   world.buttons[at].timer0E=half(bits);world.garage.config1F=(u8)mode;
@@ -73,7 +73,7 @@ int main(void){unsigned bits,mode,index,at,j,step;uint64_t calls=0;
   world.scratch.cursor=(u8*)world.packets;world.scratch.order=world.order;
   memcpy(&expected,&world,sizeof(world));
   for(step=0;step<2;step++){
-   reference(index,step*2);garage_func_8011BDC8((s32)index);
+   reference(index,step*2);garage_draw_mode_button((s32)index);
    assert(memcmp(&world,&expected,sizeof(world))==0);calls++;
   }
   assert(world.scratch.cursor==(u8*)&world.packets[4]);assert((uintptr_t)world.scratch.cursor>UINT32_MAX);

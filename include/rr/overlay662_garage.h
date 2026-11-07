@@ -27,17 +27,17 @@ typedef struct {
     u32 phaseCC;
     u8 shadeD0,flagsD1,stateD2,dirtyD3;
 } RrGarageSelectionPrefix;
-extern RrGarageSelectionPrefix garage_D_801276A8;
+extern RrGarageSelectionPrefix garage_logo_state;
 RR_ASSERT_SIZE(RrGarageSelectionPrefix,0xd4);
 RR_ASSERT_OFFSET(RrGarageSelectionPrefix,phaseCC,0xcc);
 RR_ASSERT_OFFSET(RrGarageSelectionPrefix,shadeD0,0xd0);
-void garage_func_8011D208(void);
-void garage_func_8011A788(s32 mode);
+void garage_update_selection_pulse(void);
+void garage_reset_editor_state(s32 mode);
 RR_ASSERT_OFFSET(RrGarageSelectionPrefix,reset08,0x08);
 RR_ASSERT_OFFSET(RrGarageSelectionPrefix,config1C,0x1c);
 RR_ASSERT_OFFSET(RrGarageSelectionPrefix,flagsD1,0xd1);
 /* Negative modes initialize option pointers and scalar selections. */
-void garage_func_8011D278(s32 mode);
+void garage_init_option_tables(s32 mode);
 RR_ASSERT_SIZE(RrGarageOptionPointers,0x20);
 RR_ASSERT_SIZE(RrGarageOptionIndices,0x20);
 RR_ASSERT_OFFSET(RrGarageOptionPointerGroups,second,0x0C);
@@ -45,11 +45,11 @@ RR_ASSERT_OFFSET(RrGarageOptionIndexGroups,second,0x0C);
 RR_ASSERT_OFFSET(RrGarageSelectionPrefix,options78,0x78);
 RR_ASSERT_OFFSET(RrGarageSelectionPrefix,optionIndices98,0x98);
 /* active21 is a two-buffer selector. Copy forward, then retain the selection. */
-void garage_func_8011D120(void);
+void garage_save_undo_copy(void);
 /* Return1 when all 512 words of the selected layer and side are zero. */
-s32 garage_func_8011D0C0(void);
+s32 garage_is_layer_empty(void);
 RR_ASSERT_OFFSET(RrGarageSelectionPrefix,layer23,0x23);
-void garage_func_801256D4(void);
+void garage_alt_undo_toggle(void);
 RR_ASSERT_OFFSET(RrGarageSelectionPrefix,buffers24,0x24);
 RR_ASSERT_OFFSET(RrGarageSelectionPrefix,tim2C,0x2C);
 RR_ASSERT_OFFSET(RrGarageSelectionPrefix,scratch34,0x34);
@@ -85,23 +85,23 @@ RR_ASSERT_OFFSET(RrGaragePointWorkingView,cursor18,0x18);
 RR_ASSERT_OFFSET(RrGaragePointWorkingView,first20,0x20);
 RR_ASSERT_OFFSET(RrGaragePointWorkingView,second24,0x24);
 RR_ASSERT_OFFSET(RrGaragePointWorkingView,distance2C,0x2C);
-extern RrGarageWorkingStorage garage_D_80127668;
-s32 garage_func_8011DDD8(s32 mode);
+extern RrGarageWorkingStorage garage_logo_work;
+s32 garage_step_button_repeat(s32 mode);
 typedef u16 RrGarageRectangle[4];
 /* Nonzero controller movement replaces both coordinates; neutral preserves output. */
-void garage_func_8011D58C(RrGaragePoint *output);
+void garage_read_mouse_motion(RrGaragePoint *output);
 /* Signed rectangle center; halves of negative odd extents round downward. */
-RrGaragePoint garage_func_8011DC74(s32 index);
-extern RrGarageRectangle *garage_D_801273B8[];
+RrGaragePoint garage_get_button_center(s32 index);
+extern RrGarageRectangle *garage_logo_buttons[];
 
 /* Overlay-local selection state; known scalar fields are menu indices.
  * Clip working storage uses signed halfwords; rectangle payloads preserve
  * raw halfword bits and are interpreted as signed coordinates by hit testing. */
-void garage_func_8011E694(void);
+void garage_save_cursor_selection(void);
 /* Returns0 only for a point in [x,x+w) by [y,y+h); arguments use signed low16. */
-s32 garage_func_8011E6C8(s32 x,s32 y,s32 width,s32 height);
-s32 garage_func_8011E734(s32 index);
+s32 garage_cursor_outside_rect(s32 x,s32 y,s32 width,s32 height);
+s32 garage_cursor_outside_button(s32 index);
 /* Capture the selected pointer once, then copy the four halfwords in order.
  * Payload storage may overlap the clip destination. */
-void garage_func_8011E7DC(s32 index);
+void garage_set_clip_from_button(s32 index);
 #endif

@@ -1,6 +1,6 @@
 #include "rr/overlay662_distance.h"
 
-s32 garage_func_8011DBD8(const RrGaragePoint *a, const RrGaragePoint *b) {
+s32 garage_calc_glide_step(const RrGaragePoint *a, const RrGaragePoint *b) {
     u32 dx = (u32)(b->x - a->x) * 2U;
     u32 dy = (u32)(b->y - a->y);
 

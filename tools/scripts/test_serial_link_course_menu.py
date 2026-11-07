@@ -5,7 +5,7 @@ import subprocess
 
 root=Path(__file__).resolve().parents[2]
 body=(root/'src/overlays/PAL/serial_link/func_80117FA8.c').read_text()
-body=body[body.index('void serial_link_func_80117FA8'):]
+body=body[body.index('void serial_link_update_course_select'):]
 mapper=(root/'tools/scripts/fixtures/views/func_80032E9C.c').read_text().replace('DecodeCourseIndex','actual_mapper')
 source=r'''
 #include <assert.h>
@@ -101,7 +101,7 @@ s32 DecodeCourseIndex(s32 a){const s32 args[7]={a};record(8,args);effect(8);retu
 void PlaySfx(s32 a){const s32 args[7]={a};record(9,args);effect(9);}
 void SeqFadeVolume(s32 a,s32 b){const s32 args[7]={a,b};record(10,args);effect(10);}
 void BeginLinkSync(void){service(11);}
-void serial_link_func_801161A8(s32 a){assert(a==0||a==2);const s32 args[7]={a};record(12,args);effect(12);}
+void serial_link_init_car_select(s32 a){assert(a==0||a==2);const s32 args[7]={a};record(12,args);effect(12);}
 void AddScreenFadeTiles(u32 *p,s32 b,u32 c){unsigned k;for(k=0;k<2&&p!=w->frames[k].ordering70;k++){}assert(k<2&&(uintptr_t)p>UINT32_MAX);const s32 args[7]={k,b,(s32)c};record(13,args);effect(13);}
 void DrawUiRow(s32 a){const s32 args[7]={a};record(14,args);effect(14);}
 void DrawCourseInfoPanel(s32 a,s32 b){const s32 args[7]={a,b};record(15,args);effect(15);}
@@ -129,7 +129,7 @@ static void expected(void){s32 quit=ExitOnLinkLost();early[quit!=0]++;if(quit){S
    if(state==2){SetMenuFrameOptions(1,1,0);w->rows[w->rowRoot][23].cells[0]=2;StepMenuValue(1,4,(char*)&w->players,10,2);
     if(w->input[0].a){PlaySfx(1);w->rows[w->rowRoot][23].cells[0]=1;w->rows[w->rowRoot][23].byte14=3;}}
    else if(state==5)w->phase=0;DrawCourseMapPreview(w->course,2);
-  }else if(phase==8){if(w->rows[w->rowRoot][18].byte14==5){exits[1]++;serial_link_func_801161A8((1-(s32)w->split)*2);w->enabled=1;w->scene=60;w->phase=0;}}
+  }else if(phase==8){if(w->rows[w->rowRoot][18].byte14==5){exits[1]++;serial_link_init_car_select((1-(s32)w->split)*2);w->enabled=1;w->scene=60;w->phase=0;}}
  }
  DrawCourseInfoPanel(w->course,2);for(unsigned i=18;i<22;i++)DrawUiRow(i);
  if(w->rows[w->rowRoot][18].byte14==2&&w->phase!=4)DrawMenuStepArrows(206,208,94,0,w->course,-1,word((u32)w->available+1));
@@ -144,7 +144,7 @@ int main(void){assert(sizeof(void*)==8);u16 endian=1;assert(*(u8*)&endian==1);
  w->input[0].a=(scenario>>6)&1;w->input[0].b=(scenario>>7)&1;
  for(unsigned i=0;i<25;i++)for(unsigned j=0;j<2;j++)w->rows[j][i].byte14=(scenario/256+i+j)%8;
  for(unsigned j=0;j<2;j++)w->rows[j][21].byte02=(scenario+j)%9;for(unsigned i=0;i<8;i++)w->map[i]=(u8)(scenario+31*i);
- reference=actual;serial=count=seen=0;referenceRun=1;w=&reference;expected();serial=0;referenceRun=0;w=&actual;serial_link_func_80117FA8();assert(count==seen&&!memcmp(&actual,&reference,sizeof(actual)));
+ reference=actual;serial=count=seen=0;referenceRun=1;w=&reference;expected();serial=0;referenceRun=0;w=&actual;serial_link_update_course_select();assert(count==seen&&!memcmp(&actual,&reference,sizeof(actual)));
  }
  for(unsigned i=0;i<19;i++)assert(coverage[i]);for(unsigned i=0;i<5;i++)assert(states[i]);for(unsigned i=0;i<4;i++)assert(choices[i]);for(unsigned i=0;i<3;i++)assert(inputKinds[i]);
  assert(exits[0]&&exits[1]&&blocked[0]&&blocked[1]&&readiness[0]&&readiness[1]&&courseChange[0]&&courseChange[1]&&early[0]&&early[1]);

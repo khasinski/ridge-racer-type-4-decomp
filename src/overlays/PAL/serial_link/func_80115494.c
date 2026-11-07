@@ -1,5 +1,5 @@
 #include "rr/driver_control.h"
-void serial_link_func_80115494(void)
+void serial_link_reset_graph_and_sio(void)
 {
     ResetGraph(1);
     _sio_control(3,0,1);

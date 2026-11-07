@@ -1,5 +1,5 @@
 #include "rr/selection_initializer.h"
-void serial_link_func_801161A8(s32 arg0) {
+void serial_link_init_car_select(s32 arg0) {
     RrRaceVehicle *var_s0;
     s16 *temp_s0;
     s16 *temp_t0_2;

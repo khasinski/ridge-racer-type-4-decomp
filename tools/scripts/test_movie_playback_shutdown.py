@@ -92,7 +92,7 @@ int main(void){unsigned k,i;
   expected.ports[world.first]=0;expected.ports[world.second]=0;
   unlock_effect(&expected);cd_effect(&expected);
   expected.screen=1;expected.step=3;expected.counter=0;
-  movie_playback_func_80114DF4();
+  movie_playback_shutdown();
   assert(memcmp(&world,&expected,sizeof(world))==0);
   assert((uintptr_t)world.active>UINT32_MAX && (uintptr_t)world.port0>UINT32_MAX);
  }

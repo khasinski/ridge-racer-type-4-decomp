@@ -8,7 +8,7 @@ import subprocess, unittest
 ROOT=Path(__file__).resolve().parents[2]
 class StrokePathsTest(unittest.TestCase):
  def test_all_halfword_factors_and_mutable_owners(self):
-  body=(ROOT/'src/overlays/PAL/options/func_80116AA4.c').read_text().split('void options_func_80116AA4',1)[1]
+  body=(ROOT/'src/overlays/PAL/options/func_80116AA4.c').read_text().split('void options_draw_button_guides',1)[1]
   code=r'''
 #include <assert.h>
 #include <stddef.h>
@@ -21,8 +21,8 @@ typedef struct {State s;const RrStrokeStep4 *paths[5];Event events[80];unsigned 
 static World actual,reference,*w;
 static unsigned scenario,mutation,seen[16],directions[4],factorSeen[65536],lengthSeen[65536],originSeen[5];
 static const s32 factors[12]={INT32_MIN,INT32_MIN+1,INT32_MAX-1,INT32_MAX,-65537,-65536,-17,-1,0,1,16,65536};
-#define options_D_801148C4 (w->s.color)
-#define options_D_8011920C (w->s.origins)
+#define options_button_guide_line_color (w->s.color)
+#define options_button_guide_origins (w->s.origins)
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 static s16 half(u16 n){s16 v;memcpy(&v,&n,2);return v;}
 static u32 next(void){u32 n=w->s.rng;n^=n<<13;n^=n>>17;n^=n<<5;return w->s.rng=n;}
@@ -35,7 +35,7 @@ void AddLineF2Prim(const s16 *points,const u8 *color,s32 blend,s32 depth){u16 *x
   bank=next()%10;row=next()%8;w->s.banks[bank][row].direction=next()%4;w->s.banks[bank][row].length=half((u16)next());sync();
  }
 }
-void options_func_80116AA4'''+body+r'''
+void options_draw_button_guides'''+body+r'''
 static void expected(s32 factor){RrStrokeColor4 color=w->s.color;unsigned path,row,bank;u16 xy[4];s32 total,limit,used,n,nextUsed,dir;RrStrokeStep4 step;
  if(!factor){seen[0]++;return;}seen[1+(factor<0)]++;
  for(path=0;path<5;path++){
@@ -64,7 +64,7 @@ int main(void){unsigned i,j,k;u32 guard[4];s32 factor;uint64_t cases=0;
   if(scenario%7==0)w->s.banks[w->s.selected[scenario%5]][scenario%9].direction=-1;
   for(i=0;i<4;i++){w->s.color.bytes[i]=(u8)next();w->s.guard[i]=next();w->s.tail[i]=next();guard[i]=w->s.guard[i];}
   factor=scenario<65536?half((u16)scenario):(scenario%2?factors[(scenario>>1)%12]:word(next()));if(scenario<65536)factorSeen[(u16)factor]++;
-  reference.s=actual.s;w=&actual;sync();options_func_80116AA4(w->paths,factor);w=&reference;sync();expected(factor);
+  reference.s=actual.s;w=&actual;sync();options_draw_button_guides(w->paths,factor);w=&reference;sync();expected(factor);
   assert(!memcmp(&actual.s,&reference.s,sizeof(State)));assert(actual.count==reference.count);assert(!memcmp(actual.events,reference.events,actual.count*sizeof(Event)));
   for(k=0;k<5;k++){assert(actual.paths[k]==actual.s.banks[actual.s.selected[k]]);assert(reference.paths[k]==reference.s.banks[reference.s.selected[k]]);}assert(!memcmp(actual.s.guard,guard,sizeof(guard)));cases++;
  }

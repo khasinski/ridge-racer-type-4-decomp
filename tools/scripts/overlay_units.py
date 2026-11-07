@@ -1,6 +1,6 @@
 """Source ownership for overlay translation units and legacy function files."""
 from functools import lru_cache
-from overlay_names import name as OVN
+from overlay_names import name as OVN, symbol_name as overlay_symbol
 from pathlib import Path
 import json
 import re
@@ -24,9 +24,9 @@ def function_owner(index, address, root=ROOT):
         for function in config['functions']:
             if function['address'] == address and function.get('source'):
                 return root / function['source'], function.get(
-                    'symbol', f'{OVN(index)}_func_{address:08X}')
+                    'symbol', overlay_symbol(index, address))
     return (root / f'src/overlays/PAL/{OVN(index)}/func_{address:08X}.c',
-            f'{OVN(index)}_func_{address:08X}')
+            overlay_symbol(index, address))
 
 
 def symbol_addresses(root=ROOT):

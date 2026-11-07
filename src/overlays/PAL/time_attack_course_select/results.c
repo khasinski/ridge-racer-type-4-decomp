@@ -1,6 +1,6 @@
 #include "rr/overlay660.h"
 
-void time_attack_course_select_func_801154D8(void)
+void time_attack_course_select_init_results(void)
 {
     s32 i;
     s32 off;
@@ -8,9 +8,9 @@ void time_attack_course_select_func_801154D8(void)
 
     ModeFrame = 0;
     if (TotalRaceTime != -1) {
-        time_attack_course_select_func_801162D8();
-        time_attack_course_select_race_record_rank = time_attack_course_select_func_80115FA8(0, LapTimes[(s16)BestLapIndex]);
-        time_attack_course_select_lap_record_rank = time_attack_course_select_func_80115FA8(1, TotalRaceTime);
+        time_attack_course_select_find_best_lap();
+        time_attack_course_select_race_record_rank = time_attack_course_select_insert_record(0, LapTimes[(s16)BestLapIndex]);
+        time_attack_course_select_lap_record_rank = time_attack_course_select_insert_record(1, TotalRaceTime);
     } else {
         time_attack_course_select_race_record_rank = 6;
         time_attack_course_select_lap_record_rank = 6;
@@ -42,7 +42,7 @@ void time_attack_course_select_func_801154D8(void)
     SetMenuFrameOptions(0, 1, 0);
 }
 
-s32 time_attack_course_select_func_801156A8(s32 reserved){
+s32 time_attack_course_select_update_results_choice(s32 reserved){
  SetMenuTextRowCursor(MenuCursor+37,0,0);
  StepMenuValue(0,2,(char*)&MenuCursor,MenuItemCount,0);
  SetMenuTextRowCursor(MenuCursor+37,1,1);
@@ -50,7 +50,7 @@ s32 time_attack_course_select_func_801156A8(s32 reserved){
  return -1;
 }
 
-void time_attack_course_select_func_8011572C(void) {
+void time_attack_course_select_update_results(void) {
     s32 group;
     s32 base;
     s32 row;
@@ -147,7 +147,7 @@ void time_attack_course_select_func_8011572C(void) {
         group = 33;
         if (MenuTextRows[38].signedBytes[3] >= 17) {
             SetMenuFrameOptions(1, 1, 0);
-            if (time_attack_course_select_func_801156A8(0) >= 0) {
+            if (time_attack_course_select_update_results_choice(0) >= 0) {
                 SetMenuFrameOptions(0, 1, 0);
                 ResetScreenCounters();
                 InitMenuArenas();
@@ -207,7 +207,7 @@ void time_attack_course_select_func_8011572C(void) {
         ready = LoadResultsSceneStep();
         if (ready == 1) {
             SeqStartTrack(0);
-            time_attack_course_select_func_80114920();
+            time_attack_course_select_init_menu();
             ModeGroup = ready;
             ModeId = 50;
             ModeSubState = 0;
@@ -228,7 +228,7 @@ void time_attack_course_select_func_8011572C(void) {
     }
 }
 
-s32 time_attack_course_select_func_80115FA8(s32 mode, s32 time) {
+s32 time_attack_course_select_insert_record(s32 mode, s32 time) {
     s32 times[6];
     s16 order[6];
     s32 i;
@@ -282,7 +282,7 @@ s32 time_attack_course_select_func_80115FA8(s32 mode, s32 time) {
     return i;
 }
 
-void time_attack_course_select_func_801162D8(void)
+void time_attack_course_select_find_best_lap(void)
 {
     s32 values[6];
     u16 indices[6];

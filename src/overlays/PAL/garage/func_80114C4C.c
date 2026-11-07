@@ -11,7 +11,7 @@ void SeqMuteVolume(void);
 void InitTimTemplate(void *);
 void UploadCarClut(void *, s32, s32);
 
-void garage_func_80114C4C(void)
+void garage_update_main_menu(void)
 {
     s32 i;
     s32 state;

@@ -1,5 +1,5 @@
 #include "rr/overlay668_replay_controller.h"
-void movie_playback_func_80115F80(void) {
+void movie_playback_credits_update(void) {
     s32 temp_a1;
     s32 temp_s1;
     s32 temp_v0;
@@ -11,7 +11,7 @@ RrReplayCameraContextPrefix *ctx;
 
     switch (RaceContext.counter444) {                          
     case 0:
-        movie_playback_func_80115DFC();
+        movie_playback_credits_init();
         goto increment;
     case 4:
         SetDispMask(1);
@@ -21,8 +21,8 @@ RrReplayCameraContextPrefix *ctx;
         break;
     case 5:                                        
         var_a0 = -1;
-        for(var_s0=0;movie_playback_D_80116CA8[var_s0].key>=0;var_s0++){
-          if(movie_playback_D_80116CA8[var_s0].key==RaceContext.state44C){var_a0=movie_playback_D_80116CA8[var_s0].action;break;}
+        for(var_s0=0;movie_playback_credits_events[var_s0].key>=0;var_s0++){
+          if(movie_playback_credits_events[var_s0].key==RaceContext.state44C){var_a0=movie_playback_credits_events[var_s0].action;break;}
         }
         switch (var_a0) {                          
         case 0:                                    
@@ -34,15 +34,15 @@ RrReplayCameraContextPrefix *ctx;
             RaceContext.mode4A8 = 2;
             break;
         }
-        movie_playback_func_80115554();
+        movie_playback_camera_steer();
         ctx=&RaceContext;
         ctx->position450[0] = (s32) ((u32)ctx->position450[0] + (ctx->delta478[0] / 6));
         temp_a1 = ctx->delta478[2] / 6;
         ctx->position450[2] = (s32) ((u32)ctx->position450[2] + temp_a1);
-        movie_playback_func_80115460(ctx->position450);
-        movie_playback_func_801156FC();
-        movie_playback_func_80115850();
-        movie_playback_func_80115BD0(2);
+        movie_playback_camera_locate_track(ctx->position450);
+        movie_playback_camera_update_pitch();
+        movie_playback_camera_apply();
+        movie_playback_add_letterbox_packets(2);
         temp_s1 = ctx->mode4A8;
         switch (temp_s1) {                         
         case 1:                                    
@@ -74,7 +74,7 @@ RrReplayCameraContextPrefix *ctx;
             if (temp_v1 == 1) {
                 var_s0 = 0;
                 D_80127E90 = (u32)D_80127E90 - (u32)D_80127E94;
-                for(;var_s0<62;var_s0++)movie_playback_func_801159C0(var_s0,160);
+                for(;var_s0<62;var_s0++)movie_playback_draw_credits_row(var_s0,160);
             }
         }
         if ((PlayerControllers[0].buttons08 & 0x800) && (RaceContext.mode4A8 == 0)) {
@@ -84,8 +84,8 @@ RrReplayCameraContextPrefix *ctx;
         SetupPlayerView(0);
         DrawTrackSceneryForPlayer(0);
         RaceContext.state44C = (s32) ((u32)RaceContext.state44C + 1);
-        movie_playback_func_80115BD0(1);
-        movie_playback_func_80115BD0(0);
+        movie_playback_add_letterbox_packets(1);
+        movie_playback_add_letterbox_packets(0);
         /* fallthrough */
     default:                                       
         return;

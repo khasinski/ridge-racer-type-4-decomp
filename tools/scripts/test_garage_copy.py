@@ -21,7 +21,7 @@ class OverlayCopyTest(unittest.TestCase):
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
 #include "rr/overlay662_garage.h"
 static struct World {u32 before[8];RrGarageSelectionPrefix state;u32 words[2048],after[8];} world,expected;
-#define garage_D_801276A8 world.state
+#define garage_logo_state world.state
 ''' + body + r'''
 static u32 seed=0x1d120;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -55,7 +55,7 @@ int main(void){unsigned k,i,stream;
   for(stream=0;stream<3;stream++)for(i=0;i<(stream==2?8:512);i++)
    expected.words[dst[stream]+i]=expected.words[src[stream]+i];
   assert((uintptr_t)world.state.image38[selected]>UINT32_MAX);
-  garage_func_8011D120();
+  garage_save_undo_copy();
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

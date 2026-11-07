@@ -94,11 +94,11 @@ static unsigned scenario,mutation;
 #define TotalRaceTime w->state.match
 #define MenuCursor w->state.selection
 #define MenuItemCount w->state.mode
-#define versus_select_D_80118378 w->state.table661
-#define serial_link_D_80118E2C w->state.table667
-#define versus_select_D_80118448 w->state.scores
-#define versus_select_D_80118410 w->state.winners
-#define versus_select_D_80118418 w->state.wins
+#define versus_select_results_text_ids w->state.table661
+#define serial_link_result_labels w->state.table667
+#define versus_select_finish_ranks w->state.scores
+#define versus_select_result_order w->state.winners
+#define versus_select_win_counts w->state.wins
 #define NumCars w->state.participants
 #define LinkResultPlayerByRank w->state.ranks
 #define PlayerWinCounts w->state.counts
@@ -188,7 +188,7 @@ int main(void) {
   }
   for(overlay=0;overlay<2;overlay++) {
    actual=initial;expected=initial;
-   w=&actual;if(overlay)serial_link_func_80118634();else versus_select_func_80117C78();
+   w=&actual;if(overlay)serial_link_init_results();else versus_select_init_results();
    w=&expected;reference(overlay);
    assert(actual.calls==35 && memcmp(&actual,&expected,sizeof(actual))==0);
   }

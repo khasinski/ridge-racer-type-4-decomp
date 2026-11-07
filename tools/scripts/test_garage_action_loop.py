@@ -29,12 +29,12 @@ typedef struct {s32 kind,argument;u32 hash;} Event;
 typedef struct {State s;Event e[128];unsigned calls;} World;
 static World actual,reference,initial,*w;
 static unsigned scenario,mutation,seen[8],brushSeen[5];
-#define garage_D_801276A8 w->s.garage
-#define garage_D_80127668 w->s.work
-#define garage_D_80126C38 w->s.records
-#define garage_D_80127470 w->s.actions
-#define garage_D_80126F88 w->s.buttons
-#define garage_D_801273B8 w->s.table
+#define garage_logo_state w->s.garage
+#define garage_logo_work w->s.work
+#define garage_action_records w->s.records
+#define garage_logo_actions w->s.actions
+#define garage_button_records w->s.buttons
+#define garage_logo_buttons w->s.table
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 static u32 next(void){u32 n=w->s.rng;n^=n<<13;n^=n>>17;n^=n<<5;return w->s.rng=n;}
 static unsigned actionIndex(RrGarageActionPrefix *p){unsigned i;assert((uintptr_t)p>UINT32_MAX);for(i=0;i<53;i++)if(p==&actual.s.records[i].prefix)return i;assert(0);return 0;}
@@ -53,7 +53,7 @@ static void record(s32 kind,s32 argument){Event *e;unsigned i;u32 h=2166136261U;
 }
 static void step0(s32 a){assert(a==0);record(1,a);}static void step1(s32 a){assert(a==0);record(2,a);}
 static void render0(s32 a){record(3,a);}static void render1(s32 a){record(4,a);}
-void garage_func_8011BF04(void){record(5,0);}
+void garage_draw_color_panel(void){record(5,0);}
 ''' + body + r'''
 static void expected(s32 mode){unsigned i,selected;static const unsigned brushes[5]={9,11,12,14,4};
  if(mode){
@@ -73,7 +73,7 @@ static void expected(s32 mode){unsigned i,selected;static const unsigned brushes
  w->s.buttons[buttonIndex(w->s.table[selected])].timer0E=-1;
  if(!w->s.garage.flagsD1){
   for(i=0;i<53;i++){unsigned index=actionIndex(w->s.actions[i]);RrGarageStep callback=w->s.records[index].render;s32 arg=w->s.records[index].argument;callback(arg);}
-  garage_func_8011BF04();seen[6]++;
+  garage_draw_color_panel();seen[6]++;
  }else seen[7]++;
 }
 int main(void){unsigned modeIndex,i;uint64_t cases=0;static const s32 modes[4]={0,-1,1,INT32_MIN};static const s32 progress[7]={-1,0,4095,4096,4097,INT32_MIN,INT32_MAX};
@@ -93,7 +93,7 @@ int main(void){unsigned modeIndex,i;uint64_t cases=0;static const s32 modes[4]={
    w->s.buttons[i].rectangle[0]=(u16)next();w->s.buttons[i].sprite08=(s16)next();
    w->s.table[i]=&actual.s.buttons[(scenario&2)?next()%46:(i*17+scenario)%46].rectangle;
   }
-  actual=reference=initial;w=&actual;garage_func_8011E36C(modes[modeIndex]);w=&reference;expected(modes[modeIndex]);
+  actual=reference=initial;w=&actual;garage_update_actions(modes[modeIndex]);w=&reference;expected(modes[modeIndex]);
   assert(!memcmp(&actual,&reference,sizeof(actual)));cases++;
  }
  assert(cases==65536);for(i=0;i<8;i++)assert(seen[i]);for(i=0;i<5;i++)assert(brushSeen[i]);return 0;

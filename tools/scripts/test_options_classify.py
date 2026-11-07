@@ -39,7 +39,7 @@ static void check(unsigned k,unsigned type,s16 kind,unsigned flag){
  s32 index=(s32)(k&15)-8;RrMenuItemState5C *row=&world.rows[index+8];s32 value;
  row->type01=type;row->kind1C=kind;row->flag40=flag;
  memcpy(&initial,&world,sizeof(world));
- value=options_func_8011629C(index);
+ value=options_get_controller_kind(index);
  assert(value==model(type,kind,flag));assert(memcmp(&world,&initial,sizeof(world))==0);
  assert((uintptr_t)row>UINT32_MAX);
 }

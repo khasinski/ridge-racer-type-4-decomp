@@ -26,85 +26,85 @@
     {
       "address": 2148616464,
       "size": 16,
-      "symbol": "time_attack_course_select_func_80114910",
+      "symbol": "time_attack_course_select_set_scene_id",
       "source": "src/overlays/PAL/time_attack_course_select/course_menu.c"
     },
     {
       "address": 2148616480,
       "size": 800,
-      "symbol": "time_attack_course_select_func_80114920",
+      "symbol": "time_attack_course_select_init_menu",
       "source": "src/overlays/PAL/time_attack_course_select/course_menu.c"
     },
     {
       "address": 2148617280,
       "size": 248,
-      "symbol": "time_attack_course_select_func_80114C40",
+      "symbol": "time_attack_course_select_init_scene",
       "source": "src/overlays/PAL/time_attack_course_select/course_menu.c"
     },
     {
       "address": 2148617528,
       "size": 1952,
-      "symbol": "time_attack_course_select_func_80114D38",
+      "symbol": "time_attack_course_select_update_menu",
       "source": "src/overlays/PAL/time_attack_course_select/course_menu.c"
     },
     {
       "address": 2148619480,
       "size": 464,
-      "symbol": "time_attack_course_select_func_801154D8",
+      "symbol": "time_attack_course_select_init_results",
       "source": "src/overlays/PAL/time_attack_course_select/results.c"
     },
     {
       "address": 2148619944,
       "size": 132,
-      "symbol": "time_attack_course_select_func_801156A8",
+      "symbol": "time_attack_course_select_update_results_choice",
       "source": "src/overlays/PAL/time_attack_course_select/results.c"
     },
     {
       "address": 2148620076,
       "size": 2172,
-      "symbol": "time_attack_course_select_func_8011572C",
+      "symbol": "time_attack_course_select_update_results",
       "source": "src/overlays/PAL/time_attack_course_select/results.c"
     },
     {
       "address": 2148622248,
       "size": 816,
-      "symbol": "time_attack_course_select_func_80115FA8",
+      "symbol": "time_attack_course_select_insert_record",
       "source": "src/overlays/PAL/time_attack_course_select/results.c"
     },
     {
       "address": 2148623064,
       "size": 236,
-      "symbol": "time_attack_course_select_func_801162D8",
+      "symbol": "time_attack_course_select_find_best_lap",
       "source": "src/overlays/PAL/time_attack_course_select/results.c"
     },
     {
       "address": 2148623300,
       "size": 364,
-      "symbol": "time_attack_course_select_func_801163C4",
+      "symbol": "time_attack_course_select_init_preview",
       "source": "src/overlays/PAL/time_attack_course_select/preview.c"
     },
     {
       "address": 2148623664,
       "size": 2900,
-      "symbol": "time_attack_course_select_func_80116530",
+      "symbol": "time_attack_course_select_update_preview",
       "source": "src/overlays/PAL/time_attack_course_select/preview.c"
     },
     {
       "address": 2148626564,
       "size": 168,
-      "symbol": "time_attack_course_select_func_80117084",
+      "symbol": "time_attack_course_select_check_race_end",
       "source": "src/overlays/PAL/time_attack_course_select/race.c"
     },
     {
       "address": 2148626732,
       "size": 96,
-      "symbol": "time_attack_course_select_func_8011712C",
+      "symbol": "time_attack_course_select_exit_race",
       "source": "src/overlays/PAL/time_attack_course_select/race.c"
     },
     {
       "address": 2148626828,
       "size": 1684,
-      "symbol": "time_attack_course_select_func_8011718C",
+      "symbol": "time_attack_course_select_update_race",
       "source": "src/overlays/PAL/time_attack_course_select/race.c"
     }
   ],

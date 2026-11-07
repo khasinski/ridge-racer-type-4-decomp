@@ -48,11 +48,11 @@ static unsigned scenario,mutation;
 #define PlayerCourseChoices w->s.points
 #define ImageRows w->s.ui[scenario%4]
 #define CourseChoiceTable w->s.main
-#define versus_select_D_80118458 w->s.table661
+#define versus_select_choice_tables w->s.table661
 #define CourseMenuChoices w->s.table667
 #define SelectionPlayer w->s.player
-#define versus_select_D_80118450 w->s.rows661
-#define versus_select_D_8011844C w->s.cols661
+#define versus_select_choice_group w->s.rows661
+#define versus_select_choice_index w->s.cols661
 #define CourseMenuPage w->s.rows667
 #define CourseMenuCursor w->s.cols667
 #define PlayerCars w->s.vehicles
@@ -140,7 +140,7 @@ int main(void){
   for(i=0;i<sizeof(w->s.selection);i++)((u8*)&w->s.selection)[i]=(u8)(scenario+i*43);
   for(i=0;i<4;i++){w->s.guards[i]=0x12345678U+i;w->s.tail[i]=0x87654321U-i;}
   actual=initial;expected=initial;w=&actual;
-  if(kind==0)time_attack_course_select_func_801163C4();else if(kind==1)versus_select_func_80115F8C();else serial_link_func_80116BB4();
+  if(kind==0)time_attack_course_select_init_preview();else if(kind==1)versus_select_apply_player_choice();else serial_link_load_player_choice();
   w=&expected;reference(kind);assert(memcmp(&actual,&expected,sizeof(actual))==0);
  }
  return 0;

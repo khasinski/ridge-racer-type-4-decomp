@@ -11,7 +11,7 @@ extern s32 RaceVoiceFlags;
 extern void SaveCarSnapshots(s32);
 extern void SoundSetMasterVolume(s16, s16);
 
-void versus_select_func_80114924(RrRaceCheckpointVehicle *vehicle) {
+void versus_select_update_lap_progress(RrRaceCheckpointVehicle *vehicle) {
     RrRaceVehicleControl *control = &vehicle->control;
     s16 counter;
     s32 target;

@@ -50,8 +50,8 @@ static struct CallbackWorld {
  RrLibInterruptCallback callbacks[8],last;
  s32 channel;u32 calls,tag,mutate;u32 after[8];
 } cworld,cinitial,cexpected;
-#define movie_playback_D_80116D10 wworld.image.tables.quant
-#define movie_playback_D_80116D94 wworld.image.tables.matrix
+#define movie_playback_dct_quant_command wworld.image.tables.quant
+#define movie_playback_dct_matrix_command wworld.image.tables.matrix
 #define IntrDriverTablePtr cworld.active
 ''' + resident + bodies + r'''
 static u32 seed=0x162cc;
@@ -80,14 +80,14 @@ static int table_copy(void){
   for(i=0;i<32;i++)wworld.image.words[position+32+i]=wworld.image.words[65+i];
   memcpy(&wexpected,&wworld,sizeof(wworld));memcpy(&wworld,&winitial,sizeof(wworld));
   output=wworld.image.words+position;
-  if(movie_playback_func_801162CC(output)!=output || memcmp(&wworld,&wexpected,sizeof(wworld))){
+  if(movie_playback_dec_dct_get_env(output)!=output || memcmp(&wworld,&wexpected,sizeof(wworld))){
    fprintf(stderr,"table-copy case %u\n",k);return 1;
   }
  }
  puts("65536 native STR table-copy cases with UBSan passed");return 0;
 }
 
-void movie_playback_func_80116648(const void *command,u32 count){
+void movie_playback_mdec_in(const void *command,u32 count){
  u32 slot=wworld.command_calls++;
  assert(slot<2 && count==32);
  wworld.addresses[slot]=command;wworld.counts[slot]=count;
@@ -114,7 +114,7 @@ static int table_publish(void){
   memcpy(wworld.packets[1],wworld.image.words+64,33*sizeof(u32));
   memcpy(&wexpected,&wworld,sizeof(wworld));memcpy(&wworld,&winitial,sizeof(wworld));
   input=wworld.image.words+position;
-  if(movie_playback_func_80116358(input)!=input || memcmp(&wworld,&wexpected,sizeof(wworld))){
+  if(movie_playback_dec_dct_put_env(input)!=input || memcmp(&wworld,&wexpected,sizeof(wworld))){
    fprintf(stderr,"table-publish case %u\n",k);return 1;
   }
  }
@@ -128,7 +128,7 @@ static int header_read(void){
   header=k&1?&wworld.image.tables.quant.header:&wworld.image.tables.matrix.header;
   header->word=(next()&0xffff0000U)|k;
   memcpy(&wexpected,&wworld,sizeof(wworld));
-  if(movie_playback_func_801163F0(header)!=k || memcmp(&wworld,&wexpected,sizeof(wworld))){
+  if(movie_playback_dec_dct_buf_size(header)!=k || memcmp(&wworld,&wexpected,sizeof(wworld))){
    fprintf(stderr,"header-read case %u\n",k);return 1;
   }
  }
@@ -165,7 +165,7 @@ static int callbacks(void){
   cworld.callbacks[1]=input;cworld.calls++;cworld.channel=1;cworld.last=input;cworld.tag=tag;
   if(cworld.mutate)cworld.active=&cworld.drivers[tag==1?1:0];
   memcpy(&cexpected,&cworld,sizeof(cworld));memcpy(&cworld,&cinitial,sizeof(cworld));
-  callback_touches=0;result=movie_playback_func_80116534(input);
+  callback_touches=0;result=movie_playback_dec_dct_out_callback(input);
   if(result!=old || callback_touches || memcmp(&cworld,&cexpected,sizeof(cworld))){
    fprintf(stderr,"callback-exchange case %u\n",k);return 1;
   }
@@ -181,7 +181,7 @@ static int touches_at_mode;
 static RrLibInterruptDriverPrefix *driver_at_mode;
 static void reset_a(void){reset_calls++;callback_touches+=1;cworld.active=&cworld.drivers[1];}
 static void reset_b(void){reset_calls++;callback_touches+=2;cworld.active=&cworld.drivers[0];}
-void movie_playback_func_80116558(s32 mode){
+void movie_playback_mdec_reset(s32 mode){
  mode_calls++;observed_mode=mode;touches_at_mode=callback_touches;driver_at_mode=cworld.active;
 }
 static int modes(void){
@@ -201,7 +201,7 @@ static int modes(void){
   memcpy(&cexpected,&cworld,sizeof(cworld));
   if(mode==0)cexpected.active=&cworld.drivers[1-driver];
   reset_calls=mode_calls=0;callback_touches=touches_at_mode=0;
-  movie_playback_func_80116298(mode);
+  movie_playback_dec_dct_reset(mode);
   if(memcmp(&cworld,&cexpected,sizeof(cworld)) || mode_calls!=1 || observed_mode!=mode ||
      reset_calls!=(mode==0) || touches_at_mode!=(mode==0?(int)driver+1:0) ||
      driver_at_mode!=cexpected.active){fprintf(stderr,"mode case %u\n",k);return 1;}

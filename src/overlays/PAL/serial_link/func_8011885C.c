@@ -25,10 +25,10 @@ void UpdateMenuTextRow(s32);
 void EmitMenuRowTransitionGrid(void);
 s32 LoadResultsSceneStep(void);
 void SeqStartTrack(s32);
-s32 serial_link_func_801187DC(s32);
-void serial_link_func_801161A8(s32);
+s32 serial_link_update_retry_choice(s32);
+void serial_link_init_car_select(s32);
 
-void serial_link_func_8011885C(void) {
+void serial_link_update_results(void) {
     s32 pressed;
     s32 group;
     s32 i;
@@ -79,7 +79,7 @@ void serial_link_func_8011885C(void) {
         group = 3;
         if (MenuTextRows[39].signedBytes[3] >= 17) {
             SetMenuFrameOptions(1, 1, 0);
-            if (serial_link_func_801187DC(0) >= 0) {
+            if (serial_link_update_retry_choice(0) >= 0) {
                 ResetScreenCounters();
                 InitMenuArenas();
                 MenuFadeTimer = 64;
@@ -135,7 +135,7 @@ void serial_link_func_8011885C(void) {
         SeqStartTrack(0);
         LinkState = 0;
         SelectionPlayer = (result - LinkRoleSlot) * 2;
-        serial_link_func_801161A8(SelectionPlayer);
+        serial_link_init_car_select(SelectionPlayer);
         ModeGroup = result;
         ModeId = 60;
         ModeSubState = 0;

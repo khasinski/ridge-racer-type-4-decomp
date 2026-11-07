@@ -40,9 +40,9 @@ znaki nowej linii.
 | Overlay | Adres ciągu | Treść | Użycie / dowód w odtworzonym kodzie |
 |---|---|---|---|
 | 660 | `0x8011487C` | `job_ta_crs_info0` | [course_menu.c](src/overlays/PAL/time_attack_course_select/course_menu.c): przekazanie `time_attack_course_select_title` do `DebugPrintStub` |
-| 661 | `0x80114888` | `job_vs_car_info0` | [func_80115DB8.c](src/overlays/PAL/versus_select/func_80115DB8.c): wypisanie `versus_select_D_80114888` |
-| 662 | `0x8011487C` | `garage0` | [func_80114B9C.c](src/overlays/PAL/garage/func_80114B9C.c): wypisanie `garage_D_8011487C` |
-| 662 | `0x80114888` | `job_garage_car_info0` | [func_801153B0.c](src/overlays/PAL/garage/func_801153B0.c): wypisanie `garage_D_80114888` |
+| 661 | `0x80114888` | `job_vs_car_info0` | [func_80115DB8.c](src/overlays/PAL/versus_select/func_80115DB8.c): wypisanie `versus_select_car_info_job_str` |
+| 662 | `0x8011487C` | `garage0` | [func_80114B9C.c](src/overlays/PAL/garage/func_80114B9C.c): wypisanie `garage_scene_name` |
+| 662 | `0x80114888` | `job_garage_car_info0` | [func_801153B0.c](src/overlays/PAL/garage/func_801153B0.c): wypisanie `garage_car_info_scene_name` |
 | 662 | `0x801148F0` | `enter SaveBack` | [func_8011A898.c](src/overlays/PAL/garage/func_8011A898.c): komunikat wejścia do operacji |
 | 662 | `0x80114900` | `enter LoadBack` | [func_8011A988.c](src/overlays/PAL/garage/func_8011A988.c): komunikat wejścia do operacji |
 | 663 | `0x8011487C` | `recode0` | [data.c](src/overlays/PAL/records/data.c): `records_scene_name`; zachowano oryginalną pisownię `recode` |

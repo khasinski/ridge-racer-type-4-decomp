@@ -6,7 +6,7 @@ root=next(p for p in Path(__file__).resolve().parents if (p/'tools/scripts/cc.sh
 stage=root/'tools/scripts'
 source_path=Path(sys.argv[1]) if len(sys.argv)>1 else root/'src/overlays/PAL/serial_link/func_801161A8.c'
 body=source_path.read_text();macro='\n'.join(l for l in body.splitlines() if l.startswith('#define KEEP_GLYPH'))
-body=body[body.index('void serial_link_func_801161A8'):];body=re.sub(r' __asm__\("\$\d+"\)','',body)
+body=body[body.index('void serial_link_init_car_select'):];body=re.sub(r' __asm__\("\$\d+"\)','',body)
 encoder=(root/'tools/scripts/fixtures/views/func_80037040.c').read_text().replace('void UnpackChoiceGlyph','static void encode_original')
 source=r'''
 #include <assert.h>
@@ -115,7 +115,7 @@ int main(void){assert(sizeof(void*)==8);for(scenario=0;scenario<65536;scenario++
  w->base=resources[scenario%3];w->buffer=resources[(scenario+1)%3]+128;w->published=resources[(scenario+2)%3]+256;w->arenas.first=resources[scenario%3]+512;w->arenas.second=resources[(scenario+1)%3]+768;
  w->scratch.pointers.cursor=resources[0];w->scratch.pointers.order=&scratchOrder;
  for(unsigned i=0;i<2;i++){w->group[i]=(scenario+i)&1;w->index[i]=(scenario/4+i)%9;for(unsigned j=0;j<2;j++)w->counts[i][j]=(scenario+i+j)%10;}tableState(0);
- reference=actual;serial=count=seen=0;referenceRun=1;w=&reference;expected(profile/2);serial=0;referenceRun=0;w=&actual;serial_link_func_801161A8(profile/2);assert(count==seen&&!memcmp(&actual,&reference,sizeof(actual)));
+ reference=actual;serial=count=seen=0;referenceRun=1;w=&reference;expected(profile/2);serial=0;referenceRun=0;w=&actual;serial_link_init_car_select(profile/2);assert(count==seen&&!memcmp(&actual,&reference,sizeof(actual)));
  }
  for(unsigned i=0;i<8;i++)assert(coverage[i]);assert(groupReset[0]&&groupReset[1]&&resourceBranch[0]&&resourceBranch[1]&&oldGroup[0]&&oldGroup[1]&&destChanged[0]&&destChanged[1]);
  puts("524288 cases passed;24 UI rows,2 vehicles,4 groups,original-player reset,live-player publication,complete signed coordinate/glyph patterns and guarded pre-service state");

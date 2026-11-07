@@ -4,7 +4,7 @@
 #define RR_GPU_SCRATCH ((RrGpuScratchPointers *)0x1F800000U)
 #endif
 
-void garage_func_80116C34(s32 selected)
+void garage_draw_car_status_bars(s32 selected)
 {
     RrUiUvRect strip;
     void *result;
@@ -24,7 +24,7 @@ void garage_func_80116C34(s32 selected)
     cursor = AddSpritePrim(head, initial, 40, y, &strip, 0x7FA4, 1);
 
     index = 0;
-    status = garage_D_80127300;
+    status = garage_car_status;
     do {
         if (*status != 0) {
             r = 255;
@@ -46,9 +46,9 @@ void garage_func_80116C34(s32 selected)
 
     result = AddDrawModePrim(&CurrentDrawBuf->head70, cursor, 0x39);
     RR_GPU_SCRATCH->cursor = result;
-    if (garage_D_80127300[(SelectionRows.bytes[2] % 20) & 255] == 2) {
+    if (garage_car_status[(SelectionRows.bytes[2] % 20) & 255] == 2) {
         result = AddSpritePrim(&CurrentDrawBuf->head70, result, 142, 256,
-                              &garage_D_80126214, 0x7CBB, 0);
+                              &garage_owned_car_marker_sprite, 0x7CBB, 0);
         RR_GPU_SCRATCH->cursor = AddDrawModePrim(&CurrentDrawBuf->head70, result, 0x38);
     }
 }

@@ -30,9 +30,9 @@ class Overlay662ConfirmTest(unittest.TestCase):
 _Static_assert(sizeof(RrGarageButton)==16,"complete button owner");
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;RrGarageButton buttons[46];RrGarageRectangle *table[46];RrMenuTextState text[3],*textroot;RrBadgeRow1C badges[3][2],*badgeroot;RrMenuItemState5C items[2];s16 pending,scene,latch;u16 transition;u32 tail[4];} world,expected,map_checkpoint,sound_checkpoint;
 static unsigned scenario,family,slot,postbyte,expected_map,expected_sound,map_calls,sound_calls;static s32 mapped_mode;
-#define garage_D_801276A8 world.garage
-#define garage_D_80127668 world.work
-#define garage_D_801273B8 world.table
+#define garage_logo_state world.garage
+#define garage_logo_work world.work
+#define garage_logo_buttons world.table
 #define DialogueState world.textroot
 #define BadgeRows world.badgeroot
 #define PlayerControllers world.items
@@ -54,7 +54,7 @@ static void sound_effect(struct World *w){unsigned n=button_slot(w->table[slot])
  w->garage.saved64[0]=word(scenario^0x12345678U);w->work.words[0]^=0x98765432U;
  w->textroot=world.text+(scenario+1)%3;w->badgeroot=world.badges[(scenario+2)%3];w->garage.fade00=word(scenario^0xA1234567U);w->garage.flagsD1=(u8)scenario;
 }
-void garage_func_8011E5C0(s32 mode){assert(expected_map==1&&map_calls++==0&&mode==mapped_mode);assert(memcmp(&world,&map_checkpoint,sizeof(world))==0);map_effect(&world);}
+void garage_navigate_to_option(s32 mode){assert(expected_map==1&&map_calls++==0&&mode==mapped_mode);assert(memcmp(&world,&map_checkpoint,sizeof(world))==0);map_effect(&world);}
 void TriggerSfx(s32 program,s32 level,s32 pan,s32 pitch,s32 voice){
  assert(expected_sound==1&&sound_calls++==0);assert(program==1&&level==127&&pan==64&&pitch==0x1E00&&voice==-1);
  assert(memcmp(&world,&sound_checkpoint,sizeof(world))==0);

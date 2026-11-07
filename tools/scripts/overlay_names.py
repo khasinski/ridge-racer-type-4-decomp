@@ -24,3 +24,26 @@ def entry(overlay):
 
 def names():
     return dict(_TABLE)
+
+
+def symbols():
+    """registered overlay symbols: {(module, address): (name, kind)} from configs/PAL/overlays/symbols.txt,
+    lines `name = 0xADDR; // overlay:<module> type:<func|data>`"""
+    import re
+    out = {}
+    path = _ROOT / 'configs/PAL/overlays/symbols.txt'
+    if path.exists():
+        for line in path.read_text().splitlines():
+            m = re.match(r'^(\w+)\s*=\s*0x([0-9A-Fa-f]+);\s*//\s*overlay:(\w+)\s+type:(\w+)', line)
+            if m:
+                out[(m[3], int(m[2], 16))] = (m[1], m[4])
+    return out
+
+
+def symbol_name(overlay, address, kind='func'):
+    """current name of an overlay function/data symbol: registered name, else <module>_func_/_D_<ADDR>"""
+    module = name(overlay)
+    hit = symbols().get((module, address))
+    if hit:
+        return hit[0]
+    return f'{module}_{"func" if kind == "func" else "D"}_{address:08X}'

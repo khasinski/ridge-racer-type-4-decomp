@@ -1,6 +1,6 @@
 #include "rr/overlay662_arena_init.h"
 
-void garage_func_8011A518(void)
+void garage_init_editor_buffers(void)
 {
     s32 stage,i;
     register u8 *base __asm__("$3");
@@ -8,16 +8,16 @@ void garage_func_8011A518(void)
     register u8 *second __asm__("$6");
     RrGarageSelectionPrefix *owner;
     register u8 *allocated __asm__("$2");
-    stage=(s32)((u32)garage_D_8012625C+1U);
-    garage_D_8012625C=stage;
+    stage=(s32)((u32)garage_arena_init_stage+1U);
+    garage_arena_init_stage=stage;
     switch (stage) {
     case 1:
-        garage_func_8011B2D4(-1,0,0,0);
-        garage_func_8011E36C(-1);
-        garage_func_8011D278(-1);
-        garage_func_8011A414();
+        garage_add_ui_sprite(-1,0,0,0);
+        garage_update_actions(-1);
+        garage_init_option_tables(-1);
+        garage_init_editor_state();
         base=LoadCursorBase+4;
-        owner=&garage_D_801276A8;
+        owner=&garage_logo_state;
         base-=((RrGarageArenaAddress)LoadCursorBase&3U);
         second=base+0x840;
         /* Retain each publication of the shared arena cursor. */
@@ -62,15 +62,15 @@ void garage_func_8011A518(void)
         GarageTimBuffer1=second;
         break;
     case 2:
-        StoreImage(&garage_D_8012624C,garage_D_801276A8.image38[0]);
-        StoreImage(&garage_D_80126254,garage_D_801276A8.palette48[0]);
-        clear=garage_D_801276A8.image40[0];
+        StoreImage(&garage_logo_vram_rect,garage_logo_state.image38[0]);
+        StoreImage(&garage_logo_clut_vram_rect,garage_logo_state.palette48[0]);
+        clear=garage_logo_state.image40[0];
         for(i=511;i>=0;i--)*clear++=0;
         break;
     case 3:
-        garage_D_8012625C=0;
-        garage_func_8011D120();
-        garage_D_801276A8.dirtyD3=0;
+        garage_arena_init_stage=0;
+        garage_save_undo_copy();
+        garage_logo_state.dirtyD3=0;
         ClearScreenOverlayState();
         InitBadgeRow(0,12,304,296,88,0,0);
         InitUiRow(0,140,136,28,32,0,0,1,0,104);

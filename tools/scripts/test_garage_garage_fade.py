@@ -29,7 +29,7 @@ C=r'''
 typedef struct {u8 pre[16];RrGarageWorkingStorage work;RrMenuItemState5C pads[2];u8 post[16];} World;
 static World actual;
 static unsigned scenario,sound_calls,gte_calls;
-#define garage_D_80127668 actual.work
+#define garage_logo_work actual.work
 #define PlayerControllers actual.pads
 static const u32 factors[8]={0,1,4095,4096,4097,0xffffffffU,0x80000000U,0x7fffffffU};
 static const u32 steps[8]={0,1,2,4096,0xffffffffU,0x80000000U,0x7fffffffU,65535};
@@ -58,7 +58,7 @@ int main(void){unsigned i;unsigned flags[4]={0,2,4,6};
   for(i=0;i<sizeof actual;i++)((u8*)&actual)[i]=(u8)(scenario*29+i*7);
   actual.work.words[0]=flags[scenario%4];actual.work.words[10]=factors[(scenario/4)%8];actual.work.words[11]=steps[(scenario/32)%8];
   actual.pads[0].type01=(scenario/256)%2?0x12:0x41;actual.pads[0].buttons02=(scenario/512)%2?4:0;
-  sound_calls=gte_calls=0;garage_func_8011DA90();assert(gte_calls==1);
+  sound_calls=gte_calls=0;garage_update_cursor_glide();assert(gte_calls==1);
   for(i=0;i<16;i++){assert(actual.pre[i]==(u8)(scenario*29+i*7));assert(actual.post[i]==(u8)(scenario*29+(264+i)*7));}
   printf("F ");dump();
  }return 0;

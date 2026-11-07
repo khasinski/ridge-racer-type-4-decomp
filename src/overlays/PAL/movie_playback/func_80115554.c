@@ -1,6 +1,6 @@
 #include "rr/overlay668_camera.h"
 
-void movie_playback_func_80115554(void) {
+void movie_playback_camera_steer(void) {
     s32 unused[4];
     s32 var_a3;
     s32 idx1;

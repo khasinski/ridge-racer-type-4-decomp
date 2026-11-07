@@ -36,9 +36,9 @@ static u8 resources[3][0x2D100],original[3][0x2D100];
 #define LoadCursor world.s.published
 #define MenuArenaBase world.s.saved
 #define SaveProgress world.s.save
-#define garage_D_80127328 world.s.counts
-#define garage_D_801272D8 world.s.rows
-#define garage_D_801272FC world.s.total
+#define garage_team_maker_car_counts world.s.counts
+#define garage_team_car_counts world.s.rows
+#define garage_total_car_count world.s.total
 ''' + reset + body + r'''
 static u32 seed=0x14998,scenario;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -84,7 +84,7 @@ int main(void){unsigned k,i;
  for(k=0;k<65536;k++){
   for(i=0;i<sizeof(world);i++)((u8*)&world)[i]=(u8)next();scenario=k;world.calls=0;
   world.s.base=resources[k%3];world.s.arenas.first=resources[(k+1)%3]+40;world.s.arenas.second=resources[(k+2)%3]+48;world.s.published=resources[k%3]+56;world.s.saved=resources[(k+1)%3]+64;
-  assert((uintptr_t)world.s.base>UINT32_MAX);memcpy(&expected,&world,sizeof(world));reference();garage_func_80114998();assert(memcmp(&world,&expected,sizeof(world))==0);
+  assert((uintptr_t)world.s.base>UINT32_MAX);memcpy(&expected,&world,sizeof(world));reference();garage_init_main_menu();assert(memcmp(&world,&expected,sizeof(world))==0);
   assert(world.s.total<=320);for(i=0;i<4;i++)assert(world.s.rows[i]<=80);
  }
  assert(memcmp(resources,original,sizeof(resources))==0);return 0;

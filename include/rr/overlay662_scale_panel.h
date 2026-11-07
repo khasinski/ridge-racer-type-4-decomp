@@ -8,5 +8,5 @@
 /* config1C must be2..255 at both reads. Capture scale and ordering before
  * callbacks; thread each full returned cursor through the shared scratch cell. */
 /* Action record51 supplies its word argument(currently0); it is ignored. */
-void garage_func_8011C610(s32 renderArgument);
+void garage_draw_preview_window(s32 renderArgument);
 #endif

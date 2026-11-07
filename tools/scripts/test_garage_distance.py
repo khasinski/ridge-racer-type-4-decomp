@@ -54,7 +54,7 @@ int main(void){unsigned i,mode,j;uint64_t cases=0;
   expected.calls=1;expected.argument=expected_argument;
   expected.p[0].x=half(scenario+7);expected.p[0].y=half(scenario*73U+17);
   expected.p[1].x=half(scenario+13);expected.p[1].y=half(scenario*251U+19);
-  result=garage_func_8011DBD8(a,b);assert(result==(s32)(4096/den));
+  result=garage_calc_glide_step(a,b);assert(result==(s32)(4096/den));
   assert(memcmp(&world,&expected,sizeof(world))==0);assert((uintptr_t)a>UINT32_MAX);cases++;
  }
  assert(cases==524288ULL);return 0;

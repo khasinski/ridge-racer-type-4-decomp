@@ -1,6 +1,6 @@
 #include "rr/overlay665_menu.h"
 
-void options_func_80114A24(void) {
+void options_init_main_menu(void) {
     ClearScreenOverlayState();
     ResetScreenCounters();
     MenuArenas.second=CdDirectoryBuffer+0x2D000;
@@ -16,7 +16,7 @@ void options_func_80114A24(void) {
     InitUiRow(6,94,336,112,32,0,0,1,0,85);
     SetMenuFrameOptions(1,1,1);
     if(RaceContext.mode18==1) {
-        options_D_80119768.selection08=5;
+        options_menu_state.selection08=5;
         RaceContext.mode18=0;
     }
     MenuFadeTimer=64;

@@ -23,7 +23,7 @@ class OverlayEmptyTest(unittest.TestCase):
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
 #include "rr/overlay662_garage.h"
 static struct World {u32 before[8];RrGarageSelectionPrefix state;u32 pixels[4][512],after[8];} world,initial;
-#define garage_D_801276A8 world.state
+#define garage_logo_state world.state
 ''' + body + r'''
 static u32 seed=0x1d0c0;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -42,7 +42,7 @@ int main(void){unsigned k,i;long page=sysconf(_SC_PAGESIZE);u8 *mapping;
   memset(world.pixels[selected],0,sizeof(world.pixels[selected]));
   if(count<512)world.pixels[selected][count]=1U<<(k&31);
   /* Other layers remain nonzero: success requires selecting the correct one. */
-  initial=world;answer=garage_func_8011D0C0();
+  initial=world;answer=garage_is_layer_empty();
   assert(answer==(count==512));assert(memcmp(&world,&initial,sizeof(world))==0);
   assert((uintptr_t)world.state.image38[0]>UINT32_MAX);
  }
@@ -53,7 +53,7 @@ int main(void){unsigned k,i;long page=sysconf(_SC_PAGESIZE);u8 *mapping;
   u32 *last=(u32 *)(mapping+page-4);*last=0x80000000U;
   initialize(i);world.state.active21=i&1;world.state.layer23=i>>1;
   if(i>>1)world.state.image40[i&1]=last;else world.state.image38[i&1]=last;
-  initial=world;assert(garage_func_8011D0C0()==0);
+  initial=world;assert(garage_is_layer_empty()==0);
   assert(*last==0x80000000U && memcmp(&world,&initial,sizeof(world))==0);
  }
  assert(munmap(mapping,(size_t)page*2)==0);return 0;

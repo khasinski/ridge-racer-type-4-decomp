@@ -1,5 +1,5 @@
 #include "rr/overlay662_course_controller.h"
-void garage_func_801154C8(void) {
+void garage_update_car_info(void) {
     union {RrPreviewRgb3 rgb; u8 channel[3];} color;
     s32 var_a3;
     s32 temp_s1;
@@ -53,14 +53,14 @@ void garage_func_801154C8(void) {
     case 0:
         SetMenuFrameOptions(1, 1, 1);
         temp_s0 = PackChoiceGlyph((s8*)&SelectionRows);
-        StepMenuValue(1, 2, (char*)&garage_D_801272E4, garage_D_801272E0, 0);
-        UnpackChoiceGlyph((s8*)&SelectionRows, CourseChoiceTable[1][garage_D_801272E4].glyph);
+        StepMenuValue(1, 2, (char*)&garage_car_index, garage_car_list_count, 0);
+        UnpackChoiceGlyph((s8*)&SelectionRows, CourseChoiceTable[1][garage_car_index].glyph);
         if (((u32)temp_s0 << 0x10) != ((u32)PackChoiceGlyph((s8*)&SelectionRows) << 0x10)) {
             ResetScreenCounters();
             LoadCursor = MenuArenas.first;
-            UnpackChoiceGlyph((s8*)&SelectionRows, CourseChoiceTable[1][garage_D_801272E4].glyph);
+            UnpackChoiceGlyph((s8*)&SelectionRows, CourseChoiceTable[1][garage_car_index].glyph);
             (*(s8*)(ImageRows+1)) = 6;
-            temp_v1 = (u8 *)(void *)&CourseChoiceTable + garage_D_801272E4 * sizeof(RrCourseChoice4);
+            temp_v1 = (u8 *)(void *)&CourseChoiceTable + garage_car_index * sizeof(RrCourseChoice4);
             PlayerCourseChoices[0].first = (s16) (s8) ((RrCourseChoice4 *)(void *)(temp_v1 + sizeof(CourseChoiceTable[0])))->first;
             PlayerCourseChoices[0].second = (s16) (s8) ((RrCourseChoice4 *)(void *)(temp_v1 + sizeof(CourseChoiceTable[0])))->second;
         }
@@ -69,7 +69,7 @@ void garage_func_801154C8(void) {
         var_a1 = 2;
         temp_s5 = ((SelectionRows.pad02[0] % 20) & 0xFF) == 0x13;
         if (temp_s5 != 0) {
-            if (garage_D_801272E4 == 8) {
+            if (garage_car_index == 8) {
                 UiRows[0].half20 = 1;
                 if (MenuCursor == 0) {
                     var_a1 = 4;
@@ -94,7 +94,7 @@ void garage_func_801154C8(void) {
                     SetMenuFrameOptions(0, 1, 1);
                     UiRows[MenuCursor].cells[0] = 1;
                     if (MenuCursor == 0) {
-                        if (garage_D_801272E4 < 8) {
+                        if (garage_car_index < 8) {
                             SetModelTexturePage(-1);
                             PlaySfx(1);
                             var_s0 = 0;
@@ -202,12 +202,12 @@ block_54:
             ModeGroup = 1;
             ModeId = 0x41;
             ModeSubState = 0;
-            garage_D_801272BA = (u16) garage_D_801272E4;
+            garage_replace_slot_index = (u16) garage_car_index;
         }
         goto block_67;
     case 4:
         if (((*(s8*)(ImageRows+1)) == 5) && (BadgeRows->state10 == 0xB)) {
-            garage_func_80118E6C();
+            garage_enter_car_select();
         } else {
             goto block_67;
         }
@@ -268,7 +268,7 @@ block_67:
         }
         UpdateBadgeRowAnim(0);
         if (UpdateImageRow(0) > 0) {
-            DrawMenuStepArrows(0xA0, 0x90, 8, 1, (s32) garage_D_801272E4, 0, (s32) garage_D_801272E0);
+            DrawMenuStepArrows(0xA0, 0x90, 8, 1, (s32) garage_car_index, 0, (s32) garage_car_list_count);
         }
 done:
     UpdateScreenFade(0x1008E);

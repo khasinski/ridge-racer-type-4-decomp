@@ -1,5 +1,5 @@
 #include "rr/overlay661_race_controller.h"
-void versus_select_func_80114B00(void) {
+void versus_select_update_race(void) {
     s32 var_a2;
     s32 var_a2_2;
     s16 temp_a0;
@@ -154,8 +154,8 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
                 RR_661_FRAME_SCRATCH->pointers.cursor = AddDrawAreaPrim(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, RR_661_FRAME_SCRATCH->pointers.cursor, 0, 0, 0x140, 0x100);
             }
             if (MenuFadeTimer <= 0) {
-                versus_select_D_80118448[0] = (u16) PlayerCars[0].half1EE;
-                versus_select_D_80118448[1] = (u16) PlayerCars[1].half1EE;
+                versus_select_finish_ranks[0] = (u16) PlayerCars[0].half1EE;
+                versus_select_finish_ranks[1] = (u16) PlayerCars[1].half1EE;
                 if (RaceState == 4) {
                     ModeGroup = 1;
                     ModeId = 0x15;
@@ -175,8 +175,8 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
             RR_661_FRAME_SCRATCH->pointers.cursor = AddDrawAreaPrim(((RrFrameStorage *)(void *)CurrentDrawBuf)->tables.secondB70, RR_661_FRAME_SCRATCH->pointers.cursor, 0, 0, 0x140, 0x100);
         }
     }
-    versus_select_func_80114924((RrRaceCheckpointVehicle *)(void *)&PlayerCars[0]);
-    versus_select_func_80114924((RrRaceCheckpointVehicle *)(void *)&PlayerCars[1]);
+    versus_select_update_lap_progress((RrRaceCheckpointVehicle *)(void *)&PlayerCars[0]);
+    versus_select_update_lap_progress((RrRaceCheckpointVehicle *)(void *)&PlayerCars[1]);
     UpdateRaceRanking();
     if ((s16) PlayerCars[0].half1EE < (s16) PlayerCars[1].half1EE) {
         PlayerCars[0].half1EE = 0U;

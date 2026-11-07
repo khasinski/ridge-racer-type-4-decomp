@@ -10,5 +10,5 @@
  * Active21 is0/1 after services;the selected pair owns disjoint512-word
  * buffers. Rectangle table slot2 points at a complete RrGarageButton's first
  * member. Services may replace roots and mutate state. */
-void garage_func_8011EFFC(s32 command);
+void garage_mirror_tool_action(s32 command);
 #endif

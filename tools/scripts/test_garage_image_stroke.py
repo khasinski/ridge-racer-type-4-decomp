@@ -25,10 +25,10 @@ static struct World {
  u32 images[4][512],palettes[2][8];u32 tail[4];
 } world,expected,checkpoint;
 static unsigned scenario,line_calls,expected_calls,selected_slot;static s32 args[4];static u8 size_arg;
-#define garage_D_801276A8 world.garage
-#define garage_D_80127668 world.work
-#define garage_D_801277B0 world.anchor
-#define garage_D_801277B4 world.point
+#define garage_logo_state world.garage
+#define garage_logo_work world.work
+#define garage_alt_eraser_prev_point world.anchor
+#define garage_alt_eraser_point world.point
 '''+bodies+r'''
 static u32 rng=0x25500;static uint64_t cases;
 static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
@@ -49,7 +49,7 @@ static void effect(struct World *w){unsigned at=(unsigned)args[3]*8+(unsigned)ar
  w->garage.config20=(u8)(scenario+7);w->garage.active21=255;w->garage.image38[0]=0;
  w->work.words[0]^=0x12345678U;
 }
-void garage_func_801259FC(u32 *image,s32 x0,s32 y0,s32 x1,s32 y1,u8 color,u8 size){
+void garage_draw_brush_line(u32 *image,s32 x0,s32 y0,s32 x1,s32 y1,u8 color,u8 size){
  assert(line_calls++==0&&expected_calls==1);assert(memcmp(&world,&checkpoint,sizeof(world))==0);
  assert(image==world.images[selected_slot]);assert((uintptr_t)image>UINT32_MAX);
  assert(x0==args[0]&&y0==args[1]&&x1==args[2]&&y1==args[3]&&color==0&&size==size_arg);effect(&world);
@@ -81,7 +81,7 @@ static void run(unsigned kind,unsigned point,unsigned previous,unsigned active,u
  world.work.words[0]=0xA1230000U|((kind==1||kind==2)?8U:0U);world.work.words[1]=0xFEDC0000U|(kind==2?8U:kind==4?0U:2U);
  world.work.halves[10]=kind==3?81:kind==1?INT16_MIN:100;world.work.halves[11]=100;
  if(kind>=2){world.garage.active21=255;for(j=0;j<2;j++){world.garage.image38[j]=0;world.garage.image40[j]=0;world.garage.palette48[j]=0;}}
- expected_calls=line_calls=0;memcpy(&expected,&world,sizeof(world));reference(kind);garage_func_80125500();
+ expected_calls=line_calls=0;memcpy(&expected,&world,sizeof(world));reference(kind);garage_alt_erase_stroke();
  assert(line_calls==expected_calls);assert(memcmp(&world,&expected,sizeof(world))==0);cases++;
 }
 int main(void){unsigned i,active,layer,kind;

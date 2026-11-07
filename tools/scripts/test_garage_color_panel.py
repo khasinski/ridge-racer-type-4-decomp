@@ -34,9 +34,9 @@ typedef union {u8 bytes[512];u32 words[128];struct {RrGpuTilePacket tile;RrSprit
 typedef struct {s32 channel,value;u8 *cursor;u32 *order;} Event;
 static struct World {u32 guard[4];RrGpuScratchPointers scratch;RrGarageSelectionPrefix state;RrGaragePalette palettes[3];RrGarageSpriteRecord records[72];RrGarageSpriteRecord *lookup[72];u32 order[704];Arena arena;u32 calls;Event events[3];u32 tail[4];} world,expected;
 #define RR_GPU_SCRATCH (&world.scratch)
-#define garage_D_801276A8 world.state
-#define garage_D_80126260 world.records
-#define garage_D_80127548 world.lookup
+#define garage_logo_state world.state
+#define garage_sprite_records world.records
+#define garage_logo_sprites world.lookup
 ''' + original + '\n'.join(bodies) + r'''
 static u32 seed=0x1bf04;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -58,7 +58,7 @@ static void channel_effect(struct World *v,unsigned offset,s32 channel,s32 value
  v->palettes[channel].colors[(channel*7)&15].value^=0x7fff;
  v->state.palette48[v->state.active21]=world.palettes[(channel+1)%3].words;
 }
-void garage_func_8011C00C(s32 channel,s32 value){
+void garage_draw_color_channel(s32 channel,s32 value){
  unsigned offset=56+world.calls*60;assert(world.scratch.cursor==world.arena.bytes+offset);
  channel_effect(&world,offset,channel,value);
 }
@@ -99,7 +99,7 @@ int main(void){unsigned k,i,active,index;u16 color;
   world.scratch.cursor=world.arena.bytes;world.scratch.order=world.order;world.calls=0;
   assert((uintptr_t)world.state.palette48[active]>UINT32_MAX && (uintptr_t)world.scratch.cursor>UINT32_MAX);
   memcpy(&expected,&world,sizeof(world));reference(color);
-  garage_func_8011BF04();assert(memcmp(&world,&expected,sizeof(world))==0);
+  garage_draw_color_panel();assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;
 }

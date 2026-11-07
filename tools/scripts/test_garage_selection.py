@@ -72,7 +72,7 @@ int main(void){unsigned k,i;u16 flags;
   world.selection=half(next());world.choice.bytes[0]=(u8)initial;world.buttons=flags;world.calls=0;world.ui=world.backing[old_root].rows;world.glyphs=world.records[(k>>6)%3];
   assert((uintptr_t)world.ui>UINT32_MAX && (uintptr_t)world.glyphs>UINT32_MAX);
   memcpy(&expected,&world,sizeof(world));reference();
-  garage_func_80116690();assert(memcmp(&world,&expected,sizeof(world))==0);
+  garage_step_team_cursor();assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;
 }

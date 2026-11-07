@@ -80,7 +80,7 @@ int main(void){unsigned b,j,k;
    g->phase18=word(scenario%3==0?edges[(scenario+b+j)%8]:next());
   }
   world.local=word(next());world.selected=half(next());world.root=world.glyphs[scenario%3];world.badge=world.badges[(scenario+1)%3];
-  memcpy(&expected,&world,sizeof(world));reference();garage_func_80115EC4((s32)base);
+  memcpy(&expected,&world,sizeof(world));reference();garage_init_maker_select((s32)base);
   assert(memcmp(&world,&expected,sizeof(world))==0);assert((uintptr_t)world.root>UINT32_MAX&&(uintptr_t)world.badge>UINT32_MAX);
  }
  return 0;

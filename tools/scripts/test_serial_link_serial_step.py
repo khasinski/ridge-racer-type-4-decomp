@@ -37,21 +37,21 @@ static unsigned scenario,mutation;
 static s32 result;
 #define serial_link_D_80118ED0 w->peer
 #define RaceState w->local
-#define serial_link_D_80118ED4 w->halt
-#define serial_link_D_80118EC8 w->command
-#define serial_link_D_80118EF8 w->rxcount
-#define serial_link_D_80118EFC w->timeout
-#define serial_link_D_80118F00 w->txcount
-#define serial_link_D_80118F04 w->failures
-#define serial_link_D_80118F0C w->pending
+#define serial_link_shutdown_state w->halt
+#define serial_link_sync_state w->command
+#define serial_link_rx_count w->rxcount
+#define serial_link_rx_miss_count w->timeout
+#define serial_link_tx_count w->txcount
+#define serial_link_tx_fail_count w->failures
+#define serial_link_tx_state w->pending
 #define serial_link_D_80118EF4 w->serial
-#define serial_link_D_80118EEC w->phase
-#define serial_link_D_80118F08 w->read
-#define serial_link_D_80118F09 w->write
-#define serial_link_D_80118F8D w->selected
-#define serial_link_D_80118EED w->received
-#define serial_link_D_80118EEE w->sent
-#define serial_link_D_80118F20 w->ring
+#define serial_link_local_menu_buttons w->phase
+#define serial_link_rx_sequence w->read
+#define serial_link_tx_sequence w->write
+#define serial_link_rx_cursor w->selected
+#define serial_link_remote_menu_buttons w->received
+#define serial_link_sent_menu_buttons w->sent
+#define serial_link_rx_ring w->ring
 #define LinkRemoteInputs w->incoming
 #define LinkSentLocalInputs w->outgoing
 #define LinkLocalInputs w->payload
@@ -78,8 +78,8 @@ static s32 service(unsigned kind) {
  }
  return result;
 }
-s32 serial_link_func_80114E34(void){return service(1);}
-s32 serial_link_func_80114D30(void){return service(2);}
+s32 serial_link_receive_packet(void){return service(1);}
+s32 serial_link_send_packet(void){return service(2);}
 '''+bodies+r'''
 static void reference_receive(void) {
  unsigned chosen;
@@ -138,7 +138,7 @@ int main(void) {
   initial.calls=0;initial.checkpoint=0;initial.service=0;
   for(kind=0;kind<2;kind++)for(r=0;r<6;r++) {
    result=results[r];actual=initial;expected=initial;
-   w=&actual;if(kind)serial_link_func_801151E0();else serial_link_func_80115068();
+   w=&actual;if(kind)serial_link_update_send();else serial_link_update_receive();
    w=&expected;if(kind)reference_send();else reference_receive();
    assert(memcmp(&actual,&expected,sizeof(actual))==0);
   }

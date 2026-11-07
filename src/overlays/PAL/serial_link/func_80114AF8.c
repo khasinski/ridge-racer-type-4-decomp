@@ -1,5 +1,5 @@
 #include "rr/overlay667_packet.h"
-void serial_link_func_80114AF8(unsigned long configuration) {
+void serial_link_init_connection(unsigned long configuration) {
     s32 work;
     u32 *base;
     /* Three word lanes in the genuine24-word ring. Keep cursor arithmetic
@@ -11,26 +11,26 @@ void serial_link_func_80114AF8(unsigned long configuration) {
     SetDispMask(0);
     _sio_control(1,3,configuration);
     _sio_control(1,4,4);
-    _sio_control(4,0,(unsigned long)serial_link_func_8011492C);
+    _sio_control(4,0,(unsigned long)serial_link_sio_timeout_check);
     work=0;
-    base=serial_link_D_80118F20.words;
+    base=serial_link_rx_ring.words;
     third=(unsigned long)base+8;
     second=(unsigned long)base+4;
     first=(unsigned long)base;
-    serial_link_D_80118EEF=0;
-    serial_link_D_80118F8D=0;
-    serial_link_D_80118F8C=7;
-    serial_link_D_80118F08=0;
-    serial_link_D_80118F09=0;
-    serial_link_D_80118EFC=0;
-    serial_link_D_80118F04=0;
-    serial_link_D_80118EF8=0;
-    serial_link_D_80118F00=0;
-    serial_link_D_80118EE8=0;
-    serial_link_D_80118EC8=0;
-    serial_link_D_80118EED=0;
-    serial_link_D_80118EEE=0;
-    ((u8 *)&serial_link_D_80118EEC)[0]=0;
+    serial_link_checksum_error=0;
+    serial_link_rx_cursor=0;
+    serial_link_last_rx_cursor=7;
+    serial_link_rx_sequence=0;
+    serial_link_tx_sequence=0;
+    serial_link_rx_miss_count=0;
+    serial_link_tx_fail_count=0;
+    serial_link_rx_count=0;
+    serial_link_tx_count=0;
+    serial_link_rx_pending=0;
+    serial_link_sync_state=0;
+    serial_link_remote_menu_buttons=0;
+    serial_link_sent_menu_buttons=0;
+    ((u8 *)&serial_link_local_menu_buttons)[0]=0;
     do {
         *(u32 *)first=0;
         *(u32 *)second=0;
@@ -40,12 +40,12 @@ void serial_link_func_80114AF8(unsigned long configuration) {
         work++;
         first+=12;
     } while (work<8);
-    serial_link_D_80118F80.words[0]=0;
-    serial_link_D_80118F80.words[1]=0;
-    serial_link_D_80118F80.words[2]=0;
-    serial_link_D_80118F10.words[0]=0;
-    serial_link_D_80118F10.words[1]=0;
-    serial_link_D_80118F10.words[2]=0;
+    serial_link_tx_packet.words[0]=0;
+    serial_link_tx_packet.words[1]=0;
+    serial_link_tx_packet.words[2]=0;
+    serial_link_rx_packet.words[0]=0;
+    serial_link_rx_packet.words[1]=0;
+    serial_link_rx_packet.words[2]=0;
     LinkLocalInputs.words[0]=0;
     LinkLocalInputs.words[1]=0;
     LinkSentLocalInputs.words[0]=0;
@@ -53,7 +53,7 @@ void serial_link_func_80114AF8(unsigned long configuration) {
     LinkRemoteInputs.words[0]=0;
     LinkRemoteInputs.words[1]=0;
     serial_link_D_80118ED0=0;
-    serial_link_D_80118ED4=0;
+    serial_link_shutdown_state=0;
     if (_sio_control(3,1,0) != 0) {
         _sio_control(3,0,1);
     } else {

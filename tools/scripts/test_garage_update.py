@@ -24,7 +24,7 @@ class Overlay662UpdateTest(unittest.TestCase):
 typedef struct {s32 kind,args[3];const void *pointer;RrGarageSelectionPrefix garage;RrGpuRectangle *context;RrMenuTextState *text;} Event;
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGpuRectangle *context;RrMenuTextState *text;RrMenuTextState texts[3];u32 calls;Event events[8];u32 tail[4];} world,expected;
 static RrFrameOrderingPrefix frames[3],original[3];
-#define garage_D_801276A8 world.garage
+#define garage_logo_state world.garage
 #define CurrentDrawBuf world.context
 #define DialogueState world.text
 ''' + body + r'''
@@ -73,7 +73,7 @@ int main(void){unsigned k,m,i,j;
   for(i=0;i<8;i++)world.garage.options78.flat[i]=0;
   for(i=0;i<3;i++)world.texts[i].p=(u16*)&frames[i].ordering70[0];
   world.context=&frames[k%3].rectangle;world.text=&world.texts[(k+1)%3];assert((uintptr_t)world.context>UINT32_MAX && (uintptr_t)world.text>UINT32_MAX);
-  memcpy(&expected,&world,sizeof(world));reference();garage_func_8011CF8C();assert(memcmp(&world,&expected,sizeof(world))==0);
+  memcpy(&expected,&world,sizeof(world));reference();garage_update_editor_overlays();assert(memcmp(&world,&expected,sizeof(world))==0);
   for(j=0;j<world.calls;j++)assert(world.events[j].kind>=0 && world.events[j].kind<=6);
  }
  assert(memcmp(frames,original,sizeof(frames))==0);return 0;

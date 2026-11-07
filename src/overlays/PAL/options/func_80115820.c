@@ -1,18 +1,18 @@
 #include "rr/overlay665_calibration.h"
-void options_func_80115820(void) {
+void options_update_screen_adjust(void) {
     s32 i;
     void *cursor;
     RrGpuSingleCommandPacket *packet;
     s16 timer;
     RrFrameOrderingPrefix *context;
-    switch(options_D_80119768.layout0C) {
+    switch(options_menu_state.layout0C) {
     case 0:
-        options_func_80115798();
+        options_init_screen_adjust();
         SetMotionControllerVisible(0);
-        options_D_80119768.layout0C=(s32)((u32)options_D_80119768.layout0C+1U);
+        options_menu_state.layout0C=(s32)((u32)options_menu_state.layout0C+1U);
         break;
     case 1:
-        if(BadgeRows[0].state10==3)options_D_80119768.layout0C=2;
+        if(BadgeRows[0].state10==3)options_menu_state.layout0C=2;
         break;
     case 2:
         if(PlayerControllers[0].buttons0A&0x8000)Options.display.x34=(s32)((u32)Options.display.x34-1U);
@@ -30,7 +30,7 @@ void options_func_80115820(void) {
             PlaySfx(1);
             BadgeRows[0].state10=4;
             MenuFadeTimer=64;
-            options_D_80119768.layout0C=(s32)((u32)options_D_80119768.layout0C+1U);
+            options_menu_state.layout0C=(s32)((u32)options_menu_state.layout0C+1U);
         }
         for(i=0;i<2;i++) {
             FrameEnvs[i].environment.screen.x=(s16)Options.display.x34;
@@ -42,19 +42,19 @@ void options_func_80115820(void) {
         MenuFadeTimer=timer;
         AddScreenFadeTiles(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,(64-(s32)timer)*4,69);
         if(MenuFadeTimer<=0 && BadgeRows[0].state10==11) {
-            options_func_80114A24();
-            options_D_80119768.layout0C=0;
-            options_D_80119768.scene00=(s32)((u32)options_D_80119768.scene00-1U);
+            options_init_main_menu();
+            options_menu_state.layout0C=0;
+            options_menu_state.scene00=(s32)((u32)options_menu_state.scene00-1U);
             return;
         }
         break;
     }
     cursor=RR_PROJECTION_SCRATCH->pointers.cursor;
     for(i=0;i<2;i++) {
-        cursor=AddSpritePrim(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,cursor,160,128+i*96,&options_D_80119018[i],0x7F38,255);
+        cursor=AddSpritePrim(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,cursor,160,128+i*96,&options_vertical_arrow_uvs[i],0x7F38,255);
     }
     for(i=0;i<2;i++) {
-        cursor=AddSpritePrim(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,cursor,136+i*48,176,&options_D_80119020[i],0x7F38,255);
+        cursor=AddSpritePrim(((RrFrameOrderingPrefix *)CurrentDrawBuf)->ordering70,cursor,136+i*48,176,&options_left_arrow_uv[i],0x7F38,255);
     }
     packet=(RrGpuSingleCommandPacket *)cursor;
     RR_PROJECTION_SCRATCH->pointers.cursor=(u8 *)packet;

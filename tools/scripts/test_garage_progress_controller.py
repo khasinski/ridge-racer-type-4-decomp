@@ -49,8 +49,8 @@ static const u16 timers[8]={0,1,63,64,32767,32768,65534,65535};
 #define BadgeRows w->s.badges[w->s.badgeRoot]
 #define GlyphRows w->s.glyphs[w->s.glyphRoot]
 #define CurrentDrawBuf ((RrIconSpriteContext*)&frames[w->s.frameRoot])
-#define garage_D_801272D8 w->s.counts
-#define garage_D_80127328 w->s.grid
+#define garage_team_car_counts w->s.counts
+#define garage_team_maker_car_counts w->s.grid
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 static s16 half(u16 n){s16 v;memcpy(&v,&n,2);return v;}
 static u32 next(void){u32 x=w->s.rng;x^=x<<13;x^=x>>17;x^=x<<5;return w->s.rng=x;}
@@ -73,14 +73,14 @@ void DrawMenuStepArrows(s32 x,s32 y,s32 width,s32 mode,s32 selected,s32 first,s3
 }
 s32 UpdateGlyphRow(s32 selected){static const s32 values[]={0,1,-1,65536};Event *e=event(3);s32 result=values[(scenario>>2)%4];e->args[0]=selected;e->args[1]=result;change();return result;}
 void SetMenuFrameOptions(s32 a,s32 b,s32 c){Event *e=event(4);e->args[0]=a;e->args[1]=b;e->args[2]=c;change();}
-void garage_func_80116690(void){event(5);change();}
-void garage_func_80116808(void){event(6);change();}
+void garage_step_team_cursor(void){event(5);change();}
+void garage_step_maker_cursor(void){event(6);change();}
 void PlaySfx(s32 sound){event(7)->args[0]=sound;change();}
-void garage_func_80115EC4(s32 base){event(8)->args[0]=base;change();}
-void garage_func_80116960(void){event(9);change();}
-void garage_func_80116020(void){event(10);change();}
+void garage_init_maker_select(s32 base){event(8)->args[0]=base;change();}
+void garage_init_car_list(void){event(9);change();}
+void garage_init_team_select(void){event(10);change();}
 void AddScreenFadeTiles(u32 *order,s32 fade,u32 flags){Event *e=event(11);assert((uintptr_t)order>UINT32_MAX);assert(order==frames[w->s.frameRoot].ordering70);e->args[0]=w->s.frameRoot;e->args[1]=fade;e->args[2]=flags;change();}
-void garage_func_8011512C(void){event(12);change();}
+void garage_init_car_info(void){event(12);change();}
 void DrawUiRow(s32 a){event(13)->args[0]=a;change();}
 void UpdateBadgeRowAnim(s32 a){event(14)->args[0]=a;change();}
 void UpdateScreenFade(s32 flags){event(15)->args[0]=flags;change();}
@@ -94,7 +94,7 @@ static void expected(void){s32 flags=65538;unsigned phase=(u16)w->s.phase;
  else if(phase==1||phase==3){s32 completed=completion(phase==3);s32 captured=w->s.badges[w->s.badgeRoot][0].state10;
   if(phase==3)flags=65542;
   if(captured==3){
-   if(completed){if(phase==1)garage_func_80116690();else garage_func_80116808();}
+   if(completed){if(phase==1)garage_step_team_cursor();else garage_step_maker_cursor();}
    if(w->s.controllers[0].a){
     s32 count=phase==1?half(w->s.counts[w->s.choice.bytes[0]]):half(w->s.grid[w->s.choice.bytes[0]][w->s.choice.bytes[1]]);
     if(count<=0){PlaySfx(4);branchSeen[0]++;}
@@ -105,17 +105,17 @@ static void expected(void){s32 flags=65538;unsigned phase=(u16)w->s.phase;
    }
   }
  }else if(phase==2){flags=65542;
-  if(w->s.badges[w->s.badgeRoot][0].state10==11&&w->s.ui[w->s.uiRoot][0].byte14==5){garage_func_80115EC4(0);w->s.phase=3;branchSeen[3]++;}
+  if(w->s.badges[w->s.badgeRoot][0].state10==11&&w->s.ui[w->s.uiRoot][0].byte14==5){garage_init_maker_select(0);w->s.phase=3;branchSeen[3]++;}
  }else if(phase==4){flags=65542;
   if(w->s.badges[w->s.badgeRoot][0].state10==11&&w->s.ui[w->s.uiRoot][0].byte14==5){
-   if(!w->s.mode){garage_func_80116960();branchSeen[4]++;return;}
+   if(!w->s.mode){garage_init_car_list();branchSeen[4]++;return;}
    else{unsigned i;for(i=0;i<4;i++)w->s.glyphs[w->s.glyphRoot][i].phase18=word((u32)w->s.glyphs[w->s.glyphRoot][i].phase18-196608U);
-    garage_func_80116020();w->s.phase=1;w->s.mode=0;branchSeen[5]++;
+    garage_init_team_select();w->s.phase=1;w->s.mode=0;branchSeen[5]++;
    }
   }
  }else{assert(phase==8);w->s.timer=half((u16)w->s.timer-1U);SetMenuFrameOptions(0,1,1);
   AddScreenFadeTiles(frames[w->s.frameRoot].ordering70,(64-(s32)w->s.timer)*4,69);
-  if(w->s.timer<=0){garage_func_8011512C();w->s.scene=1;w->s.nextScene=64;w->s.phase=0;branchSeen[6]++;}else branchSeen[7]++;
+  if(w->s.timer<=0){garage_init_car_info();w->s.scene=1;w->s.nextScene=64;w->s.phase=0;branchSeen[6]++;}else branchSeen[7]++;
  }
  DrawUiRow(0);UpdateBadgeRowAnim(0);UpdateScreenFade(flags);
 }
@@ -135,7 +135,7 @@ int main(void){unsigned p,i,j,k;uint64_t cases=0;
   for(i=0;i<4;i++)w->s.choice.bytes[i]=next()%4;
   w->s.controllers[0].a=(scenario>>4)&1;w->s.controllers[0].b=(scenario>>5)&1;
   w->s.uiRoot=(scenario>>6)&1;w->s.badgeRoot=(scenario>>7)&1;w->s.glyphRoot=(scenario>>8)&1;w->s.frameRoot=(scenario>>9)&1;
-  actual=reference=initial;w=&actual;garage_func_801161FC();w=&reference;expected();
+  actual=reference=initial;w=&actual;garage_update_collection_select();w=&reference;expected();
   assert(!memcmp(&actual,&reference,sizeof(actual)));assert(!memcmp(frames,frameSnapshot,sizeof(frames)));phaseSeen[phases[p]]++;cases++;
  }
  assert(cases==98304);for(i=0;i<6;i++)assert(phaseSeen[phases[i]]);for(i=0;i<8;i++){assert(branchSeen[i]);assert(timerSeen[i]);}return 0;

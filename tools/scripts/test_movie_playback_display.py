@@ -83,7 +83,7 @@ static int display(void){
   half(&config->rectangles[2].x,args[0]);half(&config->rectangles[2].y,args[1]);
   config->alternate04=((u32)dworld.format%2U)==0;
   memcpy(&dexpected,&dworld,sizeof(dworld));memcpy(&dworld,&dinitial,sizeof(dworld));
-  movie_playback_func_80114E90(&dworld.configs[k%3],args[0],args[1],args[2],args[3]);
+  movie_playback_set_dec_env(&dworld.configs[k%3],args[0],args[1],args[2],args[3]);
   if(memcmp(&dworld,&dexpected,sizeof(dworld))){fprintf(stderr,"display case %u\n",k);return 1;}
  }
  puts("65536 STR display cases with UBSan passed");return 0;
@@ -123,7 +123,7 @@ static int buffers(void){
    target->buffers[i]=(u8*)&bworld.arena+offsets[i];
   }
   memcpy(&bexpected,&bworld,sizeof(bworld));memcpy(&bworld,&binitial,sizeof(bworld));
-  movie_playback_func_80114E48((u8*)&bworld.arena);
+  movie_playback_set_buffers((u8*)&bworld.arena);
   if(memcmp(&bworld,&bexpected,sizeof(bworld))){fprintf(stderr,"buffers case %u\n",k);return 1;}
  }
  puts("4096 STR buffer cases with UBSan passed");return 0;

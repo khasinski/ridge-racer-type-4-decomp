@@ -1,9 +1,9 @@
 #include "rr/overlay662_garage.h"
 void PlaySfx(s32 mode);
-void garage_func_801256D4(void)
+void garage_alt_undo_toggle(void)
 {
-    if(garage_D_80127668.words[1]&2){
+    if(garage_logo_work.words[1]&2){
         PlaySfx(1);
-        garage_D_801276A8.active21=!garage_D_801276A8.active21;
+        garage_logo_state.active21=!garage_logo_state.active21;
     }
 }

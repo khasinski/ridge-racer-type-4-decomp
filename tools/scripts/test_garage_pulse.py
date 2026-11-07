@@ -27,7 +27,7 @@ class OverlayPulseTest(unittest.TestCase):
 #include "rr/overlay662_garage.h"
 #include "rr/trig.h"
 static struct World {u32 before[8];RrGarageSelectionPrefix state;u32 after[8];} world,expected;
-#define garage_D_801276A8 world.state
+#define garage_logo_state world.state
 static s16 rom[4097]={''' + ','.join(map(str, table)) + r'''};
 static s16 original_rom[4097];
 #define SinTableBiasedBaseC00 rom
@@ -59,7 +59,7 @@ int main(void){unsigned k,i;const u32 edges[]={0,4095,0x7fffffffU,0x7fffffa0U,0x
   if(updated>=INT64_C(2147483648))updated-=INT64_C(4294967296);
   expected.state.shadeD0=(u8)(sine_model(angle)/64-65);
   expected.state.phaseCC=(u32)(updated%4096);
-  garage_func_8011D208();
+  garage_update_selection_pulse();
   assert(memcmp(&world,&expected,sizeof(world))==0);
   assert((uintptr_t)&world.state>UINT32_MAX);
  }

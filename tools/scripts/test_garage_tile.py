@@ -22,7 +22,7 @@ class GarageTileTest(unittest.TestCase):
 typedef union {RrGpuTilePacket packets[3];u32 words[12];} PacketOwner;
 typedef union {RrGarageSelectionPrefix state;struct {u8 pad[offsetof(RrGarageSelectionPrefix,halfC8)-8];PacketOwner storage;} view;} GarageOwner;
 static struct World {u32 guard[4];GarageOwner garage;PacketOwner storage;u32 ordering;u32 tail[4];} world,e;
-#define garage_D_801276A8 world.garage.state
+#define garage_logo_state world.garage.state
 ''' + body + r'''
 static u32 seed=0x1b034;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -54,7 +54,7 @@ int main(void){unsigned k,i,mode,which;const u32 edge[]={0,1,0xffff,0x10000,0x7f
   for(i=0;i<7;i++)args[i]=(k&4)?next():edge[(k+i)%13];
   memcpy(&e,&world,sizeof(world));reference(mode,which,args);
   packet=&storage(&world,mode)->packets[0];assert((uintptr_t)packet>UINT32_MAX);
-  returned=garage_func_8011B034(order(&world,mode,which),packet,args[0],args[1],args[2],args[3],args[4],args[5],args[6]);
+  returned=garage_add_tile(order(&world,mode,which),packet,args[0],args[1],args[2],args[3],args[4],args[5],args[6]);
   assert(returned==&storage(&world,mode)->packets[1] && (uintptr_t)returned>UINT32_MAX);
   assert(memcmp(&world,&e,sizeof(world))==0);
  }

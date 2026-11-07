@@ -12,7 +12,7 @@ typedef union {
 extern s32 RaceState,TrackLength;
 extern s16 ReverseCourse,MenuFadeTimer;
 void SoundSetMasterVolume(s16 first,s16 second);
-void time_attack_course_select_func_80117084(RrRaceVehicleViews *player);
+void time_attack_course_select_check_race_end(RrRaceVehicleViews *player);
 RR_ASSERT_SIZE(RrRaceVehicleViews,0x320);
 RR_ASSERT_OFFSET(RrRaceVehicleViews,parts,0);
 RR_ASSERT_OFFSET(RrRaceVehicleControlView,control,0x1F4);

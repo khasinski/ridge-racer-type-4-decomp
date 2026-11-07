@@ -83,7 +83,7 @@ int main(void){unsigned i,b,j;unsigned seen[8]={0},counts[16]={0},roots[2]={0};
   }
   actual.audio.archive2638=(u8*)&actual.archives[bank];
   actual.context.prefix.activeB8=&actual.active[7];
-  movie_playback_func_80114910(id,&actual.file,output(&actual));
+  movie_playback_get_movie_file_info(id,&actual.file,output(&actual));
   assert(calls==1 && !memcmp(&actual,&expected,sizeof actual));
   seen[alias]++;counts[id]++;roots[bank]++;
  }

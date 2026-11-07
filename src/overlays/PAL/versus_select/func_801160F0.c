@@ -1,14 +1,14 @@
 #include "rr/menu_overlay_runtime.h"
 
 /* Versus course selection: each player picks a course group and course. */
-extern u8 versus_select_D_80118358[];            /* option count per course group */
-extern s8 versus_select_D_8011835C[2][4];        /* option meaning per group slot */
-extern s8 versus_select_D_80118364[2][2][4];     /* UI row per player, group, slot */
+extern u8 versus_select_group_option_counts[];            /* option count per course group */
+extern s8 versus_select_group_option_ids[2][4];        /* option meaning per group slot */
+extern s8 versus_select_group_option_rows[2][2][4];     /* UI row per player, group, slot */
 extern s16 versus_select_D_80118438;
-extern s16 versus_select_D_80118440[2][2];       /* course count per player/group */
-extern s16 versus_select_D_8011844C[2];          /* selected course per player */
-extern s16 versus_select_D_80118450[2];          /* selected group per player */
-extern RrCourseChoice4 versus_select_D_80118458[2][2][9];
+extern s16 versus_select_choice_counts[2][2];       /* course count per player/group */
+extern s16 versus_select_choice_index[2];          /* selected course per player */
+extern s16 versus_select_choice_group[2];          /* selected group per player */
+extern RrCourseChoice4 versus_select_choice_tables[2][2][9];
 extern s32 UiRowCount, MenuActivePlayerPlusOne;
 extern s16 MenuResultCode;
 void SetupMenuCarCamera(s32);
@@ -33,17 +33,17 @@ void UpdateScreenFade(s32);
 void AddScreenFadeTiles(u32 *, s32, u32);
 void SeqFadeVolume(s32, s32);
 void SeqMuteVolume(void);
-void versus_select_func_80115598(s32);
-void versus_select_func_80115F8C(void);
-void versus_select_func_80117350(void);
+void versus_select_init_selection_screen(s32);
+void versus_select_apply_player_choice(void);
+void versus_select_init_course_select(void);
 
 #define MODE (((s8 *)ImageRows)[1])
 #define SELECTION ((s8 *)&SelectionRows)
 #define ENTRIES ((RrSelectionRow *)&SelectionRows)
 #define PLAYER (SelectionPlayer & 1)
-#define GROUP_ROW(p, g, i) versus_select_D_80118364[p][g][i]
+#define GROUP_ROW(p, g, i) versus_select_group_option_rows[p][g][i]
 
-void versus_select_func_801160F0(void)
+void versus_select_update_car_select(void)
 {
     union { RrPreviewRgb3 rgb; u8 channel[3]; } color;
     s16 active;
@@ -87,30 +87,30 @@ void versus_select_func_801160F0(void)
     active = 1;
     switch (ModeSubState) {
     case 7:
-        row = GROUP_ROW(PLAYER, (s16)(versus_select_D_80118450[PLAYER] ^ 1), 0);
+        row = GROUP_ROW(PLAYER, (s16)(versus_select_choice_group[PLAYER] ^ 1), 0);
         if (UiRows[row].byte14 == 5) {
             ModeSubState = 0;
         }
     case 0:
         SetMenuFrameOptions(1, 1, 1);
         before = PackChoiceGlyph(SELECTION + SelectionPlayer * 4);
-        StepMenuValue(PLAYER * 4 | 1, 2, (char *)&versus_select_D_8011844C[PLAYER],
-                      versus_select_D_80118440[PLAYER][versus_select_D_80118450[PLAYER]], 0);
+        StepMenuValue(PLAYER * 4 | 1, 2, (char *)&versus_select_choice_index[PLAYER],
+                      versus_select_choice_counts[PLAYER][versus_select_choice_group[PLAYER]], 0);
         UnpackChoiceGlyph(SELECTION + SelectionPlayer * 4,
-                      versus_select_D_80118458[PLAYER][versus_select_D_80118450[PLAYER]][versus_select_D_8011844C[PLAYER]].glyph);
+                      versus_select_choice_tables[PLAYER][versus_select_choice_group[PLAYER]][versus_select_choice_index[PLAYER]].glyph);
         if ((s16)before != (s16)PackChoiceGlyph(SELECTION + SelectionPlayer * 4)) {
             ResetScreenCounters();
             LoadCursor = MenuArenas.first;
             UnpackChoiceGlyph(SELECTION + SelectionPlayer * 4,
-                          versus_select_D_80118458[PLAYER][versus_select_D_80118450[PLAYER]][versus_select_D_8011844C[PLAYER]].glyph);
-            PlayerCourseChoices[SelectionPlayer].first = versus_select_D_80118458[PLAYER][versus_select_D_80118450[PLAYER]][versus_select_D_8011844C[PLAYER]].first;
-            PlayerCourseChoices[SelectionPlayer].second = versus_select_D_80118458[PLAYER][versus_select_D_80118450[PLAYER]][versus_select_D_8011844C[PLAYER]].second;
+                          versus_select_choice_tables[PLAYER][versus_select_choice_group[PLAYER]][versus_select_choice_index[PLAYER]].glyph);
+            PlayerCourseChoices[SelectionPlayer].first = versus_select_choice_tables[PLAYER][versus_select_choice_group[PLAYER]][versus_select_choice_index[PLAYER]].first;
+            PlayerCourseChoices[SelectionPlayer].second = versus_select_choice_tables[PLAYER][versus_select_choice_group[PLAYER]][versus_select_choice_index[PLAYER]].second;
             MODE = 6;
         }
-        row = GROUP_ROW(PLAYER, versus_select_D_80118450[PLAYER], MenuCursor);
+        row = GROUP_ROW(PLAYER, versus_select_choice_group[PLAYER], MenuCursor);
         UiRows[row].cells[0] = 0;
-        StepMenuValue(PLAYER * 4, 2, (char *)&MenuCursor, versus_select_D_80118358[versus_select_D_80118450[PLAYER]], 0);
-        row = GROUP_ROW(PLAYER, versus_select_D_80118450[PLAYER], MenuCursor);
+        StepMenuValue(PLAYER * 4, 2, (char *)&MenuCursor, versus_select_group_option_counts[versus_select_choice_group[PLAYER]], 0);
+        row = GROUP_ROW(PLAYER, versus_select_choice_group[PLAYER], MenuCursor);
         UiRows[row].cells[0] = 2;
         i = UiRows[row].byte14;
         close = 0;
@@ -127,15 +127,15 @@ void versus_select_func_801160F0(void)
         if (input->a != 0) {
             PlaySfx(1);
             UiRows[row].cells[0] = 1;
-            if (MenuCursor == versus_select_D_8011835C[versus_select_D_80118450[PLAYER]][0]) {
+            if (MenuCursor == versus_select_group_option_ids[versus_select_choice_group[PLAYER]][0]) {
                 versus_select_D_80118438 = i;
                 ModeSubState = 4;
-            } else if (MenuCursor == versus_select_D_8011835C[versus_select_D_80118450[PLAYER]][1]
-                       && versus_select_D_80118458[SelectionPlayer][1][0].glyph != -1) {
-                versus_select_D_8011844C[PLAYER] = 0;
+            } else if (MenuCursor == versus_select_group_option_ids[versus_select_choice_group[PLAYER]][1]
+                       && versus_select_choice_tables[SelectionPlayer][1][0].glyph != -1) {
+                versus_select_choice_index[PLAYER] = 0;
                 MenuCursor = 0;
                 for (i = 0; i < 4; i++) {
-                    row = GROUP_ROW(PLAYER, versus_select_D_80118450[PLAYER], i);
+                    row = GROUP_ROW(PLAYER, versus_select_choice_group[PLAYER], i);
                     if (row == -1) {
                         break;
                     }
@@ -144,7 +144,7 @@ void versus_select_func_801160F0(void)
                     }
                 }
                 for (i = 0; i < 4;) {
-                    row = GROUP_ROW(PLAYER, (s16)(versus_select_D_80118450[PLAYER] ^ 1), i);
+                    row = GROUP_ROW(PLAYER, (s16)(versus_select_choice_group[PLAYER] ^ 1), i);
                     i++;
                     if (row == -1) {
                         break;
@@ -152,10 +152,10 @@ void versus_select_func_801160F0(void)
                     UiRows[row].byte14 = 0;
                 }
                 ModeSubState = 7;
-                versus_select_D_80118450[PLAYER] ^= 1;
-            } else if (MenuCursor == versus_select_D_8011835C[versus_select_D_80118450[PLAYER]][2]) {
+                versus_select_choice_group[PLAYER] ^= 1;
+            } else if (MenuCursor == versus_select_group_option_ids[versus_select_choice_group[PLAYER]][2]) {
                 close = 1;
-            } else if (MenuCursor == versus_select_D_8011835C[versus_select_D_80118450[PLAYER]][3]) {
+            } else if (MenuCursor == versus_select_group_option_ids[versus_select_choice_group[PLAYER]][3]) {
                 for (i = 0; i < UiRowCount; i++) {
                     if (UiRows[i].byte14 == 2) {
                         UiRows[i].byte14 = 3;
@@ -209,7 +209,7 @@ void versus_select_func_801160F0(void)
             UiRows[row].byte14 = 3;
             UiRows[row + 1].byte14 = 3;
             for (i = 0; i < 4; i++) {
-                row = GROUP_ROW(PLAYER, versus_select_D_80118450[PLAYER], i);
+                row = GROUP_ROW(PLAYER, versus_select_choice_group[PLAYER], i);
                 if (row == -1) {
                     break;
                 }
@@ -231,7 +231,7 @@ void versus_select_func_801160F0(void)
             } else {
                 ModeSubState = 3;
                 SelectionPlayer++;
-                versus_select_func_80115F8C();
+                versus_select_apply_player_choice();
             }
         } else if (input->b != 0) {
             PlaySfx(2);
@@ -246,7 +246,7 @@ void versus_select_func_801160F0(void)
         status = UiRows[row].byte14;
         if (status == 5 && MODE == status) {
             ResetScreenCounters();
-            versus_select_func_80117350();
+            versus_select_init_course_select();
             ModeGroup = 1;
             ModeId = 0x39;
             ModeSubState = 0;
@@ -265,7 +265,7 @@ void versus_select_func_801160F0(void)
         row = GROUP_ROW(PLAYER, 1, 3) + 1;
         status = UiRows[row].byte14;
         if (status == 5 && MODE == status) {
-            versus_select_func_80115598(0);
+            versus_select_init_selection_screen(0);
             ModeSubState = 0;
         }
         break;
@@ -305,13 +305,13 @@ tail:
         player = SelectionPlayer;
     }
     if (ModeSubState == 7) {
-        group = versus_select_D_80118450[player & 1] ^ 1;
+        group = versus_select_choice_group[player & 1] ^ 1;
         row = GROUP_ROW(player & 1, group, 0);
         if (UiRows[row].byte14 == 5) {
-            group = versus_select_D_80118450[player & 1];
+            group = versus_select_choice_group[player & 1];
         }
     } else {
-        group = versus_select_D_80118450[player & 1];
+        group = versus_select_choice_group[player & 1];
     }
     for (i = 0; i < 4; i++) {
         row = GROUP_ROW(player & 1, group, i);
@@ -349,14 +349,14 @@ tail:
     }
     UpdateBadgeRowAnim(0);
     if (UpdateImageRow(0) > 0) {
-        DrawMenuStepArrows(0xA0, 0x90, 8, 1, versus_select_D_8011844C[PLAYER], 0,
-                      versus_select_D_80118440[PLAYER][versus_select_D_80118450[PLAYER]]);
+        DrawMenuStepArrows(0xA0, 0x90, 8, 1, versus_select_choice_index[PLAYER], 0,
+                      versus_select_choice_counts[PLAYER][versus_select_choice_group[PLAYER]]);
     }
     MenuActivePlayerPlusOne = SelectionPlayer + 1;
     sound = 0x10032;
     /* Integer base address: the original's table read is not disambiguated
      * from the MenuActivePlayerPlusOne store above. */
-    groups = (s32)versus_select_D_80118450;
+    groups = (s32)versus_select_choice_group;
     if (*(s16 *)(groups + (SelectionPlayer & 1) * 2) != 0) {
         sound = 0x10036;
     }

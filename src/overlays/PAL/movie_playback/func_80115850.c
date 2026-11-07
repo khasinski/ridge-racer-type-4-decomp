@@ -1,6 +1,6 @@
 #include "rr/overlay668_camera.h"
 
-void movie_playback_func_80115850(void) {
+void movie_playback_camera_apply(void) {
     RrPreviewMatrixWorkspace sp10;
     RrPreviewVector8 sp30;
     s32 *scratch = RR_REPLAY_SCRATCH_WORDS;

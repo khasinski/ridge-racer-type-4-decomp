@@ -22,7 +22,7 @@ class OverlayTickTest(unittest.TestCase):
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
 #include "rr/overlay662_garage.h"
 static struct World {u32 before[8];RrGarageWorkingStorage storage;u32 after[8];} world,expected;
-#define garage_D_80127668 world.storage
+#define garage_logo_work world.storage
 ''' + bodies + r'''
 static u32 seed=0x1ddd8;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -41,13 +41,13 @@ int main(void){unsigned k,m,i;
   for(i=0;i<4;i++){
    u16 bits=(u16)(k+i*371U);memcpy(&expected.storage.halves[24+i],&bits,2);
   }
-  garage_func_8011E7C0(k,k+371,k+742,k+1113);
+  garage_set_cursor_bounds(k,k+371,k+742,k+1113);
   assert(memcmp(&world,&expected,sizeof(world))==0);
   widened=(uint64_t)raw+1;
   if(widened==UINT64_C(0x100000000))widened=0;
   if(widened>46)widened=40;
   expected.storage.words[slot]=(u32)widened;
-  result=garage_func_8011DDD8(modes[m]);
+  result=garage_step_button_repeat(modes[m]);
   assert(result==(widened==1 || widened==40));
   assert(memcmp(&world,&expected,sizeof(world))==0);
   assert((uintptr_t)&world.storage>UINT32_MAX);

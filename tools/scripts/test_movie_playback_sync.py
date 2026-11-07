@@ -40,7 +40,7 @@ static void initialize(u32 k){unsigned i;u32 raw;
 static void ready(void){u32 k;for(k=0;k<65536;k++){
  initialize(k);world.config.ready0C=(next()&0xffff0000U)|k|0x10000U;
  expected=world;expected.config.ready0C=0;
- movie_playback_func_8011535C(&world.config,(s32)(k%4)-2);
+ movie_playback_sync(&world.config,(s32)(k%4)-2);
  assert(memcmp(&world,&expected,sizeof(world))==0);
 }}
 static void timeout(void){u32 k;for(k=0;k<32;k++){
@@ -50,7 +50,7 @@ static void timeout(void){u32 k;for(k=0;k<32;k++){
  expected.config.alternate04=selected;
  expected.config.rectangles[2].x=world.config.rectangles[selected].x;
  expected.config.rectangles[2].y=world.config.rectangles[selected].y;
- movie_playback_func_8011535C(&world.config,(s32)(k%4)-2);
+ movie_playback_sync(&world.config,(s32)(k%4)-2);
  assert(memcmp(&world,&expected,sizeof(world))==0);
 }}
 int main(int argc,char **argv){assert(argc==2);if(argv[1][0]=='r')ready();else timeout();return 0;}

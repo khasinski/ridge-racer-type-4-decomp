@@ -4,7 +4,7 @@ extern void InitBadgeRow(s32, s32, s32, s32, s32, s32, s32);
 extern void SetMenuFrameOptions(s32, s32, s32);
 extern u8 ScreenFadeState;
 extern s16 *BadgeRows;
-void options_func_80115C8C(void)
+void options_init_brightness_test(void)
 {
     ClearScreenOverlayState();
     ScreenFadeState = 2;

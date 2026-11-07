@@ -30,7 +30,7 @@ static struct World {
 #define ModeGroup world.screen
 #define ModeId world.step
 #define ModeSubState world.counter
-void garage_func_80116148(void){
+void garage_init_collection(void){
  assert(world.calls++==0);
  assert(world.screen==world.initial_screen && world.step==world.initial_step && world.counter==world.initial_counter);
  world.screen^=0xffff;world.step^=0xffff;world.counter=(s16)~world.counter;
@@ -55,7 +55,7 @@ int main(void){unsigned k,i;
   expected.calls=2;expected.command=0x10002;
   expected.observed_screen=1;expected.observed_step=66;expected.observed_counter=0;
   expected.screen=expected.changed_screen;expected.step=expected.changed_step;expected.counter=expected.changed_counter;
-  garage_func_801161B0();
+  garage_enter_collection();
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

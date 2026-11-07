@@ -38,9 +38,9 @@ RrBadgeRow1C *BadgeRows;
 #define SelectionRows w->s.choice
 #define UiFontGlyphs w->s.uv
 #define ScreenFrame w->s.tick
-#define garage_D_801272D8 w->s.counts
-#define garage_D_801272FC w->s.total
-s8 garage_D_8012621C[7]={23,24,-1,31,25,24,-2};
+#define garage_team_car_counts w->s.counts
+#define garage_total_car_count w->s.total
+s8 garage_owned_cars_label_glyphs[7]={23,24,-1,31,25,24,-2};
 ''' + bodies + formatter + r'''
 static u32 next(void){u32 x=w->s.rng;x^=x<<13;x^=x>>17;x^=x<<5;return w->s.rng=x;}
 static void change(void){
@@ -75,7 +75,7 @@ static void expected(u32 *ot,void *p,s32 row){
  int x=BadgeRows[row].x04+8,y=BadgeRows[row].y06+32,flag=0,i;
  for(i=0;i<4;i++)if(w->s.choice.bytes[0]==w->s.save.history6C[i].selection){flag=rsin((s32)(((u32)w->s.tick*128-682U)&4094U))<0;break;}
  for(i=0;i<7;i++){
-  int key=garage_D_8012621C[i];
+  int key=garage_owned_cars_label_glyphs[i];
   if(key<0){
    unsigned digits=key==-1?2:3,n=key==-1?w->s.counts[w->s.choice.bytes[0]]:w->s.total;
    char text[8]={0};decimal(text,n,digits);text[digits]='/';decimal(text+digits+1,key==-1?80:320,digits);
@@ -98,7 +98,7 @@ int main(void){unsigned scenario,i;
   }
   if(scenario%5<4){RrSelectionRow *h=&w->s.save.history6C[scenario%5];h->selection=w->s.choice.bytes[0];h->variant=w->s.choice.bytes[1];h->parameter=w->s.choice.bytes[2];}
   w->s.tick=(s32)next();actual=reference=initial;
-  w=&actual;BadgeRows=w->s.rows;garage_func_80117854(ordering,arena,scenario%4);
+  w=&actual;BadgeRows=w->s.rows;garage_draw_team_count_label(ordering,arena,scenario%4);
   w=&reference;BadgeRows=w->s.rows;expected(ordering,arena,scenario%4);
   assert(!memcmp(&actual,&reference,sizeof(actual)));
  }

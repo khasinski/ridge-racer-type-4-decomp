@@ -25,17 +25,17 @@ static struct World {
  u32 before[8];Serial serial;s32 frames;u16 screen,step;s16 counter;
  u32 calls;s32 post_word,post_frames;u16 post_screen,post_step;s16 post_counter;u32 after[8];
 } world,expected;
-#define serial_link_D_80118EE8 world.serial.word00
-#define serial_link_D_80118EEF world.serial.flag07
-#define serial_link_D_80118EF8 world.serial.word10
-#define serial_link_D_80118EFC world.serial.word14
-#define serial_link_D_80118F00 world.serial.word18
-#define serial_link_D_80118F04 world.serial.word1C
+#define serial_link_rx_pending world.serial.word00
+#define serial_link_checksum_error world.serial.flag07
+#define serial_link_rx_count world.serial.word10
+#define serial_link_rx_miss_count world.serial.word14
+#define serial_link_tx_count world.serial.word18
+#define serial_link_tx_fail_count world.serial.word1C
 #define ModeFrame world.frames
 #define ModeGroup world.screen
 #define ModeId world.step
 #define ModeSubState world.counter
-void serial_link_func_80114A40(void){
+void serial_link_close_sio(void){
  assert(world.serial.word00==0 && world.serial.word10==0 && world.serial.word14==0 && world.serial.word18==0 && world.serial.word1C==0 && world.frames==0);
  world.calls++;world.serial.word1C=world.post_word;world.frames=world.post_frames;
  world.screen=world.post_screen;world.step=world.post_step;world.counter=world.post_counter;
@@ -68,7 +68,7 @@ int main(void){unsigned k,i;
    expected.serial.word1C=world.post_word;expected.frames=world.post_frames;expected.calls=1;
    expected.screen=1;expected.step=44;expected.counter=0;
   }
-  serial_link_func_801153F0();
+  serial_link_check_link_lost();
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

@@ -9,13 +9,13 @@
 #include "rr/menu_glyph.h"
 #include "rr/diagnostics.h"
 extern RrCourseChoice4 CourseChoiceTable[2][9];
-extern s16 garage_D_801272E4,garage_D_801272BC,garage_D_801272E2;
-extern char garage_D_801272C8[12];
-extern const char garage_D_80114888[];
-void garage_func_8011512C(void);
-void garage_func_80118ED8(void);
+extern s16 garage_car_index,garage_D_801272BC,garage_clut_choice;
+extern char garage_player_name_copy[12];
+extern const char garage_car_info_scene_name[];
+void garage_init_car_info(void);
+void garage_init_car_select(void);
 /* Choice index0..8, signed byte coordinates, full nine-entry group. Saved and
  * destination names have accessible NUL terminators within12 bytes. */
-void garage_func_801153B0(void);
-void garage_func_80118E6C(void);
+void garage_enter_car_info(void);
+void garage_enter_car_select(void);
 #endif

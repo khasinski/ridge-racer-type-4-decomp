@@ -73,7 +73,7 @@ int main(void){unsigned k,m,i;
    expected.calls=1;expected.arg0=0;expected.arg1=71;expected.seen_mode=5;expected.seen_delay=75;
    expected.mode=world.post_mode;expected.delay=world.post_delay;expected.car.vehicle.first=world.post_first;
   }
-  time_attack_course_select_func_80117084(&world.car);
+  time_attack_course_select_check_race_end(&world.car);
   assert(memcmp(&world,&expected,sizeof(world))==0);
   assert((uintptr_t)&world.car>UINT32_MAX);
  }

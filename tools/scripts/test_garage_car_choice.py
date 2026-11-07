@@ -39,11 +39,11 @@ static World actual,reference,initial,*w;static unsigned mutation;
 #define ModeGroup w->s.mode
 #define ModeId w->s.position
 #define ModeSubState w->s.timer
-#define garage_D_801272E4 w->s.index
+#define garage_car_index w->s.index
 #define garage_D_801272BC w->s.first
-#define garage_D_801272E2 w->s.second
-#define garage_D_801272C8 w->s.name
-#define garage_D_80114888 format
+#define garage_clut_choice w->s.second
+#define garage_player_name_copy w->s.name
+#define garage_car_info_scene_name format
 ''' + bodies + helpers + r'''
 static u32 next(void){u32 x=w->s.rng;x^=x<<13;x^=x>>17;x^=x<<5;return w->s.rng=x;}
 static void change(void){unsigned i,j;
@@ -61,21 +61,21 @@ static void event(s32 op,s32 arg){size_t i;u32 hash=2166136261U;Event *e;assert(
  if(mutation&&op!=3)change();
 }
 void SetDispMask(s32 mode){assert(mode==0);event(1,mode);}
-void garage_func_8011512C(void){event(2,0);}
-void garage_func_80118ED8(void){event(4,0);}
+void garage_init_car_info(void){event(2,0);}
+void garage_init_car_select(void){event(4,0);}
 s32 DebugPrintStub(const char *message,...){assert(message==format);event(3,0);return 1;}
 static void expected(unsigned kind){
  if(!kind){unsigned n=0,i;s32 glyph;SetDispMask(0);w->s.index=0;
   while(w->s.save.prefix.progress.prefix00.fields.name[n])n++;
   for(i=0;i<n;i++)w->s.name[i]=w->s.save.prefix.progress.prefix00.fields.name[i];
   while(w->s.name[n])w->s.name[n++]=0;
-  garage_func_8011512C();glyph=w->s.choices[1][0].glyph;
+  garage_init_car_info();glyph=w->s.choices[1][0].glyph;
   w->s.current.bytes[0]=(u8)(glyph/160);w->s.current.bytes[1]=(u8)(glyph/40-4*(glyph/160));w->s.current.bytes[2]=(u8)(glyph%40);
   w->s.points[0].first=w->s.choices[1][w->s.index].first;w->s.points[0].second=w->s.choices[1][w->s.index].second;
   w->s.mode=1;w->s.position=64;w->s.timer=0;DebugPrintStub(format);
  }else{
   RrCourseChoice4 c=w->s.choices[1][w->s.index];w->s.first=c.first;w->s.second=c.second;
-  w->s.points[0].first=c.first;w->s.points[0].second=c.second;garage_func_80118ED8();
+  w->s.points[0].first=c.first;w->s.points[0].second=c.second;garage_init_car_select();
  }
 }
 int main(void){unsigned scenario,kind;u32 seen=0;
@@ -83,7 +83,7 @@ int main(void){unsigned scenario,kind;u32 seen=0;
  for(scenario=0;scenario<65536;scenario++)for(kind=0;kind<2;kind++)for(mutation=0;mutation<2;mutation++){
   memset(&initial,0,sizeof(initial));w=&initial;w->s.rng=0x153b0+scenario*19+kind;change();w->s.index=scenario%9;
   w->s.choices[1][0].glyph=(s16)scenario;
-  actual=reference=initial;w=&actual;if(kind)garage_func_80118E6C();else garage_func_801153B0();
+  actual=reference=initial;w=&actual;if(kind)garage_enter_car_select();else garage_enter_car_info();
   w=&reference;expected(kind);assert(!memcmp(&actual,&reference,sizeof(actual)));seen|=1U<<(scenario%9);
  }
  assert(seen==511);return 0;

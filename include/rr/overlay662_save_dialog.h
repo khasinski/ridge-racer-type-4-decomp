@@ -9,5 +9,5 @@ extern s16 MenuResultCode;
  * Choice4 rechecks the fresh text status, captures a TIM through80126044,
  * then updates fresh UI rows and fade state. Its active side is0..1 and
  * TIM/image/palette owners meet that helper's backing-storage contract. */
-void garage_func_80120B68(s32 mode);
+void garage_save_dialog(s32 mode);
 #endif

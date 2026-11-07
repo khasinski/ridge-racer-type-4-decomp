@@ -3,7 +3,7 @@
 #define RR_GPU_PROJECTION_SCRATCH ((RrProjectionScratchPrefix *)0x1F800000)
 #endif
 
-void serial_link_func_80117EF8(void)
+void serial_link_init_course_select(void)
 {
     s32 choice;
     ModeFrame=0;

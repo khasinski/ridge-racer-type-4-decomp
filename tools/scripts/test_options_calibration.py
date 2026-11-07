@@ -3,7 +3,7 @@ from tempfile import TemporaryDirectory
 import re,subprocess,sys
 root=next(p for p in Path(__file__).resolve().parents if (p/'Makefile').exists() and (p/'tools/scripts').exists())
 target=Path(sys.argv[1]) if len(sys.argv)>1 else root/'src/overlays/PAL/options/func_80115820.c'
-body=target.read_text();macro=body[:body.index('#include')];body=body[body.index('void options_func_80115820'):]
+body=target.read_text();macro=body[:body.index('#include')];body=body[body.index('void options_update_screen_adjust'):]
 source=r'''
 #include <assert.h>
 #include <stdint.h>
@@ -25,7 +25,7 @@ typedef struct {
  s16 timer;unsigned frameRoot,badgeRoot,textRoot,arena,sprites;u32 tail[4];
 } State;
 static State world,initial,expected;
-#define options_D_80119768 world.visual
+#define options_menu_state world.visual
 #define MenuFadeTimer world.timer
 #define Options world.settings
 #define FrameEnvs world.frames
@@ -33,8 +33,8 @@ static State world,initial,expected;
 #define BadgeRows world.badges[world.badgeRoot]
 #define DialogueState (&world.text[world.textRoot])
 #define CurrentDrawBuf ((RrIconSpriteContext *)&world.frames[world.frameRoot])
-#define options_D_80119018 world.regions[0]
-#define options_D_80119020 world.regions[1]
+#define options_vertical_arrow_uvs world.regions[0]
+#define options_left_arrow_uv world.regions[1]
 #undef RR_PROJECTION_SCRATCH
 #define RR_PROJECTION_SCRATCH (&world.scratch)
 ''' + macro + body + r'''
@@ -59,11 +59,11 @@ static void effect(unsigned kind){unsigned n=serial++;if(!(profile&1))return;u32
  world.scratch.pointers.cursor=spriteCursor();world.scratch.pointers.order=world.frames[world.frameRoot].ordering.ordering70;
 }
 static void service(unsigned kind){const s32 args[8]={0};record(kind,args);effect(kind);}
-void options_func_80115798(void){service(0);}
+void options_init_screen_adjust(void){service(0);}
 void SetMotionControllerVisible(s32 a){const s32 args[8]={a};record(1,args);effect(1);}
 void PlaySfx(s32 a){const s32 args[8]={a};record(2,args);effect(2);}
 void AddScreenFadeTiles(u32 *p,s32 a,u32 b){assert(p==world.frames[world.frameRoot].ordering.ordering70&&(uintptr_t)p>UINT32_MAX);const s32 args[8]={world.frameRoot,a,(s32)b};record(3,args);effect(3);}
-void options_func_80114A24(void){service(4);}
+void options_init_main_menu(void){service(4);}
 void *AddSpritePrim(u32 *head,void *cursor,s32 x,s32 y,const RrUiUvRect *region,u16 clut,s32 color){unsigned arena,which=99,n=world.sprites;u32 uv;assert(n<4&&head==world.frames[world.frameRoot].ordering.ordering70&&(uintptr_t)cursor>UINT32_MAX);
  for(arena=0;arena<3;arena++)if(cursor==&world.streams[arena].sprites[n])break;assert(arena<3);
  for(unsigned a=0;a<2;a++)for(unsigned b=0;b<2;b++)if(region==&world.regions[a][b])which=a*2+b;assert(which<4);memcpy(&uv,region,4);
@@ -100,7 +100,7 @@ int main(void){assert(sizeof(void*)==8);_Static_assert(offsetof(PacketStream,com
  world.frameRoot=scenario&1;world.badgeRoot=(scenario>>1)&1;world.textRoot=(scenario>>2)&1;world.arena=scenario%3;world.sprites=0;
  for(unsigned i=0;i<2;i++){world.badges[i][0].state10=((scenario+i)&1)?3:11;world.text[i].p=NULL;}
  world.scratch.pointers.cursor=spriteCursor();world.scratch.pointers.order=world.frames[world.frameRoot].ordering.ordering70;
- initial=world;serial=count=seen=0;referenceRun=1;oracle();expected=world;world=initial;serial=0;referenceRun=0;options_func_80115820();assert(count==seen&&!memcmp(&world,&expected,sizeof(world)));
+ initial=world;serial=count=seen=0;referenceRun=1;oracle();expected=world;world=initial;serial=0;referenceRun=0;options_update_screen_adjust();assert(count==seen&&!memcmp(&world,&expected,sizeof(world)));
  }
  for(unsigned i=0;i<9;i++)assert(coverage[i]);for(unsigned i=0;i<5;i++)assert(paths[i]);for(unsigned i=0;i<3;i++)assert(buttonPaths[i]);for(unsigned i=0;i<4;i++)assert(clamps[i]);assert(exitKinds[0]&&exitKinds[1]);
  puts("524288 cases passed; full buttons/timers/layout sweeps, wrapped clamp extrema, fresh full native roots/cursors, complete frame owners and real command packets");

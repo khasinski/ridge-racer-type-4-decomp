@@ -62,7 +62,7 @@ int main(void){unsigned k,i;
   expected.frames[world.selected].ordering70[0]=world.marker;
   expected.active=&world.frames[!world.selected].rectangle;
   expected.screen=expected.post_screen;expected.step=expected.post_step;expected.counter=expected.post_counter;
-  serial_link_func_801155E0();
+  serial_link_exit_race();
   assert(memcmp(&world,&expected,sizeof(world))==0);
   assert((uintptr_t)world.frames[world.selected].ordering70>UINT32_MAX);
  }

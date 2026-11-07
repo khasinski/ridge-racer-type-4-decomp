@@ -39,31 +39,31 @@ struct Event {s32 kind,args[3];u32 hash;};
 static struct World {struct State s;unsigned calls;struct Event events[3];} actual,expected,initial,*w;
 static unsigned scenario,mutation;
 static s32 eventResult,queryResult,writeResult;
-#define serial_link_D_80118ED8 w->s.handle
-#define serial_link_D_80118ED4 w->s.halt
-#define serial_link_D_80118F0C w->s.request
-#define serial_link_D_80118EE8 w->s.pending
+#define serial_link_rx_event w->s.handle
+#define serial_link_shutdown_state w->s.halt
+#define serial_link_tx_state w->s.request
+#define serial_link_rx_pending w->s.pending
 #define serial_link_D_80118EF4 w->s.serial
-#define serial_link_D_80118EF8 w->s.rxcount
-#define serial_link_D_80118EFC w->s.timeouts
-#define serial_link_D_80118F00 w->s.txcount
-#define serial_link_D_80118F04 w->s.failures
-#define serial_link_D_80118EC8 w->s.command
+#define serial_link_rx_count w->s.rxcount
+#define serial_link_rx_miss_count w->s.timeouts
+#define serial_link_tx_count w->s.txcount
+#define serial_link_tx_fail_count w->s.failures
+#define serial_link_sync_state w->s.command
 #define serial_link_D_80118ED0 w->s.peer
-#define serial_link_D_80118EEC w->s.phase
+#define serial_link_local_menu_buttons w->s.phase
 #define RaceState w->s.local
 #define LinkReadHandle w->s.reader
 #define LinkWriteHandle w->s.writer
-#define serial_link_D_80118F08 w->s.read
-#define serial_link_D_80118F09 w->s.write
-#define serial_link_D_80118F8D w->s.selected
-#define serial_link_D_80118EEF w->s.error
+#define serial_link_rx_sequence w->s.read
+#define serial_link_tx_sequence w->s.write
+#define serial_link_rx_cursor w->s.selected
+#define serial_link_checksum_error w->s.error
 #define serial_link_D_80118EF0 w->s.remote
-#define serial_link_D_80118EED w->s.received
-#define serial_link_D_80118EEE w->s.sent
-#define serial_link_D_80118F10 w->s.rx
-#define serial_link_D_80118F80 w->s.tx
-#define serial_link_D_80118F20 w->s.ring
+#define serial_link_remote_menu_buttons w->s.received
+#define serial_link_sent_menu_buttons w->s.sent
+#define serial_link_rx_packet w->s.rx
+#define serial_link_tx_packet w->s.tx
+#define serial_link_rx_ring w->s.ring
 #define LinkLocalInputs w->s.payload
 #define LinkRemoteInputs w->s.incoming
 #define LinkSentLocalInputs w->s.outgoing
@@ -191,8 +191,8 @@ int main(void) {
   for(kind=0;kind<4;kind++) {
    actual=initial;expected=initial;got=want=0;
    w=&actual;
-   if(kind==0)got=serial_link_func_80114E34();else if(kind==1)serial_link_func_80115068();
-   else if(kind==2)serial_link_func_801151E0();else got=serial_link_func_80114D30();
+   if(kind==0)got=serial_link_receive_packet();else if(kind==1)serial_link_update_receive();
+   else if(kind==2)serial_link_update_send();else got=serial_link_send_packet();
    w=&expected;
    if(kind==0)want=reference_receive();else if(kind==1)reference_select();
    else if(kind==2)reference_transmit();else want=reference_packet_send();

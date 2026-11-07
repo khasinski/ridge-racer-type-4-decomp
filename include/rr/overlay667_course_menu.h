@@ -24,11 +24,11 @@ void SeqMuteVolume(void);
 void DrawUiRow(s32);
 void AddScreenFadeTiles(u32 *,s32,u32);
 void UpdateScreenFade(s32);
-void serial_link_func_801161A8(s32);
+void serial_link_init_car_select(s32);
 /* At least25 complete UI rows are accessible. Menu selection is0..2 at
  * indexed accesses; the live highlight count is0..8. LinkRoleSlot is0..1
  * before scene8 reset,so initializer161A8 receives a valid player0 or2. Services may replace
  * roots,selections,counts and resources. Both counters wrap32 and the timer
  * wraps signed16. Driver/loader results are compared as complete32-bit words. */
-void serial_link_func_80117FA8(void);
+void serial_link_update_course_select(void);
 #endif

@@ -1,5 +1,5 @@
 #include "rr/overlay668_resource.h"
-void movie_playback_func_80114910(s32 arg0, RrStrCdFileInfo *arg1, u32 *arg2) {
+void movie_playback_get_movie_file_info(s32 arg0, RrStrCdFileInfo *arg1, u32 *arg2) {
     /* Existing PAL compiler frame reserves this area; it carries no data. */
     u8 reserved_stack10[8];
     /* Emit 0x0FFFFFFF mask in $3 before &SoundState and offset math */

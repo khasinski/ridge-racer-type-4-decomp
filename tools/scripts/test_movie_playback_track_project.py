@@ -66,7 +66,7 @@ int main(void){unsigned i,b,j;_Static_assert(sizeof(void*)==8,"full native point
    samples.table[b][j].z0C=word(~(scenario*0x85EBCA6BU+b*131071+j*193));
   }
   saved=samples;TrackNodes=samples.table[scenario%3];event=0;memcpy(expected,&camera.c,sizeof expected);
-  movie_playback_func_80115460(0);assert(event==2);check();assert(!memcmp(&samples,&saved,sizeof samples));
+  movie_playback_camera_locate_track(0);assert(event==2);check();assert(!memcmp(&samples,&saved,sizeof samples));
   for(i=0;i<16;i++)assert(camera.pre[i]==0xA5&&camera.post[i]==0xA5);
   assert(TrackNodes==samples.table[(scenario+2)%3]);
   printf("%08x %u ",(u32)TrackNodeCount,8*((scenario+2)%3));

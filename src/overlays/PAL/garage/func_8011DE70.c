@@ -2,10 +2,10 @@
 #include "rr/tables.h"
 
 extern RrMenuItemState5C PlayerControllers[];
-s32 garage_func_8011DDD8(s32 mode);
+s32 garage_step_button_repeat(s32 mode);
 
 /* Repeat-key handling for the two garage scroll directions. */
-void garage_func_8011DE70(void)
+void garage_update_button_state(void)
 {
     s32 first;
     s32 second;
@@ -22,53 +22,53 @@ void garage_func_8011DE70(void)
         second |= PlayerControllers[1].buttons02 & 4;
     }
 
-    if (garage_D_80127668.words[1] & 0x10) {
+    if (garage_logo_work.words[1] & 0x10) {
         if (first) {
-            garage_D_80127668.words[1] = (garage_D_80127668.words[1] | 0x10) & ~5;
-            if (garage_func_8011DDD8(1)) {
-                garage_D_80127668.words[1] |= 0x40;
+            garage_logo_work.words[1] = (garage_logo_work.words[1] | 0x10) & ~5;
+            if (garage_step_button_repeat(1)) {
+                garage_logo_work.words[1] |= 0x40;
             } else {
-                garage_D_80127668.words[1] &= ~0x40;
+                garage_logo_work.words[1] &= ~0x40;
             }
         } else {
-            garage_D_80127668.words[1] = (garage_D_80127668.words[1] & ~0x51) | 4;
+            garage_logo_work.words[1] = (garage_logo_work.words[1] & ~0x51) | 4;
         }
     } else {
         if (first) {
-            garage_D_80127668.words[1] = (garage_D_80127668.words[1] | 0x11) & ~4;
-            garage_D_80127668.words[2] = 0;
-            if (garage_func_8011DDD8(1)) {
-                garage_D_80127668.words[1] |= 0x40;
+            garage_logo_work.words[1] = (garage_logo_work.words[1] | 0x11) & ~4;
+            garage_logo_work.words[2] = 0;
+            if (garage_step_button_repeat(1)) {
+                garage_logo_work.words[1] |= 0x40;
             } else {
-                garage_D_80127668.words[1] &= ~0x40;
+                garage_logo_work.words[1] &= ~0x40;
             }
         } else {
-            garage_D_80127668.words[1] &= ~0x55;
+            garage_logo_work.words[1] &= ~0x55;
         }
     }
 
-    if (garage_D_80127668.words[1] & 0x20) {
+    if (garage_logo_work.words[1] & 0x20) {
         if (second) {
-            garage_D_80127668.words[1] = (garage_D_80127668.words[1] | 0x20) & ~0xA;
-            if (garage_func_8011DDD8(0)) {
-                garage_D_80127668.words[1] |= 0x80;
+            garage_logo_work.words[1] = (garage_logo_work.words[1] | 0x20) & ~0xA;
+            if (garage_step_button_repeat(0)) {
+                garage_logo_work.words[1] |= 0x80;
             } else {
-                garage_D_80127668.words[1] &= ~0x80;
+                garage_logo_work.words[1] &= ~0x80;
             }
         } else {
-            garage_D_80127668.words[1] = (garage_D_80127668.words[1] & ~0xA2) | 8;
+            garage_logo_work.words[1] = (garage_logo_work.words[1] & ~0xA2) | 8;
         }
     } else {
         if (second) {
-            garage_D_80127668.words[1] = (garage_D_80127668.words[1] | 0x22) & ~8;
-            garage_D_80127668.words[3] = 0;
-            if (garage_func_8011DDD8(0)) {
-                garage_D_80127668.words[1] |= 0x80;
+            garage_logo_work.words[1] = (garage_logo_work.words[1] | 0x22) & ~8;
+            garage_logo_work.words[3] = 0;
+            if (garage_step_button_repeat(0)) {
+                garage_logo_work.words[1] |= 0x80;
             } else {
-                garage_D_80127668.words[1] &= ~0x80;
+                garage_logo_work.words[1] &= ~0x80;
             }
         } else {
-            garage_D_80127668.words[1] &= ~0xAA;
+            garage_logo_work.words[1] &= ~0xAA;
         }
     }
 }

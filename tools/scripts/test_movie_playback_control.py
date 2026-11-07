@@ -18,7 +18,7 @@ class OverlayControlTest(unittest.TestCase):
         resident = (root / 'tools/scripts/fixtures/legacy/func_8008B3C4.c').read_text()
         resident = resident.replace('#include "rr/library.h"', '')
         query = (root / 'src/overlays/PAL/movie_playback/func_8011688C.c').read_text()
-        query = query.replace('#include "types.h"', '').replace('movie_playback_func_8011688C', 'rr_real_status')
+        query = query.replace('#include "types.h"', '').replace('movie_playback_mdec_status', 'rr_real_status')
         source = r'''
 #include <assert.h>
 #include <stdint.h>
@@ -42,7 +42,7 @@ static struct CallbackWorld {
  u32 calls,tag,mutate;u32 guards[8];
 } cworld,cinitial,cexpected;
 #define IntrDriverTablePtr cworld.active
-u32 *movie_playback_D_80116E54;
+u32 *movie_playback_mdec_ctrl_reg;
 ''' + resident + query + bodies + r'''
 static u32 seed=0x163fc;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -56,22 +56,22 @@ static void initialize(u32 k){
  world.status=(next()&~0x21000000U)|((k&4)?0x01000000U:0)|((k&8)?0x20000000U:0);
  world.input_result=k%16==0?0:k%16==4?-1:signed32(next());
  world.output_result=k%16==0?-1:k%16==4?0:signed32(next());
- world.mutate=k&1;movie_playback_D_80116E54=&world.status;
+ world.mutate=k&1;movie_playback_mdec_ctrl_reg=&world.status;
 }
-void movie_playback_func_80116648(const void *command,u32 words){
+void movie_playback_mdec_in(const void *command,u32 words){
  const RrStrCommandHeader *header=command;
  assert(command==&world.header);
  world.command_calls++;world.last_pointer=command;world.last_count=words;
  world.observed_header=header->word;
  if(world.mutate)world.header.word^=0xa5a55a5aU;
 }
-void movie_playback_func_801166D8(void *output,u32 words){
+void movie_playback_mdec_out(void *output,u32 words){
  world.output_calls++;world.last_pointer=output;world.last_count=words;
  *(u32*)output^=0x13579bdfU;
 }
-s32 movie_playback_func_80116764(void){world.input_waits++;world.status^=0x31415926U;return world.input_result;}
-s32 movie_playback_func_801167F8(void){world.output_waits++;world.status^=0x27182818U;return world.output_result;}
-u32 movie_playback_func_8011688C(void){u32 value=rr_real_status();world.reads++;world.status^=0xffffffffU;return value;}
+s32 movie_playback_mdec_in_sync(void){world.input_waits++;world.status^=0x31415926U;return world.input_result;}
+s32 movie_playback_mdec_out_sync(void){world.output_waits++;world.status^=0x27182818U;return world.output_result;}
+u32 movie_playback_mdec_status(void){u32 value=rr_real_status();world.reads++;world.status^=0xffffffffU;return value;}
 static int flags(void){
  u32 k,endian=0x12345678;
  assert(*(u8*)&endian==0x78 && sizeof(void*)==8 && (uintptr_t)&world>UINT32_MAX);
@@ -83,7 +83,7 @@ static int flags(void){
   world.last_count=k;world.observed_header=word;
   if(world.mutate)world.header.word^=0xa5a55a5aU;
   memcpy(&expected,&world,sizeof(world));memcpy(&world,&initial,sizeof(world));
-  movie_playback_func_801163FC(&world.header,options);
+  movie_playback_dec_dct_in(&world.header,options);
   if(memcmp(&world,&expected,sizeof(world))){fprintf(stderr,"flags case %u\n",k);return 1;}
  }
  puts("65536 native STR flag cases with UBSan passed");return 0;
@@ -97,7 +97,7 @@ static int output(void){
   world.output_calls=1;world.last_pointer=world.output+index;world.last_count=words;
   world.output[index]^=0x13579bdfU;
   memcpy(&expected,&world,sizeof(world));memcpy(&world,&initial,sizeof(world));
-  movie_playback_func_80116478(world.output+index,words);
+  movie_playback_dec_dct_out(world.output+index,words);
   if(memcmp(&world,&expected,sizeof(world))){fprintf(stderr,"output case %u\n",k);return 1;}
  }
  puts("65536 native STR output-forwarding cases with UBSan passed");return 0;
@@ -115,7 +115,7 @@ static int status(int input){
    wanted=(world.status>>(input?29:24))&1U;world.reads=1;world.status^=0xffffffffU;
   }
   memcpy(&expected,&world,sizeof(world));memcpy(&world,&initial,sizeof(world));
-  result=input?movie_playback_func_80116498(mode):movie_playback_func_801164D4(mode);
+  result=input?movie_playback_dec_dct_in_sync(mode):movie_playback_dec_dct_out_sync(mode);
   if(result!=wanted || memcmp(&world,&expected,sizeof(world))){fprintf(stderr,"status case %u type %d\n",k,input);return 1;}
  }
  puts(input?"65536 native STR input-status cases with UBSan passed":"65536 native STR output-status cases with UBSan passed");return 0;
@@ -148,7 +148,7 @@ static int callbacks(void){
   cworld.slots[0]=input;cworld.calls++;cworld.last=input;cworld.tag=tag;
   if(cworld.mutate)cworld.active=&cworld.drivers[tag==1?1:0];
   memcpy(&cexpected,&cworld,sizeof(cworld));memcpy(&cworld,&cinitial,sizeof(cworld));
-  touches=0;got=movie_playback_func_80116510(input);
+  touches=0;got=movie_playback_dec_dct_in_callback(input);
   if(got!=old || touches || memcmp(&cworld,&cexpected,sizeof(cworld))){fprintf(stderr,"callback0 case %u\n",k);return 1;}
   if(got)got();
   assert(touches==(old==callback_a?1:old==callback_b?2:old==callback_c?4:0));

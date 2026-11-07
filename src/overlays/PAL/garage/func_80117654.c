@@ -1,6 +1,6 @@
 #include "rr/overlay662_history_labels.h"
 
-void garage_func_80117654(u32 *arg0, void *arg1, s32 arg2) {
+void garage_draw_car_number_label(u32 *arg0, void *arg1, s32 arg2) {
     char buf[8];
     s32 i;
     s32 x;
@@ -21,8 +21,8 @@ void garage_func_80117654(u32 *arg0, void *arg1, s32 arg2) {
         buf[i] = 0;
     }
     for (i = 0; i < 3; i++) {
-        arg1 = AddSpritePrim(arg0, arg1, x, y, &UiFontGlyphs[garage_D_80126218[i]], 0x7FF8, 0);
-        x += UiFontGlyphs[garage_D_80126218[i]].w + 2;
+        arg1 = AddSpritePrim(arg0, arg1, x, y, &UiFontGlyphs[garage_car_number_label_glyphs[i]], 0x7FF8, 0);
+        x += UiFontGlyphs[garage_car_number_label_glyphs[i]].w + 2;
         if (i == 2) {
             FormatDecimalDigits(buf, SelectionRows.bytes[2] + 1, 1);
             arg1 = AddTextSprites(arg0, arg1, x, y, buf, flag + 0x7FF8, 0, 0);

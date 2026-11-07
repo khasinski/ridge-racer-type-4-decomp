@@ -21,7 +21,7 @@ typedef struct {
 
 /* Input is halfword-aligned; matrix source is word-aligned. Capture all32
  * source bytes before the ordered basis/color writes, including aliasing. */
-void options_func_80116358(const RrPreviewMatrixWorkspace *source,
+void options_set_preview_light_matrix(const RrPreviewMatrixWorkspace *source,
     const RrPreviewLightInput36 *input);
 RR_ASSERT_SIZE(RrPreviewColor4,4);
 RR_ASSERT_SIZE(RrPreviewVector8,8);

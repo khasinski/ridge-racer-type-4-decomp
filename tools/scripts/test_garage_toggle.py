@@ -23,8 +23,8 @@ class OverlayToggleTest(unittest.TestCase):
 #include "rr/overlay662_garage.h"
 static struct World {u32 before[8];RrGarageSelectionPrefix state;
  RrGarageWorkingStorage work;u32 calls; s32 args[4];u8 next_selector;u32 after[8];} world,expected;
-#define garage_D_801276A8 world.state
-#define garage_D_80127668 world.work
+#define garage_logo_state world.state
+#define garage_logo_work world.work
 int PlaySfxVolPan(s32 a,s32 b,s32 c,s32 d){
  world.calls++;world.args[0]=a;world.args[1]=b;world.args[2]=c;world.args[3]=d;
  world.state.active21=world.next_selector;world.work.words[1]^=2;
@@ -49,7 +49,7 @@ int main(void){unsigned k,i;
    expected.state.active21=world.next_selector==0?1:0;
    expected.work.words[1]^=2;
   }
-  garage_func_801256D4();
+  garage_alt_undo_toggle();
   assert(memcmp(&world,&expected,sizeof(world))==0);
   assert((uintptr_t)&world>UINT32_MAX);
  }

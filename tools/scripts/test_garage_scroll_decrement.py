@@ -28,9 +28,9 @@ class Overlay662ScrollDecrementTest(unittest.TestCase):
 #include "rr/overlay662_scroll_actions.h"
 #include "rr/audio_pan.h"
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;RrGarageButton buttons[46];RrGarageRectangle *table[46];u32 tail[4];} world,expected,checkpoint;
-#define garage_D_801276A8 world.garage
-#define garage_D_80127668 world.work
-#define garage_D_801273B8 world.table
+#define garage_logo_state world.garage
+#define garage_logo_work world.work
+#define garage_logo_buttons world.table
 '''+data+bodies+r'''
 static unsigned axis,slot,bits,path,expected_sound,calls;static s32 sound_program;static uint64_t cases;
 static u32 rng=0x22FB4;static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
@@ -58,7 +58,7 @@ int main(void){unsigned j,n;for(bits=0;bits<65536;bits++)for(axis=0;axis<2;axis+
  world.work.words[0]=(next()&~8U)|((path&1)?8U:0U);
  world.work.words[1]=(next()&~0x45U)|((path&2)?4U:0U)|((path&4)?1U:0U)|((path&8)?0x40U:0U);
  world.work.points.cursor14=(RrGaragePoint){axis?((path&16)?215:221):((path&16)?81:90),axis?69:335};
- expected_sound=calls=0;memcpy(&expected,&world,sizeof(world));reference();if(axis)garage_func_80122FB4();else garage_func_80123228();
+ expected_sound=calls=0;memcpy(&expected,&world,sizeof(world));reference();if(axis)garage_scroll_up_button();else garage_scroll_left_button();
  assert(calls==expected_sound);assert(memcmp(&world,&expected,sizeof(world))==0);assert((uintptr_t)world.table[slot]>UINT32_MAX);cases++;
  }assert(cases==4194304ULL);return 0;}
 '''

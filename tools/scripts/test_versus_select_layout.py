@@ -59,10 +59,10 @@ static u8 resources[3][0x2D100],arenas[3][128],packets[128];static u32 orders[32
 #define CourseIndexMap w->s.map
 #define SelectionPlayer w->s.player
 #define versus_select_D_80118438 w->s.local
-#define versus_select_D_80118440 w->s.counts
-#define versus_select_D_8011844C w->s.courses
-#define versus_select_D_80118450 w->s.groups
-#define versus_select_D_80118458 w->s.table
+#define versus_select_choice_counts w->s.counts
+#define versus_select_choice_index w->s.courses
+#define versus_select_choice_group w->s.groups
+#define versus_select_choice_tables w->s.table
 ''' + helpers + bodies + r'''
 static s32 word(u32 u){s32 v;memcpy(&v,&u,4);return v;}
 static s16 half(u32 u){u16 n=u;s16 v;memcpy(&v,&n,2);return v;}
@@ -113,7 +113,7 @@ static void expected(void){unsigned i,p,g;State *s=&w->s;
 int main(void){unsigned i;assert((uintptr_t)resources>UINT32_MAX);
  for(scenario=0;scenario<65536;scenario++)for(kind=0;kind<2;kind++)for(mutation=0;mutation<2;mutation++){
   memset(&initial,0,sizeof(initial));w=&initial;effect(0);w->s.selection=half(scenario);for(i=0;i<4;i++){w->s.guard[i]=scenario+i;w->s.tail[i]=~(scenario+i);}actual=reference=initial;
-  w=&actual;versus_select_func_80115598(kind);
+  w=&actual;versus_select_init_selection_screen(kind);
   {unsigned p,g;for(p=0;p<2;p++)for(g=0;g<2;g++){assert(w->s.counts[p][g]>=0&&w->s.counts[p][g]<=9);seenCounts|=1U<<w->s.counts[p][g];}}w=&reference;expected();assert(!memcmp(&actual,&reference,sizeof(actual)));
  }
  assert(seenCounts==1023);{unsigned p,g,c;for(p=0;p<2;p++)for(g=0;g<2;g++)for(c=0;c<9;c++)assert(seenChoices[p][g][c]);}return 0;

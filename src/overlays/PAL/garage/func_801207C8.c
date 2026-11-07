@@ -1,6 +1,6 @@
 #include "rr/overlay662_tool_action.h"
 
-void garage_func_801207C8(s32 action)
+void garage_swap_layers_action(s32 action)
 {
     u32 *buffer;
     register u32 *image __asm__("$4");
@@ -15,59 +15,59 @@ void garage_func_801207C8(s32 action)
     if (action > 0) {
         switch (action) {
         case 1:
-            garage_D_801276A8.selectorsB8[0] = 2;
-            garage_D_801276A8.selectorsB8[3] = 2;
-            garage_func_8011E5C0(0);
+            garage_logo_state.selectorsB8[0] = 2;
+            garage_logo_state.selectorsB8[3] = 2;
+            garage_navigate_to_option(0);
             break;
         case 2:
-            garage_D_801276A8.selectorsB8[0] = 1;
-            garage_D_801276A8.selectorsB8[3] = 1;
-            garage_func_8011E5C0(0);
+            garage_logo_state.selectorsB8[0] = 1;
+            garage_logo_state.selectorsB8[3] = 1;
+            garage_navigate_to_option(0);
             break;
         case 4:
-            garage_D_801276A8.selectorsB8[1] = 3;
-            garage_D_801276A8.selectorsB8[2] = 3;
-            garage_func_8011E5C0(1);
+            garage_logo_state.selectorsB8[1] = 3;
+            garage_logo_state.selectorsB8[2] = 3;
+            garage_navigate_to_option(1);
             break;
         case 8:
-            switch (garage_D_801276A8.optionIndices98.flat[0]) {
+            switch (garage_logo_state.optionIndices98.flat[0]) {
             case 1:
             case 2:
-                garage_D_801276A8.optionIndices98.flat[3] = 0;
+                garage_logo_state.optionIndices98.flat[3] = 0;
                 /* Fall through: both paths select navigation row zero. */
             case 0:
             case 3:
-                garage_D_801276A8.selectorsB8[1] = 0;
+                garage_logo_state.selectorsB8[1] = 0;
                 break;
             case 4:
-                garage_D_801276A8.selectorsB8[1] = 1;
+                garage_logo_state.selectorsB8[1] = 1;
                 break;
             }
-            garage_D_801276A8.selectorsB8[2] = 0;
-            garage_func_8011E5C0(1);
+            garage_logo_state.selectorsB8[2] = 0;
+            garage_navigate_to_option(1);
             break;
         }
     } else {
-        if (garage_func_8011E734(15) == 0 &&
-            (garage_D_80127668.words[1] & 1)) {
-            if (garage_D_80127668.words[0] & 4) {
-                garage_func_8011E694();
+        if (garage_cursor_outside_button(15) == 0 &&
+            (garage_logo_work.words[1] & 1)) {
+            if (garage_logo_work.words[0] & 4) {
+                garage_save_cursor_selection();
             } else {
-                garage_D_801276A8.optionIndices98.flat[0] = 4;
-                garage_D_801276A8.optionIndices98.flat[7] = 0;
-                garage_D_801276A8.saved64[0] = 15;
-                garage_D_801276A8.saved64[1] = 0;
-                garage_D_801276A8.saved64[2] = 4;
-                garage_D_801276A8.saved64[3] = 4;
-                garage_D_801276A8.saved64[4] = 0;
+                garage_logo_state.optionIndices98.flat[0] = 4;
+                garage_logo_state.optionIndices98.flat[7] = 0;
+                garage_logo_state.saved64[0] = 15;
+                garage_logo_state.saved64[1] = 0;
+                garage_logo_state.saved64[2] = 4;
+                garage_logo_state.saved64[3] = 4;
+                garage_logo_state.saved64[4] = 0;
             }
-            garage_func_8011D120();
-            ((RrGarageButton *)garage_D_801273B8[15])->timer0E = 7;
+            garage_save_undo_copy();
+            ((RrGarageButton *)garage_logo_buttons[15])->timer0E = 7;
             PlaySfx(1);
 
             /* Preserve the observed pointer access order after sound.
              * Register declarations retain allocation, emitting no instructions. */
-            state = &garage_D_801276A8;
+            state = &garage_logo_state;
             selected = state->active21;
             buffer = state->buffers24[selected];
             tim = state->tim2C[selected];

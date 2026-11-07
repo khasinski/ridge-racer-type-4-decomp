@@ -1,43 +1,43 @@
 #include "rr/overlay662_image_stroke.h"
 
-void garage_func_80124C94(void) {
+void garage_line_stroke(void) {
     u32 *img;
 
-    if (garage_D_80127668.words[0] & 8) {
-        if (garage_D_80127668.words[1] & 4) {
-            garage_D_801276A8.config20 = 0;
-            garage_D_80127668.words[0] &= ~8;
-            garage_func_8011E7C0(13, 63, 294, 346);
-            if (garage_D_801276A8.layer23 == 0) {
-                img = garage_D_801276A8.image38[garage_D_801276A8.active21];
+    if (garage_logo_work.words[0] & 8) {
+        if (garage_logo_work.words[1] & 4) {
+            garage_logo_state.config20 = 0;
+            garage_logo_work.words[0] &= ~8;
+            garage_set_cursor_bounds(13, 63, 294, 346);
+            if (garage_logo_state.layer23 == 0) {
+                img = garage_logo_state.image38[garage_logo_state.active21];
             } else {
-                img = garage_D_801276A8.image40[garage_D_801276A8.active21];
+                img = garage_logo_state.image40[garage_logo_state.active21];
             }
         } else {
-            img = garage_D_801276A8.scratch34;
+            img = garage_logo_state.scratch34;
         }
     } else {
-        if (garage_func_8011E6C8(82, 71, 128, 256) != 0) {
+        if (garage_cursor_outside_rect(82, 71, 128, 256) != 0) {
             return;
         }
-        if (!(garage_D_80127668.words[1] & 1)) {
+        if (!(garage_logo_work.words[1] & 1)) {
             return;
         }
-        garage_D_801276A8.config20 = 1;
-        garage_D_80127668.words[4] = 52;
-        garage_D_80127668.words[0] |= 8;
-        garage_func_8011E7C0(82, 71, 128, 256);
-        garage_func_8011D120();
-        img = garage_D_801276A8.scratch34;
-        garage_D_801277A0.x = garage_D_801276A8.reset08[0] + garage_D_801276A8.reset08[2];
-        garage_D_801277A0.y = garage_D_801276A8.reset08[1] + garage_D_801276A8.reset08[3];
+        garage_logo_state.config20 = 1;
+        garage_logo_work.words[4] = 52;
+        garage_logo_work.words[0] |= 8;
+        garage_set_cursor_bounds(82, 71, 128, 256);
+        garage_save_undo_copy();
+        img = garage_logo_state.scratch34;
+        garage_line_start_point.x = garage_logo_state.reset08[0] + garage_logo_state.reset08[2];
+        garage_line_start_point.y = garage_logo_state.reset08[1] + garage_logo_state.reset08[3];
     }
-    garage_func_801259FC(
+    garage_draw_brush_line(
         img,
-        garage_D_801277A0.x,
-        garage_D_801277A0.y,
-        garage_D_801276A8.reset08[0] + garage_D_801276A8.reset08[2],
-        garage_D_801276A8.reset08[1] + garage_D_801276A8.reset08[3],
-        garage_D_801276A8.config22,
-        garage_D_801276A8.config1D);
+        garage_line_start_point.x,
+        garage_line_start_point.y,
+        garage_logo_state.reset08[0] + garage_logo_state.reset08[2],
+        garage_logo_state.reset08[1] + garage_logo_state.reset08[3],
+        garage_logo_state.config22,
+        garage_logo_state.config1D);
 }

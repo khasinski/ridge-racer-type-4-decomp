@@ -10,7 +10,7 @@ extern RrGarageTimImage SaveDataBackup;
  * struct copy requires disjoint owners or the exact same owner. Palette is a
  * genuine32-byte RrPalette16 owner. Image input covers512 words and may alias
  * the destination; compositor reads observe all preceding TIM/header writes. */
-void garage_func_80126044(void);
+void garage_build_save_tim(void);
 RR_ASSERT_SIZE(RrGarageTimBytes,0x840);
 RR_ASSERT_SIZE(RrGarageTimImage,0x840);
 RR_ASSERT_SIZE(RrGarageTimLayout,0x840);

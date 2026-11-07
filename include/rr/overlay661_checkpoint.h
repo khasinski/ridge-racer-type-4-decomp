@@ -7,5 +7,5 @@
  * it is at least6. Services preserve this notification-state contract. This
  * keeps the mask shift within0..18, as required by the existing25-row table.
  * The latch is reloaded after a sequence callback before its bit is set. */
-void versus_select_func_80114924(RrRaceCheckpointVehicle *vehicle);
+void versus_select_update_lap_progress(RrRaceCheckpointVehicle *vehicle);
 #endif

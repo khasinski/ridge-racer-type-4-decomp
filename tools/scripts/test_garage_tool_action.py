@@ -26,9 +26,9 @@ _Static_assert(sizeof(RrGarageWorkingStorage)==64,"complete work owner");
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;RrGarageRectangle rects[46],*table[46];u32 tail[4];} world,expected,map_checkpoint,sound_checkpoint,root_checkpoint;
 static unsigned scenario,expected_map,expected_sound,expected_root,map_calls,sound_calls,root_calls;
 static s32 mapped_mode,root_argument,root_result;
-#define garage_D_801276A8 world.garage
-#define garage_D_80127668 world.work
-#define garage_D_801273B8 world.table
+#define garage_logo_state world.garage
+#define garage_logo_work world.work
+#define garage_logo_buttons world.table
 '''+bodies+r'''
 static u32 rng=0x1F4C0;
 static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
@@ -40,7 +40,7 @@ static void sound_effect(struct World *w){
  w->work.words[0]=scenario^0xABCDEF01U;w->work.points.cursor14.x=half(scenario*73U+17);w->work.points.cursor14.y=half(scenario*251U+19);
 }
 static void root_effect(struct World *w){w->work.points.word28=0x13572468U;w->work.points.first20.x=half(scenario+11);w->work.points.second24.y=half(scenario+13);w->work.words[0]^=0x98765432U;}
-void garage_func_8011E5C0(s32 mode){assert(expected_map==1&&map_calls++==0&&mode==mapped_mode);assert(memcmp(&world,&map_checkpoint,sizeof(world))==0);map_effect(&world);}
+void garage_navigate_to_option(s32 mode){assert(expected_map==1&&map_calls++==0&&mode==mapped_mode);assert(memcmp(&world,&map_checkpoint,sizeof(world))==0);map_effect(&world);}
 void TriggerSfx(s32 program,s32 level,s32 pan,s32 pitch,s32 voice){
  assert(expected_sound==1&&sound_calls++==0);assert(program==3&&level==127&&pan==64&&pitch==0x1E00&&voice==-1);
  assert(memcmp(&world,&sound_checkpoint,sizeof(world))==0);sound_effect(&world);
@@ -81,7 +81,7 @@ int main(void){unsigned path,j,k;uint64_t cases=0;
   world.work.points.cursor14=(RrGaragePoint){(scenario&4)?146:-1,199};
   switch(path){case 0:mode=word(0x80000000U|scenario|(scenario<<16));break;case 1:mode=0;break;case 2:mode=1;break;case 3:mode=2;break;case 4:mode=4;break;case 5:mode=8;break;case 6:mode=3;break;default:mode=scenario%4==0?65536:scenario%4==1?INT32_MAX:word(next());break;}
   expected_map=expected_sound=expected_root=map_calls=sound_calls=root_calls=0;
-  memcpy(&expected,&world,sizeof(world));reference(mode);garage_func_8011F4C0(mode);
+  memcpy(&expected,&world,sizeof(world));reference(mode);garage_select_move_tool(mode);
   assert(map_calls==expected_map&&sound_calls==expected_sound&&root_calls==expected_root);
   assert(memcmp(&world,&expected,sizeof(world))==0);assert((uintptr_t)&world.work.points.first20>UINT32_MAX);cases++;
  }

@@ -40,7 +40,7 @@ int main(void){unsigned type,x,y,i;
    if(dx || dy){e.out.x=dx;e.out.y=dy;}
   }
   assert((uintptr_t)&w.out>UINT32_MAX);
-  garage_func_8011D58C(&w.out);
+  garage_read_mouse_motion(&w.out);
   assert(calls==1 && memcmp(&w,&e,sizeof(w))==0);
  }
  return 0;

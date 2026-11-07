@@ -9,7 +9,7 @@ extern void SaveCarSnapshots(s32);
 extern void SoundSetMasterVolume(s16, s16);
 extern void *SoundQueueEnqueue(s32, s32);
 
-void serial_link_func_80115508(RrRaceCheckpointVehicle *arg0) {
+void serial_link_update_checkpoint(RrRaceCheckpointVehicle *arg0) {
     RrRaceVehicleControl *sub = &arg0->control;
     /* MIPS sums and products retain their low 32 bits. */
     if ((s32)((u32)arg0->second + (u32)arg0->first) >= (s32)((u32)(s32)sub->steering94.count22 * (u32)TrackLength)) {

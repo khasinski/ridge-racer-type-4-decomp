@@ -34,8 +34,8 @@ static struct World {
  RrGarageSpriteRecord *lookup[72];u32 order[704];RrSpritePacket packets[4];u32 tail[4];
 } world,expected;
 #define RR_GPU_SCRATCH (&world.scratch)
-#define garage_D_80126260 world.records
-#define garage_D_80127548 world.lookup
+#define garage_sprite_records world.records
+#define garage_logo_sprites world.lookup
 '''+data+child+body+r'''
 static u32 rng=0x1C00C;
 static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
@@ -52,7 +52,7 @@ static void sprite(unsigned slot,unsigned index,s32 x,s32 y){
 }
 int main(void){unsigned bits,channel,j,value,tens;uint64_t cases=0;
  memset(&world,0,sizeof(world));memcpy(world.records,original,sizeof(original));world.scratch.order=world.order;
- assert(garage_func_8011B2D4(-1,0,0,0)==0);
+ assert(garage_add_ui_sprite(-1,0,0,0)==0);
  for(bits=0;bits<65536;bits++)for(channel=0;channel<3;channel++){
   value=bits%32;tens=value/10+59;world.lookup[tens]->width04=(u16)bits;
   for(j=0;j<704;j++)world.order[j]=next();
@@ -64,7 +64,7 @@ int main(void){unsigned bits,channel,j,value,tens;uint64_t cases=0;
   sprite(1,tens,133,(s32)(356+channel*18));
   /* Wire16 position wraps after adding the full unsigned16 descriptor width. */
   {u16 raw=(u16)(133+bits);s16 position;memcpy(&position,&raw,2);sprite(2,value%10+59,position,(s32)(356+channel*18));}
-  garage_func_8011C00C((s32)channel,(s32)value);
+  garage_draw_color_channel((s32)channel,(s32)value);
   assert(memcmp(&world,&expected,sizeof(world))==0);
   assert(world.scratch.cursor==(u8*)&world.packets[3]);assert((uintptr_t)world.scratch.cursor>UINT32_MAX);cases++;
  }

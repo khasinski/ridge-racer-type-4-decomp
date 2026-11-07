@@ -1,5 +1,5 @@
 #include "types.h"
-s32 movie_playback_func_8011596C(s16 arg0) {
+s32 movie_playback_credits_row_fade(s16 arg0) {
     if (arg0 >= 157) {
         return 0;
     }

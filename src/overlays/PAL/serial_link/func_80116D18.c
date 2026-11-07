@@ -12,15 +12,15 @@ extern s32 UiRowCount;
 extern s32 MenuActivePlayerPlusOne[1];
 extern s16 MenuResultCode;
 extern s16 LinkRoleSlot;
-extern u8 serial_link_D_80118E10[4];
-extern s8 serial_link_D_80118E14[2][4];
-extern s8 serial_link_D_80118E1C[2][2][4];
+extern u8 serial_link_page_item_counts[4];
+extern s8 serial_link_page_action_rows[2][4];
+extern s8 serial_link_page_ui_rows[2][2][4];
 s32 ExitOnLinkLost(void);
 void UpdateLinkHandshake(s32);
-void serial_link_func_80116BB4(void);
-void serial_link_func_80117EF8(void);
+void serial_link_load_player_choice(void);
+void serial_link_init_course_select(void);
 
-void serial_link_func_80116D18(void) {
+void serial_link_update_car_select(void) {
     RrPreviewColor color;
     s16 modelReady;
     s32 drawFlags;
@@ -62,7 +62,7 @@ void serial_link_func_80116D18(void) {
     modelReady = 1;
     switch (ModeSubState) {
     case 7:
-        row = serial_link_D_80118E1C[SelectionPlayer & 1][(s16)(CourseMenuPage[SelectionPlayer & 1] ^ 1)][0];
+        row = serial_link_page_ui_rows[SelectionPlayer & 1][(s16)(CourseMenuPage[SelectionPlayer & 1] ^ 1)][0];
         if (UiRows[row].byte14 == 5) {
             ModeSubState = 0;
         }
@@ -82,11 +82,11 @@ void serial_link_func_80116D18(void) {
             PlayerCourseChoices[SelectionPlayer].second = CourseMenuChoices[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][CourseMenuCursor[SelectionPlayer & 1]].second;
             ImageRows[1] = 6;
         }
-        row = serial_link_D_80118E1C[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][MenuCursor];
+        row = serial_link_page_ui_rows[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][MenuCursor];
         UiRows[row].cells[0] = 0;
         StepMenuValue((SelectionPlayer & 1) * 4, 2, (char *)&MenuCursor,
-                      serial_link_D_80118E10[CourseMenuPage[SelectionPlayer & 1]], 0);
-        row = serial_link_D_80118E1C[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][MenuCursor];
+                      serial_link_page_item_counts[CourseMenuPage[SelectionPlayer & 1]], 0);
+        row = serial_link_page_ui_rows[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][MenuCursor];
         UiRows[row].cells[0] = 2;
         state = UiRows[row].byte14;
         cancel = 0;
@@ -99,14 +99,14 @@ void serial_link_func_80116D18(void) {
         if (PlayerControllers[SelectionPlayer & 1].a != 0) {
             PlaySfx(1);
             UiRows[row].cells[0] = 1;
-            if (MenuCursor == serial_link_D_80118E14[CourseMenuPage[SelectionPlayer & 1]][0]) {
+            if (MenuCursor == serial_link_page_action_rows[CourseMenuPage[SelectionPlayer & 1]][0]) {
                 CourseMenuPhase = state;
                 ModeSubState = 4;
-            } else if (MenuCursor == serial_link_D_80118E14[CourseMenuPage[SelectionPlayer & 1]][1] && CourseMenuChoices[SelectionPlayer][1][0].glyph != -1) {
+            } else if (MenuCursor == serial_link_page_action_rows[CourseMenuPage[SelectionPlayer & 1]][1] && CourseMenuChoices[SelectionPlayer][1][0].glyph != -1) {
                 CourseMenuCursor[SelectionPlayer & 1] = 0;
                 MenuCursor = 0;
                 for (i = 0; i < 4; i++) {
-                    row = serial_link_D_80118E1C[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][i];
+                    row = serial_link_page_ui_rows[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][i];
                     if (row == -1) {
                         break;
                     }
@@ -115,7 +115,7 @@ void serial_link_func_80116D18(void) {
                     }
                 }
                 for (i = 0; i < 4; i++) {
-                    row = serial_link_D_80118E1C[SelectionPlayer & 1][(s16)(CourseMenuPage[SelectionPlayer & 1] ^ 1)][i];
+                    row = serial_link_page_ui_rows[SelectionPlayer & 1][(s16)(CourseMenuPage[SelectionPlayer & 1] ^ 1)][i];
                     if (row == -1) {
                         break;
                     }
@@ -123,9 +123,9 @@ void serial_link_func_80116D18(void) {
                 }
                 ModeSubState = 7;
                 CourseMenuPage[SelectionPlayer & 1] ^= 1;
-            } else if (MenuCursor == serial_link_D_80118E14[CourseMenuPage[SelectionPlayer & 1]][2]) {
+            } else if (MenuCursor == serial_link_page_action_rows[CourseMenuPage[SelectionPlayer & 1]][2]) {
                 cancel = 1;
-            } else if (MenuCursor == serial_link_D_80118E14[CourseMenuPage[SelectionPlayer & 1]][3]) {
+            } else if (MenuCursor == serial_link_page_action_rows[CourseMenuPage[SelectionPlayer & 1]][3]) {
                 for (i = 0; i < UiRowCount; i++) {
                     if (UiRows[i].byte14 == 2) {
                         UiRows[i].byte14 = 3;
@@ -154,14 +154,14 @@ void serial_link_func_80116D18(void) {
         }
         break;
     case 3:
-        row = serial_link_D_80118E1C[(SelectionPlayer - 1) & 1][1][3] + 1;
+        row = serial_link_page_ui_rows[(SelectionPlayer - 1) & 1][1][3] + 1;
         if (UiRows[row].byte14 == 5) {
             CourseMenuPhase = 1;
             ModeSubState = 0;
         }
         break;
     case 4:
-        row = serial_link_D_80118E1C[SelectionPlayer & 1][1][3] + 1;
+        row = serial_link_page_ui_rows[SelectionPlayer & 1][1][3] + 1;
         state = UiRows[row].byte14;
         if (state != 2) {
             break;
@@ -175,7 +175,7 @@ void serial_link_func_80116D18(void) {
             UiRows[row].byte14 = 3;
             UiRows[row + 1].byte14 = 3;
             for (i = 0; i < 4; i++) {
-                row = serial_link_D_80118E1C[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][i];
+                row = serial_link_page_ui_rows[SelectionPlayer & 1][CourseMenuPage[SelectionPlayer & 1]][i];
                 if (row == -1) {
                     break;
                 }
@@ -198,7 +198,7 @@ void serial_link_func_80116D18(void) {
             }
             ModeSubState = 3;
             SelectionPlayer = SelectionPlayer + 1;
-            serial_link_func_80116BB4();
+            serial_link_load_player_choice();
         } else if (PlayerControllers[SelectionPlayer & 1].b != 0) {
             PlaySfx(2);
             UiRows[row].byte14 = 3;
@@ -208,18 +208,18 @@ void serial_link_func_80116D18(void) {
         break;
     case 5:
         SetMenuFrameOptions(0, 1, 1);
-        row = serial_link_D_80118E1C[SelectionPlayer & 1][1][3] + 1;
+        row = serial_link_page_ui_rows[SelectionPlayer & 1][1][3] + 1;
         closing = UiRows[row].byte14;
         if (closing == 5 && (s8)ImageRows[1] == closing) {
             ResetScreenCounters();
-            serial_link_func_80117EF8();
+            serial_link_init_course_select();
             ModeGroup = 1;
             ModeId = 61;
             ModeSubState = 0;
         }
         break;
     case 6:
-        row = serial_link_D_80118E1C[SelectionPlayer & 1][1][3] + 1;
+        row = serial_link_page_ui_rows[SelectionPlayer & 1][1][3] + 1;
         if (UiRows[row].byte14 == 5) {
             ModeSubState = 0;
             CourseMenuPhase = 1;
@@ -265,7 +265,7 @@ draw_rows:
     if (ModeSubState == 7) {
         page = CourseMenuPage[player & 1];
         other = page ^ 1;
-        row = serial_link_D_80118E1C[player & 1][(s16)other][0];
+        row = serial_link_page_ui_rows[player & 1][(s16)other][0];
         if (UiRows[row].byte14 == 5) {
             other = page;
         }
@@ -273,14 +273,14 @@ draw_rows:
         other = CourseMenuPage[player & 1];
     }
     for (i = 0; i < 4; i++) {
-        row = serial_link_D_80118E1C[player & 1][(s16)other][i];
+        row = serial_link_page_ui_rows[player & 1][(s16)other][i];
         if (row == -1) {
             break;
         }
         DrawUiRow(row);
     }
     if (CourseMenuPhase == 2) {
-        row = serial_link_D_80118E1C[player & 1][1][3];
+        row = serial_link_page_ui_rows[player & 1][1][3];
         DrawUiRow(row + 1);
         DrawUiRow(row + 2);
     }

@@ -1,5 +1,5 @@
 #include "rr/overlay667_status.h"
-s32 serial_link_func_8011492C(s32 arg0, u32 arg1) {
+s32 serial_link_sio_timeout_check(s32 arg0, u32 arg1) {
     /* ASM_BARRIER: Hold constant 2 and return value in $2 so dbr_schedule fills bne delay slot */
     register s32 ret __asm__("$2") = 2;
     if (arg0 == ret) {

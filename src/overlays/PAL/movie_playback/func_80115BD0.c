@@ -41,7 +41,7 @@ typedef struct {
 #define RR_STR_SCRATCH_CURSOR (*(u32 **)0x1F800000)
 
 /* Queues the letterbox drawing-environment / fade packets for one pass. */
-void movie_playback_func_80115BD0(s32 mode) {
+void movie_playback_add_letterbox_packets(s32 mode) {
     RrStrDrawEnvironment env;
     u32 *packet;
     u32 *ot;

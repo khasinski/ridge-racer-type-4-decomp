@@ -1,14 +1,14 @@
 #include "rr/menu_overlay_runtime.h"
 
 typedef struct {s16 value;u16 reserved;} RrGarageCarSlot;
-extern s16 garage_D_801272BA;
-extern s16 garage_D_801272D4,garage_D_801272E0,garage_D_801272E4;
-extern s16 garage_D_80127300[20];
-extern RrGarageCarSlot garage_D_80127348[20];
-void garage_func_8011512C(void);
-void garage_func_80116C34(s32);
+extern s16 garage_replace_slot_index;
+extern s16 garage_D_801272D4,garage_car_list_count,garage_car_index;
+extern s16 garage_car_status[20];
+extern RrGarageCarSlot garage_collected_cars[20];
+void garage_init_car_info(void);
+void garage_draw_car_status_bars(s32);
 
-void garage_func_80116E10(void)
+void garage_update_car_list(void)
 {
     union {RrPreviewRgb3 rgb; u8 channel[3];} color;
     s8 shown;
@@ -47,13 +47,13 @@ void garage_func_80116E10(void)
     case 0:
         SetMenuFrameOptions(1, 1, 1);
         before = PackChoiceGlyph((s8 *)&SelectionRows);
-        StepMenuValue(3, 2, (char *)&garage_D_801272E4, garage_D_801272E0, 0);
-        UnpackChoiceGlyph((s8 *)&SelectionRows, garage_D_80127348[garage_D_801272E4].value);
-        status = garage_D_80127300[(SelectionRows.entry.parameter % 20) & 0xFF];
+        StepMenuValue(3, 2, (char *)&garage_car_index, garage_car_list_count, 0);
+        UnpackChoiceGlyph((s8 *)&SelectionRows, garage_collected_cars[garage_car_index].value);
+        status = garage_car_status[(SelectionRows.entry.parameter % 20) & 0xFF];
         if ((s16)before != (s16)PackChoiceGlyph((s8 *)&SelectionRows)) {
             ResetScreenCounters();
             LoadCursor = MenuArenas.first;
-            UnpackChoiceGlyph((s8 *)&SelectionRows, garage_D_80127348[garage_D_801272E4].value);
+            UnpackChoiceGlyph((s8 *)&SelectionRows, garage_collected_cars[garage_car_index].value);
             ImageRows[1] = 6;
             PlayerCourseChoices[0].first = 0;
             PlayerCourseChoices[0].second = 0;
@@ -132,11 +132,11 @@ void garage_func_80116E10(void)
         steps = 64;
         AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (steps - MenuFadeTimer) * 4, 69);
         if (MenuFadeTimer <= 0) {
-            CourseChoiceTable[1][garage_D_801272BA].glyph = garage_D_80127348[garage_D_801272E4].value;
-            CourseChoiceTable[1][garage_D_801272BA].first = 0;
-            CourseChoiceTable[1][garage_D_801272BA].second = 0;
-            garage_D_801272E4 = garage_D_801272BA;
-            garage_func_8011512C();
+            CourseChoiceTable[1][garage_replace_slot_index].glyph = garage_collected_cars[garage_car_index].value;
+            CourseChoiceTable[1][garage_replace_slot_index].first = 0;
+            CourseChoiceTable[1][garage_replace_slot_index].second = 0;
+            garage_car_index = garage_replace_slot_index;
+            garage_init_car_info();
             ModeGroup = ready;
             ModeId = steps;
             ModeSubState = 0;
@@ -148,8 +148,8 @@ void garage_func_80116E10(void)
         steps = 64;
         AddScreenFadeTiles(CurrentDrawBuf->ordering.ordering70, (steps - MenuFadeTimer) * 4, 69);
         if (MenuFadeTimer <= 0) {
-            garage_D_801272E4 = garage_D_801272BA;
-            garage_func_8011512C();
+            garage_car_index = garage_replace_slot_index;
+            garage_init_car_info();
             ModeGroup = ready;
             ModeId = steps;
             ModeSubState = 0;
@@ -167,7 +167,7 @@ common:
         DrawUiRow(i);
     }
     if (BadgeRows[1].state10 == 3) {
-        garage_func_80116C34(SelectionRows.entry.parameter);
+        garage_draw_car_status_bars(SelectionRows.entry.parameter);
     }
     i = shown;
     if ((u8)(ImageRows[1] - 1) < 2 && i == 1) {
@@ -192,7 +192,7 @@ common:
     UpdateBadgeRowAnim(0);
     UpdateBadgeRowAnim(1);
     if (UpdateImageRow(0) > 0) {
-        DrawMenuStepArrows(160, 144, 8, 1, garage_D_801272E4, -1, garage_D_801272E0 + 1);
+        DrawMenuStepArrows(160, 144, 8, 1, garage_car_index, -1, garage_car_list_count + 1);
     }
     UpdateScreenFade(0x1008E);
 }

@@ -5,7 +5,7 @@
 /* Current playback phase:0 starts from the published resource buffer,
  *1 updates playback,2 shuts it down. Other signed word values are idle. */
 extern s32 RaceContextMoviePhase;
-void movie_playback_func_80114AA8(void);
-void movie_playback_func_80114B2C(u8 *resource);
-void movie_playback_func_80114C3C(void);
+void movie_playback_update(void);
+void movie_playback_start(u8 *resource);
+void movie_playback_step(void);
 #endif

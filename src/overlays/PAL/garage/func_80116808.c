@@ -1,5 +1,5 @@
 #include "rr/menu_ui_bank.h"
-void garage_func_80116808(void)
+void garage_step_maker_cursor(void)
 {
     CourseListIndex=CourseListSavedIndex;
     {

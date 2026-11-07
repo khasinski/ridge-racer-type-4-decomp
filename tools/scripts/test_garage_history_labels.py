@@ -37,11 +37,11 @@ RrBadgeRow1C *BadgeRows;
 #define SelectionRows w->s.choice
 #define UiFontGlyphs w->s.uv
 #define ScreenFrame w->s.tick
-#define garage_D_80127328 w->s.counts
+#define garage_team_maker_car_counts w->s.counts
 #define garage_D_801272BC w->s.number
-#define garage_D_801272BE w->s.total
-s8 garage_D_80126218[3]={64,25,123},garage_D_80126224[3]={23,24,-1};
-s8 garage_D_80126228[3]={26,25,123},garage_D_8012622C[4]={42,25,123,-1};
+#define garage_clut_list_index w->s.total
+s8 garage_car_number_label_glyphs[3]={64,25,123},garage_maker_cars_label_glyphs[3]={23,24,-1};
+s8 garage_D_80126228[3]={26,25,123},garage_car_color_label_glyphs[4]={42,25,123,-1};
 ''' + bodies + formatter + r'''
 static u32 next(void){u32 x=w->s.rng;x^=x<<13;x^=x>>17;x^=x<<5;return w->s.rng=x;}
 static void change(void){
@@ -71,7 +71,7 @@ char *FormatCountOfTotal(s32 first,s32 second,s32 digits){
 }
 static void expected(unsigned kind,u32 *ot,void *p,s32 row){
  int x=BadgeRows[row].x04+8,y=BadgeRows[row].y06+32,flag=0,i;
- const s8 *keys=kind==0?garage_D_80126218:kind==1?garage_D_80126224:kind==2?garage_D_80126228:garage_D_8012622C;
+ const s8 *keys=kind==0?garage_car_number_label_glyphs:kind==1?garage_maker_cars_label_glyphs:kind==2?garage_D_80126228:garage_car_color_label_glyphs;
  if(kind<2){
   for(i=0;i<4;i++){
    RrSelectionRow h=w->s.save.history6C[i];
@@ -96,7 +96,7 @@ static void expected(unsigned kind,u32 *ot,void *p,s32 row){
  }
  AddDrawModePrim(ot,p,56);
 }
-int main(void){unsigned scenario,kind,i;void (*functions[4])(u32*,void*,s32)={garage_func_80117654,garage_func_80117AA4,garage_func_80117C98,garage_func_80117DFC};
+int main(void){unsigned scenario,kind,i;void (*functions[4])(u32*,void*,s32)={garage_draw_car_number_label,garage_draw_maker_count_label,garage_func_80117C98,garage_draw_clut_index_label};
  assert((uintptr_t)arena>UINT32_MAX);_Static_assert(sizeof(RrSaveProgressRecord7C)==124,"full save");
  for(scenario=0;scenario<65536;scenario++)for(kind=0;kind<4;kind++){
   memset(&initial,0,sizeof(initial));w=&initial;w->s.rng=0x17654+scenario*17+kind;change();

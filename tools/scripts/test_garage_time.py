@@ -15,7 +15,7 @@ class OverlayTimeTest(unittest.TestCase):
 #include <string.h>
 #include "rr/overlay662_time.h"
 static struct World {u32 before[8];u8 text[6];u32 after[8];} world,expected;
-#define garage_D_80126244 world.text
+#define garage_time_text world.text
 ''' + body + r'''
 static u32 seed=0x1883c;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -35,7 +35,7 @@ int main(void){unsigned k,i;const s32 edges[]={-1,(-2147483647-1),2147483647,299
    expected.text[0]=(u8)(48+minutes/10);expected.text[1]=(u8)(48+minutes%10);
    expected.text[3]=(u8)(48+seconds/10);expected.text[4]=(u8)(48+seconds%10);
   }
-  returned=garage_func_8011883C(value);
+  returned=garage_format_time_mm_ss(value);
   assert(returned==world.text && (uintptr_t)returned>UINT32_MAX);
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }

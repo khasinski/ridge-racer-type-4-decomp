@@ -125,7 +125,7 @@ int main(void){unsigned k,i,v;
   for(i=0;i<3;i++)world.rows[i][0].half20=half(k|0x1000U);
   assert((uintptr_t)world.base>UINT32_MAX && (uintptr_t)world.arenas.second>UINT32_MAX && (uintptr_t)world.ui>UINT32_MAX);
   memcpy(&expected,&world,sizeof(world));reference();
-  if(v)options_func_80114FD8();else records_init_menu();
+  if(v)options_init_audio_rows();else records_init_menu();
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  assert(memcmp(resources,original_resources,sizeof(resources))==0);

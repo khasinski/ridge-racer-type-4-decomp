@@ -11,6 +11,11 @@ for l in (ROOT / 'configs/PAL/sym.main.txt').read_text().splitlines():
     m = re.match(r'^(\w+)\s*=\s*0x[0-9A-Fa-f]+;\s*//\s*type:(\w+)', l)
     if not m or re.fullmatch(r'(func|D)_[0-9A-F]{8}', m[1]): continue
     (funcs if m[2] == 'func' else data).append(m[1])
+_ovl = ROOT / 'configs/PAL/overlays/symbols.txt'
+if _ovl.exists():
+    for l in _ovl.read_text().splitlines():
+        m = re.match(r'^(\w+)\s*=\s*0x[0-9A-Fa-f]+;\s*//\s*overlay:\w+\s+type:(\w+)', l)
+        if m: (funcs if m[2] == 'func' else data).append(m[1])
 funcs_set, data_set = set(funcs), set(data)
 D_ALT = re.compile(r'(D_\[(?:0-9A-F|A-Fa-f0-9)\](?:\{8\}|\+))((?:\|[A-Za-z0-9_]+(?![\[A-Za-z0-9_]))*)')
 F_ALT = re.compile(r'(func_\[0-9A-F\]\{8\})((?:\|[A-Za-z0-9_]+(?![\[A-Za-z0-9_]))*)')

@@ -21,14 +21,14 @@ class Overlay662PaletteEditTest(unittest.TestCase):
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"PAL offset")
 #include "rr/overlay662_palette_edit.h"
 static struct World {u32 head[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;u32 image[4][512];RrPalette16 palette[2];s32 changed[3];u16 original[3];u32 tail[4];} world,expected;
-#define garage_D_801276A8 world.garage
-#define garage_D_80127668 world.work
-#define garage_D_80127780 world.changed[0]
-#define garage_D_80127788 world.changed[1]
-#define garage_D_80127790 world.changed[2]
-#define garage_D_80127784 world.original[0]
-#define garage_D_8012778C world.original[1]
-#define garage_D_80127794 world.original[2]
+#define garage_logo_state world.garage
+#define garage_logo_work world.work
+#define garage_red_slider_backed_up world.changed[0]
+#define garage_green_slider_backed_up world.changed[1]
+#define garage_blue_slider_backed_up world.changed[2]
+#define garage_red_slider_start world.original[0]
+#define garage_green_slider_start world.original[1]
+#define garage_blue_slider_start world.original[2]
 '''+bodies+r'''
 static u32 rng=0x24258;static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
 static s16 half(u32 x){u16 n=(u16)x;s16 v;memcpy(&v,&n,2);return v;}
@@ -57,7 +57,7 @@ int main(void){unsigned bits,family,kind,j,k;uint64_t cases=0;
  world.original[family]=(u16)((bits>>3)&31);world.work.words[0]=0xA5510000U|((kind==0||kind==2)?8:0);world.work.words[1]=0xAAE00000U|(kind==2?4:kind==4?0:1);
  world.work.points.cursor14.x=kind==0?half(bits):kind==3?214:(s16)(149+bits%65);world.work.points.cursor14.y=(s16)(355+family*18);
  if(kind>=2){world.garage.active21=255;world.garage.config22=255;for(j=0;j<2;j++){world.garage.image38[j]=0;world.garage.image40[j]=0;world.garage.palette48[j]=0;}}
- expected=world;reference(family,kind);if(family==0)garage_func_80124258();else if(family==1)garage_func_801243DC();else garage_func_80124560();
+ expected=world;reference(family,kind);if(family==0)garage_palette_red_slider();else if(family==1)garage_palette_green_slider();else garage_palette_blue_slider();
  assert(memcmp(&world,&expected,sizeof(world))==0);assert((uintptr_t)world.palette>UINT32_MAX);cases++;
  }assert(cases==983040ULL);return 0;}
 '''

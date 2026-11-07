@@ -35,7 +35,7 @@ typedef struct {u32 guard[4];RrOverlay665VisualState visual;RrProjectionScratchP
 typedef struct {s32 kind,args[4];void *buffer;State state;} Event;
 static struct World {State s;u32 calls;Event events[3];u32 guard[4];} world,expected;
 static u8 arenas[3][256];static u32 ordering[3][704];
-#define options_D_80119768 world.s.visual
+#define options_menu_state world.s.visual
 #define RR_PROJECTION_SCRATCH (&world.s.scratch)
 #define ScreenFrame world.s.counter
 #define LoadState world.s.flag1
@@ -75,7 +75,7 @@ int main(void){unsigned k,i;
  for(k=0;k<65536;k++){
   for(i=0;i<sizeof(world);i++)((u8*)&world)[i]=(u8)next();scenario=k;world.calls=0;world.s.scratch.pointers.cursor=arenas[k%3]+32;world.s.scratch.pointers.order=ordering[(k+1)%3];
   assert((uintptr_t)world.s.scratch.pointers.cursor>UINT32_MAX && (uintptr_t)world.s.scratch.pointers.order>UINT32_MAX);
-  memcpy(&expected,&world,sizeof(world));reference();options_func_80114918();assert(memcmp(&world,&expected,sizeof(world))==0);
+  memcpy(&expected,&world,sizeof(world));reference();options_init_menu_state();assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;
 }
@@ -92,8 +92,8 @@ int main(void){unsigned k,i;
         source=PREFIX+r'''
 typedef struct {u16 points[4];u8 rgb[3];u8 pad;const u8 *color;s32 blend,depth;RrOverlay665VisualState before;} Event;
 static struct World {u32 guard[4];RrOverlay665VisualState visual;u8 color[4];u32 calls;Event event;u32 tail[4];} world,expected;
-#define options_D_80119768 world.visual
-#define options_D_8011973C world.color
+#define options_menu_state world.visual
+#define options_marker_line_color world.color
 static const s16 rom[4097]={''' + ','.join(map(str,table)) + r'''};
 #define SinTableBiasedBaseC00 rom
 #define SinTableBiasedBase800 (rom+0x400)
@@ -116,7 +116,7 @@ int main(void){unsigned k,i;for(k=0;k<262144;k++){
  s32 angle;for(i=0;i<sizeof(world);i++)((u8*)&world)[i]=(u8)next();world.calls=0;world.visual.centerX38=(u16)k;world.visual.centerY3A=(u16)(k*40503U+17U);
  if(k<65536)angle=(s32)k;else if(k<131072)angle=-(s32)(k-65536)-1;else angle=word(next());
  if(k==131072)angle=INT32_MIN;else if(k==131073)angle=INT32_MAX;
- memcpy(&expected,&world,sizeof(world));reference(angle);options_func_801169BC(angle);assert(memcmp(&world,&expected,sizeof(world))==0);
+ memcpy(&expected,&world,sizeof(world));reference(angle);options_draw_angle_marker(angle);assert(memcmp(&world,&expected,sizeof(world))==0);
  }return 0;
 }
 '''

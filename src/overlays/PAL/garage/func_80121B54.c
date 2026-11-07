@@ -1,51 +1,51 @@
 #include "rr/overlay662_tool_action.h"
 
-void garage_func_80121B54(s32 mode) {
+void garage_select_color3(s32 mode) {
     if (mode < 0) {
-        garage_D_801276A8.optionIndices98.flat[2] = 0;
-        garage_D_801276A8.optionIndices98.flat[4] = 2;
+        garage_logo_state.optionIndices98.flat[2] = 0;
+        garage_logo_state.optionIndices98.flat[4] = 2;
     } else if (mode > 0) {
         switch (mode) {
         case 1:
-        garage_D_801276A8.optionIndices98.flat[1] = 1;
-        garage_D_801276A8.selectorsB8[0] = 1;
-        garage_D_801276A8.selectorsB8[3] = 3;
-        garage_func_8011E5C0(0);
+        garage_logo_state.optionIndices98.flat[1] = 1;
+        garage_logo_state.selectorsB8[0] = 1;
+        garage_logo_state.selectorsB8[3] = 3;
+        garage_navigate_to_option(0);
             break;
         case 2:
-        garage_D_801276A8.optionIndices98.flat[2] = 1;
-        garage_D_801276A8.selectorsB8[3] = 5;
-        garage_func_8011E5C0(0);
+        garage_logo_state.optionIndices98.flat[2] = 1;
+        garage_logo_state.selectorsB8[3] = 5;
+        garage_navigate_to_option(0);
             break;
         case 4:
 
-garage_D_801276A8.optionIndices98.flat[4] = 1;
-        garage_D_801276A8.selectorsB8[2] = 1;
-        garage_func_8011E5C0(1);
+garage_logo_state.optionIndices98.flat[4] = 1;
+        garage_logo_state.selectorsB8[2] = 1;
+        garage_navigate_to_option(1);
             break;
         case 8:
 
-garage_D_801276A8.optionIndices98.flat[5] = 0;
-        garage_D_801276A8.selectorsB8[1] = 2;
-        garage_D_801276A8.selectorsB8[2] = 3;
-        garage_func_8011E5C0(1);
+garage_logo_state.optionIndices98.flat[5] = 0;
+        garage_logo_state.selectorsB8[1] = 2;
+        garage_logo_state.selectorsB8[2] = 3;
+        garage_navigate_to_option(1);
             break;
         }
     } else {
-        if (garage_func_8011E734(0x17) == 0) {
-            if (garage_D_80127668.words[1] & 1) {
-                if (garage_D_80127668.words[0] & 4) {
-                    garage_func_8011E694();
+        if (garage_cursor_outside_button(0x17) == 0) {
+            if (garage_logo_work.words[1] & 1) {
+                if (garage_logo_work.words[0] & 4) {
+                    garage_save_cursor_selection();
                 } else {
-                    garage_D_801276A8.optionIndices98.flat[2] = 0;
-                    garage_D_801276A8.optionIndices98.flat[4] = 2;
-                    garage_D_801276A8.saved64[0] = 0x17;
-                    garage_D_801276A8.saved64[1] = 2;
-                    garage_D_801276A8.saved64[2] = 1;
-                    garage_D_801276A8.saved64[3] = 2;
-                    garage_D_801276A8.saved64[4] = 4;
+                    garage_logo_state.optionIndices98.flat[2] = 0;
+                    garage_logo_state.optionIndices98.flat[4] = 2;
+                    garage_logo_state.saved64[0] = 0x17;
+                    garage_logo_state.saved64[1] = 2;
+                    garage_logo_state.saved64[2] = 1;
+                    garage_logo_state.saved64[3] = 2;
+                    garage_logo_state.saved64[4] = 4;
                 }
-                garage_D_801276A8.config22 = 3;
+                garage_logo_state.config22 = 3;
                 PlaySfx(1);
             }
         }

@@ -2,13 +2,13 @@
 #ifndef RR_PROJECTION_SCRATCH
 #define RR_PROJECTION_SCRATCH ((RrProjectionScratchPrefix *)0x1F800000)
 #endif
-void options_func_80114918(void)
+void options_init_menu_state(void)
 {
     RrOverlay665VisualState *state;
     RrProjectionScratchPrefix *scratch;
     SetDispMask(0);
     SetupDrawDispEnvs(0,0,0,2);
-    state=&options_D_80119768;
+    state=&options_menu_state;
     PsyqBzero(state,160);
     state->lighting4C.matrix.signedHalves[6]=4500;
     state->lighting4C.matrix.signedHalves[7]=-4096;

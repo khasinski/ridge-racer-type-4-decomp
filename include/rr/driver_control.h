@@ -7,5 +7,5 @@ s32 ResetGraph(s32);
  * This caller uses only scalar control values0 and1. */
 s32 _sio_control(s32 command,s32 operation,unsigned long argument);
 void SetDispMask(s32 mode);
-void serial_link_func_80115494(void);
+void serial_link_reset_graph_and_sio(void);
 #endif

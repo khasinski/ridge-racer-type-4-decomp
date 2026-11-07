@@ -1,12 +1,12 @@
 #include "rr/overlay662_name_init.h"
-void garage_func_80118930(void) {
+void garage_init_name_entry(void) {
     ModeFrame = 0;
     ScreenFrame = 0;
-    garage_D_801273A2 = 0;
-    garage_D_801273A3 = 0;
-    garage_D_801273A0 = 0;
-    garage_D_801273B4 = 0;
-    CopyStringClearTail((char *)garage_D_801273A8, (char *)&SaveProgress);
+    garage_name_key_column = 0;
+    garage_name_key_row = 0;
+    garage_name_cursor = 0;
+    garage_name_key_index = 0;
+    CopyStringClearTail((char *)garage_name_buffer, (char *)&SaveProgress);
     ClearScreenOverlayState();
     InitBadgeRow(0, 4, 172, 312, 216, 0, 0x806);
     BadgeRows[0].half02 = 1;

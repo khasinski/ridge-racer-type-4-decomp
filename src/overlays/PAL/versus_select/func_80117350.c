@@ -3,7 +3,7 @@
 #define RR_GPU_PROJECTION_SCRATCH ((RrProjectionScratchPrefix *)0x1F800000)
 #endif
 
-void versus_select_func_80117350(void)
+void versus_select_init_course_select(void)
 {
     ModeFrame=0;ScreenFrame=0;MenuCursor=0;MenuItemCount=4;
     PlayerCourseChoices[2].first=(PsyqRand()&3)+10;

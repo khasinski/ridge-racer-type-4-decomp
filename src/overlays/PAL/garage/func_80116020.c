@@ -1,6 +1,6 @@
 #include "rr/overlay662_setup.h"
 
-void garage_func_80116020(void)
+void garage_init_team_select(void)
 {
     s32 i;
     ModeFrame=0;

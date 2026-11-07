@@ -96,7 +96,7 @@ int main(void) {
   for(i=0;i<offsetof(struct World,captured);i++)((u8*)&initial)[i]=(u8)next();
   for(mode=0;mode<5;mode++) {
    actual=initial;expected=initial;
-   w=&actual;options_func_80116358(source_matrix(),input_data());
+   w=&actual;options_set_preview_light_matrix(source_matrix(),input_data());
    w=&expected;reference();
    assert(actual.calls==2 && memcmp(&actual,&expected,sizeof(actual))==0);
   }

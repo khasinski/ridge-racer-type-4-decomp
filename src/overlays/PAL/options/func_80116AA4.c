@@ -1,15 +1,15 @@
 #include "rr/overlay665_strokes.h"
 
-void options_func_80116AA4(const RrStrokeStep4 *const *paths,s32 factor) {
+void options_draw_button_guides(const RrStrokeStep4 *const *paths,s32 factor) {
     u16 xy[4];
-    RrStrokeColor4 color=options_D_801148C4;
+    RrStrokeColor4 color=options_button_guide_line_color;
     const RrStrokeStep4 *step;
     s32 sum,limit,n,i;
 
     if (factor) {
         for (i=0;i<5;i++) {
-            xy[0]=options_D_8011920C[i][0];
-            xy[1]=options_D_8011920C[i][1];
+            xy[0]=options_button_guide_origins[i][0];
+            xy[1]=options_button_guide_origins[i][1];
             step=paths[i];
             sum=0;
             while (step->direction!=-1) {

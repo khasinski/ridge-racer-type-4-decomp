@@ -1,6 +1,6 @@
 #include "rr/overlay662_pixel_dispatch.h"
 
-void garage_func_80124E4C(void)
+void garage_fill_at_cursor(void)
 {
     RrGaragePixelEdit4 operation;
     u8 *pixel;
@@ -13,14 +13,14 @@ void garage_func_80124E4C(void)
     s32 dy;
     register u32 packed __asm__("$3");
 
-    if (garage_func_8011E6C8(82, 71, 128, 256) == 0 &&
-        (garage_D_80127668.words[1] & 1)) {
-        if (garage_D_801276A8.layer23 == 0) {
-            pixel = (u8 *)garage_D_801276A8.image38[garage_D_801276A8.active21];
+    if (garage_cursor_outside_rect(82, 71, 128, 256) == 0 &&
+        (garage_logo_work.words[1] & 1)) {
+        if (garage_logo_state.layer23 == 0) {
+            pixel = (u8 *)garage_logo_state.image38[garage_logo_state.active21];
         } else {
-            pixel = (u8 *)garage_D_801276A8.image40[garage_D_801276A8.active21];
+            pixel = (u8 *)garage_logo_state.image40[garage_logo_state.active21];
         }
-        state = &garage_D_801276A8;
+        state = &garage_logo_state;
         x = (u8)state->reset08[0];
         dx = (u8)state->reset08[6];
         y = (u8)state->reset08[1];
@@ -46,10 +46,10 @@ void garage_func_80124E4C(void)
             (PlayerControllers[0].buttons02 & 2) && (PlayerControllers[0].buttons02 & 1)) {
             operation.replacement = 0;
         } else {
-            operation.replacement = garage_D_801276A8.config22;
+            operation.replacement = garage_logo_state.config22;
         }
         if (operation.previous != operation.replacement) {
-            garage_func_8011D120();
+            garage_save_undo_copy();
             packed = (u32)operation.y << 8;
             packed = (u32)operation.x | packed;
             packed |= (u32)operation.previous << 16;

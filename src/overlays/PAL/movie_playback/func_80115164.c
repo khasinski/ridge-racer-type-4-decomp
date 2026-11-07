@@ -1,5 +1,5 @@
 #include "rr/overlay668_frame_acquire.h"
-u8 *movie_playback_func_80115164(RrStrDisplayConfig *config) {
+u8 *movie_playback_next_frame(RrStrDisplayConfig *config) {
  RrGpuRectangleFields rectangle;
  u8 *data;RrLibQueueRecord32 *header;
  s32 retry=2000;RrStrPlaybackState *playback;

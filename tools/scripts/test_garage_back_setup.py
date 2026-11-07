@@ -30,12 +30,12 @@ static u32 buffers[4][512];
 struct State {u32 guard[4];RrGarageSelectionPrefix garage;s16 row,position,selection;u32 tail[4];};
 static struct World {struct State s;unsigned calls;struct {s32 kind,arg[10];u32 hash;} events[12];} actual,expected,initial,*w;
 static unsigned scenario,mutation,kind;
-#define garage_D_801276A8 w->s.garage
+#define garage_logo_state w->s.garage
 #define ModeGroup w->s.row
 #define ModeId w->s.position
 #define ModeSubState w->s.selection
-#define garage_D_801148F0 save_message
-#define garage_D_80114900 load_message
+#define garage_enter_save_back_message save_message
+#define garage_enter_load_back_message load_message
 static void effect(unsigned n){
  unsigned i;u32 v=scenario*0x9e3779b9U+n*47;
  w->s.garage.dirtyD3=(u8)v;w->s.garage.stateD2=(u8)(v+1);w->s.garage.flagsD1=(u8)(v+2);
@@ -53,17 +53,17 @@ static void event(s32 service,const s32 *args,unsigned count){
 s32 DebugPrintStub(const char *format,...){
  assert(format==(kind?load_message:save_message));event(0,0,0);return 1;
 }
-void garage_func_8011A788(s32 mode){event(1,&mode,1);}
-void garage_func_8011D278(s32 mode){assert(mode==-1);event(2,&mode,1);}
-void garage_func_8011D120(void){event(3,0,0);}
+void garage_reset_editor_state(s32 mode){event(1,&mode,1);}
+void garage_init_option_tables(s32 mode){assert(mode==-1);event(2,&mode,1);}
+void garage_save_undo_copy(void){event(3,0,0);}
 void ClearScreenOverlayState(void){event(4,0,0);}
 void InitBadgeRow(s32 i,s32 first,s16 x,s32 y,u16 width,u16 mode,u16 flags){s32 a[]={i,first,x,y,width,mode,flags};event(5,a,7);}
 void InitUiRow(s32 a,s32 b,s32 c,s32 d,s32 e,s32 f,s32 g,s32 h,s32 i,s32 j,...){s32 args[]={a,b,c,d,e,f,g,h,i,j};event(6,args,10);}
 ''' + bodies + r'''
 static void reference(void){
  DebugPrintStub(kind?load_message:save_message);
- garage_func_8011A788((s32)kind);
- if(kind){garage_func_8011D278(-1);garage_func_8011D120();}
+ garage_reset_editor_state((s32)kind);
+ if(kind){garage_init_option_tables(-1);garage_save_undo_copy();}
  w->s.garage.dirtyD3=0;ClearScreenOverlayState();
  InitBadgeRow(0,12,304,296,88,0,0);
  InitUiRow(0,140,136,28,32,0,0,1,0,104);
@@ -76,7 +76,7 @@ int main(void){unsigned i;
   memset(&initial,0,sizeof(initial));w=&initial;effect(9);
   for(i=0;i<4;i++){w->s.guard[i]=0x12345678U+i;w->s.tail[i]=0x87654321U-i;}
   actual=initial;expected=initial;w=&actual;
-  if(kind)garage_func_8011A988();else garage_func_8011A898();
+  if(kind)garage_enter_editor_full_reset();else garage_enter_editor_keep_settings();
   w=&expected;reference();assert(memcmp(&actual,&expected,sizeof(actual))==0);
  }
  return 0;

@@ -1,6 +1,6 @@
 #include "rr/overlay662_input.h"
 
-void garage_func_8011D664(RrGaragePoint *output)
+void garage_read_dpad_motion(RrGaragePoint *output)
 {
     RrGaragePoint point;
     u32 buttons;

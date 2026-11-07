@@ -1,5 +1,5 @@
 #include "rr/menu_ui_bank.h"
-void garage_func_80116690(void)
+void garage_step_team_cursor(void)
 {
     SelectedTeamIndex=SelectionRows.bytes[0];
     {

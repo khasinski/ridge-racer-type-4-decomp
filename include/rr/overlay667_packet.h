@@ -22,34 +22,34 @@ typedef union {
     RrMenuChoice4 choices[2];
     u32 words[2];
 } RrOverlay667ChoicePair;
-extern RrOverlay667SerialStorage serial_link_D_80118F80,serial_link_D_80118F10;
+extern RrOverlay667SerialStorage serial_link_tx_packet,serial_link_rx_packet;
 extern RrOverlay667ChoicePair LinkLocalInputs;
-extern u8 serial_link_D_80118F09,serial_link_D_80118EEF;
-extern s32 RaceState,serial_link_D_80118EEC;
+extern u8 serial_link_tx_sequence,serial_link_checksum_error;
+extern s32 RaceState,serial_link_local_menu_buttons;
 /* BIOS B0 service35: write count bytes, returning the transferred count. */
 s32 FileWrite(s32 descriptor,const void *buffer,s32 count);
-s32 serial_link_func_80114D30(void);
+s32 serial_link_send_packet(void);
 /* Eight stored serial records, from 80118F20 through 80118F7F. Ring indices
  * used for payload access must remain in0..7, including after service calls. */
-extern RrOverlay667SerialRing serial_link_D_80118F20;
+extern RrOverlay667SerialRing serial_link_rx_ring;
 extern RrOverlay667ChoicePair LinkRemoteInputs,LinkSentLocalInputs;
-extern s32 serial_link_D_80118ED0,serial_link_D_80118ED4;
-extern s32 serial_link_D_80118EC8,serial_link_D_80118EF4;
-extern s32 serial_link_D_80118EF8,serial_link_D_80118EFC;
-extern s32 serial_link_D_80118F00,serial_link_D_80118F04,serial_link_D_80118F0C;
-extern u8 serial_link_D_80118F08,serial_link_D_80118F8D,serial_link_D_80118EED,serial_link_D_80118EEE;
-extern u8 serial_link_D_80118F8C;
+extern s32 serial_link_D_80118ED0,serial_link_shutdown_state;
+extern s32 serial_link_sync_state,serial_link_D_80118EF4;
+extern s32 serial_link_rx_count,serial_link_rx_miss_count;
+extern s32 serial_link_tx_count,serial_link_tx_fail_count,serial_link_tx_state;
+extern u8 serial_link_rx_sequence,serial_link_rx_cursor,serial_link_remote_menu_buttons,serial_link_sent_menu_buttons;
+extern u8 serial_link_last_rx_cursor;
 extern u8 serial_link_D_80118EF0;
-void serial_link_func_80114AF8(unsigned long configuration);
+void serial_link_init_connection(unsigned long configuration);
 /* An event-ready packet's flags byte must be a valid ring index0..7: the
  * original uses the full byte as the index, without stripping control bits.
  * Serial services may mutate globals; every later ring access stays in0..7. */
-s32 serial_link_func_80114E34(void);
+s32 serial_link_receive_packet(void);
 /* Receive selection and transmit retry state machines. Counter increments wrap
  * modulo2^32. Payloads and state are reread after the serial service returns.
  * The transmitted phase is the low byte of the little-endian EEC word. */
-void serial_link_func_80115068(void);
-void serial_link_func_801151E0(void);
+void serial_link_update_receive(void);
+void serial_link_update_send(void);
 RR_ASSERT_SIZE(RrOverlay667SerialPacket,12);
 RR_ASSERT_OFFSET(RrOverlay667SerialPacket,first04,4);
 RR_ASSERT_OFFSET(RrOverlay667SerialPacket,second08,8);

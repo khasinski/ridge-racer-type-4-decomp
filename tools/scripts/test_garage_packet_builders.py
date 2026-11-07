@@ -31,7 +31,7 @@ typedef union {
  struct {u8 pad[offsetof(RrGarageSelectionPrefix,halfC8)-8];PacketOwner storage;} view;
 } GarageOwner;
 static struct World {u32 guard[4];GarageOwner garage;PacketOwner storage;u32 ordering;u32 tail[4];} world,expected;
-#define garage_D_801276A8 world.garage.state
+#define garage_logo_state world.garage.state
 ''' + bodies + r'''
 static u32 seed=0x1b1cc;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -100,9 +100,9 @@ int main(void){
   for(i=0;i<10;i++)a[i]=(k&4)?next():edge[(k+i)%13];
   memcpy(&expected,&world,sizeof(world));reference(kind,mode,which,a);
   p=storage(&world,mode);o=ordering(&world,kind,mode,which);assert((uintptr_t)p>UINT32_MAX);
-  if(kind==0)assert(garage_func_8011B1CC(o,p->quads,a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7],a[8],a[9])==&p->quads[1]);
-  else if(kind==1)assert(garage_func_8011AD3C(o,p->lines,a[0],a[1],a[2],a[3],a[4],a[5])==&p->lines[2]);
-  else assert(garage_func_8011AEC4(o,p->frames,a[0],a[1],a[2],a[3],a[4],a[5],a[6])==&p->frames[2]);
+  if(kind==0)assert(garage_add_textured_rect(o,p->quads,a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7],a[8],a[9])==&p->quads[1]);
+  else if(kind==1)assert(garage_add_hline_double(o,p->lines,a[0],a[1],a[2],a[3],a[4],a[5])==&p->lines[2]);
+  else assert(garage_add_rect_outline(o,p->frames,a[0],a[1],a[2],a[3],a[4],a[5],a[6])==&p->frames[2]);
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

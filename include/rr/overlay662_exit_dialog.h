@@ -6,5 +6,5 @@
  * and complete badge/text owners. Flags0 wait for fade0 before leaving;
  * entry reads dirtyD3 after sound to choose immediate fade or confirmation.
  * Hit/reset/sound services may replace roots and update later state. */
-void garage_func_80121074(s32 mode);
+void garage_exit_dialog(s32 mode);
 #endif

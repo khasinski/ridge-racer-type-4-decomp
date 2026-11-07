@@ -21,14 +21,14 @@ class HorizontalScrollDragTest(unittest.TestCase):
 static struct World {u32 guard[4];RrGarageSelectionPrefix g;RrGarageWorkingStorage w;s32 metrics[4];u16 grab,pad;u32 tail[4];} world,expected;
 static struct Event {unsigned id; s32 args[4];struct World before;} events[2];
 static unsigned count,seen,n,profile;static int reference_run;
-#define garage_D_801276A8 world.g
-#define garage_D_80127668 world.w
-#define garage_D_8012726C world.metrics[0]
-#define garage_D_80127270 world.metrics[1]
-#define garage_D_80127274 world.metrics[2]
-#define garage_D_80127278 world.metrics[3]
-#define garage_D_80127268 world.grab
-#define garage_D_8012767C world.w.points.cursor14.x
+#define garage_logo_state world.g
+#define garage_logo_work world.w
+#define garage_hscroll_image_thumb world.metrics[0]
+#define garage_hscroll_image_travel world.metrics[1]
+#define garage_hscroll_track_thumb world.metrics[2]
+#define garage_hscroll_track_travel world.metrics[3]
+#define garage_hscroll_grab_offset world.grab
+#define garage_logo_cursor_x world.w.points.cursor14.x
 '''+body+r'''
 static u32 seed=0x23cc8;static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
 static s16 half(u32 bits){u16 u=(u16)bits;s16 r;memcpy(&r,&u,2);return r;}
@@ -43,8 +43,8 @@ static void service(unsigned id,s32 x,s32 y,s32 width,s32 height){s32 args[4]={x
  else{assert(seen<count);struct Event *e=&events[seen++];assert(e->id==id&&memcmp(e->args,args,sizeof(args))==0&&memcmp(w,&e->before,sizeof(*w))==0);}
  effect(w,id,x==13);
 }
-s32 garage_func_8011E6C8(s32 x,s32 y,s32 width,s32 height){service(0,x,y,width,height);return (profile>>2)&1;}
-void garage_func_8011E7C0(s32 x,s32 y,s32 width,s32 height){service(1,x,y,width,height);}
+s32 garage_cursor_outside_rect(s32 x,s32 y,s32 width,s32 height){service(0,x,y,width,height);return (profile>>2)&1;}
+void garage_set_cursor_bounds(s32 x,s32 y,s32 width,s32 height){service(1,x,y,width,height);}
 static void reference(void){
  int active=(expected.w.words[0]&8)!=0;
  if(active){if(expected.w.words[1]&4){expected.w.words[0]&=~8U;service(1,13,63,294,346);return;}}
@@ -69,7 +69,7 @@ int main(void){assert(sizeof(void*)==8);
   world.w.words[0]=(world.w.words[0]&~8U)|(profile&1?8:0);world.w.words[1]=(world.w.words[1]&~4U)|(profile&8?4:0);
   world.g.config1C=(u8)n;world.g.reset08[0]=half(n*31U);world.w.points.cursor14.x=half(n);world.grab=(u16)n;
   unsigned divisor=2+n%126;world.metrics[0]=(s32)(64/divisor);world.metrics[1]=64-world.metrics[0];world.metrics[2]=(s32)(112/divisor);world.metrics[3]=112-world.metrics[2];
-  expected=world;count=seen=0;reference_run=1;reference();reference_run=0;garage_func_80123CC8();assert(seen==count&&memcmp(&world,&expected,sizeof(world))==0);
+  expected=world;count=seen=0;reference_run=1;reference();reference_run=0;garage_drag_hscrollbar();assert(seen==count&&memcmp(&world,&expected,sizeof(world))==0);
  }
  puts("1048576 guarded cases;all16-bit cursor/grab values,all zoom encodings and service snapshots");return 0;
 }

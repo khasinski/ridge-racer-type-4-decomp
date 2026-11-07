@@ -1,6 +1,6 @@
 #include "rr/overlay668_camera.h"
 
-void movie_playback_func_80115DFC(void) {
+void movie_playback_credits_init(void) {
     s32 i;
     RrTrackSample3C *p;
 
@@ -30,16 +30,16 @@ void movie_playback_func_80115DFC(void) {
     RaceContext.timer492 = 0;
     RaceContext.timer494 = 0;
     RaceContext.node498 = 320;
-    movie_playback_func_80115460(RaceContext.position450);
+    movie_playback_camera_locate_track(RaceContext.position450);
     for (i = 0; i < 16; i++) {
-        movie_playback_func_80115554();
+        movie_playback_camera_steer();
     }
-    movie_playback_func_801156FC();
-    movie_playback_func_80115850();
+    movie_playback_camera_update_pitch();
+    movie_playback_camera_apply();
     ResetScreenCopyOverlay();
     SetSceneColorParams(0, 144, 144, 144);
     SetSceneOverlayEnabled(1);
     MaskBitSetting = 1;
     D_80127E90 = 16000;
-    D_80127E94 = movie_playback_D_80116CC0[(s32)((u32)GameLanguage * 4U + (u32)(s32)SelectedTeamIndex)];
+    D_80127E94 = movie_playback_credits_scroll_speeds[(s32)((u32)GameLanguage * 4U + (u32)(s32)SelectedTeamIndex)];
 }

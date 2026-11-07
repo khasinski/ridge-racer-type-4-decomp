@@ -23,7 +23,7 @@ typedef union {s16 halves[2];RrGaragePoint point;} Accumulator;
 typedef union {RrMenuItemState5C rows[3];RrGaragePoint points[69];} Controller;
 static struct World {u32 guard[4];Controller controller;Accumulator accumulator;RrGaragePoint out;u32 tail[4];} w,e;
 #define PlayerControllers w.controller.rows
-#define garage_D_80126C14 w.accumulator.halves
+#define garage_analog_cursor_remainder w.accumulator.halves
 static unsigned calls;
 void *PsyqMemset(void *p,s32 value,u32 count){assert(value==0 && count==4);calls++;return memset(p,value,count);}
 ''' + body + r'''
@@ -54,7 +54,7 @@ static void reference(unsigned index){
 static void run(unsigned index){
  memcpy(&e,&w,sizeof(w));reference(index);calls=0;
  assert((uintptr_t)output(&w,index)>UINT32_MAX);
- garage_func_8011D338(output(&w,index));
+ garage_read_analog_motion(output(&w,index));
  assert(calls==1 && memcmp(&w,&e,sizeof(w))==0);
 }
 static void setup(unsigned x,unsigned y,unsigned speed){

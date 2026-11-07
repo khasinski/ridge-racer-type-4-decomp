@@ -1,6 +1,6 @@
 #include "rr/overlay668_camera.h"
 
-void movie_playback_func_801156FC(void) {
+void movie_playback_camera_update_pitch(void) {
     s32 sp18[4];
     s32 sp28[4];
     s32 sp38[4];

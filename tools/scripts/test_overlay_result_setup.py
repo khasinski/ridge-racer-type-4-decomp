@@ -104,7 +104,7 @@ void SetMenuTextRow(s32 row,s32 position,s32 group,s32 mode,s32 label) {
  }
  assert(mode==0);(void)event(1,row,position,group,mode,label);
 }
-s32 time_attack_course_select_func_80115FA8(s32 selector,s32 value) {
+s32 time_attack_course_select_insert_record(s32 selector,s32 value) {
  assert(!overlay && w->calls<2 && selector==(s32)w->calls);
  return event(3,selector,value,0,0,0);
 }
@@ -171,7 +171,7 @@ int main(void) {
   initial.state.uiMode=(s32)(scenario%5)-1;
   for(overlay=0;overlay<2;overlay++) {
    actual=initial;expected=initial;
-   w=&actual;if(overlay)extra_course_select_init_results();else time_attack_course_select_func_801154D8();
+   w=&actual;if(overlay)extra_course_select_init_results();else time_attack_course_select_init_results();
    w=&expected;if(overlay)reference_666();else reference_660();
    assert(memcmp(&actual,&expected,sizeof(actual))==0);
   }

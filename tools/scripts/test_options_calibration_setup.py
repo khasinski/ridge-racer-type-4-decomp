@@ -29,7 +29,7 @@ static World actual,reference,initial,*w;static unsigned mutation;
 RrBadgeRow1C *BadgeRows;
 #define Options w->s.settings
 #define MenuCursor w->s.flag
-#define options_D_801148B4 format
+#define options_screen_offset_fmt format
 ''' + body + r'''
 static u32 next(void){u32 x=w->s.rng;x^=x<<13;x^=x>>17;x^=x<<5;return w->s.rng=x;}
 static s32 word(u32 u){s32 v;memcpy(&v,&u,4);return v;}
@@ -56,7 +56,7 @@ int main(void){unsigned scenario,i;_Static_assert(sizeof(RrRuntimeSettings)==60,
   memset(&initial,0,sizeof(initial));w=&initial;w->s.rng=0x15798+scenario*31;effect();
   w->s.settings.display.x34=word(scenario*0x9e3779b9U);w->s.settings.display.y38=word(~scenario*0x85ebca6bU);
   for(i=0;i<4;i++){w->s.guard[i]=scenario+i;w->s.tail[i]=~(scenario+i);}actual=reference=initial;
-  w=&actual;BadgeRows=w->s.rows[w->s.root];options_func_80115798();w=&reference;BadgeRows=w->s.rows[w->s.root];expected();assert(!memcmp(&actual,&reference,sizeof(actual)));
+  w=&actual;BadgeRows=w->s.rows[w->s.root];options_init_screen_adjust();w=&reference;BadgeRows=w->s.rows[w->s.root];expected();assert(!memcmp(&actual,&reference,sizeof(actual)));
  }
  return 0;
 }

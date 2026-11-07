@@ -19,7 +19,7 @@ class Overlay662GradientQuadTest(unittest.TestCase):
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
 #include "rr/overlay662_gradient.h"
 static struct World {u32 head[4];RrGarageSelectionPrefix state;RrPolyG4Storage packets[5];u32 ordering[4];u32 tail[4];} world,expected;
-#define garage_D_801276A8 world.state
+#define garage_logo_state world.state
 ''' + (root/'src/overlays/PAL/garage/func_8011B0CC.c').read_text() + r'''
 static u32 seed=0x1B0CC;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -58,7 +58,7 @@ int main(void){unsigned k,mode,i,index;u32 a[10];
   a[2]=(a[2]&0xFFFF0000U)|k;a[3]=(a[3]&0xFFFF0000U)|((k*40503U)&0xFFFFU);
   if(k<8){static const u32 edge[8]={0,1,0x7FFF,0x8000,0xFFFF,0x10000,0x80000000U,0xFFFFFFFFU};for(i=0;i<10;i++)a[i]=edge[(k+i)%8];}
   memcpy(&expected,&world,sizeof(world));reference(mode,index,a);
-  returned=garage_func_8011B0CC(ordering(&world,mode,index),&world.packets[index],a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7],a[8],a[9]);
+  returned=garage_add_gradient_rect(ordering(&world,mode,index),&world.packets[index],a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7],a[8],a[9]);
   assert(returned==&world.packets[index+1] && (uintptr_t)returned>UINT32_MAX);assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

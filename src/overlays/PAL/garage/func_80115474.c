@@ -1,6 +1,6 @@
 #include "rr/overlay662_transition.h"
 
-void garage_func_80115474(void)
+void garage_reload_car_preview(void)
 {
     ResetScreenCounters();
     LoadCursor=MenuArenas.first;

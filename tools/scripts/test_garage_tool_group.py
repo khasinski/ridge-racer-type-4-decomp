@@ -25,9 +25,9 @@ class Overlay662ToolGroupTest(unittest.TestCase):
 #include "rr/audio_pan.h"
 static struct World {u32 guard[4];RrGarageSelectionPrefix garage;RrGarageWorkingStorage work;RrGarageButton buttons[46];RrGarageRectangle *table[46];u32 tail[4];} world,expected,map_checkpoint,sound_checkpoint;
 static unsigned scenario,family,slot,initial_byte,expected_map,expected_sound,map_calls,sound_calls,seen[5][256];static s32 mapped_mode;
-#define garage_D_801276A8 world.garage
-#define garage_D_80127668 world.work
-#define garage_D_801273B8 world.table
+#define garage_logo_state world.garage
+#define garage_logo_work world.work
+#define garage_logo_buttons world.table
 '''+bodies+r'''
 typedef struct {unsigned field,index;s32 value;} Set;
 #define END {2,0,0}
@@ -48,7 +48,7 @@ static void map_effect(struct World *w){w->garage.optionIndices98.flat[0]=word(s
 static void sound_effect(struct World *w){unsigned n=(unsigned)((RrGarageButton*)w->table[slot]-world.buttons);assert(n<46);
  w->table[slot]=&world.buttons[(n+1)%46].rectangle;w->garage.active21=(u8)(scenario+41);w->garage.config1D=(u8)(scenario+43);w->garage.config1E=(u8)(scenario+47);w->garage.saved64[0]=word(scenario^0x12345678U);w->work.words[0]^=0x98765432U;
 }
-void garage_func_8011E5C0(s32 mode){assert(expected_map==1&&map_calls++==0&&mode==mapped_mode);assert(memcmp(&world,&map_checkpoint,sizeof(world))==0);map_effect(&world);}
+void garage_navigate_to_option(s32 mode){assert(expected_map==1&&map_calls++==0&&mode==mapped_mode);assert(memcmp(&world,&map_checkpoint,sizeof(world))==0);map_effect(&world);}
 void TriggerSfx(s32 program,s32 level,s32 pan,s32 pitch,s32 voice){
  assert(expected_sound==1&&sound_calls++==0);assert(program==1&&level==127&&pan==64&&pitch==0x1E00&&voice==-1);assert(memcmp(&world,&sound_checkpoint,sizeof(world))==0);
  seen[family][initial_byte]=1;sound_effect(&world);
@@ -69,7 +69,7 @@ static void reference(s32 mode){unsigned j,m,n,value;
  else expected.garage.config1E=(u8)(family==4?3:family);
  expected_sound=1;memcpy(&sound_checkpoint,&expected,sizeof(expected));sound_effect(&expected);
 }
-int main(void){unsigned path,j,n;uint64_t cases=0;void (*functions[5])(s32)={garage_func_80120004,garage_func_8012019C,garage_func_8012031C,garage_func_8012049C,garage_func_80120648};
+int main(void){unsigned path,j,n;uint64_t cases=0;void (*functions[5])(s32)={garage_undo_action,garage_select_line_tool,garage_select_fill_tool,garage_cycle_brush_size,garage_select_eraser_tool};
  for(scenario=0;scenario<65536;scenario++)for(family=0;family<5;family++)for(path=0;path<8;path++){
   s32 mode;slot=10+family;initial_byte=(scenario>>3)&255;memset(&world,0,sizeof(world));
   for(j=0;j<4;j++){world.guard[j]=next();world.tail[j]=next();world.garage.selectorsB8[j]=word(next());}

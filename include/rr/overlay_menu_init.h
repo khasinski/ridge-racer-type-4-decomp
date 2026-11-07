@@ -13,6 +13,6 @@ void records_init_selection(s32 mode);
 /* The loader may replace the second arena. Layout calls may replace the UI
  * root and local condition; both are read after all four rows are configured. */
 void records_init_menu(void);
-void options_func_80114FD8(void);
+void options_init_audio_rows(void);
 void extra_course_select_init_menu(void);
 #endif

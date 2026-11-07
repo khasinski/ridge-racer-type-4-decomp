@@ -30,13 +30,13 @@ static RrPalette16 palettes[9],expectedPalettes[9],initialPalettes[9];
 static u32 images[4][512];
 static unsigned scenario,mutation,aliasSeen[27],sineSeen[8193],uploadSeen[5],phaseSeen[8];
 static const s32 phases[8]={INT32_MIN,INT32_MIN+4095,-4097,-1,0,4095,INT32_MAX-170,INT32_MAX};
-#define garage_D_801276A8 w->s.garage
-#define garage_D_801268C8 w->s.phase
-#define garage_D_801268A0 w->s.rectangles[0]
-#define garage_D_801268A8 w->s.rectangles[1]
-#define garage_D_801268B0 w->s.rectangles[2]
-#define garage_D_801268B8 w->s.rectangles[3]
-#define garage_D_801268C0 w->s.rectangles[4]
+#define garage_logo_state w->s.garage
+#define garage_clut_pulse_phase w->s.phase
+#define garage_preview_image_vram_rect w->s.rectangles[0]
+#define garage_layer0_image_vram_rect w->s.rectangles[1]
+#define garage_layer1_image_vram_rect w->s.rectangles[2]
+#define garage_logo_clut_upload_rect w->s.rectangles[3]
+#define garage_pulse_clut_upload_rect w->s.rectangles[4]
 static s32 word(u32 n){s32 v;memcpy(&v,&n,4);return v;}
 static u32 next(void){u32 n=w->s.rng;n^=n<<13;n^=n>>17;n^=n<<5;return w->s.rng=n;}
 static unsigned paletteIndex(const void *p){uintptr_t address=(uintptr_t)p,start=(uintptr_t)palettes;assert(address>UINT32_MAX&&address>=start&&address<start+sizeof(palettes));assert((address-start)%sizeof(RrPalette16)==0);return (unsigned)((address-start)/sizeof(RrPalette16));}
@@ -93,7 +93,7 @@ int main(void){unsigned i,j,a;uint64_t cases=0;
   }
   w->s.garage.scratch34=images[3];
   actual=reference=initial;memcpy(palettes,initialPalettes,sizeof(palettes));memcpy(expectedPalettes,initialPalettes,sizeof(palettes));
-  w=&actual;garage_func_8011CD18();w=&reference;expected();
+  w=&actual;garage_upload_editor_vram();w=&reference;expected();
   assert(!memcmp(&actual,&reference,sizeof(actual)));assert(!memcmp(palettes,expectedPalettes,sizeof(palettes)));cases++;
  }
  assert(cases==131072);for(i=0;i<27;i++)assert(aliasSeen[i]);for(i=0;i<8193;i++)assert(sineSeen[i]);for(i=0;i<8;i++)assert(phaseSeen[i]);for(i=0;i<5;i++)assert(uploadSeen[i]);return 0;

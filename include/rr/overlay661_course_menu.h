@@ -6,9 +6,9 @@
 #include "rr/selection_types.h"
 #include "rr/menu_selection_word.h"
 #include "rr/menu_arena_types.h"
-extern s32 ScreenFrame,ModeFrame,NumLaps,MenuActivePlayerPlusOne,versus_select_D_80118414;
+extern s32 ScreenFrame,ModeFrame,NumLaps,MenuActivePlayerPlusOne,versus_select_course_menu_limit;
 extern s16 CourseMenuSelection,MenuCursor,MenuItemCount,MenuFadeTimer,CourseIndex,ModeId,MenuScriptId,ModeGroup,RaceType;
-extern s16 versus_select_D_80118448[2];
+extern s16 versus_select_finish_ranks[2];
 extern s16 SelectedCarIndex;
 extern u16 ModeSubState;
 extern RrMenuSelectionWord32 NumCars;
@@ -19,7 +19,7 @@ extern void *LoadCursor;
 extern u8 D_80118374[4];
 void SetModelTexturePage(s32);void AddScreenFadeTiles(u32*,s32,u32);void UpdateScreenFade(s32);void SetMenuFrameOptions(s32,s32,s32);
 void DrawMenuStepArrows(s32,s32,s32,s32,s32,s32,s32);void StepMenuValue(s32,s32,char*,s32,s32);
-s32 DecodeCourseIndex(s32);void DrawCourseInfoPanel(s32,s32);void DrawCourseMapPreview(s32,s32);void ResetScreenCounters(void);s32 LoadCarRangeStep(s32,s32);s32 LoadTrackNodesStep(void);void DrawUiRow(s32);void PlaySfx(s32);void SeqFadeVolume(s32,s32);void SeqMuteVolume(void);void versus_select_func_80115598(s32);
+s32 DecodeCourseIndex(s32);void DrawCourseInfoPanel(s32,s32);void DrawCourseMapPreview(s32,s32);void ResetScreenCounters(void);s32 LoadCarRangeStep(s32,s32);s32 LoadTrackNodesStep(void);void DrawUiRow(s32);void PlaySfx(s32);void SeqFadeVolume(s32,s32);void SeqMuteVolume(void);void versus_select_init_selection_screen(s32);
 /* UI roots cover at least26 complete rows. Highlight count is0..10; its byte span may extend beyond cells[8]
  * into later bytes of the same complete row.
  * Parameter table indices are0..3. Menu phase0 accepts selection0..3; phase5
@@ -28,6 +28,6 @@ s32 DecodeCourseIndex(s32);void DrawCourseInfoPanel(s32,s32);void DrawCourseMapP
  * state3, leaving that indexed branch. AC59C owns a complete word edited by
  * width4 input; signed low-half reads use its union member. Input .a owns the
  * resident aliasF3A60. Services may replace roots and valid live selectors. */
-void versus_select_func_80117430(void);
+void versus_select_update_course_select(void);
 RR_ASSERT_SIZE(RrSelectionRows,32);
 #endif

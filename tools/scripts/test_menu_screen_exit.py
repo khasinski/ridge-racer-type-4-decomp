@@ -59,7 +59,7 @@ int main(void){unsigned i,j;
   memcpy(saved,frames,sizeof(frames));phase=0;
   ModeGroup=(u16)case_id;ModeId=(s16)case_id;ModeSubState=(s16)~case_id;
   CurrentDrawBuf=&frames[3].rectangle;
-  if(which)versus_select_func_80114AA0();else time_attack_course_select_func_8011712C();
+  if(which)versus_select_func_80114AA0();else time_attack_course_select_exit_race();
   assert(phase==4);assert(CurrentDrawBuf==&frames[3].rectangle);
   assert(ModeGroup==(u16)(case_id+3));assert(ModeId==(s16)(case_id-3));
   assert(ModeSubState==(s16)(case_id+9));assert(MaskBitSetting==(s32)(case_id+3));

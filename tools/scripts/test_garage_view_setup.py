@@ -71,7 +71,7 @@ int main(void){unsigned k,i;
   for(i=0;i<sizeof(world);i++)((u8*)&world)[i]=(u8)next();
   scenario=k;world.calls=0;world.glyph=world.glyphs[k%3];world.badge=&world.badges[(k+1)%3];
   assert((uintptr_t)world.glyph>UINT32_MAX && (uintptr_t)world.badge>UINT32_MAX);
-  memcpy(&expected,&world,sizeof(world));reference();garage_func_80116020();
+  memcpy(&expected,&world,sizeof(world));reference();garage_init_team_select();
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

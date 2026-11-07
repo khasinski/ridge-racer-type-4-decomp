@@ -5,14 +5,14 @@ extern u32 PlayTimeFrames;
 extern s32 ScreenFrame;
 extern u32 *GarageActiveBuffer;
 extern RrGarageTimBytes *GarageLogoTimPtr;
-void garage_func_8011E070(void);
-void garage_func_8011E36C(s32 mode);
-void garage_func_8011B8B4(void);
-void garage_func_8011B484(void);
-void garage_func_8011B400(void);
-void garage_func_8011CF8C(void);
-void garage_func_8011CD18(void);
+void garage_update_cursor(void);
+void garage_update_actions(s32 mode);
+void garage_draw_cursor_sprite(void);
+void garage_draw_animated_panels(void);
+void garage_add_editor_draw_env(void);
+void garage_update_editor_overlays(void);
+void garage_upload_editor_vram(void);
 /* Increment pulse with PAL word wrap; clock wraps before its upper clamp.
  * After eight services, publish the fresh active0/1 buffer and TIM pointers. */
-void garage_func_8011AAF4(void);
+void garage_update_editor_frame(void);
 #endif

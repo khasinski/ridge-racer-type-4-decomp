@@ -1,5 +1,5 @@
 #include "rr/overlay661_layout.h"
-void versus_select_func_80115598(s32 mode) {
+void versus_select_init_selection_screen(s32 mode) {
     s32 i,y,z;
     RrRaceVehicle *vehicle;
     RrProjectionScratchPrefix *scratch;
@@ -70,13 +70,13 @@ void versus_select_func_80115598(s32 mode) {
         __asm__("" : "+r"(i) : : "memory");
         i++;vehicle++;
     } while(i<2);
-    versus_select_D_80118440[0][0]=CountChoiceGlyphs(versus_select_D_80118458[0][0]);
-    versus_select_D_80118440[0][1]=CountChoiceGlyphs(versus_select_D_80118458[0][1]);
-    versus_select_D_80118440[1][0]=CountChoiceGlyphs(versus_select_D_80118458[1][0]);
-    versus_select_D_80118440[1][1]=CountChoiceGlyphs(versus_select_D_80118458[1][1]);
-    if(versus_select_D_80118440[mode&1][1]==0)versus_select_D_80118450[mode&1]=0;
-    if(versus_select_D_8011844C[SelectionPlayer&1]>=versus_select_D_80118440[SelectionPlayer&1][versus_select_D_80118450[SelectionPlayer&1]])versus_select_D_8011844C[SelectionPlayer&1]=0;
-    UnpackChoiceGlyph((s8*)&SelectionRows+SelectionPlayer*4,versus_select_D_80118458[SelectionPlayer&1][versus_select_D_80118450[SelectionPlayer&1]][versus_select_D_8011844C[SelectionPlayer&1]].glyph);
-    PlayerCourseChoices[SelectionPlayer].first=versus_select_D_80118458[SelectionPlayer&1][versus_select_D_80118450[SelectionPlayer&1]][versus_select_D_8011844C[SelectionPlayer&1]].first;
-    PlayerCourseChoices[SelectionPlayer].second=versus_select_D_80118458[SelectionPlayer&1][versus_select_D_80118450[SelectionPlayer&1]][versus_select_D_8011844C[SelectionPlayer&1]].second;
+    versus_select_choice_counts[0][0]=CountChoiceGlyphs(versus_select_choice_tables[0][0]);
+    versus_select_choice_counts[0][1]=CountChoiceGlyphs(versus_select_choice_tables[0][1]);
+    versus_select_choice_counts[1][0]=CountChoiceGlyphs(versus_select_choice_tables[1][0]);
+    versus_select_choice_counts[1][1]=CountChoiceGlyphs(versus_select_choice_tables[1][1]);
+    if(versus_select_choice_counts[mode&1][1]==0)versus_select_choice_group[mode&1]=0;
+    if(versus_select_choice_index[SelectionPlayer&1]>=versus_select_choice_counts[SelectionPlayer&1][versus_select_choice_group[SelectionPlayer&1]])versus_select_choice_index[SelectionPlayer&1]=0;
+    UnpackChoiceGlyph((s8*)&SelectionRows+SelectionPlayer*4,versus_select_choice_tables[SelectionPlayer&1][versus_select_choice_group[SelectionPlayer&1]][versus_select_choice_index[SelectionPlayer&1]].glyph);
+    PlayerCourseChoices[SelectionPlayer].first=versus_select_choice_tables[SelectionPlayer&1][versus_select_choice_group[SelectionPlayer&1]][versus_select_choice_index[SelectionPlayer&1]].first;
+    PlayerCourseChoices[SelectionPlayer].second=versus_select_choice_tables[SelectionPlayer&1][versus_select_choice_group[SelectionPlayer&1]][versus_select_choice_index[SelectionPlayer&1]].second;
 }

@@ -34,13 +34,13 @@ static const u32 selectors[6]={0,1,2,0xffffffffU,0x80000000U,0x10000};
 static const s32 results[6]={0,1,-1,65537,(-2147483647-1),2147483647};
 static void check(void){assert(!memcmp(&cfg.c,expected,40));}
 static void change(unsigned salt){unsigned i;for(i=0;i<40;i++)expected[i]=(u8)(scenario*17+polls*13+i*7+salt);memcpy(&cfg.c,expected,40);}
-u8 *movie_playback_func_80115164(RrStrDisplayConfig *c){
+u8 *movie_playback_next_frame(RrStrDisplayConfig *c){
  u32 selector;assert(c==&cfg.c&&event==0);check();polls++;change(0);
  selector=selectors[(scenario/6+polls)%6];memcpy(expected,&selector,4);memcpy(&cfg.c,expected,40);
  StrStreamState=&streams.s[(scenario+polls)%3];
  return polls==limit?backing[scenario%3][5]:0;
 }
-void movie_playback_func_80116958(u8 *data,void *commands){
+void movie_playback_dec_dct_vlc(u8 *data,void *commands){
  u32 selector=selectors[(scenario/6+polls)%6]<1U;
  assert(event++==0&&polls==limit&&data==backing[scenario%3][5]);
  memcpy(expected,&selector,4);check();
@@ -70,7 +70,7 @@ int main(void){unsigned i,j;const unsigned limits[6]={1,2,1999,2000,2001,17};
   }
   saved=streams;memcpy(saved_backing,backing,sizeof backing);memcpy(saved_queues,queues,sizeof queues);
   polls=event=0;limit=limits[scenario%6];memcpy(expected,&cfg.c,40);StrStreamState=&streams.s[scenario%3];
-  s32 result=movie_playback_func_801150D8(&cfg.c);
+  s32 result=movie_playback_next_vlc(&cfg.c);
   assert(polls==(limit>2000?2000:limit));assert(event==(limit>2000?0:2));check();
   assert(result==(limit>2000?-1:results[(scenario/36)%6]));
   assert(!memcmp(&streams,&saved,sizeof streams));assert(!memcmp(backing,saved_backing,sizeof backing));assert(!memcmp(queues,saved_queues,sizeof queues));

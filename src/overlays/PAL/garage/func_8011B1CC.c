@@ -1,9 +1,9 @@
 #include "rr/overlay662_primitives.h"
 
-RrGpuPolyFT4Packet *garage_func_8011B1CC(u32 *ordering, RrGpuPolyFT4Packet *packet, u32 x, u32 y, u32 w, u32 h, u32 u, u32 v, u32 uw, u32 vh, u32 clut, u32 tpage)
+RrGpuPolyFT4Packet *garage_add_textured_rect(u32 *ordering, RrGpuPolyFT4Packet *packet, u32 x, u32 y, u32 w, u32 h, u32 u, u32 v, u32 uw, u32 vh, u32 clut, u32 tpage)
 {
-    u16 baseX = garage_D_801276A8.halfC8;
-    u16 baseY = garage_D_801276A8.halfCA;
+    u16 baseX = garage_logo_state.halfC8;
+    u16 baseY = garage_logo_state.halfCA;
     u16 x1;
     u16 u1;
     u16 v1;

@@ -8,6 +8,6 @@
 extern u16 ModeGroup;
 extern s16 ModeId,ModeSubState;
 void StopRaceAudioAndRumble(void);
-void time_attack_course_select_func_8011712C(void);
+void time_attack_course_select_exit_race(void);
 void versus_select_func_80114AA0(void);
 #endif

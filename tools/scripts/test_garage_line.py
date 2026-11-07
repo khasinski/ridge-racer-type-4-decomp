@@ -22,7 +22,7 @@ class Overlay662LineTest(unittest.TestCase):
 #define RR_ASSERT_OFFSET(t,f,n) _Static_assert(sizeof(void*)!=4 || offsetof(t,f)==n,"target offset")
 #include "rr/overlay662_line.h"
 static struct World {u32 head[4];RrGarageSelectionPrefix garage;RrGpuLineF2Packet packets[5];u32 order[4];u32 tail[4];} world,expected;
-#define garage_D_801276A8 world.garage
+#define garage_logo_state world.garage
 ''' + body + r'''
 static u32 seed=0x1AE2C;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -50,7 +50,7 @@ int main(void){unsigned k,m,i;
   for(i=0;i<8;i++)world.garage.options78.flat[i]=0;
   if(k<8){static const u32 edges[]={0,1,0x7FFF,0x8000,0xFFFF,0x10000,0x7FFFFFFF,0xFFFFFFFF};x=edges[k];y0=edges[7-k];y1=edges[(k+3)%8];r=edges[k];g=edges[7-k];b=edges[(k+5)%8];}
   memcpy(&expected,&world,sizeof(world));reference(m,index,x,y0,y1,r,g,b);
-  result=garage_func_8011AE2C(ordering(&world,m,index),&world.packets[index],x,y0,y1,r,g,b);
+  result=garage_add_vline(ordering(&world,m,index),&world.packets[index],x,y0,y1,r,g,b);
   assert(result==&world.packets[index+1]);assert((uintptr_t)result>UINT32_MAX);assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;

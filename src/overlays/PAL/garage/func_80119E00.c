@@ -1,6 +1,6 @@
 #include "rr/overlay662_palette_controller.h"
 
-void garage_func_80119E00(void) {
+void garage_update_color_select(void) {
     s32 badgePhase;
     s32 ready;
     void *palette;
@@ -18,15 +18,15 @@ void garage_func_80119E00(void) {
     ScreenFrame = (u32)ScreenFrame + 1;
     switch ((u16)ModeSubState) {
     case 0:
-        if (garage_D_801272E8 == 0) SetMenuFrameOptions(1,1,1);
+        if (garage_returned_from_logo_editor == 0) SetMenuFrameOptions(1,1,1);
         else SetMenuFrameOptions(1,1,0);
-        previous = garage_D_801272BE;
-        if (garage_D_80127398 >= 0x11) {
-            StepMenuValue(1, 2, (char *)&garage_D_801272BE, 0x19, 0);
+        previous = garage_clut_list_index;
+        if (garage_image_fade_phase >= 0x11) {
+            StepMenuValue(1, 2, (char *)&garage_clut_list_index, 0x19, 0);
         }
-        if ((s16) previous != (s16) garage_D_801272BE) {
-            key = (s8)garage_D_801272A0[(s16)garage_D_801272BE];
-            garage_D_801272E2 = key;
+        if ((s16) previous != (s16) garage_clut_list_index) {
+            key = (s8)garage_car_color_map[(s16)garage_clut_list_index];
+            garage_clut_choice = key;
             if (key == 0) {
                 palette = DefaultCarClut;
                 paletteIndex = 0;
@@ -35,12 +35,12 @@ void garage_func_80119E00(void) {
                 paletteIndex = key - 1;
             }
             UploadCarClut(palette, paletteIndex, 0);
-            garage_D_80127398 = 0;
+            garage_image_fade_phase = 0;
         }
         UiRows[(s16)MenuCursor].cells[0] = 0;
         StepMenuValue(0, 2, (char *)&MenuCursor, MenuItemCount, 0);
         highlight = 2;
-        if (garage_D_801272E2 >= 0x19) {
+        if (garage_clut_choice >= 0x19) {
             UiRows->half20 = 1;
             if ((s16) MenuCursor == 0) {
                 highlight = 4;
@@ -56,11 +56,11 @@ void garage_func_80119E00(void) {
                 if (PlayerControllers[0].a != 0) {
                     UiRows[(s16)MenuCursor].cells[0] = 1;
                     if ((s16) MenuCursor == 0) {
-                        if (garage_D_801272E2 < 0x19) {
+                        if (garage_clut_choice < 0x19) {
                             PlaySfx(1);
                             index = 0;
                             garage_D_801272D4 = (s16) rowPhase;
-                            garage_D_80127398 = 0;
+                            garage_image_fade_phase = 0;
                             ModeSubState = (u16) badgePhase;
                             do {
                                 acceptRow = (RrUiRow24 *)(index * sizeof(RrUiRow24) + (unsigned long)UiRows);
@@ -76,7 +76,7 @@ void garage_func_80119E00(void) {
                     } else if ((s16) MenuCursor == 1) {
                         PlaySfx(1);
                         index = 0;
-                        garage_D_80127398 = 0;
+                        garage_image_fade_phase = 0;
                         garage_D_801272D4 = (s16) rowPhase;
                         BadgeRows->state10 = 4;
                         do {
@@ -89,11 +89,11 @@ void garage_func_80119E00(void) {
                         goto closeMenu;
                     }
                 } else if (PlayerControllers[0].b != 0) {
-                    if (garage_D_801272E8 == 0) {
+                    if (garage_returned_from_logo_editor == 0) {
                         PlaySfx(2);
                         index = 0;
                         garage_D_801272D4 = (s16) rowPhase;
-                        garage_D_80127398 = 0;
+                        garage_image_fade_phase = 0;
                         BadgeRows->state10 = 4;
                         do {
                             cancelRow = (RrUiRow24 *)(index * sizeof(RrUiRow24) + (unsigned long)UiRows);
@@ -110,21 +110,21 @@ closeMenu:
         }
         goto drawMenu;
     case 3:
-        if (garage_D_801272E8 == 0) SetMenuFrameOptions(0,1,1);
+        if (garage_returned_from_logo_editor == 0) SetMenuFrameOptions(0,1,1);
         else SetMenuFrameOptions(0,1,0);
         if ((UiRows->byte14 == 5) && (BadgeRows->state10 == 11)) {
-            PlayerCourseChoices[0].second = (u16)garage_D_801272E2+1;
-            if (garage_D_801272E8 == 0) goto enterPalette;
+            PlayerCourseChoices[0].second = (u16)garage_clut_choice+1;
+            if (garage_returned_from_logo_editor == 0) goto enterPalette;
             goto publishScene;
         }
         goto drawMenu;
     case 4:
-        if (garage_D_801272E8 == 0) SetMenuFrameOptions(0,1,1);
+        if (garage_returned_from_logo_editor == 0) SetMenuFrameOptions(0,1,1);
         else SetMenuFrameOptions(0,1,0);
         if ((UiRows->byte14 == 5) && (BadgeRows->state10 == 11)) {
-            if (garage_D_801272E8 != 0) goto publishScene;
+            if (garage_returned_from_logo_editor != 0) goto publishScene;
 enterPalette:
-            garage_func_80118ED8();
+            garage_init_car_select();
             break;
 publishScene:
             ModeGroup=3;ModeId=1;ModeSubState=0;
@@ -139,8 +139,8 @@ drawMenu:
                 garage_D_801272D4 = ready;
             }
         } else {
-            garage_func_80119898(garage_D_801272D4 - 1);
-            DrawMenuStepArrows(0xA0, 0xC0, 0x30, 0, (s32) (s16) garage_D_801272BE, 0, (s32) garage_D_8012739A);
+            garage_draw_color_preview_image(garage_D_801272D4 - 1);
+            DrawMenuStepArrows(0xA0, 0xC0, 0x30, 0, (s32) (s16) garage_clut_list_index, 0, (s32) garage_clut_list_count);
         }
         index = 0;
         if (MenuItemCount > 0) {

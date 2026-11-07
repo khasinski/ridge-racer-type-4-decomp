@@ -38,8 +38,8 @@ RrBadgeRow1C *BadgeRows;
 #define records_record_label w->s.uv
 #define records_selected_record w->s.index
 #define records_course_unlock_levels w->s.counts
-#define garage_D_801273A8 w->s.letters
-#define garage_D_801273A0 w->s.selected
+#define garage_name_buffer w->s.letters
+#define garage_name_cursor w->s.selected
 #define ScreenFrame w->s.tick
 ''' + bodies + formatter + r'''
 static u32 next(void){u32 x=w->s.rng;x^=x<<13;x^=x>>17;x^=x<<5;return w->s.rng=x;}
@@ -74,7 +74,7 @@ int main(void){unsigned scenario,kind,i;void *got,*want;
   w->s.selected=(s8)(scenario%10-1);
   for(i=0;i<4;i++){w->s.rows[i].x04=(s16)next();w->s.rows[i].y06=(s16)next();}
   actual=reference=initial;
-  w=&actual;BadgeRows=w->s.rows;got=kind?0:records_draw_record_labels(ordering,arena,scenario%4);if(kind)garage_func_80118238(ordering,arena,scenario%4);
+  w=&actual;BadgeRows=w->s.rows;got=kind?0:records_draw_record_labels(ordering,arena,scenario%4);if(kind)garage_draw_name_entry_field(ordering,arena,scenario%4);
   w=&reference;BadgeRows=w->s.rows;want=expected(kind,scenario%4);
   assert(kind||got==want);assert(!memcmp(&actual,&reference,sizeof(actual)));
  }

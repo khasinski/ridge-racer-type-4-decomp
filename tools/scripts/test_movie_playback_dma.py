@@ -26,28 +26,28 @@ class OverlayDmaTest(unittest.TestCase):
 #include "rr/overlay668_dma.h"
 static struct World { u32 before[8],words[64],map[7],calls,after[8];
  const void *input_address;void *output_address;const char *message; } world,expected;
-u32 *movie_playback_D_80116E58,*movie_playback_D_80116E24,*movie_playback_D_80116E28;
-u32 *movie_playback_D_80116E30,*movie_playback_D_80116E50,*movie_playback_D_80116E34,*movie_playback_D_80116E54;
-const void *volatile *movie_playback_D_80116E20;
-void *volatile *movie_playback_D_80116E2C;
-char movie_playback_D_801148DC[]="input timeout",movie_playback_D_801148EC[]="output timeout";
+u32 *movie_playback_dma_dpcr,*movie_playback_mdec_in_dma_bcr,*movie_playback_mdec_in_dma_chcr;
+u32 *movie_playback_mdec_out_dma_bcr,*movie_playback_mdec_cmd_reg,*movie_playback_mdec_out_dma_chcr,*movie_playback_mdec_ctrl_reg;
+const void *volatile *movie_playback_mdec_in_dma_madr;
+void *volatile *movie_playback_mdec_out_dma_madr;
+char movie_playback_mdec_in_sync_name[]="input timeout",movie_playback_mdec_out_sync_name[]="output timeout";
 static void bind(void){
- movie_playback_D_80116E58=&world.words[world.map[0]];
- movie_playback_D_80116E24=&world.words[world.map[1]];
- movie_playback_D_80116E28=&world.words[world.map[2]];
- movie_playback_D_80116E30=&world.words[world.map[3]];
- movie_playback_D_80116E50=&world.words[world.map[4]];
- movie_playback_D_80116E34=&world.words[world.map[6]];
- movie_playback_D_80116E54=&world.words[63];
- movie_playback_D_80116E20=&world.input_address;
- movie_playback_D_80116E2C=&world.output_address;
+ movie_playback_dma_dpcr=&world.words[world.map[0]];
+ movie_playback_mdec_in_dma_bcr=&world.words[world.map[1]];
+ movie_playback_mdec_in_dma_chcr=&world.words[world.map[2]];
+ movie_playback_mdec_out_dma_bcr=&world.words[world.map[3]];
+ movie_playback_mdec_cmd_reg=&world.words[world.map[4]];
+ movie_playback_mdec_out_dma_chcr=&world.words[world.map[6]];
+ movie_playback_mdec_ctrl_reg=&world.words[63];
+ movie_playback_mdec_in_dma_madr=&world.input_address;
+ movie_playback_mdec_out_dma_madr=&world.output_address;
 }
 static void diagnose(struct World *w,const char *message){
  w->calls++;w->message=message;
  w->words[w->map[5]]^=0x9e3779b9U;
  w->map[0]=(w->map[0]+1)&15;
 }
-s32 movie_playback_func_801168A4(const char *message){diagnose(&world,message);bind();return 0;}
+s32 movie_playback_mdec_timeout(const char *message){diagnose(&world,message);bind();return 0;}
 ''' + bodies + r'''
 static u32 seed=0x16648;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -67,7 +67,7 @@ static void cases(unsigned output){u32 k;for(k=0;k<65536;k++){
  initialize(k);buffer=&world.words[16+(next()&15)];
  if(k<8){if(output)world.words[world.map[6]]|=0x01000000U;else world.words[63]|=0x20000000U;}
  expected=world;
- if(k<8)diagnose(&expected,output?movie_playback_D_801148EC:movie_playback_D_801148DC);
+ if(k<8)diagnose(&expected,output?movie_playback_mdec_out_sync_name:movie_playback_mdec_in_sync_name);
  /* Independent register model: DPCR preserves every bit except enabling 0/1.
   * BCR has 32 words per block and the low16 bits of the block count. */
  expected.words[expected.map[0]]|=0x88;
@@ -76,16 +76,16 @@ static void cases(unsigned output){u32 k;for(k=0;k<65536;k++){
   expected.output_address=buffer;
   expected.words[expected.map[3]]=((count/32)&65535U)*65536U+32;
   expected.words[expected.map[6]]=0x01000200;
-  movie_playback_func_801166D8(buffer,count);
+  movie_playback_mdec_out(buffer,count);
  }else{
   expected.input_address=(const u8 *)&world.words[world.map[5]]+4;
   expected.words[expected.map[1]]=((count/32)&65535U)*65536U+32;
   expected.words[expected.map[4]]=expected.words[expected.map[5]];
   expected.words[expected.map[2]]=0x01000201;
-  movie_playback_func_80116648(&world.words[world.map[5]],count);
+  movie_playback_mdec_in(&world.words[world.map[5]],count);
  }
  assert(memcmp(&world,&expected,sizeof(world))==0);
- assert(movie_playback_D_80116E58==&world.words[expected.map[0]]);
+ assert(movie_playback_dma_dpcr==&world.words[expected.map[0]]);
 }}
 int main(int argc,char **argv){assert(argc==2);cases(argv[1][0]=='o');return 0;}
 '''

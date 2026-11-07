@@ -59,7 +59,7 @@ int main(void){unsigned k,i,where,win;u32 x,y;
   ref_builder(0,1,page,0);p=(u8*)&expected.storage;o=(u8*)ordering(&expected,where);
   put32(p,0,(get32(p,0)&0xff000000U)|(get32(o,0)&0xffffffU));
   put32(o,0,(get32(o,0)&0xff000000U)|((uintptr_t)&world.storage.packets[0]&0xffffffU));
-  returned=garage_func_8011AC94(ordering(&world,where),&world.storage.packets[0],x,y);
+  returned=garage_add_draw_mode(ordering(&world,where),&world.storage.packets[0],x,y);
   assert(returned==&world.storage.packets[1] && (uintptr_t)returned>UINT32_MAX);
   assert(memcmp(&world,&expected,sizeof(world))==0);
  }

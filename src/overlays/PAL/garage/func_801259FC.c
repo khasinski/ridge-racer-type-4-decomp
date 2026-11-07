@@ -20,7 +20,7 @@
     }
 
 /* Bresenham line from (x0, y0) to (x1, y1) with a square brush. */
-void garage_func_801259FC(u32 *image, s32 x0, s32 y0, s32 x1, s32 y1, u8 color, u8 size) {
+void garage_draw_brush_line(u32 *image, s32 x0, s32 y0, s32 x1, s32 y1, u8 color, u8 size) {
     s32 dx, dy, step, err;
     s32 i, j;
 

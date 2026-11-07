@@ -1,6 +1,6 @@
 #include "rr/overlay667_course_initializer.h"
 typedef struct {s8 first,second;} Pair;
-void serial_link_func_80116918(void){
+void serial_link_init_scene(void){
  s32 i;s32 j;register s32 offset __asm__("$7");s32 pos;
  register u8 *repeat __asm__("$5");
  u8 *destBase;
@@ -25,8 +25,8 @@ void serial_link_func_80116918(void){
   __builtin_memcpy(dest+72,repeat,4);
   __asm__("" : : "r"(j),"r"(pos),"r"(repeat));
  }
- for(i=0;i<2;i++)CopyStringClearTail(PlayerNames[SelectionPlayer+i],serial_link_D_80118E00[SelectionPlayer+i]);
- serial_link_func_801161A8((1-(s16)LinkRoleSlot)*2);
+ for(i=0;i<2;i++)CopyStringClearTail(PlayerNames[SelectionPlayer+i],serial_link_default_player_names[SelectionPlayer+i]);
+ serial_link_init_car_select((1-(s16)LinkRoleSlot)*2);
  UnpackChoiceGlyph((s8*)((u8 *)&SelectionRows+SelectionPlayer*4),CourseChoiceTable[0][0].glyph);
  UnpackChoiceGlyph((s8*)((u8 *)&SelectionRows+4+SelectionPlayer*4),CourseChoiceTable[0][0].glyph);
  AvailableCourseCount=8;SeqStartTrack(0);ModeGroup=1;ModeId=60;ModeSubState=0;CourseMenuPhase=0;

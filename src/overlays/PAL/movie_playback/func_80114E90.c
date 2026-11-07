@@ -1,5 +1,5 @@
 #include "rr/overlay668_display.h"
-void movie_playback_func_80114E90(RrStrDisplayConfig*p,s32 x,s32 y,s32 second_x,s32 second_y){
+void movie_playback_set_dec_env(RrStrDisplayConfig*p,s32 x,s32 y,s32 second_x,s32 second_y){
  p->rectangles[0].w=480;
  p->rectangles[1].w=480;
  p->rectangles[0].x=x;

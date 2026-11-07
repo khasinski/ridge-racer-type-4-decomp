@@ -1,8 +1,8 @@
 #include "rr/overlay660.h"
 
-void time_attack_course_select_func_80114910(void) { SceneId = 0x131; }
+void time_attack_course_select_set_scene_id(void) { SceneId = 0x131; }
 
-void time_attack_course_select_func_80114920(void) {
+void time_attack_course_select_init_menu(void) {
     RrProjectionScratchPrefix *scratch;
     s32 selection;
     s16 *result;
@@ -41,7 +41,7 @@ void time_attack_course_select_func_80114920(void) {
     PlayerCars[0].pos20[2]=0;
 }
 
-void time_attack_course_select_func_80114C40(void)
+void time_attack_course_select_init_scene(void)
 {
     s32 val;
 
@@ -61,7 +61,7 @@ void time_attack_course_select_func_80114C40(void)
     if (val & 0x100) {
         time_attack_course_select_available_course_count = 16;
     }
-    time_attack_course_select_func_80114920();
+    time_attack_course_select_init_menu();
     UnpackChoiceGlyph((s8*)&SelectionRows,CourseChoiceTable[0][0].glyph);
     ModeGroup = 1;
     ModeId = 50;
@@ -70,7 +70,7 @@ void time_attack_course_select_func_80114C40(void)
     SeqStartTrack(0);
 }
 
-void time_attack_course_select_func_80114D38(void) {
+void time_attack_course_select_update_menu(void) {
     s32 loopCount;
     s16 cancelTimer;
     s16 settingsTimer;
@@ -226,7 +226,7 @@ check_back:
             goto draw_course;
         case 3:
             if (UiRows[0].byte14 == 5) {
-                time_attack_course_select_func_801163C4();
+                time_attack_course_select_init_preview();
                 ModeGroup = 1;
                 ModeId = 0x33;
                 ModeSubState=0;

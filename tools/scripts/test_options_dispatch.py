@@ -26,7 +26,7 @@ static World actual,reference,initial,*w;
 static unsigned scenario,mutation,seenScenes,seenSelections;
 static const s32 scenes[]={0,1,2,-1,3,INT32_MIN,INT32_MAX};
 static const s32 selections[]={0,1,2,3,4,5,6,-1,7,8,INT32_MIN,INT32_MAX};
-#define options_D_80119768 w->s.visual
+#define options_menu_state w->s.visual
 #define ModeGroup w->s.scene
 #define ModeId w->s.next
 #define ModeSubState w->s.phase
@@ -36,19 +36,19 @@ static void event(s32 kind,s32 arg){unsigned i,n=w->calls;assert(n<8);w->events[
  w->s.visual.scene00=word(scenario&1?0x7FFFFFFFU:0xFFFFFFFFU);w->s.visual.selection08=selections[(scenario+n)%12];
  w->s.scene=(u16)(scenario+n*51);w->s.next=(s16)(scenario+n*37);w->s.phase=(s16)(scenario+n*11);}
 }
-void SetDispMask(s32 a){event(1,a);}void options_func_80114A24(void){event(2,0);}
+void SetDispMask(s32 a){event(1,a);}void options_init_main_menu(void){event(2,0);}
 void InitMotionController(void){event(3,0);}void SetMotionControllerVisible(s32 a){event(4,a);}void SeqStartTrack(s32 a){event(5,a);}
-void options_func_80114C4C(void){event(6,0);}void options_func_80116D10(s32 a){event(7,a);}
-void options_func_801151A4(void){event(8,0);}void options_func_80115820(void){event(9,0);}
-void options_func_80115CFC(void){event(10,0);}void StartAttractDemo(s32 a){event(11,a);}void StepCameraScript(void){event(12,0);}
+void options_update_main_menu(void){event(6,0);}void options_update_controller_config(s32 a){event(7,a);}
+void options_update_audio_menu(void){event(8,0);}void options_update_screen_adjust(void){event(9,0);}
+void options_update_brightness_test(void){event(10,0);}void StartAttractDemo(s32 a){event(11,a);}void StepCameraScript(void){event(12,0);}
 ''' + body + r'''
 static void expected(void){s32 scene=w->s.visual.scene00;
- if(scene==0){SetDispMask(0);options_func_80114A24();w->s.visual.scene00=word((u32)w->s.visual.scene00+1U);InitMotionController();SetMotionControllerVisible(1);SeqStartTrack(0);}
- else if(scene==1)options_func_80114C4C();
+ if(scene==0){SetDispMask(0);options_init_main_menu();w->s.visual.scene00=word((u32)w->s.visual.scene00+1U);InitMotionController();SetMotionControllerVisible(1);SeqStartTrack(0);}
+ else if(scene==1)options_update_main_menu();
  else if(scene==2){s32 selection=w->s.visual.selection08;
-  if(selection==0||selection==1)options_func_80116D10(selection);
-  else if(selection==2)options_func_801151A4();else if(selection==3)options_func_80115820();
-  else if(selection==4)options_func_80115CFC();else if(selection==5)StartAttractDemo(1);
+  if(selection==0||selection==1)options_update_controller_config(selection);
+  else if(selection==2)options_update_audio_menu();else if(selection==3)options_update_screen_adjust();
+  else if(selection==4)options_update_brightness_test();else if(selection==5)StartAttractDemo(1);
   else if(selection==6){w->s.scene=1;w->s.next=3;w->s.phase=0;}
  }
  StepCameraScript();
@@ -57,7 +57,7 @@ int main(void){unsigned i;
  for(scenario=0;scenario<65536;scenario++)for(mutation=0;mutation<2;mutation++){
   memset(&initial,0,sizeof(initial));for(i=0;i<sizeof(initial.s);i++)((u8*)&initial.s)[i]=(u8)(scenario+i*31);
   initial.s.visual.scene00=scenes[scenario%7];initial.s.visual.selection08=selections[(scenario/7)%12];
-  actual=reference=initial;w=&actual;options_func_80118EB8();w=&reference;expected();assert(!memcmp(&actual,&reference,sizeof(actual)));
+  actual=reference=initial;w=&actual;options_dispatch_menu();w=&reference;expected();assert(!memcmp(&actual,&reference,sizeof(actual)));
   seenScenes|=1U<<(scenario%7);if(initial.s.visual.scene00==2)seenSelections|=1U<<((scenario/7)%12);
  }
  assert(seenScenes==127&&seenSelections==4095);return 0;

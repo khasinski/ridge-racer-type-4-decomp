@@ -8,18 +8,18 @@
 extern RrCourseChoice4 CourseChoiceTable[2][9];
 void SeqStartTrack(s32 mode);
 #include "rr/overlay662_progress_init.h"
-extern const char garage_D_8011487C[];
+extern const char garage_scene_name[];
 void SetModelTexturePage(s32 mode);
-void garage_func_80114B9C(void) {
+void garage_enter_main_menu(void) {
     SetDispMask(0);
     ClearScreenOverlayState();
-    garage_func_80114998();
+    garage_init_main_menu();
     SetupDrawDispEnvs(0, 0, 0, 2);
     SetModelTexturePage(25);
     ModeGroup = 1;
     ModeId = 40;
     ModeSubState = 0;
-    DebugPrintStub(garage_D_8011487C);
+    DebugPrintStub(garage_scene_name);
     if (SaveProgress.prefix.reserved50.words[0] == 1) {
         if (CourseChoiceTable[1][7].glyph >= 0) {
             CourseChoiceTable[1][8].glyph = 359;

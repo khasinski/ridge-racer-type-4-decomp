@@ -6,5 +6,5 @@
  * active21 selects one of two complete16-entry palettes. Emits a TILE, then
  * optional sprite69 at signed low16(x-1,y-2) for the freshly selected slot.
  * Scratch cursor backing covers a tile and its optional following sprite. */
-void garage_func_8011BCC0(s32 index);
+void garage_draw_palette_swatch(s32 index);
 #endif
