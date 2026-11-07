@@ -39,7 +39,7 @@ StGetNext
 InitGeom
 RotMatrix
 RotMatrixY
-func_80092700
+GtePatchMatchCode
 checkRECT
 get_cs
 _dws
