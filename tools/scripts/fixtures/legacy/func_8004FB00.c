@@ -6,7 +6,7 @@ extern int SetSoundChannelVolLR();
 extern int SoundLoopSet();
 extern int CdAudioMute();
 extern int SoundReverbOffAll();
-extern int func_80051B38();
+extern int ClearSoundLoopActiveFlag();
 extern int SoundPaused;
 struct E { char pad[0x38]; u32 flags; char r[1568 - 0x3C]; };
 extern struct E SoundState[];
@@ -22,6 +22,6 @@ void SoundStopAll(void) {
     SoundLoopSet(5, 0x1E00, 0, 0x40);
     CdAudioMute();
     SoundReverbOffAll();
-    func_80051B38();
+    ClearSoundLoopActiveFlag();
     SoundPaused = 1;
 }

@@ -22,24 +22,24 @@ extern unsigned short SavedCourseIndex;
 extern short CourseIndex;
 extern int LoadTimList();
 extern int LoadVab();
-extern char D_800A0234[];
-extern char *D_800ACBB4;
+extern char RaceVabLoadParams[];
+extern char *RaceLoadOffsetTable;
 extern char VabLoadArgs[];
 extern int D_800A0270[];
 extern int LoadVab();
 
-void func_8004E414(void);
+void SetupRaceSoundSlots(void);
 int LoadRaceSoundAndTrackStep(void);
 int LoadTrackVabsStep(void);
 int LoadModelBank8Step(void);
 int LoadVabAndTimsStep();
 
-void func_8004E414(void) {
+void SetupRaceSoundSlots(void) {
     switch (RaceType) {
     case 6:
         SoundState.f19cc = 1;
         RaceContext.a = 5;
-        RaceContext.b = func_8004E3B0(0);
+        RaceContext.b = GetSelectionSoundBank(0);
         RaceContext.c = -1;
         SoundState.f10 = 0;
         RaceContext.d = CourseListIndex + 1;
@@ -47,7 +47,7 @@ void func_8004E414(void) {
     case 0:
         SoundState.f19cc = 1;
         RaceContext.a = 5;
-        RaceContext.b = func_8004E3B0(0);
+        RaceContext.b = GetSelectionSoundBank(0);
         RaceContext.c = -1;
         RaceContext.d = -1;
         SoundState.f10 = 0;
@@ -57,7 +57,7 @@ void func_8004E414(void) {
     case 5:
         SoundState.f19cc = 0;
         RaceContext.a = 4;
-        RaceContext.b = func_8004E3B0(0);
+        RaceContext.b = GetSelectionSoundBank(0);
         RaceContext.c = -1;
         RaceContext.d = 0;
         SoundState.f10 = 0;
@@ -66,8 +66,8 @@ void func_8004E414(void) {
     case 3:
         SoundState.f19cc = 1;
         RaceContext.a = 5;
-        RaceContext.b = func_8004E3B0(0);
-        RaceContext.c = func_8004E3B0(1);
+        RaceContext.b = GetSelectionSoundBank(0);
+        RaceContext.c = GetSelectionSoundBank(1);
         RaceContext.d = -1;
         SoundState.f10 = 1;
         break;
@@ -75,14 +75,14 @@ void func_8004E414(void) {
         SoundSequenceSet = 1;
         RaceContext.a = 5;
         if (LinkRoleSlot != 0) {
-            RaceContext.b = func_8004E3B0(0);
-            RaceContext.c = func_8004E3B0(1);
+            RaceContext.b = GetSelectionSoundBank(0);
+            RaceContext.c = GetSelectionSoundBank(1);
         } else {
-            RaceContext.b = func_8004E3B0(2);
-            RaceContext.c = func_8004E3B0(3);
+            RaceContext.b = GetSelectionSoundBank(2);
+            RaceContext.c = GetSelectionSoundBank(3);
         }
         D_800ACBC8 = -1;
-        D_800F4DC8 = 1;
+        LinkRaceSoundFlag = 1;
         break;
     }
 }
@@ -90,7 +90,7 @@ void func_8004E414(void) {
 int LoadRaceSoundAndTrackStep(void) {
     switch (RaceLoadPhase) {
     case 0:
-        func_8004E414();
+        SetupRaceSoundSlots();
         RaceLoadPhase += 1;
     case 1:
         if (LoadRaceSoundStep() != 0) {
@@ -140,8 +140,8 @@ int LoadTrackVabsStep(void)
         i = 0;
         RelocateOffsetTable(RaceLoadCursor + *(int *)(RaceLoadCursor + 8));
         s3 = SoundState;
-        s1 = D_800A0234;
-        D_800ACBB4 = RaceLoadCursor + *(int *)(RaceLoadCursor + 8);
+        s1 = RaceVabLoadParams;
+        RaceLoadOffsetTable = RaceLoadCursor + *(int *)(RaceLoadCursor + 8);
         do {
             *(char **)VabLoadArgs = RaceLoadCursor + *(int *)(RaceLoadCursor + i * 4 + 0x14);
             *(char **)(VabLoadArgs + 4) = RaceLoadCursor + *(int *)(RaceLoadCursor + i * 4 + 0x1C);

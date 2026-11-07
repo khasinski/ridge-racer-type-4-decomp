@@ -1,7 +1,7 @@
 SetupLightMatrices 0x80044920 0x204 
-func_80044EC4 0x80044ec4 0x320 
+DrawRaceContextModelBanks 0x80044ec4 0x320 
 InterpCameraKeyframes 0x800452cc 0x564 
-func_80045868 0x80045868 0x6e0 
+UpdateRaceOpeningSequence 0x80045868 0x6e0 
 InitComCars 0x80045f48 0x444 
 UpdateComCarCurrentLane 0x8004638c 0x15c 
 ProjectToTrackSegment 0x800464e8 0x408 
@@ -34,4 +34,4 @@ AddSetTexpagePrim 0x8004c928 0x70
 EmitSpriteDescFT4 0x8004c998 0x244 
 LoadCarSpecStep 0x8004d628 0x18c 
 LoadSelectionTimAndModelStep 0x8004d7d8 0x1bc 
-func_8004D994 0x8004d994 0x200 
+LoadTeamModelsStep 0x8004d994 0x200 

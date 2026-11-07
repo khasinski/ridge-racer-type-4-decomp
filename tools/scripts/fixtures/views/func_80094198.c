@@ -48,10 +48,10 @@ u32 get_ce(s32 a0, s32 a1) {
     register s32 shifted=(s32)((u32)a0<<16);
     coordinate=shifted>>16;
     if (coordinate >= 0) {
-        c = D_800ABAC4 - 1 < coordinate;
+        c = GpuVramWidth - 1 < coordinate;
         /* ASM_BARRIER: Preserve the separate unsigned limit reload after the signed comparison. */
         __asm__ volatile("" : "=r"(c) : "0"(c) : "memory");
-        t = *(u16 *)&D_800ABAC4;
+        t = *(u16 *)&GpuVramWidth;
         if (c) v = t - 1; else v = a0;
     } else v=0;
     a0=v;

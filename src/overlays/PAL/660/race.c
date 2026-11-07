@@ -78,7 +78,7 @@ update_pause_timer:
         SetModelTexturePage(-1);
     } else if (RaceState == 1) {
             if ((u32) ModeFrame >= 0xB0U) {
-                func_80022CD4(PlayerCars);
+                ApplyRaceStartLaunch(PlayerCars);
                 RaceState = 2;
                 CdAudioBeginPlay(1);
             }
@@ -148,7 +148,7 @@ draw_vehicle:
     DrawCars(0);
     if (PlayerCars[0].half1EA != ReverseCourse) {
         if (RaceState < 4) {
-            func_800225DC(0);
+            DrawWrongWaySprite(0);
         }
     }
     RR_660_FRAME_SCRATCH->word78 = (s32) D_800F2A64;

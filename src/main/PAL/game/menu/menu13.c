@@ -28,7 +28,7 @@ extern int AddSpriteWithDrawMode();
 void UpdateDialogue(int a0, int a1, S *s);
 void SkipDialoguePage(void *arg0);
 int DecodeCourseIndex(s32 a0);
-void func_80032EC8();
+void DrawCourseIconSprite();
 
 void UpdateDialogue(int a0, int a1, S *s) {
     unsigned short *p;
@@ -63,7 +63,7 @@ void UpdateDialogue(int a0, int a1, S *s) {
         s->p = p;
         s->bB = v;
         s->i18 = 0;
-        v = D_800ACC20[s->b4];
+        v = DialoguePageCounts[s->b4];
         s->s12 = 0;
         s->sE = 1;
         s->s10 = 0;
@@ -115,8 +115,8 @@ tail1:
         }
         break;
     case 2:
-        func_80031DA0();
-        func_80031DA8();
+        DialogueIdleStubA();
+        UpdateDialogueStubB();
         DrawAnimatedText(a0, a1, s, 1, 0x3FFC);
         break;
     case 3:
@@ -179,7 +179,7 @@ s32 DecodeCourseIndex(s32 a0) {
     return CourseIndexMap[a0 & 7];
 }
 
-void func_80032EC8(a0, a1, a2, a3, a4) int a0, a1, a2, a3, a4;
+void DrawCourseIconSprite(a0, a1, a2, a3, a4) int a0, a1, a2, a3, a4;
 {
     int m = (a4 << 5) % 256;
     unsigned short s = (a4 << 6) + 0x3828;

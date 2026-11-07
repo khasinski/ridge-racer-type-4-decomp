@@ -27,12 +27,12 @@ class SerialByteExchangeTest(unittest.TestCase):
         root = Path(__file__).resolve().parents[2]
         header = (root/'include/rr/serial.h').read_text()
         header = re.sub(r'^#include[^\n]*\n|^RR_ASSERT_[^\n]*\n', '', header, flags=re.M)
-        header = header.replace('extern s32 D_80114700;', '')
+        header = header.replace('extern s32 CardSioRxByte;', '')
         source = '''#include <stdint.h>
 #include <string.h>
 typedef uint8_t u8;typedef uint16_t u16;typedef uint32_t u32;typedef int32_t s32;
 s32 test_page[0x4000];
-#define D_80114700 test_page[0x4700/4]
+#define CardSioRxByte test_page[0x4700/4]
 #define RR_NOP_DEP_ON(value) ((void)(value))
 ''' + header + '''
 RrSerialPortRegisters test_ports[2],*CardSio0Base;

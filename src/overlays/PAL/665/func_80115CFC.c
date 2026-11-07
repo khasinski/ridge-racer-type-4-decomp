@@ -7,7 +7,7 @@ void ovl665_func_80115CFC(void) {
     switch(ovl665_D_80119768.layout0C) {
     case 0:
         ovl665_func_80115C8C();
-        func_8005B2D4(0);
+        SetMotionControllerVisible(0);
         ovl665_D_80119768.layout0C=(s32)((u32)ovl665_D_80119768.layout0C+1U);
         break;
     case 1:

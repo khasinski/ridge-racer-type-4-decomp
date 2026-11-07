@@ -15,8 +15,8 @@ struct S { char pad[0x2AA]; short f; char pad2[0x320 - 0x2AC]; };
 extern s32 AddDrawModePrim();
 extern short PlayerCount;
 extern short NumCars;
-extern unsigned char D_8009EE40[];
-extern unsigned char D_8009EE44[];
+extern unsigned char FinishPlaceBlinkThresholds[];
+extern unsigned char CarCountHudBytes[];
 extern int rsin();
 extern struct S PlayerCars[];
 extern int NumLaps;
@@ -58,11 +58,11 @@ void UpdateHudRankDisplay(a0, a1) int a0; int a1; {
             a = NumCars;
         }
     }
-    *(char *)(a1 * 0x78 + (int)p2 + 0xC) = D_8009EE44[a - 1];
+    *(char *)(a1 * 0x78 + (int)p2 + 0xC) = CarCountHudBytes[a - 1];
     if (RaceType == 1) {
         s0 = 0x40;
         s1 = 0;
-        if (PlayerFinishPlace <= D_8009EE40[D_800AD4EF / 2]) {
+        if (PlayerFinishPlace <= FinishPlaceBlinkThresholds[D_800AD4EF / 2]) {
             s1 = 1;
             v = rsin((ScreenFrame & 0x3F) << 6);
             if (v < 0) v += 0x3F;

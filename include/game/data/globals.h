@@ -8,7 +8,7 @@ extern int BackColorR;
 extern s32 CurrentViewIndex;
 extern int SaveBuffer;
 extern signed char D_800AD4EF;
-extern int D_800AD5B8;
+extern int DefaultSegmentOctantValue;
 extern unsigned short PendingModeId;
 extern short MainMenuLastIndex;
 extern s32 RearViewMirrorOffsetY;

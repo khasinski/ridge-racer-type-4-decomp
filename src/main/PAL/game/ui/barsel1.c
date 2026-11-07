@@ -11,10 +11,10 @@ extern int UpdateDialogue();
 extern int SkipDialoguePage();
 extern int UpdateBadgeRowAnim();
 extern int UpdateGlyphRow();
-extern s16 D_800AD520;
+extern s16 SelectedTeamIndex;
 extern void *Dialogue;
 
-s32 func_800416B4(void) {
+s32 TeamSelectMenuStep(void) {
     s32 var_s2;
 
     var_s2 = 0;
@@ -33,7 +33,7 @@ s32 func_800416B4(void) {
         } else {
 block_6:
             if (M2C_FIELD(BadgeRows, s16 *, 0x10) < 4) {
-                DrawMenuStepArrows(0xA0, 0xCC, 0x30, 0, (s32) D_800AD520, 0, 4);
+                DrawMenuStepArrows(0xA0, 0xCC, 0x30, 0, (s32) SelectedTeamIndex, 0, 4);
                 var_s2 = UpdateGlyphRow(SelectionRows[0]);
             }
         }

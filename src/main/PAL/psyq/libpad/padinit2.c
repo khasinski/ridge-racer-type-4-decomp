@@ -29,11 +29,11 @@ typedef struct {
 } Unk800ABCE4;
 
 extern int (*PadChannelDispatchPtr)();
-extern int D_800ABCE8;
+extern int PadTapDispatchFlag;
 extern int PadActiveChannel;
 extern int PadFirstChannel;
-extern int D_800ABCA4;
-extern int (*D_800ABC98)();
+extern int PadFrameHookEnabled;
+extern int (*PadFirstChannelHook)();
 extern int (*D_800ABC94)();
 extern int PadMultitapEnabled;
 extern int PadPacketBytesLeft;
@@ -55,16 +55,16 @@ extern Rec8009991C *PadChannelRecords;
 extern s32 PadChannelPendingPackets[];
 extern Unk800ABCE4 *JOY_DATA;
 
-void func_800996C4(T *a0);
+void PadRecvStageStart(T *a0);
 void PadRecvStageCommand();
 int _padRecvPadId();
 s32 _padTxByteChkAck(RrTransferState *state);
 s32 _padTransferPacket(Rec8009991C *arg0);
 
-void func_800996C4(T *a0) {
+void PadRecvStageStart(T *a0) {
     int r = PadChannelDispatchPtr(a0);
     char *p = a0->f3c;
-    D_800ABCE8 = r;
+    PadTapDispatchFlag = r;
     *p = 0;
     _padSioRW(a0, -2);
 }
@@ -74,12 +74,12 @@ void func_800996C4(T *a0) {
 
 void PadRecvStageCommand(o) O *o; {
     if (PadActiveChannel == PadFirstChannel) {
-        if (D_800ABCA4 != 0) {
-            D_800ABC98();
+        if (PadFrameHookEnabled != 0) {
+            PadFirstChannelHook();
             D_800ABC94();
         }
     }
-    if (D_800ABCE8 != 0) {
+    if (PadTapDispatchFlag != 0) {
         PadChannelDispatchPtr(o->fC);
         PadChannelDispatchPtr(o->fC + 0xF0);
     }
@@ -93,7 +93,7 @@ void PadRecvStageCommand(o) O *o; {
 
 int _padRecvPadId(a0) unsigned char *a0; {
   int a1, v, t;
-  if (D_800ABCE8 != 0) {
+  if (PadTapDispatchFlag != 0) {
     PadChannelDispatchPtr(*(int *)(a0 + 0xC) + 0x1E0);
     PadChannelDispatchPtr(*(int *)(a0 + 0xC) + 0x2D0);
   }

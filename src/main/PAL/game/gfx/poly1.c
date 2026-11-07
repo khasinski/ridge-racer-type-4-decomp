@@ -55,13 +55,13 @@ typedef struct {
 
 struct S { unsigned char c[8]; };
 
-extern int *D_800AC598;
+extern int *CountedOffsetTablePtr;
 extern s32 RearViewMirrorReady;
 extern int BuildRotMatrixY();
 extern int BuildRotMatrixX();
 extern int MulMatrix0();
-extern short D_800AC0A4;
-extern S32B D_800AD598;
+extern short RearViewPitch;
+extern S32B RearViewRotMatrix;
 extern V3 CameraViewMatrix;
 extern int RaceState;
 extern V3 CameraPitchRollMatrix;
@@ -70,10 +70,10 @@ extern int DrawCars();
 extern int DrawTrackSceneryForPlayer();
 extern int SetupViewport();
 extern int DrawTrackObjects();
-extern int D_8010E738;
+extern int LineTrailDataBase;
 extern int D_8010E740[];
 extern int D_8010E768[];
-extern int D_8010E78C;
+extern int TrackObjectParticleStates;
 extern int VSync();
 extern int PsyqSrand();
 extern short D_80107180[];
@@ -81,21 +81,21 @@ extern int BuildRotMatrixZ();
 extern int MulMatrix();
 extern M HalfTransViewMatrix;
 extern int ApplyMatrixSV();
-extern int func_8006DB0C();
+extern int StepDrawParticleLines();
 extern int SquareRoot0();
 extern int Atan2Table();
 extern short D_80107182;
 extern short D_80107184;
 extern struct { short m[3][3]; int t[3]; } ColorMatrix;
 extern struct { short a, b, c, d; } LightAngles[];
-extern short *D_8010E790;
+extern short *SegmentOctantTable;
 extern unsigned char *OctantLookupTable;
 extern int SetDispMask();
 extern int VSyncThreshold;
-extern struct S D_80011324;
-extern struct S D_8001132C;
-extern struct S D_80011334;
-extern struct S D_8001133C;
+extern struct S SplashLogoClutRect;
+extern struct S SplashClutRect;
+extern struct S SplashLogoImageRect;
+extern struct S SplashLogoRect4;
 extern struct S D_80011344;
 
 void RelocateCountedOffsetTable(int *a0);
@@ -103,7 +103,7 @@ int SetupRearViewMirror(void);
 void SetupRearViewMatrix(void);
 struct P *AddRearViewMirrorTile(struct P *a0);
 void DrawRearViewMirror(int arg0);
-void func_80070934(int a0, int a1, int *a2, int a3);
+void ConfigureTrackObjectParticles(int a0, int a1, int *a2, int a3);
 void SetupObjectRotTransMatrix(char *p);
 void UpdateTrackObjectParticles(char *a0, int a1, int a2);
 s32 GetRelativeFileTableSize(void);
@@ -113,7 +113,7 @@ void RelocateCountedOffsetTable(int *a0) {
     int *p = a0 + 1;
     int i = 0;
     int n = *a0 * 8;
-    D_800AC598 = p;
+    CountedOffsetTablePtr = p;
     if (n > 0) {
         do {
             i++;
@@ -135,7 +135,7 @@ int SetupRearViewMirror(void) {
     int *s = (int *)SCRATCHPAD;
     if (RearViewMirrorReady != 0) {
         if (RearViewMirrorEnabled != 0) {
-            if (D_800AC538 == 0) {
+            if (RearViewMirrorHidden == 0) {
                 if (RaceType != 0) {
                     r = RaceState == 2;
                 }
@@ -144,12 +144,12 @@ int SetupRearViewMirror(void) {
     }
     if (r != 0) {
         RearViewSavedRotWord = *(S32B *)(s + 10);
-        *(S32B *)(s + 10) = D_800AD598;
+        *(S32B *)(s + 10) = RearViewRotMatrix;
         s[7] += 0x800;
         BuildRotMatrixY(sp, 0x800);
         MulMatrix0(sp, &CameraViewMatrix, &CameraViewMatrix);
         MulMatrix0(sp, &CameraPitchRollMatrix, &CameraPitchRollMatrix);
-        BuildRotMatrixX(sp, D_800AC0A4 * 2);
+        BuildRotMatrixX(sp, RearViewPitch * 2);
         MulMatrix2(sp, &CameraViewMatrix);
         MulMatrix2(sp, &CameraPitchRollMatrix);
         CameraViewMatrix.x = -CameraViewMatrix.x;
@@ -212,7 +212,7 @@ void DrawRearViewMirror(int arg0) {
     }
 }
 
-void func_8007080C(a0)
+void InitLineG2TrailPool(a0)
     int a0;
 {
     int s0, s1, s2, s4;
@@ -221,17 +221,17 @@ void func_8007080C(a0)
     int b;
     int t3;
     char *m;
-    D_8010E738 = a0;
+    LineTrailDataBase = a0;
     a0 = a0 + 0xB34C;
     s0 = a0 + 0x4D8;
     s3 = 0;
-    D_8010E78C = a0;
+    TrackObjectParticleStates = a0;
     do {
         s4 = 0;
         s2 = 0;
         do {
             t3 = s3 * 4;
-            m = (char *)D_8010E78C + s2;
+            m = (char *)TrackObjectParticleStates + s2;
             m = m + t3;
             *(int *)(m + 0xE8) = s0;
             *(int *)(m + 0xF0) = 0;
@@ -266,10 +266,10 @@ void func_8007080C(a0)
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_8010E78C ((char *)D_8010E78C)
+#define TrackObjectParticleStates ((char *)TrackObjectParticleStates)
 
-void func_80070934(int a0, int a1, int *a2, int a3) {
-    Q *t = (Q *)(D_8010E78C + a0 * 0xF8);
+void ConfigureTrackObjectParticles(int a0, int a1, int *a2, int a3) {
+    Q *t = (Q *)(TrackObjectParticleStates + a0 * 0xF8);
     int f;
     int i;
     int *p;
@@ -300,7 +300,7 @@ void func_80070934(int a0, int a1, int *a2, int a3) {
         t->f1C = 0;
         t->f34 = 0;
         t->f38 = 0;
-        t->f0 = D_8010E738 + a0 * 0x23DC;
+        t->f0 = LineTrailDataBase + a0 * 0x23DC;
         t->f40 = D_8010E740[t->f3C];
         t->f44 = D_8010E768[t->f3C];
         do {
@@ -320,7 +320,7 @@ void func_80070934(int a0, int a1, int *a2, int a3) {
     }
 }
 
-#undef D_8010E78C
+#undef TrackObjectParticleStates
 
 void SetupObjectRotTransMatrix(char *p) {
     M m10, m30;
@@ -340,7 +340,7 @@ void SetupObjectRotTransMatrix(char *p) {
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_8010E78C ((O *)D_8010E78C)
+#define TrackObjectParticleStates ((O *)TrackObjectParticleStates)
 
 void UpdateTrackObjectParticles(char *a0, int a1, int a2) {
     int sp10[3];
@@ -363,7 +363,7 @@ void UpdateTrackObjectParticles(char *a0, int a1, int a2) {
 
     PsyqMemset(sp60, 0, 8);
     sp60[2] = 0x100;
-    s1 = D_8010E78C + a1;
+    s1 = TrackObjectParticleStates + a1;
     s7 = *(int *)(a0 + 4) + 0x900;
     s1->f30 = a2;
     s2 = (s1->f14 - s1->f28) & 0xF;
@@ -396,7 +396,7 @@ void UpdateTrackObjectParticles(char *a0, int a1, int a2) {
         __asm__ volatile ("cfc2 $8, $21\n\tcfc2 $9, $22\n\tcfc2 $10, $23\n\tsw $8, 0(%0)\n\tsw $9, 0(%1)\n\tsw $10, 0(%2)"
             : : "r"(&sp68), "r"(&sp6c), "r"(&sp70) : "$8", "$9", "$10", "memory");
         if (s1->f14 > s1->f2C) {
-            func_80070934(a1, 4, 0, -1);
+            ConfigureTrackObjectParticles(a1, 4, 0, -1);
         } else {
             a = s1->f28;
             if (s1->f14 < a) {
@@ -440,7 +440,7 @@ void UpdateTrackObjectParticles(char *a0, int a1, int a2) {
                     }
                 }
                 SetupObjectRotTransMatrix(s1);
-                s3 = func_8006DB0C(a0, s3, s1, s2 << 2);
+                s3 = StepDrawParticleLines(a0, s3, s1, s2 << 2);
                 if (s3 != s1->e8[DrawBufIndex]) s1->f0[DrawBufIndex] = s3 - 0x14;
                 else s1->f0[DrawBufIndex] = 0;
                 if (a1 < 2) {
@@ -476,13 +476,13 @@ void UpdateTrackObjectParticles(char *a0, int a1, int a2) {
     }
 }
 
-#undef D_8010E78C
+#undef TrackObjectParticleStates
 
 s32 GetRelativeFileTableSize(void) {
     return RelativeFileCount * 0x10;
 }
 
-void func_80071348(void) {
+void ApplySegmentOctantValue(void) {
     int a, b;
     short *p;
     short v;
@@ -490,12 +490,12 @@ void func_80071348(void) {
     register short *g __asm__("$17");
     a = GetViewTrackSegment((SCRATCHPAD + 0x8), 0);
     b = YawToOctant((SCRATCHPAD + 0x8));
-    base = (int)D_8010E790;
+    base = (int)SegmentOctantTable;
     p = (short *)(b * 2 + ((a << 4) + base));
     if (*p >= 0) {
         v = *(unsigned short *)p;
     } else {
-        v = D_800AD5B8;
+        v = DefaultSegmentOctantValue;
     }
     /* ASM_BARRIER: legacy, reason not recorded (forces reg copy/CSE/scheduling); retire & retest with fd.py */
     __asm__("" : "=r"(g) : "0"(SCRATCHPAD));
@@ -503,13 +503,13 @@ void func_80071348(void) {
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_8010E790 (*(s32 (*))&D_8010E790)
+#define SegmentOctantTable (*(s32 (*))&SegmentOctantTable)
 
 void SetSegmentOctantTable(s32 arg0) {
-    D_8010E790 = arg0;
+    SegmentOctantTable = arg0;
 }
 
-#undef D_8010E790
+#undef SegmentOctantTable
 
 s32 GetRelativeFileSlotCount(void) {
     return RelativeFileCount * 8;
@@ -531,11 +531,11 @@ void SetOctantLookupTable(s32 arg0) {
 
 void SplashLogoInit(void) {
     struct S a, b, c, d, e, f;
-    a = D_80011324;
-    b = D_80011324;
-    c = D_8001132C;
-    d = D_80011334;
-    e = D_8001133C;
+    a = SplashLogoClutRect;
+    b = SplashLogoClutRect;
+    c = SplashClutRect;
+    d = SplashLogoImageRect;
+    e = SplashLogoRect4;
     f = D_80011344;
     SetDispMask(0);
     SetupDrawDispEnvs(0, 0, 0, 3);

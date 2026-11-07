@@ -14,10 +14,10 @@
 extern s32 CdDataCallback();
 extern s32 EnterCriticalSection();
 extern s32 ExitCriticalSection();
-extern s32 D_800A64A8;
-extern s8 *D_800A6800;
-extern s8 *D_800A680C;
-extern s32 D_80112754;
+extern s32 StUseAltCallbacks;
+extern s8 *StCdReg0;
+extern s8 *CD_REG3_RING;
+extern s32 StLastReadyFrame;
 extern RrLibPackedWord StLastReadyLoc;
 extern void (*StDataReadyFunc)(void);
 extern int CdPosToInt();
@@ -41,16 +41,16 @@ void StClearRing(void) {
 
 void StUnSetRing(void) {
     EnterCriticalSection();
-    if (D_800A64A8 == 1) {
+    if (StUseAltCallbacks == 1) {
         CdAltDataCallback(0);
         CdAltReadyCallback(0);
     } else {
         CdDataCallback(0);
         CdReadyCallback(0);
     }
-    *D_800A6800 = 0;
+    *StCdReg0 = 0;
     {
-        s8 *port = D_800A680C;
+        s8 *port = CD_REG3_RING;
         /* ASM_BARRIER: preserve the pointer's load delay before the final call. */
         __asm__ volatile("nop" : : "r"(port));
         *port = 0;
@@ -71,7 +71,7 @@ void data_ready_callback(void)
     value = p->value08;
     next = StRingWriteIndex;
     callback = StDataReadyFunc;
-    D_80112754 = value;
+    StLastReadyFrame = value;
     {
         /* ASM_BARRIER: Preserve the assembler temporary for publishing the next index. */
         register u8 *base __asm__("$1");
@@ -92,9 +92,9 @@ void data_ready_callback(void)
 
 int StGetBackloc(int a) {
     int r;
-    if (D_80110348 == 0) {
+    if (StSectorSize2048Mode == 0) {
         CdIntToPos(CdPosToInt(StLastReadyLoc) + 1, a);
-        r = D_80112754;
+        r = StLastReadyFrame;
     } else {
         r = -1;
     }

@@ -5,9 +5,9 @@
 #include "game/camera/camview.h"
 
 extern char D_800A0D70[];
-extern char D_800A0D7C[];
-extern char D_800A0D88[];
-extern char D_800A0D94[];
+extern char CamFxHeightCurve[];
+extern char CarIntroHeightCurve[];
+extern char CamFxFallCurve[];
 typedef struct Q
 {
   char pad0[0x2A];
@@ -38,7 +38,7 @@ extern struct
   char pad[0x24C];
   Q *p;
 } RaceContext;
-void func_80056258(a0)
+void EvalCameraCurvesAtTime(a0)
 int a0;
 {
   /* ASM_BARRIER: pin first call result to $a2 as in the original */
@@ -61,9 +61,9 @@ int a0;
   RaceContext.p->h42 = -v0;
   q = D_800A0D70;
   RaceContext.p->h70 = InterpCurveLinear(q, FindCurveSegment(q, a0, v0), a0);
-  q = D_800A0D7C;
+  q = CamFxHeightCurve;
   s1 = InterpCurveLinear(q, FindCurveSegment(q, a0), a0);
-  q = D_800A0D88;
+  q = CarIntroHeightCurve;
   a2 = InterpCurveLinear(q, FindCurveSegment(q, a0), a0);
   RaceContext.p->w68 = (s1 - (RaceContext.p->wa0 * 4)) - 0x10;
   RaceContext.p->w64 = a2 + 0xC;
@@ -83,7 +83,7 @@ int a0;
     a2 += 3;
   }
   pq2->wac = a2 >> 2;
-  q = D_800A0D94;
+  q = CamFxFallCurve;
   s1 = InterpCurveLinear(q, FindCurveSegment(q, a0, a2), a0);
   v1 = -(s1 << 5);
   new_var = (int *) PlayerCars;

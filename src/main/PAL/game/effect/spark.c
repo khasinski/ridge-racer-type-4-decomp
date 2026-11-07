@@ -9,14 +9,14 @@ void UpdateSparkEffects() {
     a0 = *(int *)(SparkCarState + 0x104);
     if (a0 >= lo) {
         if (a0 < SparkFrameRanges[1]) {
-            func_80057138(a0 - lo, SparkFrameRanges[1] - lo - 0x20, lo);
+            DrawSparkHudSlideIn(a0 - lo, SparkFrameRanges[1] - lo - 0x20, lo);
         }
     }
     l2 = SparkFrameRanges[2];
     a2 = *(int *)(SparkCarState + 0x104);
     if (a2 >= l2) {
         if (a2 < SparkFrameRanges[3]) {
-            func_800572A8(a2 - l2, SparkFrameRanges[3] - l2 - 0x20);
+            DrawSparkHudLinesAndLabels(a2 - l2, SparkFrameRanges[3] - l2 - 0x20);
         }
     }
     l1 = SparkFrameRanges[4];

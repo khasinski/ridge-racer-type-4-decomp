@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-int func_800416B4();
+int TeamSelectMenuStep();
 
 #endif /* RR_GAME_UI_BARSEL1_H */

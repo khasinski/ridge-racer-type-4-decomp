@@ -39,7 +39,7 @@ static State actual,reference,*w;
 #define ovl665_D_80119758 w->effects
 #define Options w->settings
 #define MenuFadeTimer w->timer
-#define D_800F7640 w->gain
+#define MusicSeqVolume w->gain
 #define PlayerControllers w->input
 #define MenuConfirmPressed w->input[0].a
 #define UiRows w->rows[w->rowRoot]
@@ -68,7 +68,7 @@ static void service(unsigned kind){const s32 args[5]={0};record(kind,args);effec
 void ovl665_func_80114FD8(void){service(0);}
 void AddScreenFadeTiles(u32 *p,s32 b,u32 c){unsigned k,slot;int found=0;for(k=0;k<2&&!found;k++)for(slot=0;slot<2;slot++)if(p==&w->frames[k].ordering70[slot?702:0]){found=1;goto selected;}
 selected:assert(found&&(uintptr_t)p>UINT32_MAX);fadeKinds[slot]++;const s32 args[5]={k,slot,b,(s32)c};record(1,args);effect(1);}
-void func_8005B2D4(s32 a){const s32 args[5]={a};record(2,args);effect(2);}
+void SetMotionControllerVisible(s32 a){const s32 args[5]={a};record(2,args);effect(2);}
 void StepMenuValue(s32 a,s32 b,char *p,s32 d,s32 e){unsigned kind;
  if(p==(char*)&w->visual.exit34.halves[0]){kind=0;assert(b==2&&d==4);}
  else if(p==(char*)&w->settings.bytes[48]){kind=1;assert(b==-1&&d==17);}
@@ -95,7 +95,7 @@ static void expectedInput(unsigned kind,s32 mode,s32 width,s32 limit){unsigned c
 static void expected(void){s32 phase=w->visual.layout0C;states[phase>=0&&phase<10?phase:10]++;
  if(phase==0){service(0);w->timer=64;w->visual.layout0C=word((u32)w->visual.layout0C+1);
  }else if(phase==1){if(w->timer>0){s16 timer=half((u16)w->timer-1);w->timer=timer;AddScreenFadeTiles(&w->frames[w->frameRoot].ordering70[702],timer*4,69);fadeTaken[0]++;}
-  func_8005B2D4(1);if(w->rows[w->rowRoot][0].byte14==2&&w->timer==0)w->visual.layout0C=word((u32)w->visual.layout0C+1);
+  SetMotionControllerVisible(1);if(w->rows[w->rowRoot][0].byte14==2&&w->timer==0)w->visual.layout0C=word((u32)w->visual.layout0C+1);
  }else if(phase==2){w->rows[w->rowRoot][w->visual.exit34.word].cells[0]=0;expectedInput(0,0,2,4);w->rows[w->rowRoot][w->visual.exit34.word].cells[0]=2;
   if(w->input[0].a){PlaySfx(1);w->rows[w->rowRoot][w->visual.exit34.word].cells[0]=1;w->visual.layout0C=w->visual.exit34.word+3;SetMenuFrameOptions(1,1,0);}
   else if(w->input[0].b){PlaySfx(2);w->timer=64;w->visual.layout0C=6;}

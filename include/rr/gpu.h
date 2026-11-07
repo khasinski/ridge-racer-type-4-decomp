@@ -13,7 +13,7 @@ extern s32 _qin, SavedIntrMask, GpuTimeoutDeadline, GpuAlarmCount;
 extern volatile s32 _qout;
 
 /* Drawing limits and packed E3/E4 drawing-area coordinate commands. */
-extern s16 D_800ABAC4, GpuVramHeight;
+extern s16 GpuVramWidth, GpuVramHeight;
 u32 get_cs(s32 x, s32 y);
 u32 get_ce(s32 x, s32 y);
 

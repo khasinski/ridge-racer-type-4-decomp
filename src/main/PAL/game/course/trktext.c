@@ -23,7 +23,7 @@ int DrawFontStringCenteredOffset(int a0, int a1, unsigned char *s, int a3, int a
 void DrawFontStringRight(int a0, int a1, unsigned char *s, int a3, int a4);
 void AddSetTexpagePrim(int a0);
 void *EmitSpriteDescFT4(char *a0);
-void func_8004CBDC(char *p);
+void InitSpriteDesc(char *p);
 void AddHGradientRectPrim(void *arg0, void *arg1, void *arg2, s32 arg3);
 void AddSlantedGradientRect(unsigned short *a0, int a1, unsigned char *a2, unsigned char *a3, int a4);
 
@@ -313,7 +313,7 @@ void *EmitSpriteDescFT4(char *a0)
 
 #undef CurrentDrawBuf
 
-void func_8004CBDC(char *p) {
+void InitSpriteDesc(char *p) {
     PsyqBzero(p, 0x2C);
     *(int *)(p + 4) = 1;
     p[0x10] = 0x80;

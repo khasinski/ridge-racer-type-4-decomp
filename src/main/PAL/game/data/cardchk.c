@@ -39,7 +39,7 @@ int a0; int a1; int a2;
     b0 = CardSlotState;
     s3 = a0 & 0xFF;
     p0 = b0 + s3;
-    p1 = D_8010B2DC + s3;
+    p1 = CardSlotNewCardFlag + s3;
 loop:
     if (CardCheckCounts[i] >= 3) {
         switch (i) {

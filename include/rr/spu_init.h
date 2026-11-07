@@ -7,7 +7,7 @@
 extern volatile u32 *SPU_DPCR;
 extern s32 _spu_addrMode;
 extern volatile u32 _spu_IRQCallback;
-extern const u16 D_800A4818[8];
+extern const u16 SpuInitFillData[8];
 extern u16 _spu_RQ[10];
 extern const char SpuTimeoutFmt[], SpuWaitResetStr[];
 s32 DebugPrintStub(const char *format, ...);

@@ -18,7 +18,7 @@ s32 ResetGraph(s32 mode)
         state->enabled01=1;
         /* Preserve the explicit byte reload after the reset service. */
         state->debug02.width=GpuVramWidthTable[*(volatile u8 *)&state->kind00].value;
-        state->debug02.height=D_800ABB4C.dimensions[state->kind00].value;
+        state->debug02.height=GpuVramHeightTable.dimensions[state->kind00].value;
         GPU_memset((s8 *)state->queue10,-1,0x5C);
         GPU_memset((s8 *)state->tail6C,-1,0x14);
         return state->kind00;

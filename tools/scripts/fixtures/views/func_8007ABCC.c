@@ -56,7 +56,7 @@ void CardMenuModeEnter(void) {
         SetupDrawDispEnvs(0x20, 0x20, 0x20, 2);
         ModeFrame = 0;
         SaveSlotIndex = 0;
-        MenuChoiceValues[D_8010948E] = 3;
+        MenuChoiceValues[MenuChoiceIndex] = 3;
         /* ASM_BARRIER: finish the choice write before the clock read. */
         __asm__("" : : : "memory");
         __builtin_memcpy(&clockLow, &SelectionPlayer, sizeof(clockLow));
@@ -144,7 +144,7 @@ void CardMenuModeEnter(void) {
         /* ASM_BARRIER: keep the initialized fill value apart from the count. */
         __asm__("" : "+r"(defaultChoice));
         DialogueContext = 3;
-        D_8010948E = 0;
+        MenuChoiceIndex = 0;
         for (i = 2; i >= 0; i--) {
             MenuChoiceValues[i] = defaultChoice;
         }

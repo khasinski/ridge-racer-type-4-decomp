@@ -20,7 +20,7 @@ int main(void){State actual,expected;static const u32 words[]={0,1,6499,6500,650
  s32 delta=word((u32)expected.vehicle.laneMode27C-6500U);expected.vehicle.relDist268=0;if(expected.vehicle.half27A>=2)expected.vehicle.steering288.angle0C=0;
  if(delta<0){s32 divided=delta/4;if(delta%4)divided--;expected.vehicle.relDist268=divided;expected.vehicle.steering288.angle0C=word((u32)expected.vehicle.steering288.angle0C*7U)/10;}
  else{expected.vehicle.relDist268=delta;expected.vehicle.laneMode27C=word((u32)expected.vehicle.laneMode27C-(u32)delta);expected.vehicle.steering288.angle0C=word((u32)expected.vehicle.steering288.angle0C-(u32)delta);}
- func_80022CD4(&actual.vehicle);assert(!memcmp(&actual,&expected,sizeof(actual)));}
+ ApplyRaceStartLaunch(&actual.vehicle);assert(!memcmp(&actual,&expected,sizeof(actual)));}
  puts("524288 cases passed; full half27A sweep, wrapped32 subtraction/multiplication, full native vehicle pointer and complete guarded owner");}
 '''
 with TemporaryDirectory() as d:

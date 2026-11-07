@@ -1,5 +1,5 @@
 UpdateCardMenuDialogue 0x8007d1b8 0x290 
-func_8007D448 0x8007d448 0x110 
+DrawCardMenuConfirmRows 0x8007d448 0x110 
 DrawCardMenuChoiceRows 0x8007d560 0xfc 
 DrawNameTeamMakerHeader 0x8007d65c 0xb4 
 __adddf3 0x8007d7d4 0x374 

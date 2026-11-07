@@ -6,19 +6,19 @@
 #undef RearViewMirrorOffsetY
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_8010E78C ((char *)D_8010E78C)
+#define TrackObjectParticleStates ((char *)TrackObjectParticleStates)
 
-#undef D_8010E78C
-
-/* legacy typing of shared globals in this part of the unit */
-#define D_8010E78C ((O *)D_8010E78C)
-
-#undef D_8010E78C
+#undef TrackObjectParticleStates
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_8010E790 (*(s32 (*))&D_8010E790)
+#define TrackObjectParticleStates ((O *)TrackObjectParticleStates)
 
-#undef D_8010E790
+#undef TrackObjectParticleStates
+
+/* legacy typing of shared globals in this part of the unit */
+#define SegmentOctantTable (*(s32 (*))&SegmentOctantTable)
+
+#undef SegmentOctantTable
 
 /* legacy typing of shared globals in this part of the unit */
 #define OctantLookupTable (*(s32 (*))&OctantLookupTable)

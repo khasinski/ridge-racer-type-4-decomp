@@ -8,8 +8,8 @@ void ovl667_func_801151E0(void) {
         if (state == 1) {
             if (ovl667_func_80114D30() == state) {
                 ovl667_D_80118F04 = 0;
-                D_800ACBF0.choices[0] = LinkLocalInputs.choices[0];
-                D_800ACBF0.choices[1] = LinkLocalInputs.choices[1];
+                LinkSentLocalInputs.choices[0] = LinkLocalInputs.choices[0];
+                LinkSentLocalInputs.choices[1] = LinkLocalInputs.choices[1];
                 ovl667_D_80118F00 = (s32)((u32)ovl667_D_80118F00 + 1U);
                 ovl667_D_80118F09 = (ovl667_D_80118F09 + 1) & 7;
                 ovl667_D_80118EEE = ((u8 *)&ovl667_D_80118EEC)[0];
@@ -19,8 +19,8 @@ void ovl667_func_801151E0(void) {
         } else if (state == 2) {
             if (ovl667_func_80114D30() == 1) {
                 ovl667_D_80118F04 = 0;
-                D_800ACBF0.choices[0] = LinkLocalInputs.choices[0];
-                D_800ACBF0.choices[1] = LinkLocalInputs.choices[1];
+                LinkSentLocalInputs.choices[0] = LinkLocalInputs.choices[0];
+                LinkSentLocalInputs.choices[1] = LinkLocalInputs.choices[1];
                 ovl667_D_80118F00 = (s32)((u32)ovl667_D_80118F00 + 1U);
                 ovl667_D_80118F09 = (ovl667_D_80118F09 + 1) & 7;
                 ovl667_D_80118EEE = ((u8 *)&ovl667_D_80118EEC)[0];

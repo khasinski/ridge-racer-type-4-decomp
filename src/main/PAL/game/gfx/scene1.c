@@ -60,15 +60,15 @@ typedef struct { short m[3][3]; short pad[7]; } S70;
 extern struct { char pad[0xD4]; s32 a, b, c, d; u8 e, f, g; } RaceContext;
 extern s32 D_800AC724;
 extern Rect D_800A0D04[];
-extern Rect D_800A0D24[][4];
+extern Rect ScreenTileSourceUvs[][4];
 extern int SetModelTexturePage();
-extern short D_800A0D7C;
+extern short CamFxHeightCurve;
 extern int D_800A0FB0[];
 extern unsigned short D_800AC006;
 extern int DrawSubOtFlag;
 extern short CourseListIndex;
 extern struct { char pad[8]; short x8; } *CarBoundsTable;
-extern Q16 D_800111D4;
+extern Q16 ObjectLightScale;
 extern short LightMatrix[][3];
 extern int BuildRotMatrixZ();
 extern int BuildRotMatrixY();
@@ -80,15 +80,15 @@ extern int ScaleMatrix();
 extern int SetLightMatrix();
 extern int ApplyMatrix();
 
-void func_80055300(void);
-void func_80055330(int a0, u8 a1, u8 a2, u8 a3);
-void func_8005534C(s32 arg0);
-void func_80055358(s32 a0, s32 a1, u8 *a2, s32 a3, s32 a4);
+void ResetScreenCopyOverlay(void);
+void SetSceneColorParams(int a0, u8 a1, u8 a2, u8 a3);
+void SetSceneOverlayEnabled(s32 arg0);
+void DrawScreenFilterSprites(s32 a0, s32 a1, u8 *a2, s32 a3, s32 a4);
 void InitCameraState();
 void SetupObjectLightMatrices();
 void TransformPoint(int a0, int *a1, u16 *a2, int *a3);
 
-void func_80055300(void) {
+void ResetScreenCopyOverlay(void) {
     RaceContext.d = 1;
     RaceContext.a = 0;
     RaceContext.b = 0;
@@ -101,7 +101,7 @@ void func_80055300(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(struct { char pad[0xDC]; s32 a; char pad2[4]; u8 b, c, d; } (*))&RaceContext)
 
-void func_80055330(int a0, u8 a1, u8 a2, u8 a3) {
+void SetSceneColorParams(int a0, u8 a1, u8 a2, u8 a3) {
     RaceContext.a = a0;
     RaceContext.b = a1;
     RaceContext.c = a2;
@@ -110,11 +110,11 @@ void func_80055330(int a0, u8 a1, u8 a2, u8 a3) {
 
 #undef RaceContext
 
-void func_8005534C(s32 arg0) {
+void SetSceneOverlayEnabled(s32 arg0) {
     D_800AC724 = arg0;
 }
 
-void func_80055358(s32 a0, s32 a1, u8 *a2, s32 a3, s32 a4) {
+void DrawScreenFilterSprites(s32 a0, s32 a1, u8 *a2, s32 a3, s32 a4) {
     s32 i;
     Rect *uv;
     Sprt *s2;
@@ -126,7 +126,7 @@ void func_80055358(s32 a0, s32 a1, u8 *a2, s32 a3, s32 a4) {
     s32 c;
     s32 offset;
 
-    base = (s32)D_800A0D24;
+    base = (s32)ScreenTileSourceUvs;
     for (i = 0; i < 4; i++) {
         s2 = *(Sprt **)SCRATCHPAD;
         s2->len = 4;
@@ -201,9 +201,9 @@ void QueueDrawStp()
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(struct { char pad[0xD4]; s32 a, b, c, d; u8 e[4]; } (*))&RaceContext)
 
-void func_80055660(void) {
+void DrawScreenFeedbackIfEnabled(void) {
     if (RaceContext.a != 0) {
-        func_80055358(DrawBufIndex, RaceContext.b, RaceContext.e, RaceContext.c, RaceContext.d);
+        DrawScreenFilterSprites(DrawBufIndex, RaceContext.b, RaceContext.e, RaceContext.c, RaceContext.d);
     }
 }
 
@@ -212,12 +212,12 @@ void func_80055660(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(struct { char pad[0x3DC]; s32 a; } (*))&RaceContext)
 
-void func_800556B4(void) {
+void ToggleSceneOverlayAndDraw(void) {
     if (Pad0Buttons & 0x10) {
         RaceContext.a ^= 1;
-        func_8005534C(RaceContext.a);
+        SetSceneOverlayEnabled(RaceContext.a);
     }
-    func_80055660();
+    DrawScreenFeedbackIfEnabled();
 }
 
 #undef RaceContext
@@ -263,7 +263,7 @@ int a0, a1;
     W(0x130) = 0x1B8;
     W(0x18) = -0xC0;
     W(0x30) = 0xC0;
-    if (!(D_800A0FB0[CourseListIndex] & ((one = 1) << D_800F4C28))) {
+    if (!(D_800A0FB0[CourseListIndex] & ((one = 1) << SelectedCarRow))) {
         W(0xA0) = 0xA9;
         W(0xA4) = 0;
     } else {
@@ -271,7 +271,7 @@ int a0, a1;
         W(0xA4) = 1;
     }
     q = P;
-    D_800A0D7C = *(int *)(q + 0xA0) * 4;
+    CamFxHeightCurve = *(int *)(q + 0xA0) * 4;
     t = *(int *)(q + 0xA0) - 4;
     t = t - (CarBoundsTable->x8 + ((short)D_800AC006 / 2));
     *(int *)(q + 0x100) = t;
@@ -288,7 +288,7 @@ void SetupObjectLightMatrices(a0, a1, a2, a3) char *a0; char *a1; M32 *a2; M32 *
     S70 s70;
     Q16 s90;
     int n;
-    s90 = D_800111D4;
+    s90 = ObjectLightScale;
     BuildRotMatrixY(&s50, -*(short *)(a0 + 0x12));
     MulMatrix2(SCRATCH_ROT_MATRIX, &s50);
     BuildRotMatrixX(&s10, -*(short *)(a0 + 0x10));

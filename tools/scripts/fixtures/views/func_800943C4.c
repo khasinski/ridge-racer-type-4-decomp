@@ -35,9 +35,9 @@
 
 #undef GPU_STATUS
 
-extern u32 D_80112788[10];
+extern u32 GpuClearPacket[10];
 
-extern u32 D_801127B0[4];
+extern u32 GpuClearTailPacket[4];
 
 s32 _clr(RrGpuRectangle *arg0, u32 arg1) {
     register RrGpuRectangle *rect=arg0;
@@ -52,8 +52,8 @@ s32 _clr(RrGpuRectangle *arg0, u32 arg1) {
     signed_side=rect->rect.w;raw_side=(u16)rect->rect.w;
     color=arg1;
     if(signed_side>=0){
-        over=D_800ABAC4-1<signed_side;
-        limit=(u16)D_800ABAC4;
+        over=GpuVramWidth-1<signed_side;
+        limit=(u16)GpuVramWidth;
         if(over)width=limit-1;else width=raw_side;
     }else width=0;
     signed_side=rect->rect.h;raw_side=(u16)rect->rect.h;
@@ -69,8 +69,8 @@ s32 _clr(RrGpuRectangle *arg0, u32 arg1) {
         register u32 full_area=0xE4FFFFFFU;
         /* ASM_BARRIER: retain the original clamp, packet or command register phase. */
         register u32 tail_tag asm("$7")=0x03FF0000U;
-        register u32 *packet=D_80112788;
-        u32 *secondary=D_801127B0;
+        register u32 *packet=GpuClearPacket;
+        u32 *secondary=GpuClearTailPacket;
         /* ASM_BARRIER: retain the original clamp, packet or command register phase. */
         register u32 link asm("$2");
         register u32 e3,e5;
@@ -116,7 +116,7 @@ s32 _clr(RrGpuRectangle *arg0, u32 arg1) {
         /* ASM_BARRIER: retain the original clamp, packet or command register phase. */
         register u32 header asm("$2")=0x05FFFFFFU;
         register u32 mask=0xFFFFFFU;
-        register u32 *packet=D_80112788;
+        register u32 *packet=GpuClearPacket;
         /* ASM_BARRIER: retain the original clamp, packet or command register phase. */
         register u32 encoded asm("$3");
         /* ASM_BARRIER: retain the original clamp, packet or command register phase. */
@@ -147,7 +147,7 @@ s32 _clr(RrGpuRectangle *arg0, u32 arg1) {
         packet[4]=rect->words[0];
         packet[5]=rect->words[1];
     }
-    _cwc((unsigned long)D_80112788);
+    _cwc((unsigned long)GpuClearPacket);
     {
         register s32 result=0;
         /* ASM_BARRIER: form the zero return value before restoring saved registers. */

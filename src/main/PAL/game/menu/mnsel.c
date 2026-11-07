@@ -9,7 +9,7 @@ extern int ResetScreenCounters();
 extern int PlaySfx();
 extern int MenuStepDirection;
 extern char SelectionState[];
-extern short D_800AD520;
+extern short SelectedTeamIndex;
 extern int ModeFrame;
 extern short ModeId;
 extern unsigned short Pad0RepeatButtons;
@@ -24,23 +24,23 @@ extern char *Dialogue;
 int AllocMenuGridRecords(int a, int n);
 void InitMenuGrid(s32 index, s32 layout, s32 count, s32 x, s32 y);
 
-void func_800417EC()
+void UpdateDialogueChoiceCursor()
 {
     int s0;
     char *q; char *r;
     int t = SelectionRows[0];
-    D_800AD520 = t;
+    SelectedTeamIndex = t;
     UiRows[t + 0xC] = 0;
     if (Pad0RepeatButtons & 0x2000) {
-        if (D_800AD520 < 3) {
-            D_800AD520 = (unsigned short)D_800AD520 + 1;
+        if (SelectedTeamIndex < 3) {
+            SelectedTeamIndex = (unsigned short)SelectedTeamIndex + 1;
             MenuStepDirection = 2;
             goto L_a8;
         }
     }
     if (Pad0RepeatButtons & 0x8000) {
-        if (D_800AD520 > 0) {
-            D_800AD520 = (unsigned short)D_800AD520 - 1;
+        if (SelectedTeamIndex > 0) {
+            SelectedTeamIndex = (unsigned short)SelectedTeamIndex - 1;
             MenuStepDirection = 1;
             goto L_a8;
         }
@@ -49,19 +49,19 @@ void func_800417EC()
     goto L_54;
 L_a8:
     PlaySfx(0);
-    if (D_800AD520 < 0) {
-        D_800AD520 = 0;
-    } else if (D_800AD520 >= 4) {
-        D_800AD520 = 3;
+    if (SelectedTeamIndex < 0) {
+        SelectedTeamIndex = 0;
+    } else if (SelectedTeamIndex >= 4) {
+        SelectedTeamIndex = 3;
     }
-    SelectionRows[0] = D_800AD520;
-    Dialogue[4] = (unsigned char)D_800AD520 + 0x22;
-    GlyphRows[D_800AD520 * 0x1C + 2] = -6;
-    GlyphRows[D_800AD520 * 0x1C] = 0;
-    UiRows[0x16] = D_800AD520;
+    SelectionRows[0] = SelectedTeamIndex;
+    Dialogue[4] = (unsigned char)SelectedTeamIndex + 0x22;
+    GlyphRows[SelectedTeamIndex * 0x1C + 2] = -6;
+    GlyphRows[SelectedTeamIndex * 0x1C] = 0;
+    UiRows[0x16] = SelectedTeamIndex;
 L_54:
     q = UiRows + 0xC;
-    q[D_800AD520] = 2;
+    q[SelectedTeamIndex] = 2;
     if (MenuConfirmPressed != 0) {
         s0 = BadgeRows->s10;
         if (s0 == 3) {
@@ -123,7 +123,7 @@ void InitMenuGrid(s32 index, s32 layout, s32 count, s32 x, s32 y) {
     entry->count2C = count;
     entry->width04 = 64;
     entry->height06 = 8;
-    table = D_8009FDA8;
+    table = MenuGridLayoutRows;
     entry->step_y0A = step_y;
     /* ASM_BARRIER: reload the record-pointer slot after publishing the dimensions. */
     __asm__("" : : : "memory");

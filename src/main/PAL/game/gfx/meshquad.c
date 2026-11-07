@@ -52,10 +52,10 @@ int StepCarPreviewDrive(int a0)
   int s1;
   s1 = 4;
   RaceContext.p->f100 = (RaceContext.p->fA0 - s1) - (CarBoundsTable->f8 + ((short) (((short) PlayerCars.f10E) / 3)));
-  s1 = func_8005642C(&PlayerCars, RaceContext.p->f104, a0, sp10);
+  s1 = UpdateCarPreviewCameraPath(&PlayerCars, RaceContext.p->f104, a0, sp10);
   UpdateSparkEffects();
   ScaleMatrixRow1(2, SCRATCH_ROT_MATRIX);
-  func_80055C84();
+  DrawCarPreviewScene();
   RaceContext.p->f104 = RaceContext.p->f104 + 1;
   RaceContext.p->f108 = RaceContext.p->f108 + 1;
   if (RaceContext.p->f104 >= 0x322)

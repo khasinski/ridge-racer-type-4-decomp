@@ -12,7 +12,7 @@
 
 #define DrawWheelTrailEffects ((void (*)(Vehicle2D784 *, Vec4 *, Mat8 *, Mat8 *, s32, s32, s32))DrawWheelTrailEffects)
 
-#define func_80039494 ((s32 (*)(Vehicle2D784 *))func_80039494)
+#define LookupTrackLightingEvent ((s32 (*)(Vehicle2D784 *))LookupTrackLightingEvent)
 
 #define CarBoundsTable (*(Bounds2D784 *(*)[])&CarBoundsTable)
 
@@ -20,7 +20,7 @@
 
 #undef DrawWheelTrailEffects
 
-#undef func_80039494
+#undef LookupTrackLightingEvent
 
 #undef CarBoundsTable
 
@@ -82,11 +82,11 @@ void MulMatrix2(Mat8 *, Mat8 *);
 
 extern u8 CarPartModelIds[];
 
-extern u8 D_8009F034[];
+extern u8 CarPartDrawModes[];
 
-extern u8 D_8009F03C[];
+extern u8 CarPartPosIndices[];
 
-extern u8 D_8009F044[];
+extern u8 CarPartMatrixIndices[];
 
 extern s16 LightMatrix[];
 
@@ -182,9 +182,9 @@ void DrawPreviewCar(Vehicle2CC88 *arg0, s32 arg1, s32 arg2) {
     }
 
     for (i = 0; i < 8; i++) {
-        u8 s0_mode = D_8009F034[i];
-        if (s0_mode != 1 || DrawRroModel(&sp158[D_8009F03C[i]], &sp98[D_8009F044[i]], CarPartModelIds[i], 0) != s0_mode) {
-            SetGteObjectTransform(0x1F80007C, &sp158[D_8009F03C[i]], &sp98[D_8009F044[i]]);
+        u8 s0_mode = CarPartDrawModes[i];
+        if (s0_mode != 1 || DrawRroModel(&sp158[CarPartPosIndices[i]], &sp98[CarPartMatrixIndices[i]], CarPartModelIds[i], 0) != s0_mode) {
+            SetGteObjectTransform(0x1F80007C, &sp158[CarPartPosIndices[i]], &sp98[CarPartMatrixIndices[i]]);
             *(s32 *)0x1F800078 = 0;
             a1_val = 1;
             if (CarPartModelIds[i] < ModelBankFormat) {

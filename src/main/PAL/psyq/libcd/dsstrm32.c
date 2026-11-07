@@ -136,7 +136,7 @@ void StCdInterrupt(void) {
     {
         /* ASM_BARRIER: Pin loop counter to a0 and buffer base to a1. */
         register u32 idx __asm__("$4") = 0;
-        if (D_80110348 == 0) {
+        if (StSectorSize2048Mode == 0) {
             register u8 *buf_base __asm__("$5") = s.sp28;
             /* ASM_BARRIER: Force array base into a1 before loop. */
             __asm__("" : "=r"(buf_base), "=r"(idx) : "0"(buf_base), "1"(idx));
@@ -407,8 +407,8 @@ void StCdInterrupt(void) {
             dma_execute(3, StRingSectorDest, 0, 0x1F8, var_t0, one_v1, 0);
         }
         {
-            s32 e0 = D_801102E0;
-            /* ASM_BARRIER: Load D_801102E0 before clearing StNextSectorOffset and StCurFrameNo. */
+            s32 e0 = StPendingChannel;
+            /* ASM_BARRIER: Load StPendingChannel before clearing StNextSectorOffset and StCurFrameNo. */
             __asm__ volatile("" : "=r"(e0) : "0"(e0) : "memory");
             StNextSectorOffset = 0;
             StCurFrameNo = 0;

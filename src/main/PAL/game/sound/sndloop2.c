@@ -131,10 +131,10 @@ void SoundLoopUpdate(void) {
     }
 }
 
-void func_80051B28(void) {
+void SetSoundActiveFlag(void) {
     D_800F6670 = 1;
 }
 
-void func_80051B38(void) {
+void ClearSoundLoopActiveFlag(void) {
     D_800F6670 = 0;
 }

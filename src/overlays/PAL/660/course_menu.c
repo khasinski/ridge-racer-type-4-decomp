@@ -251,7 +251,7 @@ check_back:
             AddScreenFadeTiles(((RrFrameOrderingPrefix *)(void *)CurrentDrawBuf)->ordering70, (0x40 - settingsTimer) * 4, 0x45);
             if ((s16) MenuFadeTimer <= 0) {
                 MenuResultCode = 1;
-                D_800F3A1E = 0x132;
+                MenuReturnModeCode = 0x132;
                 ModeGroup = 1;
                 ModeId = 0x47;
                 ModeSubState=0;

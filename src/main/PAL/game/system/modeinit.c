@@ -221,7 +221,7 @@ void TitleMenuUpdate(void)
             if (s0 == 0)
                 InitSceneFade();
             PlaySfx(1);
-            func_8005CA04();
+            SetSceneFadeStartFlag();
             MenuCursor = 0;
             EnableLinkSioTx();
             ModeSubState = 2;

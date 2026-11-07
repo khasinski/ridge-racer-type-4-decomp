@@ -33,22 +33,22 @@ struct Q {
 
 struct Q_1 { char pad[0x60]; int f60; int *f64; short f68, f6a; int f6c; int f70; };
 
-extern u16 D_800A1F90[];
+extern u16 MarkerDiscBitmap16x16[];
 extern s32 SetupObjectLightMatrices();
 extern s32 ScaleMatrix();
 extern s32 SetGteObjectTransform();
 extern char MotionTrackTable[];
 extern struct { char pad[0x250]; char pad2[0x3D8 - 0x250]; struct Q *q; } RaceContext;
-extern short D_800A1E60[];
+extern short MotionCameraScript[];
 extern int *MotionSequenceTable[];
 
 void DrawMarkerBitmapGrid(void);
 void InitMotionTrack(int a0);
 void InitMotionController(void);
 void RestartMotionSequence(void);
-void func_8005B2D4(s32 arg0);
-void func_8005B2E4(s32 arg0);
-void func_8005B2F4(s32 arg0);
+void SetMotionControllerVisible(s32 arg0);
+void SetMotionControllerField50(s32 arg0);
+void SetMotionControllerField58(s32 arg0);
 
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(char (*)[])&RaceContext)
@@ -73,7 +73,7 @@ void DrawMarkerBitmapGrid(void) {
     f.e0 = v;
     ScaleMatrix(f.m1, &f.e0);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), &f.z0, f.m1);
-    row = D_800A1F90; i = 0; y = -0x438;
+    row = MarkerDiscBitmap16x16; i = 0; y = -0x438;
     do {
         j = 0;
         x = -0x438;
@@ -249,7 +249,7 @@ void InitMotionController(void) {
     RaceContext.q->c44 = 0;
     RaceContext.q->c45 = 0;
     RaceContext.q->c46 = 0;
-    RaceContext.q->f64 = D_800A1E60;
+    RaceContext.q->f64 = MotionCameraScript;
     RaceContext.q->f6c = RaceContext.q->f64[RaceContext.q->f68 * 4];
     RaceContext.q->f70 = RaceContext.q->f64[RaceContext.q->f68 * 4 + 1];
     switch (RaceContext.q->f6c) {
@@ -301,7 +301,7 @@ void RestartMotionSequence(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define MotionController ((void *)MotionController)
 
-void func_8005B2D4(s32 arg0) {
+void SetMotionControllerVisible(s32 arg0) {
     M2C_FIELD(MotionController, s32 *, 0x54) = arg0;
 }
 
@@ -310,7 +310,7 @@ void func_8005B2D4(s32 arg0) {
 /* legacy typing of shared globals in this part of the unit */
 #define MotionController ((void *)MotionController)
 
-void func_8005B2E4(s32 arg0) {
+void SetMotionControllerField50(s32 arg0) {
     M2C_FIELD(MotionController, s32 *, 0x50) = arg0;
 }
 
@@ -319,7 +319,7 @@ void func_8005B2E4(s32 arg0) {
 /* legacy typing of shared globals in this part of the unit */
 #define MotionController ((void *)MotionController)
 
-void func_8005B2F4(s32 arg0) {
+void SetMotionControllerField58(s32 arg0) {
     M2C_FIELD(MotionController, s32 *, 0x58) = arg0;
 }
 

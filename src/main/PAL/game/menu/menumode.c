@@ -19,12 +19,12 @@ extern char CardTargetFileName[];
 extern char CardFileNameTemplate[];
 extern char CardSaveFileName[];
 extern struct { char a[4]; unsigned char b; char c[3]; } MenuStateTable[];
-extern unsigned char D_800A448C[][4];
+extern unsigned char MenuStepTransitionRows[][4];
 extern struct { char pad[0x28]; int x28; int x2c; char pad2[0x2C]; } PlayerControllers[];
 extern unsigned char CardSlotState[];
 extern char *UiRows;
 extern short MenuChoiceValues[];
-extern short D_8010948E;
+extern short MenuChoiceIndex;
 extern unsigned char MenuCardStepRows[][4];
 extern unsigned char CardFileCounts[];
 
@@ -37,7 +37,7 @@ void MenuStepSelectCardFile(void) {
     register int s3 asm("$19");
     int i;
     i = MenuStateTable[MenuStateIndex].b;
-    s3 = D_800A448C[i][1];
+    s3 = MenuStepTransitionRows[i][1];
     switch (MenuResultCode) {
     case 3:
     case 6:
@@ -99,7 +99,7 @@ void MenuStepYesNoPrompt()
     p = base + MenuStateIndex;
     q = (unsigned char *)(int)p->a;
     c = p->c;
-    D_8010948E = c;
+    MenuChoiceIndex = c;
     if (ModeSubState == 0) {
         sb = p->d;
         if (sb >= 0) {
@@ -107,7 +107,7 @@ void MenuStepYesNoPrompt()
         }
         ModeSubState = 1;
     }
-    tb = D_800A44A8;
+    tb = MenuCardWaitTransitions;
     ia = (int)q * 4;
     b2 = CardSlotState;
     r = b2 + CardSlot;
@@ -117,12 +117,12 @@ void MenuStepYesNoPrompt()
     s3 = q[2];
     if (*r < 0x10 || a == *r) {
         if (UiRows[0x56C] == 2) {
-            StepMenuValue(((unsigned short)MenuPlayerIndex & 1) << 2, 2, D_8010948E * 2 + (int)MenuChoiceValues, 2, 0);
+            StepMenuValue(((unsigned short)MenuPlayerIndex & 1) << 2, 2, MenuChoiceIndex * 2 + (int)MenuChoiceValues, 2, 0);
             b3 = PlayerControllers;
         r2 = (unsigned char *)b3 + MenuPlayerIndex * 0x5C;
             if (*(int *)(r2 + 0x28) != 0) {
                 PlaySfx(1);
-                if (MenuChoiceValues[D_8010948E] == 0) {
+                if (MenuChoiceValues[MenuChoiceIndex] == 0) {
                     MenuStateIndex = s4;
                 } else {
                     MenuStateIndex = s3;

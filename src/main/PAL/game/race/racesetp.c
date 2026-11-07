@@ -139,24 +139,24 @@ void SetupRace(void)
     course = (u16) CourseIndex;
     if (((course - 2U) < 3U) || (((s16) course) == 7))
     {
-        D_800ABEF0 = 1;
+        TrackLightFlagExtra = 1;
     }
     else
     {
-        D_800ABEF0 = 0;
+        TrackLightFlagExtra = 0;
     }
-    func_80045830();
+    ResetRaceSceneFadeState();
     if ((RaceType == 0) || (RaceType == 5))
     {
         RearViewMirrorEnabled = 0;
-        D_800AC538 = 0;
+        RearViewMirrorHidden = 0;
         DrawSubOtFlag = 0;
     }
     else
     {
         ResetRearViewMirror();
         RearViewMirrorEnabled = 1;
-        D_800AC538 = 0;
+        RearViewMirrorHidden = 0;
         DrawSubOtFlag = 1;
     }
     BuildCameraMatrices();

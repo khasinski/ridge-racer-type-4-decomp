@@ -7,9 +7,9 @@ extern int rcos();
 extern int PsyqRand();
 extern unsigned char *AddTextSprites();
 extern int FrameCounter;
-extern int D_800A2098[];
-extern int D_800A1FC8[];
-extern unsigned int D_80011258;
+extern int ModeTitleHalfWidths[];
+extern int MenuModeTitleStrs[];
+extern unsigned int TextSpriteTpageBits;
 extern struct 
 {
   char pad[0x438];
@@ -17,7 +17,7 @@ extern struct
   char pad2[4];
   int f440;
 } RaceContext;
-void func_8005C4E0(void)
+void DrawIntroCaptionText(void)
 {
   int l[2];
   short h[2];
@@ -52,12 +52,12 @@ void func_8005C4E0(void)
     {
       ax = (j / 2) + 0x9E;
       ay = ((j % 2) << 1) + 0xE4;
-      p = AddTextSprites(CurrentDrawBuf + 0x98, p, ax - D_800A2098[RaceContext.f438], h[i] + ay, D_800A1FC8 + (RaceContext.f438 * 4), 0x7F38, new_var = 1, (l[i] << new_var) | new_var);
+      p = AddTextSprites(CurrentDrawBuf + 0x98, p, ax - ModeTitleHalfWidths[RaceContext.f438], h[i] + ay, MenuModeTitleStrs + (RaceContext.f438 * 4), 0x7F38, new_var = 1, (l[i] << new_var) | new_var);
     }
 
   }
 
-  w = D_80011258;
+  w = TextSpriteTpageBits;
   *((unsigned char **) SCRATCHPAD) = p;
   p[3] = 1;
   d = CurrentDrawBuf;

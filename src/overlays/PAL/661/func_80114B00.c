@@ -139,8 +139,8 @@ __asm__("" : : "r"(temp_v0_2),"r"(temp_v1_3));
     } else {
         if (RaceState==1) {
             if ((u32) ModeFrame >= 0xB0U) {
-                func_80022CD4(&PlayerCars[0]);
-                func_80022CD4(&PlayerCars[1]);
+                ApplyRaceStartLaunch(&PlayerCars[0]);
+                ApplyRaceStartLaunch(&PlayerCars[1]);
                 CdAudioBeginPlay(1);
                 RaceState = 2;
             }
@@ -244,7 +244,7 @@ __asm__("" : : "r"(temp_v0_5),"r"(temp_v1_5));
         __asm__("" : : "r"(temp_s1));
         DrawCars(var_s2 + 2);
         if (((RrRaceVehicle *)((unsigned long)((((temp_s1+var_s2)*8)+var_s2)<<5)+(unsigned long)PlayerCars))->half1EA != 0) {
-            func_800225DC(var_s2 + 1);
+            DrawWrongWaySprite(var_s2 + 1);
         }
         RR_661_FRAME_SCRATCH->mode5E = 1;
         SetupPlayerView(var_s2);

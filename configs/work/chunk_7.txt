@@ -1,6 +1,6 @@
 RelocateRelativeFile 0x8007026c 0x194 
-func_8007080C 0x8007080c 0x128 
-func_80071348 0x80071348 0x7c 
+InitLineG2TrailPool 0x8007080c 0x128 
+ApplySegmentOctantValue 0x80071348 0x7c 
 FloodFill4bpp 0x800717ac 0x24 
 FloodFill4bppStep 0x800717d0 0x1a8 
 EmitSemiTransG3List 0x80071978 0x21c 
@@ -23,6 +23,6 @@ MenuStepSelectCardFile 0x8007b774 0x1e0
 MenuStepYesNoPrompt 0x8007b954 0x248 
 MenuStepConfirmCancel 0x8007bdf8 0x100 
 MenuStepRootChoice 0x8007bff4 0x314 
-func_8007C308 0x8007c308 0x464 
+MenuStepExitToNextMode 0x8007c308 0x464 
 MenuStepWaitCardStatus 0x8007c848 0x8c 
 MenuStepLoadSaveSlots 0x8007c944 0x200 

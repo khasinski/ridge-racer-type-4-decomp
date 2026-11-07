@@ -10,7 +10,7 @@ void ovl667_func_80117EF8(void)
     ScreenFrame=0;
     MenuCursor=0;
     MenuItemCount=3;
-    D_8010C068=0;
+    LinkResultsExitFlag=0;
     choice=DecodeCourseIndex(CourseMenuSelection);
     CourseIndex=choice;
     ResetScreenCounters();

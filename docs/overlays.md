@@ -21,11 +21,11 @@ Evidence:
   The category-1 mapper adds `0x292`, so this selects entries 669..673 for
   mode 0..4. These include copies of the executable menu modules.
 - `LoadSelectedModeFileStep` likewise requests entries `659 + ModeMenuCursorSaved` into that buffer.
-- `LoadSplashAssetsStep` and `func_8003BD2C` explicitly load entry 668
+- `LoadSplashAssetsStep` and `LoadIntroDemoAssetsStep` explicitly load entry 668
   (`0x292 + 10`) into the reset buffer.
 - Absolute jump tables and intra-overlay calls agree with this base.
   For example, entry 660 has a function prologue at file offset `0xA8`,
-  hence VA `0x80114920`, called by resident `func_8007C308`.
+  hence VA `0x80114920`, called by resident `MenuStepExitToNextMode`.
 
 The loader reuses the ordinary asynchronous CD state machine:
 `LoadR4Directory` converts the R4 directory into `CdFileTable` entries;

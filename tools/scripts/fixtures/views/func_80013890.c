@@ -25,9 +25,9 @@
 #undef LoadImage
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_8010BF60 ((short *)D_8010BF60)
+#define TrackNodeLightBits ((short *)TrackNodeLightBits)
 
-#undef D_8010BF60
+#undef TrackNodeLightBits
 
 void SetupRenderer(s32 shift) {
     /* ASM_BARRIER: reuse the incoming argument register for the scratch base. */

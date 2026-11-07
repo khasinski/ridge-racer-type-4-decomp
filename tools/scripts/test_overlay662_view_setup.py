@@ -25,7 +25,7 @@ static struct World {u32 guard[4];s32 frame,counter,word;s16 half,setting,select
 #define ScreenFrame world.counter
 #define ovl662_D_801272C0 world.word
 #define ovl662_D_801272D4 world.half
-#define D_800AD520 world.setting
+#define SelectedTeamIndex world.setting
 #define CourseListIndex world.selected
 #define SelectionRows world.choice
 #define GlyphRows world.glyph

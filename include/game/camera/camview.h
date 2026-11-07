@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void func_80055C84(void);
+void DrawCarPreviewScene(void);
 int FindCurveSegment();
 int InterpCurveLinear();
 int InterpCurveEase();

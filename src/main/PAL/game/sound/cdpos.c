@@ -53,7 +53,7 @@ void CdAudioInit(void) {
     SoundState.x26CA = 0;
     CdAudioSetVolume(0x7F);
     SoundState.x2868 = -1;
-    D_8010E220 = 0;
+    RaceBgmCdTrack = 0;
 }
 
 #undef SoundState

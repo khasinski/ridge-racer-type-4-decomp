@@ -34,7 +34,7 @@ typedef struct {
 struct B4 { char b[4]; };
 
 extern short TrackLengthDiv1024;
-extern short D_800ACC74;
+extern short TrackLengthDiv256Plus1;
 
 void FindAxleTrackNode(void);
 void FindWheelTrackNodes(Car *arg0);
@@ -396,7 +396,7 @@ void SetTrackNodeData(char *a)
         } while (i < m);
     }
     TrackLengthDiv1024 = TrackLength / 1024;
-    D_800ACC74 = (TrackLength >> 8) + 1;
+    TrackLengthDiv256Plus1 = (TrackLength >> 8) + 1;
 }
 
 #undef TrackNodes

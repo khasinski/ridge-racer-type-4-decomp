@@ -132,13 +132,13 @@ extern short MenuScriptId;
 extern short ModeGroup;
 extern int DialogueContext;
 extern short ModeSubState;
-extern short D_8009E4EC;
+extern short TitleSceneCueFrames;
 extern char *CdDirectoryBuffer;
-extern char D_800101EC[];
-extern char D_8009E510[];
-extern char D_8009E520[];
+extern char IntroZeroRotation[];
+extern char IntroModelPos0[];
+extern char IntroSceneModelPos1[];
 extern char D_8009E530[];
-extern char D_8009E540[];
+extern char IntroCameraPathPoints[];
 
 void StepIntroScene();
 void EmitSpriteGrid(u32 intensity,RrSpriteGridClock *state);
@@ -299,7 +299,7 @@ case 0x4:
     G->s48 = 0x80;
     G->s9C = 0x1000;
     G->s4A = 0;
-    G->p40 = &D_8009E4EC;
+    G->p40 = &TitleSceneCueFrames;
     G->s46 = 0;
     G->s44 = 0;
 case 0x5:
@@ -348,7 +348,7 @@ case 0x6:
         goto block_197;
     }
     PsyqMemset((SCRATCHPAD + 0x18), 0, 0x10);
-    src = D_8009E540;
+    src = IntroCameraPathPoints;
     st = &TitleSceneStage;
     __asm__ volatile("" ::: "$8", "$9"); /* ASM_BARRIER: reserve $t0-$t1 so sp2 allocates to $t5 */
     sp2 = (int *)(SCRATCHPAD + 0x8);
@@ -986,7 +986,7 @@ case 0x2F:
     G->s5E = 0x1000;
     G->s76 = 4;
     __asm__ volatile(""); /* ASM_BARRIER: keep src load after s76 store */
-    src = D_8009E540;
+    src = IntroCameraPathPoints;
     __asm__ volatile("" : "+r"(src)); /* ASM_BARRIER: emit src load before s48..s96 stores */
     G->s48 = c80;
     G->s4A = 0;
@@ -1028,7 +1028,7 @@ case 0x32:
     sp4[7] = 0;
     sp4[8] = 0;
     __asm__ volatile("" : "=r"(st) :: "memory"); /* ASM_BARRIER: clobber $a0 so %hi(IntroSceneState) stays in $a1 across sp4 stores */
-    src = D_8009E540;
+    src = IntroCameraPathPoints;
     g_v1 = G;
     __asm__ volatile("" : "+r"(src), "+r"(g_v1) :: "$8", "$9"); /* ASM_BARRIER: emit src and G reload before state lui and reserve $t0-$t1 for sp2 in $t5 */
     st = &TitleSceneStage;
@@ -1057,7 +1057,7 @@ case 0x34:
     TitleSceneStage = 0x35;
     goto block_221;
 block_197:
-    func_8001B8B0(G->s48, G->s9C);
+    EmitSpreadSpriteColumns(G->s48, G->s9C);
     EmitPresetSprite(G->s4A, 0);
     goto block_223;
 block_198:
@@ -1090,7 +1090,7 @@ block_206:
     if (temp_a0_3 == 0) {
         goto block_208;
     }
-    func_8001BC84(temp_a0_3, G->s44);
+    EmitIntroMaskedSprites(temp_a0_3, G->s44);
 block_208:
     EmitPresetSprite(G->s48, 0xD);
     EmitPresetSprite(G->s48, 0xE);
@@ -1194,7 +1194,7 @@ block_225:
     g_v1->sA0 = c8;
     RR_GTE_MTC2_IR0(c8);
     c8 = g_v1->s9E;
-    st = (int *)D_8009E540;
+    st = (int *)IntroCameraPathPoints;
     tabq = st + c8 * 4;
     RR_GTE_LWC2_IR(tabq);
     tabr = st + (c8 - 1) * 4;
@@ -1204,7 +1204,7 @@ block_225:
     sp3 = (int *)(SCRATCHPAD + 0x8);
     RR_GTE_STORE_IR(sp3);
 block_227:
-    func_8001B640();
+    BuildCameraMatricesScaled();
     SetupViewport(6);
     SetGeomOffset(0xA0, 0xC0);
     temp_a0_4 = G->s66;
@@ -1213,47 +1213,47 @@ block_227:
         goto block_229;
     }
     SetLightColorsFromAngle(temp_a0_4);
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(0, G->uA2 & 1));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(1, G->uA2 & 2, IntroSceneState));
+    G->sA4 = (s16) ((u16) G->sA4 | DrawIntroSpinningModel(0, G->uA2 & 1));
+    G->sA4 = (s16) ((u16) G->sA4 | DrawIntroSpinningModel(1, G->uA2 & 2, IntroSceneState));
 block_229:
     temp_a0_5 = G->s68;
     if (temp_a0_5 == 0) {
         goto block_231;
     }
     SetLightColorsFromAngle(temp_a0_5);
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(2, G->uA2 & 4));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(3, G->uA2 & 8, IntroSceneState));
+    G->sA4 = (s16) ((u16) G->sA4 | DrawIntroSpinningModel(2, G->uA2 & 4));
+    G->sA4 = (s16) ((u16) G->sA4 | DrawIntroSpinningModel(3, G->uA2 & 8, IntroSceneState));
 block_231:
     temp_a0_6 = G->s6A;
     if (temp_a0_6 == 0) {
         goto block_233;
     }
     SetLightColorsFromAngle(temp_a0_6);
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(4, G->uA2 & 0x10));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(5, G->uA2 & 0x20, IntroSceneState));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(6, G->uA2 & 0x40, IntroSceneState));
-    G->sA4 = (s16) ((u16) G->sA4 | func_8001BD40(7, G->uA2 & 0x80, IntroSceneState));
+    G->sA4 = (s16) ((u16) G->sA4 | DrawIntroSpinningModel(4, G->uA2 & 0x10));
+    G->sA4 = (s16) ((u16) G->sA4 | DrawIntroSpinningModel(5, G->uA2 & 0x20, IntroSceneState));
+    G->sA4 = (s16) ((u16) G->sA4 | DrawIntroSpinningModel(6, G->uA2 & 0x40, IntroSceneState));
+    G->sA4 = (s16) ((u16) G->sA4 | DrawIntroSpinningModel(7, G->uA2 & 0x80, IntroSceneState));
 block_233:
     temp_a0_7 = G->s6C;
     if (temp_a0_7 == 0) {
         goto block_235;
     }
     SetLightColorsFromAngle(temp_a0_7);
-    func_8001BFA8(1, D_800101EC, D_8009E510);
+    DrawIntroSceneModel(1, IntroZeroRotation, IntroModelPos0);
 block_235:
     temp_a0_8 = G->s6E;
     if (temp_a0_8 == 0) {
         goto block_237;
     }
     SetLightColorsFromAngle(temp_a0_8);
-    func_8001BFA8(1, D_800101EC, D_8009E520);
+    DrawIntroSceneModel(1, IntroZeroRotation, IntroSceneModelPos1);
 block_237:
     temp_a0_9 = G->s70;
     if (temp_a0_9 == 0) {
         goto block_239;
     }
     SetLightColorsFromAngle(temp_a0_9);
-    func_8001BFA8(2, D_800101EC, D_8009E530);
+    DrawIntroSceneModel(2, IntroZeroRotation, D_8009E530);
 block_239:
     temp_a0_10 = G->s72;
     if (temp_a0_10 == 0) {

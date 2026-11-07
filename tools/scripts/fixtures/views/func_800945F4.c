@@ -65,8 +65,8 @@ s32 _dws(RrGpuRectangle *arg0,const u32 *arg1) {
     mode=0;
     if(signed_side>=0){
         side=raw_side;
-        over=D_800ABAC4<signed_side;
-        limit=(u16)D_800ABAC4;
+        over=GpuVramWidth<signed_side;
+        limit=(u16)GpuVramWidth;
         if(over)side=limit;
     }else side=0;
     signed_side=rect->rect.h;raw_side=(u16)rect->rect.h;

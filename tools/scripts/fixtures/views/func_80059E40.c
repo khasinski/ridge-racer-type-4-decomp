@@ -22,7 +22,7 @@ extern void PsyqSprintf(char *, const char *, s32);
 
 extern const char StrInOpening[];
 
-extern const char D_8001122C[];
+extern const char StrOpenQuoteOpening[];
 
 extern const char StrApostropheOpening[];
 
@@ -36,17 +36,17 @@ extern s32 BgmNumberToCdTrack[];
 
 extern char CourseNames[];
 
-extern s16 *D_800A18F0[];
+extern s16 *OpeningTitleGlyphLists[];
 
-extern s16 *D_800A1910[];
+extern s16 *CourseCardGlyphListsB[];
 
-extern s16 *D_800A1930[];
+extern s16 *CourseCardGlyphLists3[];
 
-extern s16 *D_800A1970[];
+extern s16 *OpeningSlopedGlyphLists[];
 
-extern s16 *D_800A19A4[];
+extern s16 *OpeningCaptionGlyphLists[];
 
-extern u8 D_800A1A60[];
+extern u8 OpeningBgmSelectSpriteRects[];
 
 extern u8 D_800A1A68[];
 
@@ -71,7 +71,7 @@ extern s32 OpeningFadeTimer;
 
 extern s32 OpeningMode;
 
-extern s32 D_8010E230;
+extern s32 OpeningSubtitleIndex;
 
 extern s32 OpeningBgmSelectState;
 
@@ -149,14 +149,14 @@ s32 OpeningScriptStep(s32 arg0) {
             AddLineF2Prim(sp40, sp48, 1, 0);
         }
 
-        DrawGlyphList(D_800A18F0[s2], sp18[1], 0);
-        DrawGlyphList(D_800A1910[s2], sp18[1], 0);
-        DrawGlyphList(D_800A1930[s2], sp18[2], 0);
-        DrawGlyphListSloped(D_800A1970[D_8010E230], sp18[2], 0);
+        DrawGlyphList(OpeningTitleGlyphLists[s2], sp18[1], 0);
+        DrawGlyphList(CourseCardGlyphListsB[s2], sp18[1], 0);
+        DrawGlyphList(CourseCardGlyphLists3[s2], sp18[2], 0);
+        DrawGlyphListSloped(OpeningSlopedGlyphLists[OpeningSubtitleIndex], sp18[2], 0);
         EmitIconSpriteRow128(0, sp18[3]);
         DrawFontString(0x9A, 0xA0, StrInOpening, sp18[4], 0);
         s0_1 = DrawFontStringCentered(0x60, 0xB0, CourseNames + CourseIndex * 0x18, sp18[4], 0) / 2;
-        DrawFontString(0x9A - s0_1, 0xB0, D_8001122C, sp18[4], 0);
+        DrawFontString(0x9A - s0_1, 0xB0, StrOpenQuoteOpening, sp18[4], 0);
         DrawFontString(0xA2 + s0_1, 0xB0, StrApostropheOpening, sp18[4], 0);
         AddSetTexpagePrim(0);
 
@@ -190,12 +190,12 @@ s32 OpeningScriptStep(s32 arg0) {
             }
         }
 
-        AddBrightnessSprite(D_800A1A60, 0x3C, 0xC8, sp18[5]);
-        AddBrightnessSprite(D_800A1A60 + 4, 0xFC, 0xC8, sp18[5]);
-        AddBrightnessSprite(D_800A1A60 + 8, 0x4C, 0xC8, sp18[5]);
+        AddBrightnessSprite(OpeningBgmSelectSpriteRects, 0x3C, 0xC8, sp18[5]);
+        AddBrightnessSprite(OpeningBgmSelectSpriteRects + 4, 0xFC, 0xC8, sp18[5]);
+        AddBrightnessSprite(OpeningBgmSelectSpriteRects + 8, 0x4C, 0xC8, sp18[5]);
         PsyqSprintf(sp30, StrFmtTwoDigitsOpening, SoundState.w28a4);
         DrawFontString(0x5A, 0xC8, sp30, sp18[5], 0);
-        AddBrightnessSprite(D_800A1A60 + 0xC, 0x6C, 0xC8, sp18[5]);
+        AddBrightnessSprite(OpeningBgmSelectSpriteRects + 0xC, 0x6C, 0xC8, sp18[5]);
         if (SoundState.w28a4 <= 0) {
             DrawFontString(0x78, 0xC8, StrRandomPlay, sp18[5], 0);
         } else {
@@ -234,7 +234,7 @@ s32 OpeningScriptStep(s32 arg0) {
         }
 
         s2 -= 8;
-        DrawGlyphList(D_800A19A4[s2], sp18[1], 0);
+        DrawGlyphList(OpeningCaptionGlyphLists[s2], sp18[1], 0);
 
         sp50[0] = 0x48;
         sp50[1] = 0x38;
@@ -261,7 +261,7 @@ s32 OpeningScriptStep(s32 arg0) {
 
         DrawFontString(0x9A, 0x48, StrInOpening, sp18[2], 0);
         s0_2 = DrawFontStringCentered(0x60, 0x58, CourseNames + CourseIndex * 0x18, sp18[2], 0) / 2;
-        DrawFontString(0x9A - s0_2, 0x58, D_8001122C, sp18[2], 0);
+        DrawFontString(0x9A - s0_2, 0x58, StrOpenQuoteOpening, sp18[2], 0);
         DrawFontString(0xA2 + s0_2, 0x58, StrApostropheOpening, sp18[2], 0);
         AddSetTexpagePrim(0);
 
@@ -292,12 +292,12 @@ s32 OpeningScriptStep(s32 arg0) {
                 }
             }
             SoundState.w28ac = SoundState.w28a4;
-            AddBrightnessSprite(D_800A1A60, 0x3C, 0xC8, sp18[5]);
-            AddBrightnessSprite(D_800A1A60 + 4, 0xFC, 0xC8, sp18[5]);
-            AddBrightnessSprite(D_800A1A60 + 8, 0x4C, 0xC8, sp18[5]);
+            AddBrightnessSprite(OpeningBgmSelectSpriteRects, 0x3C, 0xC8, sp18[5]);
+            AddBrightnessSprite(OpeningBgmSelectSpriteRects + 4, 0xFC, 0xC8, sp18[5]);
+            AddBrightnessSprite(OpeningBgmSelectSpriteRects + 8, 0x4C, 0xC8, sp18[5]);
             PsyqSprintf(sp30, StrFmtTwoDigitsOpening, SoundState.w28a4);
             DrawFontString(0x5A, 0xC8, sp30, sp18[5], 0);
-            AddBrightnessSprite(D_800A1A60 + 0xC, 0x6C, 0xC8, sp18[5]);
+            AddBrightnessSprite(OpeningBgmSelectSpriteRects + 0xC, 0x6C, 0xC8, sp18[5]);
             if (SoundState.w28a4 > 0) {
                 DrawFontString(0x78, 0xC8, CdTrackTitleStrings + (BgmNumberToCdTrack[SoundState.w28a4 - 1] << 5), sp18[5], 0);
             } else {

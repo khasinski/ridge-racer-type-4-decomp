@@ -15,29 +15,29 @@ extern int SelectModelBank();
 extern int RotMatrix();
 extern int SetGteObjectTransform();
 extern int SubmitModel();
-extern char D_8001013C[];
+extern char IntroSpinModelPositions[];
 extern int ModelBankFormat;
-extern struct V8 D_800101E4;
+extern struct V8 SkyRenderRect;
 extern struct { char pad[0xA8]; unsigned short v; } *IntroSceneState;
 extern int RotMatrixX();
 extern int RotMatrixY();
 extern int RotMatrixZ();
-extern char D_8009E88C[];
+extern char IntroSkyRenderDesc[];
 extern s16 MenuFadeTimer;
 extern s32 VSyncThreshold;
 extern s16 ModeId;
 extern s16 ModeGroup;
 extern s16 ModeSubState;
 
-int func_8001BD40(int a0, int a1);
+int DrawIntroSpinningModel(int a0, int a1);
 void DrawRotatingSky(void);
-void func_8001BFA8(int a0, int a1, int a2);
+void DrawIntroSceneModel(int a0, int a1, int a2);
 void IntroSceneModeEnter(void);
 
 /* legacy typing of shared globals in this part of the unit */
 #define IntroSceneState ((char *)IntroSceneState)
 
-int func_8001BD40(int a0, int a1)
+int DrawIntroSpinningModel(int a0, int a1)
 {
     int t[8];
     short *s3 = (short *)(SCRATCHPAD + 0x7C);
@@ -57,7 +57,7 @@ int func_8001BD40(int a0, int a1)
     RR_GTE_SETLLM((char *)s3 + 0x28);
     RR_GTE_SETROT(SCRATCH_ROT_MATRIX);
     MulRotMatrix0((char *)s3 + 8, t);
-    SetGteObjectTransform((SCRATCHPAD + 0x7C), D_8001013C + a0 * 16, t);
+    SetGteObjectTransform((SCRATCHPAD + 0x7C), IntroSpinModelPositions + a0 * 16, t);
     *(int *)(SCRATCHPAD + 0x78) = 0;
     SubmitModel(SCRATCHPAD, ModelBankFormat < 1, 0, 0);
     return s2;
@@ -70,7 +70,7 @@ void DrawRotatingSky(void)
     struct V8 sp10;
     struct M sp18;
     int t;
-    sp10 = D_800101E4;
+    sp10 = SkyRenderRect;
     IntroSceneState->v += 0x20;
     sp18.a[4] = 0x1000;
     sp18.a[2] = 0x1000;
@@ -81,13 +81,13 @@ void DrawRotatingSky(void)
     RotMatrixY(t, &sp18);
     RotMatrixX(0x100, &sp18);
     RotMatrixZ(0xAA, &sp18);
-    RenderSkyToRect(D_8009E88C, &sp18, &sp10, 0xC8);
+    RenderSkyToRect(IntroSkyRenderDesc, &sp18, &sp10, 0xC8);
 }
 
 /* legacy typing of shared globals in this part of the unit */
 #define IntroSceneState ((char *)IntroSceneState)
 
-void func_8001BFA8(int a0, int a1, int a2)
+void DrawIntroSceneModel(int a0, int a1, int a2)
 {
     int t[8];
     SelectModelBank(4);

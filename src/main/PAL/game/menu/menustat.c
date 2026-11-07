@@ -30,9 +30,9 @@ extern int AddSpriteWithDrawMode();
 extern unsigned char BadgeUvTable[];
 extern signed char BadgePatternTable[];
 
-void func_800302C0();
+void RaceLoadScreenModeUpdate();
 
-void func_800302C0()
+void RaceLoadScreenModeUpdate()
 {
     int sp[3];
     unsigned int x;

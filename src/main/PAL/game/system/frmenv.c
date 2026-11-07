@@ -170,7 +170,7 @@ void SystemInit(void)
     ResetGraph(3);
 }
 
-void func_8001ECE0(s32 bank) {
+void SetupDrawDispEnvsHookStub(s32 bank) {
 }
 
 void SetupDrawDispEnvs(s32 r,s32 g,s16 b,u32 flags) {
@@ -226,7 +226,7 @@ void SetupDrawDispEnvs(s32 r,s32 g,s16 b,u32 flags) {
     if(wide)width=480;
     env=FrameEnvs;
     SetDefDrawEnv(env,0,0,width,height);
-    SetDefDrawEnv(&D_800D0268,0,other_y,width,height);
+    SetDefDrawEnv(&SecondaryFrameEnv,0,other_y,width,height);
     SetDefDispEnv(&env->environment.display,0,other_y,width,height);
     SetDefDispEnv(&D_800D02C4,0,0,width,height);
     i=0;
@@ -254,6 +254,6 @@ loop:
     }
     i++;
     if(i<2)goto loop;
-    func_8001ECE0(0);
-    func_8001ECE0(1);
+    SetupDrawDispEnvsHookStub(0);
+    SetupDrawDispEnvsHookStub(1);
 }

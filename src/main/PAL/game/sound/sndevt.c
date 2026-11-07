@@ -43,7 +43,7 @@ extern struct {
 } RaceContext;
 extern s32 ComCarCount;
 extern Car ComCars[];
-extern s32 D_800F6748;
+extern s32 PlayerVoiceSourceSlot;
 extern w3t1_E PlayerCars[];
 extern s32 RotMatrix();
 extern s32 ratan2();
@@ -172,12 +172,12 @@ void SoundFindNearestCars(s32 arg0) {
     sub = &ComCars[min_idx[0]].sub1F4;
     if (sub->unk94 != 0) {
         SetPlayerVoice(1, sub->unkC0, sub->unkC4, 1);
-        D_800F6748 = slot[0] + 2;
+        PlayerVoiceSourceSlot = slot[0] + 2;
     } else {
         sub = &ComCars[min_idx[1]].sub1F4;
         if (sub->unk94 != 0) {
             SetPlayerVoice(1, sub->unkC0, sub->unkC4, 1);
-            D_800F6748 = slot[1] + 2;
+            PlayerVoiceSourceSlot = slot[1] + 2;
         } else {
             SetPlayerVoice(0, 0, 0, 1);
         }
@@ -253,7 +253,7 @@ void SoundCalcCarParams(s32 idx) {
         alpha = (alpha * alpha) / 737280;
         if (alpha > 0x80) alpha = 0x80;
     }
-    if (D_800AC66C) alpha = 0;
+    if (CarSoundMuted) alpha = 0;
     B3 = SoundState;
     t2 = REC(B3, idx, 0x18FC);
     if (t2 < 0) t2 = -t2;

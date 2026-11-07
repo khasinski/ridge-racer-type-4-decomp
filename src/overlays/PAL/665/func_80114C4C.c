@@ -29,7 +29,7 @@ void ovl665_func_80114C4C(void) {
                 ovl665_D_80119768.layout0C=(s32)((u32)ovl665_D_80119768.layout0C+1U);
             }
         }
-        func_8005B2D4(1);
+        SetMotionControllerVisible(1);
         break;
     case 1:
         for(i=0;i<8;i++) {
@@ -44,7 +44,7 @@ void ovl665_func_80114C4C(void) {
         MenuFadeTimer--;
         AddScreenFadeTiles(&((RrFrameOrderingPrefix*)CurrentDrawBuf)->ordering70[0],(64-MenuFadeTimer)*4,69);
         if(MenuFadeTimer<=0) {
-            func_8005B2D4(0);
+            SetMotionControllerVisible(0);
             ovl665_D_80119768.exit34.word=0;
             ovl665_D_80119768.layout0C=0;
             ovl665_D_80119768.detail10=0;

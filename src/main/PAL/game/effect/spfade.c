@@ -8,15 +8,15 @@ struct Ot { int x; int next; };
 
 struct Pk { char pad[3]; char len; int a, b, c, d; };
 
-extern short D_8009E874[];
+extern short BitLampXPositions[];
 
 void RampValueToLimit(unsigned short *a0, short *a1, int a2);
 void RampValuePairTo4096(unsigned short *a0, unsigned short *a1, short *a2);
 void RampValueTo4096(unsigned short *a0, short *a1);
-void func_8001B8B0(s32 intensity, s32 scale);
+void EmitSpreadSpriteColumns(s32 intensity, s32 scale);
 void EmitPresetSprite(s32 intensity,s32 index);
 void EmitFadeTile(s32 intensity, s32 scale, u32 pos, s32 width);
-void func_8001BC84(int a0, int a1);
+void EmitIntroMaskedSprites(int a0, int a1);
 
 void RampValueToLimit(unsigned short *a0, short *a1, int a2) {
     int v = *a1;
@@ -72,7 +72,7 @@ void RampValueTo4096(unsigned short *a0, short *a1) {
     }
 }
 
-void func_8001B8B0(s32 intensity, s32 scale) {
+void EmitSpreadSpriteColumns(s32 intensity, s32 scale) {
     /* ASM_BARRIER: keep value/y1/uv2 in $a2 */
     register u32 r_a2 __asm__("$6") = intensity;
     s32 clamped;
@@ -290,7 +290,7 @@ low:
         offset=(u32)selected*sizeof(RrSpritePreset);
         packet=scratch->cursor;
         *(u32*)(packet+4)=hi;
-        preset=(RrSpritePreset*)((u8*)D_8009E5E0+offset);
+        preset=(RrSpritePreset*)((u8*)SpritePresets+offset);
         *(u32*)(packet+8)=preset->position;
         *(u32*)(packet+16)=preset->size;
         *(u32*)(packet+12)=preset->uv;
@@ -359,11 +359,11 @@ low:
     }
 }
 
-void func_8001BC84(int a0, int a1)
+void EmitIntroMaskedSprites(int a0, int a1)
 {
     struct Pk *p = *(struct Pk **)SCRATCHPAD;
     int col = (((-a1) >> 3) & 3) | 0x1BA4F0D0;
-    short *t = D_8009E874;
+    short *t = BitLampXPositions;
     int i = 11;
     int *g;
     do {

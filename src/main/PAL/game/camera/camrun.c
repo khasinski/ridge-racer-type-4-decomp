@@ -77,8 +77,8 @@ extern struct {
     CamQ *q;
 } RaceContext;
 extern s32 VSyncThreshold;
-extern s16 D_800F7488;
-extern s16 D_800F7624;
+extern s16 CdAudioBeatSync;
+extern s16 CameraScriptInput;
 extern void ScaleMatrixRow1(s32, s32);
 extern void UpdateMotionTrack(s16 *);
 extern void UpdateCameraMotion(s16 *);
@@ -88,8 +88,8 @@ extern void BuildCameraMatrices(void);
 extern void SetupViewport(s32);
 extern void SetGeomOffset(s32, s32);
 extern void SetGeomScreen(s32);
-extern char D_800A1AA0[];
-extern char D_800A1B60[];
+extern char CameraMotionPaths[];
+extern char CameraMotionTableMode1[];
 
 void StepCameraScript(void);
 
@@ -104,9 +104,9 @@ void StepCameraScript(void) {
         RaceContext.q->f4c = 1;
     }
     if (RaceContext.q->f5c == 0) {
-        s0 = &D_800F7624;
+        s0 = &CameraScriptInput;
     } else {
-        s0 = &D_800F7488;
+        s0 = &CdAudioBeatSync;
     }
     if (*s0 != 0) {
         if (++RaceContext.q->f6a >= RaceContext.q->f64[RaceContext.q->f68].w4) {
@@ -231,11 +231,11 @@ void InitCameraMotion(int a0) {
     PsyqBzero(Q(s1, 0x3D8) + 0x74, 0x70);
     if (a0 < 4) {
         W(Q(s1, 0x3D8), 0x78) = 0;
-        W(Q(s1, 0x3D8), 0x80) = (int)(D_800A1AA0 + a0 * 0x30);
+        W(Q(s1, 0x3D8), 0x80) = (int)(CameraMotionPaths + a0 * 0x30);
     } else {
         a0 -= 4;
         W(Q(s1, 0x3D8), 0x78) = 1;
-        W(Q(s1, 0x3D8), 0x80) = (int)(D_800A1B60 + (a0 << 5));
+        W(Q(s1, 0x3D8), 0x80) = (int)(CameraMotionTableMode1 + (a0 << 5));
     }
     a = RaceContext;
     t0 = Q(a, 0x3D8);

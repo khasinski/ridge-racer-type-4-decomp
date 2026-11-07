@@ -84,7 +84,7 @@ void AddScreenFadeTiles(u32 *ordering,s32 intensity,u32 mode){Event *e=event(8);
 void StepMenuValue(s32 a,s32 b,char *selection,s32 count,s32 flags){Event *e=event(9);assert(selection==(char*)&w->s.visual.selection08);e->args[0]=a;e->args[1]=b;e->args[2]=count;e->args[3]=flags;*selection=(char)(next()%8);change();}
 s32 ovl665_func_8011629C(s32 index){Event *e=event(10);s32 result=real_classify(index);e->args[0]=index;e->args[1]=result;return result;}
 void PlaySfx(s32 sound){event(11)->args[0]=sound;change();}
-void func_8005B2D4(s32 mode){event(12)->args[0]=mode;change();}
+void SetMotionControllerVisible(s32 mode){event(12)->args[0]=mode;change();}
 void SeqFadeVolume(s32 a,s32 b){Event *e=event(13);e->args[0]=a;e->args[1]=b;change();}
 void ovl665_func_80116070(void){event(14);change();}
 void DrawUiRow(s32 index){assert(index>=0&&index<8);event(15)->args[0]=index;change();}
@@ -106,14 +106,14 @@ static void expected(void){State *s=&w->s;unsigned i;
     else {PlaySfx(1);UiRows[s->visual.selection08].cells[0]=1;s->fade=64;s->visual.layout0C=wrap((int64_t)s->visual.layout0C+1);}
    }else if(s->inputs[0].b){PlaySfx(2);s->visual.selection08=6;s->fade=64;s->visual.layout0C=wrap((int64_t)s->visual.layout0C+1);}
   }
-  func_8005B2D4(1);
+  SetMotionControllerVisible(1);
  }else if(phase==1){
   for(i=0;i<8;i++)if(UiRows[i].byte14==2)UiRows[i].byte14=3;
   if(s->visual.selection08==3||s->visual.selection08>=5)SeqFadeVolume(0,half((s32)s->fade-4));
   s->visual.layout0C=wrap((int64_t)s->visual.layout0C+1);
  }else if(phase==2){
   s->fade=half((s32)s->fade-1);AddScreenFadeTiles(s->frames[s->frameRoot].ordering70,(64-(s32)s->fade)*4,69);
-  if(s->fade<=0){func_8005B2D4(0);s->visual.exit34.word=0;s->visual.layout0C=0;s->visual.detail10=0;s->visual.scene00=wrap((int64_t)s->visual.scene00+1);if(s->visual.selection08==0||s->visual.selection08==1)ovl665_func_80116070();}
+  if(s->fade<=0){SetMotionControllerVisible(0);s->visual.exit34.word=0;s->visual.layout0C=0;s->visual.detail10=0;s->visual.scene00=wrap((int64_t)s->visual.scene00+1);if(s->visual.selection08==0||s->visual.selection08==1)ovl665_func_80116070();}
  }
  }
  if(ovl665_func_8011629C(1)<0){UiRows[1].half20=1;if(s->visual.selection08==1)UiRows[1].cells[0]=4;}else UiRows[1].half20=0;

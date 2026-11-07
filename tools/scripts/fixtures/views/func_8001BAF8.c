@@ -35,7 +35,7 @@ low:
         offset=(u32)selected*sizeof(RrSpritePreset);
         packet=scratch->cursor;
         *(u32*)(packet+4)=hi;
-        preset=(RrSpritePreset*)((u8*)D_8009E5E0+offset);
+        preset=(RrSpritePreset*)((u8*)SpritePresets+offset);
         *(u32*)(packet+8)=preset->position;
         *(u32*)(packet+16)=preset->size;
         *(u32*)(packet+12)=preset->uv;

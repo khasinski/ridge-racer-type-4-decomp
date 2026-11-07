@@ -57,7 +57,7 @@
     p->y=Y; \
     p->w=24; \
     p->h=16; \
-    clut=*(u16*)((u8*)D_8001121C+offset); \
+    clut=*(u16*)((u8*)HudMapIconCluts+offset); \
     p->r=color; \
     p->g=color; \
     p->b=color; \
@@ -126,17 +126,17 @@ extern s32 HudMapPulse;
 extern UvRect HudMapSpriteRects[];
 extern UvRect D_800A1028;
 extern UvRect D_800A102C;
-extern s16 D_800A1030[];
-extern s16 D_800A1040[];
+extern s16 HudMapStartMarkLines[];
+extern s16 HudMapStartMarkerOffsetsB[];
 extern struct { u16 x, y; } HudMapCourseOrigins[];
-extern s32 D_800A1070[];
+extern s32 HudMapCourseSectionIndex[];
 extern S3C *TrackNodes;
 extern s32 TrackNodeCount;
 extern s16 CourseMenuSelection;
 extern s16 CourseIndex;
 extern void CdAudioSelectTrack();
 extern int PsyqRand();
-extern short D_800AD520;
+extern short SelectedTeamIndex;
 extern short RaceType;
 extern int CdAudioInit();
 extern signed char SelectionState[];
@@ -144,9 +144,9 @@ extern int D_800F7660;
 extern s16 D_800A1818[];
 extern s16 D_800A1824[];
 extern s16 *D_800A1950[];
-extern s16 *D_800A1984[];
-extern s16 *D_800A19C0[];
-extern s32 D_800A1A00[];
+extern s16 *HudGlyphListTriples[];
+extern s16 *HudTextLineGlyphLists[];
+extern s32 CourseBgmChoiceTable1[];
 extern s32 CourseBgmChoiceTable3[];
 extern s32 CourseBgmChoiceTable0[];
 extern struct {
@@ -267,15 +267,15 @@ void DrawTrackNodeMap(s32 *arg0) {
     SCRATCH->p = tile;
 
     if (CourseMenuSelection < 8) {
-        s1 = D_800A1030;
+        s1 = HudMapStartMarkLines;
         s3 = &D_800A1028;
     } else {
-        s1 = D_800A1040;
+        s1 = HudMapStartMarkerOffsetsB;
         s3 = &D_800A102C;
     }
 
     base = TrackNodes;
-    sec = (S3C *)(D_800A1070[CourseIndex] * 0x3C + (s32)base);
+    sec = (S3C *)(HudMapCourseSectionIndex[CourseIndex] * 0x3C + (s32)base);
     sp18.vx = sec->c / 384;
     sp18.vy = -sec->d / 192;
     sp18.vx += sp10.vx;
@@ -380,7 +380,7 @@ void DrawTrackNodeMap(s32 *arg0) {
 #undef CurrentDrawBuf
 
 void SelectReplayBgmTrack(void) {
- int r, a1; if (RaceType == 1) { if (CourseIndex == 7) { a1 = D_800AD520 + 0x20; CdAudioSelectTrack(0, a1); return; } } r = PsyqRand(); a1 = r % 6 + 0x1A; CdAudioSelectTrack(0, a1);
+ int r, a1; if (RaceType == 1) { if (CourseIndex == 7) { a1 = SelectedTeamIndex + 0x20; CdAudioSelectTrack(0, a1); return; } } r = PsyqRand(); a1 = r % 6 + 0x1A; CdAudioSelectTrack(0, a1);
 }
 
 /* legacy typing of shared globals in this part of the unit */
@@ -464,7 +464,7 @@ void OpeningInit(s32 arg0, s32 arg1) {
     s32 i;
 
     OpeningMode = arg0;
-    D_8010E230 = arg1;
+    OpeningSubtitleIndex = arg1;
     OpeningFadeTimer = -1;
     OpeningBgmSelectState = 0;
     OpeningSlideTimer = 0;
@@ -473,12 +473,12 @@ void OpeningInit(s32 arg0, s32 arg1) {
     if (RaceType != 1) {
         RaceBgmListIndex = 0;
     } else {
-        switch (D_800AD520) {
+        switch (SelectedTeamIndex) {
         case 0:
             RaceBgmListIndex = CourseBgmChoiceTable0[CourseIndex] + 1;
             break;
         case 1:
-            RaceBgmListIndex = D_800A1A00[CourseIndex] + 1;
+            RaceBgmListIndex = CourseBgmChoiceTable1[CourseIndex] + 1;
             break;
         case 2:
             RaceBgmListIndex = CourseBgmChoiceTable2[CourseIndex] + 1;
@@ -516,34 +516,34 @@ void OpeningInit(s32 arg0, s32 arg1) {
         break;
     }
 
-    D_8010E220 = RaceBgmListIndex + 0xB;
+    RaceBgmCdTrack = RaceBgmListIndex + 0xB;
 
     for (i = 0; i < 8; i++) {
-        CenterGlyphListX(D_800A18F0[i], HudGlyphUvRectsBank0);
-        CenterGlyphListX(D_800A1910[i], HudGlyphUvRectsBank0);
-        CenterGlyphListX(D_800A1930[i], HudGlyphUvRectsBank0);
+        CenterGlyphListX(OpeningTitleGlyphLists[i], HudGlyphUvRectsBank0);
+        CenterGlyphListX(CourseCardGlyphListsB[i], HudGlyphUvRectsBank0);
+        CenterGlyphListX(CourseCardGlyphLists3[i], HudGlyphUvRectsBank0);
         CenterGlyphListX(D_800A1950[i], HudGlyphUvRectsBank0);
     }
 
     for (i = 0; i < 5; i++) {
-        CenterGlyphListX(D_800A1970[i], HudGlyphUvRectsBank0);
+        CenterGlyphListX(OpeningSlopedGlyphLists[i], HudGlyphUvRectsBank0);
     }
 
     for (i = 0; i < 8; i++) {
-        CenterGlyphListX(D_800A1984[i], HudGlyphUvRects);
-        CenterGlyphListX(D_800A1984[i] + 8, HudGlyphUvRects);
-        CenterGlyphListX(D_800A1984[i] + 14, HudGlyphUvRects);
+        CenterGlyphListX(HudGlyphListTriples[i], HudGlyphUvRects);
+        CenterGlyphListX(HudGlyphListTriples[i] + 8, HudGlyphUvRects);
+        CenterGlyphListX(HudGlyphListTriples[i] + 14, HudGlyphUvRects);
     }
 
     for (i = 0; i < 7; i++) {
-        CenterGlyphListX(D_800A19A4[i], HudGlyphUvRectsBank0);
+        CenterGlyphListX(OpeningCaptionGlyphLists[i], HudGlyphUvRectsBank0);
     }
 
     CenterGlyphListX(D_800A1818, HudGlyphUvRects);
     CenterGlyphListX(D_800A1824, HudGlyphUvRects);
 
     for (i = 0; i < 8; i++) {
-        CenterGlyphListX(D_800A19C0[i], HudGlyphUvRects);
+        CenterGlyphListX(HudTextLineGlyphLists[i], HudGlyphUvRects);
     }
 }
 

@@ -28,14 +28,14 @@ extern int rsin();
 extern int rcos();
 extern int LoadingTriangleAngle;
 extern int LoadingTriangleFlip;
-extern struct P { int w0, w4; short x0, y0; int c1; short x1, y1; int c2; short x2, y2; } D_80109400[];
+extern struct P { int w0, w4; short x0, y0; int c1; short x1, y1; int c2; short x2, y2; } LoadingTrianglePackets[];
 extern struct P *LoadingTrianglePacket;
 
 int GetCarFileIndex(int a0, int a1, int a2, int a3);
 int GetR4FileIndex(int a0, int a1);
 void DrawLoadingTriangle(void);
 
-s32 func_80012208(s32 arg0) {
+s32 GetSceneFileIndex(s32 arg0) {
     return arg0 * 2;
 }
 
@@ -123,7 +123,7 @@ void DrawLoadingTriangle(void)
     v = LoadingTriangleFlip ^ 1;
     LoadingTriangleFlip = v;
     LoadingTriangleAngle = a;
-    LoadingTrianglePacket = &D_80109400[v];
+    LoadingTrianglePacket = &LoadingTrianglePackets[v];
     LoadingTrianglePacket->x0 = (rsin(a) >> 7) + 0x50;
     LoadingTrianglePacket->y0 = (rcos(LoadingTriangleAngle) >> 7) + 0x80;
     LoadingTrianglePacket->x1 = (rsin(LoadingTriangleAngle + 0x555) >> 7) + 0x50;

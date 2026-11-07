@@ -36,7 +36,7 @@ void InitMenuGrid(s32 index, s32 layout, s32 count, s32 x, s32 y) {
     entry->count2C = count;
     entry->width04 = 64;
     entry->height06 = 8;
-    table = D_8009FDA8;
+    table = MenuGridLayoutRows;
     entry->step_y0A = step_y;
     /* ASM_BARRIER: reload the record-pointer slot after publishing the dimensions. */
     __asm__("" : : : "memory");

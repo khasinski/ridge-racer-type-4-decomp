@@ -40,7 +40,7 @@ extern s32 SetShadeTex();
 
 extern u8 FontGlyphCells[];
 
-extern unsigned char D_8009EDF8[];
+extern unsigned char FontCharWidths[];
 
 char *AddTextSprites(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
 int arg0;
@@ -97,12 +97,12 @@ int arg7;
       }
       if (arg6 == 1)
       {
-        arg2 = (arg2 + (new_var = 2)) + D_8009EDF8[((x / 8) + ((y / 16) * 32)) % 54];
+        arg2 = (arg2 + (new_var = 2)) + FontCharWidths[((x / 8) + ((y / 16) * 32)) % 54];
       }
       else
         if (arg6 == 2)
       {
-        arg2 = arg2 + D_8009EDF8[((x / 8) + ((y / 16) * 32)) % 54];
+        arg2 = arg2 + FontCharWidths[((x / 8) + ((y / 16) * 32)) % 54];
       }
       else
       {

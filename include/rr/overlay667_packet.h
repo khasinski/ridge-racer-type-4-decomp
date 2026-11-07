@@ -32,7 +32,7 @@ s32 ovl667_func_80114D30(void);
 /* Eight stored serial records, from 80118F20 through 80118F7F. Ring indices
  * used for payload access must remain in0..7, including after service calls. */
 extern RrOverlay667SerialRing ovl667_D_80118F20;
-extern RrOverlay667ChoicePair LinkRemoteInputs,D_800ACBF0;
+extern RrOverlay667ChoicePair LinkRemoteInputs,LinkSentLocalInputs;
 extern s32 ovl667_D_80118ED0,ovl667_D_80118ED4;
 extern s32 ovl667_D_80118EC8,ovl667_D_80118EF4;
 extern s32 ovl667_D_80118EF8,ovl667_D_80118EFC;

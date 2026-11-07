@@ -46,13 +46,13 @@ extern short MenuFrameState;
 extern int MenuArenaBase;
 extern char SharedWorkBuffer[];
 
-void func_8002FCEC();
-void func_8002FE98(void);
+void StartMenuModeEnter();
+void SaveDataPromptModeUpdate(void);
 void DrawFirstThreeUiRows(void);
-void func_8002FEFC();
-void func_8003016C(void);
+void UpdateStartChoiceMenuInput();
+void RaceLoadModeEnter(void);
 
-void func_8002FCEC() {
+void StartMenuModeEnter() {
     int a0, a1;
     short v;
     T *p;
@@ -77,7 +77,7 @@ void func_8002FCEC() {
     if (a0 < 3) goto L;
     J:
     if (a1 != 0) goto B;
-    func_8002F688();
+    AdvanceGrandPrixStage();
     ModeGroup = 0;
     ModeId = 1;
     ModeSubState = 0;
@@ -96,8 +96,8 @@ void func_8002FCEC() {
     E2:
 }
 
-void func_8002FE98(void) {
-    func_8002FEFC();
+void SaveDataPromptModeUpdate(void) {
+    UpdateStartChoiceMenuInput();
     DrawFirstThreeUiRows();
     UpdateScreenFade(0x10086);
 }
@@ -114,7 +114,7 @@ void DrawFirstThreeUiRows(void) {
 #define ModeId (*(unsigned short (*))&ModeId)
 #define ModeGroup (*(unsigned short (*))&ModeGroup)
 
-void func_8002FEFC() {
+void UpdateStartChoiceMenuInput() {
     int s;
     int v, t, w;
     s = ModeSubState;
@@ -163,7 +163,7 @@ C1:
     if (w == 2) goto L13C;
     goto END;
 L104:
-    func_8002F688();
+    AdvanceGrandPrixStage();
     ModeGroup = 0;
     ModeId = s;
     ModeSubState = 0;
@@ -190,7 +190,7 @@ END:
 /* legacy typing of shared globals in this part of the unit */
 #define CurrentDrawBuf ((char *)CurrentDrawBuf)
 
-void func_8003016C(void)
+void RaceLoadModeEnter(void)
 {
     int *sp = (int *)SCRATCHPAD;
     int *p;
@@ -203,7 +203,7 @@ void func_8003016C(void)
     p[9] = -0x160;
     p[5] = 0x1A;
     sp[6] = 0x400;
-    func_8002F688();
+    AdvanceGrandPrixStage();
     ModeFrame = 0;
     ScreenFrame = 0;
     VSyncThreshold = 0x80;

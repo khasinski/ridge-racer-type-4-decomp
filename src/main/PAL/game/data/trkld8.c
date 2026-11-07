@@ -14,16 +14,16 @@
 #include "rr/spu_tick.h"
 #include "rr/bios_devices.h"
 extern int LoadTimList();
-extern short D_800AD520;
-extern int D_800AD564;
+extern short SelectedTeamIndex;
+extern int GameLanguage;
 extern short CourseIndex;
 extern int MenuArenaBase;
-extern char D_800F74B0[];
+extern char SndSeqAttrTable[];
 extern char RaceContext[];
 extern struct { char pad[0x24]; short h[8]; char pad2[0x2860 - 0x34]; short a, b; } SoundState;
 extern int SsSetSerialAttr();
 extern int SsSetSerialVol();
-extern int func_80055300();
+extern int ResetScreenCopyOverlay();
 extern int CdAudioInit();
 
 int LoadIntroSceneStep(void) {
@@ -65,8 +65,8 @@ int LoadIntroSceneStep(void) {
         }
         return v;
     case 4:
-        g = D_800AD564 << 2;
-        h = D_800AD520 + 0x97;
+        g = GameLanguage << 2;
+        h = SelectedTeamIndex + 0x97;
         v = CdFileReadStart(GetR4FileIndex(2, g + h), LoadCursor);
         if (v != 0) {
             RaceLoadStepIndex += 1;
@@ -89,7 +89,7 @@ void SoundSystemInit() {
     CdReset(1);
     SsSetSerialAttr(0, 0, 1);
     SsSetSerialVol(0, 0x7F, 0x7F);
-    s0 = D_800F74B0;
+    s0 = SndSeqAttrTable;
     SsSetTableSize(s0, 2, 1);
     SsSetTickMode(1);
     s1 = s0 - 0x26F8;
@@ -98,7 +98,7 @@ void SoundSystemInit() {
     PsyqBzero(s1, 0xA8D0);
     PsyqBzero(RaceContext, 0x57C);
     s0 -= 0x1498;
-    func_80055300();
+    ResetScreenCopyOverlay();
     ResetSlotOrder();
     *(int *)(s1 + 8) = 0x80;
     n = -1;

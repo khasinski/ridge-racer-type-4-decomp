@@ -9,12 +9,12 @@
 #include "game/menu/loadmenu.h"
 #include "game/data/globals.h"
 
-extern short D_800A41EC;
+extern short CardLoadStepState;
 extern short CardLoadRetryCount;
 extern int UpdateBadgeRowAnim();
 
-void func_8007AB8C(int arg0);
-void func_8007B3A0(void);
+void SetModeAfterCardLoad(int arg0);
+void CardMenuModeUpdate(void);
 
 /* legacy typing of shared globals in this part of the unit */
 #define CardTargetFileName (*(char (*)[])&CardTargetFileName)
@@ -27,15 +27,15 @@ int a1;
     int r;
     int q;
     if (a0 > 0) {
-        D_800A41EC = 0;
+        CardLoadStepState = 0;
     }
-    switch (D_800A41EC) {
+    switch (CardLoadStepState) {
     case 0:
         CardLoadRetryCount = 0;
-        D_800A41EC = 1;
+        CardLoadStepState = 1;
         break;
     case 1:
-        D_800A41EC = 2;
+        CardLoadStepState = 2;
         break;
     case 2:
         for (i = 0x1D; i >= 0; i--) {
@@ -50,9 +50,9 @@ int a1;
                 CardLoadRetryCount = (unsigned short)CardLoadRetryCount + 1;
                 break;
             }
-            D_800A41EC = 5;
+            CardLoadStepState = 5;
         } else {
-            D_800A41EC = 3;
+            CardLoadStepState = 3;
         }
         break;
     case 3:
@@ -60,15 +60,15 @@ int a1;
         if (q != 0) {
             if (q == 1) {
                 if (ApplySaveData(SaveSlotSelect) != 0) {
-                    D_800A41EC = 4;
+                    CardLoadStepState = 4;
                 } else {
-                    D_800A41EC = 6;
+                    CardLoadStepState = 6;
                 }
             } else {
                 if (CardLoadRetryCount >= 3) {
-                    D_800A41EC = 5;
+                    CardLoadStepState = 5;
                 } else {
-                    D_800A41EC = 1;
+                    CardLoadStepState = 1;
                     CardLoadRetryCount = (unsigned short)CardLoadRetryCount + 1;
                 }
             }
@@ -79,7 +79,7 @@ int a1;
     case 6:
         break;
     }
-    return D_800A41EC;
+    return CardLoadStepState;
 }
 
 #undef CardTargetFileName
@@ -88,7 +88,7 @@ int a1;
 #define ModeId (*(short (*))&ModeId)
 #define ModeSubState (*(short (*))&ModeSubState)
 
-void func_8007AB8C(int arg0) {
+void SetModeAfterCardLoad(int arg0) {
     if (arg0 == -1) {
         ModeGroup = 1;
         ModeId = 3;
@@ -127,7 +127,7 @@ void CardMenuModeEnter(void) {
         SetupDrawDispEnvs(0x20, 0x20, 0x20, 2);
         ModeFrame = 0;
         SaveSlotIndex = 0;
-        MenuChoiceValues[D_8010948E] = 3;
+        MenuChoiceValues[MenuChoiceIndex] = 3;
         /* ASM_BARRIER: finish the choice write before the clock read. */
         __asm__("" : : : "memory");
         __builtin_memcpy(&clockLow, &SelectionPlayer, sizeof(clockLow));
@@ -215,7 +215,7 @@ void CardMenuModeEnter(void) {
         /* ASM_BARRIER: keep the initialized fill value apart from the count. */
         __asm__("" : "+r"(defaultChoice));
         DialogueContext = 3;
-        D_8010948E = 0;
+        MenuChoiceIndex = 0;
         for (i = 2; i >= 0; i--) {
             MenuChoiceValues[i] = defaultChoice;
         }
@@ -249,7 +249,7 @@ void CardMenuModeEnter(void) {
 #define UpdateLinkHandshake ((int (*)())UpdateLinkHandshake)
 #define _sio_control ((int (*)())_sio_control)
 
-void func_8007B3A0(void) {
+void CardMenuModeUpdate(void) {
     ModeFrame += 1;
     if (RaceType == 4) {
         UpdateLinkHandshake(2);

@@ -43,8 +43,8 @@ extern s32 AddTileSemiTransPrim(s32, s32, s32, s32, s32, s32, s32, s32, s32);
 extern void InitRect16Row(s32, s32, s32, s32, s32, s32, s32);
 extern s32 UpdateRect16Row(s32);
 extern void LoadTimImage(s32);
-extern u8 D_8009F3F8[];
-extern u8 D_8009F404[];
+extern u8 DialogOpenJitterSprite[];
+extern u8 DialoguePanelSprite[];
 extern int SetMenuFrameOptions();
 extern int UpdateDialogue();
 extern int SkipDialoguePage();
@@ -77,7 +77,7 @@ extern struct { char pad[0x28]; int w28, w2C; } PlayerControllers;
 extern struct { char pad[8]; short s8, sA; char padC[4]; short s10; char pad12[0x2C - 0x12]; short s2C; } *BadgeRows;
 extern char *UiRows;
 extern unsigned short Pad0RepeatButtons;
-extern int D_8010BFC0;
+extern int BinaryChoiceCursor;
 extern int UpdateScreenFade();
 extern void InitUiRow(int,int,int,int,int,int,int,int,int,int,...);
 extern s16 MenuCursor;
@@ -87,14 +87,14 @@ extern s16 CardSlot;
 void SelectDialogueScript(int a0, int a1);
 void UpdateDialoguePanel(void);
 void UpdateDialogueBox(void);
-void func_80031DA0(void);
-void func_80031DA8(void);
+void DialogueIdleStubA(void);
+void UpdateDialogueStubB(void);
 void ResetRankEntries();
 void ResetRankEntriesForCars(void);
 void SaveSlotSelectModeEnter(void);
 void SaveSlotSelectModeUpdate(void);
-void func_8003244C(void);
-void func_800324F8(void);
+void StepUnusedToggleMenu(void);
+void TwoChoicePromptModeEnter(void);
 
 /* legacy typing of shared globals in this part of the unit */
 #define UpdateSelectionRank ((int (*)())UpdateSelectionRank)
@@ -245,7 +245,7 @@ void UpdateDialoguePanel(void) {
     case 0:
         var_a1 = *(s32 *)SCRATCHPAD;
         if ((u16)temp_s2 >= 3) {
-            var_a1 = AddJitterSprites(CurrentDrawBuf + 0x70, var_a1, D_8009F3F8, 1, 0xFF, 2);
+            var_a1 = AddJitterSprites(CurrentDrawBuf + 0x70, var_a1, DialogOpenJitterSprite, 1, 0xFF, 2);
         }
         *(s32 *)SCRATCHPAD = AddTilePrim(CurrentDrawBuf + 0x74, var_a1, 0x78, 0x60, 0x50, 0xB4, 8, 8, 8);
         if ((u16)temp_s2 >= 0x15) {
@@ -268,8 +268,8 @@ void UpdateDialoguePanel(void) {
                 CurrentDrawBuf + 0x7C,
                 AddJitterSprites(
                     CurrentDrawBuf + 0x70,
-                    AddJitterSprites(CurrentDrawBuf + 0x70, *(s32 *)SCRATCHPAD, D_8009F404, 1, temp_s2, 1),
-                    D_8009F3F8, 1, (0x80 - temp_s2) * 2, two),
+                    AddJitterSprites(CurrentDrawBuf + 0x70, *(s32 *)SCRATCHPAD, DialoguePanelSprite, 1, temp_s2, 1),
+                    DialogOpenJitterSprite, 1, (0x80 - temp_s2) * 2, two),
                 0x78, 0x60, 0x50, 0xB4, 8, 8, 8);
             if ((u32)temp_s2 >= 0x80U) {
                 Dialogue->unk1F = 0;
@@ -283,7 +283,7 @@ void UpdateDialoguePanel(void) {
     default:
         var_a1 = *(s32 *)SCRATCHPAD;
         if (Dialogue->unk1C >= 0) {
-            var_a1 = AddJitterSprites(CurrentDrawBuf + 0x70, var_a1, D_8009F404, 0, 0x80, 1);
+            var_a1 = AddJitterSprites(CurrentDrawBuf + 0x70, var_a1, DialoguePanelSprite, 0, 0x80, 1);
         }
         *(s32 *)SCRATCHPAD = AddTilePrim(CurrentDrawBuf + 0x74, var_a1, 0x78, 0x60, 0x50, 0xB4, 8, 8, 8);
         break;
@@ -312,10 +312,10 @@ void UpdateDialogueBox(void) {
 #undef BadgeRows
 #undef Dialogue
 
-void func_80031DA0(void) {
+void DialogueIdleStubA(void) {
 }
 
-void func_80031DA8(void) {
+void UpdateDialogueStubB(void) {
 }
 
 void ResetRankEntries() {
@@ -498,7 +498,7 @@ void SaveSlotSelectModeUpdate(void) {
         if (MenuFadeTimer > 0) MenuFadeTimer = MenuFadeTimer - 1;
         AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x40 - MenuFadeTimer) * 4, 0x45);
         if (MenuFadeTimer <= 0) {
-            func_8002F688();
+            AdvanceGrandPrixStage();
             MenuScriptId = 1;
             ModeGroup = 1;
             ModeId = 0x23;
@@ -520,16 +520,16 @@ void SaveSlotSelectModeUpdate(void) {
 #undef SelectionState
 #undef ModeSubState
 
-void func_8003244C(void) {
+void StepUnusedToggleMenu(void) {
     if (Pad0RepeatButtons & 0x1000) {
-        D_8010BFC0 = D_8010BFC0 - 1;
+        BinaryChoiceCursor = BinaryChoiceCursor - 1;
     } else if (Pad0RepeatButtons & 0x4000) {
-        D_8010BFC0 = D_8010BFC0 + 1;
+        BinaryChoiceCursor = BinaryChoiceCursor + 1;
     }
-    if (D_8010BFC0 < 0) {
-        D_8010BFC0 = 1;
-    } else if (D_8010BFC0 >= 2) {
-        D_8010BFC0 = 0;
+    if (BinaryChoiceCursor < 0) {
+        BinaryChoiceCursor = 1;
+    } else if (BinaryChoiceCursor >= 2) {
+        BinaryChoiceCursor = 0;
     }
     if (Pad0Buttons & 0x800) {
         ModeGroup = 1;
@@ -541,7 +541,7 @@ void func_8003244C(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define BadgeRows ((void *)BadgeRows)
 
-void func_800324F8(void) {
+void TwoChoicePromptModeEnter(void) {
     ModeFrame = 0;
     CardSlot = 0;
     MenuResultCode = 3;

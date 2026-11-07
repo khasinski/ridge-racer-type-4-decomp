@@ -12,7 +12,7 @@ class GpuFillPacketsTest(unittest.TestCase):
     def test_actual_body_and_packet_mutations(self):
         source=(ROOT/'tools/scripts/fixtures/views/func_800943C4.c').read_text()
         source=re.sub(r'^#include.*\n','',source,flags=re.M)
-        source=re.sub(r'^extern u32 D_80112788.*\n','',source,flags=re.M)
+        source=re.sub(r'^extern u32 GpuClearPacket.*\n','',source,flags=re.M)
         source=re.sub(r' asm\("\$\d+"\)','',source)
         source=re.sub(r'__asm__\(""[^;]*;',';',source)
         prefix=r'''
@@ -38,9 +38,9 @@ typedef struct {u32 before[4]; RrGpuRectangle rectangle;Primary primary;Secondar
 typedef struct {int kind;unsigned long arg;World state;} Entry;
 static World initial,world,actual;static Entry entries[4],saved[4];
 static unsigned count,mutate,selection,seed=0xC35A4129;
-#define D_80112788 (world.primary.words)
-#define D_801127B0 (world.secondary.words)
-#define D_800ABAC4 (world.width)
+#define GpuClearPacket (world.primary.words)
+#define GpuClearTailPacket (world.secondary.words)
+#define GpuVramWidth (world.width)
 #define GpuVramHeight (world.height)
 #define GPU_STATUS (&world.status)
 _Static_assert(sizeof(Primary)==40,"primary owner");

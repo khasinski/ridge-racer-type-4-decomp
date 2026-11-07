@@ -5,8 +5,8 @@
 
 #define W(p,o) (*(int*)((char*)(p)+(o)))
 
-extern int D_800A099C[][3];
-extern int D_800A0904[];
+extern int CdTrackPlayParams[][3];
+extern int CdTrackVolumes[];
 extern int CdAudioSetVolumeRaw();
 extern int PsyqSrand();
 extern int CdAudioSetVolume();
@@ -47,7 +47,7 @@ int a0, a1;
         CdAudioSetTarget(s0, h, 0);
         W(g, 0x2690) = (*(int *)(s1 + W(s2, 0x2638) + 4) - 2) * 8;
         PsyqBzero(g + 0x26D0, 0x1C);
-        { int b = (int)D_800A099C; v = (int *)(b + a1 * 12); }
+        { int b = (int)CdTrackPlayParams; v = (int *)(b + a1 * 12); }
         W(g, 0x26EC) = 0;
         W(g, 0x26F0) = 0;
         W(g, 0x26E0) = v[0];
@@ -57,7 +57,7 @@ int a0, a1;
         W(g, 0x26A8) = 0;
         W(g, 0x2690) = tt + s0;
         W(g, 0x26E8) = v2;
-        W(g, 0x26C0) = D_800A0904[a1];
+        W(g, 0x26C0) = CdTrackVolumes[a1];
         CdAudioSetVolumeRaw(0);
     }
     PsyqSrand(FrameCounter);

@@ -19,8 +19,8 @@ class CdReadStopTest(unittest.TestCase):
         body=(ROOT/'tools/scripts/fixtures/legacy/func_8008ED54.c').read_text()
         body=re.sub(r'^#include[^\n]*\n','',body,flags=re.M)
         body=re.sub(r'\s+__asm__\("\$\d+"\)','',body)
-        assert body.count("extern RrLibCompletionCallback volatile D_800A67DC;\n")==1
-        body=body.replace("extern RrLibCompletionCallback volatile D_800A67DC;\n", "")
+        assert body.count("extern RrLibCompletionCallback volatile CdReadSavedReadyCallback;\n")==1
+        body=body.replace("extern RrLibCompletionCallback volatile CdReadSavedReadyCallback;\n", "")
         code=r'''
 #include <assert.h>
 #include <stdint.h>
@@ -61,7 +61,7 @@ static void cb3(void){callback_effect^=8;}
 void cd_read_restore_sync(void){callback_effect^=16;}
 #define CdReadState actual.state
 #define CdReadSavedSyncCallback actual.state.restore.saved28
-#define D_800A67DC actual.state.restore.saved2C
+#define CdReadSavedReadyCallback actual.state.restore.saved2C
 #define CD_read_dma_mode actual.flags
 ''' + body + r'''
 enum {SYNC,CLOCK,SET0,SET1,SET2,COMMAND};

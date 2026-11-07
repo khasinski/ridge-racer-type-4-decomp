@@ -67,7 +67,7 @@ extern void BuildCameraMatrices(void);
 extern int Atan2Table(int, int);
 extern void SetGeomScreen(int);
 extern int *TrackNodes;
-extern int D_800AC548[];
+extern int TrackOriginPose[];
 extern int BuildRotMatrixZ();
 extern int BuildRotMatrixY();
 extern int BuildRotMatrixX();
@@ -76,15 +76,15 @@ extern int MulMatrix();
 extern int MulMatrix2();
 extern int ScaleMatrix();
 extern int SetLightMatrix();
-extern V4 D_80010F1C;
+extern V4 LightMatrixScale;
 extern int RotTransPers();
-extern B D_800D0DD8[];
-extern B D_800AE660[];
+extern B RaceOrderingTableB[];
+extern B RaceSubOtsA[];
 extern s32 rsin();
 extern s32 rcos();
 
 void UpdateRaceCamera(int arg0, void *arg1);
-void func_800448EC(void);
+void SetVectorFromTrackStart(void);
 void SetupLightMatrices();
 void RotTransPersOrigin(void);
 void InitRaceContextBuffers(void);
@@ -147,7 +147,7 @@ void UpdateRaceCamera(int arg0, void *arg1) {
         RaceContext.f32 = 0;
         RaceContext.f34 = -0x100;
         CarLocalToWorld(arg1, &RaceContext.f30, &RaceContext.f20);
-        a2 = func_80043C14(arg1, s2) >> 4;
+        a2 = UpdateCameraTargetDistance(arg1, s2) >> 4;
         t1 = a2 / 4;
         if (a2 - t1 > (0x400000 / s2->f28) * 8) {
             t1 = a2 - (0x400000 / s2->f28) * 8;
@@ -237,14 +237,14 @@ void UpdateRaceCamera(int arg0, void *arg1) {
     BuildCameraMatrices();
 }
 
-void func_800448EC(void) {
+void SetVectorFromTrackStart(void) {
     int *s = TrackNodes;
-    D_800AC548[0] = s[2];
-    D_800AC548[1] = 0;
-    D_800AC548[2] = s[3];
-    D_800AC548[4] = 0;
-    D_800AC548[5] = 0;
-    D_800AC548[6] = 0;
+    TrackOriginPose[0] = s[2];
+    TrackOriginPose[1] = 0;
+    TrackOriginPose[2] = s[3];
+    TrackOriginPose[4] = 0;
+    TrackOriginPose[5] = 0;
+    TrackOriginPose[6] = 0;
 }
 
 void SetupLightMatrices(a0, a1) A0 *a0; V8 *a1;
@@ -254,7 +254,7 @@ void SetupLightMatrices(a0, a1) A0 *a0; V8 *a1;
     struct { short a[3][3]; short pad[7]; } t90;
     V4 b0;
     int a3;
-    b0 = D_80010F1C;
+    b0 = LightMatrixScale;
     BuildRotMatrixY(&s.m50, -*(short *)((char *)a0 + 0x12));
     MulMatrix2((int *)SCRATCH_ROT_MATRIX, &s.m50);
     BuildRotMatrixX(&s.m10, -*(short *)((char *)a0 + 0x10));
@@ -299,8 +299,8 @@ void RotTransPersOrigin(void) {
 void InitRaceContextBuffers(void) {
     int i;
     for (i = 0; i < 2; i++) {
-        RaceContext.e[i].a = (int)&D_800AE660[i];
-        RaceContext.e[i].b = (int)&D_800D0DD8[i];
+        RaceContext.e[i].a = (int)&RaceSubOtsA[i];
+        RaceContext.e[i].b = (int)&RaceOrderingTableB[i];
     }
 }
 

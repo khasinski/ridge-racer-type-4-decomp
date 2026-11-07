@@ -15,7 +15,7 @@ M2C_UNK DelDrv(M2C_UNK *);
 extern M2C_UNK StrSioDeviceName;
 
 void DelSIO(void);
-void func_8009A944(void);
+void SioEmptyStub(void);
 s32 _sio_write_async(s32 first, s32 second);
 
 void AddSIO(void) {
@@ -44,7 +44,7 @@ void DelSIO(void) {
 
 #undef ExitCriticalSection
 
-void func_8009A944(void) {
+void SioEmptyStub(void) {
 }
 
 s32 _sio_write_async(s32 first, s32 second) {

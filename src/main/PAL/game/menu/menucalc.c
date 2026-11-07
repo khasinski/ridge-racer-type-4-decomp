@@ -16,8 +16,8 @@
 extern int AddSpriteWithDrawMode();
 extern unsigned char BadgeUvTable[][4];
 extern signed char BadgePatternTable[][8];
-extern unsigned char D_8009F1E0[];
-extern unsigned char D_8009F1E4[];
+extern unsigned char BadgeStripOffsets[];
+extern unsigned char BadgeSelectionUvIndex[];
 extern struct 
 {
   char pad[0x17];
@@ -54,14 +54,14 @@ extern struct { char pad[0x10]; short h10; char pad2[10]; } *BadgeRows;
 extern int LoadCursorBase;
 extern struct { char pad[6]; signed char b6; char pad2[0xF]; short h16; } *Dialogue;
 
-int func_80030D9C(int x, int a1);
+int DrawLoadScreenClassBadges(int x, int a1);
 int DrawStepProgressBar(int a0, int a1);
-void func_80031064(void);
-void func_800311FC(void);
-void func_80031244(void);
+void LoadDialogueModeUpdate(void);
+void DialogueModeSetup(void);
+void DialogueModeUpdate(void);
 void AddScreenBackdropTile(void);
 
-int func_80030D9C(int x, int a1)
+int DrawLoadScreenClassBadges(int x, int a1)
 {
   int s3 = 0x78;
   unsigned char (*new_var)[4];
@@ -100,13 +100,13 @@ int func_80030D9C(int x, int a1)
         a = s0;
       }
     }
-    s3 += D_8009F1E0[i];
+    s3 += BadgeStripOffsets[i];
     x = AddBadgeSpriteStrip(a, CurrentDrawBuf + 0x70, x, 0x20, s3, s2);
     if (i == 1)
     {
       unsigned char *t;
       int b = BadgePatternTable[s0][4];
-      s0 = D_8009F1E4[(signed char) SelectionState.v] + 0x20;
+      s0 = BadgeSelectionUvIndex[(signed char) SelectionState.v] + 0x20;
       new_var = BadgeUvTable;
       t = new_var[s0];
       x = AddSpriteWithDrawMode(CurrentDrawBuf + 0x70, x, b + 0x34, s3, t[2], t[3], t[0], t[1], 0x4A, 0x2E28, i, s2);
@@ -146,7 +146,7 @@ next:
 #define ModeFrame (*(unsigned int (*))&ModeFrame)
 #define BadgeRows ((short *)BadgeRows)
 
-void func_80031064(void)
+void LoadDialogueModeUpdate(void)
 {
     int t;
     if (ModeFrame <= 0x7FFF) {
@@ -185,7 +185,7 @@ void func_80031064(void)
 #undef ModeFrame
 #undef BadgeRows
 
-void func_800311FC(void) {
+void DialogueModeSetup(void) {
     SetupDrawDispEnvs(0, 0, 0, 2);
     ModeFrame = 0;
     VSyncThreshold = 0x80;
@@ -195,7 +195,7 @@ void func_800311FC(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define ModeSubState (*(unsigned short (*))&ModeSubState)
 
-void func_80031244(void) {
+void DialogueModeUpdate(void) {
     int s0;
     void *tab;
     int a1;

@@ -28,7 +28,7 @@ class ChannelAdvanceTest(unittest.TestCase):
 ''' + header + r'''
 RrChannelRecordF0 PadChannelRecordArray[2];
 s32 PadChannelPendingPackets[2], PadActiveChannel, PadRecvStage, PadLastChannel;
-u16 packet_a[12], packet_b[12], *D_800ABD00;
+u16 packet_a[12], packet_b[12], *PadListJoyRegs;
 static int scenario, trace[32], trace_count, ready_count, ready_result;
 static int id(void *p) {
     if(p==&PadChannelRecordArray[0])return 0;
@@ -37,17 +37,17 @@ static int id(void *p) {
 static void event(int value) {assert(trace_count<32);trace[trace_count++]=value;}
 void _dirFailAuto(u8 *channel) {
     int index=id(channel);event(10+index);
-    if(scenario==1) {assert(index==0);PadActiveChannel=1;D_800ABD00=packet_b;}
+    if(scenario==1) {assert(index==0);PadActiveChannel=1;PadListJoyRegs=packet_b;}
     if(scenario==4) PadLastChannel=0;
 }
 void _padSaveCommand(RrChannelTransferView *channel) {
     int index=id(channel);event(20+index);
-    if(scenario==3) {assert(index==0);PadActiveChannel=1;D_800ABD00=packet_b;}
+    if(scenario==3) {assert(index==0);PadActiveChannel=1;PadListJoyRegs=packet_b;}
 }
 s32 _padInitSioMode(RrChannelRecordF0 *channel) {
     int index=id(channel);event(30+index);ready_count++;
     if(scenario==2 && ready_count==1) {
-        PadActiveChannel=0;D_800ABD00=packet_b;return 0;
+        PadActiveChannel=0;PadListJoyRegs=packet_b;return 0;
     }
     return ready_result;
 }
@@ -59,7 +59,7 @@ static void reset(int start,int last,int result) {
     PadChannelPendingPackets[0]=0x13579;PadChannelPendingPackets[1]=0x24680;
     memset(PadChannelRecordArray,0x5A,sizeof(PadChannelRecordArray));
     for(int i=0;i<12;i++){packet_a[i]=0xA5A5;packet_b[i]=0x5A5A;}
-    D_800ABD00=packet_a;
+    PadListJoyRegs=packet_a;
 }
 static void expect_trace(const int *expected,int size) {
     assert(trace_count==size);
@@ -87,7 +87,7 @@ static void basic(s32 mode,int start,int last,int result) {
     assert(PadActiveChannel==(start==0&&last==1&&result==0?2:start+1));
     assert(PadChannelPendingPackets[0]==(mode==0&&start==0?0:0x13579));
     assert(PadChannelPendingPackets[1]==(mode==0&&start==1?0:0x24680));
-    assert(D_800ABD00==packet_a);packets(1,0);
+    assert(PadListJoyRegs==packet_a);packets(1,0);
 }
 static void basic_cases(void) {
     for(unsigned bits=0;bits<65536;bits++) {
@@ -107,13 +107,13 @@ static void live_cases(void) {
         reset(0,1,0);scenario=which;
         _padAdvanceChannel(17);
         expect_trace(captured,2);assert(PadActiveChannel==2&&ready_count==0);
-        assert(D_800ABD00==packet_b);packets(0,1);
+        assert(PadListJoyRegs==packet_b);packets(0,1);
     }
     reset(0,1,1);scenario=2;
     const int restart[]={31,10,20,31};
     _padAdvanceChannel(-9);
     expect_trace(restart,4);assert(PadActiveChannel==1&&ready_count==2);
-    assert(D_800ABD00==packet_b);packets(1,1);
+    assert(PadListJoyRegs==packet_b);packets(1,1);
     reset(0,1,0);scenario=4;
     _padAdvanceChannel(1);
     expect_trace(captured,2);assert(PadActiveChannel==1&&ready_count==0);

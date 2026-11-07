@@ -46,7 +46,7 @@ extern int CdAudioFade();
 extern int SeqStartTrack();
 extern int BuildCameraMatrices();
 extern int SetupViewport();
-extern unsigned char D_8009F818[];
+extern unsigned char CarPreviewDriveTable[];
 extern short MenuFadeTimer;
 extern signed char *ImageRows;
 extern int LoadCursor;
@@ -64,11 +64,11 @@ extern void InitMotionController();
 void GetNameChar(unsigned char *a0, int a1);
 void StepNameChar(unsigned char *a0);
 void EnterFrmTaskFromResults(void);
-void func_80039894(void);
-void func_8003989C(void);
-void func_80039920(void);
+void FrmTaskFromResultsUpdateStub(void);
+void SetSelectionTableIndex(void);
+void CacheSelectedCourseProgress(void);
 void CarPreviewModeUpdate(void);
-void func_80039C0C(void);
+void CarPreviewConfirmModeUpdate(void);
 
 void GetNameChar(unsigned char *a0, int a1) {
     *a0 = NameCharset[a1];
@@ -92,10 +92,10 @@ void EnterFrmTaskFromResults(void) {
     ModeSubState = 0;
 }
 
-void func_80039894(void) {
+void FrmTaskFromResultsUpdateStub(void) {
 }
 
-void func_8003989C(void) {
+void SetSelectionTableIndex(void) {
     int v;
     if (SelectionState[0x1E] == 0x12) {
         int i = SelectionState[0x1C] * 2 + (SelectionState[0x1D] >> 1);
@@ -114,7 +114,7 @@ void func_8003989C(void) {
     }
 }
 
-void func_80039920(void) {
+void CacheSelectedCourseProgress(void) {
     int i = SelectionState[0x1C] * 2 + (SelectionState[0x1D] >> 1);
     int v = D_8009F810[i];
     if (v < 0) {
@@ -152,7 +152,7 @@ void CarPreviewModeUpdate(void) {
     ModeFrame += 1;
     SetupViewport(6);
     if (ModeSubState == 0) {
-        if (StepCarPreviewDrive(D_8009F818[D_800AD4EF / 2]) != 0) {
+        if (StepCarPreviewDrive(CarPreviewDriveTable[D_800AD4EF / 2]) != 0) {
             MenuFadeTimer = 0x40;
             CdAudioFade(0, 0x3C);
             ModeSubState = 1;
@@ -194,7 +194,7 @@ void CarPreviewModeUpdate(void) {
 #define UpdateImageRow ((void (*)())UpdateImageRow)
 #define SetupViewport ((void (*)())SetupViewport)
 
-void func_80039C0C(void)
+void CarPreviewConfirmModeUpdate(void)
 {
     int s0, s2, c2, v1, a0, a1;
     char *t0;

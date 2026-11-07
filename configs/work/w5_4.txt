@@ -25,7 +25,7 @@ InitComCars 0x80045f48 0x444
 ScoreOvertakeOpportunity 0x80046b1c 0x29c
 ApplyRubberBandSpec 0x80049a60 0x208
 UpdateComCarTrackProjections 0x8004a474 0xe8
-func_80055358 0x80055358 0x288
+DrawScreenFilterSprites 0x80055358 0x288
 SetupObjectLightMatrices 0x8005599c 0x25c
 EmitFadeSprite 0x8005c37c 0x164
 AttractDemoRaceUpdate 0x8005ddf4 0xb0c

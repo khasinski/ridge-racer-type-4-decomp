@@ -58,29 +58,29 @@ extern int BuildCameraMatrices();
 extern int ApplyMatrix();
 extern int SetGeomScreen();
 extern int RotMatrix();
-extern VECTOR D_800A0FC0;
-extern SVECTOR D_800A0FD0;
-extern int D_800A0FD8;
+extern VECTOR CarCameraOffsetVec;
+extern SVECTOR CarCamPathDefaultRot;
+extern int CarFxGeomScreen;
 extern Car PlayerCars;
-extern unsigned char D_800A0DC8[][4];
-extern u16 D_800111FE;
-extern short *D_800A0F20[];
+extern unsigned char HudSpriteUvTable[][4];
+extern u16 HudDigitTPage;
+extern short *HudPanelSpriteLists[];
 extern short *D_800A0F8C[];
-extern short D_800AD520;
+extern short SelectedTeamIndex;
 extern int PsyqRand();
 extern struct { char pad[0x24C]; struct { char pad[0x140]; int v; } *p; } RaceContext;
 
-int func_8005642C(Car *arg0, int arg1, int arg2, int *arg3);
+int UpdateCarPreviewCameraPath(Car *arg0, int arg1, int arg2, int *arg3);
 void DrawHudSprite(int a0, int a1, int a2, int a3, int a4);
 void DrawHudDigit();
-void func_80057138(int a0, int a1);
-void func_800572A8();
+void DrawSparkHudSlideIn(int a0, int a1);
+void DrawSparkHudLinesAndLabels();
 void DrawSparkHudOverlay();
 
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(Context650 (*))&RaceContext)
 
-int func_8005642C(Car *arg0, int arg1, int arg2, int *arg3) {
+int UpdateCarPreviewCameraPath(Car *arg0, int arg1, int arg2, int *arg3) {
     VECTOR sp10;
     VECTOR sp20;
     VECTOR sp30;
@@ -110,9 +110,9 @@ int func_8005642C(Car *arg0, int arg1, int arg2, int *arg3) {
         sp60.vx = 0;
         sp60.vy = -0xA00;
         sp60.vz = 0;
-        sp68.vx = D_800A0FC0.vx;
-        sp68.vy = D_800A0FC0.vy;
-        sp68.vz = D_800A0FC0.vz;
+        sp68.vx = CarCameraOffsetVec.vx;
+        sp68.vy = CarCameraOffsetVec.vy;
+        sp68.vz = CarCameraOffsetVec.vz;
         RotMatrix(&sp60, &sp40);
         ApplyMatrix(&sp40, &sp68, &sp70);
         sp70.vx += PlayerCars.u20.s.w20 * 4;
@@ -121,10 +121,10 @@ int func_8005642C(Car *arg0, int arg1, int arg2, int *arg3) {
         s5->vec08.vx = sp70.vx;
         s5->vec08.vy = sp70.vy;
         s5->vec08.vz = sp70.vz;
-        s5->r18 = D_800A0FD0.vx;
-        s5->r1C = D_800A0FD0.vy;
-        s5->r20 = D_800A0FD0.vz;
-        SetGeomScreen(D_800A0FD8);
+        s5->r18 = CarCamPathDefaultRot.vx;
+        s5->r1C = CarCamPathDefaultRot.vy;
+        s5->r20 = CarCamPathDefaultRot.vz;
+        SetGeomScreen(CarFxGeomScreen);
         BuildCameraMatrices();
         return 1;
     }
@@ -136,7 +136,7 @@ int func_8005642C(Car *arg0, int arg1, int arg2, int *arg3) {
         }
     }
 
-    func_80056258(RaceContext.p->f108);
+    EvalCameraCurvesAtTime(RaceContext.p->f108);
 
     s2 = (s6[s0].f24 - s6[s3].f24) * 10;
     s4 = arg1 - s6[s3].f24 * 10;
@@ -180,9 +180,9 @@ int func_8005642C(Car *arg0, int arg1, int arg2, int *arg3) {
     sp60.vx = 0;
     sp60.vy = -0xA00;
     sp60.vz = 0;
-    sp68.vx = D_800A0FC0.vx;
-    sp68.vy = D_800A0FC0.vy;
-    sp68.vz = D_800A0FC0.vz;
+    sp68.vx = CarCameraOffsetVec.vx;
+    sp68.vy = CarCameraOffsetVec.vy;
+    sp68.vz = CarCameraOffsetVec.vz;
     RotMatrix(&sp60, &sp40);
     ApplyMatrix(&sp40, &sp68, &sp70);
     sp70.vx += PlayerCars.u20.s.w20 * 4;
@@ -206,19 +206,19 @@ int func_8005642C(Car *arg0, int arg1, int arg2, int *arg3) {
         s5->vec08.vx = ((sp70.vx - RaceContext.sub60.vec.vx) * s4) / s2 + RaceContext.sub60.vec.vx;
         s5->vec08.vy = ((sp70.vy - RaceContext.sub60.vec.vy) * s4) / s2 + RaceContext.sub60.vec.vy;
         s5->vec08.vz = ((sp70.vz - RaceContext.sub60.vec.vz) * s4) / s2 + RaceContext.sub60.vec.vz;
-        s5->r18 = ((D_800A0FD0.vx - RaceContext.sub60.rot.vx) * s4) / s2 + RaceContext.sub60.rot.vx;
-        s5->r1C = ((D_800A0FD0.vy - RaceContext.sub60.rot.vy) * s4) / s2 + RaceContext.sub60.rot.vy;
-        s5->r20 = ((D_800A0FD0.vz - RaceContext.sub60.rot.vz) * s4) / s2 + RaceContext.sub60.rot.vz;
-        RaceContext.sub60.f20 = ((D_800A0FD8 - s6[s3].f20) * s4) / s2 + s6[s3].f20;
+        s5->r18 = ((CarCamPathDefaultRot.vx - RaceContext.sub60.rot.vx) * s4) / s2 + RaceContext.sub60.rot.vx;
+        s5->r1C = ((CarCamPathDefaultRot.vy - RaceContext.sub60.rot.vy) * s4) / s2 + RaceContext.sub60.rot.vy;
+        s5->r20 = ((CarCamPathDefaultRot.vz - RaceContext.sub60.rot.vz) * s4) / s2 + RaceContext.sub60.rot.vz;
+        RaceContext.sub60.f20 = ((CarFxGeomScreen - s6[s3].f20) * s4) / s2 + s6[s3].f20;
         SetGeomScreen(RaceContext.sub60.f20);
     } else {
         s5->vec08.vx = sp70.vx;
         s5->vec08.vy = sp70.vy;
         s5->vec08.vz = sp70.vz;
-        s5->r18 = D_800A0FD0.vx;
-        s5->r1C = D_800A0FD0.vy;
-        s5->r20 = D_800A0FD0.vz;
-        SetGeomScreen(D_800A0FD8);
+        s5->r18 = CarCamPathDefaultRot.vx;
+        s5->r1C = CarCamPathDefaultRot.vy;
+        s5->r20 = CarCamPathDefaultRot.vz;
+        SetGeomScreen(CarFxGeomScreen);
     }
     BuildCameraMatrices();
     return 0;
@@ -237,7 +237,7 @@ void DrawHudSprite(int a0, int a1, int a2, int a3, int a4)
   unsigned hi;
   unsigned cmd;
   unsigned char new_var;
-  t0 = D_800A0DC8[a0];
+  t0 = HudSpriteUvTable[a0];
   if (a4 != 0)
   {
     sp[0] = 0xA0 - (t0[2] >> 1);
@@ -300,13 +300,13 @@ void DrawHudDigit(a0, a1, a2, a3) s32 a0; s32 a1; s32 a2; s32 a3; {
     p++;
     *(RrSpritePacketSignedClut **)SCRATCHPAD = p;
     p->len = 1;
-    *((u32 *)p + 1) = (D_800111FE & 0x9FF) | 0xE1000200;
+    *((u32 *)p + 1) = (HudDigitTPage & 0x9FF) | 0xE1000200;
     p->addr = ((RrSpritePacketSignedClut *)(CurrentDrawBuf + 0x70))->addr;
     *(u32 *)(CurrentDrawBuf + 0x70) = (*(u32 *)(CurrentDrawBuf + 0x70) & 0xFF000000) | ((u32)p & 0xFFFFFF);
     *(RrSpritePacketSignedClut **)SCRATCHPAD = (RrSpritePacketSignedClut *)((u32 *)p + 2);
 }
 
-void func_80057138(int a0, int a1) {
+void DrawSparkHudSlideIn(int a0, int a1) {
     unsigned short sp[2];
     int s0, s1;
     int s2;
@@ -345,7 +345,7 @@ void func_80057138(int a0, int a1) {
     }
 }
 
-void func_800572A8(a0, a1)
+void DrawSparkHudLinesAndLabels(a0, a1)
 int a0;
 int a1;
 {
@@ -355,7 +355,7 @@ int a1;
   int i;
   int c;
   unsigned short ua;
-  s1 = D_800A0F20[*((int *) (SparkCarState + 0x13C))];
+  s1 = HudPanelSpriteLists[*((int *) (SparkCarState + 0x13C))];
   do { c = a0 * 4;
   if (a0 >= 0x20) {
     if (a1 < a0) c = 0x80 - ((a0 - a1) * 4);
@@ -373,7 +373,7 @@ int a1;
       ua = s1[2];
     } while (s1[2] >= 0);
   }
-  s1 = D_800A0F8C[D_800AD520];
+  s1 = D_800A0F8C[SelectedTeamIndex];
   ua = s1[2];
   if (s1[2] >= 0) {
     do {

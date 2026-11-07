@@ -16,10 +16,10 @@ extern int BuildCameraMatrices();
 extern int ScaleMatrixRow1();
 extern int SetGeomOffset();
 extern int SetGeomScreen();
-extern short D_8009F1A0[];
-extern short D_8009F1B0[];
-extern short D_8009F1C0[];
-extern short D_8009F1D0[];
+extern short RaceLoadBadgeImageIds[];
+extern short RaceLoadBadgeX[];
+extern short RaceLoadBadgeWidths[];
+extern short LoadScreenBadgeHeights[];
 typedef struct { short h0, h2, h4, h6, h8, ha, hc, he, h10, h12, h14, h16, h18, h1a, h1c, h1e, h20, h22, h24, h26, h28, h2a, h2c, h2e, h30, h32, h34, h36; } E1C;
 typedef struct { short h0, h2, h4, h6, h8, ha, hc, he, h10, h12, h14, h16, h18, h1a; } E28;
 extern char *BadgeRows;
@@ -35,7 +35,7 @@ void DrawRaceLoadScreen(a0) int a0;
         s0 = 0;
         do {
             t0 = (s0 == 1 || s0 == 7) ? 8 : 0;
-            InitBadgeRow(s0, D_8009F1A0[s0], D_8009F1B0[s0], D_8009F1C0[s0], D_8009F1D0[s0], (short)t0, -1);
+            InitBadgeRow(s0, RaceLoadBadgeImageIds[s0], RaceLoadBadgeX[s0], RaceLoadBadgeWidths[s0], LoadScreenBadgeHeights[s0], (short)t0, -1);
             s0++;
         } while (s0 < 8);
         one = 1;
@@ -76,7 +76,7 @@ void DrawRaceLoadScreen(a0) int a0;
         s1 = AddDrawAreaPrim(CurrentDrawBuf + 0x74, s1, *(short *)(BadgeRows + 0xD8), *(short *)(BadgeRows + 0xDA), *(short *)(BadgeRows + 0xDC), *(short *)(BadgeRows + 0xDE));
     }
     if (a0 >= 0x3D) {
-        s1 = func_80030D9C(s1, G->h10 == 3 ? (a0 - 0x3C) * 2 : 0);
+        s1 = DrawLoadScreenClassBadges(s1, G->h10 == 3 ? (a0 - 0x3C) * 2 : 0);
     }
 end:
     *(int *)SCRATCHPAD = s1;

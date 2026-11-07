@@ -18,7 +18,7 @@ extern int SsUtKeyOnV();
 void SetLoopVoiceVolumes(int a0, int a1, int a2);
 void SetSoundChannelVolLR(int a0, s16 a1, s16 a2);
 
-void func_80051248(int a0) {
+void InitLoopVoices(int a0) {
     int k, i;
     if (a0 == 0) {
         k = 0xB;

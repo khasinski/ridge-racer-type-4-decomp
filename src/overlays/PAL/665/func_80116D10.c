@@ -125,7 +125,7 @@ extern s32 PadGetState(s32);
 extern void PadSetMainMode(s32, s32, s32);
 extern s32 LoadModelBank8Step(void);
 extern s32 ovl665_func_8011629C(s32);
-extern void func_8005B2D4(s32);
+extern void SetMotionControllerVisible(s32);
 extern void StepMenuValue(s32, s32, void *, s32, s32);
 extern void SetPadButtonMapLayout(s32, s32, s32, s32);
 /* Sound cue; several call sites pass the freshly computed offset as a
@@ -278,7 +278,7 @@ void ovl665_func_80116D10(s32 player) {
         ST.offset94 = 0;
         ST.offset96 = 0;
         ST.offset98 = 0;
-        func_8005B2D4(0);
+        SetMotionControllerVisible(0);
         ST.step0C++;
         break;
     case 1:

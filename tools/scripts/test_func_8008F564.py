@@ -21,8 +21,8 @@ class ShutdownTest(unittest.TestCase):
 typedef int8_t s8;
 typedef int32_t s32;''')
         source += '''
-s32 D_800A64A8;
-s8 *D_800A6800, *D_800A680C;
+s32 StUseAltCallbacks;
+s8 *StCdReg0, *CD_REG3_RING;
 s32 (*test_helper)(s32, s32);
 s32 EnterCriticalSection(void) { return test_helper(0, 0); }
 s32 CdAltDataCallback(s32 value) { return test_helper(1, value); }
@@ -41,16 +41,16 @@ s32 ExitCriticalSection(void) { return test_helper(5, 0); }
 
     def check_shutdown(self, mode, mode_after_enter=None, alias=False):
         first, second = C.c_int8(-1), C.c_int8(127)
-        C.c_int32.in_dll(self.library, 'D_800A64A8').value = mode
-        C.c_void_p.in_dll(self.library, 'D_800A6800').value = C.addressof(first)
-        C.c_void_p.in_dll(self.library, 'D_800A680C').value = C.addressof(first if alias else second)
+        C.c_int32.in_dll(self.library, 'StUseAltCallbacks').value = mode
+        C.c_void_p.in_dll(self.library, 'StCdReg0').value = C.addressof(first)
+        C.c_void_p.in_dll(self.library, 'CD_REG3_RING').value = C.addressof(first if alias else second)
         calls, ports_at_exit = [], []
 
         @Helper
         def helper(identity, value):
             calls.append((identity, value))
             if identity == 0 and mode_after_enter is not None:
-                C.c_int32.in_dll(self.library, 'D_800A64A8').value = mode_after_enter
+                C.c_int32.in_dll(self.library, 'StUseAltCallbacks').value = mode_after_enter
             if identity == 5:
                 ports_at_exit.append((first.value, second.value))
             return -99

@@ -19,21 +19,21 @@ extern int SetupRenderer();
 extern int InitMenuGrid();
 extern int ApplyMatrixSV();
 extern int RotMatrix();
-extern V8 D_800101BC;
+extern V8 IntroClearRect;
 extern V16 D_800101C4;
 extern V16 D_800101D4;
-extern V16 D_8009E540;
+extern V16 IntroCameraPathPoints;
 extern int SharedWorkBuffer;
 extern char *MenuGridRecords;
 extern char *IntroSceneState;
 extern void BuildCameraMatrices();
 
-void func_8001ADA0();
+void DrawTrackObjectPointInstances();
 void DrawTrackObjectModel(int a0, int a1);
 void InitIntroSceneLights(void);
-void func_8001B640(void);
+void BuildCameraMatricesScaled(void);
 
-void func_8001ADA0(a0, a1) int a0; int a1;
+void DrawTrackObjectPointInstances(a0, a1) int a0; int a1;
 {
     int *m = (int *)(SCRATCHPAD + 0x7C);
     int *g;
@@ -351,10 +351,10 @@ void InitIntroSceneLights(void) {
     IntroSceneState = LoadCursor;
     LoadCursor += 0xBC;
     SetupRenderer(1);
-    sp18 = D_800101BC;
+    sp18 = IntroClearRect;
     ClearImage2(&sp18, 0, 0, 0);
     *(V16 *)(SCRATCHPAD + 0x18) = D_800101C4;
-    *(V16 *)(SCRATCHPAD + 0x8) = D_8009E540;
+    *(V16 *)(SCRATCHPAD + 0x8) = IntroCameraPathPoints;
     *(int *)(IntroSceneState + 0x24) = 0xFAAB;
     *(int *)(IntroSceneState + 0x28) = 0xFAAB0000;
     *(int *)(IntroSceneState + 0x20) = 0;
@@ -441,7 +441,7 @@ void InitIntroSceneLights(void) {
     *(V16 *)(MenuGridRecords + 0xC) = D_800101D4;
 }
 
-void func_8001B640(void)
+void BuildCameraMatricesScaled(void)
 {
     unsigned short *g;
     BuildCameraMatrices();

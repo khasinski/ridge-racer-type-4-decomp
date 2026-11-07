@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void func_80051B28(void);
-void func_80051B38(void);
+void SetSoundActiveFlag(void);
+void ClearSoundLoopActiveFlag(void);
 
 #endif /* RR_GAME_SOUND_SNDLOOP2_H */

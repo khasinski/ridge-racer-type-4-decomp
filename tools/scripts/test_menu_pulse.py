@@ -21,7 +21,7 @@ static const RrPulseRow *repeat_owner[12],*once_owner[12];
 #define PadPulseState actual.states
 #define Options actual.settings
 #define PadPulseRepeatRows (repeat_owner+4)
-#define D_8009FF80 (once_owner+4)
+#define PadPulseOnceRows (once_owner+4)
 '''+body+r'''
 static const RrPulseRow *mapped(const RrPulseRow *row) {
  uintptr_t a=(uintptr_t)&actual,b=(uintptr_t)row;
@@ -47,7 +47,7 @@ static void reference(void) {
   }else{out->output19=out->output1A=0;}
   if(state->once06) {
    int table_index=state->once06+(out->kind1C?-1:2);
-   row=mapped(D_8009FF80[table_index]+state->once_step0E);
+   row=mapped(PadPulseOnceRows[table_index]+state->once_step0E);
    if(out->kind1C){out->output19=row->first;out->output1A=row->second;}
    else{out->output19=64;out->output1A=row->first;}
    state->once_tick0A++;

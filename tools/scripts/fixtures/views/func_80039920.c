@@ -74,7 +74,7 @@ extern unsigned char D_800AD4EB;
 
 extern unsigned char SaveProgress[];
 
-void func_80039920(void) {
+void CacheSelectedCourseProgress(void) {
     int i = SelectionState[0x1C] * 2 + (SelectionState[0x1D] >> 1);
     int v = D_8009F810[i];
     if (v < 0) {

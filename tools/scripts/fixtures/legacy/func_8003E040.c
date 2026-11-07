@@ -1,7 +1,7 @@
 
 extern int GlyphRowCount;
 extern char *GlyphRows;
-extern char D_8009F9D4[];
+extern char GlyphRowTemplates[];
 void InitGlyphRow(a0, a1, a2, a3)
 int a0;
 int a1;
@@ -15,7 +15,7 @@ int a3;
   {
     *((char *) (((a0 * 0x1C) + ((int) GlyphRows)) + 2)) = a1;
     *((char *) (((a0 * 0x1C) + ((int) GlyphRows)) + 7)) = a2;
-    s = D_8009F9D4 + (a3 * 0x14);
+    s = GlyphRowTemplates + (a3 * 0x14);
     new_var = (char *) ((a0 * 0x1C) + ((int) GlyphRows));
     q = new_var;
     *((short *) (q + 8)) = *((short *) (s + 0));

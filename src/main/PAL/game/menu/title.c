@@ -31,8 +31,8 @@ extern int SoundSetMasterVolume();
 extern int CdAudioSelectTrack();
 extern int CdAudioBeginPlay();
 extern int CdAudioFade();
-extern int func_80055330();
-extern int func_8005534C();
+extern int SetSceneColorParams();
+extern int SetSceneOverlayEnabled();
 extern int SelectCourseBgmTrack();
 extern int BuildCameraMatrices();
 extern int SetupPlayerView();
@@ -41,11 +41,11 @@ extern int UpdateTrackObjects();
 extern int DrawTrackObjects();
 extern char RepeatLabel[];
 extern char StrFmtTwoDigitsTitle[];
-extern char D_800A1A6C[];
+extern char TitleBgmPrefixGlyph[];
 extern short MenuFadeTimer;
 extern int D_800ACA2C;
-extern int D_800ACB0C;
-extern int D_800ACB28;
+extern int AttractWork;
+extern int BgmRepeatEnabled;
 extern int D_800ACB2C;
 extern int D_800F2A64;
 extern int MaskBitSetting;
@@ -120,7 +120,7 @@ void AttractDemoRaceUpdate()
     RaceContext.w4dc = 0xFA;
     for (i = 0; i < 7; i++)
     {
-      if (D_8010E270[i & 3] < 2)
+      if (AttractDemoSlotKinds[i & 3] < 2)
       {
         ComCars[i].sub1F4.unk124 = 1;
       }
@@ -229,7 +229,7 @@ void AttractDemoRaceUpdate()
 
         }
 
-        func_8005534C(D_800ACA2C);
+        SetSceneOverlayEnabled(D_800ACA2C);
       }
     if (RaceContext.w3dc == 1)
     {
@@ -268,7 +268,7 @@ void AttractDemoRaceUpdate()
           RaceContext.h4e2 = 0x800;
         }
         HsvToRgb(&RaceContext.h4e0, &RaceContext.b4e8);
-        func_80055330(0, RaceContext.b4e8, RaceContext.b4e9, RaceContext.b4ea);
+        SetSceneColorParams(0, RaceContext.b4e8, RaceContext.b4e9, RaceContext.b4ea);
       }
     }
     if (RaceContext.w530 == 1)
@@ -330,11 +330,11 @@ void AttractDemoRaceUpdate()
   {
     if (RaceContext.w4c8 == 0)
     {
-      func_800556B4();
+      ToggleSceneOverlayAndDraw();
     }
     else
     {
-      func_80055660();
+      DrawScreenFeedbackIfEnabled();
     }
   }
   if (MenuFadeTimer > 0)
@@ -361,9 +361,9 @@ void AttractDemoRaceUpdate()
     }
   }
   else
-    if (D_800ACB0C < 0x1A)
+    if (AttractWork < 0x1A)
   {
-    AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x19 - D_800ACB0C) * 8, 0x45);
+    AddScreenFadeTiles(CurrentDrawBuf + 0x70, (0x19 - AttractWork) * 8, 0x45);
   }
   {
     register int c8_2 asm("a2") = RaceContext.w4c8; /* ASM_BARRIER: pin w4c8 to a2 across w28a4 clamping and GetCdAudioPosition third argument */
@@ -457,18 +457,18 @@ void AttractDemoRaceUpdate()
           RaceContext.w4d8 = 0;
         }
       }
-      if (D_800ACB28 != 0)
+      if (BgmRepeatEnabled != 0)
       {
         old = 0xC8;
         DrawFontStringRight(0x131, old, RepeatLabel, 0xFF, 0);
       }
       DrawFontStringRight(0xFA, 0xD4, CdTrackTitleStrings + (BgmNumberToCdTrack[SoundState.w28a4 - 1] << 5), 0xFF, 0);
-      AddBrightnessSprite(D_800A1A6C, 0xFC, 0xD4, 0xFF);
-      AddBrightnessSprite(D_800A1A6C - 4, 0x105, 0xD4, 0xFF);
+      AddBrightnessSprite(TitleBgmPrefixGlyph, 0xFC, 0xD4, 0xFF);
+      AddBrightnessSprite(TitleBgmPrefixGlyph - 4, 0x105, 0xD4, 0xFF);
       PsyqSprintf(sp18, StrFmtTwoDigitsTitle, SoundState.w28a4);
       DrawFontString(0x112, 0xD4, sp18, 0xFF, 0);
-      AddBrightnessSprite(D_800A1A6C - 0xC, 0x121, 0xD4, 0xFF);
-        AddBrightnessSprite(D_800A1A6C - 8, 0x12A, 0xD4, 0xFF);
+      AddBrightnessSprite(TitleBgmPrefixGlyph - 0xC, 0x121, 0xD4, 0xFF);
+        AddBrightnessSprite(TitleBgmPrefixGlyph - 8, 0x12A, 0xD4, 0xFF);
         AddSetTexpagePrim(0);
       }
     }

@@ -25,7 +25,7 @@ void UpdateSelectionRank(void) {
    sum=0;
    i=phase-1;
    if(i<=phase) {
-    weights=D_8009F81C;
+    weights=SelectionRankWeights;
     choices=(s8 *)first;
     do {
      register s32 choice=*(s8 *)((unsigned long)i+(unsigned long)choices);
@@ -46,7 +46,7 @@ void UpdateSelectionRank(void) {
    middle=(RrSelectionStatePrefix *)(middle_page-0x2B28);
    i=0;
    if(middle->phase<4) {
-    s8 *thresholds=D_8009F82C;
+    s8 *thresholds=SelectionRankThresholds;
     /* ASM_BARRIER: hold the configuration pointer separately from threshold values. */
     register RrSelectionStatePrefix *config asm("$9");
 
@@ -111,7 +111,7 @@ publish_state:
 
    {register s32 check=publish->phase;
    i=1;
-   if(check==6) {func_8003989C();i=1;}}
+   if(check==6) {SetSelectionTableIndex();i=1;}}
   }
 
   {register RrSelectionRows *rows_base;

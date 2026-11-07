@@ -174,9 +174,9 @@ void ovl659_update_results(void) {
     }
     UpdateScreenFade(0x1000C);
     if (ovl659_preview_timer == -2) {
-        func_8003662C(ModeFrame);
+        DrawResultsTitleBanner(ModeFrame);
     } else {
-        func_8003662C(ovl659_preview_timer);
+        DrawResultsTitleBanner(ovl659_preview_timer);
     }
     if (group >= 0) {
         i = 0;
@@ -186,7 +186,7 @@ void ovl659_update_results(void) {
         } while (i < 11);
     }
     if (MenuTextRows[0].signedBytes[2] >= 3 && ModeSubState < 6) {
-        func_800411D4();
+        EmitMenuRowTransitionGrid();
     }
 }
 

@@ -12,13 +12,13 @@
 
 #define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 
-#define func_80071348 ((int (*)())func_80071348)
+#define ApplySegmentOctantValue ((int (*)())ApplySegmentOctantValue)
 
 #undef RunCourseDrawChain
 
 #undef BuildViewSegmentObjectList
 
-#undef func_80071348
+#undef ApplySegmentOctantValue
 
 /* legacy typing of shared globals in this part of the unit */
 #define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)

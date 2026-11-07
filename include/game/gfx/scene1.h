@@ -4,8 +4,8 @@
 #include "types.h"
 
 void QueueDrawStp();
-void func_80055660(void);
-void func_800556B4(void);
+void DrawScreenFeedbackIfEnabled(void);
+void ToggleSceneOverlayAndDraw(void);
 void TransformPoint();
 
 #endif /* RR_GAME_GFX_SCENE1_H */

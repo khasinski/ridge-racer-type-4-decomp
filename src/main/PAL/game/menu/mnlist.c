@@ -51,10 +51,10 @@ extern int FormatDecimalDigits();
 extern R4 UiFontGlyphs[];
 extern char D_8009FDBF[];
 extern char D_8009FDC0[];
-extern char D_8009FDC4[];
-extern u8 D_8009FDCC[];
-extern u8 D_8009FDD8[];
-extern u8 D_8009FDE4[];
+extern char StrPacMan[];
+extern u8 CarInfoLabelSpacing[];
+extern u8 SaveListHeaderGlyphs[];
+extern u8 SaveListColumnGlyphPairs[];
 extern int SelectionPlayer;
 extern signed char *ImageRows;
 extern char *CarRecordPtrs[];
@@ -64,10 +64,10 @@ extern int AddTileSemiTransPrim();
 extern u8 SaveListColumnSpacing[];
 extern u8 SaveListRowOffsets[];
 extern u8 D_8009FDFC[];
-extern u8 D_8009FE00[];
+extern u8 SaveListFirstColGlyphs[];
 extern u8 D_8009FE04[];
-extern u8 D_8009FE08[];
-extern u8 D_8009FE0C[];
+extern u8 SaveListCol2GlyphIds[];
+extern u8 SaveListTileWidths[];
 extern S2C SaveSlotSelections[];
 extern short SaveSlotIndex;
 extern char FractionText[];
@@ -76,12 +76,12 @@ extern char Options[];
 extern char PlayerControllers[];
 extern int MenuActivePlayerPlusOne;
 
-int func_80042254();
+int DrawCarRecordPanel();
 int DrawSaveSlotList();
 char *FormatCountOfTotal(int a, int b, int c);
-void func_80042DBC();
+void DrawControlTypeLetterPanel();
 
-int func_80042254(arg0, arg1, arg2)
+int DrawCarRecordPanel(arg0, arg1, arg2)
 int arg0;
 int arg1;
 int arg2;
@@ -124,7 +124,7 @@ int arg2;
   {
     if (SelectionRows[SelectionPlayer].a == 2)
     {
-      sp4C = D_8009FDC4;
+      sp4C = StrPacMan;
     }
     else
     {
@@ -161,8 +161,8 @@ int arg2;
   y += 0x1E;
   for (i = 0; i < 0xC; i++)
   {
-    x += D_8009FDCC[i];
-    e = D_8009FDD8 + i;
+    x += CarInfoLabelSpacing[i];
+    e = SaveListHeaderGlyphs + i;
     arg1 = AddSpritePrim(arg0, arg1, x, y, &UiFontGlyphs[*e], 0x7FF8, 0);
     t3 = x + 2;
     s2 = t3 + UiFontGlyphs[*e].c;
@@ -185,7 +185,7 @@ int arg2;
           }
           for (s1 = s6; s1 < (s6 + 2); s1++)
           {
-            f = ((signed char *) D_8009FDE4) + s1;
+            f = ((signed char *) SaveListColumnGlyphPairs) + s1;
             arg1 = AddSpritePrim(arg0, arg1, s2, y, &UiFontGlyphs[*f], 0x7FF8, 0);
             t4 = s2 + 2;
             s2 = t4 + UiFontGlyphs[*f].c;
@@ -303,9 +303,9 @@ int arg2;
         FormatDecimalDigits(sp38, i + 1, 0);
         arg1 = AddTextSprites(arg0, arg1, x, y + SaveListRowOffsets[i + 1], sp38, 0x7FF8, 0, 0);
         if ((sp28[2] = SaveSlotSelections[i].b17) != -1) {
-            sp28[0] = D_8009FE00[SaveSlotSelections[i].b1C & 3];
+            sp28[0] = SaveListFirstColGlyphs[SaveSlotSelections[i].b1C & 3];
             sp28[1] = D_8009FE04[SaveSlotSelections[i].b1D & 3];
-            sp28[2] = D_8009FE08[SaveSlotSelections[i].b17 / 2];
+            sp28[2] = SaveListCol2GlyphIds[SaveSlotSelections[i].b17 / 2];
             for (j = 0; j < 3; j++) {
                 x += SaveListColumnSpacing[j + 1];
                 arg1 = AddSpritePrim(arg0, arg1, x, y + SaveListRowOffsets[i + 1], &UiFontGlyphs[sp28[j]], 0x7FF8, 0);
@@ -317,7 +317,7 @@ int arg2;
         } else {
             for (j = 0; j < 3; j++) {
                 x += SaveListColumnSpacing[j + 1];
-                arg1 = AddTilePrim(arg0, arg1, x, y + SaveListRowOffsets[i + 1] + 8, D_8009FE0C[j], 2, 0xFF, 0xFF, 0xFF);
+                arg1 = AddTilePrim(arg0, arg1, x, y + SaveListRowOffsets[i + 1] + 8, SaveListTileWidths[j], 2, 0xFF, 0xFF, 0xFF);
             }
         }
         if (i == SaveSlotIndex) {
@@ -363,7 +363,7 @@ char *FormatCountOfTotal(int a, int b, int c) {
 
 #undef FormatDecimalDigits
 
-void func_80042DBC(a0, a1, a2)
+void DrawControlTypeLetterPanel(a0, a1, a2)
 int a0;
 int a1;
 int a2;

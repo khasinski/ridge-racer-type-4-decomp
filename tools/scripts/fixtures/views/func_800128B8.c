@@ -28,9 +28,9 @@
 #undef LoadImage
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_8010BF60 ((short *)D_8010BF60)
+#define TrackNodeLightBits ((short *)TrackNodeLightBits)
 
-#undef D_8010BF60
+#undef TrackNodeLightBits
 
 extern s32 CdFileState;
 

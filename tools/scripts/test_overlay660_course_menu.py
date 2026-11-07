@@ -41,7 +41,7 @@ static State actual,reference,*w;
 #define MenuItemCount w->limit
 #define ReverseCourse w->style
 #define CourseIndex w->mapped
-#define D_800F3A1E w->secondary
+#define MenuReturnModeCode w->secondary
 #define ModeId w->scene
 #define MenuResultCode w->settings
 #define ModeSubState w->phase

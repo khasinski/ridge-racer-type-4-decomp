@@ -13,7 +13,7 @@ extern int CdDirectoryBuffer;
 extern int MenuArenaBase;
 extern unsigned char LoadState;
 
-int func_8003BD2C(void) {
+int LoadIntroDemoAssetsStep(void) {
     int r = 0;
     int t;
     switch (LoadState) {
@@ -48,7 +48,7 @@ int func_8003BD2C(void) {
         break;
     case 5:
         if (LoadVabAndTimsStep() == 1) {
-            func_8005C13C(PsyqRand() & 1);
+            ResetSceneSoundState(PsyqRand() & 1);
             LoadState = 6;
     case 6:
             r = 1;

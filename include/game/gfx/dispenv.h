@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-int func_80043C14();
+int UpdateCameraTargetDistance();
 void GetTrackLaneWorldPos();
 void SetCamAnglesRotateNegZ(unsigned short *, int, int *);
 void RotateNegZByEulerZYX(unsigned short *, int, int *);

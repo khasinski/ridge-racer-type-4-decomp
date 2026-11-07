@@ -12,7 +12,7 @@ void StSetStream(int a, int b, int c, int d, int e) {
     StDataReadyFunc = d;
     StRgb24 = a & 1;
     StExpectedChannel = 0;
-    D_801102E0 = 0;
+    StPendingChannel = 0;
     StNextSectorOffset = 0;
     StCurFrameNo = 0;
     StRingFullFunc = e;

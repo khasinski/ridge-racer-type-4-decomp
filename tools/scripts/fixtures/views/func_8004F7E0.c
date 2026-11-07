@@ -38,7 +38,7 @@ extern int SsSetReservedVoice();
 
 extern int SoundReset();
 
-extern s32 D_800AC66C;
+extern s32 CarSoundMuted;
 
 void StopAllSoundAndReset(void) {
     SsUtAllKeyOff(0);
@@ -46,5 +46,5 @@ void StopAllSoundAndReset(void) {
     SoundState.b = 1;
     SoundState.a = 0;
     SoundReset(SoundState.c, 0);
-    D_800AC66C = 0;
+    CarSoundMuted = 0;
 }

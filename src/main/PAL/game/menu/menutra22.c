@@ -13,12 +13,12 @@ extern char StrName[];
 extern char TeamLabel[];
 extern char StrMaker[];
 
-void func_8007D448(int a0, int a1);
-void func_8007D558(void);
+void DrawCardMenuConfirmRows(int a0, int a1);
+void CardMenuEmptyStub(void);
 void DrawCardMenuChoiceRows(int a0, int a1);
-void func_8007D710(void);
+void MainLoopInitStub(void);
 
-void func_8007D448(int a0, int a1) {
+void DrawCardMenuConfirmRows(int a0, int a1) {
     int i = 0;
     unsigned char *p, *q;
     int v;
@@ -42,7 +42,7 @@ tail:
     } while (i < 2);
 }
 
-void func_8007D558(void) {
+void CardMenuEmptyStub(void) {
 }
 
 void DrawCardMenuChoiceRows(int a0, int a1) {
@@ -75,6 +75,6 @@ void DrawNameTeamMakerHeader(int a0)
   *((int *) SCRATCHPAD) = (new_var = AddTilePrim(CurrentDrawBuf + 0x74, new_var2, 0x20, (a0 << 5) + 0xB2, 0x104, 0xC, 0x80, 0x20, 0x20));
 }
 
-void func_8007D710(void) {
+void MainLoopInitStub(void) {
 
 }

@@ -26,7 +26,7 @@
 #undef GlyphRows
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800AD520 (*(unsigned char (*))&D_800AD520)
+#define SelectedTeamIndex (*(unsigned char (*))&SelectedTeamIndex)
 
 #define ModeFrame (*(unsigned (*))&ModeFrame)
 
@@ -34,7 +34,7 @@
 
 #define Dialogue ((signed char *)Dialogue)
 
-#undef D_800AD520
+#undef SelectedTeamIndex
 
 #undef ModeFrame
 
@@ -66,7 +66,7 @@ typedef struct
 
 extern RrRow60 *MenuTextRows;
 
-extern unsigned short D_8009FDA0[];
+extern unsigned short MenuTextCursorGlyphs[];
 
 void SetMenuTextRowCursor(a0, a1, a2)
 int a0;
@@ -74,7 +74,7 @@ int a1;
 int a2;
 {
   E *p;
-  ((E *) (((int) MenuTextRows) + (a0 * 0x3C)))->e = D_8009FDA0[a1];
+  ((E *) (((int) MenuTextRows) + (a0 * 0x3C)))->e = MenuTextCursorGlyphs[a1];
   if (a2 < (-0xFF))
   {
     ((E *) (((int) MenuTextRows) + (a0 * 0x3C)))->d = -a2;

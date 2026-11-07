@@ -12,13 +12,13 @@
 
 #define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
 
-#define func_80071348 ((int (*)())func_80071348)
+#define ApplySegmentOctantValue ((int (*)())ApplySegmentOctantValue)
 
 #undef RunCourseDrawChain
 
 #undef BuildViewSegmentObjectList
 
-#undef func_80071348
+#undef ApplySegmentOctantValue
 
 /* legacy typing of shared globals in this part of the unit */
 #define BuildViewSegmentObjectList ((int (*)())BuildViewSegmentObjectList)
@@ -54,15 +54,15 @@ extern s16 ViewOffsetY[];
 
 extern s32 ViewScreenH[];
 
-extern u16 D_800A3BE0[];
+extern u16 ViewClipX[];
 
-extern s16 D_800A3BF0[];
+extern s16 ViewClipY[];
 
-extern u16 D_800A3C00[];
+extern u16 ViewClipRight[];
 
-extern s16 D_800A3C10[];
+extern s16 ViewportClipHeights[];
 
-extern S_800A3C20 D_800A3C20[][7];
+extern S_800A3C20 ViewClipRects[][7];
 
 extern s32 CurrentViewIndex;
 
@@ -102,19 +102,19 @@ void SetupViewport(s32 a0) {
     SetGeomOffset(ViewOffsetX[a0], ViewOffsetY[a0]);
     s5 = (a0 == 1);
     SetGeomScreen(ViewScreenH[a0]);
-    s2->f6C = D_800A3BE0[a0];
-    v1 = D_800A3BF0[a0];
+    s2->f6C = ViewClipX[a0];
+    v1 = ViewClipY[a0];
     if (s1) {
         v1 += RearViewMirrorOffsetY;
     }
     s2->f6E = v1;
-    s2->f70 = D_800A3C00[a0];
-    v1 = D_800A3C10[a0];
+    s2->f70 = ViewClipRight[a0];
+    v1 = ViewportClipHeights[a0];
     if (s1) {
         v1 += RearViewMirrorOffsetY;
     }
     s2->f72 = v1;
-    p = &D_800A3C20[DrawBufIndex][a0];
+    p = &ViewClipRects[DrawBufIndex][a0];
     if (!s5) {
         s2->f64 = 0;
     } else {

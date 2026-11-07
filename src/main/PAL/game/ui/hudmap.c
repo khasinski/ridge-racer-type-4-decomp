@@ -26,7 +26,7 @@ extern int AddLineF2SemiTrans();
 extern struct B *TrackNodes;
 
 void DrawRaceTimesScreen(void);
-void func_800225DC(int a0);
+void DrawWrongWaySprite(int a0);
 void AddPartialLine(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10);
 int IsCarFacingBackward(struct A *a0);
 
@@ -73,7 +73,7 @@ void DrawRaceTimesScreen(void) {
     AddSetTexpagePrim(0);
 }
 
-void func_800225DC(int a0) {
+void DrawWrongWaySprite(int a0) {
     int a3;
     char *s0;
     void *p;

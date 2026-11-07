@@ -97,6 +97,6 @@ void DrawLinkEntryScreen(s32 mode) {
         DrawBigFontString(44,244,text);
         DrawBigFontString(32,244,SecondsUntilCloseText);
         remaining=(s32)(500U-(u32)RaceTimeRemaining);
-        DrawBigFontString(((s32)((u32)remaining<<8)/500)+32,224,D_80010674);
+        DrawBigFontString(((s32)((u32)remaining<<8)/500)+32,224,StrCountdownMarker);
     }
 }

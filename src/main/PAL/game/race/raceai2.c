@@ -61,14 +61,14 @@ extern int func_80117C78();
 extern int func_801154D8();
 extern int func_80118634();
 extern int func_80115388();
-extern int D_8010C0E0;
+extern int SceneAdvanceStep;
 extern char ScreenFadeState;
 extern int ResetScreenCounters();
 extern signed char SelectionState[];
 extern E *RankTable[];
 extern int CarRecordPtrs;
 extern int TotalRaceTime;
-extern unsigned char D_8009F72C[];
+extern unsigned char GrandPrixQualifyPlaces[];
 
 int LinkExchange();
 void LinkWaitModeEnter(void);
@@ -80,11 +80,11 @@ void StopRaceRumble(void);
 void StopRaceAudioAndRumble(void);
 void RaceExitToMenuStep(void);
 void SetupSceneByRaceType(void);
-void func_80036270(void);
-void func_80036330(void);
+void WaitConfirmModeUpdate(void);
+void RecordGrandPrixStageResult(void);
 void SortRaceRankTable(void);
 void EnterRaceResultScreen(void);
-void func_800365BC(void);
+void SortRankAndEnterResultsAlt(void);
 void SortRankAndEnterResults(void);
 void FinishRace(void);
 
@@ -133,7 +133,7 @@ void DrawLinkEntryScreen(s32 mode) {
         DrawBigFontString(44,244,text);
         DrawBigFontString(32,244,SecondsUntilCloseText);
         remaining=(s32)(500U-(u32)RaceTimeRemaining);
-        DrawBigFontString(((s32)((u32)remaining<<8)/500)+32,224,D_80010674);
+        DrawBigFontString(((s32)((u32)remaining<<8)/500)+32,224,StrCountdownMarker);
     }
 }
 
@@ -429,7 +429,7 @@ void SetupSceneByRaceType(void) {
     SetupDrawDispEnvs(0, 0, 0, 2);
     VSyncThreshold = 0x80;
     ModeFrame = 0;
-    D_8010C0E0 = 0;
+    SceneAdvanceStep = 0;
     ScreenFadeState = 2;
     SoundCloseVabsAndReset();
     switch (RaceType) {
@@ -463,7 +463,7 @@ void SetupSceneByRaceType(void) {
 /* legacy typing of shared globals in this part of the unit */
 #define ModeFrame (*(u32 (*))&ModeFrame)
 
-void func_80036270(void) {
+void WaitConfirmModeUpdate(void) {
     s32 temp_s0;
 
     ModeFrame += 1;
@@ -475,13 +475,13 @@ void func_80036270(void) {
         goto block_5;
     }
 block_2:
-    if (D_8010C0E0 <= 0) {
-        D_8010C0E0 += 1;
+    if (SceneAdvanceStep <= 0) {
+        SceneAdvanceStep += 1;
         ModeFrame = 0;
         return;
     }
 block_5:
-    temp_s0 = D_8010C0E0;
+    temp_s0 = SceneAdvanceStep;
     if (temp_s0 == 1) {
         if (MenuConfirmPressed != 0) {
             ModeFrame = 0;
@@ -495,7 +495,7 @@ block_5:
 
 #undef ModeFrame
 
-void func_80036330(void) {
+void RecordGrandPrixStageResult(void) {
     int a2;
     int a0;
     int a1;
@@ -548,7 +548,7 @@ void SortRaceRankTable(void) {
         }
     }
     if (RaceType == 1) {
-        func_80036330();
+        RecordGrandPrixStageResult();
     }
 }
 
@@ -559,7 +559,7 @@ void EnterRaceResultScreen(void) {
     struct w3g2s *p;
     if (RaceType == 1) {
         p = &SelectionState;
-        if (p->c > D_8009F72C[p->a / 2]) p->d = 5;
+        if (p->c > GrandPrixQualifyPlaces[p->a / 2]) p->d = 5;
         else p->d = 4;
     }
     ModeGroup = 1;
@@ -569,7 +569,7 @@ void EnterRaceResultScreen(void) {
 
 #undef SelectionState
 
-void func_800365BC(void) {
+void SortRankAndEnterResultsAlt(void) {
     SortRaceRankTable();
     EnterRaceResultScreen();
 }

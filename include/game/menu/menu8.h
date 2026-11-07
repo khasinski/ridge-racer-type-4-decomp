@@ -6,8 +6,8 @@
 int SelectDialogueScript();
 void UpdateDialoguePanel(void);
 void UpdateDialogueBox(void);
-void func_80031DA0(void);
-void func_80031DA8(void);
+void DialogueIdleStubA(void);
+void UpdateDialogueStubB(void);
 void ResetRankEntries();
 void ResetRankEntriesForCars(void);
 

@@ -12,7 +12,7 @@ class RelativeFileRelocationTest(unittest.TestCase):
         body=(root/'tools/scripts/fixtures/views/func_8007026C.c').read_text().replace('#include "rr/relative_file.h"','')
         body=re.sub(r'\s+(?:asm|__asm__)\("\$\d+"\)', '', body)
         body=re.sub(r'__asm__\(""[^;]*;','',body)
-        names=['RelFileSection00','RelFileSection01','RelFileSection02','RelFileOffsetPtr3','RelFileOffsetPtr4','RelFileSection05','RelFileOffsetPtr6','RelFileOffsetPtr7','D_800FFC40','RelFileOffsetPtr9','RelFileOffsetPtr10','RelFileSection11','RelFileOffsetPtr12','RelFileOffsetPtr13','RelFileOffsetPtr14','RelFileSection15']
+        names=['RelFileSection00','RelFileSection01','RelFileSection02','RelFileOffsetPtr3','RelFileOffsetPtr4','RelFileSection05','RelFileOffsetPtr6','RelFileOffsetPtr7','RelFileOffsetPtr8','RelFileOffsetPtr9','RelFileOffsetPtr10','RelFileSection11','RelFileOffsetPtr12','RelFileOffsetPtr13','RelFileOffsetPtr14','RelFileSection15']
         prefix=r'''
         #include <stdint.h>
         #include <stddef.h>
@@ -41,7 +41,7 @@ class RelativeFileRelocationTest(unittest.TestCase):
         #define RelativeFileBase world.root
         #define RelativeFileCount world.count
         #define SegmentViewTables world.entries
-        #define D_800F391C world.first
+        #define RelFileSlot1Ptr world.first
         #define RelFileViewRecords world.second
         '''
         prefix+=''.join('#define '+n+' world.outputs['+str(i)+']\n' for i,n in enumerate(names))

@@ -167,7 +167,7 @@ func_8006D138 store-at
 QuadOffscreenTest13 at-as-gpr,custom-abi
 DrawWireQuadVerts1 at-as-gpr
 QuadOffscreenTestVerts1 at-as-gpr
-func_8006DB0C store-ra,at-as-gpr
+StepDrawParticleLines store-ra,at-as-gpr
 FloodFill4bpp falls-through
 FloodFill4bppStep custom-abi
 InitGeom cop0

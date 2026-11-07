@@ -75,11 +75,11 @@ extern char StrDigit2[];
 extern char StrPleaseWait[];
 extern FontGlyph4 UiFontGlyphs[];
 extern FontGlyph4 D_8009FB80[];
-extern FontGlyph4 D_8009FC0C[];
-extern s8 D_8009FC14[][4];
+extern FontGlyph4 UiValueArrowGlyphs[];
+extern s8 UiRowGlyphIds[][4];
 extern s8 D_8009FC7C[][8];
-extern FontGlyph4 D_8009FCDC[];
-extern s8 D_8009FD00[];
+extern FontGlyph4 UiRowImageUvs[];
+extern s8 UiDigitGlyph[];
 extern s16 SelectedCarIndex;
 extern s16 NumCars;
 extern s16 ReverseCourse;
@@ -89,7 +89,7 @@ extern s32 NumLaps;
 extern UiElem24 *UiRows;
 extern s32 D_80119754;
 extern s32 D_80119758;
-extern Q D_8009F9FC[];
+extern Q ImageRowTemplates[];
 extern int UpdateRect16Row();
 extern int AddSpriteWithDrawMode();
 extern int EmitPolyFT3();
@@ -236,13 +236,13 @@ s32 DrawUiRow(s32 arg0) {
             s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, &base_0[sp34], fp | 0x7FF8, s2);
             if (s6 != 0) {
                 for (s1 = 0; s1 < 2; s1++) {
-                    s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4 + 0x1E + s1 * 0x16, s7 + 8, &D_8009FC0C[s1], 0x7FF8, 0);
+                    s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4 + 0x1E + s1 * 0x16, s7 + 8, &UiValueArrowGlyphs[s1], 0x7FF8, 0);
                     if (s1 == 0) {
-                        D_8009FD00[0] = s0 / 10;
+                        UiDigitGlyph[0] = s0 / 10;
                     } else {
-                        D_8009FD00[0] = (s0 % 10) * 8;
+                        UiDigitGlyph[0] = (s0 % 10) * 8;
                     }
-                    s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4 + 0x26 + s1 * 6, s7 + 8, D_8009FD00, 0x7FF8, 0);
+                    s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4 + 0x26 + s1 * 6, s7 + 8, UiDigitGlyph, 0x7FF8, 0);
                 }
                 /* ASM_BARRIER: Keep base_0 (UiFontGlyphs) live across case 0 loop so reload rematerializes it into $t0 */
                 __asm__("" : : "ri"(base_0));
@@ -254,7 +254,7 @@ s32 DrawUiRow(s32 arg0) {
     case 8:
     case 9:
         for (s1 = 0; s1 < 4; s1++) {
-            s0 = D_8009FC14[sp34][s1];
+            s0 = UiRowGlyphIds[sp34][s1];
             if (s0 == -1) {
                 break;
             }
@@ -344,7 +344,7 @@ s32 DrawUiRow(s32 arg0) {
         s3 = AddTextSprites(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, StrPleaseWait, 0x7FF8, 2, 0);
         break;
     case 0x7F:
-        s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, &D_8009FCDC[sp34], fp | 0x4820, s2);
+        s3 = AddSpritePrim(CurrentDrawBuf + 0x70, s3, s4, s7 + 8, &UiRowImageUvs[sp34], fp | 0x4820, s2);
         break;
     }
 
@@ -353,7 +353,7 @@ s32 DrawUiRow(s32 arg0) {
     ((Scratchpad *)SCRATCHPAD)->prim = AddDrawAreaPrim(CurrentDrawBuf + 0x70, ((Scratchpad *)SCRATCHPAD)->prim, sp28.x, sp28.y, sp28.w, sp28.h);
     sp38 += UiRows[arg0].rect18.w;
     if ((u32)(sp30 - 4) >= 3U) {
-        func_8003EA04(arg0, sp38, s7);
+        DrawUiRowSlotMarkers(arg0, sp38, s7);
     }
     return (u32)~sp30 >> 31;
 }
@@ -411,7 +411,7 @@ void InitImageRow(int i, char a, char b, int j) {
         ImageRows[i].f1 = a;
         ImageRows[i].f3 = b;
         p = (E *)(i * 20 + (int)ImageRows);
-        q = &D_8009F9FC[j];
+        q = &ImageRowTemplates[j];
         p->s[0] = q->s[0];
         p->s[1] = q->s[1];
         p->s[2] = q->s[2];

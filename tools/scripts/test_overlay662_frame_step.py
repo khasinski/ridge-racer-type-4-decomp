@@ -24,8 +24,8 @@ static unsigned scenario,calls;static u32 rng=0x1AAF4;
 #define ovl662_D_801276A8 world.garage
 #define PlayTimeFrames world.clock
 #define ScreenFrame world.pulse
-#define D_800F39A0 world.image
-#define D_800F399C world.file
+#define GarageActiveBuffer world.image
+#define GarageLogoTimPtr world.file
 '''+body+r'''
 static u32 next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
 static s32 word(u32 x){s32 v;memcpy(&v,&x,4);return v;}

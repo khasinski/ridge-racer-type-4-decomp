@@ -30,7 +30,7 @@ typedef struct {
 extern RrGpuResetState80 D_800ABAC0;
 extern RrGpuResetDriver40 GpuDriverTable, *GpuFuncTable;
 extern RrGpuDimension4 GpuVramWidthTable[3];
-extern RrGpuHeightTable14 D_800ABB4C;
+extern RrGpuHeightTable14 GpuVramHeightTable;
 extern const char ResetGraphFmt[], StrResetGraphFmt[];
 
 s32 DebugPrintStub(const char *format, ...);

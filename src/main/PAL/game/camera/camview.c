@@ -21,12 +21,12 @@ extern void BuildRotMatrixY();
 extern void BuildRotMatrixX();
 extern void SetGteObjectTransform();
 extern void SelectModelBank();
-extern short D_800A0D64[];
+extern short CamViewEaseCurve[];
 
 int FindCurveSegment(struct E *p, int a1);
 s32 InterpCurveLinear(RrPairS16 *t, s32 idx, s32 x);
 
-void func_80055C84(void)
+void DrawCarPreviewScene(void)
 {
     struct { char m18[0x20]; char m38[0x20]; char m58[0x28]; char v80[0x10]; char c90[4]; char pad[24]; } L;
     int *g = (int *)SCRATCHPAD;
@@ -125,12 +125,12 @@ int InterpCurveEase(int a0)
   int a3;
   int d;
   int h;
-  i = FindCurveSegment(D_800A0D64, a0);
+  i = FindCurveSegment(CamViewEaseCurve, a0);
   if (i == 0)
   {
-    return D_800A0D64[0];
+    return CamViewEaseCurve[0];
   }
-  p = (short *) ((i * 4) + ((int) D_800A0D64));
+  p = (short *) ((i * 4) + ((int) CamViewEaseCurve));
   if (p[1] < 0)
   {
     return p[0];

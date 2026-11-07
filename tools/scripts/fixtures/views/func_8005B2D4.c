@@ -37,6 +37,6 @@
 
 #undef MotionController
 
-void func_8005B2D4(s32 arg0) {
+void SetMotionControllerVisible(s32 arg0) {
     M2C_FIELD(MotionController, s32 *, 0x54) = arg0;
 }

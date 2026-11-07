@@ -27,7 +27,7 @@ extern void CdFlush(void);
 extern const char StrCdReadShellOpen[];
 extern const char StrCdReadRetry[];
 extern volatile u32 DsSavedCdMode;
-extern RrLibCompletionCallback volatile D_800A67DC;
+extern RrLibCompletionCallback volatile CdReadSavedReadyCallback;
 
 void cb_read(s32 event,u8 *data);
 void cb_data(void);
@@ -314,7 +314,7 @@ after_first_wait:
     if(decision!=0) {
         /* ASM_BARRIER: keep callback restoration after the completed-wait branch. */
         __asm__("" : );
-        pair=&D_800A67DC;
+        pair=&CdReadSavedReadyCallback;
         /* ASM_BARRIER: capture the complete callback-pair address before setters. */
         __asm__("" : "+r"(pair));
         CdReadyCallback(RR_PAIR_TAIL(pair)->saved2C);

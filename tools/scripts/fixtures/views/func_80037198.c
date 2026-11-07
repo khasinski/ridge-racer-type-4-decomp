@@ -10,13 +10,13 @@ extern int CurrentDrawBuf;
 
 extern unsigned char D_8009F7CC[];
 
-extern unsigned char D_8009F7D0[];
+extern unsigned char SelectionGridIconB[];
 
 extern unsigned char D_8009F7D4[];
 
-extern unsigned char D_8009F7D8[];
+extern unsigned char SelectionGridIconCol4[];
 
-extern unsigned char D_8009F7DC[];
+extern unsigned char SelectionGridIcon5[];
 
 extern struct { char pad[0x1D2]; short h1D2; char pad2[0x1F]; unsigned char b1F3; } *CarRecordPtrs[];
 
@@ -32,11 +32,11 @@ void DrawSelectionIconGrid(int arg0) {
     unsigned char (*q)[4] = SelectionRows;
     unsigned char *p = q[arg0];
     v[0] = t7[p[1]];
-    v[1] = D_8009F7D0[p[1]];
+    v[1] = SelectionGridIconB[p[1]];
     v[2] = CarRecordPtrs[arg0]->h1D2 > 0 ? 0x18 : 0x19;
     v[3] = D_8009F7D4[p[0]];
-    v[4] = D_8009F7D8[p[0]];
-    v[5] = D_8009F7DC[p[0]];
+    v[4] = SelectionGridIconCol4[p[0]];
+    v[5] = SelectionGridIcon5[p[0]];
     v[6] = CarRecordPtrs[arg0]->b1F3 + 0x14;
     b = p[3];
     v[7] = b + 0x1A;

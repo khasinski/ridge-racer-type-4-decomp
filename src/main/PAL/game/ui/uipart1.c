@@ -68,15 +68,15 @@ typedef struct {
 extern S ScreenFadeState;
 extern B4 ScreenFadeColors[];
 extern int AddTileGrid2x2();
-extern int func_8005B2D4();
+extern int SetMotionControllerVisible();
 extern int StepCameraScript();
-extern unsigned short D_80010440[];
-extern R4 D_8009EE70[];
+extern unsigned short MenuFrameLineShade[];
+extern R4 MenuFrameSpriteRects[];
 extern R4 D_8009EEC8;
-extern signed char D_8009EF3C[][4];
-extern short D_8009EFD8[];
-extern short D_8009EFE8[];
-extern R4 D_8009EFF8;
+extern signed char MenuTitleSpriteIds[][4];
+extern short MenuFrameFooterItemX[];
+extern short MenuFooterDividerX[];
+extern R4 MenuFrameDigitUv;
 extern S_F3A38 PlayerControllers[];
 extern void *AddDrawAreaPrim();
 extern void *AddDrawModePrim();
@@ -86,8 +86,8 @@ extern void *AddSpriteWithDrawMode();
 extern void *AddTileSemiTransPrim();
 extern int rsin();
 extern struct { char pad[0xC]; unsigned char a; unsigned char b; short c; } MenuFrameState;
-extern s8 D_8009EFFC[];
-extern char D_80010460[];
+extern s8 ArrowTriangleVerts[];
+extern char ArrowTriangleShades[];
 extern s32 MenuStepDirection;
 extern int PlaySfx();
 extern char RaceTimeDigits[];
@@ -95,7 +95,7 @@ extern int NumLaps;
 extern int LapTimes[];
 extern int AddPrim();
 extern char TimeTextMMSS[];
-extern unsigned short D_8009F01C[];
+extern unsigned short TimeRemainingCluts[];
 extern char MsTimeText[];
 extern int ReplayState;
 extern int AngleDiffAbs();
@@ -170,7 +170,7 @@ void UpdateScreenFade(a0) int a0; {
     }
     DrawMenuFrame(a0 >> 2);
     if (ModeMenuCursorSaved != 6 && ModeMenuCursorSaved != 8) {
-        func_8005B2D4(a0 & 1);
+        SetMotionControllerVisible(a0 & 1);
         StepCameraScript();
     }
 }
@@ -287,7 +287,7 @@ void DrawMenuFrame(int arg0) {
         break;
     }
 
-    pc = D_80010440;
+    pc = MenuFrameLineShade;
     sp40 = (((sp38 + 1) & 3) << 5) | 0x1E;
     a1 = AddDrawAreaPrim(CurrentDrawBuf + 0x70, *(void **)SCRATCHPAD, 0, 0, 0x140, 0x200);
     a1 = AddSpriteWithDrawMode(CurrentDrawBuf + 0x70, a1, 0x10, 0x24, 0x20, 0x10, 0, 0x20, sp40, 0x7F38, 1, (unsigned short)s7);
@@ -296,19 +296,19 @@ void DrawMenuFrame(int arg0) {
     s5 = 0x24;
     s7++;
 
-    c = D_8009EF3C[s6][0];
+    c = MenuTitleSpriteIds[s6][0];
     while (c != -1) {
-        r = &D_8009EE70[c];
+        r = &MenuFrameSpriteRects[c];
         a1 = AddSpritePrim(CurrentDrawBuf + 0x70, a1, s4, s5, r, 0x7F38, ((unsigned short)s7 << 1) | 1);
-        c = D_8009EF3C[s6][++s1];
+        c = MenuTitleSpriteIds[s6][++s1];
         { int t = s4 + 2; s4 = t + r->w; }
     }
 
     if (MenuFrameState.w8 > 0) {
         a1 = AddSpritePrim(CurrentDrawBuf + 0x70, a1, s4, s5, &D_8009EEC8, 0x7F38, ((unsigned short)s7 << 1) | 1);
-        D_8009EFF8.u = MenuFrameState.w8 * 8;
+        MenuFrameDigitUv.u = MenuFrameState.w8 * 8;
         { int t = s4 + 2; s4 = t + D_8009EEC8.w; }
-        a1 = AddSpritePrim(CurrentDrawBuf + 0x70, a1, s4, s5, &D_8009EFF8, 0x7F38, 1, ((unsigned short)s7 << 1) | 1);
+        a1 = AddSpritePrim(CurrentDrawBuf + 0x70, a1, s4, s5, &MenuFrameDigitUv, 0x7F38, 1, ((unsigned short)s7 << 1) | 1);
     }
 
     a1 = AddTileSemiTransPrim(
@@ -319,9 +319,9 @@ void DrawMenuFrame(int arg0) {
     a1 = AddDrawAreaPrim(CurrentDrawBuf + 0x70, a1, MenuFrameState.s10, MenuFrameState.s12, MenuFrameState.s14, MenuFrameState.s16);
 
     for (j = 2; j < 7; j++) {
-        s4 = D_8009EFD8[j];
+        s4 = MenuFrameFooterItemX[j];
         s5 = (j >= 2) ? 0x1BE : 0x1AA;
-        sp30 = D_8009EE70[j];
+        sp30 = MenuFrameSpriteRects[j];
         if ((unsigned int)(j - 3) < 2) {
             s2 = (PlayerControllers[SelectionPlayer & 1].w10 == 1);
             if (s2 == 1) {
@@ -351,8 +351,8 @@ void DrawMenuFrame(int arg0) {
     }
     if (ScreenFadeState.a == 2) {
         j = sp38 + 0x7DBA;
-        a1 = AddTilePrim(CurrentDrawBuf + 0x70, a1, D_8009EFE8[7], y, 1, 0xC, 0xF0, 0x7A, 0x14);
-        a1 = AddSpritePrim(CurrentDrawBuf + 0x70, a1, D_8009EFE8[7] + 8, s5, &D_8009EE70[s2], j, 0);
+        a1 = AddTilePrim(CurrentDrawBuf + 0x70, a1, MenuFooterDividerX[7], y, 1, 0xC, 0xF0, 0x7A, 0x14);
+        a1 = AddSpritePrim(CurrentDrawBuf + 0x70, a1, MenuFooterDividerX[7] + 8, s5, &MenuFrameSpriteRects[s2], j, 0);
     }
 
     col2 = *pc;
@@ -361,7 +361,7 @@ void DrawMenuFrame(int arg0) {
         char *p;
         int w, w2, w3, d;
         for (j = 3; j < 7; j++) {
-            a1 = AddTileSemiTransPrim(CurrentDrawBuf + 0x70, a1, D_8009EFE8[j], (j >= 3) ? y : 0x1A8, 1, 0xC, col2, col2, col2);
+            a1 = AddTileSemiTransPrim(CurrentDrawBuf + 0x70, a1, MenuFooterDividerX[j], (j >= 3) ? y : 0x1A8, 1, 0xC, col2, col2, col2);
             /* ASM_BARRIER: define p after last loop call so p is live-in to next block without crossing calls */
             __asm__("" : "=r"(p));
         }
@@ -409,9 +409,9 @@ void DrawArrowTrianglePair(a0, a1, a2, a3, a4, a5) s32 a0; s32 a1; s32 a2; s32 a
     struct { RrVec2s v[3]; s32 pad; B8 u; } w;
     i = 0;
     bp = w.v;
-    tb = D_8009EFFC;
+    tb = ArrowTriangleVerts;
     t0 = *(s32 *)SCRATCHPAD;
-    w.u = *(B8 *)D_80010460;
+    w.u = *(B8 *)ArrowTriangleShades;
 L0:
     j = 0;
 L1:
@@ -463,8 +463,8 @@ void DrawMenuStepArrows(p0, p1, p2, p3, p4, a5, a6) s32 p0; s32 p1; s32 p2; s32 
     a4 = p4;
     t0 = *(s32 *)SCRATCHPAD;
     g = MenuStepDirection;
-    nv = D_8009EFFC;
-    w.u = *(B8 *)D_80010460;
+    nv = ArrowTriangleVerts;
+    w.u = *(B8 *)ArrowTriangleShades;
 L0:
     k = 0;
     sg = one - (i & 1) * 2;
@@ -789,7 +789,7 @@ void DrawTimeRemaining(int a)
     char *p = CurrentDrawBuf + 0x226EC;
     int r = FormatFrameTimeMMSS(a);
     int i = a < 0x5DC;
-    int t = D_8009F01C[i];
+    int t = TimeRemainingCluts[i];
     int s = (NumLaps - 3) * 10 + 0x50;
     DrawDigitString8(CurrentDrawBuf + 0x70, 0x111, s, r, t);
     *(short *)(p + 0xA) = s;
@@ -809,7 +809,7 @@ void DrawTimeRemainingForPlayer(int a, int b)
     }
     r = FormatFrameTimeMMSS(a);
     i = a < 0x5DC;
-    t = D_8009F01C[i];
+    t = TimeRemainingCluts[i];
     DrawDigitString8(q, 0x111, *(short *)(p + 0xA), r, t);
 }
 

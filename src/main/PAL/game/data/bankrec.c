@@ -14,12 +14,12 @@ void SetupDialogueTable(a) char *a; {
     int i;
     unsigned short *p;
     void **q;
-    D_800ACC20 = a + 0x50;
+    DialoguePageCounts = a + 0x50;
     i = 0;
     q = DialogueLinePtrs;
     p = (unsigned short *)a;
     do { *q++ = a + 0x1B8 + *p++ * 2; i++; } while (i < 0x28);
-    D_800ACBFC = a + 0x78;
+    DialogueLoadIndexTable = a + 0x78;
 }
 
 void SetCarRecordPtr(a, i) int a; int i; { CarRecordPtrs[i] = a; }

@@ -54,17 +54,17 @@ extern void SetLightMatrix(MATRIX *);
 extern s32 LightMatrix[];
 extern s32 ModelBankFormat;
 extern s16 *CarBoundsTable[];
-extern int D_800F2EC0;
+extern int RelocModelCount;
 extern int *ModelBankTable[];
 extern int VramImageSlots[];
-extern char D_800A3C90[];
+extern char VramImageSlotRect[];
 
 int GetViewTrackSegment();
 s32 YawToOctant(void *arg0);
 int GetSegmentViewTable(int a0);
 void SetFogNearFar(s32 a0, s32 a1, s32 a2);
 void InitTimTemplate(int *a0);
-s32 func_8006F6F0(char *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+s32 DrawCarModelLod(char *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 void RelocateModelPointers(int *a0);
 void RegisterModelBank(int *a0, int a1);
 void UnrelocateModelBank(int *a0, int a1);
@@ -196,7 +196,7 @@ void InitTimTemplate(int *a0) {
     } while (n >= 0);
 }
 
-s32 func_8006F6F0(char *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+s32 DrawCarModelLod(char *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     MATRIX m10;
     MATRIX m30;
     MATRIX m50;
@@ -415,7 +415,7 @@ void RelocateModelPointers(int *a0) {
     int lim;
     int *p;
     *(int *)(SCRATCHPAD + 0x48) = (int)a1;
-    D_800F2EC0 = n;
+    RelocModelCount = n;
     if (n > 0) {
         lim = n;
         p = a0 + 3;
@@ -478,5 +478,5 @@ void SetVramImageSlot(int a0, int a1) {
 }
 
 void LoadVramImageSlot(int a0) {
-    LoadImage(D_800A3C90, VramImageSlots[a0]);
+    LoadImage(VramImageSlotRect, VramImageSlots[a0]);
 }

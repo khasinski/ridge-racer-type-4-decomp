@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern unsigned char D_8010B2DC[];
+extern unsigned char CardSlotNewCardFlag[];
 void PollCardStatus();
 
 #endif /* RR_GAME_DATA_CARDCHK_H */

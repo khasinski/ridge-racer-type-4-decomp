@@ -101,7 +101,7 @@ void SoundUpdate(void) {
     }
     UpdatePlayerVoices();
     UpdateLoopVoices();
-    func_80051554();
+    UpdateAmbienceVoices();
     SoundQueueUpdate();
     SoundLoopUpdate();
 }
@@ -117,7 +117,7 @@ void SlotsStartForRace(void) {
     M2C_UNK var_a0;
 
     SlotStart(0);
-    if (D_800F4DC8 == 0) {
+    if (LinkRaceSoundFlag == 0) {
         if (D_800ACBC8 >= 0) {
             SlotStart(2);
             var_a0 = 3;

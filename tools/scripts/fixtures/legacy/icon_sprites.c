@@ -39,7 +39,7 @@
     p->y=Y; \
     p->w=24; \
     p->h=16; \
-    clut=*(u16*)((u8*)D_8001121C+offset); \
+    clut=*(u16*)((u8*)HudMapIconCluts+offset); \
     p->r=color; \
     p->g=color; \
     p->b=color; \

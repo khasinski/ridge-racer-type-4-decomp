@@ -4,7 +4,7 @@
 
 extern RrChannelRecordF0 PadChannelRecordArray[];
 extern s32 PadChannelPendingPackets[];
-extern u16 *D_800ABD00;
+extern u16 *PadListJoyRegs;
 void _dirFailAuto(u8 *channel);
 /* The current index must select accessible record/flag storage and must not
  * overflow when incremented. Handlers may replace the index, bound and control

@@ -11,9 +11,9 @@ RR_ASSERT_SIZE(RrHudTriangle,12);
 extern RrMenuItemState5C PlayerControllers[2];
 extern u32 ScreenFrame;
 extern s16 SteeringGaugeVisible[2];
-extern u8 SteeringNeedleShape[6],D_8009EE64[3];
+extern u8 SteeringNeedleShape[6],SteeringNeedleColor[3];
 extern s16 LinkRoleSlot;
-extern RrUiUvRect D_8009EE58;
+extern RrUiUvRect MapCarDotUv;
 s32 GetControllerWarning(s32 player);
 /* Layout1 selects port0 at Y112; layout2 selects port1 at Y240.
  * Other layouts select port0 at Y240. Status2 permits the warning and

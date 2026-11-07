@@ -15,7 +15,7 @@ extern int StRingWriteIndex;
 
 extern int StDataReadyPending;
 
-extern s32 D_80112754;
+extern s32 StLastReadyFrame;
 
 extern RrLibPackedWord StLastReadyLoc;
 
@@ -34,7 +34,7 @@ void data_ready_callback(void)
     value = p->value08;
     next = StRingWriteIndex;
     callback = StDataReadyFunc;
-    D_80112754 = value;
+    StLastReadyFrame = value;
     {
         /* ASM_BARRIER: Preserve the assembler temporary for publishing the next index. */
         register u8 *base __asm__("$1");

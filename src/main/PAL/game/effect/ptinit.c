@@ -51,13 +51,13 @@ typedef struct {
 
 extern int PsyqRand();
 extern RrUiParticle20 ParticleEntries[];
-extern unsigned char D_800A0CF4[];
+extern unsigned char ParticleSpawnColors[];
 extern RrParticleSys ParticleSystem;
 extern struct {
     char pad[0x3E8];
     s32 f3E8;
 } RaceContext;
-extern RrGpuColorCommand D_800A0CF0;
+extern RrGpuColorCommand BlackGradientColor;
 
 int FindFreeParticle(void);
 void SpawnParticlePair();
@@ -115,7 +115,7 @@ void SpawnParticlePair()
         s2 = ((r3 & 3) + one) << one;
         s0->speed16 = s2;
         r4 = PsyqRand();
-        ix = r4 - (r4 / 2) * 2; tb = D_800A0CF4; s1 = tb + (ix << 2);
+        ix = r4 - (r4 / 2) * 2; tb = ParticleSpawnColors; s1 = tb + (ix << 2);
         s0->r10 = s1[0];
         s0->g11 = s1[1];
         s0->b12 = s1[2];
@@ -328,7 +328,7 @@ void DrawParticle(int a0) {
         rect.y = e->y0E - (s16)e->u16 / 2 - 0x10;
         rect.w = s3;
         rect.h = 0x10;
-        AddSlantedGradientRect(&rect, 0, &D_800A0CF0, &c[2], 0x41);
+        AddSlantedGradientRect(&rect, 0, &BlackGradientColor, &c[2], 0x41);
 
         rect.x = s1;
         rect.y = e->y0E - (s16)e->u16 / 2;
@@ -346,14 +346,14 @@ void DrawParticle(int a0) {
         rect.y = e->y0E + (s16)e->u16 / 2;
         rect.w = s3;
         rect.h = 0x10;
-        AddSlantedGradientRect(&rect, 1, &c[2], &D_800A0CF0, 0x41);
+        AddSlantedGradientRect(&rect, 1, &c[2], &BlackGradientColor, 0x41);
 
         if (sp30 > 0) {
             rect.x = s7;
             rect.y = e->y0E - (s16)e->u16 / 2 - 0x10;
             rect.w = e->s18 - s3;
             rect.h = 0x10;
-            AddVerticalGradientRect(&rect, &D_800A0CF0, &c[2], 0x41);
+            AddVerticalGradientRect(&rect, &BlackGradientColor, &c[2], 0x41);
 
             rect.x = s7;
             rect.y = e->y0E;
@@ -371,7 +371,7 @@ void DrawParticle(int a0) {
             rect.y = e->y0E + (s16)e->u16 / 2;
             rect.w = e->s18 - s3;
             rect.h = 0x10;
-            AddVerticalGradientRect(&rect, &c[2], &D_800A0CF0, 0x41);
+            AddVerticalGradientRect(&rect, &c[2], &BlackGradientColor, 0x41);
         }
     }
 }

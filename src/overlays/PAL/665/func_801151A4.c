@@ -33,7 +33,7 @@ void ovl665_func_801151A4(void) {
             MenuFadeTimer = openingTimer;
             AddScreenFadeTiles(&((RrFrameOrderingPrefix *)(void *)CurrentDrawBuf)->ordering70[702], (s32)openingTimer*4, 0x45);
         }
-        func_8005B2D4(1);
+        SetMotionControllerVisible(1);
         if (UiRows[0].byte14 == 2) {
             row = 0;
             if (MenuFadeTimer == 0) {
@@ -68,7 +68,7 @@ void ovl665_func_801151A4(void) {
             UiRows[4].cells[0] = musicState;
             StepMenuValue(1, -1, (char *)&Options.bytes[0x30], 0x11, 0);
             ovl665_D_80119754 = (s32) Options.bytes[0x30];
-            SeqSetVolume(D_800F7640);
+            SeqSetVolume(MusicSeqVolume);
             if (MenuConfirmPressed != 0) {
                 PlaySfx(1);
                 UiRows[4].cells[0] = 1U;

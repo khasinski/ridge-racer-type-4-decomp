@@ -104,9 +104,9 @@ extern int SetGteObjectTransform();
 extern int UnknownRroTypeFmt;
 extern s32 PsyqRand(void);
 extern signed char RacePaused;
-extern int D_8009E0B0[];
-extern int D_8009E0E0[];
-extern char D_8009E124[];
+extern int SparkDepthCueColors[];
+extern int CircleVertices180[];
+extern char OctagonRingVertices[];
 extern void *CarBoundsTable[];
 extern s16 RaceType;
 extern u8 CarSlotBuffers[];
@@ -117,13 +117,13 @@ void *EmitRroEnvMapQuads(char *a0_in, int *a1_in, int a2_in);
 void SetModelTexturePage(s32 arg0);
 int DrawRroModel(int a0, int a1, int a2, int a3);
 void DrawSparkLines(char *a0_in, char *a1_in, s32 a2_in);
-void func_80014F34(s32 *a0_in, char *a1_in);
-void func_80015110(s32 *a0_in, char *a1_in);
-void func_800153FC();
+void EmitJitterGlowQuadFT4(s32 *a0_in, char *a1_in);
+void EmitGlowMeshG4(s32 *a0_in, char *a1_in);
+void DrawEngineRevGlow();
 void DrawGlowFan(char *a0, char *a1);
 int *EmitModelQuadsFT4(int *a0, int a1, char *a2);
-void func_80015918(Tri0C *a0, int a1, char *a2);
-char *func_80015D00(char *a0_in, s32 a1_in, char *a2_in);
+void EmitTrailQuadsG4(Tri0C *a0, int a1, char *a2);
+char *EmitModelVertexGlowFans(char *a0_in, s32 a1_in, char *a2_in);
 void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 arg4, s32 arg5, s32 arg6);
 
 void *EmitRroQuadsFT4(char *a0_in, int *a1_in, int a2_in) {
@@ -1505,7 +1505,7 @@ L_next:
     *(char **)SCRATCHPAD = s4;
 }
 
-void func_80014F34(s32 *a0_in, char *a1_in) {
+void EmitJitterGlowQuadFT4(s32 *a0_in, char *a1_in) {
     /* ASM_BARRIER: keep a3 in $7 */
     register char *a3 __asm__("$7") = a1_in;
     /* ASM_BARRIER: keep a0 in $4 */
@@ -1654,7 +1654,7 @@ void func_80014F34(s32 *a0_in, char *a1_in) {
     t1[0] = (s32)a0;
 }
 
-void func_80015110(s32 *a0_in, char *a1_in) {
+void EmitGlowMeshG4(s32 *a0_in, char *a1_in) {
     /* ASM_BARRIER: PsyQ-style register allocation */
     register s32 v0 __asm__("$2");
     /* ASM_BARRIER: PsyQ-style register allocation */
@@ -1962,7 +1962,7 @@ void func_80015110(s32 *a0_in, char *a1_in) {
 /* legacy typing of shared globals in this part of the unit */
 #define PsyqRand ((int (*)())PsyqRand)
 
-void func_800153FC(a0, a1) char *a0; char *a1;
+void DrawEngineRevGlow(a0, a1) char *a0; char *a1;
 {
     int s0;
     int *p;
@@ -1992,8 +1992,8 @@ void func_800153FC(a0, a1) char *a0; char *a1;
         *(int *)(a0 + 0x64) = s0;
     }
     RR_GTE_MTC2_IR0(s0);
-    p = D_8009E0B0;
-    q = (char *)D_8009E0B0 + 0x18;
+    p = SparkDepthCueColors;
+    q = (char *)SparkDepthCueColors + 0x18;
     o = (int *)(a1 + 0x15C);
     n = 6;
     do {
@@ -2008,7 +2008,7 @@ void func_800153FC(a0, a1) char *a0; char *a1;
     a2 = *(short *)(*(int *)(a1 + 0x90) + 0x1D8);
     DrawSparkLines(*(int *)(a0 + 0xC4), a1, a2 / 4);
     t = (ScreenFrame & 3) * 12 + 0x64;
-    func_80015110(*(int *)a0 + t, a1);
+    EmitGlowMeshG4(*(int *)a0 + t, a1);
     {
         int u = (PsyqRand() & 3) - 1;
         *(int *)(a1 + 0xAC) = *(int *)(a1 + 0x14) + u;
@@ -2019,7 +2019,7 @@ void func_800153FC(a0, a1) char *a0; char *a1;
     }
     *(int *)(a1 + 0xB4) = *(int *)(a1 + 0x1C);
     RR_GTE_SETTR(a1 + 0xAC);
-    func_80014F34(*(int *)a0 + 0x58, a1);
+    EmitJitterGlowQuadFT4(*(int *)a0 + 0x58, a1);
 }
 
 #undef PsyqRand
@@ -2062,7 +2062,7 @@ void DrawGlowFan(char *a0, char *a1) {
                 :
                 : "r"(0x1000)
             );
-            p = D_8009E0E0;
+            p = CircleVertices180;
             dst = (int *)(a1 + 0x198);
             i = 0x11;
             do {
@@ -2178,7 +2178,7 @@ int *EmitModelQuadsFT4(int *a0, int a1, char *a2) {
     return a0;
 }
 
-void func_80015918(Tri0C *a0, int a1, char *a2) {
+void EmitTrailQuadsG4(Tri0C *a0, int a1, char *a2) {
     int *spd = (int *)SCRATCHPAD;
     int *pkt = (int *)spd[0];
     int c160 = *(int *)(a2 + 0x160) | 0x3A000000;
@@ -2289,7 +2289,7 @@ void func_80015918(Tri0C *a0, int a1, char *a2) {
     *(int **)SCRATCHPAD = pkt;
 }
 
-char *func_80015D00(char *a0_in, s32 a1_in, char *a2_in) {
+char *EmitModelVertexGlowFans(char *a0_in, s32 a1_in, char *a2_in) {
     /* ASM_BARRIER: PsyQ-style register allocation */
     register s32 v0 __asm__("$2");
     /* ASM_BARRIER: PsyQ-style register allocation */
@@ -2464,11 +2464,11 @@ L_next:
                 if (a3 != 0) {
                     /* ASM_BARRIER: prevent delay-slot filling into beqz */
                     __asm__ volatile("" : : : "memory");
-                    t5 = (s32)D_8009E124;
+                    t5 = (s32)OctagonRingVertices;
                     /* ASM_BARRIER: load translation vector from t2 into GTE */
                     RR_GTE_SETTR(t2);
-                    t0 = D_8009E124;
-                    /* ASM_BARRIER: compute t0 = D_8009E124 before lw t5, 0(t3) */
+                    t0 = OctagonRingVertices;
+                    /* ASM_BARRIER: compute t0 = OctagonRingVertices before lw t5, 0(t3) */
                     __asm__ volatile("" : "+r"(t0));
                     t5 = *(s32 *)(t3 + 0);
                     /* ASM_BARRIER: order lw t5 before GTE RTPS */
@@ -2699,7 +2699,7 @@ void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 ar
 
     if (*(u8 *)(SP->w[0x25] + 0xA) == 2 && (RaceType == 6 || RaceType == 0)) {
         if (CurrentViewIndex != 6) {
-            func_800153FC(s4, s2);
+            DrawEngineRevGlow(s4, s2);
         }
     }
 
@@ -2841,7 +2841,7 @@ void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 ar
                     p = SP->pw[0x21];
                     SP->p[0x34] = SP->p[0x35];
                     SP->p[0x35] = s0->verts;
-                    func_80015918(p + 1, *(volatile s32 *)p >> 16, s2);
+                    EmitTrailQuadsG4(p + 1, *(volatile s32 *)p >> 16, s2);
                     SP->w[0x58] = SP->w[0x59];
                     s1--;
                     SP->w[0x59] = *SP->pw[0x36]++;
@@ -2877,7 +2877,7 @@ void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 ar
             SP->w[0x59] = 0;
             SP->w[0x58] = (SP->w[0x58] & 0xFFFFFF) | 0x32000000;
             p = *(s32 **)(S4->w[0] + 0xC);
-            func_80015D00(p + 1, *(volatile s32 *)p >> 16, s2);
+            EmitModelVertexGlowFans(p + 1, *(volatile s32 *)p >> 16, s2);
         } else {
             S4->w[0x3] = 0;
         }
@@ -2970,7 +2970,7 @@ void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 ar
                 s1 = (s1 + 1) % 4;
                 p = SP->pw[0x21];
                 SP->p[0x35] = ((TrailEntry4 *)(s4 + (s1 << 3) + 0x3C))->verts;
-                func_80015918(p + 1, *(volatile s32 *)p >> 16, s2);
+                EmitTrailQuadsG4(p + 1, *(volatile s32 *)p >> 16, s2);
                 if (SP->w[0x59] <= 0) {
                     break;
                 }
@@ -3172,7 +3172,7 @@ void DrawWheelTrailEffects(void *arg0, s32 *arg1, void *arg2, void *arg3, s32 ar
                     RR_GTE_SWC2_RGB2(s2 + 0x164);
                 }
                 p = SP->pw[0x21];
-                func_80015918(p + 1, *(volatile s32 *)p >> 16, s2);
+                EmitTrailQuadsG4(p + 1, *(volatile s32 *)p >> 16, s2);
                 do {
                     d4 = SP->p[0x35];
                     d0 = SP->p[0x34];

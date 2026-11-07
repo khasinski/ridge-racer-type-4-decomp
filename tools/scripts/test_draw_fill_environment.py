@@ -52,7 +52,7 @@ static unsigned fast_cases,rectangle_cases;
 static Entry entries[5],saved[5];static unsigned count,seed=0xF1EC3097;static int mutate,embedded;
 static u32 *packet(World *p){return embedded?p->env.draw_packet1C:p->packet;}
 u32 real_window(RrGpuRectangleFields *);
-#define D_800ABAC4 (w->width)
+#define GpuVramWidth (w->width)
 #define GpuVramHeight (w->height)
 static u32 random32(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
 static u32 emit(int kind,int a,int b,int c){

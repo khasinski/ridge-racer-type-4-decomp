@@ -58,7 +58,7 @@ s32 _spu_init(s32 warm)
         i++;
     } while(i<10);
     if(warm==0) {
-        const u16 *source=D_800A4818;
+        const u16 *source=SpuInitFillData;
         /* ASM_BARRIER: Prepare the real bounded input owner before MMIO writes. */
         __asm__("" : : "r"(source));
         bank=BANK;

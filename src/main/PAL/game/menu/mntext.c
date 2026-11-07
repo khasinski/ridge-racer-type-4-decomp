@@ -11,7 +11,7 @@ extern char StrStarSpace[];
 extern char LapTimeTemplateStr[];
 extern u8 *MenuTextTemplates[];
 extern char *OrdinalSuffixStrs[];
-extern char *D_8009FD9C;
+extern char *StrRetirePtr;
 extern s8 D_800AD4F1;
 extern s16 ReverseCourse;
 extern s16 CourseIndex;
@@ -110,7 +110,7 @@ void SetMenuTextRow(s32 row, s32 position, s32 phase, s32 style, s32 label) {
                 }
                 CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[2], OrdinalSuffixStrs[value]);
             } else {
-                CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[1], D_8009FD9C);
+                CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[1], StrRetirePtr);
             }
             break;
         case 18:

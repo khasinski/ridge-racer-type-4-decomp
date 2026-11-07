@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern int StRgb24;
-extern int D_801102E0;
+extern int StPendingChannel;
 extern int StExpectedChannel;
 
 #endif /* RR_PSYQ_LIBCD_DSSTRM2_H */

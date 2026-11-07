@@ -59,7 +59,7 @@ void _padAdvanceChannel(s32 command)
                 _padSaveCommand((RrChannelTransferView *)channel);
             }
         }
-        control = D_800ABD00;
+        control = PadListJoyRegs;
         current = PadActiveChannel;
         PadRecvStage = 0;
         control[5] = 0;

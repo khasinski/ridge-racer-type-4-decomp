@@ -56,10 +56,10 @@ void ovl662_func_8011A518(void)
         owner->palette48[1]=(u32*)allocated;
         allocated=base+0x18D4;
         owner->paletteBackup50[1]=(u32*)allocated;
-        D_800F3918=base;
+        GarageImageBlock0=base;
         owner->buffers24[0]=(u32*)base;
         owner->tim2C[0]=(RrGarageTimBytes*)second;
-        D_800F3910=second;
+        GarageTimBuffer1=second;
         break;
     case 2:
         StoreImage(&ovl662_D_8012624C,ovl662_D_801276A8.image38[0]);

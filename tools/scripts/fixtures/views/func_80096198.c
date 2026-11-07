@@ -66,7 +66,7 @@ s32 _card_format(s32 arg0){
     u32 tail;
     i=0;
     invalid=-1;second=scratch;one=1;
-    slot=D_801142D8;
+    slot=CardFormatBrokenRecords;
 
     do {
         slot->value=invalid;

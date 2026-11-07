@@ -59,26 +59,26 @@ extern s32 CdFileSyncResult;
 extern RrCdLocation CdFileLocation;
 extern u8 CdFileCdParam;
 extern RrCdFileEntry CdFileTable[];
-extern unsigned char D_8009DFD8[];
-extern unsigned char D_8009DFEC[];
+extern unsigned char CarPatchPartGroup[];
+extern unsigned char CarTexPatchCellTable[];
 extern int LoadCursor;
 extern int *CarBoundsTable[];
 extern struct E CarSlotBuffers[];
 extern int SceneLoadState;
 extern int SceneLoadId;
-extern int D_8010BF60;
+extern int TrackNodeLightBits;
 extern void LoadTimList();
 extern int CarLoadFileIndex;
 extern int LoadingCarIndex;
-extern int D_80109448;
-extern int D_8010944C;
-extern int D_80109450;
-extern int D_80109454;
+extern int CarLoadPatchParam1;
+extern int PendingCarVariant;
+extern int RequestedCarId;
+extern int CarLoadPatchIndex;
 void DrawSync(s32);
 void LoadImage(s16 *, void *);
 extern s32 CarOffsetTables[];
 extern short CourseIndex;
-extern short D_8009E02C[];
+extern short CourseLightBlendTable[];
 extern char *TrackLightTable;
 extern short LightMatrix[];
 extern short D_800ABED6[];
@@ -414,13 +414,13 @@ int BlitCarSlotTexturePatch(int a0, int a1, int a2, int a3, int a4)
     sp = (short *)(SCRATCHPAD + 0x7C);
     if (a0 == 2 && b1 == 0 && a2 == 0x13)
         return 0x13;
-    t = D_8009DFEC[b1 * 16 + a3];
+    t = CarTexPatchCellTable[b1 * 16 + a3];
     /* ASM_BARRIER: forces copy t->a (original addu a0,v1,zero) */
     __asm__("" : "=r"(a) : "0"(t));
     xx = (t & 7) * 0x10 + 0x340; x = xx;
     if (t < 0) a = t + 7;
     a >>= 3;
-    c = D_8009DFD8[a2];
+    c = CarPatchPartGroup[a2];
     b16 = a << 4; b = b16 + (a << 2);
     if (c >= 4) {
         if (c >= 7)
@@ -540,7 +540,7 @@ int SceneLoadStep(void)
 
     switch (SceneLoadState) {
     case 1:
-        if (CdFileReadStart(func_80012208(SceneLoadId), LoadCursor) == 0)
+        if (CdFileReadStart(GetSceneFileIndex(SceneLoadId), LoadCursor) == 0)
             return 0;
         SceneLoadState = 2;
     case 2:
@@ -554,7 +554,7 @@ int SceneLoadStep(void)
         LoadTimList(s0);
         SceneLoadState = 3;
     case 3:
-        if (CdFileReadStart(func_80012208(SceneLoadId) + 1, LoadCursor) == 0)
+        if (CdFileReadStart(GetSceneFileIndex(SceneLoadId) + 1, LoadCursor) == 0)
             return 0;
         SceneLoadState = 4;
     case 4:
@@ -577,9 +577,9 @@ int SceneLoadStep(void)
         if (*(int *)((char *)pw - 0x6BC4) == 7) {
             a0 = *a1; a0 += B;
             *a1 = a0;
-            func_8007080C(a0);
+            InitLineG2TrailPool(a0);
         }
-        D_8010BF68 = s2;
+        TrackSceneryList = s2;
         LoadCursor = LoadCursor + s1;
         RelocateRelativeFile(sp10);
         RelocateOffsetTable(s2);
@@ -587,7 +587,7 @@ int SceneLoadStep(void)
         RelocateModelPointers(sp18);
         SetTrackNodeData(fp);
         SetLightTable(s6);
-        D_8010BF60 = s7;
+        TrackNodeLightBits = s7;
         LoadCursor = LoadCursor + LoadTrackObjects(s3, LoadCursor);
         SetSegmentOctantTable(s5);
         SetOctantLookupTable(s4);
@@ -609,10 +609,10 @@ int RequestCarLoad(int a0, int a1, int a2, int a3, int a4)
     CarLoadFileIndex = GetCarFileIndex();
     r = 1;
     LoadingCarIndex = a4;
-    D_80109448 = p1;
-    D_8010944C = p0;
-    D_80109450 = p2;
-    D_80109454 = p3;
+    CarLoadPatchParam1 = p1;
+    PendingCarVariant = p0;
+    RequestedCarId = p2;
+    CarLoadPatchIndex = p3;
     SceneLoadState = r;
     return r;
 }
@@ -669,8 +669,8 @@ s32 CarLoadStep(void) {
         DrawSync(0);
         LoadCursor = s2;
         AllocCarSlotBuffers(CarOffsetTables[LoadingCarIndex], LoadingCarIndex);
-        if (D_80109454 != 0) {
-            BlitCarSlotTexturePatch(D_80109448, D_8010944C, D_80109450, D_80109454 - 1, LoadingCarIndex);
+        if (CarLoadPatchIndex != 0) {
+            BlitCarSlotTexturePatch(CarLoadPatchParam1, PendingCarVariant, RequestedCarId, CarLoadPatchIndex - 1, LoadingCarIndex);
         }
         SceneLoadState = 0;
         return 1;
@@ -735,7 +735,7 @@ void SetupRenderer(s32 shift) {
 }
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_8010BF60 ((short *)D_8010BF60)
+#define TrackNodeLightBits ((short *)TrackNodeLightBits)
 
 int SetCarTrackLighting(char *a0_in, int a1_in) {
     /* ASM_BARRIER: keep temp in $v0 */
@@ -771,8 +771,8 @@ int SetCarTrackLighting(char *a0_in, int a1_in) {
     a3 = *(short *)(a0 + 0x172);
     t2 = *(short *)(a0 + 0x170);
     v0 = *(int *)(a0 + 0xF0);
-    v1 = (int)D_8010BF60;
-    /* ASM_BARRIER: order initial loads from a0 and D_8010BF60 */
+    v1 = (int)TrackNodeLightBits;
+    /* ASM_BARRIER: order initial loads from a0 and TrackNodeLightBits */
     __asm__ volatile("" : "+r"(a3), "+r"(t2), "+r"(v0), "+r"(v1));
     t1 = a3 << 3;
     a3 = t1 + 0x2000;
@@ -808,8 +808,8 @@ int SetCarTrackLighting(char *a0_in, int a1_in) {
     a0 &= 7;
     /* ASM_BARRIER: load %lo(CourseIndex) after masking a0 */
     __asm__ volatile("lh %0, %%lo(CourseIndex)(%1)" : "=r"(v1) : "r"(v0), "r"(a0));
-    v0 = (int)D_8009E02C;
-    /* ASM_BARRIER: load D_8009E02C address before index shifts */
+    v0 = (int)CourseLightBlendTable;
+    /* ASM_BARRIER: load CourseLightBlendTable address before index shifts */
     __asm__ volatile("" : "+r"(v0));
     a2 <<= 1;
     a1 <<= 1;
@@ -1112,4 +1112,4 @@ int SetCarTrackLighting(char *a0_in, int a1_in) {
     return t7[1];
 }
 
-#undef D_8010BF60
+#undef TrackNodeLightBits

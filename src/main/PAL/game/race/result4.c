@@ -17,8 +17,8 @@ typedef struct { char p[4]; char a; char b; char c; char d; } Y;
 
 extern int AddDrawModePrim();
 extern int AddSpritePrim();
-extern unsigned char D_8009F730[];
-extern unsigned char D_8009F790[];
+extern unsigned char ResultGlyphUvRects[];
+extern unsigned char ResultGlyphIndexTable[];
 extern unsigned short CourseMenuSelection;
 extern int InitBadgeRow();
 extern int InitRect16Row();
@@ -45,12 +45,12 @@ extern int MenuConfirmPressed;
 extern struct { char pad[0x10]; short h10; } *BadgeRows;
 extern struct { char pad[4]; signed char b4; char b5; signed char b6; } *Dialogue;
 
-void func_8003662C();
+void DrawResultsTitleBanner();
 void InitNewCarScreen(int a0);
 void NewCarModeEnter(void);
 void NewCarModeUpdate(void);
 
-void func_8003662C(a0)
+void DrawResultsTitleBanner(a0)
 int a0;
 {
   int s4;
@@ -89,7 +89,7 @@ int a0;
       switch (d)
       {
         case 1:
-          s2 = D_8009F790[(D_800AD4EF * 2) + s1];
+          s2 = ResultGlyphIndexTable[(D_800AD4EF * 2) + s1];
           break;
 
         case 0:
@@ -123,7 +123,7 @@ int a0;
       t = s2 + 1;
       s2 = t + (CourseMenuSelection & 7);
     }
-    p = D_8009F730 + (s2 * 4);
+    p = ResultGlyphUvRects + (s2 * 4);
     a1 = AddSpritePrim(CurrentDrawBuf + 0x70, a1, s3, 0x48, p, 0x263A, (s4 + 1) * 2);
     u = s3 + 2;
     s3 = u + p[2];
@@ -148,7 +148,7 @@ int a0;
   s1 = 0;
   if (s0 != 0)
   {
-    base = D_8009F730;
+    base = ResultGlyphUvRects;
     do
     {
       new_var = s3 - 2;

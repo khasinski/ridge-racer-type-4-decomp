@@ -58,7 +58,7 @@ extern struct {
     char pad60[0x55C - 0x60];
     char *f55C;
 } RaceContext;
-extern short D_800AD520;
+extern short SelectedTeamIndex;
 extern int ModelBankFormat;
 extern short CourseIndex;
 extern void SetGteObjectTransform();
@@ -70,9 +70,9 @@ extern void SetGeomScreen();
 extern void RotMatrixZYX();
 extern void ResetCarSlotBuffers();
 extern int D_800AC6B0;
-extern Elem28 (*D_800ACBA4)[16];
+extern Elem28 (*CameraKeyframeTables)[16];
 extern short RaceType;
-extern M2C_UNK D_800AC6D8;
+extern M2C_UNK RaceIntroState;
 extern void AddScreenFadeTiles();
 extern void SlotsStartForRace();
 extern void CdAudioSelectTrack();
@@ -85,12 +85,12 @@ extern signed char SelectionState[];
 extern signed char Options[];
 extern int ViewUsesCarTrackNode;
 
-void func_80044EC4(void);
+void DrawRaceContextModelBanks(void);
 void ApplyCameraState(int *a);
 int InterpCameraKeyframes(Arg0Struct *a0, int a1, int a2);
-int func_80045868(char *arg0);
+int UpdateRaceOpeningSequence(char *arg0);
 
-void func_80044EC4(void) {
+void DrawRaceContextModelBanks(void) {
     int sp10[8];
     int *g = (int *)SCRATCHPAD;
     int s5;
@@ -98,7 +98,7 @@ void func_80044EC4(void) {
     int s1;
 
     s5 = g[0x18];
-    s2 = RaceContext.f55C + (D_800AD520 << 7);
+    s2 = RaceContext.f55C + (SelectedTeamIndex << 7);
     SetupLightMatrices(s2, sp10);
     SetGteObjectTransform((SCRATCHPAD + 0x7C), s2, sp10);
     s1 = RotTransPersOrigin(sp10, s2);
@@ -121,8 +121,8 @@ void func_80044EC4(void) {
             ((P_TAG *)&DRAWBUF->ot[s1])->addr = g[1] + 0x578;
         }
     }
-    if (D_8009FE60[CourseIndex] == 7) {
-        s2 = RaceContext.f55C + (D_800AD520 << 7) + 0x40;
+    if (CourseExtraModelMode[CourseIndex] == 7) {
+        s2 = RaceContext.f55C + (SelectedTeamIndex << 7) + 0x40;
         SetupLightMatrices(s2, sp10);
         SetGteObjectTransform((SCRATCHPAD + 0x7C), s2, sp10);
         s1 = RotTransPersOrigin(sp10, s2);
@@ -189,7 +189,7 @@ int InterpCameraKeyframes(Arg0Struct *a0, int a1, int a2) {
     int t2;
 
     s0 = -1;
-    s2 = D_800ACBA4[a2];
+    s2 = CameraKeyframeTables[a2];
     for (i = 1; i < 0x10; i++) {
         if (s2[i].f24 * 5 >= a1) {
             s0 = i;
@@ -238,25 +238,25 @@ int InterpCameraKeyframes(Arg0Struct *a0, int a1, int a2) {
     ApplyCameraState(&D_800AC6B0);
     if (RaceType == 1) {
         InitRaceContextBuffers();
-        func_80044EC4();
+        DrawRaceContextModelBanks();
     }
     return 0;
 }
 
 #undef RaceContext
 
-void func_80045830(void) {
-    PsyqBzero(&D_800AC6D8, 0x20);
-    M2C_FIELD(&D_800AC6D8, s32 *, 0x1C) = -1;
+void ResetRaceSceneFadeState(void) {
+    PsyqBzero(&RaceIntroState, 0x20);
+    M2C_FIELD(&RaceIntroState, s32 *, 0x1C) = -1;
 }
 
 /* legacy typing of shared globals in this part of the unit */
 #define RaceContext (*(int (*)[])&RaceContext)
 #define D_800AC6B0 (*(char (*)[])&D_800AC6B0)
-#define D_800AC6D8 (*(int (*))&D_800AC6D8)
+#define RaceIntroState (*(int (*))&RaceIntroState)
 #define CurrentDrawBuf ((char *)CurrentDrawBuf)
 
-int func_80045868(char *arg0)
+int UpdateRaceOpeningSequence(char *arg0)
 {
   int i;
   int s0;
@@ -342,7 +342,7 @@ int func_80045868(char *arg0)
     }
     {
       int x, d;
-      x = D_800AC6D8 << 8;
+      x = RaceIntroState << 8;
       d = x / 12;
       s0 = 0x100;
       __asm__("" : "+r"(s0) : "r"(x)); /* ASM_BARRIER: keep 0x100 in s0 and prioritize x in v0 */
@@ -388,7 +388,7 @@ int func_80045868(char *arg0)
       s0 = 1;
       gL = gC;
       gL[0x98 / 4] = 0;
-      r = (((char *) gL[0x554 / 4]) + (D_800AD520 * 0x280)) + 0x28;
+      r = (((char *) gL[0x554 / 4]) + (SelectedTeamIndex * 0x280)) + 0x28;
       do
       {
         v = *((int *) (r + 0x24));
@@ -413,7 +413,7 @@ int func_80045868(char *arg0)
   switch (gD[0x94 / 4])
   {
     case 1:
-      InterpCameraKeyframes(arg0, gD[0x88 / 4], D_800AD520);
+      InterpCameraKeyframes(arg0, gD[0x88 / 4], SelectedTeamIndex);
       if (Pad0Buttons & 0x800)
     {
       if (gD[0x88 / 4] >= 0x1A)
@@ -530,5 +530,5 @@ int func_80045868(char *arg0)
 
 #undef RaceContext
 #undef D_800AC6B0
-#undef D_800AC6D8
+#undef RaceIntroState
 #undef CurrentDrawBuf

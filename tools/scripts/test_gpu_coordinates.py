@@ -19,7 +19,7 @@ class GpuCoordinatesTest(unittest.TestCase):
         body=re.sub(r'\s+__asm__\("\$[0-9]+"\)','',body)
         body=re.sub(r' : "\$[0-9]+"','',body)
         observed=body.replace('get_cs','observed_top_left').replace('get_ce','observed_bottom_right')
-        for axis,name in enumerate(('D_800ABAC4','GpuVramHeight')):
+        for axis,name in enumerate(('GpuVramWidth','GpuVramHeight')):
             assert observed.count(f'c = {name} - 1')==2
             assert observed.count(f't = *(u16 *)&{name};')==2
             observed=observed.replace(f'c = {name} - 1',f'c = read_signed({axis}) - 1').replace(f't = *(u16 *)&{name};',f't = read_unsigned({axis});')
@@ -27,17 +27,17 @@ class GpuCoordinatesTest(unittest.TestCase):
 typedef uint8_t u8; typedef int8_t s8; typedef uint16_t u16; typedef int16_t s16;
 typedef uint32_t u32; typedef int32_t s32;
 '''+header+'''
-s16 D_800ABAC4,GpuVramHeight,after[2];
+s16 GpuVramWidth,GpuVramHeight,after[2];
 s32 reads,log_entries[8];
 s32 read_signed(s32 axis) {
-    s16 *p=axis ? &GpuVramHeight : &D_800ABAC4;
+    s16 *p=axis ? &GpuVramHeight : &GpuVramWidth;
     s32 result=*p;
     log_entries[reads++]=axis*2;
     *p=after[axis];return result;
 }
 u16 read_unsigned(s32 axis) {
     log_entries[reads++]=axis*2+1;
-    return (u16)(axis ? GpuVramHeight : D_800ABAC4);
+    return (u16)(axis ? GpuVramHeight : GpuVramWidth);
 }
 '''+body+observed
         (d/'f.c').write_text(code)
@@ -46,7 +46,7 @@ u16 read_unsigned(s32 axis) {
         cls.functions=[cls.lib.get_cs,cls.lib.get_ce]
         cls.observed=[cls.lib.observed_top_left,cls.lib.observed_bottom_right]
         for f in cls.functions+cls.observed:f.argtypes=[C.c_int32,C.c_int32];f.restype=C.c_uint32
-        cls.width=C.c_int16.in_dll(cls.lib,'D_800ABAC4');cls.height=C.c_int16.in_dll(cls.lib,'GpuVramHeight')
+        cls.width=C.c_int16.in_dll(cls.lib,'GpuVramWidth');cls.height=C.c_int16.in_dll(cls.lib,'GpuVramHeight')
         cls.after=(C.c_int16*2).in_dll(cls.lib,'after');cls.reads=C.c_int32.in_dll(cls.lib,'reads')
         cls.log=(C.c_int32*8).in_dll(cls.lib,'log_entries')
 

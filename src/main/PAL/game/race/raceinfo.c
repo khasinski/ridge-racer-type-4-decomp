@@ -12,14 +12,14 @@
 
 struct T { int pad[2]; int a; int b; int pad2[11]; };
 
-extern signed char D_8009F688[];
-extern int D_8009F654[];
-extern int D_8009F66C[];
+extern signed char CourseInfoPanelIcons[];
+extern int CourseInfoLabelSprites[];
+extern int CourseInfoDirectionSprites[];
 extern short RaceType;
 extern short CourseIndex;
 extern unsigned char CourseLapCounts[];
 extern int NumLaps;
-extern short D_8009F678[];
+extern short CourseLengthMeters[];
 extern int CourseBestLapRecords[];
 extern int CourseBestLap[][8];
 extern short NumCars;
@@ -28,7 +28,7 @@ extern int AddSpritePrim();
 extern int AddDrawModePrim();
 extern int AddTilePrim();
 extern int FormatDecimalDigits();
-extern int func_80032EC8();
+extern int DrawCourseIconSprite();
 extern struct T *TrackNodes;
 extern int TrackNodeCount;
 extern short ReverseCourse;
@@ -57,21 +57,21 @@ void DrawCourseInfoPanel(int arg0, int arg1) {
 
     p = *(int *)SCRATCHPAD;
     for (i = 0; i < 4; i++) {
-        int v = D_8009F688[i + (arg1 << 2)];
+        int v = CourseInfoPanelIcons[i + (arg1 << 2)];
         int y;
         if (v == -1) {
             break;
         }
         y = 0x128 + i * 0x10;
-        p = AddSpritePrim(CurrentDrawBuf + 0x70, p, 0x16, y, &D_8009F654[v], 0x7FA4, 1);
+        p = AddSpritePrim(CurrentDrawBuf + 0x70, p, 0x16, y, &CourseInfoLabelSprites[v], 0x7FA4, 1);
         if (i == 1) {
-            p = AddSpritePrim(CurrentDrawBuf + 0x70, p, 0x4A, y, &D_8009F654[8], 0x7FA4, 1);
+            p = AddSpritePrim(CurrentDrawBuf + 0x70, p, 0x4A, y, &CourseInfoLabelSprites[8], 0x7FA4, 1);
         }
     }
 
     s4 = arg0 >= 8;
     arg0 &= 7;
-    p = AddSpritePrim(CurrentDrawBuf + 0x70, p, 0x3A, 0x104, &D_8009F66C[s4], s4 + 0x75E4, 0);
+    p = AddSpritePrim(CurrentDrawBuf + 0x70, p, 0x3A, 0x104, &CourseInfoDirectionSprites[s4], s4 + 0x75E4, 0);
     p = AddDrawModePrim(CurrentDrawBuf + 0x70, p, 0x59);
     *(int *)SCRATCHPAD = AddTilePrim(CurrentDrawBuf + 0x70, p, 0x10, 0xE0, 2, 0x88, 0x4C, 0x4C, 0x4C);
 
@@ -91,7 +91,7 @@ void DrawCourseInfoPanel(int arg0, int arg1) {
         if (i == 0) {
             FormatDecimalDigits(sp28, NumLaps, 0);
         } else {
-            FormatDecimalDigits(sp28, D_8009F678[arg0], 3);
+            FormatDecimalDigits(sp28, CourseLengthMeters[arg0], 3);
         }
         DrawDigitString16(CurrentDrawBuf + 0x70, 0x2E + i * 8, 0x128 + i * 0x10, sp28);
     }
@@ -133,7 +133,7 @@ void DrawCourseInfoPanel(int arg0, int arg1) {
         }
     }
 
-    *(int *)SCRATCHPAD = func_80032EC8(CurrentDrawBuf + 0x70, *(int *)SCRATCHPAD, 0x16, 0xE4, arg0);
+    *(int *)SCRATCHPAD = DrawCourseIconSprite(CurrentDrawBuf + 0x70, *(int *)SCRATCHPAD, 0x16, 0xE4, arg0);
 }
 
 void DrawCourseMapPreview(int unusedSelection,int unusedMode) {

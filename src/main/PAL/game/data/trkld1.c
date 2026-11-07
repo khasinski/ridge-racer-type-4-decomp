@@ -13,7 +13,7 @@
 #include "game/sound/sndsys.h"
 
 extern int CarSpecFileIndex;
-extern int D_800A029C[];
+extern int GpCarSpecFileOffsets[];
 extern short RaceType;
 extern int LoadTimList();
 extern int LoadTimImage();
@@ -21,26 +21,26 @@ extern int LoadTimList();
 extern int SlotSetupBank();
 extern struct { int a, b, c, d; } SlotBankSetup;
 extern int LoadVab();
-extern int D_800A0228[];
+extern int SfxVabLoadTable[];
 extern struct { char pad[0x2858]; char *p[1]; } SoundState;
 extern char *VabLoadArgs[2];
-extern int D_8010C218;
+extern int SfxVabHeaderSlot;
 extern int RaceContext[];
-extern int D_800ACBBC;
+extern int RaceSfxVabId;
 
 int LoadCarSpecStep();
 void SetRaceLoadCursor(s32 arg0);
 s32 GetRaceLoadCursor(void);
 int LoadSelectionTimAndModelStep();
-int func_8004D994();
+int LoadTeamModelsStep();
 int LoadSlotBankStep(int a0, int a1);
 int LoadComSlotBankStep(int a0);
 int LoadSoundBanksStep();
 int LoadSfxVabStep(int a0, int a1);
 void RaceLoadReset(void);
 int LoadVabPairStep(char *a0);
-s32 func_8004E184(void);
-s32 func_8004E18C(void);
+s32 UnloadRaceStepStub(void);
+s32 RaceLoadStepNop(void);
 int LoadRaceSoundStep(void);
 
 int LoadCarSpecStep(a0, a1, a2)
@@ -59,7 +59,7 @@ int a2;
       switch (RaceType)
     {
       case 1:
-        CarSpecFileIndex = GetR4FileIndex(2, D_800A029C[a0] + (a2 + v));
+        CarSpecFileIndex = GetR4FileIndex(2, GpCarSpecFileOffsets[a0] + (a2 + v));
         break;
 
       case 3:
@@ -160,7 +160,7 @@ out:
 #undef RaceLoadCursor
 #undef RaceContext
 
-int func_8004D994(a0, a1) int a0, a1;
+int LoadTeamModelsStep(a0, a1) int a0, a1;
 {
     int v, t;
     switch (RaceLoadState) {
@@ -180,7 +180,7 @@ int func_8004D994(a0, a1) int a0, a1;
             RegisterModelBank(RaceLoadCursor, 8);
             v = AlignUp4(t);
             RaceLoadCursor += v;
-            if (D_8009FE60[a0] < 7) {
+            if (CourseExtraModelMode[a0] < 7) {
                 RaceLoadState = 0;
                 return 1;
             }
@@ -319,7 +319,7 @@ int a0, a1, a2;
 
 int LoadSfxVabStep(int a0, int a1) {
     int s0 = 0;
-    int *s2 = D_800A0228 + a0 * 3;
+    int *s2 = SfxVabLoadTable + a0 * 3;
     int v, t;
     char *v1, *v0;
     switch (RaceLoadSubState) {
@@ -337,7 +337,7 @@ int LoadSfxVabStep(int a0, int a1) {
                 s0 = v0 - RaceLoadCursor;
                 LoadVab(VabLoadArgs, s2[1], s2[2], RaceLoadCursor);
                 if (a1 > 0) {
-                    SoundState.p[D_8010C218] = RaceLoadCursor + *(int *)(RaceLoadCursor + 4);
+                    SoundState.p[SfxVabHeaderSlot] = RaceLoadCursor + *(int *)(RaceLoadCursor + 4);
                 }
                 s0 = AlignUp4(s0);
                 RaceLoadSubState = 0;
@@ -368,7 +368,7 @@ void RaceLoadReset(void) {
 
 int LoadVabPairStep(char *a0) {
     int v;
-    int *t = D_800A0228;
+    int *t = SfxVabLoadTable;
     switch (RaceLoadStepIndex) {
     case 0:
         v = CdFileReadStart(GetR4FileIndex(2, 0x11), a0);
@@ -404,11 +404,11 @@ int LoadVabPairStep(char *a0) {
 #undef RaceLoadCursor
 #undef VabLoadArgs
 
-s32 func_8004E184(void) {
+s32 UnloadRaceStepStub(void) {
     return 1;
 }
 
-s32 func_8004E18C(void) {
+s32 RaceLoadStepNop(void) {
     return 1;
 }
 
@@ -420,7 +420,7 @@ int LoadRaceSoundStep(void) {
         }
         return 0;
     case 1:
-        if (LoadSfxVabStep(D_800ACBBC, 0) != 0) {
+        if (LoadSfxVabStep(RaceSfxVabId, 0) != 0) {
             RaceLoadStepIndex += 1;
         }
         return 0;

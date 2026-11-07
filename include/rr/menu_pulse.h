@@ -29,7 +29,7 @@ RR_ASSERT_OFFSET(RrPulseState18, once_tick0A, 0xA);
 RR_ASSERT_OFFSET(RrPulseState18, repeat_step0C, 0xC);
 RR_ASSERT_OFFSET(RrPulseState18, once_step0E, 0xE);
 
-extern const RrPulseRow *D_8009FF80[], *PadPulseRepeatRows[];
+extern const RrPulseRow *PadPulseOnceRows[], *PadPulseRepeatRows[];
 extern RrMenuItemState5C PlayerControllers[];
 extern RrPulseState18 PadPulseState[];
 void PadStepPulse(void);

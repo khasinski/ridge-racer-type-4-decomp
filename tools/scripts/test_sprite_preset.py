@@ -39,7 +39,7 @@ typedef struct {
     u8 suffix[32];
 } World;
 static World actual __attribute__((aligned(65536))),expected;
-#define D_8009E5E0 actual.presets
+#define SpritePresets actual.presets
 ''' + body + r'''
 static u8 *locate(const void *address,size_t size) {
     uintptr_t offset=(uintptr_t)address-(uintptr_t)&actual;

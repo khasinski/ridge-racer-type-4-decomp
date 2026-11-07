@@ -36,9 +36,9 @@ extern struct
 } Options;
 extern int SsUtKeyOnV();
 extern int SsVabClose();
-extern int func_80055300();
-extern int func_80055330();
-extern int func_8005534C();
+extern int ResetScreenCopyOverlay();
+extern int SetSceneColorParams();
+extern int SetSceneOverlayEnabled();
 extern int SlotsStartForRace();
 extern int MaskBitSetting;
 extern struct { char p0[0x1C]; s32 x1C; char p1[0x28]; s32 x48; s32 x4C; char p2[0x38C]; s32 x3DC; } RaceContext;
@@ -138,7 +138,7 @@ void SoundCloseVabsAndReset(void) {
     SoundState.xC = 0;
     SoundMasterVolumeReset();
     ResetPlayerVoices();
-    func_80051248(0);
+    InitLoopVoices(0);
     ResetSoundChannelVolLR();
     SoundQueueClear();
     SoundLoopReset();
@@ -160,10 +160,10 @@ void SoundInitForRace(void) {
     SoundState.xC = 1;
     SoundState.x4 = 0;
     SoundReset(SoundState.x10, 1);
-    func_80055300();
+    ResetScreenCopyOverlay();
     MaskBitSetting = 1;
-    func_80055330(0, 0x90, 0x90, 0x90);
-    func_8005534C(RaceContext.x3DC);
+    SetSceneColorParams(0, 0x90, 0x90, 0x90);
+    SetSceneOverlayEnabled(RaceContext.x3DC);
     SlotsStartForRace();
     SoundState.x58 = 0x52;
     SoundState.x678 = 0x52;
@@ -185,7 +185,7 @@ void StopAllSoundAndReset(void) {
     SoundState.b = 1;
     SoundState.a = 0;
     SoundReset(SoundState.c, 0);
-    D_800AC66C = 0;
+    CarSoundMuted = 0;
 }
 
 #undef SoundState

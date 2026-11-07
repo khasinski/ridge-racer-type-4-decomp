@@ -70,7 +70,7 @@ void *AddTextSprites(u32 *o,void *p,s32 x,s32 y,const char *text,s32 clut,s32 sp
  if(text==(char*)w->s.text){e->args[5]=-1;valid=1;}else for(b=0;b<2;b++)for(g=0;g<2;g++)for(t=0;t<8;t++)for(r=0;r<5;r++)if(text==w->s.banks[b][g][t][r].name){e->args[5]=b;e->args[6]=g;e->args[7]=t;e->args[8]=r;valid=1;}
  assert(valid);e->args[0]=x;e->args[1]=y;e->args[2]=clut;e->args[3]=spacing;e->args[4]=color;memcpy(e->data,text,10);return render(e,o,p);}
 void *AddDrawModePrim(u32 *o,void *p,u16 mode){Event *e=event(5);e->args[0]=mode;return render(e,o,p);}
-void *func_80032EC8(u32 *o,void *p,s32 x,s32 y,s32 icon){Event *e=event(6);e->args[0]=x;e->args[1]=y;e->args[2]=icon;return render(e,o,p);}
+void *DrawCourseIconSprite(u32 *o,void *p,s32 x,s32 y,s32 icon){Event *e=event(6);e->args[0]=x;e->args[1]=y;e->args[2]=icon;return render(e,o,p);}
 ''' + formatter + bodies + r'''
 static char *format(s32 value){int64_t v=value,minutes=v/60000,seconds=v/1000%60,millis=v%1000;u8 *s=w->s.text;
  s[0]=(u8)(minutes/10+48);s[1]=(u8)(minutes%10+48);s[3]=(u8)(seconds/10+48);s[4]=(u8)(seconds%10+48);s[6]=(u8)(millis/100+48);s[7]=(u8)(millis%100/10+48);s[8]=(u8)(millis%10+48);return (char*)s;
@@ -87,7 +87,7 @@ static void *expected(unsigned row,void *cursor){State *s=&w->s;unsigned g=s->gr
  }
  x+=52;rowY=s->badges[s->root][row].y06;y=rowY+40;
  cursor=AddTilePrim(heads,cursor,x,y-2,1,116,255,255,255);cursor=AddDrawModePrim(heads,cursor,56);
- x+=16;cursor=func_80032EC8(heads,cursor,x,y,(u16)s->group%8);
+ x+=16;cursor=DrawCourseIconSprite(heads,cursor,x,y,(u16)s->group%8);
  cursor=AddSpritePrim(heads,cursor,x+8,rowY+112,s->footer+g,30180+g,0);return AddDrawModePrim(heads,cursor,89);
 }
 int main(void){unsigned i,row;

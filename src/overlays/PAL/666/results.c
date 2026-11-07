@@ -136,7 +136,7 @@ void ovl666_update_results(void) {
         break;
     }
     UpdateScreenFade(0x1000C);
-    func_8003662C(ModeFrame);
+    DrawResultsTitleBanner(ModeFrame);
     if (group >= 0) {
         i = 0;
         do {
@@ -146,6 +146,6 @@ void ovl666_update_results(void) {
     }
     rows = MenuTextRows;
     if ((u32)(rows[0].bytes[2] - 3) < 5U || (u32)(rows[11].bytes[2] - 3) < 5U) {
-        func_800411D4();
+        EmitMenuRowTransitionGrid();
     }
 }

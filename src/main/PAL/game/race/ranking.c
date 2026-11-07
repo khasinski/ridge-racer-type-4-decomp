@@ -32,7 +32,7 @@ extern int CourseBestLapTimes[2][8][3];
 extern int CourseBestLapRecords[8];
 extern Struct10 LapRecords[2][8][5];
 extern char CourseChoiceTable[];
-extern unsigned short D_8009EA80[];
+extern unsigned short DefaultCourseChoiceValues[];
 extern unsigned char SaveDataWork[];
 extern unsigned char SaveDataBackup[];
 /* extern */
@@ -40,7 +40,7 @@ extern unsigned char SaveDataBackup[];
 /* extern */
 /* extern */
 extern s32 CdDirectoryBuffer;
-extern M2C_UNK D_800103B8;
+extern M2C_UNK StrTitle0Newline;
 extern s32 VSyncThreshold;
 extern s32 LoadCursor;
 extern s32 ModeFrame;
@@ -55,7 +55,7 @@ void InitDefaultTimeRecords(void);
 void InitCourseChoices(void);
 void BackupSaveData(void);
 void RestoreSaveData(void);
-void func_8001F2CC(void);
+void MenuSceneNopEntry(void);
 void SplashModeEnter(void);
 void SplashModeUpdate(void);
 void DrawTextStub(void);
@@ -113,7 +113,7 @@ void InitCourseChoices(void)
     PsyqBzero(CourseChoiceTable + 0x24, 0x90);
     t4 = 0;
     e = 8;
-    t6 = D_8009EA80;
+    t6 = DefaultCourseChoiceValues;
     t2 = 0x20;
     t1 = t4;
     do {
@@ -156,13 +156,13 @@ void RestoreSaveData(void) {
     }
 }
 
-void func_8001F2CC(void) {
+void MenuSceneNopEntry(void) {
 }
 
 void SplashModeEnter(void) {
     int pad[6];
     SetDispMask(0);
-    DebugPrintStub(&D_800103B8);
+    DebugPrintStub(&StrTitle0Newline);
     LoadCursor = CdDirectoryBuffer;
     SplashLogoInit();
     MenuResultCode = 0;

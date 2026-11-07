@@ -47,7 +47,7 @@ extern RrSerialPortRegisters SioShadowRegs;
 
 extern volatile s32 SioPollHook;
 
-extern s16 D_800ABD34[];
+extern s16 SioRxIrqModeBits[];
 
 s32 _sio_control(u32 arg0, u32 arg1, u32 arg2) {
     s32 ret = 0;
@@ -136,7 +136,7 @@ s32 _sio_control(u32 arg0, u32 arg1, u32 arg2) {
         case 4: {
             RrSerialPortRegisters *p;
             if (arg2 >= 1 && arg2 <= 8) {
-                ret = D_800ABD34[arg2];
+                ret = SioRxIrqModeBits[arg2];
                 if (ret < 0) {
                     break;
                 }

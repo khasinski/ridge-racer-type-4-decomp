@@ -58,7 +58,7 @@ void EmitTiledRect(RrGpuRectangleFields *rectangle,s32 intensity,u32 *head){unsi
  mutate(3);
 }
 void SetSineLightColors(s32 scale){assert(calls++==4&&scale==4096);mutate(4);}
-void func_800195BC(char *position,volatile u16 *rotation){unsigned j;
+void SetSkyMatrixAndDraw(char *position,volatile u16 *rotation){unsigned j;
  assert(calls++==5);assert(position==(char*)PlayerCars[0].pos20);assert(rotation==matrix);
  for(j=0;j<9;j++)assert(rotation[j]==expected_matrix[j]);
  assert(PlayerCars[0].pos20[0]==word(scenario*0x9E3779B9U+4));

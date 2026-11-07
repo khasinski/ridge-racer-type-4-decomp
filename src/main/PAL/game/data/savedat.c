@@ -17,8 +17,8 @@ extern Struct40 Options;
 extern Struct10 RaceRecords[2][8][5];
 extern Struct2C SaveSlotSelections[3];
 extern int CourseBestLapTimes[2][8][3];
-extern Struct840 *D_800F3910;
-extern Struct840 *D_800F3918;
+extern Struct840 *GarageTimBuffer1;
+extern Struct840 *GarageImageBlock0;
 extern Struct7C SaveProgress;
 extern int SaveDataBackup[];
 extern short SaveSlotIndex;
@@ -125,9 +125,9 @@ int ApplySaveData(int arg0) {
         for (t0 = 0; t0 < 2; t0++) {
             for (s0 = 0; s0 < 0x840; s0++) {
                 if (t0 == 0) {
-                    D_800F3918->b[s0] = p->f300[0][s0];
+                    GarageImageBlock0->b[s0] = p->f300[0][s0];
                 } else {
-                    D_800F3910->b[s0] = p->f300[t0][s0];
+                    GarageTimBuffer1->b[s0] = p->f300[t0][s0];
                 }
             }
         }

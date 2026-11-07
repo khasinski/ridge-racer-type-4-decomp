@@ -48,7 +48,7 @@ void ovl663_draw_preview(void) {
     light.h = 280;
     EmitTiledRect(&light, 128, CurrentDrawBuf->ordering.ordering70);
     SetSineLightColors(4096);
-    func_800195BC((char *)state->pos20, mat.halves);
+    SetSkyMatrixAndDraw((char *)state->pos20, mat.halves);
 }
 
 void ovl663_update_preview(void) {

@@ -15,7 +15,7 @@ extern int DecodeCourseIndex();
 extern unsigned char D_8009F06C[];
 extern short SelectedCarIndex;
 extern short CourseMenuSelection;
-extern short D_800AD520;
+extern short SelectedTeamIndex;
 extern short CourseListIndex;
 extern short CourseIndex;
 extern signed char SelectionState[];
@@ -25,7 +25,7 @@ extern S8 RankEntries[];
 extern int SaveProgress[];
 
 void SetNextModeByGameType(void);
-void func_8002F688();
+void AdvanceGrandPrixStage();
 int CountProgressFlags();
 
 void SetNextModeByGameType(void){
@@ -42,7 +42,7 @@ void SetNextModeByGameType(void){
  }
 }
 
-void func_8002F688() {
+void AdvanceGrandPrixStage() {
     int x, c0, i0, j;
     int a0;
     register int v1;
@@ -91,9 +91,9 @@ void func_8002F688() {
     *(U4 *)&SelectionRows[0] = *(U4 *)&SelectionState[0x1C];
     CourseMenuSelection = a0;
     c0 = SelectionRows[0];
-    D_800AD520 = c0;
+    SelectedTeamIndex = c0;
     CourseListIndex = SelectionRows[1];
-    D_800F4C28 = SelectionRows[2];
+    SelectedCarRow = SelectionRows[2];
     CourseIndex = DecodeCourseIndex(a0, c0, a2);
     SelectedCarIndex = 0;
     SaveProgress[3] |= 1 << CourseMenuSelection;

@@ -19,7 +19,7 @@ extern s32 CD_nopen;
 extern u8 D_800A64A5;
 extern char *CD_comstr[];
 extern s32 CD_comHasCompleteInt[];
-extern s32 D_800A664C[];
+extern s32 CdComStatusOnAck[];
 extern volatile u8 *CD_reg0;
 extern volatile u8 *CD_REG1;
 extern volatile u8 *CD_REG2;
@@ -28,7 +28,7 @@ extern volatile u8 CdIntrStatusBytes[];
 
 extern u8 CD_syncResult[];
 extern u8 CdReadyResult[];
-extern u8 D_80110328[];
+extern u8 CdDataEndResult[];
 
 #define COPY8(dst_arr, src_arr) \
     { \
@@ -71,7 +71,7 @@ s32 getintr(void) {
     *CD_REG2 = 7;
     {
         s32 t = intr;
-        if (t != 3 || D_800A664C[D_800A64A5] != 0) {
+        if (t != 3 || CdComStatusOnAck[D_800A64A5] != 0) {
             if ((CD_status & 0x10) == 0 && (res[0] & 0x10) != 0) {
                 CD_nopen++;
             }
@@ -128,7 +128,7 @@ s32 getintr(void) {
             volatile u8 *p = CdIntrStatusBytes;
             p[1] = p[2] = 4;
         }
-        COPY8(D_80110328, res);
+        COPY8(CdDataEndResult, res);
         COPY8(CdReadyResult, res);
         return 4;
     case 5:

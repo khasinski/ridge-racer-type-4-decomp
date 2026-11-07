@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern short D_8009FE60[];
+extern short CourseExtraModelMode[];
 extern u16 Pad0Buttons;
 void ApplyCameraState(int *a);
 

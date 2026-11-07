@@ -71,7 +71,7 @@ extern s32 rsin();
 
 int UpdateGlyphRow(int arg0);
 void InitUiRow(s32 index,s32 a,s32 b,s32 c,s32 d,s32 e,s32 f,s32 count,s32 g,s32 h,...);
-void func_8003EA04(s32 arg0, s32 arg1, s32 arg2);
+void DrawUiRowSlotMarkers(s32 arg0, s32 arg1, s32 arg2);
 
 int UpdateGlyphRow(int arg0) {
     SpriteDesc sp30;
@@ -285,7 +285,7 @@ void InitUiRow(s32 index,s32 a,s32 b,s32 c,s32 d,s32 e,s32 f,s32 count,s32 g,s32
 #define AddTilePrim ((s32 (*)())AddTilePrim)
 #define AddSpriteWithDrawMode ((s32 (*)())AddSpriteWithDrawMode)
 
-void func_8003EA04(s32 arg0, s32 arg1, s32 arg2) {
+void DrawUiRowSlotMarkers(s32 arg0, s32 arg1, s32 arg2) {
     s32 pad[8];
     s32 s0;
     s32 s1;

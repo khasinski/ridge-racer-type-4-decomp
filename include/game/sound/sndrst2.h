@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void func_80051554(void);
+void UpdateAmbienceVoices(void);
 void SoundLoopReset(void);
 void SoundLoopSet(int a0, int a1, int a2, int a3);
 

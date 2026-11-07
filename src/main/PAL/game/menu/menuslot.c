@@ -30,11 +30,11 @@ extern int DialogueContext;
 extern int AddDrawModePrim();
 extern int AddSpritePrim();
 extern int rsin();
-extern char D_8009F648[];
+extern char DialogueContinueMarkUv[];
 
-void func_80032600(void);
+void CardPromptModeUpdate(void);
 
-void func_80032600(void) {
+void CardPromptModeUpdate(void) {
     int r;
     ModeFrame += 1;
     switch (ModeSubState) {
@@ -116,5 +116,5 @@ int a1;
     v += 0x7F;
   }
   new_var = *((int *) SCRATCHPAD);
-  *((int *) SCRATCHPAD) = AddDrawModePrim(CurrentDrawBuf + 0x70, AddSpritePrim(CurrentDrawBuf + 0x70, new_var, a0, a1, D_8009F648, 0x1B56, ((v >> 7) + 0x80) * 2), 0x25);
+  *((int *) SCRATCHPAD) = AddDrawModePrim(CurrentDrawBuf + 0x70, AddSpritePrim(CurrentDrawBuf + 0x70, new_var, a0, a1, DialogueContinueMarkUv, 0x1B56, ((v >> 7) + 0x80) * 2), 0x25);
 }

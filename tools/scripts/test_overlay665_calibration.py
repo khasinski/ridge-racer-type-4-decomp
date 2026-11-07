@@ -60,7 +60,7 @@ static void effect(unsigned kind){unsigned n=serial++;if(!(profile&1))return;u32
 }
 static void service(unsigned kind){const s32 args[8]={0};record(kind,args);effect(kind);}
 void ovl665_func_80115798(void){service(0);}
-void func_8005B2D4(s32 a){const s32 args[8]={a};record(1,args);effect(1);}
+void SetMotionControllerVisible(s32 a){const s32 args[8]={a};record(1,args);effect(1);}
 void PlaySfx(s32 a){const s32 args[8]={a};record(2,args);effect(2);}
 void AddScreenFadeTiles(u32 *p,s32 a,u32 b){assert(p==world.frames[world.frameRoot].ordering.ordering70&&(uintptr_t)p>UINT32_MAX);const s32 args[8]={world.frameRoot,a,(s32)b};record(3,args);effect(3);}
 void ovl665_func_80114A24(void){service(4);}
@@ -75,7 +75,7 @@ void UpdateBadgeRowAnim(s32 a){const s32 args[8]={a};record(6,args);effect(6);}
 void UpdateDialogue(s32 x,s32 y,RrMenuTextState *text){assert(text==&world.text[world.textRoot]&&(uintptr_t)text>UINT32_MAX);const s32 args[8]={x,y,world.textRoot};record(7,args);effect(7);}
 void UpdateScreenFade(s32 flags){const s32 args[8]={flags};record(8,args);effect(8);}
 static void oracle(void){s32 phase=world.visual.layout0C;paths[phase>=0&&phase<4?phase:4]++;
- if(phase==0){service(0);func_8005B2D4(0);world.visual.layout0C=word((u32)world.visual.layout0C+1);}
+ if(phase==0){service(0);SetMotionControllerVisible(0);world.visual.layout0C=word((u32)world.visual.layout0C+1);}
  else if(phase==1){if(world.badges[world.badgeRoot][0].state10==3)world.visual.layout0C=2;}
  else if(phase==2){u16 buttons=world.input[0].buttons0A;s32 x=world.settings.display.x34,y=world.settings.display.y38;
   if(buttons&0x8000)x=word((u32)x-1);if(buttons&0x2000)x=word((u32)x+1);if(buttons&0x1000)y=word((u32)y-2);if(buttons&0x4000)y=word((u32)y+2);

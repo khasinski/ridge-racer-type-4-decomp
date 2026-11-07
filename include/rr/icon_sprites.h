@@ -9,7 +9,7 @@ typedef struct {
     u32 head70;
 } RrIconSpriteContext;
 extern RrIconSpriteContext *CurrentDrawBuf;
-extern u16 D_8001121C[];
+extern u16 HudMapIconCluts[];
 
 /* Requires a valid nonnegative CLUT-table index, a four-byte-aligned cursor
  * with 28 writable bytes, and accessible context heads on both captures.

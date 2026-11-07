@@ -6,7 +6,7 @@ src=(root/'tools/scripts/fixtures/views/func_8001ECE8.c').read_text();src=re.sub
 src=re.sub(r' asm\("\$\d+"\)','',src);src=re.sub(r'__asm__\("".*?\);','',src)
 draw=(root/'tools/scripts/fixtures/views/func_800928E4.c').read_text().replace('SetDefDrawEnv','native_draw')
 disp=(root/'tools/scripts/fixtures/views/func_80092998.c').read_text().replace('SetDefDispEnv','native_display')
-hook=(root/'tools/scripts/fixtures/views/func_8001ECE0.c').read_text();hook=re.sub(r'^#include[^\n]*\n','',hook,flags=re.M).replace('func_8001ECE0','native_bank_hook')
+hook=(root/'tools/scripts/fixtures/views/func_8001ECE0.c').read_text();hook=re.sub(r'^#include[^\n]*\n','',hook,flags=re.M).replace('SetupDrawDispEnvsHookStub','native_bank_hook')
 fixture=r'''
 #include <assert.h>
 #include <stdint.h>
@@ -20,7 +20,7 @@ fixture=r'''
 
 static RrFrameStorage actual[2],expected[2];
 #define FrameEnvs actual
-#define D_800D0268 actual[1].environment
+#define SecondaryFrameEnv actual[1].environment
 #define D_800D02C4 actual[1].environment.display
 RrRuntimeSettings Options;
 static int step,video;
@@ -41,7 +41,7 @@ void *SetDefDispEnv(void *e,s32 x,s32 y,s32 w,s32 h) {
  assert(w==((input_flags&4)?480:320) && h==(s32)((((input_flags>>1)&1)+1)*256));
  return native_display(e,x,y,w,h);
 }
-void func_8001ECE0(s32 bank) {assert(step++==6+bank && bank>=0 && bank<2);native_bank_hook(bank);}
+void SetupDrawDispEnvsHookStub(s32 bank) {assert(step++==6+bank && bank>=0 && bank<2);native_bank_hook(bank);}
 ''' + src + r'''
 static void reference(s32 r,s32 g,s16 b,u32 flags) {
  int i;int interlace=(flags>>1)&1,height=(interlace+1)*256,width=(flags&4)?480:320;

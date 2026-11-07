@@ -128,8 +128,8 @@ typedef struct { int a[8]; } M;
 
 typedef struct { unsigned short h[16]; } MH;
 
-extern void func_8001A52C(s32);
-extern void func_8001ADA0(s32, s32);
+extern void DrawTrackObjectBillboards(s32);
+extern void DrawTrackObjectPointInstances(s32, s32);
 extern void SubmitModel(void *, s32, s32, s32);
 extern void SubmitCourseModel2(void *, s32);
 extern void SelectModelBank(s32);
@@ -145,8 +145,8 @@ extern s32 ratan2(s32, s32);
 extern void SetDrawMode(s32, s32, s32, s32, s32);
 extern void AddPrim(s32, s32);
 extern void PsyqMemset(void *, s32, s32);
-extern s32 D_800A3CDC[];
-extern s32 D_800A3D18[];
+extern s32 TrackObjectAnimFrameCounts[];
+extern s32 TrackObjectAnimFrames[];
 extern SVec CourseLightColors[];
 extern CVec CourseColorTable[];
 extern S_ABEA4 *TrackNodes;
@@ -169,7 +169,7 @@ extern int BuildRotMatrixY();
 extern int BuildRotMatrixX();
 extern int MulMatrix2();
 extern int CameraViewMatrix[];
-extern int *D_8010E8D8;
+extern int *TrackObjectKeyframesPtr;
 extern int *TrackObjectDefsPtr;
 extern int TrackObjectStatesBase;
 
@@ -219,8 +219,8 @@ void DrawTrackObjects(s32 arg0) {
             SetTrackObjectTransform(i, &sp18, arg0);
             if ((TrackObjectStates[i].f08 / 10) == 1) {
                 s3[0x00 / 4] = TrackObjectStates[i].f08 + (CourseIndex % 4) * 3 - 11;
-                s3[0x04 / 4] = (TrackObjectStates[i].f00 / 6) % D_800A3CDC[s3[0x00 / 4]];
-                s3[0x08 / 4] = D_800A3D18[s3[0x00 / 4] * 12 + s3[0x04 / 4]];
+                s3[0x04 / 4] = (TrackObjectStates[i].f00 / 6) % TrackObjectAnimFrameCounts[s3[0x00 / 4]];
+                s3[0x08 / 4] = TrackObjectAnimFrames[s3[0x00 / 4] * 12 + s3[0x04 / 4]];
                 SubmitCourseModel2(SCRATCH_BASE, TrackObjectDefs[i].f00 + s3[0x08 / 4]);
                 continue;
             }
@@ -263,11 +263,11 @@ void DrawTrackObjects(s32 arg0) {
             break;
 
         case 2:
-            func_8001ADA0(TrackObjectDefs[i].f08, TrackObjectDefs[i].f00);
+            DrawTrackObjectPointInstances(TrackObjectDefs[i].f08, TrackObjectDefs[i].f00);
             continue;
 
         case 3:
-            func_8001A52C(TrackObjectDefs[i].f00);
+            DrawTrackObjectBillboards(TrackObjectDefs[i].f00);
             continue;
 
         case 4:
@@ -948,7 +948,7 @@ int LoadTrackObjects(int *a, int b) {
     TrackObjectStates = b;
     a = a + n * 12;
     TrackObjectCount = n;
-    D_8010E8D8 = a;
+    TrackObjectKeyframesPtr = a;
     s = n * 0x2C;
     TrackObjectKeyframes = a;
     PsyqBzero(b, s);

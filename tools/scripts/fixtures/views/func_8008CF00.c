@@ -22,7 +22,7 @@ extern volatile u8 CdIntrStatusBytes[];
 
 extern u8 CdReadyResult[];
 
-extern u8 D_80110328[];
+extern u8 CdDataEndResult[];
 
 extern s32 VSync(s32);
 
@@ -102,7 +102,7 @@ s32 CD_ready(s32 mode, u8 *result) {
         ret = *st2;
         if (ret != 0) {
             st[2] = 0;
-            src = D_80110328;
+            src = CdDataEndResult;
             if (result != 0) {
                 dst = result;
                 for (i = 7; i != -1; i--) {

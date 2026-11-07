@@ -22,7 +22,7 @@
 
 #undef ModeId
 
-extern void func_8007D710(void),ResetCallback(void),SetMem(s32),SystemInit(void);
+extern void MainLoopInitStub(void),ResetCallback(void),SetMem(s32),SystemInit(void);
 
 extern s32 SetVideoMode(s32),CdFileStep(void);
 
@@ -41,7 +41,7 @@ void MainLoop(void) {
     register u8 *bank_page;
     u32 bank;
     u8 *frame;
-    func_8007D710();
+    MainLoopInitStub();
     SetVideoMode(1);
     ResetCallback();
     bank_page=(u8 *)0x800F0000U;

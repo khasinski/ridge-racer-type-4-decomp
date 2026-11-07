@@ -5,7 +5,7 @@
 
 extern int StCurFrameNo;
 extern short StNextSectorOffset;
-extern int D_80110348;
+extern int StSectorSize2048Mode;
 void StClearRing(void);
 void data_ready_callback(void);
 

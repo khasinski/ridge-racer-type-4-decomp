@@ -24,8 +24,8 @@ static RrSelectionRows expected_rows;
 #define SelectionState ((s8*)actual)
 #define D_800AD4EC actual[0x14]
 #define SelectionRows native_rows_value
-#define D_8009F81C (rom+128)
-#define D_8009F82C ((s8*)rom+144)
+#define SelectionRankWeights (rom+128)
+#define SelectionRankThresholds ((s8*)rom+144)
 #define D_8009F810 (rom+116)
 ''' + helper + s+r'''
 static void reference(void) {

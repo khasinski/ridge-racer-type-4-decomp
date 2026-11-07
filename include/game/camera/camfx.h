@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void func_80056258();
+void EvalCameraCurvesAtTime();
 
 #endif /* RR_GAME_CAMERA_CAMFX_H */

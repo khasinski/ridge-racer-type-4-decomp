@@ -2,7 +2,7 @@
 #include "rr/spu.h"
 #include "rr/spu_init.h"
 extern s32 DebugPrintStub(const char *,...);
-extern char D_800116B8[];
+extern char SpuWaitWrdyStr[];
 extern char StrSpuDmaClearWaitMsg[];
 void _spu_FwriteByIO(const u16 *source,u32 size) {
     register RrSpuRegisterBank *port=_spu_RXX;

@@ -41,7 +41,7 @@ void DrawRaceMinimap(s32 arg0) {
     var_a1 = RR_HUD_SCRATCH->cursor;
     var_s0 = 0;
     if (NumCars > 0) {
-        s32 yBase;RrUiUvRect *const glyph=&D_8009EE58;
+        s32 yBase;RrUiUvRect *const glyph=&MapCarDotUv;
         do {
             temp_hi = (s32) (var_s2 + var_s0) % (s16) NumCars;
             temp_a0 = CarTable[temp_hi];
@@ -163,7 +163,7 @@ drawNeedle:
                 outputPoint[1] = (s16) ((s8) *shapeY + baselineY + 5);
                 outputPoint += 2;
             } while (i < 3);
-            RR_HUD_SCRATCH->cursor = (u8 *)EmitPolyF3(ordering, cursor, triangle.word[0], triangle.word[1], triangle.word[2], D_8009EE64, 0);
+            RR_HUD_SCRATCH->cursor = (u8 *)EmitPolyF3(ordering, cursor, triangle.word[0], triangle.word[1], triangle.word[2], SteeringNeedleColor, 0);
         }
     }
 }

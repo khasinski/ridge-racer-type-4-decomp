@@ -4,9 +4,9 @@
 #include "types.h"
 
 extern char CdTrackTitleStrings[];
-extern s16 *D_800A18F0[];
-extern s16 *D_800A1910[];
-extern s16 *D_800A1930[];
+extern s16 *OpeningTitleGlyphLists[];
+extern s16 *CourseCardGlyphListsB[];
+extern s16 *CourseCardGlyphLists3[];
 void ResetOpeningFadeTimer(void);
 void EmitProjectedMarkerSprt(int a0, int a1, int a2);
 void AddDrawModeTagToOt(void);

@@ -15,7 +15,7 @@ void SetGteObjectTransform(s16 *output, s16 *view, s32 *matrix);
 s32 RotTransPers(s32 *point, s32 *screen, s32 *interpolation, s32 *flags);
 s32 rsin(s32 angle);
 s32 rcos(s32 angle);
-extern int D_800A1CD0[];
+extern int ScrollTrackPtrs[];
 extern void PsyqBzero();
 
 void DrawRing(s32 *position, s32 radius);
@@ -129,7 +129,7 @@ void InitScrollTrack(int a0) {
     int *p = (int *)(MotionController + 0x134);
     PsyqBzero(p, 0x28);
     p[1] = 0;
-    p[5] = D_800A1CD0[a0];
+    p[5] = ScrollTrackPtrs[a0];
 }
 
 #undef MotionController

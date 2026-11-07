@@ -37,19 +37,19 @@ extern unsigned char SelectionRows[][4];
 extern int LoadTimList();
 extern char SharedWorkBuffer[];
 extern int InitMotionController();
-extern int func_8005B2D4();
+extern int SetMotionControllerVisible();
 extern int SeqStartTrack();
 extern int LoadTimImage();
 extern struct { char pad[4]; signed char f4; char pad2[0x1B]; int f20; } *Dialogue;
 extern int DialogueContext;
 extern struct { char pad[0x17]; signed char f17; char pad2[2]; short f1A; unsigned char f1C; } SelectionState;
-extern int D_800AD564;
+extern int GameLanguage;
 extern unsigned char D_800AD4F4;
-extern char D_80104DB0[];
+extern char DialogueLangEntry[];
 extern Z *DialogueState;
 extern char *TrackNodes;
 extern int TrackNodeCount;
-extern char D_8010C220[];
+extern char VabHeaderBuffer[];
 
 int LoadRaceSceneStep(void);
 int LoadModeMenuAssetsStep(void);
@@ -184,7 +184,7 @@ int ReinitMenuArenasStep(void) {
         LoadCursor = MenuArenaBase;
         RaceLoadReset();
     case 1:
-        if (func_8004E184()) {
+        if (UnloadRaceStepStub()) {
             MenuArenaBase = LoadCursor;
             SoundCloseVabsAndReset();
             LoadState = 2;
@@ -368,7 +368,7 @@ int LoadResultsSceneStep(void) {
     switch (LoadState) {
     case 0:
         LoadState = 1;
-        func_8005B2D4(0);
+        SetMotionControllerVisible(0);
         LoadIndex = 0;
     case 1:
         if (CdFileReadStart(GetR4FileIndex(1, 0xF), LoadCursor)) {
@@ -527,7 +527,7 @@ int LoadDialogueStep(void) {
             s2 = 0x41;
             s1 = 4;
         }
-        if (CdFileReadRange(GetR4FileIndex(1, s2), s1 * D_800AD564, s1, LoadDestCursor)) {
+        if (CdFileReadRange(GetR4FileIndex(1, s2), s1 * GameLanguage, s1, LoadDestCursor)) {
             LoadState = 2;
         }
         break;
@@ -554,7 +554,7 @@ int LoadDialogueStep(void) {
     case 5:
         s2 = D_800AD4F4 * 9 + 0x1C;
         a0 = LoadIndex;
-        s0 = D_800ACBFC[Dialogue->f4 * 8 + a0];
+        s0 = DialogueLoadIndexTable[Dialogue->f4 * 8 + a0];
         if (s0 != -1) {
             if (DialogueContext == 0) {
                 s1 = 8;
@@ -588,7 +588,7 @@ int LoadDialogueStep(void) {
                 LoadDestCursor = LoadDestCursor + s2;
             }
             LoadIndex = LoadIndex + 1;
-            s0 = D_800ACBFC[Dialogue->f4 * 8 + LoadIndex];
+            s0 = DialogueLoadIndexTable[Dialogue->f4 * 8 + LoadIndex];
             if (LoadIndex == 8 || s0 == -1) {
                 LoadState = 7;
             } else {
@@ -635,14 +635,14 @@ int LoadDialogueTableStep(void) {
             } else {
                 a1 = 0x45;
             }
-            if (CdFileReadRange(GetR4FileIndex(1, a1), D_800AD564 << 2, 4, D_80104DB0)) {
+            if (CdFileReadRange(GetR4FileIndex(1, a1), GameLanguage << 2, 4, DialogueLangEntry)) {
                 LoadState = 4;
             }
         }
         break;
     case 4:
         if (CdFileBytesLoaded()) {
-            SetupDialogueTable(D_80104DB0);
+            SetupDialogueTable(DialogueLangEntry);
             LoadState = 5;
     case 5:
             r = 1;
@@ -702,7 +702,7 @@ int LoadSplashAssetsStep(void) {
         }
         break;
     case 3:
-        if (LoadVabPairStep(D_8010C220) != 0) {
+        if (LoadVabPairStep(VabHeaderBuffer) != 0) {
             SoundCloseVabsAndReset();
             LoadState = 4;
             LoadCursor = CdDirectoryBuffer;

@@ -21,10 +21,10 @@ extern s16 ovl660_preview_selection;
 extern s32 ovl660_lap_record_rank;
 extern s16 ovl660_preview_bank;
 
-extern s32 D_800AD564;
+extern s32 GameLanguage;
 extern s16 SceneId;
 extern s32 MenuCancelPressed, D_800F3A48;
-extern s16 D_800F3A1E, MenuResultCode;
+extern s16 MenuReturnModeCode, MenuResultCode;
 void CopyStringClearTail(char *destination, char *source);
 void StepNameChar(char *text);
 void DrawSplitTimeHud(s32 paused);

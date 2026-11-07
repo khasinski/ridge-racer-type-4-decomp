@@ -10,9 +10,9 @@ extern int RaceLoadSubState;
 extern int RaceLoadCursor;
 int LoadCarSpecStep();
 int LoadSelectionTimAndModelStep();
-int func_8004D994();
+int LoadTeamModelsStep();
 int LoadVabPairStep(char *a0);
-s32 func_8004E184(void);
+s32 UnloadRaceStepStub(void);
 int LoadRaceSoundStep(void);
 
 #endif /* RR_GAME_DATA_TRKLD1_H */

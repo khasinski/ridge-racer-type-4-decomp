@@ -1,7 +1,7 @@
 #include "game/math/shuffle.h"
 #include "rr/frame_loop.h"
 extern struct { int p; int a[8]; } SlotOrder;
-extern int D_8010E264;
+extern int SlotOrderCursor;
 extern int PsyqRand();
 extern int PsyqSrand();
 void ShuffleSlotOrder()
@@ -21,5 +21,5 @@ void ShuffleSlotOrder()
         SlotOrder.a[x] = SlotOrder.a[y];
         SlotOrder.a[y] = t;
     } while (i < 0x20);
-    D_8010E264 = 0;
+    SlotOrderCursor = 0;
 }

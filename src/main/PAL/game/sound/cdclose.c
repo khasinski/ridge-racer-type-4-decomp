@@ -19,7 +19,7 @@ extern struct {
     int f26B8;
 } SoundState;
 extern int CdAudioSetVolume();
-extern s32 D_800F745C;
+extern s32 CdAudioSubStep;
 
 void CdAudioPauseStep();
 void CdAudioResumeStep(void);
@@ -71,7 +71,7 @@ void CdAudioResumeStep(void) {
         if (SoundState.x2674 == 0) {
             if (SoundState.x26BC == 1) CdAudioBeginPlay(SoundState.x26A0);
             else SoundState.x2670 = -1;
-            D_800F745C = 0;
+            CdAudioSubStep = 0;
         }
         break;
     }

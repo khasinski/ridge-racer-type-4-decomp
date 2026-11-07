@@ -8,7 +8,7 @@
 
 #define UH(b, o) (*(unsigned short *)((char *)(b) + (o)))
 
-void func_80022CD4(RrRaceVehicle *arg0) {
+void ApplyRaceStartLaunch(RrRaceVehicle *arg0) {
     s32 temp_a2;
     void *temp_a1;
 

@@ -41,7 +41,7 @@ const char ResetGraphFmt[]="init",StrResetGraphFmt[]="debug";
 #define D_800ABAC2 (g->data.state.debug02)
 #define GpuFuncTable (g->root)
 #define GpuVramWidthTable (g->widths)
-#define D_800ABB4C (g->heights)
+#define GpuVramHeightTable (g->heights)
 static u32 next(u32 *p){u32 n=*p;n^=n<<13;n^=n>>17;n^=n<<5;return *p=n;}
 static u32 driverIndex(void){assert(g->root==&GpuDriverTable||g->root==&alternate);return g->root==&alternate;}
 static void event(u32 code,unsigned long a,unsigned long b,unsigned long c){Event *e;assert(g->count<12);e=&g->events[g->count++];e->code=code;e->a=a;e->b=b;e->c=c;memcpy(e->state,g->data.raw,128);e->root=driverIndex();memcpy(e->widths,g->widths,sizeof(e->widths));e->heights=g->heights;}

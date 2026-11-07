@@ -43,7 +43,7 @@ typedef struct {
  u8 suffix[32];
 } World;
 static World *actual,*expected;
-#define D_8009FDA8 actual->source
+#define MenuGridLayoutRows actual->source
 '''+body+r'''
 static const u8 original_table[256]={'''+table+r'''};
 static u32 seed=0x89b32617;

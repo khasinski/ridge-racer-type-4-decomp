@@ -4,6 +4,6 @@
 #include "types.h"
 
 int AllocUiRows(int a);
-void func_8003EA04(s32 arg0, s32 arg1, s32 arg2);
+void DrawUiRowSlotMarkers(s32 arg0, s32 arg1, s32 arg2);
 
 #endif /* RR_GAME_UI_UIWIN_H */

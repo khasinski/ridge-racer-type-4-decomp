@@ -7,7 +7,7 @@ extern short MenuFrameState;
 extern short ModeMenuCursorSaved;
 extern int AddTileGrid2x2();
 extern int DrawMenuFrame();
-extern int func_8005B2D4();
+extern int SetMotionControllerVisible();
 extern int StepCameraScript();
 extern int SetDispMask();
 
@@ -56,7 +56,7 @@ void UpdateScreenFade(a0) int a0; {
     }
     DrawMenuFrame(a0 >> 2);
     if (ModeMenuCursorSaved != 6 && ModeMenuCursorSaved != 8) {
-        func_8005B2D4(a0 & 1);
+        SetMotionControllerVisible(a0 & 1);
         StepCameraScript();
     }
 }

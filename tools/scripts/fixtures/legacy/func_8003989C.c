@@ -1,6 +1,6 @@
 extern unsigned char D_8009F810[];
 extern unsigned char SelectionState[];
-void func_8003989C(void) {
+void SetSelectionTableIndex(void) {
     int v;
     if (SelectionState[0x1E] == 0x12) {
         int i = SelectionState[0x1C] * 2 + (SelectionState[0x1D] >> 1);

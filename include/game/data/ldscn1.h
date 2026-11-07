@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern int LoadDestCursor;
-extern signed char *D_800ACBFC;
+extern signed char *DialogueLoadIndexTable;
 extern char *TrackNodesEnd;
 extern short ModeMenuCursorSaved;
 int LoadSelectedModeFileStep(void);

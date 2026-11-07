@@ -56,7 +56,7 @@ _Static_assert(offsetof(__typeof__(test_page), callback) == 0x2760, "callback of
 #define StRingStartIndex test_page.current
 #define StRingHeaders test_page.records
 #define StLastReadyLoc test_page.word
-#define D_80112754 test_page.value
+#define StLastReadyFrame test_page.value
 #define StDataReadyFunc test_page.callback
 '''
         body = (root / 'tools/scripts/fixtures/legacy/func_8008F5E4.c').read_text()

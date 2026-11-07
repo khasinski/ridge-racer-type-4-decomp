@@ -17,8 +17,8 @@
 #define SIN(x) (((x) & 0x800) ? (((x) & 0x400) ? -SinTable[0x400 - ((x) & 0x3FF)] : -SinTable[(x) & 0x3FF]) : (((x) & 0x400) ? SinTable[0x400 - ((x) & 0x3FF)] : SinTable[(x) & 0x3FF]))
 
 extern RrRaceStandingsTable *RaceStandings;
-extern s8 D_80010F2C[][16];
-extern s8 D_80010F8C[][16];
+extern s8 AiGapBiasTable[][16];
+extern s8 OvertakeScoreTableMode5[][16];
 extern s16 RaceType;
 extern s32 ScanCurveAhead();
 extern int NumPlayers;
@@ -263,7 +263,7 @@ s32 ScoreOvertakeOpportunity(RrRaceVehicle *arg0, s32 arg1) {
     }
 
     for (i = 0; i < 2; i++) {
-        s0 += D_80010F2C[i][a1];
+        s0 += AiGapBiasTable[i][a1];
     }
 
     a2 = (a2 * 160) / 1168;
@@ -273,9 +273,9 @@ s32 ScoreOvertakeOpportunity(RrRaceVehicle *arg0, s32 arg1) {
         }
         a2 /= 5;
         if (RaceType != 5) {
-            s0 += D_80010F2C[2][a2];
+            s0 += AiGapBiasTable[2][a2];
         } else {
-            s0 += D_80010F8C[2][a2];
+            s0 += OvertakeScoreTableMode5[2][a2];
         }
     } else {
         s0 -= 8;

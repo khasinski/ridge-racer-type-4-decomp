@@ -10,7 +10,7 @@ extern struct
   unsigned char e;
   short f;
 } MenuStateTable[];
-extern void (*D_800A4548[])();
+extern void (*CardMenuStepHandlers[])();
 extern short MenuStateIndex;
 extern unsigned char CardSlotState[];
 extern unsigned short SaveSlotSelect;
@@ -19,7 +19,7 @@ extern short ModeSubState;
 extern short CardSlot;
 extern unsigned short MenuResultCode;
 extern short MenuChoiceValues[];
-extern short D_8010948E;
+extern short MenuChoiceIndex;
 extern short MenuPlayerIndex;
 extern struct { char pad[0x28]; int x28; int x2c; char pad2[0x2C]; } PlayerControllers[];
 
@@ -60,9 +60,9 @@ void DispatchCardMenuStep()
   }
   if (r == 1)
   {
-    D_800A4548[s1]();
+    CardMenuStepHandlers[s1]();
   }
-  UpdateCardMenuDialogue(s3, t0, s0, CardSlot, MenuChoiceValues[D_8010948E], CardSlotState[CardSlot]);
+  UpdateCardMenuDialogue(s3, t0, s0, CardSlot, MenuChoiceValues[MenuChoiceIndex], CardSlotState[CardSlot]);
   if (w4c7_nz(s7))
   {
     if (fp == 0x1E)

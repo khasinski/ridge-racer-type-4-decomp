@@ -44,10 +44,10 @@ static World actual,expected;
 static Trace actual_log,expected_log;
 static int mutate,return_offset,return_kind,original_selector;
 #define CurrentDrawBuf actual.context
-#define D_800ACA3C actual.phase
-#define D_800ACA38 actual.gain
-#define D_800A1FB0 actual.uv
-#define D_80011248 actual.modes
+#define FadeSpritePhase actual.phase
+#define FadeSpriteIntensityScale actual.gain
+#define FadeSpriteRects actual.uv
+#define FadeSpriteTpageModes actual.modes
 '''+body+r'''
 static s32 bits(u32 u){s32 s;memcpy(&s,&u,4);return s;}
 static void *mapped(World *world,const void *p) {

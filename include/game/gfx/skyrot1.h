@@ -4,8 +4,8 @@
 #include "types.h"
 
 extern int TitleSceneStage;
-int func_8001BD40();
+int DrawIntroSpinningModel();
 void DrawRotatingSky(void);
-void func_8001BFA8(int a0, int a1, int a2);
+void DrawIntroSceneModel(int a0, int a1, int a2);
 
 #endif /* RR_GAME_GFX_SKYROT1_H */

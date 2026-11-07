@@ -6,7 +6,7 @@
 #include "psyq/libgpu/settrans.h"
 #include "rr/player_status.h"
 
-extern unsigned char D_8009EDF8[];
+extern unsigned char FontCharWidths[];
 
 char *AddTextSprites();
 void DrawAnimatedGlyph(s32 x, s32 y, s32 glyph, s32 clut, s16 *animation);
@@ -120,12 +120,12 @@ int arg7;
       }
       if (arg6 == 1)
       {
-        arg2 = (arg2 + (new_var = 2)) + D_8009EDF8[((x / 8) + ((y / 16) * 32)) % 54];
+        arg2 = (arg2 + (new_var = 2)) + FontCharWidths[((x / 8) + ((y / 16) * 32)) % 54];
       }
       else
         if (arg6 == 2)
       {
-        arg2 = arg2 + D_8009EDF8[((x / 8) + ((y / 16) * 32)) % 54];
+        arg2 = arg2 + FontCharWidths[((x / 8) + ((y / 16) * 32)) % 54];
       }
       else
       {

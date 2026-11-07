@@ -4,6 +4,6 @@
 #include "types.h"
 
 extern int ViewCarTrackNode;
-extern int D_8010E270[];
+extern int AttractDemoSlotKinds[];
 
 #endif /* RR_GAME_MENU_TITLE_H */

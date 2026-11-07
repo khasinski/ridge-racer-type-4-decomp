@@ -1,6 +1,6 @@
 PatchOffsetTableTexPages 0x80012c7c 0x218 
 DrawSparkLines 0x80014c3c 0x2f8 gte
-func_800153FC 0x800153fc 0x1dc gte
+DrawEngineRevGlow 0x800153fc 0x1dc gte
 EmitTiledRect 0x80019d5c 0x1c4 
 EmitModelTrisG3 0x8001ac24 0x17c gte
 EmitFadeTile 0x8001bbc4 0xc0 gte
@@ -16,7 +16,7 @@ DrawPauseMenu 0x800349f4 0x420
 LinkErrorModeUpdate 0x80035b84 0x2a4 
 DrawBadgeRow 0x8003d474 0x27c 
 DrawMenuGridMesh 0x80041bf0 0x664 gte
-func_80042DBC 0x80042dbc 0x19c 
+DrawControlTypeLetterPanel 0x80042dbc 0x19c 
 GetTrackLaneWorldPos 0x80043de4 0xf0 
 CalcRubberBandFactor 0x80049558 0x508 
 SoundFindNearestCars 0x80051bd4 0x450 
@@ -45,6 +45,6 @@ EmitLineF2G10 0x8006c2a4 0x40
 QuadOffscreenTest12 0x8006c7d8 0xa8 
 func_8006C880 0x8006c880 0x5a4 gte
 InterpEdgeVertsA5 0x8006ce24 0x1d4 gte
-func_8006F6F0 0x8006f6f0 0x9bc gte
+DrawCarModelLod 0x8006f6f0 0x9bc gte
 UpdateTrackObjectActivation 0x80071e04 0x554 
 InterpolateObjectKeyframe 0x80072358 0x1280 

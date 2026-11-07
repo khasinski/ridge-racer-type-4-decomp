@@ -38,7 +38,7 @@ struct T { s32 k[9]; s32 v[9]; };
 struct E { char pad[0x74]; struct T t[2][10]; char r[12]; };
 
 extern RrSlot620 SoundSlots[];
-extern u16 D_800A053C[];
+extern u16 SlotPitchOffsetTable[];
 extern s16 PanGainTable[];
 extern struct {
     char pad[0x31];
@@ -91,7 +91,7 @@ void UpdateSoundSlot(int a0) {
     if (v1 >= 0x120) {
         v1 = 0x11F;
     }
-    sp20 = D_800A053C[v1];
+    sp20 = SlotPitchOffsetTable[v1];
 
     for (i = 0; i < s0->count0C; i++, s3++) {
         int s6 = SlotInterpCurve(i * 2, s5, s0->program14, a0);

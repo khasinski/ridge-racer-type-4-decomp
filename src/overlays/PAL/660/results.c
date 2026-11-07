@@ -161,7 +161,7 @@ void ovl660_func_8011572C(void) {
             if (ovl660_result_transition == 1) {
                 ready = PackChoiceGlyph((s8 *)&SelectionRows);
                 MenuTextRows[42].bytes[28] = 34;
-                EncodeRecordPassword(CourseMenuSelection, ready, TotalRaceTime, ovl660_result_kind, D_800AD564,
+                EncodeRecordPassword(CourseMenuSelection, ready, TotalRaceTime, ovl660_result_kind, GameLanguage,
                               &MenuTextRows[42].bytes[29]);
                 MenuTextRows[42].bytes[42] = 34;
                 ovl660_result_transition = 2;
@@ -215,7 +215,7 @@ void ovl660_func_8011572C(void) {
         return;
     }
     UpdateScreenFade(0x1000C);
-    func_8003662C(ModeFrame);
+    DrawResultsTitleBanner(ModeFrame);
     if (group >= 0) {
         i = 0;
         do {
@@ -224,7 +224,7 @@ void ovl660_func_8011572C(void) {
         } while (i < 11);
     }
     if ((u32)(MenuTextRows[0].bytes[2] - 3) < 5 || (u32)(MenuTextRows[44].bytes[2] - 3) < 5) {
-        func_800411D4();
+        EmitMenuRowTransitionGrid();
     }
 }
 

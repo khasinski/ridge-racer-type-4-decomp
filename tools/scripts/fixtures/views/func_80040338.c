@@ -10,7 +10,7 @@ extern char StrStarSpace[], LapTimeTemplateStr[];
 
 extern u8 *MenuTextTemplates[];
 
-extern char *OrdinalSuffixStrs[], *D_8009FD9C;
+extern char *OrdinalSuffixStrs[], *StrRetirePtr;
 
 extern RrMenuSettings2C SelectionState;
 
@@ -106,7 +106,7 @@ void SetMenuTextRow(s32 row, s32 position, s32 phase, s32 style, s32 label) {
                 }
                 CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[2], OrdinalSuffixStrs[value]);
             } else {
-                CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[1], D_8009FD9C);
+                CopyStringClearTail((char *)&MenuTextRows[row].rendering.text[1], StrRetirePtr);
             }
             break;
         case 18:

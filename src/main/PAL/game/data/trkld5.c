@@ -13,7 +13,7 @@ typedef struct { unsigned char a, b, c, d; } T;
 
 extern short SelectedCarIndex;
 extern void *LoadCursor;
-extern short D_800AD520;
+extern short SelectedTeamIndex;
 extern short CourseIndex;
 
 int LoadTrackStep()
@@ -35,10 +35,10 @@ int LoadTrackStep()
         }
         break;
     case 2:
-        r3 = LoadCarSpecStep(CourseIndex, D_800AD520, SelectedCarIndex);
+        r3 = LoadCarSpecStep(CourseIndex, SelectedTeamIndex, SelectedCarIndex);
         goto chk;
     case 3:
-        r3 = func_8004D994(CourseIndex, D_800AD520);
+        r3 = LoadTeamModelsStep(CourseIndex, SelectedTeamIndex);
     chk:
         if (r3 != 0) {
     inc:
@@ -55,7 +55,7 @@ out:
     return r;
 }
 
-int func_8004E3B0(int i) {
+int GetSelectionSoundBank(int i) {
     T *base = SelectionRows;
     T *t = base + i;
     int r = 0;

@@ -74,7 +74,7 @@ void ovl659_update_race(void) {
         SetModelTexturePage(-1);
     } else if (RaceState == 1) {
         if ((u32)ModeFrame >= 176U) {
-            func_80022CD4(PlayerCars);
+            ApplyRaceStartLaunch(PlayerCars);
             RaceState = 2;
             CdAudioBeginPlay(1);
         }
@@ -125,7 +125,7 @@ void ovl659_update_race(void) {
     }
     StepRaceFrame(RaceType);
     if (RaceState == 0) {
-        func_80045868(PlayerCars);
+        UpdateRaceOpeningSequence(PlayerCars);
     } else if (RaceState == 7) {
         UpdateCoastingCarCamera(&PlayerCars[1]);
     } else {
@@ -135,7 +135,7 @@ void ovl659_update_race(void) {
     BuildCameraMatrices();
     DrawCars(0);
     if (PlayerCars[0].half1EA != ReverseCourse) {
-        func_800225DC(0);
+        DrawWrongWaySprite(0);
     }
     RR_659_SCRATCH->word78 = D_800F2A64;
     SetupPlayerView(0);

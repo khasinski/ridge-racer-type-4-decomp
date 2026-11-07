@@ -3,7 +3,7 @@
 #include "rr/overlay665_menu.h"
 #include "rr/runtime_settings.h"
 extern s32 ovl665_D_80119754,ovl665_D_80119758;
-extern s16 D_800F7640;
+extern s16 MusicSeqVolume;
 void SeqSetVolume(s16);
 void SetCdMixMode(s32);
 void ovl665_func_80114FD8(void);

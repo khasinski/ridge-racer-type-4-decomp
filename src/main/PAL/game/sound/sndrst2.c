@@ -11,7 +11,7 @@ extern s16 PanGainTable[];
 
 void SoundLoopSet(int a0, int a1, int a2, int a3);
 
-void func_80051554(void)
+void UpdateAmbienceVoices(void)
 {
     unsigned short s1, s0;
     short t1, t2;

@@ -58,7 +58,7 @@ extern struct {
 
 extern void SetParticleBrightFade(int, int, int);
 
-extern void func_8005C4E0(void);
+extern void DrawIntroCaptionText(void);
 
 extern void UpdateParticles(void);
 
@@ -158,7 +158,7 @@ int IntroScriptStep(void) {
     }
 
     if (RaceContext.f440 > 0) {
-        func_8005C4E0();
+        DrawIntroCaptionText();
     }
 
     if (RaceContext.f3F4) {

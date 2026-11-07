@@ -13,6 +13,6 @@ void ovl662_func_8011AAF4(void) {
     ovl662_func_8011B400();
     ovl662_func_8011CF8C();
     ovl662_func_8011CD18();
-    D_800F39A0 = ovl662_D_801276A8.buffers24[ovl662_D_801276A8.active21];
-    D_800F399C = ovl662_D_801276A8.tim2C[ovl662_D_801276A8.active21];
+    GarageActiveBuffer = ovl662_D_801276A8.buffers24[ovl662_D_801276A8.active21];
+    GarageLogoTimPtr = ovl662_D_801276A8.tim2C[ovl662_D_801276A8.active21];
 }

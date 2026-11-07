@@ -43,7 +43,7 @@ static void step(void) {
  expect(10);assert(ModeGroup==selector_a && ModeId==selector_b);
  CurrentDrawBuf=alternate[2].bytes;VSyncThreshold=-999;
 }
-void func_8007D710(void) {expect(0);}
+void MainLoopInitStub(void) {expect(0);}
 s32 SetVideoMode(s32 n) {expect(1);assert(n==1);return INT_MIN;}
 void ResetCallback(void) {expect(2);}
 void SetMem(s32 n) {expect(3);assert(n==2);}

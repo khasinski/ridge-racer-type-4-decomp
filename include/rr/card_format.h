@@ -20,7 +20,7 @@ typedef union {
 } RrCardFormatSector;
 
 extern RrCardDirectoryRecord CardFormatDirRecords[15];
-extern RrCardBrokenRecord D_801142D8[20];
+extern RrCardBrokenRecord CardFormatBrokenRecords[20];
 extern RrCardFormatSector CardFormatSectorBuf;
 /* Initialize directory sectors1..15, broken-sector records16..35 and MC header0.
  * Return1 only if all36 writes return1; stop immediately on any other status.

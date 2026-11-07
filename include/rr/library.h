@@ -79,7 +79,7 @@ RR_ASSERT_OFFSET(RrLibQueueRecord32, height12, 0x12);
 RR_ASSERT_OFFSET(RrLibQueueRecord32, word1C, 0x1C);
 
 /* Prefix at D_800ABAC2. Width/height also have assembler aliases
- * D_800ABAC4 and GpuVramHeight, used by drawing-area coordinate helpers. */
+ * GpuVramWidth and GpuVramHeight, used by drawing-area coordinate helpers. */
 typedef struct {
     u8 level,mode;
     s16 width,height;

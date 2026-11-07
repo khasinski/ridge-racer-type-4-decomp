@@ -95,7 +95,7 @@ extern int SelectionCountdown;
 extern int NodeLerpIndex;
 extern int NodeLerpStep;
 extern int NodeLerpPrevHeading;
-extern int D_8010E7C8[];
+extern int ObjAnimLastFrame[];
 extern S_E8E8 ObjTrailHistory[];
 
 s32 InterpolateObjectKeyframe(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
@@ -222,7 +222,7 @@ void UpdateTrackObjects(void) {
                         B4->f14 = AC(B0->f24)->f14 + (r3 % AC(B0->f24)[1].f14);
                         r4 = PsyqRand() % 6;
                         B4->f8 = r4 + 1;
-                        func_80070934(B0->f0, 7, &B4->fC, r4);
+                        ConfigureTrackObjectParticles(B0->f0, 7, &B4->fC, r4);
                         B4->f0 = 0;
                     } else if (B4->f0 == 0x3C) {
                         hw = (int *)SCRATCHPAD;
@@ -274,10 +274,10 @@ void UpdateTrackObjects(void) {
                         if ((unsigned short)RaceType - 2 < 3U) {
                             a2 = B4->f0;
                             B4->f0 = a2 + 1;
-                            if (D_8010E7C8[i] == ModeFrame) {
+                            if (ObjAnimLastFrame[i] == ModeFrame) {
                                 B4->f0 = a2;
                             }
-                            D_8010E7C8[i] = ModeFrame;
+                            ObjAnimLastFrame[i] = ModeFrame;
                         } else {
                             B4->f0++;
                         }

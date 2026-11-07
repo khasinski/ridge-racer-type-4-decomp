@@ -74,9 +74,9 @@ extern int LoadTimImage();
 
 extern int DialogueContext;
 
-extern int D_800AD564;
+extern int GameLanguage;
 
-extern char D_80104DB0[];
+extern char DialogueLangEntry[];
 
 extern Z *DialogueState;
 
@@ -110,14 +110,14 @@ int LoadDialogueTableStep(void) {
             } else {
                 a1 = 0x45;
             }
-            if (CdFileReadRange(GetR4FileIndex(1, a1), D_800AD564 << 2, 4, D_80104DB0)) {
+            if (CdFileReadRange(GetR4FileIndex(1, a1), GameLanguage << 2, 4, DialogueLangEntry)) {
                 LoadState = 4;
             }
         }
         break;
     case 4:
         if (CdFileBytesLoaded()) {
-            SetupDialogueTable(D_80104DB0);
+            SetupDialogueTable(DialogueLangEntry);
             LoadState = 5;
     case 5:
             r = 1;

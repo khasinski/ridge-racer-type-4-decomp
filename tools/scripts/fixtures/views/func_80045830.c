@@ -10,7 +10,7 @@
 
 #define D_800AC6B0 (*(char (*)[])&D_800AC6B0)
 
-#define D_800AC6D8 (*(int (*))&D_800AC6D8)
+#define RaceIntroState (*(int (*))&RaceIntroState)
 
 #define CurrentDrawBuf ((char *)CurrentDrawBuf)
 
@@ -18,15 +18,15 @@
 
 #undef D_800AC6B0
 
-#undef D_800AC6D8
+#undef RaceIntroState
 
 #undef CurrentDrawBuf
 
 extern int PsyqBzero();
 
-extern M2C_UNK D_800AC6D8;
+extern M2C_UNK RaceIntroState;
 
-void func_80045830(void) {
-    PsyqBzero(&D_800AC6D8, 0x20);
-    M2C_FIELD(&D_800AC6D8, s32 *, 0x1C) = -1;
+void ResetRaceSceneFadeState(void) {
+    PsyqBzero(&RaceIntroState, 0x20);
+    M2C_FIELD(&RaceIntroState, s32 *, 0x1C) = -1;
 }

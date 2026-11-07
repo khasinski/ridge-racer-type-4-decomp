@@ -38,7 +38,7 @@ void DrawRaceMinimap(s32 arg0) {
     var_a1 = RR_HUD_SCRATCH->cursor;
     var_s0 = 0;
     if (NumCars > 0) {
-        s32 yBase;RrUiUvRect *const glyph=&D_8009EE58;
+        s32 yBase;RrUiUvRect *const glyph=&MapCarDotUv;
         do {
             temp_hi = (s32) (var_s2 + var_s0) % (s16) NumCars;
             temp_a0 = CarTable[temp_hi];

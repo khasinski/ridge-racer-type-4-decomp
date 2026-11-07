@@ -9,7 +9,7 @@ extern struct {
 } RaceContext;
 extern s32 D_800ACA78;
 
-void func_8005C988(a0)
+void StartDemoSceneFadeIn(a0)
 int a0;
 {
     RaceContext.f404 = 0;
@@ -33,6 +33,6 @@ int a0;
     RaceContext.f41C = 2;
 }
 
-void func_8005CA04(void) {
+void SetSceneFadeStartFlag(void) {
     D_800ACA78 = 1;
 }

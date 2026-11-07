@@ -20,9 +20,9 @@ void AddScreenFadeTiles(u32 *, s32, u32);
 void ResetScreenCounters(void);
 void InitMenuArenas(void);
 void UpdateScreenFade(s32);
-void func_8003662C(s32);
+void DrawResultsTitleBanner(s32);
 void UpdateMenuTextRow(s32);
-void func_800411D4(void);
+void EmitMenuRowTransitionGrid(void);
 s32 LoadResultsSceneStep(void);
 void SeqStartTrack(s32);
 s32 ovl661_func_80117E10(s32);
@@ -119,13 +119,13 @@ void ovl661_func_80117E90(void) {
         return;
     }
     UpdateScreenFade(0x1000C);
-    func_8003662C(ModeFrame);
+    DrawResultsTitleBanner(ModeFrame);
     if (group >= 0) {
         for (i = 0; i < 11; i++) {
             UpdateMenuTextRow(i + group * 11);
         }
     }
     if ((u8)(MenuTextRows[0].bytes[2] - 3) < 5 || (u8)(MenuTextRows[11].bytes[2] - 3) < 5) {
-        func_800411D4();
+        EmitMenuRowTransitionGrid();
     }
 }

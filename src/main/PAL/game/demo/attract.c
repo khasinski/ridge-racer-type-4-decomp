@@ -17,8 +17,8 @@
 #include "game/data/selection.h"
 
 extern int SlotOrder[];
-extern char D_800ACB0C[];
-extern int D_800A2124[];
+extern char AttractWork[];
+extern int AttractCarSlotMap[];
 extern short CourseIndex;
 extern unsigned short AttractCourseButtonMask;
 extern unsigned short DemoCourseButtonMap[];
@@ -31,9 +31,9 @@ extern int MaskBitSetting;
 extern char RaceContext[];
 extern short SceneId;
 extern int PsyqRand();
-extern int func_80055300();
-extern int func_80055330();
-extern int func_8005534C();
+extern int ResetScreenCopyOverlay();
+extern int SetSceneColorParams();
+extern int SetSceneOverlayEnabled();
 extern int ResetScreenCounters();
 
 void StartAttractDemo(int a0);
@@ -70,8 +70,8 @@ void StartAttractDemo(int a0) {
         ShuffleSlotOrder();
         SlotOrder[0] = 0;
     }
-    PsyqBzero(D_800ACB0C, 0x80);
-    *(int *)(D_800ACB0C + 0xC) = a0;
+    PsyqBzero(AttractWork, 0x80);
+    *(int *)(AttractWork + 0xC) = a0;
     i = 3;
     q = sp + 3;
     do {
@@ -100,8 +100,8 @@ void StartAttractDemo(int a0) {
     x6 = PsyqRand();
     s2 = x6 / 18;
     s2 = x6 - s2 * 18;
-    tb = D_800A2124;
-    w = D_8010E270;
+    tb = AttractCarSlotMap;
+    w = AttractDemoSlotKinds;
     b = (void *)SelectionRows;
     do {
         b[i].a = sp[i];
@@ -150,18 +150,18 @@ void StartAttractDemo(int a0) {
         StartSceneFadeIn(-1);
         RaceBgmListIndex = CourseBgmChoiceTable2[CourseIndex] + 1;
     } else {
-        func_8005C13C(0);
-        func_8005C988(2);
+        ResetSceneSoundState(0);
+        StartDemoSceneFadeIn(2);
         RaceBgmListIndex = 1;
     }
-    func_80055300();
+    ResetScreenCopyOverlay();
     c = RaceContext;
     MaskBitSetting = 1;
     *(short *)(c + 0x4E0) = 0xD2;
     *(short *)(c + 0x4E2) = 0;
     *(short *)(c + 0x4E4) = 0x8FC;
     HsvToRgb(c + 0x4E0, c + 0x4E8);
-    func_80055330(0, c[0x4E8], c[0x4E9], c[0x4EA]);
+    SetSceneColorParams(0, c[0x4E8], c[0x4E9], c[0x4EA]);
     *(int *)(c + 0x534) = 0;
     if (a0 == 0) {
         x5 = *(int *)(c + 0x3DC);
@@ -169,7 +169,7 @@ void StartAttractDemo(int a0) {
         *(int *)(c + 0x3DC) = 0;
         x5 = 0;
     }
-    func_8005534C(x5);
+    SetSceneOverlayEnabled(x5);
     c2 = RaceContext;
     *(int *)(c2 + 0x4F0) = -0x20;
     *(int *)(c2 + 0x4EC) = 0;
@@ -190,7 +190,7 @@ void AttractDemoRaceEnter(void) {
     ModeGroup = 1;
     ModeId = 0x23;
     ModeSubState = 0;
-    func_8005C13C(0);
-    func_8005C988(1);
+    ResetSceneSoundState(0);
+    StartDemoSceneFadeIn(1);
     DrawSubOtFlag = 0;
 }

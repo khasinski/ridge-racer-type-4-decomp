@@ -36,7 +36,7 @@ static struct World {u32 guard[4];s32 frame,counter,bank;s16 current,limit,selec
 #define CourseMenuSelection world.selected
 #define CourseIndex world.mapped
 #define ReverseCourse world.flag
-#define D_8010C068 world.modeCounter
+#define LinkResultsExitFlag world.modeCounter
 #define D_8010C0B8 world.selectionCounter
 #define LoadState world.flag1
 #define MenuScriptStep world.flag2

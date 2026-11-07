@@ -13,7 +13,7 @@ struct V4 { int a[4]; };
 extern char Options[];
 extern int SsVabClose(t);
 extern char D_800ACA30[];
-extern struct V4 D_80011260;
+extern struct V4 SoundVabCloseOrder;
 extern struct { char pad[0x24]; short s[4]; char pad2[0x2864 - 0x2C]; int i; } SoundState;
 extern unsigned char FadeTintColor[];
 extern unsigned char RaceContext[];
@@ -49,11 +49,11 @@ void InitOptionsDefaults(void) {
     *((int *) (Options + 0x38)) = 0x10;
 }
 
-void func_8005C13C(int a0) {
+void ResetSceneSoundState(int a0) {
     struct V4 v;
     int i, t;
     char *p = D_800ACA30;
-    v = D_80011260;
+    v = SoundVabCloseOrder;
     PsyqBzero(p, 0x64);
     p -= 0x3E0;
     *(int *)(p + 0x400) = 0xCE;
@@ -128,7 +128,7 @@ void EmitFadeSprite(s32 index, s32 x, s32 y, s32 intensity) {
     /* ASM_BARRIER: preserve coordinates/intensity before phase capture. */
     __asm__("" : "+r"(xstage), "+r"(ystage), "+r"(istage));
     compared = (u32)index ^ 4U;
-    captured = D_800ACA3C;
+    captured = FadeSpritePhase;
     phase = captured;
     selector = compared == 0;
     if (phase >= 128) {
@@ -139,7 +139,7 @@ void EmitFadeSprite(s32 index, s32 x, s32 y, s32 intensity) {
         scale = (s32)((u32)product - (u32)phase);
     }
     scale = (s32)((u32)scale * (u32)istage) / 256;
-    product = (s32)((u32)scale * (u32)D_800ACA38);
+    product = (s32)((u32)scale * (u32)FadeSpriteIntensityScale);
     scale = product >> 8;
     if (product < 0) {
         scale = (s32)((u32)product + 255U) >> 8;
@@ -156,11 +156,11 @@ void EmitFadeSprite(s32 index, s32 x, s32 y, s32 intensity) {
                 __asm__("" : "+r"(ordering));
                 ordering;
             }),
-            cursor, xstage, ystage, &D_800A1FB0[index], 0x7F38,
+            cursor, xstage, ystage, &FadeSpriteRects[index], 0x7F38,
             (s32)(((u32)scale << 1) | 1U));
         command = 0xE1000200U;
         low = 0xFFFFFFU;
-        modes = D_80011248;
+        modes = FadeSpriteTpageModes;
         mode = (u32)selector * 4U;
         mode = *(u32 *)((u8 *)modes + mode);
         /* ASM_BARRIER: capture the mode word before publishing the packet. */

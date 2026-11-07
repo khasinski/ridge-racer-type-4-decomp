@@ -3,7 +3,7 @@
 extern s32 ModeFrame, TotalRaceTime, MenuConfirmPressed, SelectionPlayer;
 extern u16 ModeSubState;
 extern s16 ModeGroup, ModeId, MenuFadeTimer, MenuCursor, LinkRoleSlot;
-extern s16 LinkState, D_8010C068, PlayerCount;
+extern s16 LinkState, LinkResultsExitFlag, PlayerCount;
 extern s16 D_8010C070[4];
 extern s16 PlayerWinCounts[4];
 extern char PlayerNames[4][12];
@@ -20,9 +20,9 @@ void AddScreenFadeTiles(u32 *, s32, u32);
 void ResetScreenCounters(void);
 void InitMenuArenas(void);
 void UpdateScreenFade(s32);
-void func_8003662C(s32);
+void DrawResultsTitleBanner(s32);
 void UpdateMenuTextRow(s32);
-void func_800411D4(void);
+void EmitMenuRowTransitionGrid(void);
 s32 LoadResultsSceneStep(void);
 void SeqStartTrack(s32);
 s32 ovl667_func_801187DC(s32);
@@ -97,7 +97,7 @@ void ovl667_func_8011885C(void) {
         MenuFadeTimer--;
         AddScreenFadeTiles((u32 *)(CurrentDrawBuf + 0x70), (64 - MenuFadeTimer) * 4, 69);
         if (MenuFadeTimer <= 0) {
-            D_8010C068 = 1;
+            LinkResultsExitFlag = 1;
             ModeGroup = 1;
             ModeId = 41;
             ModeSubState = 0;
@@ -142,13 +142,13 @@ void ovl667_func_8011885C(void) {
         return;
     }
     UpdateScreenFade(0x1000C);
-    func_8003662C(ModeFrame);
+    DrawResultsTitleBanner(ModeFrame);
     if (group >= 0) {
         for (i = 0; i < 11; i++) {
             UpdateMenuTextRow(i + group * 11);
         }
     }
     if ((u8)(MenuTextRows[0].bytes[2] - 3) < 5 || (u8)(MenuTextRows[11].bytes[2] - 3) < 5) {
-        func_800411D4();
+        EmitMenuRowTransitionGrid();
     }
 }

@@ -23,10 +23,10 @@ extern int rsin();
 extern int rcos();
 extern E *BadgeRows;
 extern int Rect16Rows;
-extern unsigned char D_8009F9C0[];
-extern unsigned char D_8009F9CC[];
+extern unsigned char Rect16EdgeCornerPairs[];
+extern unsigned char Rect16EdgeShadeIndex[];
 extern int GlyphRows;
-extern char D_8009F9D4[];
+extern char GlyphRowTemplates[];
 
 void UpdateBadgeRowAnim();
 int AllocRect16Rows(int a0);
@@ -246,8 +246,8 @@ int UpdateRect16Row(int a0) {
         k = 0;
         xs = lx;
         ys = ly;
-        tb = D_8009F9CC;
-        p = D_8009F9C0;
+        tb = Rect16EdgeShadeIndex;
+        p = Rect16EdgeCornerPairs;
     loop:
         AddPartialLine(CurrentDrawBuf + 0x70, *(int *)((char *)xs + (p[0] << 2)), *(int *)((char *)ys + (p[0] << 2)), *(int *)((char *)xs + (p[1] << 2)), *(int *)((char *)ys + (p[1] << 2)), lv[*(unsigned char *)(k + (int)tb)], 1, 8, 8, 8, -1);
         p += 2;
@@ -282,7 +282,7 @@ int a3;
   {
     *((char *) (((a0 * 0x1C) + ((int) GlyphRows)) + 2)) = a1;
     *((char *) (((a0 * 0x1C) + ((int) GlyphRows)) + 7)) = a2;
-    s = D_8009F9D4 + (a3 * 0x14);
+    s = GlyphRowTemplates + (a3 * 0x14);
     new_var = (char *) ((a0 * 0x1C) + ((int) GlyphRows));
     q = new_var;
     *((short *) (q + 8)) = *((short *) (s + 0));

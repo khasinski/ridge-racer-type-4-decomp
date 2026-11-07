@@ -50,7 +50,7 @@
 #define RR_GTE_NCLIP3(v12, v13, v14, out) do { \
     __asm__ volatile ("mtc2 %0, $12\n\tmtc2 %2, $14\n\tmtc2 %1, $13\n\tnop\n\tnop\n\t.word 0x4B400006" : : "r"(v12), "r"(v13), "r"(v14)); \
     __asm__ volatile ("swc2 $24, 0(%0)" : : "r"(out) : "memory"); } while (0)
-/* Single-instruction / fused GTE helpers (func_800153FC). */
+/* Single-instruction / fused GTE helpers (DrawEngineRevGlow). */
 #define RR_GTE_MTC2_IR0(x) __asm__ volatile ("mtc2 %0, $8" : : "r"(x))
 #define RR_GTE_LWC2_RGB(p) __asm__ volatile ("lwc2 $6, 0(%0)" : : "r"(p))
 #define RR_GTE_SWC2_RGB2(p) __asm__ volatile ("swc2 $22, 0(%0)" : : "r"(p))
@@ -61,7 +61,7 @@
 /* RR_GTE_MVMVA_LDV0(p): load vector V0 (VXY0/VZ0) from 3 shorts at p and run MVMVA sf=1 mx=rot v=V0 cv=none lm=0; RR_GTE_STORE_IR(p): store IR1..IR3 ($9-$11) to p. */
 #define RR_GTE_MVMVA_LDV0(p) do { __asm__ volatile ("lwc2 $0, 0(%0); lwc2 $1, 4(%0)" : : "r"(p)); __asm__ volatile ("nop; nop"); __asm__ volatile (".word 0x4A080012"); } while (0)
 #define RR_GTE_STORE_IR(p) __asm__ volatile ("swc2 $9, 0(%0); swc2 $10, 4(%0); swc2 $11, 8(%0)" : : "r"(p))
-/* func_8001ADA0: MVMVA sf=1 mx=LLM v=V0 cv=BK lm=0 on the vector at p (lwc2 $0/$1); RR_GTE_SWC2_IR3(p): swc2 $11; RR_GTE_TR_FROM_IR(): TR = IR1..IR3. */
+/* DrawTrackObjectPointInstances: MVMVA sf=1 mx=LLM v=V0 cv=BK lm=0 on the vector at p (lwc2 $0/$1); RR_GTE_SWC2_IR3(p): swc2 $11; RR_GTE_TR_FROM_IR(): TR = IR1..IR3. */
 #define RR_GTE_MVMVA_LLM_BK_LDV0(p) do { __asm__ volatile ("lwc2 $0, 0(%0); lwc2 $1, 4(%0)" : : "r"(p)); __asm__ volatile ("nop; nop"); __asm__ volatile (".word 0x4A4A2012"); } while (0)
 #define RR_GTE_SWC2_IR3(p) __asm__ volatile ("swc2 $11, 0(%0)" : : "r"(p) : "memory")
 #define RR_GTE_TR_FROM_IR() __asm__ volatile ("mfc2 $12, $9; mfc2 $13, $10; mfc2 $14, $11; ctc2 $12, $5; ctc2 $13, $6; ctc2 $14, $7" : : : "$12", "$13", "$14")
@@ -75,7 +75,7 @@
 #define RR_COPY16_T(dst, src, off) __asm__ ( \
     "lw $10, %2(%1); lw $11, %2+4(%1); lw $12, %2+8(%1); sw $10, 0(%0); sw $11, 4(%0); sw $12, 8(%0); lw $10, %2+12(%1); nop; sw $10, 12(%0)" \
     : : "r"(dst), "r"(src), "i"(off) : "$10", "$11", "$12", "memory")
-/* func_8001A52C: RR_GTE_SETBK_P(p): background colour (ctc2 $13-$15) from 3 words at p via $t4-$t6; RR_GTE_RTPT_LDV(a,b,c): load V0..V2 from three vectors (lwc2 0..5), two nops, RTPT; RR_GTE_RTPS_LDV(p): load V0, two nops, RTPS; RR_GTE_SWC2_SXYZ(p): store SXY0..SXY2 ($12-$14) to p; RR_GTE_SWC2_SXY2(p): store SXY2 ($14). */
+/* DrawTrackObjectBillboards: RR_GTE_SETBK_P(p): background colour (ctc2 $13-$15) from 3 words at p via $t4-$t6; RR_GTE_RTPT_LDV(a,b,c): load V0..V2 from three vectors (lwc2 0..5), two nops, RTPT; RR_GTE_RTPS_LDV(p): load V0, two nops, RTPS; RR_GTE_SWC2_SXYZ(p): store SXY0..SXY2 ($12-$14) to p; RR_GTE_SWC2_SXY2(p): store SXY2 ($14). */
 #define RR_GTE_SETBK_P(p) __asm__ volatile ( \
     "lw $12, 0(%0); lw $13, 4(%0); lw $14, 8(%0); ctc2 $12, $13; ctc2 $13, $14; ctc2 $14, $15" \
     : : "r"(p) : "$12", "$13", "$14")
@@ -122,7 +122,7 @@
 #define RR_GTE_NCLIP_MEM() __asm__ volatile (".word 0x4B400006" : : : "memory")
 #define RR_GTE_AVSZ4_MEM() __asm__ volatile (".word 0x4B68002E" : : : "memory")
 
-/* func_800195BC: column-wise IR1..IR3 load/MVMVA and short store helpers. */
+/* SetSkyMatrixAndDraw: column-wise IR1..IR3 load/MVMVA and short store helpers. */
 #define RR_GTE_MV3_COL(src) __asm__ volatile ("lhu $12, 0(%0); lhu $13, 6(%0); lhu $14, 12(%0); mtc2 $12, $9; mtc2 $13, $10; mtc2 $14, $11\n\tnop\n\tnop\n\t.word 0x4A49E012" : : "r"(src) : "$12", "$13", "$14")
 #define RR_GTE_ST3_COL(dst) __asm__ volatile ("mfc2 $12, $9; mfc2 $13, $10; mfc2 $14, $11; sh $12, 0(%0); sh $13, 6(%0); sh $14, 12(%0)" : : "r"(dst) : "$12", "$13", "$14", "memory")
 

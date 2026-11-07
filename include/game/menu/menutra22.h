@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void func_8007D448(int a0, int a1);
+void DrawCardMenuConfirmRows(int a0, int a1);
 void DrawCardMenuChoiceRows(int a0, int a1);
 void DrawNameTeamMakerHeader(int a0);
 

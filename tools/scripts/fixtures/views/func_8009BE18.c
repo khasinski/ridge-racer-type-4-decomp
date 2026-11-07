@@ -58,7 +58,7 @@ irq_test:
     if(!(*I_STAT_CardSel&0x80)) goto irq_wait;
     ready=1;
 irq_done:
-    if(!ready) return (u32)-0x200-(u32)D_80114700;
+    if(!ready) return (u32)-0x200-(u32)CardSioRxByte;
     setRC2wait(5);
     while(!chkRC2wait()) {}
     {
@@ -84,7 +84,7 @@ irq_done:
     completed=1;
     CardSio0Base->control|=0x10;
 transmit_done:
-    if(!completed) return (u32)-0x300-(u32)D_80114700;
+    if(!completed) return (u32)-0x300-(u32)CardSioRxByte;
 success:
-    return D_80114700;
+    return CardSioRxByte;
 }

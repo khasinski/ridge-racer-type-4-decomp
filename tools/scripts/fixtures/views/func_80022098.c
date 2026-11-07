@@ -98,7 +98,7 @@ drawNeedle:
                 outputPoint[1] = (s16) ((s8) *shapeY + baselineY + 5);
                 outputPoint += 2;
             } while (i < 3);
-            RR_HUD_SCRATCH->cursor = (u8 *)EmitPolyF3(ordering, cursor, triangle.word[0], triangle.word[1], triangle.word[2], D_8009EE64, 0);
+            RR_HUD_SCRATCH->cursor = (u8 *)EmitPolyF3(ordering, cursor, triangle.word[0], triangle.word[1], triangle.word[2], SteeringNeedleColor, 0);
         }
     }
 }

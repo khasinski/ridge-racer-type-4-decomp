@@ -31,7 +31,7 @@ class GpuRectangleDiagnosticTest(unittest.TestCase):
         for name in ('gpu', 'library'):
             text = (root/('include/rr/' + name + '.h')).read_text()
             text = re.sub(r'^#include[^\n]*\n|^RR_ASSERT_[^\n]*\n', '', text, flags=re.M)
-            text = text.replace('extern s16 D_800ABAC4, GpuVramHeight;', '')
+            text = text.replace('extern s16 GpuVramWidth, GpuVramHeight;', '')
             headers += text
         code = '''#include <stdint.h>
 #include <stdarg.h>
@@ -39,7 +39,7 @@ class GpuRectangleDiagnosticTest(unittest.TestCase):
 typedef uint8_t u8;typedef int8_t s8;typedef uint16_t u16;typedef int16_t s16;typedef uint32_t u32;typedef int32_t s32;
 ''' + headers + '''
 RrGpuDebugSettings D_800ABAC2;
-#define D_800ABAC4 D_800ABAC2.width
+#define GpuVramWidth D_800ABAC2.width
 #define GpuVramHeight D_800ABAC2.height
 char test_rom[0x2000];
 #define StrBadRectFmt (test_rom+0x1EA8)

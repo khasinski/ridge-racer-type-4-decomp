@@ -1,7 +1,7 @@
 SkyEmitLitQuadG4
 EmitSpriteGrid
 InitMenuGrid
-func_8005C988
+StartDemoSceneFadeIn
 AddUniqueViewSegmentRecords
 __adddf3
 __fixdfsi

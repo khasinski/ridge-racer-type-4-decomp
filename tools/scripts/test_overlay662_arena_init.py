@@ -35,8 +35,8 @@ static const s32 counters[8]={-1,0,1,2,3,INT32_MAX,INT32_MIN,-2};
 #define ovl662_D_801276A8 w->s.garage
 #define LoadCursorBase w->s.root
 #define LoadCursor w->s.cursor
-#define D_800F3918 w->s.first
-#define D_800F3910 w->s.second
+#define GarageImageBlock0 w->s.first
+#define GarageTimBuffer1 w->s.second
 #define ovl662_D_8012625C w->s.stage
 #define ModeSubState w->s.phase
 #define ModeId w->s.nextScene

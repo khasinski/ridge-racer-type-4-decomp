@@ -24,7 +24,7 @@ void RelocateRelativeFile(RrRelativeHeader *input){
  base->first[1].absolute=second;
  /* ASM_BARRIER: Keep the in-place slot store before publishing its pointer. */
  __asm__("" : "=r"(second) : "0"(second), "m"(base->first[1]));
- D_800F391C=second;
+ RelFileSlot1Ptr=second;
  base->first[2].absolute=rr_relative_file_address(base,base->first[2].relative);
  RelFileViewRecords=base->first[2].absolute;
  RelFileSection00=rr_relative_file_address(base,base->offsets[0]);
@@ -35,7 +35,7 @@ void RelocateRelativeFile(RrRelativeHeader *input){
  RelFileSection05=rr_relative_file_address(base,base->offsets[5]);
  RelFileOffsetPtr6=rr_relative_file_address(base,base->offsets[6]);
  RelFileOffsetPtr7=rr_relative_file_address(base,base->offsets[7]);
- D_800FFC40=rr_relative_file_address(base,base->offsets[8]);
+ RelFileOffsetPtr8=rr_relative_file_address(base,base->offsets[8]);
  RelFileOffsetPtr9=rr_relative_file_address(base,base->offsets[9]);
  RelFileOffsetPtr10=rr_relative_file_address(base,base->offsets[10]);
  RelFileSection11=rr_relative_file_address(base,base->offsets[11]);

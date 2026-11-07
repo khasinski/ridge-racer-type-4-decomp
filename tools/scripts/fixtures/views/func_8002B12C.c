@@ -53,9 +53,9 @@ extern char *CurrentDrawBuf;
 
 extern void *AddTilePrim();
 
-extern s8 D_8009EFFC[];
+extern s8 ArrowTriangleVerts[];
 
-extern char D_80010460[];
+extern char ArrowTriangleShades[];
 
 extern s32 EmitPolyF3();
 
@@ -79,8 +79,8 @@ void DrawMenuStepArrows(p0, p1, p2, p3, p4, a5, a6) s32 p0; s32 p1; s32 p2; s32 
     a4 = p4;
     t0 = *(s32 *)0x1F800000;
     g = MenuStepDirection;
-    nv = D_8009EFFC;
-    w.u = *(B8 *)D_80010460;
+    nv = ArrowTriangleVerts;
+    w.u = *(B8 *)ArrowTriangleShades;
 L0:
     k = 0;
     sg = one - (i & 1) * 2;

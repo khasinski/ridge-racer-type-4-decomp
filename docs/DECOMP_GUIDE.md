@@ -580,12 +580,12 @@ Makes $at allocatable: cc1 emits `lui $1,%hi(sym); sw v,%lo(sym)($1)` itself and
 - Near-misses: _spu_FiDMA (extra `addu v1,v1,-1`, 2.7.2 reorg), _SsVmSeqKeyOff (back-edge delay slot), SpuFree (lui/lw scheduling).
 
 ## Wave 10 tricks
-- `/* CC1_FLAGS: -fno-strength-reduce */` removes second pointer register in two-pointer stride loops (func_800572A8 near-miss).
+- `/* CC1_FLAGS: -fno-strength-reduce */` removes second pointer register in two-pointer stride loops (DrawSparkHudLinesAndLabels near-miss).
 - Dead `char pad[N]` + `__asm__ volatile("" : : "m"(pad[0]))` at END of function reserves stack without instructions; `int pad[2]` adds 8 frame bytes.
 - Derived induction variable (`a0 + 0x80 + i*0x80`) places init after loop-hoisted constants (BuildCardHeaderAnim).
 - Dead address-of inside a call arg `(*(v = &a4), i)` stops constant hoisting (BuildCardHeaderAnim; found by permuter).
 - Goto loop + `char *b2 = D; q = a0*0x2C + (int)b2` (SetLightColorsFromRow); `-fno-schedule-insns` + pins (DecayCarOffset).
-- Near-misses: func_800572A8, 8004BE4C, 8007C944, 80047A50, 800211A4, 80054D50, 80042F58, 80043C14, 8004A080, 80049A60, 800217D0, 80020F20.
+- Near-misses: DrawSparkHudLinesAndLabels, 8004BE4C, 8007C944, 80047A50, 800211A4, 80054D50, 80042F58, 80043C14, 8004A080, 80049A60, 800217D0, 80020F20.
 - Wave 10 chunk 3: per-arm tail duplication (repeat the call in each arm so crossjump merges); `-fno-cse-skip-blocks` forces global reload across an if join (SelectCourseBgmTrack); `__asm__("" : "=r"(x) : "0"(v))` launder keeps `& ~0x1F` out of andi narrowing, `volatile` variant keeps a constant inside its branch; separate temps per call result.
 
 ## Wave 11 tricks
@@ -609,8 +609,8 @@ Makes $at allocatable: cc1 emits `lui $1,%hi(sym); sw v,%lo(sym)($1)` itself and
 ## Wave 13 tricks
 - Large block copy = struct assignment (`typedef struct { int w[200]; } B; *d = *s;`) (SaveCarSnapshots).
 - Derive givs from the loop counter in a plain for (`s0 = base + i*0x320`) instead of copying `off = i` (UpdateComCars, InitPlayerCar: derive second walking pointer inside loop from the first).
-- Load through a temp to reorder loads (func_80039C0C); separate local per stanza (UpdateSparkEffects).
-- Second C name for the same symbol `extern T X2 __asm__("X");` defeats CSE of lui/addiu (func_80043C14) — documented hack, can be removed if a true source form is found.
+- Load through a temp to reorder loads (CarPreviewConfirmModeUpdate); separate local per stanza (UpdateSparkEffects).
+- Second C name for the same symbol `extern T X2 __asm__("X");` defeats CSE of lui/addiu (UpdateCameraTargetDistance) — documented hack, can be removed if a true source form is found.
 - `short c7` declaration for the constant changed hoisting (TitleMenuInit). `k = 2;` right after `i = 0;` hoists li ahead of address loads; dead address-of `*((char*)((*(nv=&p))+0x2A)) = k;` stops folding (UpdateRaceIntroCamera).
 - Write through `volatile short *`, read through plain `short *` to get the lh reload after a store.
 - Permuter from a near-miss draft reaches 0 more often than hand tuning (LinkErrorModeUpdate, 80056F04, 80047DF8).
@@ -620,14 +620,14 @@ Makes $at allocatable: cc1 emits `lui $1,%hi(sym); sw v,%lo(sym)($1)` itself and
 - Near-miss prune: remove each inherited pin/launder one at a time and re-run fd.py; old pins often block the match (StartAttractDemo, 80033A74).
 - `perm.sh` bases must be comment-free (pycparser rejects /* */, typeof, asm); strip comments before permuting. cc1 segfaults on `struct __attribute__((packed)) V` as printed by the permuter: put the attribute after the body.
 - If a delay slot holds `sh` where original has next-arg setup, store inside both `if` arms (DrawDigitString16).
-- Compute `t = v >> 7` in the basic block before the following `if` so the sra does not fuse with halfword sign-extension (func_80051554) — no barrier needed.
+- Compute `t = v >> 7` in the basic block before the following `if` so the sra does not fuse with halfword sign-extension (UpdateAmbienceVoices) — no barrier needed.
 - `if (s) {A} else {A}` scaffold with identical arms reproduces quotient copies + `j; nop` (FormatRaceTime).
 - Packet header unions `union { unsigned w; struct { char pad[3]; unsigned char len; } b; }` stop global-pointer reloads after stores; typed struct arrays give the original index/base computation order.
 - Fresh pointer var for a second base access stops cc1 folding +offset into the symbol; `x = a/18; s = a - x*18` keeps rand %18 temps.
 
 ## Wave 15 tricks
 - Struct assignment of 16/32-byte structs gives lw t0..t3 / sw t0..t3 block moves; array-indexed loops give the original givs (SetupObjectLightMatrices).
-- One table pointer `s1[1..3]` instead of two walking pointers; stack data as `unsigned short v[4]` array; `do { } while (0)` wrapper fixes prologue order (func_800572A8, found by permuter).
+- One table pointer `s1[1..3]` instead of two walking pointers; stack data as `unsigned short v[4]` array; `do { } while (0)` wrapper fixes prologue order (DrawSparkHudLinesAndLabels, found by permuter).
 - Merge reused locals (original reuses few variables): rename-merge greedy search cut a large function's diff from 118 to 56 lines (UpdateCarEngine near-miss). One variable for a clamp (`a = x; if (a > 0) a = 100; else a += 80;`).
 - Tail duplication: write the store in each arm so cross-jump merges only the tail. `asm("" : "=r"(ten) : "0"(10))` keeps one pseudo for a constant across the function.
 - Sibling functions (same GTE loop) share a draft: adapt the matched sibling (FindAxleTrackNode from FindTrackNodeScratch).

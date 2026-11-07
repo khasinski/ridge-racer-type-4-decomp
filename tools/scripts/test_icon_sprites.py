@@ -44,7 +44,7 @@ typedef struct {
     u8 suffix[64];
 } World;
 static World *actual,*expected;
-#define D_8001121C actual->cluts
+#define HudMapIconCluts actual->cluts
 ''' + body + r'''
 static u8 *locate(const void *address,size_t size) {
     uintptr_t offset=(uintptr_t)address-(uintptr_t)actual;

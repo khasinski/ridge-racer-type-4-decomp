@@ -71,8 +71,8 @@ static void call11(s32 enabled){assert(enabled==1);service(11);}
 #define MaskBitSetting (actual.ready)
 #define D_80127E90 (actual.delay)
 #define D_80127E94 (actual.selected)
-#define D_800AD564 (actual.bank)
-#define D_800AD520 (actual.row)
+#define GameLanguage (actual.bank)
+#define SelectedTeamIndex (actual.row)
 #define ovl668_D_80116CC0 (actual.lookup)
 #define SetDispMask call0
 #define SetupDrawDispEnvs call1
@@ -83,9 +83,9 @@ static void call11(s32 enabled){assert(enabled==1);service(11);}
 #define ovl668_func_80115554 call6
 #define ovl668_func_801156FC call7
 #define ovl668_func_80115850 call8
-#define func_80055300 call9
-#define func_80055330 call10
-#define func_8005534C call11
+#define ResetScreenCopyOverlay call9
+#define SetSceneColorParams call10
+#define SetSceneOverlayEnabled call11
 '''+body+r'''
 /* Oracle writes the specified storage offsets, independently of C field names. */
 static void put32(unsigned offset,u32 value){memcpy((u8 *)&expected.camera+offset,&value,4);}

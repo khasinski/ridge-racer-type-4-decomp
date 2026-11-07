@@ -18,7 +18,7 @@ typedef struct {
 } RrMenuGrid38;
 
 extern RrMenuGrid38 *MenuGridRecords;
-extern RrGridRow8 D_8009FDA8[];
+extern RrGridRow8 MenuGridLayoutRows[];
 
 /* Index and layout select accessible records/rows; their byte offsets must fit
  * signed32. Count is nonzero and abs(count)<=6, so all original divisions are

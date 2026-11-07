@@ -47,7 +47,7 @@ typedef RrMatrixWords32 M32;
 
 typedef struct { short m[3][3]; short pad[7]; } S70;
 
-extern Q16 D_800111D4;
+extern Q16 ObjectLightScale;
 
 extern short LightMatrix[][3];
 
@@ -76,7 +76,7 @@ void SetupObjectLightMatrices(a0, a1, a2, a3) char *a0; char *a1; M32 *a2; M32 *
     S70 s70;
     Q16 s90;
     int n;
-    s90 = D_800111D4;
+    s90 = ObjectLightScale;
     BuildRotMatrixY(&s50, -*(short *)(a0 + 0x12));
     MulMatrix2(0x1F800028, &s50);
     BuildRotMatrixX(&s10, -*(short *)(a0 + 0x10));

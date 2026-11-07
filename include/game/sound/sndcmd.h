@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern s32 D_800AC66C;
+extern s32 CarSoundMuted;
 void SoundQueueUpdate();
 void SoundCloseVabsAndReset(void);
 void SoundInitForRace(void);

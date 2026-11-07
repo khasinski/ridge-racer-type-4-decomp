@@ -49,7 +49,7 @@ extern RrSpritePacket *AddDrawModePrim();
 extern s32 rsin();
 extern s32 rcos();
 extern RrRow60 *MenuTextRows;
-extern unsigned short D_8009FDA0[];
+extern unsigned short MenuTextCursorGlyphs[];
 extern E_1 *GlyphRows;
 extern s32 VSyncThreshold;
 extern s16 ModeId;
@@ -62,7 +62,7 @@ extern void InitUiRow(int,int,int,int,int,int,int,int,int,int,...);
 extern void SeqStartTrack();
 extern short MenuFadeTimer;
 extern short SceneId;
-extern short D_800AD520;
+extern short SelectedTeamIndex;
 extern int ModeFrame;
 extern short CourseListIndex;
 extern U *BadgeRows;
@@ -72,11 +72,11 @@ extern int MenuStepDirection;
 extern int MenuConfirmPressed;
 extern char *UiRows;
 
-void func_800411D4();
+void EmitMenuRowTransitionGrid();
 void SetMenuTextRowCursor();
-void func_800413E0(void);
-void func_80041434(void);
-void func_80041588();
+void JumpToMenuMode8Enter(void);
+void TeamSelectSceneEnter(void);
+void FourChoiceSelectModeUpdate();
 
 void DrawMenuTextRow(s32 a0) {
     RrSpritePacket *s4;
@@ -200,7 +200,7 @@ void DrawMenuTextRow(s32 a0) {
 #define AddDrawModePrim (*(unsigned *(*)())&AddDrawModePrim)
 #define CurrentDrawBuf ((char *)CurrentDrawBuf)
 
-void func_800411D4()
+void EmitMenuRowTransitionGrid()
 {
     unsigned *a1;
     int a3;
@@ -243,7 +243,7 @@ int a1;
 int a2;
 {
   E *p;
-  ((E *) (((int) MenuTextRows) + (a0 * 0x3C)))->e = D_8009FDA0[a1];
+  ((E *) (((int) MenuTextRows) + (a0 * 0x3C)))->e = MenuTextCursorGlyphs[a1];
   if (a2 < (-0xFF))
   {
     ((E *) (((int) MenuTextRows) + (a0 * 0x3C)))->d = -a2;
@@ -284,7 +284,7 @@ int a1;
 
 }
 
-void func_800413E0(void) {
+void JumpToMenuMode8Enter(void) {
     SetupDrawDispEnvs(0, 0, 0, 2);
     VSyncThreshold = 0x80;
     ModeGroup = 1;
@@ -296,14 +296,14 @@ void func_800413E0(void) {
 #define SetupDrawDispEnvs ((void (*)())SetupDrawDispEnvs)
 #define GlyphRows ((char *)GlyphRows)
 
-void func_80041434(void) {
+void TeamSelectSceneEnter(void) {
     int i;
     SetupDrawDispEnvs(0, 0, 0, 2);
     VSyncThreshold = 0x80;
     for (i = 0; i < 4; i++) {
         InitGlyphRow(i, -2, 0, 0);
     }
-    D_800AD520 = 2;
+    SelectedTeamIndex = 2;
     SelectionRows[0] = 2;
     CourseListIndex = 0;
     SeqStartTrack(0);
@@ -322,12 +322,12 @@ void func_80041434(void) {
 #undef GlyphRows
 
 /* legacy typing of shared globals in this part of the unit */
-#define D_800AD520 (*(unsigned char (*))&D_800AD520)
+#define SelectedTeamIndex (*(unsigned char (*))&SelectedTeamIndex)
 #define ModeFrame (*(unsigned (*))&ModeFrame)
 #define BadgeRows ((char *)BadgeRows)
 #define Dialogue ((signed char *)Dialogue)
 
-void func_80041588()
+void FourChoiceSelectModeUpdate()
 {
     int a2;
     ModeFrame += 1;
@@ -337,9 +337,9 @@ void func_80041588()
     } else {
         UpdateScreenFade(0x10003);
     }
-    if (func_800416B4(MenuStepDirection) != 0) {
+    if (TeamSelectMenuStep(MenuStepDirection) != 0) {
         if (*(short *)(BadgeRows + 0x10) == 3) {
-            func_800417EC();
+            UpdateDialogueChoiceCursor();
             return;
         }
     }
@@ -349,14 +349,14 @@ void func_80041588()
         }
         a2 = Dialogue[6];
         if (a2 == 4) {
-            Dialogue[4] = D_800AD520 + 0x22;
-            UiRows[0x16] = D_800AD520;
+            Dialogue[4] = SelectedTeamIndex + 0x22;
+            UiRows[0x16] = SelectedTeamIndex;
             *(short *)(BadgeRows + 0x10) = a2;
         }
     }
 }
 
-#undef D_800AD520
+#undef SelectedTeamIndex
 #undef ModeFrame
 #undef BadgeRows
 #undef Dialogue

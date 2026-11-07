@@ -37,7 +37,7 @@ void EmitFadeSprite(s32 index, s32 x, s32 y, s32 intensity) {
     /* ASM_BARRIER: preserve coordinates/intensity before phase capture. */
     __asm__("" : "+r"(xstage), "+r"(ystage), "+r"(istage));
     compared = (u32)index ^ 4U;
-    captured = D_800ACA3C;
+    captured = FadeSpritePhase;
     phase = captured;
     selector = compared == 0;
     if (phase >= 128) {
@@ -48,7 +48,7 @@ void EmitFadeSprite(s32 index, s32 x, s32 y, s32 intensity) {
         scale = (s32)((u32)product - (u32)phase);
     }
     scale = (s32)((u32)scale * (u32)istage) / 256;
-    product = (s32)((u32)scale * (u32)D_800ACA38);
+    product = (s32)((u32)scale * (u32)FadeSpriteIntensityScale);
     scale = product >> 8;
     if (product < 0) {
         scale = (s32)((u32)product + 255U) >> 8;
@@ -65,11 +65,11 @@ void EmitFadeSprite(s32 index, s32 x, s32 y, s32 intensity) {
                 __asm__("" : "+r"(ordering));
                 ordering;
             }),
-            cursor, xstage, ystage, &D_800A1FB0[index], 0x7F38,
+            cursor, xstage, ystage, &FadeSpriteRects[index], 0x7F38,
             (s32)(((u32)scale << 1) | 1U));
         command = 0xE1000200U;
         low = 0xFFFFFFU;
-        modes = D_80011248;
+        modes = FadeSpriteTpageModes;
         mode = (u32)selector * 4U;
         mode = *(u32 *)((u8 *)modes + mode);
         /* ASM_BARRIER: capture the mode word before publishing the packet. */

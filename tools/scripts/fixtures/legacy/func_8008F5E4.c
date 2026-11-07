@@ -1,6 +1,6 @@
 /* GCC_VERSION: 2.7.2 */
 #include "rr/library.h"
-extern s32 StDataReadyPending, StRingWriteIndex, StRingStartIndex, D_80112754;
+extern s32 StDataReadyPending, StRingWriteIndex, StRingStartIndex, StLastReadyFrame;
 extern RrLibQueueRecord32 *StRingHeaders;
 extern RrLibPackedWord StLastReadyLoc;
 extern void (*StDataReadyFunc)(void);
@@ -17,7 +17,7 @@ void data_ready_callback(void)
     value = p->value08;
     next = StRingWriteIndex;
     callback = StDataReadyFunc;
-    D_80112754 = value;
+    StLastReadyFrame = value;
     {
         /* ASM_BARRIER: Preserve the assembler temporary for publishing the next index. */
         register u8 *base __asm__("$1");

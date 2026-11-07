@@ -64,7 +64,7 @@ void SoundReset(int a0, int a1) {
     }
     SoundMasterVolumeReset();
     ResetPlayerVoices();
-    func_80051248(a0);
+    InitLoopVoices(a0);
     ResetSoundChannelVolLR();
     SoundQueueClear();
     SoundLoopReset();
@@ -74,7 +74,7 @@ void SoundReset(int a0, int a1) {
     } else {
         SoundListenerInit(a1 & 0xFFFF, 1);
     }
-    func_80051B28();
+    SetSoundActiveFlag();
     SsUtAllKeyOff(0);
     SoundState.f1a08 = 0;
     i = 6;
@@ -154,7 +154,7 @@ void SoundStopAll(void) {
     SoundLoopSet(5, 0x1E00, 0, 0x40);
     CdAudioMute();
     SoundReverbOffAll();
-    func_80051B38();
+    ClearSoundLoopActiveFlag();
     SoundPaused = 1;
 }
 

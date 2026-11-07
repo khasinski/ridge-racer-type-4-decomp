@@ -141,10 +141,10 @@ typedef struct {
 
 typedef struct { char *cur; char *ot; } SPD;
 
-extern char D_800100D0[];
+extern char StrUnknownModeFmt[];
 extern short *CourseSkyKeyframePtrs[];
 extern short *CourseSceneryRangePtrs[];
-extern char D_8009E248[];
+extern char SkyLightDirMatrix[];
 extern int SetGeomOffset();
 extern int SetDrawArea();
 
@@ -154,12 +154,12 @@ SkyQuad177E4 *SkyEmitQuadFT4(SkyQuad177E4 *a0, SkyCtxQuad *a1, int a2);
 SkyTri17A90 *EmitSkyDepthCuedGT3(SkyTri17A90 *a0, SkyCtx *a1, int a2);
 void DrawTrackScenery();
 char *EmitSkyEnvMapGT3(char *a0, char *a1);
-char *func_800183EC(char *a0, char *a1);
+char *EmitSkyEnvMapGT4(char *a0, char *a1);
 char *SkyEmitLitQuadG4(char *a0, char *a1);
 char *EmitSkyLitGT4(char *a0, char *a1);
 char *EmitSkyLitFT4(char *a0, char *a1);
 void RunSkyCommandList(char *a0, int a1);
-void func_800195BC(char *a0, volatile unsigned short *a1);
+void SetSkyMatrixAndDraw(char *a0, volatile unsigned short *a1);
 void RenderSkyToRect(int a0, int a1, short *a2, int a3);
 
 SkyTri *EmitSkyDepthCuedG3(SkyTri *a0, SkyCtx *a1, int a2) {
@@ -608,7 +608,7 @@ void DrawTrackScenery(a0) int a0; {
     int k;
     int *s0;
     s0 = (int *)(SCRATCHPAD + 0x7C);
-    s4 = D_8010BF68;
+    s4 = TrackSceneryList;
     RR_GTE_SETROT((int *)SCRATCH_ROT_MATRIX);
     RR_GTE_CLRTR();
     a1 = CourseSkyKeyframePtrs[CourseIndex];
@@ -664,7 +664,7 @@ void DrawTrackScenery(a0) int a0; {
                 case 8: r = (int)EmitSkyDepthCuedG4(r, s0, w); break;
                 case 1: r = (int)SkyEmitQuadFT4(r, s0, w); break;
                 case 11: r = (int)EmitSkyDepthCuedGT3(r, s0, w); break;
-                default: DebugPrintStub(D_800100D0, k, w); return;
+                default: DebugPrintStub(StrUnknownModeFmt, k, w); return;
                 }
             }
             s1++;
@@ -806,7 +806,7 @@ char *EmitSkyEnvMapGT3(char *a0, char *a1) {
     return a0;
 }
 
-char *func_800183EC(char *a0, char *a1) {
+char *EmitSkyEnvMapGT4(char *a0, char *a1) {
     volatile int *hw;
     int n;
     int *pkt;
@@ -1213,7 +1213,7 @@ void RunSkyCommandList(char *a0, int a1)
             p = EmitSkyEnvMapGT3(p, s);
             break;
         case 10:
-            p = func_800183EC(p, s);
+            p = EmitSkyEnvMapGT4(p, s);
             break;
         case 13:
             p = SkyEmitLitQuadG4(p, s);
@@ -1229,10 +1229,10 @@ void RunSkyCommandList(char *a0, int a1)
     }
 }
 
-void func_800195BC(char *a0, volatile unsigned short *a1)
+void SetSkyMatrixAndDraw(char *a0, volatile unsigned short *a1)
 {
     volatile unsigned short *p = (unsigned short *)(SCRATCHPAD + 0x7C);
-    RR_GTE_SETROT(D_8009E248);
+    RR_GTE_SETROT(SkyLightDirMatrix);
     RR_GTE_MV3_COL(a1);
     RR_GTE_ST3_COL(p);
     RR_GTE_MV3_COL(a1 + 1);
@@ -1291,7 +1291,7 @@ void RenderSkyToRect(int a0, int a1, short *a2, int a3) {
     LNK(2, 0x10);
     GS->cur = GS->cur + 0xC;
     SetGeomOffset((short)(unsigned short)a2[2] / 2, (short)(unsigned short)a2[3] / 2);
-    func_800195BC(a0, a1);
+    SetSkyMatrixAndDraw(a0, a1);
     c = a3 << 16;
     n = a3 << 8;
     m = 0x66000000;

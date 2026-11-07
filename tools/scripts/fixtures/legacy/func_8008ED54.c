@@ -1,7 +1,7 @@
 #include "rr/cd_read_stop.h"
 #include "rr/cd.h"
 
-extern RrLibCompletionCallback volatile D_800A67DC;
+extern RrLibCompletionCallback volatile CdReadSavedReadyCallback;
 extern void CdDataSync(s32);
 extern s32 VSync(s32);
 extern RrLibCompletionCallback CdSyncCallback(RrLibCompletionCallback);
@@ -72,7 +72,7 @@ after_first_wait:
     if(decision!=0) {
         /* ASM_BARRIER: keep callback restoration after the completed-wait branch. */
         __asm__("" : );
-        pair=&D_800A67DC;
+        pair=&CdReadSavedReadyCallback;
         /* ASM_BARRIER: capture the complete callback-pair address before setters. */
         __asm__("" : "+r"(pair));
         CdReadyCallback(RR_PAIR_TAIL(pair)->saved2C);

@@ -45,8 +45,8 @@ typedef struct
 
 extern int ScaleMatrixRow1();
 extern int BuildCameraMatrices();
-extern short D_8009F694[];
-extern short D_8009F6A0[];
+extern short MenuCarCameraAngles[];
+extern short MenuCarCameraOffsets[];
 extern struct 
 {
   char pad[0x178];
@@ -70,8 +70,8 @@ extern s32 AddDrawAreaPrim();
 extern s32 AddDrawModePrim();
 extern s32 AddSpritePrim();
 extern Glyph4 StartCountdownGlyphs[];
-extern u16 D_8009F6CC[];
-extern u16 D_8009F6D0[];
+extern u16 StartCountdownLightCluts[];
+extern u16 StartCountdownCluts[];
 extern u8 D_8009F6D8[];
 extern u8 D_8009F6DA;
 extern u8 D_8009F6DB;
@@ -84,7 +84,7 @@ extern int PlaySfx();
 extern unsigned char PauseCursorMax[];
 extern signed char PauseCursor;
 extern int FinishRace();
-extern int D_8009F6E4[];
+extern int PauseMenuModeTargets[];
 extern char SelectionState[];
 extern int RankEntries;
 extern int TrackLength;
@@ -94,7 +94,7 @@ extern short ModeGroup;
 extern short ModeSubState;
 extern int GameQueueSprite();
 extern int EmitPolyF3();
-extern unsigned char D_8009F71C[][4];
+extern unsigned char GridQuadTriOrders[][4];
 extern int SioDeviceName[];
 extern int LinkWriteHandle;
 extern int LinkReadHandle;
@@ -122,7 +122,7 @@ int PollLinkStatus(void);
 
 void SetupMenuCarCamera(int a)
 {
-  int b1 = (int) D_8009F6A0;
+  int b1 = (int) MenuCarCameraOffsets;
   int o = a * 6;
   short *p = (short *) (o + b1);
   short *q;
@@ -133,7 +133,7 @@ void SetupMenuCarCamera(int a)
   g[2] = p[0];
   g[3] = p[1];
   g[4] = p[2];
-  q = (short *) (o + ((int) D_8009F694));
+  q = (short *) (o + ((int) MenuCarCameraAngles));
   g[6] = q[0];
   g[7] = q[1];
   g[8] = q[2];
@@ -263,7 +263,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
             if (s3 >= 4) {
                 s7 = ((arg1 >> 2) & 1) + 2;
                 sp20 = StartCountdownGlyphs[7];
-                a1 = AddSpritePrim(arg0, a1, D_8009F6DB + 0x60, s4 + 0x39, &sp20, D_8009F6D0[s7], 0);
+                a1 = AddSpritePrim(arg0, a1, D_8009F6DB + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[s7], 0);
             } else if (s3 > 0) {
                 s2 = 0;
                 for (s1 = 0; s1 < 0x10;) {
@@ -274,7 +274,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                     }
                     b = s1 & 1;
                     c = b << 1;
-                    a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s4 + 0x39, &StartCountdownGlyphs[2 + b], D_8009F6D0[b * 2], 0);
+                    a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s4 + 0x39, &StartCountdownGlyphs[2 + b], StartCountdownCluts[b * 2], 0);
                     s1++;
                     s2 += 1 << (c + 1);
                 }
@@ -282,7 +282,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                 sp20 = StartCountdownGlyphs[5];
                 sp20 = StartCountdownGlyphs[6];
                 sp20.b0 += (s3 - 1) * 12;
-                a1 = AddSpritePrim(arg0, a1, D_8009F6DA + 0x60, s4 + 0x39, &sp20, D_8009F6D0[0], 0);
+                a1 = AddSpritePrim(arg0, a1, D_8009F6DA + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[0], 0);
             }
         } else {
             if (s3 == 0) {
@@ -295,7 +295,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                     }
                     b = s1 & 1;
                     c = b << 1;
-                    a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s4 + 0x39, &StartCountdownGlyphs[2 + b], D_8009F6D0[b * 2], 0);
+                    a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s4 + 0x39, &StartCountdownGlyphs[2 + b], StartCountdownCluts[b * 2], 0);
                     s1++;
                     s2 += 1 << (c + 1);
                 }
@@ -308,7 +308,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                         sp20 = StartCountdownGlyphs[7];
                         s1 = 3;
                     }
-                    a1 = AddSpritePrim(arg0, a1, D_8009F6D8[s1] + 0x60, s4 + 0x39, &sp20, D_8009F6D0[s7], 0);
+                    a1 = AddSpritePrim(arg0, a1, D_8009F6D8[s1] + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[s7], 0);
                 }
             } else {
                 s7 = 0;
@@ -322,7 +322,7 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
                         sp20 = StartCountdownGlyphs[6];
                         sp20.b0 += (s3 - 1) * 12;
                     }
-                    a1 = AddSpritePrim(arg0, a1, D_8009F6D8[s1] + 0x60, s4 + 0x39, &sp20, D_8009F6D0[s7], 0);
+                    a1 = AddSpritePrim(arg0, a1, D_8009F6D8[s1] + 0x60, s4 + 0x39, &sp20, StartCountdownCluts[s7], 0);
                 }
             }
         }
@@ -330,11 +330,11 @@ void DrawStartCountdown(s32 arg0, s32 arg1) {
             s0 = s4 + 0x39;
             s2 = 0;
             for (s1 = 0; s1 < 10; s1++) {
-                a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s0, &StartCountdownGlyphs[4], D_8009F6D0[(u32)(s1 - 3) < 4 ? 3 : s7], 0);
+                a1 = AddSpritePrim(arg0, a1, s2 + 0x78, s0, &StartCountdownGlyphs[4], StartCountdownCluts[(u32)(s1 - 3) < 4 ? 3 : s7], 0);
                 s2 += 8;
             }
         }
-        a1 = AddSpritePrim(arg0, a1, 0x68, s4 + 0x1A, &StartCountdownGlyphs[1], D_8009F6CC[s3 >= 4], (fp << 1) | 1);
+        a1 = AddSpritePrim(arg0, a1, 0x68, s4 + 0x1A, &StartCountdownGlyphs[1], StartCountdownLightCluts[s3 >= 4], (fp << 1) | 1);
         a1 = AddSpritePrim(arg0, a1, 0x60, s4, &StartCountdownGlyphs[0], 0x797C, 0);
         *(s32 *)SCRATCHPAD = AddDrawModePrim(arg0, a1, 0x3F);
         if (arg0 == CurrentDrawBuf + 0xB70) {
@@ -446,14 +446,14 @@ void ApplyPauseMenuChoice(int arg0) {
         RankEntries = -TrackLength;
         if (PauseCursor == 2) {
             ModeSubState = 0;
-            ModeGroup = D_8009F6E4[3] >> 8;
-            ModeId = *(unsigned char *)&D_8009F6E4[3];
+            ModeGroup = PauseMenuModeTargets[3] >> 8;
+            ModeId = *(unsigned char *)&PauseMenuModeTargets[3];
             return;
         }
         FinishRace(SelectionState, PauseCursor);
         return;
     }
-    b = (int)D_8009F6E4;
+    b = (int)PauseMenuModeTargets;
     RaceState = 6;
     t = (int *)((PauseCursor - 1) * 4 + arg0 * 8 + b);
     ModeGroup = *t >> 8;
@@ -496,7 +496,7 @@ void DrawPauseMenu(int a0, int a1) {
         rgb[1] = 0x20;
         j = i / 3;
         j = j == 1;
-        base = D_8009F71C;
+        base = GridQuadTriOrders;
         t = base[j];
         p = EmitPolyF3(a0, p, v[t[0]], v[t[1]], v[t[2]], rgb, 1);
         rgb[0] = 0xFF;

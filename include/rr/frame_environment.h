@@ -27,7 +27,7 @@ typedef struct {
     RrGpuRectangleFields display,screen;
     u8 interlace,high_res,pad[2];
 } RrDisplayEnvironment;
-extern RrFrameEnvironment D_800D0268;
+extern RrFrameEnvironment SecondaryFrameEnv;
 extern RrDisplayEnvironment D_800D02C4;
 RR_ASSERT_SIZE(RrFrameEnvironment,0x70);
 RR_ASSERT_OFFSET(RrFrameEnvironment,r,0x19);
@@ -37,7 +37,7 @@ RR_ASSERT_OFFSET(RrFrameEnvironment,screen,0x64);
 RR_ASSERT_OFFSET(RrFrameEnvironment,high_res,0x6D);
 RR_ASSERT_SIZE(RrDisplayEnvironment,0x14);
 /* Both bank selectors are passed to this currently empty hook. */
-void func_8001ECE0(s32 bank);
+void SetupDrawDispEnvsHookStub(s32 bank);
 /* RGB uses the low eight bits; the low three flag bits select RGB24,
  * interlacing and a wide 480-pixel drawing area (320-pixel display width).
  * Settings halfwords 0x34/0x38 provide screen placement. */

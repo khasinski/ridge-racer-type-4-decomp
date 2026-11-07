@@ -17,7 +17,7 @@ extern s32 ovl665_D_80119760;
 void RaceLoadReset(void);
 void SeqStartTrack(s32);
 void AddScreenFadeTiles(u32 *,s32,u32);
-void func_8005B2D4(s32);
+void SetMotionControllerVisible(s32);
 void SeqFadeVolume(s32,s32);
 void DrawUiRow(s32);
 void UpdateScreenFade(s32);

@@ -11,9 +11,9 @@
 struct P { unsigned addr:24; unsigned len:8; unsigned char r, g, b, code; short x; unsigned short y; unsigned char u, v; unsigned short clut; short w, h; };
 
 extern int AddPrim();
-extern char D_8009EBBC[];
-extern char D_8009EB1C[];
-extern char D_8009EC48[];
+extern char RaceHudPacketsMode0[];
+extern char HudSpriteTemplatesType1[];
+extern char RaceHudPacketTemplatesB[];
 extern char D_800D0160[];
 extern int *AddDrawModePrim();
 extern int SetDrawArea();
@@ -54,11 +54,11 @@ void InitRaceHudPackets(int a0)
     case 5:
     default:
         n = 4;
-        tab = D_8009EBBC;
+        tab = RaceHudPacketsMode0;
         break;
     case 1:
         n = 8;
-        tab = D_8009EB1C;
+        tab = HudSpriteTemplatesType1;
         break;
     case 2:
     case 3:
@@ -69,7 +69,7 @@ void InitRaceHudPackets(int a0)
     l60:
         n = 6;
     l64:
-        tab = D_8009EC48;
+        tab = RaceHudPacketTemplatesB;
         break;
     }
     for (i = 0; i < n; i++) {

@@ -74,8 +74,8 @@ extern void DrawLapCounter();
 extern void DrawRaceMinimap();
 extern void DrawSteeringIndicator();
 extern void DrawSplitScreenDivider();
-extern void func_800225DC();
-extern void func_80022CD4();
+extern void DrawWrongWaySprite();
+extern void ApplyRaceStartLaunch();
 extern void DrawTimeRemainingForPlayer();
 extern void DrawCars();
 extern void UpdateRaceIntroCamera();
@@ -150,7 +150,7 @@ void ovl667_func_80115640(void) {
     } else if (RaceState == 1) {
         if (ModeFrame >= 176) {
             for (i = 0; i < 4; i++) {
-                func_80022CD4(CarTable[i]);
+                ApplyRaceStartLaunch(CarTable[i]);
             }
             RaceState = 2;
             CdAudioBeginPlay(1);
@@ -304,7 +304,7 @@ void ovl667_func_80115640(void) {
             BuildCameraMatrices();
             DrawCars(i + ((s16)(LinkRoleSlot ^ 1) + 1) * 2);
             if (PlayerCars[i].flag1EA != 0 && RacePaused == 0) {
-                func_800225DC(n == 1 ? 0 : i + 1);
+                DrawWrongWaySprite(n == 1 ? 0 : i + 1);
             }
             SetupPlayerView(i);
             UpdateTrackObjects(0);

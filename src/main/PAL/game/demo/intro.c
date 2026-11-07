@@ -69,7 +69,7 @@ extern int rsin(int);
 extern int AddTileGrid2x2(char *, int, int, int, int, int, int, int, int);
 extern int RaceLoadReset();
 extern s32 CdDirectoryBuffer;
-extern M2C_UNK D_800ACA94;
+extern M2C_UNK IntroWork;
 extern s16 ModeId;
 extern s16 ModeGroup;
 extern s16 ModeSubState;
@@ -163,7 +163,7 @@ int IntroScriptStep(void) {
     }
 
     if (RaceContext.f440 > 0) {
-        func_8005C4E0();
+        DrawIntroCaptionText();
     }
 
     if (RaceContext.f3F4) {
@@ -321,9 +321,9 @@ int IntroScriptStep(void) {
 
 void IntroInit(void) {
     SetDispMask(0);
-    PsyqBzero(&D_800ACA94, 0x78);
-    func_8005C13C(0);
-    func_8005C988(0);
+    PsyqBzero(&IntroWork, 0x78);
+    ResetSceneSoundState(0);
+    StartDemoSceneFadeIn(0);
     LoadCursor = CdDirectoryBuffer;
     RaceLoadReset();
     ModeGroup = 2;

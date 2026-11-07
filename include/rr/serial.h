@@ -35,7 +35,7 @@ extern RrSerialPortRegisters *volatile CardCmdSioRegs;
 extern RrSerialPortRegisters *CardSio0Base;
 s32 _cardSelectSlot(s32 slot);
 extern volatile u32 *I_STAT_CardSel;
-extern s32 D_80114700;
+extern s32 CardSioRxByte;
 void setRC2wait(s32 limit);
 s32 chkRC2wait(void);
 /* Negative input writes its complemented low byte; nonnegative input uses

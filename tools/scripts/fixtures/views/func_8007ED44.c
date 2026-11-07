@@ -4,7 +4,7 @@
 
 extern s32 DebugPrintStub(const char *,...);
 
-extern char SpuTimeoutFmt[],D_800116B8[],StrSpuDmaClearWaitMsg[];
+extern char SpuTimeoutFmt[],SpuWaitWrdyStr[],StrSpuDmaClearWaitMsg[];
 
 void _spu_FwriteByIO(const u16 *source,u32 size) {
     register RrSpuRegisterBank *port=_spu_RXX;

@@ -1,6 +1,6 @@
-func_80044EC4 0x80044ec4 0x320 
+DrawRaceContextModelBanks 0x80044ec4 0x320 
 InterpCameraKeyframes 0x800452cc 0x564 
-func_80045868 0x80045868 0x6e0 
+UpdateRaceOpeningSequence 0x80045868 0x6e0 
 InitComCars 0x80045f48 0x444 
 ProjectToTrackSegment 0x800464e8 0x408 
 FindNearestCarAhead 0x800469a4 0x178 

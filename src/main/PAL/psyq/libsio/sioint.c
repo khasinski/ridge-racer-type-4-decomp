@@ -20,7 +20,7 @@ extern s32 EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
 extern RrSerialPortRegisters SioShadowRegs;
 extern volatile s32 SioPollHook;
-extern s16 D_800ABD34[];
+extern s16 SioRxIrqModeBits[];
 extern volatile s32 *SioDataReg;
 extern s32 DeliverEvent(u32, s32);
 extern void SysEnqIntRP();
@@ -123,7 +123,7 @@ s32 _sio_control(u32 arg0, u32 arg1, u32 arg2) {
         case 4: {
             RrSerialPortRegisters *p;
             if (arg2 >= 1 && arg2 <= 8) {
-                ret = D_800ABD34[arg2];
+                ret = SioRxIrqModeBits[arg2];
                 if (ret < 0) {
                     break;
                 }

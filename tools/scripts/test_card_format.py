@@ -42,7 +42,7 @@ static World initial,actual,expected,*w;
 static Entry entries[90],saved[90];
 static unsigned seed=0x6910FCAB;static int count,writes,fail_at,mutation;static s32 failure;
 #define CardFormatDirRecords (w->directory)
-#define D_801142D8 (w->broken)
+#define CardFormatBrokenRecords (w->broken)
 #define CardFormatSectorBuf (w->scratch)
 static unsigned random32(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
 static void record(int kind,void *buffer,int size,int sector,s32 port){

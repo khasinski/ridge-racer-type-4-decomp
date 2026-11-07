@@ -52,7 +52,7 @@ static_assert(sizeof(RrGpuRectangle)==8,"rectangle");
 static_assert(offsetof(RrGpuRectangleFields,w)==4,"width");
 static_assert(offsetof(RrGpuRectangleFields,h)==6,"height");
 static_assert(sizeof(unsigned long)>=sizeof(void*),"full native pointers");
-#define D_800ABAC4 (world.width)
+#define GpuVramWidth (world.width)
 #define GpuVramHeight (world.height)
 #define GPU_DATA (&world.banks[world.selected[0]][0])
 #define GPU_STATUS (&world.banks[world.selected[1]][1])

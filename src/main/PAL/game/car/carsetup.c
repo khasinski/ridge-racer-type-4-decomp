@@ -28,7 +28,7 @@ extern unsigned char SelectionRows[][4];
 extern int RaceState;
 extern int TrackEventSfxEnabled;
 extern int ReplayState;
-extern int D_800AC538;
+extern int RearViewMirrorHidden;
 extern char PlayerCars[];
 extern short IsCarFacingBackward(void);
 extern void ResetCarSlotBuffers();
@@ -36,7 +36,7 @@ extern void ResetCarSlotBuffers();
 void ComputeWheelOffsets(char *a0);
 void UpdatePlayerCar(char *a0, int a1);
 void StepCarPhysics(s32 arg0);
-void func_80022CD4(RrRaceVehicle *arg0);
+void ApplyRaceStartLaunch(RrRaceVehicle *arg0);
 
 void ComputeWheelOffsets(char *a0)
 {
@@ -145,7 +145,7 @@ void UpdatePlayerCar(char *a0, int a1)
       if (((unsigned) (RaceState - 2)) < 2)
       {
         unsigned short t = (*((unsigned short *) (a0 + 0x1E4))) ^ 0x100;
-        D_800AC538 ^= 1;
+        RearViewMirrorHidden ^= 1;
         *((unsigned short *) (a0 + 0x1E4)) = t;
  do { ResetCarSlotBuffers(t); } while (0);
       }
@@ -161,7 +161,7 @@ void StepCarPhysics(s32 arg0) {
     ConstrainCarToTrack(arg0);
 }
 
-void func_80022CD4(RrRaceVehicle *arg0) {
+void ApplyRaceStartLaunch(RrRaceVehicle *arg0) {
     s32 temp_a2;
     void *temp_a1;
 

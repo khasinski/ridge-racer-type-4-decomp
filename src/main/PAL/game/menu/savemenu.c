@@ -20,8 +20,8 @@ extern char CardTitleStrings[][0x40];
 extern unsigned char D_800A41E8;
 extern unsigned char D_800A41E9 __asm__("D_800A41E8+1");
 extern short D_800A41EA __asm__("D_800A41E8+2");
-extern char D_800A45C8[];
-extern char D_800A4648[][0x80];
+extern char CardIconImage[];
+extern char SaveIconBitmaps[][0x80];
 extern Struct4000 *SaveBuffer;
 extern Struct2C SelectionState;
 extern Struct2C SaveSlotSelections[3];
@@ -51,10 +51,10 @@ int a1;
         if (a0 == 1) {
             D_800A41E9 = 1;
             if (SaveSlotSelect < 0x10) {
-                BuildCardHeaderStatic(SaveBuffer, CardHeaderTitles[i], 0x250, 0x1FC, 0x254, 0x1D8, D_800A45C8);
+                BuildCardHeaderStatic(SaveBuffer, CardHeaderTitles[i], 0x250, 0x1FC, 0x254, 0x1D8, CardIconImage);
                 BuildSaveData(SaveSlotSelect);
             } else if (SaveSlotSelect & 0x10) {
-                BuildCardHeaderStatic(SaveBuffer, CardTitleStrings[SaveSlotIndex], 0x250, 0x1FC, 0x254, 0x1D8, D_800A4648[SaveSlotIndex]);
+                BuildCardHeaderStatic(SaveBuffer, CardTitleStrings[SaveSlotIndex], 0x250, 0x1FC, 0x254, 0x1D8, SaveIconBitmaps[SaveSlotIndex]);
                 BuildSaveData(SaveSlotSelect);
             } else if (SaveSlotSelect == 0x20) {
                 *SaveBuffer = *CdDirectoryBuffer;
@@ -62,10 +62,10 @@ int a1;
         } else if (a0 >= 2) {
             D_800A41E9 = 0;
             if (SaveSlotSelect < 0x10) {
-                BuildCardHeaderStatic(SaveBuffer, CardHeaderTitles[i], 0x250, 0x1FC, 0x254, 0x1D8, D_800A45C8);
+                BuildCardHeaderStatic(SaveBuffer, CardHeaderTitles[i], 0x250, 0x1FC, 0x254, 0x1D8, CardIconImage);
                 BuildSaveData(SaveSlotSelect);
             } else if (SaveSlotSelect & 0x10) {
-                BuildCardHeaderStatic(SaveBuffer, CardTitleStrings[SaveSlotIndex], 0x250, 0x1FC, 0x254, 0x1D8, D_800A4648[SaveSlotIndex]);
+                BuildCardHeaderStatic(SaveBuffer, CardTitleStrings[SaveSlotIndex], 0x250, 0x1FC, 0x254, 0x1D8, SaveIconBitmaps[SaveSlotIndex]);
                 BuildSaveData(SaveSlotSelect);
             } else if (SaveSlotSelect == 0x20) {
                 *SaveBuffer = *CdDirectoryBuffer;

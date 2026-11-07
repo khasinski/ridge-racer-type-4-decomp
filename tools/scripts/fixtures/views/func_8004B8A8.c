@@ -18,7 +18,7 @@ void PadStepPulse(void) {
     settings = Options.controls.pulse;
     repeat = PadPulseRepeatRows;
     small = 64;
-    once = D_8009FF80;
+    once = PadPulseOnceRows;
     next_output = PlayerControllers;
     next_state = PadPulseState;
     do {

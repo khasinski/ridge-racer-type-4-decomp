@@ -36,9 +36,9 @@ static struct World {
  u16 screen,step;s16 counter;Event events[8];u32 after[8];
 } world,expected;
 #define IntrDriverTablePtr world.active
-#define D_800A64A8 world.audio_mode
-#define D_800A6800 world.port0
-#define D_800A680C world.port1
+#define StUseAltCallbacks world.audio_mode
+#define StCdReg0 world.port0
+#define CD_REG3_RING world.port1
 #define ModeGroup world.screen
 #define ModeId world.step
 #define ModeSubState world.counter

@@ -8,8 +8,8 @@ extern Struct40 Options;
 extern Struct10 RaceRecords[2][8][5];
 extern int CourseBestLapTimes[2][8][3];
 extern Struct7C SaveProgress;
-extern Struct840 *D_800F399C;
-extern Struct840 *D_800F39A0;
+extern Struct840 *GarageLogoTimPtr;
+extern Struct840 *GarageActiveBuffer;
 extern int SaveDataBackup[];
 extern int PlayTimeFrames;
 extern unsigned short SaveSlotIndex;
@@ -88,9 +88,9 @@ void BuildSaveData(int arg0) {
         for (t0 = 0; t0 < 2; t0++) {
             for (a3 = 0; a3 < 0x840; a3++) {
                 if (t0 == 0) {
-                    p->f300[0][a3] = D_800F39A0->b[a3];
+                    p->f300[0][a3] = GarageActiveBuffer->b[a3];
                 } else {
-                    p->f300[t0][a3] = D_800F399C->b[a3];
+                    p->f300[t0][a3] = GarageLogoTimPtr->b[a3];
                 }
             }
         }

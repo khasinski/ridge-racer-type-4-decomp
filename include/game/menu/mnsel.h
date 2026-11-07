@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void func_800417EC();
+void UpdateDialogueChoiceCursor();
 int AllocMenuGridRecords(int a, int n);
 
 #endif /* RR_GAME_MENU_MNSEL_H */

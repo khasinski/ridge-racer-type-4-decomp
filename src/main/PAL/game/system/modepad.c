@@ -13,7 +13,7 @@ extern int DrawUiRow();
 extern int PlayerControllers[];
 extern char *UiRows;
 extern short MenuCursor;
-extern short D_800AD564;
+extern short GameLanguage;
 extern int MenuConfirmPressed;
 extern int D_800F3AA4;
 extern short MenuScriptId;
@@ -64,7 +64,7 @@ int ModeSelectMenuStep(void)
     }
     UiRows[MenuCursor].b0C = 0;
     StepMenuValue(0, 2, &MenuCursor, s1, 0);
-    StepMenuValue(3, 4, &D_800AD564, 5, 0);
+    StepMenuValue(3, 4, &GameLanguage, 5, 0);
     if (MenuCursor == 2 && D_800F3AA4 == -1)
         UiRows[2].b0C = 4;
     else

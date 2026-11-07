@@ -5,11 +5,11 @@
 #include "rr/matrix_workspace.h"
 #include "rr/menu_overlay_runtime.h"
 
-extern short D_800AC0A4;
-extern unsigned short D_800AD598[];
+extern short RearViewPitch;
+extern unsigned short RearViewRotMatrix[];
 extern char CameraViewMatrix[];
 extern char CameraPitchRollMatrix[];
-extern char D_800FF6D8[];
+extern char CameraYawMatrix[];
 extern void MulMatrix0();
 extern short AtanTable[];
 
@@ -103,7 +103,7 @@ void BuildCameraMatrices(void) {
     BuildRotMatrixY(SCRATCH_ROT_MATRIX, g[7]);
     BuildRotMatrixY(CameraViewMatrix, g[7]);
     SetIdentityMatrix(CameraPitchRollMatrix);
-    BuildRotMatrixY(D_800FF6D8, g[7]);
+    BuildRotMatrixY(CameraYawMatrix, g[7]);
     BuildRotMatrixX(sp10, g[6]);
     MulMatrix2(sp10, SCRATCH_ROT_MATRIX);
     MulMatrix2(sp10, CameraViewMatrix);
@@ -113,12 +113,12 @@ void BuildCameraMatrices(void) {
     MulMatrix2(sp10, CameraViewMatrix);
     MulMatrix2(sp10, CameraPitchRollMatrix);
     BuildRotMatrixY(sp10, 0x800);
-    MulMatrix0(sp10, SCRATCH_ROT_MATRIX, D_800AD598);
-    BuildRotMatrixX(sp10, D_800AC0A4 * 2);
-    MulMatrix2(sp10, D_800AD598);
-    D_800AD598[0] = -D_800AD598[0];
-    D_800AD598[1] = -D_800AD598[1];
-    D_800AD598[2] = -D_800AD598[2];
+    MulMatrix0(sp10, SCRATCH_ROT_MATRIX, RearViewRotMatrix);
+    BuildRotMatrixX(sp10, RearViewPitch * 2);
+    MulMatrix2(sp10, RearViewRotMatrix);
+    RearViewRotMatrix[0] = -RearViewRotMatrix[0];
+    RearViewRotMatrix[1] = -RearViewRotMatrix[1];
+    RearViewRotMatrix[2] = -RearViewRotMatrix[2];
     SetRotMatrix(SCRATCH_ROT_MATRIX);
 }
 

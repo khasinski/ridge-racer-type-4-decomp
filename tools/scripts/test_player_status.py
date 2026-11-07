@@ -28,7 +28,7 @@ typedef struct {State s;Event events[12];unsigned count;} World;
 static World actual,reference,*w;
 static unsigned scenario,mutation,seen[8],flagSeen[65536],pairSeen[2][65536],budgetSeen[18];
 static const s32 budgets[18]={INT32_MIN,INT32_MIN+1,INT32_MAX-1,INT32_MAX,-1000,-501,-500,-50,-1,0,1,49,50,99,100,499,500,501};
-static u8 *labels[7]={StrPlayerLabel,StrNowAcceptingEntries,EntryAcceptedStr,StrStarPleaseWait,StrNoPlayer,SecondsUntilCloseText,D_80010674};
+static u8 *labels[7]={StrPlayerLabel,StrNowAcceptingEntries,EntryAcceptedStr,StrStarPleaseWait,StrNoPlayer,SecondsUntilCloseText,StrCountdownMarker};
 static const unsigned sizes[7]={12,28,20,16,12,28,4};
 #define LinkEntryState (w->s.status)
 #define LinkRoleSlot (w->s.flags)
@@ -59,7 +59,7 @@ static void expected(s32 mode){u8 number[4]={0,0,0,0};unsigned row;int player;s8
  budgetCoverage();seconds=(s32)((int64_t)w->s.budget/50);number[0]=(u8)((int64_t)seconds/10+48);number[1]=(u8)((int64_t)seconds%10+48);
  DrawBigFontString(44,244,number);DrawBigFontString(32,244,SecondsUntilCloseText);budgetCoverage();
  scaled=wrap64((int64_t)500-w->s.budget);scaled=wrap64(scaled*256);x=scaled/500+32;
- DrawBigFontString((s32)x,224,D_80010674);
+ DrawBigFontString((s32)x,224,StrCountdownMarker);
 }
 int main(void){unsigned which,i,j;u16 pair;s32 mode;uint64_t cases=0;
  _Static_assert(sizeof(unsigned long)>=sizeof(void*),"native-width address cursor");_Static_assert(sizeof(actual.s.status)==4,"complete two-by-two status owner");

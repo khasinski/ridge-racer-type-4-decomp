@@ -22,20 +22,20 @@ extern int TrackNodeCount;
 extern void ApplyMatrix();
 extern void RotMatrixZYX();
 extern void *TrackEntries;
-extern int func_80055330();
-extern int func_8005534C();
+extern int SetSceneColorParams();
+extern int SetSceneOverlayEnabled();
 extern int D_800ACBA8;
 extern char CarSlotBuffers[];
 
-int func_80043C14();
+int UpdateCameraTargetDistance();
 void GetTrackLaneWorldPos();
 void SetCamAnglesRotateNegZ(short *a, short b, int c);
 void RotateNegZByEulerZYX(short *a, short b, int c);
 short LerpAngleWrap4096(short *p, int t);
 s32 CountTrackEntries(void);
-void func_800440A0(int a0);
+void ApplySceneTintPreset(int a0);
 
-int func_80043C14(a0, a1)
+int UpdateCameraTargetDistance(a0, a1)
 char *a0;
 int *a1;
 {
@@ -155,7 +155,7 @@ s32 CountTrackEntries(void) {
     return var_a1;
 }
 
-void func_800440A0(int a0) {
+void ApplySceneTintPreset(int a0) {
     int s2, s0, x, s1, v1, y;
     int *v0;
     s1 = D_800ACBA8;
@@ -171,12 +171,12 @@ void func_800440A0(int a0) {
         s2 = 1;
     }
     if (s0 >= 0) {
-        func_8005534C(1, x);
+        SetSceneOverlayEnabled(1, x);
         s1 += s0 * 8;
-        func_80055330(*(int *)s1, *(unsigned char *)(s1 + 4), *(unsigned char *)(s1 + 5), *(unsigned char *)(s1 + 6));
+        SetSceneColorParams(*(int *)s1, *(unsigned char *)(s1 + 4), *(unsigned char *)(s1 + 5), *(unsigned char *)(s1 + 6));
         v1 = 7;
     } else {
-        func_8005534C(0, x);
+        SetSceneOverlayEnabled(0, x);
         v1 = 7;
     }
     v0 = (int *)CarSlotBuffers;

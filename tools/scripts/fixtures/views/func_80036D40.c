@@ -65,7 +65,7 @@ active:
                     settings->copies[0].bytes[1]=byte;
                 }
             }
-            func_80039920();
+            CacheSelectedCourseProgress();
             ResetScreenCounters();
             {
                 s32 zero=0;

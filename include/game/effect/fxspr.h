@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void func_8005C4E0(void);
+void DrawIntroCaptionText(void);
 
 #endif /* RR_GAME_EFFECT_FXSPR_H */

@@ -31,9 +31,9 @@ extern int ScaleMatrixRow1();
 
 extern int BuildCameraMatrices();
 
-extern short D_8009F694[];
+extern short MenuCarCameraAngles[];
 
-extern short D_8009F6A0[];
+extern short MenuCarCameraOffsets[];
 
 extern struct 
 {
@@ -53,7 +53,7 @@ extern struct
 
 void SetupMenuCarCamera(int a)
 {
-  int b1 = (int) D_8009F6A0;
+  int b1 = (int) MenuCarCameraOffsets;
   int o = a * 6;
   short *p = (short *) (o + b1);
   short *q;
@@ -64,7 +64,7 @@ void SetupMenuCarCamera(int a)
   g[2] = p[0];
   g[3] = p[1];
   g[4] = p[2];
-  q = (short *) (o + ((int) D_8009F694));
+  q = (short *) (o + ((int) MenuCarCameraAngles));
   g[6] = q[0];
   g[7] = q[1];
   g[8] = q[2];

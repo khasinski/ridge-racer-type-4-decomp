@@ -4,7 +4,7 @@
 
 /* Packed position, size and UV/CLUT words consumed by the sprite command. */
 typedef struct {u32 position,size,uv;} RrSpritePreset;
-extern RrSpritePreset D_8009E5E0[];
+extern RrSpritePreset SpritePresets[];
 
 /* Zero intensity does nothing. Otherwise clamps intensity to 0..255 and emits
  * one sprite, even when a negative intensity clamps to zero. Index must name

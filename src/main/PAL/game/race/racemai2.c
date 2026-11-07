@@ -127,7 +127,7 @@ typedef struct CarCollision {
 } CarCollision;
 
 extern void (*CarUpdateStages[])();
-extern unsigned char D_8009F7E0[];
+extern unsigned char CourseOffroadSpeedPenalty[];
 extern char PlayerCars[];
 extern short NumCars;
 extern unsigned short CourseIndex;
@@ -148,7 +148,7 @@ unsigned PointInQuad(int a0, int a1, int a2, int a3, int a4);
 u32 PointInQuadPtr(void *arg0, M2C_UNK arg1);
 void ComputeQuadMidpoints(s32 arg0);
 void ResolveCarCollisions(CarCollision *arg0);
-void func_80039494(RrRaceVehicle *vehicle);
+void LookupTrackLightingEvent(RrRaceVehicle *vehicle);
 void PlayTrackEventSfx(RrRaceVehicle *vehicle);
 void UpdateRumbleStrip(char *p, int b);
 void CheckFinalLapEvent(RrRaceVehicle *vehicle);
@@ -275,10 +275,10 @@ unsigned int arg0;
           {
             if (CarTable[i]->s1F0[j] != 0)
             {
-              CarTable[i]->s1D8 -= D_8009F7E0[s5];
+              CarTable[i]->s1D8 -= CourseOffroadSpeedPenalty[s5];
               if (CarTable[i]->s1F0[j] == 2)
               {
-                CarTable[i]->s1D8 += D_8009F7E0[s5];
+                CarTable[i]->s1D8 += CourseOffroadSpeedPenalty[s5];
               }
               if (s5 == 2 || CarTable[i]->s1A7 == 0)
               {
@@ -644,7 +644,7 @@ void ResolveCarCollisions(CarCollision *arg0) {
 #undef PlayerCars
 #undef CarTable
 
-void func_80039494(RrRaceVehicle *vehicle)
+void LookupTrackLightingEvent(RrRaceVehicle *vehicle)
 {
     LookupTrackEvent(3, vehicle->trackNodeF0);
 }

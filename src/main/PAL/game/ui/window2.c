@@ -13,13 +13,13 @@
 
 struct W3G0A { char *p0; char *p4; short s8, sA, sC, sE, s10, s12; char *p14; char *p18; short s1C, s1E, s20, s22, s24, s26; };
 
-extern char D_800ADB60[];
+extern char AltOrderingTableA[];
 extern char D_800D02D8[];
-extern char D_800AE660[];
-extern char D_800D0DD8[];
+extern char RaceSubOtsA[];
+extern char RaceOrderingTableB[];
 extern int AddDrawModePrim();
-extern char D_8009EA90[];
-extern char D_8009EACC[];
+extern char HudFrameSpriteTemplates[];
+extern char HudFrameSpriteDefsMulti[];
 
 void DrawHudFrameSprites();
 void DrawHudRotatingQuad(s32 phase,s32 index);
@@ -39,7 +39,7 @@ void InitHudNumberTargets(int a0) {
             goto w3g0b;
         }
     }
-    HudNumberTargets.p0 = D_800ADB60;
+    HudNumberTargets.p0 = AltOrderingTableA;
     HudNumberTargets.p4 = D_800D02D8;
     HudNumberTargets.s8 = 0x106;
     HudNumberTargets.sA = 0xE6;
@@ -49,16 +49,16 @@ void InitHudNumberTargets(int a0) {
     HudNumberTargets.s12 = 0xCE;
     return;
 w3g0b:
-    HudNumberTargets.p0 = D_800AE660;
-    HudNumberTargets.p4 = D_800D0DD8;
+    HudNumberTargets.p0 = RaceSubOtsA;
+    HudNumberTargets.p4 = RaceOrderingTableB;
     HudNumberTargets.s8 = 0xFC;
     HudNumberTargets.sA = 0x58;
     HudNumberTargets.sC = 0x128;
     HudNumberTargets.sE = 0x4A;
     HudNumberTargets.s10 = 0xFC;
     HudNumberTargets.s12 = 0x68;
-    HudNumberTargets.p14 = D_800AE660;
-    HudNumberTargets.p18 = D_800D0DD8;
+    HudNumberTargets.p14 = RaceSubOtsA;
+    HudNumberTargets.p18 = RaceOrderingTableB;
     HudNumberTargets.s1C = 0xFC;
     HudNumberTargets.s1E = 0xD8;
     HudNumberTargets.s20 = 0x122;
@@ -91,7 +91,7 @@ int a0;
         if (s5 != 0) {
             m1 = 0xFFFFFF;
             h1 = 0xFF000000;
-            s1 = D_8009EACC;
+            s1 = HudFrameSpriteDefsMulti;
             do {
                 InitHudSpritePacket(s0, s1);
                 s1 += 0x14;
@@ -105,7 +105,7 @@ int a0;
         s3 = 0;
         m2 = 0xFFFFFF;
         h2 = 0xFF000000;
-        s4 = D_8009EA90;
+        s4 = HudFrameSpriteTemplates;
         s2 = (unsigned *)(CurrentDrawBuf + 0x70);
         s1 = (char *)s0 + 0xA;
         do {

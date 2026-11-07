@@ -14,7 +14,7 @@ UpdateRect16Row 0x8003dcec 0x300
 InitGlyphRow 0x8003e040 0xfc 
 UpdateGlyphRow 0x8003e13c 0x798 
 InitUiRow 0x8003e928 0xdc 
-func_8003EA04 0x8003ea04 0x284 
+DrawUiRowSlotMarkers 0x8003ea04 0x284 
 DrawUiRow 0x8003ec88 0xc98 
 DrawUiBox 0x8003f920 0x180 
 UpdateImageRow 0x8003fba8 0x2d0 
@@ -24,19 +24,19 @@ UpdateMenuTextRow 0x80040858 0x45c
 DrawMenuTextRow 0x80040cb4 0x520 
 SetMenuTextRowCursor 0x80041320 0x7c 
 SetGlyphRowImageBase 0x8004139c 0x44 
-func_800417EC 0x800417ec 0x22c 
+UpdateDialogueChoiceCursor 0x800417ec 0x22c 
 InitMenuGrid 0x80041a54 0x19c 
-func_80042254 0x80042254 0x5cc 
+DrawCarRecordPanel 0x80042254 0x5cc 
 DrawSaveSlotList 0x80042820 0x508 
-func_80042DBC 0x80042dbc 0x19c 
-func_80042F58 0x80042f58 0x128 
+DrawControlTypeLetterPanel 0x80042dbc 0x19c 
+DrawLanguageSelectPanel 0x80042f58 0x128 
 EncodePasswordCode 0x80043130 0x13c  near-miss:src/failed/PAL/EncodePasswordCode.c
 ValidateRecordPassword 0x8004326c 0x1c0 
 EncodeRecordPassword 0x8004342c 0xdc 
 FindNearestTrackEntry 0x80043730 0xa8 
 SetCarAttachedCamera 0x800437d8 0x1e4 
 GetTrackPointAhead 0x80043ab0 0x164  near-miss:src/failed/PAL/GetTrackPointAhead.c
-func_80043C14 0x80043c14 0x1d0 
+UpdateCameraTargetDistance 0x80043c14 0x1d0 
 GetTrackLaneWorldPos 0x80043de4 0xf0 
-func_800440A0 0x800440a0 0xdc 
+ApplySceneTintPreset 0x800440a0 0xdc 
 UpdateRaceCamera 0x8004417c 0x770 

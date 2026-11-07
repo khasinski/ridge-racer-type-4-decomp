@@ -35,10 +35,10 @@ typedef struct
 } W10_H;
 
 extern RrEntry800A4258 MenuStateTable[];
-extern RrMenuChoice D_800A44F4[];
-extern s32 D_800A4510[];
-extern s16 D_800A4514[];
-extern RrMenuChoice D_800A4520[];
+extern RrMenuChoice CardSaveLoadStepRows[];
+extern s32 MenuConfirmCancelModes[];
+extern s16 DialogueWaitStepRows[];
+extern RrMenuChoice FormatCardStepRows[];
 extern s8 *DialogueState;
 extern s16 MenuPlayerIndex;
 extern s32 ModeFrame;
@@ -47,12 +47,12 @@ extern u8 CardSlotState[];
 extern RrMenuItemState5C PlayerControllers[];
 extern s16 CardSlot;
 extern s16 D_8010948C;
-extern unsigned char D_800A4524[][4];
+extern unsigned char MenuChoiceNextStates[][4];
 extern unsigned short SaveSlotSelect;
 extern unsigned short ModeSubState;
 extern unsigned short MenuResultCode;
 extern short MenuChoiceValues[];
-extern short D_8010948E;
+extern short MenuChoiceIndex;
 extern int StepMenuValue();
 extern int PlaySfx();
 extern int SeqFadeVolume();
@@ -71,23 +71,23 @@ extern struct { char pad[0x10]; short h10; char pad2[0x1A]; short h2C; } *BadgeR
 extern short MenuFadeTimer;
 extern short ModeId;
 extern short LinkState;
-extern unsigned short D_800F3A1E;
+extern unsigned short MenuReturnModeCode;
 extern unsigned short RaceType;
 extern int DialogueContext;
 extern short SaveSlotIndex;
 extern int D_801272F0[];
-extern s16 D_800A4540[][2];
+extern s16 MenuStateBranchTargets[][2];
 extern char *SaveBuffer;
 extern int D_8010EFA8;
 extern int CopyStringClearTail();
 extern short D_800A45BC;
-extern short D_800A45BE;
+extern short CardSaveReadRetryCount;
 extern unsigned char CardFileCounts;
 extern char CardSaveFileName[];
 extern char CardTargetFileName[];
 extern int LoadSaveFromCardState;
 extern int CardLoadSeqState;
-extern unsigned char D_800A4478[];
+extern unsigned char CardResultDialogueMap[];
 extern int UpdateDialogue();
 
 void StepCardSaveLoadState(void);
@@ -95,19 +95,19 @@ void MenuStepConfirmCancel(void);
 void MenuStepWaitDialogue(void);
 void MenuStepFormatCard(void);
 void MenuStepRootChoice();
-void func_8007C308(void);
+void MenuStepExitToNextMode(void);
 void MenuStepScanSaveFiles();
 void MenuStepWaitCardStatus(void);
-void func_8007C8D4(void);
+void MenuStepBranchOnCardFlag(void);
 void MenuStepLoadSaveSlots(void);
 int CardReadSaveSlotsStep();
 int LoadCardTargetFileStep();
 
 void StepCardSaveLoadState(void) {
     s32 i = MenuStateTable[MenuStateIndex].i;
-    s32 a = D_800A44F4[i].a;
-    s32 c = D_800A44F4[i].c;
-    s32 b = D_800A44F4[i].b;
+    s32 a = CardSaveLoadStepRows[i].a;
+    s32 c = CardSaveLoadStepRows[i].c;
+    s32 b = CardSaveLoadStepRows[i].b;
     s32 r;
     if (c == 1) r = CardSaveStep(0, CardSlot);
     else r = CardLoadStep(0, CardSlot);
@@ -125,7 +125,7 @@ void StepCardSaveLoadState(void) {
 
 void MenuStepConfirmCancel(void)
 {
-  s32 a1 = *(D_800A4510 + MenuStateTable[MenuStateIndex].i);
+  s32 a1 = *(MenuConfirmCancelModes + MenuStateTable[MenuStateIndex].i);
   if ((&PlayerControllers[MenuPlayerIndex])->a != 0)
   {
     if (a1 == 0)
@@ -154,7 +154,7 @@ void MenuStepConfirmCancel(void)
 
 void MenuStepWaitDialogue(void) {
     s32 i = MenuStateTable[MenuStateIndex].i;
-    s32 v = D_800A4514[i * 2];
+    s32 v = DialogueWaitStepRows[i * 2];
     if (DialogueState[6] == 4) {
         MenuStateIndex = v;
         ModeFrame -= 1;
@@ -167,8 +167,8 @@ void MenuStepFormatCard(void) {
     s32 a, b;
     for (k = 0x63; k >= 0; k--) ;
     i = MenuStateTable[MenuStateIndex].i;
-    a = D_800A4520[i].a;
-    b = D_800A4520[i].c;
+    a = FormatCardStepRows[i].a;
+    b = FormatCardStepRows[i].c;
     if (CardFormatSlot(CardSlot, 0) == 1) {
         MenuStateIndex = a;
         return;
@@ -204,7 +204,7 @@ void MenuStepRootChoice()
     p = base + MenuStateIndex;
     i = p->a;
     c = p->c;
-    D_8010948E = c;
+    MenuChoiceIndex = c;
     if (ModeSubState == 0) {
         sb = p->d;
         if (sb >= 0) {
@@ -213,7 +213,7 @@ void MenuStepRootChoice()
         ModeSubState = 1;
     }
     flag = 0;
-    q = D_800A4524[i];
+    q = MenuChoiceNextStates[i];
     i = 0;
     arr[0] = q[0];
     arr[1] = q[1];
@@ -228,16 +228,16 @@ void MenuStepRootChoice()
         }
     }
     if (flag) {
-        StepMenuValue(((unsigned short)MenuPlayerIndex & 1) << 2, 2, MenuChoiceValues + D_8010948E, n, 0);
+        StepMenuValue(((unsigned short)MenuPlayerIndex & 1) << 2, 2, MenuChoiceValues + MenuChoiceIndex, n, 0);
     } else {
-        StepMenuValue((((unsigned short)MenuPlayerIndex & 1) << 2) | 1, 2, MenuChoiceValues + D_8010948E, n, 0);
+        StepMenuValue((((unsigned short)MenuPlayerIndex & 1) << 2) | 1, 2, MenuChoiceValues + MenuChoiceIndex, n, 0);
     }
     b3 = PlayerControllers;
     r = b3 + MenuPlayerIndex * 0x5C;
     if (*(int *)(r + 0x28) != 0) {
         PlaySfx(1);
         ModeSubState = 0;
-        MenuStateIndex = arr[MenuChoiceValues[D_8010948E]];
+        MenuStateIndex = arr[MenuChoiceValues[MenuChoiceIndex]];
         if (MenuStateIndex != 0x43) {
             CardSlotState[CardSlot] = 0x5A;
             PollCardStatus(CardSlot, 0, 1);
@@ -256,7 +256,7 @@ void MenuStepRootChoice()
 /* legacy typing of shared globals in this part of the unit */
 #define MenuResultCode (*(short (*))&MenuResultCode)
 
-void func_8007C308(void) {
+void MenuStepExitToNextMode(void) {
     int i;
     char *q;
     if (UiRows->b500 == 2) {
@@ -300,11 +300,11 @@ void func_8007C308(void) {
         ModeSubState = 0;
         break;
     case 1:
-        if (D_800F3A1E == 0x132) {
+        if (MenuReturnModeCode == 0x132) {
             func_80114920();
             ModeSubState = 0;
-            ModeGroup = D_800F3A1E >> 8;
-            ModeId = D_800F3A1E & 0xFF;
+            ModeGroup = MenuReturnModeCode >> 8;
+            ModeId = MenuReturnModeCode & 0xFF;
         }
         break;
     case 2:
@@ -396,7 +396,7 @@ void MenuStepScanSaveFiles()
 
 void MenuStepWaitCardStatus(void) {
  E8 *e = MenuStateTable; int s = MenuStateIndex;
- unsigned char *q = D_800A44A8 + e[s].b*4;
+ unsigned char *q = MenuCardWaitTransitions + e[s].b*4;
  int x = q[0], y = q[1];
  unsigned c = CardSlotState[CardSlot];
  register int d asm("$3"); /* ASM_BARRIER: pin reload value to v1 */
@@ -406,12 +406,12 @@ void MenuStepWaitCardStatus(void) {
 
 #undef MenuStateTable
 
-void func_8007C8D4(void) {
+void MenuStepBranchOnCardFlag(void) {
     s32 i = MenuStateTable[MenuStateIndex].i;
-    s32 a = D_800A4540[i][0];
-    s32 b = D_800A4540[i][1];
+    s32 a = MenuStateBranchTargets[i][0];
+    s32 b = MenuStateBranchTargets[i][1];
     if (MenuStateIndex == 0x3B) {
-        if (D_8010B2DC[CardSlot] == 1) {
+        if (CardSlotNewCardFlag[CardSlot] == 1) {
             MenuStateIndex = a;
             return;
         }
@@ -527,7 +527,7 @@ int a0;
         PollCardStatus(CardSlot, 0, 0);
         if (CardSlotState[0] < 0x10U) {
             if (CardHasFile(CardFileCounts, CardTargetFileName) == 1) {
-                D_800A45BE = 0;
+                CardSaveReadRetryCount = 0;
                 D_800A45BC = 2;
             } else {
                 D_800A45BC = 7;
@@ -556,8 +556,8 @@ int a0;
         }
         r = CardReadFileAt(CardSlot, 0, CardTargetFileName, SaveBuffer + 0x1F00, 0x100, 0x300);
         if (r == -1) {
-            if (D_800A45BE < 3) {
-                D_800A45BE = (unsigned short)D_800A45BE + 1;
+            if (CardSaveReadRetryCount < 3) {
+                CardSaveReadRetryCount = (unsigned short)CardSaveReadRetryCount + 1;
             } else {
                 D_800A45BC = 7;
             }
@@ -572,11 +572,11 @@ int a0;
         if (q != 0) {
             if (q == 1) {
                 D_800A45BC = 5;
-            } else if (D_800A45BE >= 3) {
+            } else if (CardSaveReadRetryCount >= 3) {
                 D_800A45BC = 7;
             } else {
                 D_800A45BC = 2;
-                D_800A45BE = (unsigned short)D_800A45BE + 1;
+                CardSaveReadRetryCount = (unsigned short)CardSaveReadRetryCount + 1;
             }
         }
         break;
@@ -765,7 +765,7 @@ void UpdateCardMenuDialogue(a0, a1, a2, a3, a4, a5) int a0; int a1; int a2; int 
     int s0 = a1;
     if (a2 != 0) {
         int c14 = 0x14, c16 = 0x16, c4 = 4, c1 = 1;
-        v1 = D_800A4478;
+        v1 = CardResultDialogueMap;
         a3 = (int)v1 + c14;
 L1:
         if (a5 != v1[1]) goto next;
@@ -791,7 +791,7 @@ done:;
         } else if (a0 == -128) {
             a0 = (signed char)DialogueState[4];
         } else {
-            if (a0 == 0x12 && CardTemplateNameFlag == 1 && D_8010B2DC[CardSlot] == 1) {
+            if (a0 == 0x12 && CardTemplateNameFlag == 1 && CardSlotNewCardFlag[CardSlot] == 1) {
                 a0 = 0x1C;
             } else if (a0 == 0x15 && CardSlot == 1) {
                 a0 = 0x22;
@@ -806,7 +806,7 @@ done:;
             UpdateDialogue(BadgeRows[4] + 10, BadgeRows[5] + 0x28, DialogueState, a3);
         }
     }
-    func_8007D448(a4, ((s0 & 2) > 0) & (*(short *)(DialogueState + 0x12) >= 6));
+    DrawCardMenuConfirmRows(a4, ((s0 & 2) > 0) & (*(short *)(DialogueState + 0x12) >= 6));
     DrawCardMenuChoiceRows(a4, (s0 & 4) > 0);
     if (s0 & 8) DrawNameTeamMakerHeader(SaveSlotIndex);
 }

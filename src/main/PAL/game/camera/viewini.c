@@ -12,9 +12,9 @@ typedef struct { int a, b, c, d, e, f, g, h; } w3g6_32;
 typedef struct { int x, y; } __attribute__((packed)) w3g6_U;
 
 extern w3g6_32 DefaultColorMatrix;
-extern w3g6_U D_800A3B20[];
-extern w3g6_U D_800A3B28[];
-extern w3g6_U D_800A3B30[];
+extern w3g6_U DefaultLightAngle0[];
+extern w3g6_U DefaultLightAngle1[];
+extern w3g6_U DefaultLightAngle2[];
 extern int CourseFarColorTable[];
 extern w3g6_32 ColorMatrix;
 extern short LightDirMagnitude[];
@@ -29,8 +29,8 @@ extern unsigned int *ViewSegmentObjectList;
 void InitViewLighting(void);
 void BuildViewSegmentObjectList(void);
 void AddUniqueViewSegmentRecords();
-void func_8006E9CC(void);
-void func_8006E9D4(void);
+void ViewInitEmptyStub(void);
+void SetViewClipMask(void);
 
 void InitViewLighting(void)
 {
@@ -38,9 +38,9 @@ void InitViewLighting(void)
     int *b;
     int i;
     ColorMatrix = DefaultColorMatrix;
-    LightAngles[0] = D_800A3B20[0];
-        LightAngles[1] = D_800A3B28[0];
-    LightAngles[2] = D_800A3B30[0];
+    LightAngles[0] = DefaultLightAngle0[0];
+        LightAngles[1] = DefaultLightAngle1[0];
+    LightAngles[2] = DefaultLightAngle2[0];
     LightDirMagnitude[0] = 0x1000;
     LightDirMagnitude[1] = 0x1000;
     LightDirMagnitude[2] = 0x1000;
@@ -61,12 +61,12 @@ void InitViewState(void) {
     char *g = (char *)SCRATCHPAD;
     InitViewLighting();
     ViewUsesCarTrackNode = 1;
-    D_800AD5B8 = 0x1400;
+    DefaultSegmentOctantValue = 0x1400;
     *(int *)(g + 0x78) = 0;
     *(short *)(g + 0x5E) = 0;
     if (CourseIndex == 7) {
         for (i = 0; i < 5; i++) {
-            func_80070934(i, 6, 0, 0);
+            ConfigureTrackObjectParticles(i, 6, 0, 0);
         }
     }
     i = 0x1F;
@@ -131,9 +131,9 @@ void AddUniqueViewSegmentRecords() {
 
 #undef ViewSegmentIndices
 
-void func_8006E9CC(void) {
+void ViewInitEmptyStub(void) {
 }
 
-void func_8006E9D4(void) {
+void SetViewClipMask(void) {
     *(s32 *)(SCRATCHPAD + 0x128) = 0x1F;
 }

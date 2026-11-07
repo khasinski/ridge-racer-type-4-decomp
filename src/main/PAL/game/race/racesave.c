@@ -85,7 +85,7 @@ extern B800 *CarSnapshots[];
 extern short SteeringRangeTable[];
 extern int ReplayFrame;
 extern int LinkRemoteInputs[];
-extern int D_800ACBF0[];
+extern int LinkSentLocalInputs[];
 extern short LinkRoleSlot;
 extern U4 *ReplayInputs[];
 extern S_AD528 Options;
@@ -327,14 +327,14 @@ void ReadCarInput(char *arg0, int arg1) {
                         *(int *)CarInputs[arg1] = LinkRemoteInputs[t2];
                     } else {
                         LinkLocalInputs[t2] = *(int *)CarInputs[arg1];
-                        *(int *)CarInputs[arg1] = D_800ACBF0[t2];
+                        *(int *)CarInputs[arg1] = LinkSentLocalInputs[t2];
                     }
                 } else {
                     if (arg1 < 2) {
                         *(int *)CarInputs[arg1] = LinkRemoteInputs[t2];
                     } else {
                         LinkLocalInputs[t2] = *(int *)CarInputs[arg1];
-                        *(int *)CarInputs[arg1] = D_800ACBF0[t2];
+                        *(int *)CarInputs[arg1] = LinkSentLocalInputs[t2];
                     }
                 }
                 __asm__ volatile("" : : "r"(t2)); /* ASM_BARRIER: keep t2 live so t2<<2 allocates v1 */
@@ -424,7 +424,7 @@ void ReplayModeUpdate(void) {
             CdAudioBeginPlay(0);
         }
     } else {
-        func_800556B4();
+        ToggleSceneOverlayAndDraw();
     }
     ScreenFrame += 1;
     if (MenuFadeTimer >= 0) {
