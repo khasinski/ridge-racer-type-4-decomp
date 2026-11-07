@@ -4,7 +4,7 @@
 extern u8 garage_slot_table_column_offsets[4];
 extern u8 garage_slot_table_row_offsets[4];
 extern u8 garage_slot_table_header_glyphs[3];
-extern s32 garage_D_801272F0[3];
+extern s32 garage_slot_file_times[3];
 extern s16 SaveSlotIndex;
 extern RrUiUvRect UiFontGlyphs[];
 void FormatDecimalDigits(char *output, s32 value, s32 digitsMinusOne);
@@ -40,7 +40,7 @@ void *garage_draw_slot_times_table(u32 *ord, void *cur, s32 row)
         FormatDecimalDigits(text, i + 1, 0);
         text[1] = 0;
         cur = AddTextSprites(ord, cur, x, y + garage_slot_table_row_offsets[i + 1], text, 0x7FF8, 0, 0);
-        time[1] = garage_D_801272F0[i];
+        time[1] = garage_slot_file_times[i];
         if (time[1] != -1) {
             x += garage_slot_table_column_offsets[1];
             cur = AddSpritePrim(ord, cur, x, y + garage_slot_table_row_offsets[i + 1], &UiFontGlyphs[42], 0x7FF8, 0);

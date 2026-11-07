@@ -9,7 +9,7 @@
 #include "rr/menu_glyph.h"
 #include "rr/diagnostics.h"
 extern RrCourseChoice4 CourseChoiceTable[2][9];
-extern s16 garage_car_index,garage_D_801272BC,garage_clut_choice;
+extern s16 garage_car_index,garage_logo_number,garage_clut_choice;
 extern char garage_player_name_copy[12];
 extern const char garage_car_info_scene_name[];
 void garage_init_car_info(void);

@@ -16,7 +16,7 @@ void garage_update_collection_select(void)
         flags = 0x10002;
         break;
     case 1:
-        changed = garage_draw_select_arrows(garage_D_801272C0, 0);
+        changed = garage_draw_select_arrows(garage_select_arrows_unused_arg, 0);
         state = BadgeRows->state10;
         if (state == 3) {
             if (changed) {
@@ -50,7 +50,7 @@ void garage_update_collection_select(void)
         flags = 0x10006;
         break;
     case 3:
-        changed = garage_draw_select_arrows(garage_D_801272C0, 1);
+        changed = garage_draw_select_arrows(garage_select_arrows_unused_arg, 1);
         state = BadgeRows->state10;
         if (state == 3) {
             if (changed) {
@@ -68,7 +68,7 @@ void garage_update_collection_select(void)
                 }
             } else if (PlayerControllers[0].b) {
                 PlaySfx(2);
-                garage_D_801272D4 = 1;
+                garage_color_preview_state = 1;
                 ModeSubState = 4;
                 UiRows->byte14 = state;
                 BadgeRows->state10 = 4;
@@ -79,7 +79,7 @@ void garage_update_collection_select(void)
     case 4:
         if (BadgeRows->state10 == 11 && UiRows->byte14 == 5) {
             i = 0;
-            if (garage_D_801272D4 == 0) {
+            if (garage_color_preview_state == 0) {
                 garage_init_car_list();
                 return;
             }
@@ -88,7 +88,7 @@ void garage_update_collection_select(void)
             }
             garage_init_team_select();
             ModeSubState = 1;
-            garage_D_801272D4 = 0;
+            garage_color_preview_state = 0;
         }
         flags = 0x10006;
         break;

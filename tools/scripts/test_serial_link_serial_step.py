@@ -35,7 +35,7 @@ static struct World {
 } actual,expected,initial,*w;
 static unsigned scenario,mutation;
 static s32 result;
-#define serial_link_D_80118ED0 w->peer
+#define serial_link_stop_race_state w->peer
 #define RaceState w->local
 #define serial_link_shutdown_state w->halt
 #define serial_link_sync_state w->command
@@ -44,7 +44,7 @@ static s32 result;
 #define serial_link_tx_count w->txcount
 #define serial_link_tx_fail_count w->failures
 #define serial_link_tx_state w->pending
-#define serial_link_D_80118EF4 w->serial
+#define serial_link_rx_idle_flag w->serial
 #define serial_link_local_menu_buttons w->phase
 #define serial_link_rx_sequence w->read
 #define serial_link_tx_sequence w->write

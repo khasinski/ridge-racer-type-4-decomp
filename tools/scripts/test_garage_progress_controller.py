@@ -36,12 +36,12 @@ static const s16 phases[6]={0,1,2,3,4,8};
 static const u16 timers[8]={0,1,63,64,32767,32768,65534,65535};
 #define ModeFrame w->s.frame
 #define ScreenFrame w->s.tick
-#define garage_D_801272C0 w->s.resource
+#define garage_select_arrows_unused_arg w->s.resource
 #define ModeSubState w->s.phase
 #define ModeGroup w->s.scene
 #define ModeId w->s.nextScene
 #define MenuFadeTimer w->s.timer
-#define garage_D_801272D4 w->s.mode
+#define garage_color_preview_state w->s.mode
 #define SelectionRows w->s.choice
 #define CourseListSavedIndex w->s.choice.bytes[1]
 #define PlayerControllers w->s.controllers

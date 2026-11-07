@@ -8,7 +8,7 @@ void garage_init_car_list(void){
  s16 *status;RrGarageAvailableCar *entry;
  u8 *choice;
  RrGarageAvailableCar *captured;
- ModeFrame=0;ScreenFrame=0;garage_D_801272D4=0;garage_car_index=0;MenuCursor=0;MenuItemCount=2;
+ ModeFrame=0;ScreenFrame=0;garage_color_preview_state=0;garage_car_index=0;MenuCursor=0;MenuItemCount=2;
  ResetScreenCounters();
  arenaOffset=0x2D000;i=0;count=i;
  MenuArenas.second=CdDirectoryBuffer+arenaOffset;

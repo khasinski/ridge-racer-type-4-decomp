@@ -33,13 +33,13 @@ s32 serial_link_send_packet(void);
  * used for payload access must remain in0..7, including after service calls. */
 extern RrOverlay667SerialRing serial_link_rx_ring;
 extern RrOverlay667ChoicePair LinkRemoteInputs,LinkSentLocalInputs;
-extern s32 serial_link_D_80118ED0,serial_link_shutdown_state;
-extern s32 serial_link_sync_state,serial_link_D_80118EF4;
+extern s32 serial_link_stop_race_state,serial_link_shutdown_state;
+extern s32 serial_link_sync_state,serial_link_rx_idle_flag;
 extern s32 serial_link_rx_count,serial_link_rx_miss_count;
 extern s32 serial_link_tx_count,serial_link_tx_fail_count,serial_link_tx_state;
 extern u8 serial_link_rx_sequence,serial_link_rx_cursor,serial_link_remote_menu_buttons,serial_link_sent_menu_buttons;
 extern u8 serial_link_last_rx_cursor;
-extern u8 serial_link_D_80118EF0;
+extern u8 serial_link_rx_flag_kind;
 void serial_link_init_connection(unsigned long configuration);
 /* An event-ready packet's flags byte must be a valid ring index0..7: the
  * original uses the full byte as the index, without stripping control bits.

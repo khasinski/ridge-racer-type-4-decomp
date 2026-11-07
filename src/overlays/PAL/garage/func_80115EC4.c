@@ -2,7 +2,7 @@
 
 void garage_init_maker_select(s32 arg0) {
     s32 i;
-    garage_D_801272C0 = 0;
+    garage_select_arrows_unused_arg = 0;
     CourseListIndex = 0;
     CourseListSavedIndex = 0;
     for (i = 0; i < 4; i++) {

@@ -23,8 +23,8 @@ typedef struct {s32 args[10];RrMenuGlyphRow1C *glyph;RrBadgeRow1C *badge;s32 fra
 static struct World {u32 guard[4];s32 frame,counter,word;s16 half,setting,selected;RrMenuChoice4 choice;RrMenuGlyphRow1C *glyph;RrBadgeRow1C *badge;RrMenuGlyphRow1C glyphs[3][4];RrBadgeRow1C badges[3];u32 calls;Event events[7];u32 tail[4];} world,expected;
 #define ModeFrame world.frame
 #define ScreenFrame world.counter
-#define garage_D_801272C0 world.word
-#define garage_D_801272D4 world.half
+#define garage_select_arrows_unused_arg world.word
+#define garage_color_preview_state world.half
 #define SelectedTeamIndex world.setting
 #define CourseListIndex world.selected
 #define SelectionRows world.choice

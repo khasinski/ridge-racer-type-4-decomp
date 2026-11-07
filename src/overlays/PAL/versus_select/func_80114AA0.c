@@ -1,5 +1,5 @@
 #include "rr/menu_screen_exit.h"
-void versus_select_func_80114AA0(void)
+void versus_select_enter_race(void)
 {
     StopRaceAudioAndRumble();
     SetupRaceAndScene();

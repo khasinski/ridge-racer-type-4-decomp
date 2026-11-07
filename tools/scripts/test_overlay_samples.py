@@ -103,7 +103,7 @@ int main(void) {
     race_results_exit_race();
     assert(step == 1 && ModeGroup == 1 && ModeId == 47 && ModeSubState == 0);
     time_attack_course_select_set_scene_id(); assert(SceneId == 0x131);
-    versus_select_func_80117340(); assert(SceneId == 0x137);
+    versus_select_set_scene_id(); assert(SceneId == 0x137);
     for (unsigned i = 0; i < 65536; i++) {
         memset(&garage_logo_work, 0xA5, sizeof(garage_logo_work));
         s32 args[4] = {(s32)(0x12340000U|i), (s32)(0xFFFF0000U|i),

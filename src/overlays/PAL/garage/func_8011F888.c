@@ -1,6 +1,6 @@
 #include "rr/overlay662_confirm.h"
 
-void garage_func_8011F888(s32 mode) {
+void garage_load_dialog(s32 mode) {
     if (mode < 0) {
         garage_logo_state.optionIndices98.flat[0] = 2;
     } else if (mode > 0) {

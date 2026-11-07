@@ -28,7 +28,7 @@ class Overlay667StatusTest(unittest.TestCase):
 _Static_assert(__builtin_types_compatible_p(__typeof__(SceneId),u16),"scene cell is unsigned16");
 static struct {u32 head;u16 before,marker,after,pad;s32 status;u32 tail;} world,snapshot;
 #define SceneId world.marker
-#define serial_link_D_80118EE4 world.status
+#define serial_link_unused_status world.status
 ''' + '\n'.join(bodies) + r'''
 static u32 seed=0x1492C;
 static u32 next(void){seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;return seed;}
@@ -48,7 +48,7 @@ int main(void){unsigned i,b;u32 calls=0;
   for(j=0;j<sizeof(world);j++)((u8*)&world)[j]=(u8)next();
   world.marker=(u16)i;world.status=word(shifted);
   memcpy(&snapshot,&world,sizeof(world));
-  assert(serial_link_func_80115058()==snapshot.status);
+  assert(serial_link_get_unused_status()==snapshot.status);
   assert(memcmp(&world,&snapshot,sizeof(world))==0);
   serial_link_set_scene_id();assert(world.marker==315);
   world.marker=snapshot.marker;assert(memcmp(&world,&snapshot,sizeof(world))==0);

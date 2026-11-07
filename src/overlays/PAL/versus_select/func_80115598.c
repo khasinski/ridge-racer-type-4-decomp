@@ -48,7 +48,7 @@ void versus_select_init_selection_screen(s32 mode) {
     /* Allocation metadata for the real pointer cell; emits no instruction. */
     __asm__("" : "+m"(LoadCursor));
     arena=MenuArenaBase;
-    versus_select_D_80118438=0;
+    versus_select_subchoice_state=0;
     LoadCursor=arena;
     if(!(SelectionPlayer&1))MenuArenas.first=arena;
     else LoadCursor=MenuArenas.first;

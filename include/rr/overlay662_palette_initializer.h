@@ -4,8 +4,8 @@
 #include "rr/save_progress.h"
 #include "rr/course_choice_types.h"
 extern RrCourseChoice4 CourseChoiceTable[2][9];
-extern s16 garage_D_801272D4,garage_clut_list_count,garage_image_fade_phase,garage_clut_choice,garage_car_index,garage_clut_list_index;
-extern s32 garage_D_801272C0,garage_returned_from_logo_editor;
+extern s16 garage_color_preview_state,garage_clut_list_count,garage_image_fade_phase,garage_clut_choice,garage_car_index,garage_clut_list_index;
+extern s32 garage_select_arrows_unused_arg,garage_returned_from_logo_editor;
 extern u8 garage_car_color_map[25];
 extern void *DefaultCarClut,*CarClutData;
 void UploadCarClut(void *,s32,s32);

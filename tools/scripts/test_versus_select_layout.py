@@ -58,7 +58,7 @@ static u8 resources[3][0x2D100],arenas[3][128],packets[128];static u32 orders[32
 #define LoadState w->s.clear2
 #define CourseIndexMap w->s.map
 #define SelectionPlayer w->s.player
-#define versus_select_D_80118438 w->s.local
+#define versus_select_subchoice_state w->s.local
 #define versus_select_choice_counts w->s.counts
 #define versus_select_choice_index w->s.courses
 #define versus_select_choice_group w->s.groups

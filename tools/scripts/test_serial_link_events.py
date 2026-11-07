@@ -73,7 +73,7 @@ int main(void){unsigned k;u32 bits;
   world.s.counter=word(bits);memcpy(&expected,&world,sizeof(world));callback_reference(&expected.s);
   assert(serial_link_error_callback()==0);assert(memcmp(&world,&expected,sizeof(world))==0);
   initialize();reference_setup();assert(serial_link_open_sio()==0);assert(world.calls==6);assert(memcmp(&world,&expected,sizeof(world))==0);
-  initialize();observe(&expected,3,0,0,0,0,0);observe(&expected,3,0,1,0,0,0);serial_link_func_80114950();assert(world.calls==2);assert(memcmp(&world,&expected,sizeof(world))==0);
+  initialize();observe(&expected,3,0,0,0,0,0);observe(&expected,3,0,1,0,0,0);serial_link_poll_sio_status();assert(world.calls==2);assert(memcmp(&world,&expected,sizeof(world))==0);
  }
  return 0;
 }

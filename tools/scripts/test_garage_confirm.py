@@ -104,7 +104,7 @@ int main(void){unsigned path,j,n;uint64_t cases=0;
   switch((scenario>>6)&3){case 0:world.garage.fade00=INT32_MIN;break;case 1:world.garage.fade00=-1;break;case 2:world.garage.fade00=0;break;default:world.garage.fade00=INT32_MAX;break;}
   world.garage.flagsD1=(u8)(scenario>>8);world.pending=half(next());world.transition=(u16)next();world.scene=half(next());world.latch=half(next());
   expected_map=expected_sound=map_calls=sound_calls=0;
-  memcpy(&expected,&world,sizeof(world));reference(mode);garage_func_8011F888(mode);
+  memcpy(&expected,&world,sizeof(world));reference(mode);garage_load_dialog(mode);
   assert(map_calls==expected_map&&sound_calls==expected_sound);assert(memcmp(&world,&expected,sizeof(world))==0);assert((uintptr_t)world.table[slot]>UINT32_MAX);cases++;
  }
  assert(cases==524288ULL);return 0;

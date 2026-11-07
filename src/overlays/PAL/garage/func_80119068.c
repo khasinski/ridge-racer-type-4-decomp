@@ -1,5 +1,5 @@
 #include "rr/overlay662_course_controller.h"
-extern s16 garage_D_801272BC;
+extern s16 garage_logo_number;
 extern s32 garage_returned_from_logo_editor;
 void garage_init_car_info(void);
 
@@ -42,14 +42,14 @@ void garage_update_car_select(void) {
     switch ((u16)ModeSubState) {
     case 0:
         SetMenuFrameOptions(1, 1, 1);
-        prev = garage_D_801272BC;
-        StepMenuValue(3, 2, (char*)&garage_D_801272BC, 17, 0);
-        if (prev != garage_D_801272BC) {
+        prev = garage_logo_number;
+        StepMenuValue(3, 2, (char*)&garage_logo_number, 17, 0);
+        if (prev != garage_logo_number) {
             SelectionRows.pad02[0] %= 20;
-            if (garage_D_801272BC > 0) {
+            if (garage_logo_number > 0) {
                 SelectionRows.pad02[0] += 20;
             }
-            PlayerCourseChoices[0].first = garage_D_801272BC;
+            PlayerCourseChoices[0].first = garage_logo_number;
             ResetScreenCounters();
             LoadCursor = MenuArenas.first;
             (*(s8*)(ImageRows+1)) = 6;
@@ -57,7 +57,7 @@ void garage_update_car_select(void) {
         UiRows[MenuCursor].cells[0] = 0;
         StepMenuValue(0, 2, (char*)&MenuCursor, 3, 0);
         cell = 2;
-        if (garage_D_801272BC == 0) {
+        if (garage_logo_number == 0) {
             UiRows[1].half20 = 1;
             if (MenuCursor == 1) {
                 cell = 4;
@@ -89,7 +89,7 @@ void garage_update_car_select(void) {
                 (*(s8*)(ImageRows+1)) = 3;
                 MenuFadeTimer = 0x40;
             } else if (MenuCursor == 1) {
-                if (garage_D_801272BC > 0) {
+                if (garage_logo_number > 0) {
                     SetModelTexturePage(-1);
                     PlaySfx(1);
                     ModeSubState = 4;
@@ -175,8 +175,8 @@ close:
         return;
     }
 tail:
-    if (garage_D_801272D4 == 0 && (*(s8*)(ImageRows+1)) == 2) {
-        garage_D_801272D4 = 1;
+    if (garage_color_preview_state == 0 && (*(s8*)(ImageRows+1)) == 2) {
+        garage_color_preview_state = 1;
         BadgeRows[0].half02 = 1;
         BadgeRows[1].half02 = 1;
         i = 0;
@@ -209,7 +209,7 @@ tail:
     UpdateBadgeRowAnim(0);
     UpdateBadgeRowAnim(1);
     if (UpdateImageRow(0) > 0) {
-        DrawMenuStepArrows(0xA0, 0x90, 8, 1, garage_D_801272BC, -1, 18);
+        DrawMenuStepArrows(0xA0, 0x90, 8, 1, garage_logo_number, -1, 18);
     }
     UpdateScreenFade(0x10046);
 }

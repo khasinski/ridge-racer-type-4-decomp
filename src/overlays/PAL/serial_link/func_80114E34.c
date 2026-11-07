@@ -4,7 +4,7 @@ s32 serial_link_receive_packet(void) {
     u8 checksum;
     u32 i;
     if (TestEvent(serial_link_rx_event) == 1) {
-        serial_link_D_80118EF4 = 0;
+        serial_link_rx_idle_flag = 0;
         serial_link_checksum_error = 0;
         checksum = 0;
         i = 0;
@@ -14,8 +14,8 @@ s32 serial_link_receive_packet(void) {
         } while (i < 8);
         if (checksum != serial_link_rx_packet.packet.checksum01) serial_link_checksum_error = 1;
         if (serial_link_rx_packet.packet.flags00 >> 7) {
-            if ((serial_link_rx_packet.packet.flags00 >> 6) & 1) serial_link_D_80118EF0 = 2;
-            else serial_link_D_80118EF0 = 1;
+            if ((serial_link_rx_packet.packet.flags00 >> 6) & 1) serial_link_rx_flag_kind = 2;
+            else serial_link_rx_flag_kind = 1;
         }
         serial_link_rx_sequence = serial_link_rx_packet.packet.flags00;
         if (serial_link_tx_sequence == serial_link_rx_sequence) {

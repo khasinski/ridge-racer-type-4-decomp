@@ -9,7 +9,7 @@ void serial_link_update_receive(void) {
         serial_link_tx_state = 1;
         if (serial_link_receive_packet() == 1) {
             serial_link_rx_miss_count = 0;
-            serial_link_D_80118EF4 = 0;
+            serial_link_rx_idle_flag = 0;
             serial_link_rx_count = (s32)((u32)serial_link_rx_count + 1U);
         } else {
             serial_link_rx_miss_count = (s32)((u32)serial_link_rx_miss_count + 1U);

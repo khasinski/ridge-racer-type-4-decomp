@@ -12,5 +12,5 @@ s32 serial_link_error_callback(void);
 /* Register two events, open sio: twice, then enable freshly read event handles.
  * Service boundaries may invoke the registered callback and mutate state. */
 s32 serial_link_open_sio(void);
-void serial_link_func_80114950(void);
+void serial_link_poll_sio_status(void);
 #endif

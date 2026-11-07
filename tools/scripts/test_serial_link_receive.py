@@ -43,13 +43,13 @@ static s32 eventResult,queryResult,writeResult;
 #define serial_link_shutdown_state w->s.halt
 #define serial_link_tx_state w->s.request
 #define serial_link_rx_pending w->s.pending
-#define serial_link_D_80118EF4 w->s.serial
+#define serial_link_rx_idle_flag w->s.serial
 #define serial_link_rx_count w->s.rxcount
 #define serial_link_rx_miss_count w->s.timeouts
 #define serial_link_tx_count w->s.txcount
 #define serial_link_tx_fail_count w->s.failures
 #define serial_link_sync_state w->s.command
-#define serial_link_D_80118ED0 w->s.peer
+#define serial_link_stop_race_state w->s.peer
 #define serial_link_local_menu_buttons w->s.phase
 #define RaceState w->s.local
 #define LinkReadHandle w->s.reader
@@ -58,7 +58,7 @@ static s32 eventResult,queryResult,writeResult;
 #define serial_link_tx_sequence w->s.write
 #define serial_link_rx_cursor w->s.selected
 #define serial_link_checksum_error w->s.error
-#define serial_link_D_80118EF0 w->s.remote
+#define serial_link_rx_flag_kind w->s.remote
 #define serial_link_remote_menu_buttons w->s.received
 #define serial_link_sent_menu_buttons w->s.sent
 #define serial_link_rx_packet w->s.rx

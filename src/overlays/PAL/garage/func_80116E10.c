@@ -2,7 +2,7 @@
 
 typedef struct {s16 value;u16 reserved;} RrGarageCarSlot;
 extern s16 garage_replace_slot_index;
-extern s16 garage_D_801272D4,garage_car_list_count,garage_car_index;
+extern s16 garage_color_preview_state,garage_car_list_count,garage_car_index;
 extern s16 garage_car_status[20];
 extern RrGarageCarSlot garage_collected_cars[20];
 void garage_init_car_info(void);
@@ -158,8 +158,8 @@ void garage_update_car_list(void)
         break;
     }
 common:
-    if (garage_D_801272D4 == 0 && (s8)ImageRows[1] == 2) {
-        garage_D_801272D4 = 1;
+    if (garage_color_preview_state == 0 && (s8)ImageRows[1] == 2) {
+        garage_color_preview_state = 1;
         BadgeRows[0].half02 = 1;
         BadgeRows[1].half02 = 1;
     }

@@ -20,7 +20,7 @@ extern u8 *ImageRows;
 extern s32 ModeFrame,SelectionPlayer;
 extern s16 MenuCursor,ModeId;
 extern u16 MenuFadeTimer,ModeGroup;
-extern s16 garage_D_801272D4,garage_car_list_count,garage_car_index;
+extern s16 garage_color_preview_state,garage_car_list_count,garage_car_index;
 extern u16 garage_replace_slot_index;
 void SetupMenuCarCamera(s32);void SetupViewport(s32);s32 LoadCarRangeStep(s32,s32);
 void SetCarBounds(RrRaceVehicle*);void PrepareCarDrawPose(char*);

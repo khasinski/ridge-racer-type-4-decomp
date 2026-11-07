@@ -40,7 +40,7 @@ static World actual,reference,initial,*w;static unsigned mutation;
 #define ModeId w->s.position
 #define ModeSubState w->s.timer
 #define garage_car_index w->s.index
-#define garage_D_801272BC w->s.first
+#define garage_logo_number w->s.first
 #define garage_clut_choice w->s.second
 #define garage_player_name_copy w->s.name
 #define garage_car_info_scene_name format

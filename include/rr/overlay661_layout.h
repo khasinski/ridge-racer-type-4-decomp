@@ -13,7 +13,7 @@ extern RrMenuArenas MenuArenas;
 extern u8 *CdDirectoryBuffer;
 extern void *MenuArenaBase,*LoadCursor;
 extern s32 ModeFrame,ScreenFrame;
-extern s16 MenuCursor,MenuItemCount,versus_select_D_80118438;
+extern s16 MenuCursor,MenuItemCount,versus_select_subchoice_state;
 extern s16 versus_select_choice_counts[2][2],versus_select_choice_index[2],versus_select_choice_group[2];
 extern RrCourseChoice4 versus_select_choice_tables[2][2][9];
 void ResetScreenCounters(void);

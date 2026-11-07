@@ -25,7 +25,7 @@ static struct Event {unsigned id;u32 args[10];struct World before;} events[350];
 static unsigned count,seen,serial,n,profile;static int reference_run;
 #define ModeFrame world.frame
 #define ScreenFrame world.clock
-#define garage_D_801272D4 world.phase
+#define garage_color_preview_state world.phase
 #define garage_car_index world.pick
 #define garage_car_list_count world.count
 #define MenuCursor world.row

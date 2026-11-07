@@ -115,14 +115,14 @@
     "time_attack_course_select_preview_row_map": 2148628732,
     "time_attack_course_select_available_car_counts": 2148628744,
     "time_attack_course_select_available_course_count": 2148628748,
-    "time_attack_course_select_race_record_rank": 2148628752,
+    "time_attack_course_select_lap_record_rank": 2148628752,
     "time_attack_course_select_name_cursor": 2148628756,
     "time_attack_course_select_result_kind": 2148628760,
     "time_attack_course_select_record_name": 2148628768,
     "time_attack_course_select_preview_confirmation": 2148628780,
     "time_attack_course_select_result_transition": 2148628784,
     "time_attack_course_select_preview_selection": 2148628788,
-    "time_attack_course_select_lap_record_rank": 2148628792,
+    "time_attack_course_select_race_record_rank": 2148628792,
     "time_attack_course_select_preview_bank": 2148628796
   }
 }

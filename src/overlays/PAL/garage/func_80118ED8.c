@@ -2,7 +2,7 @@
 void garage_init_car_select(void) {
     ModeFrame = 0;
     ScreenFrame = 0;
-    garage_D_801272D4 = 0;
+    garage_color_preview_state = 0;
     MenuCursor = 0;
     MenuItemCount = 3;
     ResetScreenCounters();

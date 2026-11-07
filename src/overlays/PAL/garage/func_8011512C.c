@@ -24,7 +24,7 @@ void garage_init_car_info(void) {
     InitPreviewImageRows();
     i=0;
     vehicle=PlayerCars;
-    garage_D_801272D4=0;
+    garage_color_preview_state=0;
     scratch=RR_PROJECTION_SCRATCH;
     scratch->word18=120;
     scratch->word08=-16;

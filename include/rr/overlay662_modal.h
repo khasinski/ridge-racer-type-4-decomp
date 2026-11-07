@@ -11,5 +11,5 @@ extern s32 garage_returned_from_logo_editor;
  * the modal tool using two live UI rows and complete badge/text owners.
  * Services may replace those roots and mutate later selectors and input.
  * Modal state is captured after sound before publishing row states. */
-void garage_func_8011E824(s32 mode);
+void garage_car_color_dialog(s32 mode);
 #endif

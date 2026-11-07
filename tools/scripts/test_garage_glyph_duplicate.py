@@ -27,7 +27,7 @@ static struct World {
 static unsigned scenario,base,switching;
 #define GlyphRows world.root
 #define BadgeRows world.badge
-#define garage_D_801272C0 world.local
+#define garage_select_arrows_unused_arg world.local
 #define CourseListIndex world.selected
 #define CourseListSavedIndex world.choice.bytes[1]
 '''+body+r'''

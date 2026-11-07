@@ -10,7 +10,7 @@
  * slots occupy27348..27398;the following storage is the image-fade phase. */
 typedef struct {s16 value;u16 reserved;} RrGarageAvailableCar;
 extern RrCourseChoice4 CourseChoiceTable[2][9];
-extern s16 garage_D_801272D4,garage_car_list_count,garage_car_index;
+extern s16 garage_color_preview_state,garage_car_list_count,garage_car_index;
 extern s16 MenuCursor,MenuItemCount,ModeId,ModeSubState;
 extern u16 ModeGroup;
 extern s16 garage_car_status[20];

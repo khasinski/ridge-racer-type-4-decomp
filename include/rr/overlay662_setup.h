@@ -1,8 +1,8 @@
 #ifndef RR_OVERLAY662_SETUP_H
 #define RR_OVERLAY662_SETUP_H
 #include "rr/menu_setup.h"
-extern s32 garage_D_801272C0;
-extern s16 garage_D_801272D4;
+extern s32 garage_select_arrows_unused_arg;
+extern s16 garage_color_preview_state;
 /* Four glyph setup calls may replace the glyph root. The rectangle helper
  * receives the then-current first glyph. The final badge root is read after
  * all layout helpers return. */

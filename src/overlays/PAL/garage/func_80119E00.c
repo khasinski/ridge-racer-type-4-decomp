@@ -59,7 +59,7 @@ void garage_update_color_select(void) {
                         if (garage_clut_choice < 0x19) {
                             PlaySfx(1);
                             index = 0;
-                            garage_D_801272D4 = (s16) rowPhase;
+                            garage_color_preview_state = (s16) rowPhase;
                             garage_image_fade_phase = 0;
                             ModeSubState = (u16) badgePhase;
                             do {
@@ -77,7 +77,7 @@ void garage_update_color_select(void) {
                         PlaySfx(1);
                         index = 0;
                         garage_image_fade_phase = 0;
-                        garage_D_801272D4 = (s16) rowPhase;
+                        garage_color_preview_state = (s16) rowPhase;
                         BadgeRows->state10 = 4;
                         do {
                             closingRow = (RrUiRow24 *)(index * sizeof(RrUiRow24) + (unsigned long)UiRows);
@@ -92,7 +92,7 @@ void garage_update_color_select(void) {
                     if (garage_returned_from_logo_editor == 0) {
                         PlaySfx(2);
                         index = 0;
-                        garage_D_801272D4 = (s16) rowPhase;
+                        garage_color_preview_state = (s16) rowPhase;
                         garage_image_fade_phase = 0;
                         BadgeRows->state10 = 4;
                         do {
@@ -133,13 +133,13 @@ publishScene:
         goto drawMenu;
     default:
 drawMenu:
-        if (garage_D_801272D4 == 0) {
+        if (garage_color_preview_state == 0) {
             ready = UpdateRect16Row(0);
             if (ready == 1) {
-                garage_D_801272D4 = ready;
+                garage_color_preview_state = ready;
             }
         } else {
-            garage_draw_color_preview_image(garage_D_801272D4 - 1);
+            garage_draw_color_preview_image(garage_color_preview_state - 1);
             DrawMenuStepArrows(0xA0, 0xC0, 0x30, 0, (s32) (s16) garage_clut_list_index, 0, (s32) garage_clut_list_count);
         }
         index = 0;

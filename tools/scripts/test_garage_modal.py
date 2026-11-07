@@ -80,7 +80,7 @@ int main(void){assert(sizeof(void*)==8);static const s32 modes[]={-1,(-214748364
   for(unsigned bank=0;bank<2;bank++){world.rows[bank][0].byte14=scenario%12;world.badges[bank].state10=profile&2?3:11;world.texts[bank].st=profile&1?4:-1;world.texts[bank].p=(u16*)world.rows[bank];}
   world.working.words[0]=scenario;world.working.words[1]=scenario>>4;world.input[0].type01=scenario&1?18:0;world.input[0].buttons0A=scenario;world.accept=(scenario>>3)&1;
   world.garage.stateD2=scenario>>8;world.garage.fade00=scenario&16?0:64;world.garage.selectorsB8[1]=scenario&1;world.garage.optionIndices98.flat[5]=scenario%6;
-  s32 mode=profile<4?0:modes[scenario%10];expected=world;count=seen=serial=0;reference_run=1;reference(mode);serial=0;reference_run=0;garage_func_8011E824(mode);
+  s32 mode=profile<4?0:modes[scenario%10];expected=world;count=seen=serial=0;reference_run=1;reference(mode);serial=0;reference_run=0;garage_car_color_dialog(mode);
   assert(count==seen&&memcmp(&world,&expected,sizeof(world))==0);assert((uintptr_t)world.row>UINT32_MAX&&(uintptr_t)world.badge>UINT32_MAX&&(uintptr_t)world.text>UINT32_MAX);
  }
  for(unsigned i=0;i<4;i++)assert(coverage[i]);puts("524288 cases passed; full guarded owners and fresh callback roots across reset,navigation,entry and modal states");

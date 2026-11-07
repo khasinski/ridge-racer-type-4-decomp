@@ -32,7 +32,7 @@ static struct World {
 static unsigned scenario;
 #define ModeFrame world.frame
 #define ScreenFrame world.word
-#define garage_D_801272D4 world.local
+#define garage_color_preview_state world.local
 #define MenuCursor world.setting
 #define MenuItemCount world.style
 #define LoadState world.flag0

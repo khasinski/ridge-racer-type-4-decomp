@@ -36,7 +36,7 @@ static u8 banks[3][25*0x840];
 #define CarClutData w->palette1
 #define garage_car_color_map w->map
 #define garage_clut_list_index w->current
-#define garage_D_801272D4 w->phase
+#define garage_color_preview_state w->phase
 #define garage_clut_choice w->key
 #define garage_returned_from_logo_editor w->mode
 #define garage_image_fade_phase w->fade

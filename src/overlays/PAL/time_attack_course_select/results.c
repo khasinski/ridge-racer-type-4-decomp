@@ -9,11 +9,11 @@ void time_attack_course_select_init_results(void)
     ModeFrame = 0;
     if (TotalRaceTime != -1) {
         time_attack_course_select_find_best_lap();
-        time_attack_course_select_race_record_rank = time_attack_course_select_insert_record(0, LapTimes[(s16)BestLapIndex]);
-        time_attack_course_select_lap_record_rank = time_attack_course_select_insert_record(1, TotalRaceTime);
+        time_attack_course_select_lap_record_rank = time_attack_course_select_insert_record(0, LapTimes[(s16)BestLapIndex]);
+        time_attack_course_select_race_record_rank = time_attack_course_select_insert_record(1, TotalRaceTime);
     } else {
-        time_attack_course_select_race_record_rank = 6;
         time_attack_course_select_lap_record_rank = 6;
+        time_attack_course_select_race_record_rank = 6;
     }
     InitMenuTextRows(SharedWorkBuffer);
     MenuCursor = 0;
@@ -86,7 +86,7 @@ void time_attack_course_select_update_results(void) {
             row = base + i;
             FormatDecimalDigits((char *)&MenuTextRows[row].bytes[32], i + 1, 0);
             FormatRaceTime((char *)&MenuTextRows[row].bytes[35], LapTimes[i]);
-            if (i == PlayerCars[0].steering288.finish20 && time_attack_course_select_race_record_rank < 5) {
+            if (i == PlayerCars[0].steering288.finish20 && time_attack_course_select_lap_record_rank < 5) {
                 SetMenuTextRowCursor(row, 1, -1);
                 CopyStringClearTail((char *)&MenuTextRows[row].bytes[45], time_attack_course_select_new_record_label);
             }
@@ -95,22 +95,22 @@ void time_attack_course_select_update_results(void) {
         if (CourseIndex == 7) {
             base = 10;
         }
-        if (time_attack_course_select_lap_record_rank < 5) {
+        if (time_attack_course_select_race_record_rank < 5) {
             SetMenuTextRowCursor(base, 1, -1);
             CopyStringClearTail((char *)&MenuTextRows[base].bytes[45], time_attack_course_select_new_record_label);
         }
         break;
     case 1:
         group = 11;
-        if (time_attack_course_select_race_record_rank < 5) {
+        if (time_attack_course_select_lap_record_rank < 5) {
             StepMenuValue(1, 4, (char *)&time_attack_course_select_name_cursor, 8, 0);
             StepNameChar(&time_attack_course_select_record_name[time_attack_course_select_name_cursor]);
             {
-                s32 entry = time_attack_course_select_race_record_rank + 15;
+                s32 entry = time_attack_course_select_lap_record_rank + 15;
                 CopyStringClearTail((char *)&MenuTextRows[entry].bytes[42], time_attack_course_select_record_name);
             }
-            CopyStringClearTail(LapRecords[ReverseCourse][CourseIndex][time_attack_course_select_race_record_rank].name, time_attack_course_select_record_name);
-            SetMenuTextRowCursor(time_attack_course_select_race_record_rank + 15, 1, -((time_attack_course_select_name_cursor + 15) << 8));
+            CopyStringClearTail(LapRecords[ReverseCourse][CourseIndex][time_attack_course_select_lap_record_rank].name, time_attack_course_select_record_name);
+            SetMenuTextRowCursor(time_attack_course_select_lap_record_rank + 15, 1, -((time_attack_course_select_name_cursor + 15) << 8));
         }
         if (MenuTextRows[15].signedBytes[3] >= 15) {
             SetMenuFrameOptions(1, 1, 0);
@@ -124,15 +124,15 @@ void time_attack_course_select_update_results(void) {
         break;
     case 2:
         group = 22;
-        if (time_attack_course_select_lap_record_rank < 5) {
+        if (time_attack_course_select_race_record_rank < 5) {
             StepMenuValue(1, 4, (char *)&time_attack_course_select_name_cursor, 8, 0);
             StepNameChar(&time_attack_course_select_record_name[time_attack_course_select_name_cursor]);
             {
-                s32 entry = time_attack_course_select_lap_record_rank + 26;
+                s32 entry = time_attack_course_select_race_record_rank + 26;
                 CopyStringClearTail((char *)&MenuTextRows[entry].bytes[42], time_attack_course_select_record_name);
             }
-            CopyStringClearTail(RaceRecords[ReverseCourse][CourseIndex][time_attack_course_select_lap_record_rank].name, time_attack_course_select_record_name);
-            SetMenuTextRowCursor(time_attack_course_select_lap_record_rank + 26, 1, -((time_attack_course_select_name_cursor + 15) << 8));
+            CopyStringClearTail(RaceRecords[ReverseCourse][CourseIndex][time_attack_course_select_race_record_rank].name, time_attack_course_select_record_name);
+            SetMenuTextRowCursor(time_attack_course_select_race_record_rank + 26, 1, -((time_attack_course_select_name_cursor + 15) << 8));
         }
         if (MenuTextRows[15].signedBytes[3] >= 15) {
             SetMenuFrameOptions(1, 1, 0);

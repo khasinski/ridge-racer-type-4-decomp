@@ -5,8 +5,8 @@ void garage_init_team_select(void)
     s32 i;
     ModeFrame=0;
     ScreenFrame=0;
-    garage_D_801272D4=0;
-    garage_D_801272C0=0;
+    garage_color_preview_state=0;
+    garage_select_arrows_unused_arg=0;
     SelectedTeamIndex=2;
     SelectionRows.bytes[0]=2;
     CourseListIndex=0;

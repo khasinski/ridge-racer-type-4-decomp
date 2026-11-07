@@ -52,7 +52,7 @@ void serial_link_init_connection(unsigned long configuration) {
     LinkSentLocalInputs.words[1]=0;
     LinkRemoteInputs.words[0]=0;
     LinkRemoteInputs.words[1]=0;
-    serial_link_D_80118ED0=0;
+    serial_link_stop_race_state=0;
     serial_link_shutdown_state=0;
     if (_sio_control(3,1,0) != 0) {
         _sio_control(3,0,1);

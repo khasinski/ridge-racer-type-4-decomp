@@ -55,8 +55,8 @@ extern s32 serial_link_shutdown_state;
 extern s32 serial_link_pause_sequence;
 extern u8 serial_link_rx_cursor, serial_link_last_rx_cursor;
 extern u8 serial_link_local_menu_buttons, serial_link_remote_menu_buttons, serial_link_sent_menu_buttons;
-extern Ovl667Vector16 serial_link_D_80118E88[];
-extern Ovl667Vector16 serial_link_D_80118EA8[];
+extern Ovl667Vector16 serial_link_player_camera_angles[];
+extern Ovl667Vector16 serial_link_player_camera_positions[];
 
 extern void SetModelTexturePage();
 extern char *AddDrawAreaPrim();
@@ -291,16 +291,16 @@ void serial_link_update_race(void) {
 
     for (i = 0; i < n; i++) {
         if (PlayerCars[i].active1E8 != -1) {
-            *(Ovl667Vector16 *)0x1F800018 = serial_link_D_80118E88[i];
-            *(Ovl667Vector16 *)0x1F800008 = serial_link_D_80118EA8[i];
+            *(Ovl667Vector16 *)0x1F800018 = serial_link_player_camera_angles[i];
+            *(Ovl667Vector16 *)0x1F800008 = serial_link_player_camera_positions[i];
             SetupViewport(split + i);
             if (RaceState == 0 && ModeFrame < 75) {
                 UpdateRaceIntroCamera(&PlayerCars[i], ModeFrame);
             } else {
                 UpdateRaceChaseCamera(&PlayerCars[i]);
             }
-            serial_link_D_80118E88[i] = *(Ovl667Vector16 *)0x1F800018;
-            serial_link_D_80118EA8[i] = *(Ovl667Vector16 *)0x1F800008;
+            serial_link_player_camera_angles[i] = *(Ovl667Vector16 *)0x1F800018;
+            serial_link_player_camera_positions[i] = *(Ovl667Vector16 *)0x1F800008;
             BuildCameraMatrices();
             DrawCars(i + ((s16)(LinkRoleSlot ^ 1) + 1) * 2);
             if (PlayerCars[i].flag1EA != 0 && RacePaused == 0) {

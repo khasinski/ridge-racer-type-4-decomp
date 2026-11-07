@@ -4,7 +4,7 @@
 extern u8 versus_select_group_option_counts[];            /* option count per course group */
 extern s8 versus_select_group_option_ids[2][4];        /* option meaning per group slot */
 extern s8 versus_select_group_option_rows[2][2][4];     /* UI row per player, group, slot */
-extern s16 versus_select_D_80118438;
+extern s16 versus_select_subchoice_state;
 extern s16 versus_select_choice_counts[2][2];       /* course count per player/group */
 extern s16 versus_select_choice_index[2];          /* selected course per player */
 extern s16 versus_select_choice_group[2];          /* selected group per player */
@@ -128,7 +128,7 @@ void versus_select_update_car_select(void)
             PlaySfx(1);
             UiRows[row].cells[0] = 1;
             if (MenuCursor == versus_select_group_option_ids[versus_select_choice_group[PLAYER]][0]) {
-                versus_select_D_80118438 = i;
+                versus_select_subchoice_state = i;
                 ModeSubState = 4;
             } else if (MenuCursor == versus_select_group_option_ids[versus_select_choice_group[PLAYER]][1]
                        && versus_select_choice_tables[SelectionPlayer][1][0].glyph != -1) {
@@ -186,7 +186,7 @@ void versus_select_update_car_select(void)
     case 3:
         row = GROUP_ROW((SelectionPlayer - 1) & 1, 1, 3) + 1;
         if (UiRows[row].byte14 == 5) {
-            versus_select_D_80118438 = 1;
+            versus_select_subchoice_state = 1;
             ModeSubState = 0;
         }
         break;
@@ -256,7 +256,7 @@ void versus_select_update_car_select(void)
         row = GROUP_ROW(PLAYER, 1, 3) + 1;
         if (UiRows[row].byte14 == 5) {
             ModeSubState = 0;
-            versus_select_D_80118438 = 1;
+            versus_select_subchoice_state = 1;
             UiRows[row].byte14 = 0;
             UiRows[row + 1].byte14 = 0;
         }
@@ -295,8 +295,8 @@ void versus_select_update_car_select(void)
         break;
     }
 tail:
-    if (versus_select_D_80118438 == 0 && MODE == 2) {
-        versus_select_D_80118438 = 1;
+    if (versus_select_subchoice_state == 0 && MODE == 2) {
+        versus_select_subchoice_state = 1;
         BadgeRows->half02 = 1;
     }
     if (ModeSubState == 3) {
@@ -320,7 +320,7 @@ tail:
         }
         DrawUiRow(row);
     }
-    if (versus_select_D_80118438 == 2) {
+    if (versus_select_subchoice_state == 2) {
         last = GROUP_ROW(player & 1, 1, 3);
         DrawUiRow(last + 1);
         DrawUiRow(last + 2);

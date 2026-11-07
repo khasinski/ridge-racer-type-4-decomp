@@ -11,14 +11,14 @@ extern s32 time_attack_course_select_result_labels[55];
 extern u8 time_attack_course_select_preview_row_map[2][4];
 extern s16 time_attack_course_select_available_car_counts[2];
 extern s32 time_attack_course_select_available_course_count;
-extern s32 time_attack_course_select_race_record_rank;
+extern s32 time_attack_course_select_lap_record_rank;
 extern s32 time_attack_course_select_name_cursor;
 extern s16 time_attack_course_select_result_kind;
 extern char time_attack_course_select_record_name[12];
 extern s16 time_attack_course_select_preview_confirmation;
 extern s32 time_attack_course_select_result_transition;
 extern s16 time_attack_course_select_preview_selection;
-extern s32 time_attack_course_select_lap_record_rank;
+extern s32 time_attack_course_select_race_record_rank;
 extern s16 time_attack_course_select_preview_bank;
 
 extern s32 GameLanguage;

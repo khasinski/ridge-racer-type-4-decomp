@@ -43,10 +43,10 @@ static struct World {
 } actual,expected,initial,*w;
 static unsigned scenario,mutation;
 #define serial_link_sync_state w->state.command
-#define serial_link_D_80118ED0 w->state.peer
+#define serial_link_stop_race_state w->state.peer
 #define serial_link_shutdown_state w->state.halt
 #define serial_link_tx_state w->state.pending
-#define serial_link_D_80118EF4 w->state.serial
+#define serial_link_rx_idle_flag w->state.serial
 #define serial_link_rx_count w->state.rxcount
 #define serial_link_rx_miss_count w->state.timeout
 #define serial_link_tx_count w->state.txcount

@@ -61,7 +61,7 @@ static u8 resources[3][0x2D100],arenas[3][128],packets[128];static u32 orders[32
 #define LoadState w->s.clear2
 #define CourseIndexMap w->s.map
 #define garage_car_index w->s.index
-#define garage_D_801272D4 w->s.local
+#define garage_color_preview_state w->s.local
 #define garage_car_list_count w->s.count
 ''' + helpers + bodies + r'''
 static s32 word(u32 u){s32 v;memcpy(&v,&u,4);return v;}

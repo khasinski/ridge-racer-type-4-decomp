@@ -53,8 +53,8 @@ static unsigned scenario,mutation,overlay;
 #define TotalRaceTime w->state.match
 #define LapTimes w->state.standings
 #define BestLapIndex w->state.first
-#define time_attack_course_select_race_record_rank w->state.first660
-#define time_attack_course_select_lap_record_rank w->state.second660
+#define time_attack_course_select_lap_record_rank w->state.first660
+#define time_attack_course_select_race_record_rank w->state.second660
 #define time_attack_course_select_result_labels w->state.labels660
 #define Pad0Protocol w->state.uiMode
 #define time_attack_course_select_result_transition w->state.screenFlag

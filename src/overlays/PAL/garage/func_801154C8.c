@@ -236,8 +236,8 @@ block_54:
         break;
     }
 block_67:
-        if ((garage_D_801272D4 == 0) && ((*(s8*)(ImageRows+1)) == 2)) {
-            garage_D_801272D4 = 1;
+        if ((garage_color_preview_state == 0) && ((*(s8*)(ImageRows+1)) == 2)) {
+            garage_color_preview_state = 1;
             BadgeRows->half02 = 1;
             var_s0 = 0;
         }

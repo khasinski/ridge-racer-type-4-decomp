@@ -41,8 +41,8 @@ static unsigned scenario,mutation,seenMap,seenFlags;
 #define ScreenFrame w->s.pulse
 #define MenuCursor w->s.flag
 #define MenuItemCount w->s.layout
-#define garage_D_801272D4 w->s.current
-#define garage_D_801272C0 w->s.local
+#define garage_color_preview_state w->s.current
+#define garage_select_arrows_unused_arg w->s.local
 #define garage_returned_from_logo_editor w->s.mode
 #define garage_clut_list_count w->s.count
 #define garage_image_fade_phase w->s.reset
