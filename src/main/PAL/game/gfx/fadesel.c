@@ -2,32 +2,31 @@
 #include "game/gfx/fadesel.h"
 #include "game/gfx/fadespr.h"
 
-extern FadeRaceContext RaceContext;
-extern s32 DemoFadeSkipEnabled;
+#include "rr/scene_camera_state.h"
 
-void SelectDemoFadePreset(int a0)
+void SelectDemoFadePreset(int preset)
 {
-    RaceContext.f404 = 0;
-    RaceContext.f3F8 = 0;
-    RaceContext.f434 = 1;
-    RaceContext.f43C = 0;
-    RaceContext.f440 = 0;
-    switch (a0) {
+    RaceContext.fade3E0.spriteIntensity24 = 0;
+    RaceContext.fade3E0.spriteMode18 = 0;
+    RaceContext.fade3E0.rippleMode54 = 1;
+    RaceContext.fade3E0.rippleFrame5C = 0;
+    RaceContext.fade3E0.rippleIntensity60 = 0;
+    switch (preset) {
     case 0:
-        RaceContext.f438 = 0xB;
+        RaceContext.fade3E0.ripplePreset58 = 0xB;
         break;
     case 1:
-        RaceContext.f438 = 8;
+        RaceContext.fade3E0.ripplePreset58 = 8;
         break;
     case 2:
-        RaceContext.f438 = 0xC;
+        RaceContext.fade3E0.ripplePreset58 = 0xC;
         break;
     }
-    RaceContext.f3F4 = 1;
-    RaceContext.f3E4 = 0xBB8;
-    RaceContext.f41C = 2;
+    RaceContext.fade3E0.particlesEnabled14 = 1;
+    RaceContext.fade3E0.frame04 = 0xBB8;
+    RaceContext.fade3E0.mode3C = 2;
 }
 
 void EnableDemoFadeSkip(void) {
-    DemoFadeSkipEnabled = 1;
+    RaceContext.fade3E0.scaleMode48 = 1;
 }

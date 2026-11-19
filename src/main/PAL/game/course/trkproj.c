@@ -1,5 +1,6 @@
 #include "rr/scene_camera_state.h"
 #include "types.h"
+#include "rr/scene_camera_state.h"
 #include "game/course/control.h"
 #include "rr/track_projection.h"
 #include "rr/geometry.h"
@@ -58,11 +59,11 @@ void ComputeCarTrackSurfaceProj(RaceVehicle *vehicle)
     if (secondNode < 0) {
         secondNode += TrackNodeCount;
     }
-    offset = TrackLaneOffsets + firstNode;
+    offset = RaceContext.laneOffsets54C + firstNode;
     sample = offset;
     line.first.x = sample->x;
     line.first.z = sample->z;
-    sample = TrackLaneOffsets + secondNode;
+    sample = RaceContext.laneOffsets54C + secondNode;
     line.second.x = sample->x;
     line.second.z = sample->z;
     fraction = distance & 0x3FF;
@@ -622,10 +623,10 @@ void UpdateComCarTargetPoint(RaceVehicle *vehicle) {
     if (control->laneActive6A == 0) {
         switch (control->laneTimer38) {
         case 0:
-            firstOffset = &TrackLaneOffsets[firstNode];
+            firstOffset = &RaceContext.laneOffsets54C[firstNode];
             firstPoint.x = firstSample->road.x + firstOffset->x;
             firstPoint.z = firstSample->road.z + firstOffset->z;
-            secondOffset = &TrackLaneOffsets[secondNode];
+            secondOffset = &RaceContext.laneOffsets54C[secondNode];
             secondPoint.x = secondSample->road.x + secondOffset->x;
             secondPoint.z = secondSample->road.z + secondOffset->z;
             target.x = (secondPoint.x - firstPoint.x) * fraction / 1024 + firstPoint.x;

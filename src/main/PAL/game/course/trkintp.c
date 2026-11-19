@@ -1,4 +1,5 @@
 #include "types.h"
+#include "rr/scene_camera_state.h"
 #include "rr/track_sample_types.h"
 #include "rr/race_types.h"
 #include "game/car/carphys2.h"
@@ -64,7 +65,7 @@ void ComputeStartDistance(RaceVehicle *vehicle, int direction)
     int wrapped;
     int previous;
     *(volatile s32 *)&vehicle->first = 0;
-    node = *TrackStartNode;
+    node = RaceContext.startGrid53C->trackNode00;
     target = vehicle->trackNodeF0;
     distance = 0;
     if (ReverseCourse == 0) {

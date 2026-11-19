@@ -3,6 +3,7 @@
 #include "rr/gpu_scratch_types.h"
 #include "scratchpad.h"
 #include "rr/ui.h"
+#include "rr/gpu_address.h"
 #include "rr/ui_primitives.h"
 #include "game/course/trktext.h"
 #include "game/effect/ptinit.h"
@@ -12,30 +13,8 @@
 #include "rr/frame_loop.h"
 #include "psyq/libc/rand.h"
 
-#define ADDPRIM(ot, p) \
-    (p)->addr = ((PolyFT4 *)(ot))->addr; \
-    ((PolyFT4 *)(ot))->addr = (p)
-
-typedef struct {
-    u32 addr:24;
-    u32 len:8;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    s16 x1, y1;
-    u8 u1, v1;
-    u16 tpage;
-    s16 x2, y2;
-    u8 u2, v2;
-    u16 pad1;
-    s16 x3, y3;
-    u8 u3, v3;
-    u16 pad2;
-} PolyFT4;
-
 extern unsigned char CameraModeBaseFovTable[];
-extern FadeRaceContext RaceContext;
+#include "rr/scene_camera_state.h"
 extern GpuColorCommand ViewViewportClipRect;
 
 void InitParticles(void) {
@@ -159,7 +138,7 @@ void DrawParticle(int a0) {
     GpuColorCommand c[4];
     GpuRectangleFields rect;
     UiParticle20 *e;
-    PolyFT4 *p;
+    GpuPolyFT4Packet *p;
     int i, v;
     int s3, sp30, s7, s1;
 
@@ -167,13 +146,13 @@ void DrawParticle(int a0) {
     c[0] = c[1] = c[2] = c[3] = *(GpuColorCommand *)&e->r10;
     for (i = 0; i < 4; i++) {
         v = (c[i].r * ParticleSystem.brightness18) / 256;
-        v = (v * RaceContext.scale3E8) / 256;
+        v = (v * RaceContext.fade3E0.scale08) / 256;
         c[i].r = v;
         v = (c[i].g * ParticleSystem.brightness18) / 256;
-        v = (v * RaceContext.scale3E8) / 256;
+        v = (v * RaceContext.fade3E0.scale08) / 256;
         c[i].g = v;
         v = (c[i].b * ParticleSystem.brightness18) / 256;
-        v = (v * RaceContext.scale3E8) / 256;
+        v = (v * RaceContext.fade3E0.scale08) / 256;
         c[i].b = v;
     }
     c[1].r /= 2;
@@ -191,9 +170,9 @@ void DrawParticle(int a0) {
         c[i].b = (c[i].b * e->scale1A) / 256;
     }
 
-    p = (PolyFT4 *)((GpuScratchPointers *)SCRATCHPAD)->cursor;
+    p = (GpuPolyFT4Packet *)((GpuScratchPointers *)SCRATCHPAD)->cursor;
     if (e->velY1E >= 4) {
-        p->len = 9;
+        p->tag.bytes.length = 9;
         p->code = 0x2E;
         p->r0 = c[3].r;
         p->g0 = c[3].g;
@@ -216,11 +195,12 @@ void DrawParticle(int a0) {
         p->v3 = 0xA0;
         p->tpage = 0xA5;
         p->clut = 0x7EB8;
-        ADDPRIM(&CurrentDrawBuf->buffer.ordering70.words[70], p);
+        p->tag.bits.address = ((GpuDmaTag *)&CurrentDrawBuf->buffer.ordering70.words[70])->bits.address;
+        ((GpuDmaTag *)&CurrentDrawBuf->buffer.ordering70.words[70])->bits.address = GpuDmaEncodeAddress(p);
         p++;
     }
 
-    p->len = 9;
+    p->tag.bytes.length = 9;
     p->code = 0x2E;
     p->r0 = c[2].r;
     p->g0 = c[2].g;
@@ -243,11 +223,12 @@ void DrawParticle(int a0) {
     p->v3 = 0xA0;
     p->tpage = 0xA5;
     p->clut = 0x7EB8;
-    ADDPRIM(&CurrentDrawBuf->buffer.ordering70.words[70], p);
+    p->tag.bits.address = ((GpuDmaTag *)&CurrentDrawBuf->buffer.ordering70.words[70])->bits.address;
+        ((GpuDmaTag *)&CurrentDrawBuf->buffer.ordering70.words[70])->bits.address = GpuDmaEncodeAddress(p);
     p++;
 
     if (e->velY1E >= 5) {
-        p->len = 9;
+        p->tag.bytes.length = 9;
         p->code = 0x2E;
         p->r0 = c[0].r;
         p->g0 = c[0].g;
@@ -270,7 +251,8 @@ void DrawParticle(int a0) {
         p->v3 = 0xA0;
         p->tpage = 0xA5;
         p->clut = 0x7EB8;
-        ADDPRIM(&CurrentDrawBuf->buffer.ordering70.words[70], p);
+        p->tag.bits.address = ((GpuDmaTag *)&CurrentDrawBuf->buffer.ordering70.words[70])->bits.address;
+        ((GpuDmaTag *)&CurrentDrawBuf->buffer.ordering70.words[70])->bits.address = GpuDmaEncodeAddress(p);
         p++;
     }
     ((GpuScratchPointers *)SCRATCHPAD)->cursor = (u8 *)p;

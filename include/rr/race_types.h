@@ -3,6 +3,7 @@
 #include "rr/layout.h"
 #include "rr/geometry.h"
 #include "rr/car_record_types.h"
+#include "rr/race_spec_types.h"
 
 /* Six-word interpolation record, shared by the constructor and evaluator. */
 typedef struct {
@@ -112,15 +113,6 @@ typedef struct {
     s16 metric12A;
 } RaceVehicleControl;
 
-/* 0x30-byte performance interpolation row (CarSpecTable / context table). */
-typedef struct {
-    s32 baseSpeed00, gearCount04;
-    unsigned short ratios08[6];
-    unsigned short thresholds14[6];
-    s16 maximum20, span22, divisor24, factor26;
-    s32 altSpeed28;
-    s16 steering2C, pad2E;
-} RaceSpecEntry30;
 
 /* Fields shared by distance comparison, vehicle physics, AI and response calculations. */
 typedef struct RaceVehicle {

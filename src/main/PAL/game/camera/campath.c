@@ -1,3 +1,4 @@
+#include "rr/audio_state_types.h"
 #include "game/camera/viewcam.h"
 #include "types.h"
 #include "scratchpad.h"
@@ -215,7 +216,7 @@ void RestartMotionSequence(void) {
     RaceContext.controller3D8->scriptIndex68 = 0;
     RaceContext.controller3D8->scriptTimer6A = 0;
     RaceContext.controller3D8->flags60 = 0;
-    RaceContext.controller3D8->script64 = MotionSequenceTable[MotionSequenceIndex];
+    RaceContext.controller3D8->script64 = MotionSequenceTable[SoundState.seqTrack2868];
     RaceContext.controller3D8->scriptOperation6C = RaceContext.controller3D8->script64[RaceContext.controller3D8->scriptIndex68].operation;
     RaceContext.controller3D8->scriptArgument70 = RaceContext.controller3D8->script64[RaceContext.controller3D8->scriptIndex68].argument;
     switch (RaceContext.controller3D8->scriptOperation6C) {

@@ -3,7 +3,6 @@
 
 #include "rr/presentation_types.h"
 
-extern int MotionSequenceIndex;
 extern MotionKey32 MotionTrackTable[];
 extern CameraScriptEntry8 HudCircularGaugeVerts[];
 extern CameraScriptEntry8 *MotionSequenceTable[];

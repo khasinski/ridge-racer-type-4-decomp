@@ -27,10 +27,9 @@ typedef struct {
 } OptionsState3C;
 
 extern OptionsState3C Options;
-extern char FadeSpriteRaceContext[];
 extern struct OptionsDefaultTail16 OptionsDefaultTailData;
 extern unsigned char HudPauseMenuTitleY[];
-extern FadeRaceContext RaceContext;
+#include "rr/scene_camera_state.h"
 
 void EmitFadeSprite(s32 index, s32 x, s32 y, s32 intensity);
 
@@ -61,18 +60,16 @@ void InitOptionsDefaults(void) {
     Options.w38 = 0x10;
 }
 
-void InitDemoFadeContext(int a0) {
-    struct OptionsDefaultTail16 v;
+void InitDemoFadeContext(int sound) {
+    struct OptionsDefaultTail16 bankOrder;
     int i;
     s16 t;
-    FadeRaceContext *p = (FadeRaceContext *)FadeSpriteRaceContext;
-    v = OptionsDefaultTailData;
-    PsyqBzero((char *)p, 0x64);
-    p = (FadeRaceContext *)((char *)p - 0x3E0);
-    p->f400 = 0xCE;
-    p->f42C = a0;
-    p->scale3E8 = 0x100;
-    p->unkB0 = 0;
+    bankOrder = OptionsDefaultTailData;
+    PsyqBzero(&RaceContext.fade3E0, sizeof(RaceContext.fade3E0));
+    RaceContext.fade3E0.spriteY20 = 0xCE;
+    RaceContext.fade3E0.sound4C = sound;
+    RaceContext.fade3E0.scale08 = 0x100;
+    RaceContext.sceneStateB0 = 0;
     InitParticles();
     i = 0;
     if (SoundState.seqHandle2864 >= 0) {
@@ -81,30 +78,30 @@ void InitDemoFadeContext(int a0) {
         SoundState.seqHandle2864 = -1;
     }
     for (i = 0; i < 4; i++) {
-        t = SoundState.banks24.ids[v.a[i]];
+        t = SoundState.banks24.ids[bankOrder.a[i]];
         if (t >= 0) {
             SsVabClose(t);
-            SoundState.banks24.ids[v.a[i]] = -1;
+            SoundState.banks24.ids[bankOrder.a[i]] = -1;
         }
     }
     ResetSeqFadeState();
-    MotionSequenceIndex = -1;
+    SoundState.seqTrack2868 = -1;
 }
 
-void UpdateFadeTint(int a0) {
-    int v1, a, v2;
-    RaceContext.r3F0 = (HudPauseMenuTitleY[0] * a0) / 255;
-    RaceContext.g3F1 = (HudPauseMenuTitleY[1] * a0) / 255;
-    v1 = RaceContext.r3F0 * RaceContext.scale3E8;
-    RaceContext.b3F2 = (HudPauseMenuTitleY[2] * a0) / 255;
-    if (v1 < 0) v1 += 0xFF;
-    a = RaceContext.g3F1 * RaceContext.scale3E8;
-    RaceContext.r3F0 = v1 >> 8;
-    if (a < 0) a += 0xFF;
-    v2 = RaceContext.b3F2 * RaceContext.scale3E8;
-    RaceContext.g3F1 = a >> 8;
-    if (v2 < 0) v2 += 0xFF;
-    RaceContext.b3F2 = v2 >> 8;
+void UpdateFadeTint(int intensity) {
+    int redScaled, greenScaled, blueScaled;
+    RaceContext.fade3E0.color10[0] = (HudPauseMenuTitleY[0] * intensity) / 255;
+    RaceContext.fade3E0.color10[1] = (HudPauseMenuTitleY[1] * intensity) / 255;
+    redScaled = RaceContext.fade3E0.color10[0] * RaceContext.fade3E0.scale08;
+    RaceContext.fade3E0.color10[2] = (HudPauseMenuTitleY[2] * intensity) / 255;
+    if (redScaled < 0) redScaled += 0xFF;
+    greenScaled = RaceContext.fade3E0.color10[1] * RaceContext.fade3E0.scale08;
+    RaceContext.fade3E0.color10[0] = redScaled >> 8;
+    if (greenScaled < 0) greenScaled += 0xFF;
+    blueScaled = RaceContext.fade3E0.color10[2] * RaceContext.fade3E0.scale08;
+    RaceContext.fade3E0.color10[1] = greenScaled >> 8;
+    if (blueScaled < 0) blueScaled += 0xFF;
+    RaceContext.fade3E0.color10[2] = blueScaled >> 8;
 }
 
 void EmitFadeSprite(s32 index, s32 x, s32 y, s32 intensity) {

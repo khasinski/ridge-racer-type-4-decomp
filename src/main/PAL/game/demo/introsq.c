@@ -7,7 +7,7 @@
 #include "game/gfx/fadeend.h"
 #include "game/demo/intro.h"
 
-extern int RaceContext[];
+#include "rr/scene_camera_state.h"
 extern short ModeIndex;
 extern short ModeGroup;
 extern short SubmodeState;
@@ -16,24 +16,24 @@ void IntroModeUpdate(void);
 
 void IntroModeUpdate(void) {
     int s1 = IntroScriptStep();
-    switch (RaceContext[0x444 / 4]) {
+    switch (RaceContext.sceneStep444) {
     case 0:
         SetDispMask(1);
-        RaceContext[0x444 / 4]++;
+        RaceContext.sceneStep444++;
     case 1:
         if (LoadIntroSceneStep() != 0) {
-            RaceContext[0x444 / 4]++;
+            RaceContext.sceneStep444++;
             StartDemoFadeOutAndCloseVab();
             CdAudioInit();
             CdAudioSelectTrack(0, 0x25);
         }
         break;
     case 2:
-        if (s1 == RaceContext[0x444 / 4]) {
+        if (s1 == RaceContext.sceneStep444) {
             SetDispMask(0);
             ModeGroup = s1;
             ModeIndex = 7;
-            RaceContext[0x444 / 4] = 0;
+            RaceContext.sceneStep444 = 0;
             SubmodeState = 0;
         }
         break;

@@ -55,10 +55,6 @@ RR_ASSERT_OFFSET(RaceVehicleControl, metric12A, 0x12A);
 RR_ASSERT_SIZE(RaceStandingEntry0C, 0xC);
 RR_ASSERT_SIZE(RaceStandingsTable, 0x78);
 #endif
-RR_ASSERT_SIZE(RaceSpecEntry30, 0x30);
-RR_ASSERT_OFFSET(RaceSpecEntry30, thresholds14, 0x14);
-RR_ASSERT_OFFSET(RaceSpecEntry30, maximum20, 0x20);
-RR_ASSERT_OFFSET(RaceSpecEntry30, altSpeed28, 0x28);
 RR_ASSERT_OFFSET(RaceStandingsTable, entries18, 0x18);
 RR_ASSERT_OFFSET(RaceStandingsTable, playerSpeed, 0);
 RR_ASSERT_OFFSET(RaceStandingsTable, playerDistance, 8);

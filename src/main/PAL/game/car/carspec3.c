@@ -1,17 +1,9 @@
-#define RaceContext RaceContextHeaderDecl
 #include "rr/race.h"
 #include "game/car/carspec3.h"
 #include "game/car/carspec1.h"
 #include "game/car/carspec2.h"
 #include "rr/audio_loop.h"
-#undef RaceContext
 
-extern struct {
-    u8 reserved00[0x14];
-    int mode;
-    u8 reserved18[0x528];
-    RaceSpecEntry30 *tab;
-} RaceContext;
 void ApplyRubberBandSpec(RaceVehicle *a0) {
     int s0 = 0;
     RaceSpecEntry30 *s2;
@@ -24,13 +16,13 @@ void ApplyRubberBandSpec(RaceVehicle *a0) {
     int k;
     int w;
     int v1;
-    s2 = RaceContext.tab + (a0->flags1E4 & 0xF) - 1;
+    s2 = RaceContext.carSpecs540 + (a0->flags1E4 & 0xF) - 1;
     s3 = &a0->control;
-    if (RaceContext.mode == 1) {
+    if (RaceContext.playerCount14 == 1) {
         s0 = CalcRubberBandFactor(a0, s0);
         a = (a0->flags1E4 & 0xF) - 1;
         BlendCarSpec(a, a, s0, 0);
-    } else if (RaceContext.mode == 2) {
+    } else if (RaceContext.playerCount14 == 2) {
         BlendCarSpec(0, 2, CalcRubberBandFactor(a0, 0), 0);
         s0 = CalcRubberBandFactor(a0, 1);
         BlendCarSpec(1, 3, s0, 0);

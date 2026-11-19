@@ -44,10 +44,7 @@ extern RaceVehicle ComCars[];
 extern short NumCars;
 extern short LinkHostFlag;
 extern short ReverseCourse;
-extern struct {
-    u8 reserved00[0x53C];
-    Grid53C *p53C;
-} RaceContext;
+#include "rr/scene_camera_state.h"
 
 void InitPreviewImageRows(void) {
     SetModelTexturePage(0x19);
@@ -180,16 +177,16 @@ void PlaceCarOnGrid(RaceVehicle *p, int arg1) {
 
     ResetVehicleShake(p);
     if (GameModeType == 0 && ReverseCourse == 1) {
-        p->trackNodeF0 = *TrackStartNode;
+        p->trackNodeF0 = RaceContext.startGrid53C->trackNode00;
         t = TrackNodeCount - 5;
         p->position20.vector.x = TrackNodes[(p->trackNodeF0 + t) % TrackNodeCount].road.x;
         p->position20.vector.y = 0;
         p->position20.vector.z = TrackNodes[(p->trackNodeF0 + t) % TrackNodeCount].road.z;
     } else {
-        p->position20.vector.x = RaceContext.p53C->pos[arg1].x;
+        p->position20.vector.x = RaceContext.startGrid53C->positions10[arg1].x;
         p->position20.vector.y = 0;
-        p->position20.vector.z = RaceContext.p53C->pos[arg1].z;
-        p->trackNodeF0 = RaceContext.p53C->f0;
+        p->position20.vector.z = RaceContext.startGrid53C->positions10[arg1].z;
+        p->trackNodeF0 = RaceContext.startGrid53C->trackNode00;
     }
     p->posScaled00[0] = p->position20.vector.x << 8;
     p->posScaled00[1] = 0;

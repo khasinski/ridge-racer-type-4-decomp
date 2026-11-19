@@ -1,3 +1,4 @@
+from scene_lane_fixture_transport import transport as transport_scene_lanes
 """Track/AI paths use the actual pointer-bearing native vehicle control owner.
 
 Coordinates/products stay in s32 range and sample indices stay inside eight rows.
@@ -139,7 +140,7 @@ int main(void) {
 }
 '''
         with TemporaryDirectory() as temporary:
-            directory=Path(temporary);c=directory/'test.c';exe=directory/'test';c.write_text(source)
+            directory=Path(temporary);c=directory/'test.c';exe=directory/'test';c.write_text(transport_scene_lanes(source,bodies))
             built=subprocess.run(['cc','-std=gnu11','-O2','-Wall','-Wextra','-Werror',
                                   '-fsanitize=undefined,bounds','-fno-sanitize-recover=all',
                                   '-I',str(ROOT/'include'),str(c),'-o',str(exe)],capture_output=True,text=True)

@@ -1,35 +1,31 @@
-#define RaceContext RaceContextHeaderDecl
 #include "rr/race.h"
 #include "game/car/carspec1.h"
-#undef RaceContext
 
-extern char CarSpecControlPool[];
-extern RaceSpecEntry30 *CarSpecTable;
-extern struct { u8 reserved00[0x544]; RaceSpecEntry30 *p[1]; } RaceContext;
+extern RaceVehicle ComCars[];
 
-void BlendCarSpec(int a0, int a1, int a2, int a3) {
-    RaceSpecEntry30 *t3 = &CarSpecTable[a0];
-    RaceVehicleControl *t2 = (RaceVehicleControl *)(CarSpecControlPool + a1 * sizeof(RaceVehicle));
-    int lo, v, i, a;
-    if (a2 < 0x401) {
-        lo = a2 * t2->factor11E;
-        v = lo >> 10;
-        if (lo < 0) v = (lo + 0x3FF) >> 10;
+void BlendCarSpec(int baseIndex, int vehicleIndex, int blend, int targetIndex) {
+    RaceSpecEntry30 *baseSpec = &RaceContext.carSpecs540[baseIndex];
+    RaceVehicleControl *control = &ComCars[vehicleIndex].control;
+    int product, weight, i, baseSpeed;
+    if (blend < 0x401) {
+        product = blend * control->factor11E;
+        weight = product >> 10;
+        if (product < 0) weight = (product + 0x3FF) >> 10;
     } else {
-        v = a2 - 0x800;
+        weight = blend - 0x800;
     }
-    a = t3->baseSpeed00;
-    t2->maxSpeedF8 = ((((RaceContext.p[a3]->baseSpeed00 - a) * v) / 1024) + a) << 8;
+    baseSpeed = baseSpec->baseSpeed00;
+    control->maxSpeedF8 = (u32)((((RaceContext.specTargets544[targetIndex]->baseSpeed00 - baseSpeed) * weight) / 1024) + baseSpeed) << 8;
     i = 0;
     do {
-        t2->gearRatios100[i] = ((((RaceContext.p[a3]->ratios08[i] - t3->ratios08[i]) * v) / 1024) + t3->ratios08[i]) * 4;
+        control->gearRatios100[i] = ((((RaceContext.specTargets544[targetIndex]->ratios08[i] - baseSpec->ratios08[i]) * weight) / 1024) + baseSpec->ratios08[i]) * 4;
         i++;
     } while (i < 6);
     i = 0;
     do {
-        t2->shiftThresholds10C[i] = t3->thresholds14[i] + (((RaceContext.p[a3]->thresholds14[i] - t3->thresholds14[i]) * v) / 1024);
+        control->shiftThresholds10C[i] = baseSpec->thresholds14[i] + (((RaceContext.specTargets544[targetIndex]->thresholds14[i] - baseSpec->thresholds14[i]) * weight) / 1024);
         i++;
     } while (i < 6);
-    t2->maximum118 = (unsigned short)t3->maximum20 + (((RaceContext.p[a3]->maximum20 - t3->maximum20) * v) / 1024);
-    t2->span11A = (unsigned short)t3->span22 + (((RaceContext.p[a3]->span22 - t3->span22) * v) / 1024);
+    control->maximum118 = (unsigned short)baseSpec->maximum20 + (((RaceContext.specTargets544[targetIndex]->maximum20 - baseSpec->maximum20) * weight) / 1024);
+    control->span11A = (unsigned short)baseSpec->span22 + (((RaceContext.specTargets544[targetIndex]->span22 - baseSpec->span22) * weight) / 1024);
 }

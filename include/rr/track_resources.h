@@ -2,6 +2,7 @@
 #define RR_TRACK_RESOURCES_H
 
 #include "rr/lookup.h"
+#include "game/car/grid.h"
 #include "rr/track_sample_types.h"
 
 /* R4 track-resource directory. Section offsets are relative to this header. */
@@ -15,7 +16,7 @@ typedef struct {
 
 void RelocateTrackLookupTables(TrackEventDirectory *tables);
 void SetTrackLaneOffsets(TrackLaneOffset8 *offsets);
-void SetTrackStartNode(s32 *startNode);
+void SetTrackStartNode(RaceStartGrid60 *startGrid);
 void SetTrackWorkspace(u8 *workspace);
 void LoadTrackResource(TrackResourceFile *file);
 

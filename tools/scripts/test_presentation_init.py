@@ -1,3 +1,4 @@
+from motion_index_fixture_transport import transport as transport_motion_index
 """Shared presentation owner: inline storage, root replacement and script dispatch."""
 from pathlib import Path
 import subprocess
@@ -138,7 +139,7 @@ int main(void) {
         with TemporaryDirectory() as directory:
             path = Path(directory)
             c, exe = path/'presentation.c', path/'presentation'
-            c.write_text(harness)
+            c.write_text(transport_motion_index(harness))
             compiled = subprocess.run(
                 ['cc', '-std=gnu11', '-O2', '-Wall', '-Wextra', '-Werror',
                  '-fsanitize=undefined,bounds', '-fno-sanitize-recover=all',

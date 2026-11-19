@@ -1,6 +1,7 @@
 #ifndef RR_TRACK_SAMPLE_TYPES_H
 #define RR_TRACK_SAMPLE_TYPES_H
 #include "rr/layout.h"
+#include "rr/track_lane_types.h"
 
 /* One side's two resource bytes. The wheel-contact path copies contactFlags;
  * the meaning of the second byte is not established. */
@@ -33,16 +34,9 @@ typedef struct {
     TrackRoadSample34 road;
 } TrackSample3C;
 
-/* Horizontal offsets of the selected driving line, one record per sample. */
-typedef struct {
-    s16 x, z;
-    s32 reserved04;
-} TrackLaneOffset8;
 
 extern TrackSample3C *TrackNodes;
-extern TrackLaneOffset8 *TrackLaneOffsets;
 extern s32 TrackNodeCount;
-extern s32 *TrackStartNode;
 
 RR_ASSERT_SIZE(TrackSurfaceSide2,2);
 RR_ASSERT_SIZE(TrackRoadSample34,0x34);
@@ -67,6 +61,4 @@ RR_ASSERT_OFFSET(TrackRoadSample34,unknown38,0x30);
 RR_ASSERT_SIZE(TrackSample3C,0x3C);
 RR_ASSERT_OFFSET(TrackSample3C,road,0x08);
 RR_ASSERT_OFFSET(TrackSample3C,leftOffsetX04,0x04);
-RR_ASSERT_SIZE(TrackLaneOffset8,8);
-RR_ASSERT_OFFSET(TrackLaneOffset8,z,2);
 #endif

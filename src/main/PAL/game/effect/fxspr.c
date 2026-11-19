@@ -8,12 +8,11 @@
 #include "rr/trig.h"
 #include "psyq/libc/rand.h"
 
-typedef struct { u32 tag; u32 code; } Pkt8;
 
 extern int SparkParticleInitVel[];
 extern const char HudPauseMenuItemCounts[13][16];
 extern unsigned int OverlayTextSpriteUv;
-extern FadeRaceContext RaceContext;
+#include "rr/scene_camera_state.h"
 void DrawIntroRippleSprites(void)
 {
   int l[2];
@@ -25,13 +24,12 @@ void DrawIntroRippleSprites(void)
   int ax;
   int ay;
   int w;
-  int new_var;
   unsigned char *p;
 
     u32 *head;
-  x = (RaceContext.f440 / 4) + (rsin(FrameCounter * 128U) / 128);
+  x = (RaceContext.fade3E0.rippleIntensity60 / 4) + (rsin(FrameCounter * 128U) / 128);
   l[0] = (x - 16) / 4;
-  y = (RaceContext.f440 / 2) + (rcos(FrameCounter * 128U) / 128);
+  y = (RaceContext.fade3E0.rippleIntensity60 / 2) + (rcos(FrameCounter * 128U) / 128);
   l[1] = (y - 16) / 4;
   for (i = 0; i < 2; i++)
   {
@@ -50,7 +48,7 @@ void DrawIntroRippleSprites(void)
     {
       ax = (j / 2) + 0x9E;
       ay = ((j % 2) << 1) + 0xE4;
-      p = AddTextSprites(&CurrentDrawBuf->buffer.ordering70.words[10], p, ax - SparkParticleInitVel[RaceContext.f438], h[i] + ay, HudPauseMenuItemCounts[RaceContext.f438], 0x7F38, new_var = 1, (l[i] << new_var) | new_var);
+      p = AddTextSprites(&CurrentDrawBuf->buffer.ordering70.words[10], p, ax - SparkParticleInitVel[RaceContext.fade3E0.ripplePreset58], h[i] + ay, HudPauseMenuItemCounts[RaceContext.fade3E0.ripplePreset58], 0x7F38, 1, (l[i] << 1) | 1);
     }
 
   }
@@ -59,7 +57,7 @@ void DrawIntroRippleSprites(void)
   *((unsigned char **) SCRATCHPAD) = p;
   p[3] = 1;
     head = &CurrentDrawBuf->buffer.ordering70.words[10];
-  ((Pkt8 *)p)->code = (w & 0x9FF) | 0xE1000200;
+  ((GpuCommandPacket *)p)->command = (w & 0x9FF) | 0xE1000200;
   *((unsigned int *) p) = ((*((unsigned int *) p)) & 0xFF000000) | (*head & 0xFFFFFF);
   *head = (*head & 0xFF000000) | (GpuDmaEncodeAddress(p) & 0xFFFFFF);
   *((unsigned char **) SCRATCHPAD) = p + 8;

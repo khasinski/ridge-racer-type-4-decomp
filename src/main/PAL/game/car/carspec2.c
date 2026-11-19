@@ -1,45 +1,36 @@
 #include "rr/scene_camera_state.h"
 #include "game/sound/sndque.h"
-#include "rr/overlay661_init.h"
 #include "rr/audio_state_types.h"
 #include "game/car/carspec2.h"
 #include "rr/audio_loop.h"
-typedef struct {
-    u8 reserved00[0xF8];
-    int f0, f4;
-    unsigned short a[6];
-    unsigned short b[6];
-    short c, d;
-    u8 reserved11C[0x320 - 0x11C];
-} T;
 
 typedef struct {
     short x, y;
 } CurvePt;
 
-extern T CarSpecControlPool[];
+extern RaceVehicle ComCars[];
 extern CurvePt RubberBandCurve[];
 extern short BonusCarUnlockMask;
 extern int ReplayState;
 extern int RaceState;
 
-void AverageCarSpec(int x, int y, int z);
+void AverageCarSpec(int destinationIndex, int leftIndex, int rightIndex);
 int CalcRubberBandFactor(RaceVehicle *a0, int a1);
 
-void AverageCarSpec(int x, int y, int z) {
+void AverageCarSpec(int destinationIndex, int leftIndex, int rightIndex) {
     int i;
-    T *tx = &CarSpecControlPool[x];
-    T *ty = &CarSpecControlPool[y];
-    T *tz = &CarSpecControlPool[z];
-    tx->f0 = (ty->f0 + tz->f0) / 2;
+    RaceVehicleControl *destination = &ComCars[destinationIndex].control;
+    RaceVehicleControl *left = &ComCars[leftIndex].control;
+    RaceVehicleControl *right = &ComCars[rightIndex].control;
+    destination->maxSpeedF8 = (left->maxSpeedF8 + right->maxSpeedF8) / 2;
     for (i = 0; i < 6; i++) {
-        tx->a[i] = (ty->a[i] + tz->a[i]) >> 1;
+        destination->gearRatios100[i] = ((u16)left->gearRatios100[i] + (u16)right->gearRatios100[i]) >> 1;
     }
     for (i = 0; i < 6; i++) {
-        tx->b[i] = (ty->b[i] + tz->b[i]) >> 1;
+        destination->shiftThresholds10C[i] = (left->shiftThresholds10C[i] + right->shiftThresholds10C[i]) >> 1;
     }
-    tx->c = (ty->c + tz->c) / 2;
-    tx->d = (ty->d + tz->d) / 2;
+    destination->maximum118 = (left->maximum118 + right->maximum118) / 2;
+    destination->span11A = (left->span11A + right->span11A) / 2;
 }
 
 int CalcRubberBandFactor(RaceVehicle *a0, int a1) {

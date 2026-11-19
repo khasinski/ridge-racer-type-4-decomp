@@ -4,7 +4,6 @@
 #include "game/course/trkres2.h"
 #include "game/gfx/dispenv.h"
 
-extern RaceSpecEntry30 *CarSpecTable;
 
 void BuildRateCurve(Curve24 *curve, s32 displacement, s32 duration, s32 initialRate);
 s32 EvalRateCurve(const Curve24 *curve, s32 time, s32 *output);
@@ -67,12 +66,12 @@ void RelocateTrackLookupTables(TrackEventDirectory *tables)
 
 void SetTrackLaneOffsets(TrackLaneOffset8 *offsets)
 {
-    TrackLaneOffsets = offsets;
+    RaceContext.laneOffsets54C = offsets;
 }
 
-void SetTrackStartNode(s32 *startNode)
+void SetTrackStartNode(RaceStartGrid60 *startGrid)
 {
-    TrackStartNode = startNode;
+    RaceContext.startGrid53C = startGrid;
 }
 
 void SetTrackWorkspace(u8 *workspace)
@@ -91,10 +90,10 @@ void LoadTrackResource(TrackResourceFile *file)
 {
     RelocateTrackLookupTables((TrackEventDirectory *)((u8 *)file + file->lookupOffset04));
     SetTrackLaneOffsets((TrackLaneOffset8 *)((u8 *)file + file->laneOffset08));
-    SetTrackStartNode((s32 *)((u8 *)file + file->startNodeOffset0C));
+    SetTrackStartNode((RaceStartGrid60 *)((u8 *)file + file->startNodeOffset0C));
     SetTrackWorkspace((u8 *)file + file->workspaceOffset10);
 }
 
-void SetCarSpecTable(RaceSpecEntry30 *arg0) {
-    CarSpecTable = arg0;
+void SetCarSpecTable(RaceSpecEntry30 *specs) {
+    RaceContext.carSpecs540 = specs;
 }

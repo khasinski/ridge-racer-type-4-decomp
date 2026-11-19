@@ -1,5 +1,7 @@
+#include "rr/gpu_address.h"
 #include "game/system/pad.h"
 #include "types.h"
+#include "rr/scene_camera_state.h"
 #include "rr/frame_storage_types.h"
 #include "scratchpad.h"
 #include "rr/track_lateral.h"
@@ -46,7 +48,7 @@ void DrawFontStringRight(int a0, int a1, unsigned char *s, int a3, int a4);
 void *EmitTexturedQuadPrim(TexturedQuadDesc2C *a0);
 void InitTexturedQuadDesc(TexturedQuadDesc2C *p);
 void AddHGradientRectPrim(RectU16 *arg0, ColorRGB8 *arg1, ColorRGB8 *arg2, s32 arg3);
-void AddSlantedGradientRect(unsigned short *a0, int a1, unsigned char *a2, unsigned char *a3, int a4);
+void AddSlantedGradientRect(const GpuRectangleFields *rectangle, s32 reverse, const GpuColorCommand *top, const GpuColorCommand *bottom, s32 depth);
 
 int GetMappedPadButtons(int i) {
     ControllerState5C *t = &PlayerControllers[i];
@@ -73,8 +75,8 @@ s32 GetTrackNodeHeading(s32 node, s32 lane)
     if (previous < 0) previous += TrackNodeCount;
     switch (lane) {
     case 0:
-        currentOffset = TrackLaneOffsets + node;
-        previousOffset = TrackLaneOffsets + previous;
+        currentOffset = RaceContext.laneOffsets54C + node;
+        previousOffset = RaceContext.laneOffsets54C + previous;
         previousOffsetBytes = previous * sizeof(TrackSample3C);
         currentOffsetBytes = node * sizeof(TrackSample3C);
         previousSample = (TrackSample3C *)(previousOffsetBytes + (unsigned long)TrackNodes);
@@ -325,45 +327,45 @@ void AddHGradientRectPrim(RectU16 *arg0, ColorRGB8 *arg1, ColorRGB8 *arg2, s32 a
     *(PolyG4Packet **)SCRATCHPAD = temp_t0 + 1;
 }
 
-void AddSlantedGradientRect(unsigned short *a0, int a1, unsigned char *a2, unsigned char *a3, int a4) {
+void AddSlantedGradientRect(const GpuRectangleFields *rectangle, s32 reverse, const GpuColorCommand *top, const GpuColorCommand *bottom, s32 depth) {
     PolyG4Packet *p = *(PolyG4Packet **)SCRATCHPAD;
     int *a;
     p->len = 8;
     p->code = 0x3A;
-    if (a1 == 0) {
-        p->x0 = a0[0];
-        p->y0 = a0[1];
-        p->x1 = a0[0] + a0[2];
-        p->y1 = a0[1] + (short)a0[3] / 2;
-        p->x2 = a0[0];
-        p->y2 = a0[1] + a0[3];
-        p->x3 = a0[0] + a0[2];
-        p->y3 = a0[1] + a0[3];
+    if (reverse == 0) {
+        p->x0 = (u16)rectangle->x;
+        p->y0 = (u16)rectangle->y;
+        p->x1 = (u16)rectangle->x + (u16)rectangle->w;
+        p->y1 = (u16)rectangle->y + (short)(u16)rectangle->h / 2;
+        p->x2 = (u16)rectangle->x;
+        p->y2 = (u16)rectangle->y + (u16)rectangle->h;
+        p->x3 = (u16)rectangle->x + (u16)rectangle->w;
+        p->y3 = (u16)rectangle->y + (u16)rectangle->h;
     } else {
-        p->x0 = a0[0];
-        p->y0 = a0[1];
-        p->x1 = a0[0] + a0[2];
-        p->y1 = a0[1];
-        p->x2 = a0[0];
-        p->y2 = a0[1] + a0[3];
-        p->x3 = a0[0] + a0[2];
-        p->y3 = a0[1] + (short)a0[3] / 2;
+        p->x0 = (u16)rectangle->x;
+        p->y0 = (u16)rectangle->y;
+        p->x1 = (u16)rectangle->x + (u16)rectangle->w;
+        p->y1 = (u16)rectangle->y;
+        p->x2 = (u16)rectangle->x;
+        p->y2 = (u16)rectangle->y + (u16)rectangle->h;
+        p->x3 = (u16)rectangle->x + (u16)rectangle->w;
+        p->y3 = (u16)rectangle->y + (short)(u16)rectangle->h / 2;
     }
-    p->r0 = a2[0];
-    p->g0 = a2[1];
-    p->b0 = a2[2];
-    p->r1 = a2[0];
-    p->g1 = a2[1];
-    p->b1 = a2[2];
-    p->r2 = a3[0];
-    p->g2 = a3[1];
-    p->b2 = a3[2];
-    p->r3 = a3[0];
-    p->g3 = a3[1];
-    p->b3 = a3[2];
-    a = (void *)(a4 * 4 + (int)CurrentDrawBuf);
+    p->r0 = top->r;
+    p->g0 = top->g;
+    p->b0 = top->b;
+    p->r1 = top->r;
+    p->g1 = top->g;
+    p->b1 = top->b;
+    p->r2 = bottom->r;
+    p->g2 = bottom->g;
+    p->b2 = bottom->b;
+    p->r3 = bottom->r;
+    p->g3 = bottom->g;
+    p->b3 = bottom->b;
+    a = (void *)(depth * 4 + (unsigned long)CurrentDrawBuf);
     *(int *)p = (*(int *)p & 0xFF000000) | (a[0x70 / 4] & 0xFFFFFF);
-    *(int *)((char *)a + RR_FIELD_OFFSET(FrameStorage, buffer.ordering70)) = (a[0x70 / 4] & 0xFF000000) | ((int)p & 0xFFFFFF);
+    *(int *)((char *)a + RR_FIELD_OFFSET(FrameStorage, buffer.ordering70)) = (a[0x70 / 4] & 0xFF000000) | (GpuDmaEncodeAddress(p) & 0xFFFFFF);
     p++;
     *(PolyG4Packet **)SCRATCHPAD = p;
 }

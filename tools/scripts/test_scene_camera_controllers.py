@@ -216,7 +216,7 @@ static s32 argument1(unsigned n){return edges[(n/5)%12];}
 unsigned exercise_native(void){
  _Static_assert(sizeof(CameraOwner)==sizeof(SceneCameraState160)+32&&sizeof(BoundsOwner)==44,"complete native camera/bounds owners");
  _Static_assert(offsetof(SceneRaceContext,reserved250)==offsetof(SceneRaceContext,camera24C)+sizeof(void*),"native context tail");
- _Static_assert(offsetof(SceneRaceContext,cameraNodes550)-offsetof(SceneRaceContext,reserved250)==0x300,"scalar tail before resource pointers");
+ _Static_assert(offsetof(SceneRaceContext,startGrid53C)-offsetof(SceneRaceContext,reserved250)==0x2F0,"native alignment before full grid pointer");
  for(unsigned n=0;n<32768;n++){
   initialize(n);assert((uintptr_t)RaceContext.camera24C>UINT32_MAX&&(uintptr_t)CarBoundsTable[0]>UINT32_MAX);
   capture=&expected;capture->count=0;reference(argument0(n),argument1(n));memcpy(&capture->final,&live,sizeof(live));

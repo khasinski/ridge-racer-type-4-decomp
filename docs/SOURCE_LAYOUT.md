@@ -181,7 +181,8 @@ the published standings root, selected entry and gap. This fixture does not
 cover the algorithms behind those services or the fallback projection branch.
 
 The E8 pointer uses the old native scalar/padding cell without moving the
-inline camera: the context remains `0x57C` on PAL and `0x5A8` on LP64. Frozen
+inline camera: the context is `0x57C` on PAL and, with the typed grid/spec/lane cells,
+`0x5C0` on LP64. Frozen
 camera inputs retain their original tokens, schemas, PRNG streams and cases;
 the test codec binds the E8 token to a guarded complete native standings owner
 and serializes its saved logical token separately. It never reconstructs a
@@ -257,12 +258,11 @@ input member offset and PRNG byte count. The render oracle moves its enable and
 palette accesses to their actual scene fields; its decision rules remain.
 The audio constructor fixture likewise checks a complete typed native context.
 
-Remaining aliases include the start-grid/spec/lane slots, the trigger-table
-consumer, sound consumers and other private `RaceContext` projections. The
-sound-payload slot is pointer-sized in the shared owner, but its loader still
-uses a legacy declaration. These remaining paths need their own producer and
-consumer migration; this resource cleanup does not establish one declaration
-for every user of the context.
+The resource and start-grid passes use full native pointers for their migrated
+consumers. Other private `RaceContext` projections remain, including the
+trigger-table consumer. These paths still need their own producer and consumer
+migration; the shared owner does not yet establish one declaration for every
+user of the context.
 
 `RaceVehicle.worldPosition10` owns the complete 16-byte SDK world-position
 vector at `0x10`, including its fourth reserved word. Vehicle/render consumers
@@ -3151,3 +3151,110 @@ pointers from low address bits. Existing full-size byte views remain valid.
 This unifies the selection allocation and its active aliases. The fixed-page
 accesses and existing compiler constraints inside `InitSelectionRows` still
 need separate reconstruction; this pass does not claim to retire them.
+
+### Start grid, car specifications and lane roots
+
+The first sixteen bytes of `SceneRaceContext` are the eight signed start-order
+entries. The following word is the computer-car count. The resource cells at
+`+0x53C..+0x54C` are full native pointers: a complete start grid, the car-spec
+array, two spec targets and the lane-offset array. `TrackStartNode`,
+`CarSpecTable`, `ActiveDraftCarSpecPtr` and `TrackLaneOffsets` remain historical
+PAL labels for these cells; active C consumers use the shared context fields.
+The old one-element spec-target projection is now the actual two-element array.
+
+`RaceStartGrid60` describes the complete resource: a starting track node, eight
+XZ positions and eight headings. Its name records its size rather than the
+context offset of its pointer. `SetTrackStartNode` retains its historical API
+name and accepts this complete grid type. The resource loader and both start
+position consumers share that declaration. Car-spec and lane record types live
+in small shared headers, so the context does not import unrelated vehicle or
+track-global declarations.
+
+`BlendCarSpec` and `AverageCarSpec` access `ComCars[index].control` directly.
+`CarSpecControlPool` is a PAL label inside the first vehicle, with no separate
+active C declaration. The private padded `T` array and the macro hiding the
+public context declaration are removed. Averaging explicitly reads the unsigned
+gear-ratio bit patterns used by the original code. Position scaling and blended
+speed scaling use unsigned shifts to retain the MIPS wrapping result for
+negative values without undefined signed left shifts. `InitComCars` clears eleven
+complete vehicle objects on both target and native builds.
+
+`test_race_spec_owner.py` executes five literal C functions in a six-call chain,
+with 512 scenarios on native C and original/linked MIPS. An independent integer
+model checks every PAL context/vehicle field after each call. It covers both spec
+target slots, independent source tables, signed blend boundaries, full sixteen-bit
+ratios, source/destination aliases, complete readonly owners, store bounds and
+register/stack ABI. `test_race_grid_initializer.py` checks the literal grid/spec
+setters and computer-car initializer in 1,024 native scenarios against a separate
+full-owner model. Its controlled track/model services can replace the live grid
+and spec roots; the first spec remains captured across that boundary. It covers
+zero through seven cars, all mode branches and the full eleven-car clear. It does
+not test the algorithms behind the controlled services.
+
+Old camera inputs keep their literal PAL tokens and frozen layouts.
+`scene_context_wire.h` binds the five newly typed cells to guarded complete native
+owners and serializes their saved identities separately. Equal spec tokens retain
+equal native identities. The lane-control fixture likewise retains its literal
+World, model, cases and PRNG; entry/service adapters synchronize its old lane root
+with a complete guarded scene owner. Production calculations remain literal.
+Other private context views, existing barriers and the pointer-shaped loop inside
+`ApplyRubberBandSpec` remain reconstruction work.
+
+### Demo fade and intro state
+
+`SceneRaceContext.fade3E0` is one complete `DemoFadeState64`. Its constructor
+clears that member directly; no consumer declares a padded `FadeRaceContext`
+or recovers the context by subtracting a PAL offset from an interior alias.
+The record names the frame/opacity/scale controls, particle enable, sprite and
+line progress, sound state and ripple state. `sceneStateB0` and `sceneStep444`
+name the adjacent shared state words. The PAL and native context sizes and all
+pointer member positions remain unchanged by these scalar-record refinements.
+`DemoFadeCommand8` describes the actual frame/command timeline entries.
+
+`FadeSpriteRaceContext` is the historical label at `RaceContext+0x3E0`.
+`DemoFadeSkipEnabled` is the label for `fade3E0.scaleMode48`, not a separate
+flag. `MotionSequenceIndex` is the label for `SoundState.seqTrack2868`.
+The fade constructor and presentation sequence reader now use that same audio
+field. These historical labels have no active standalone C declarations.
+
+The intro frame uses both complete `FrameStorage` banks and reads the full
+native scratch cursor before calling the tile emitter. It no longer passes
+only an integer-sized fragment of that pointer. The ripple controller uses the
+shared eight-byte GPU command packet and ordinary constant arguments; the old
+assignment/read of `new_var` in separate call arguments was unsequenced C.
+The particle renderer uses the common textured-quad packet, explicit DMA tag
+fields and `GpuDmaEncodeAddress`, with no private packet type or linking macro.
+The three gradient emitters likewise encode real DMA identities. The slanted
+emitter's public interface, definition and caller agree on rectangle/color
+records, and its frame-base address calculation retains the full native width.
+Some renderer word-addressing expressions still need further readability work.
+
+`test_demo_fade_owner.py` executes nine literal producer functions on complete
+scene/audio/particle owners, native C and original/linked MIPS. In 256 scenarios
+per backend it checks a multi-call pipeline, independent state models, every
+controlled service argument and pre-service snapshot, live sequence/bank changes,
+captured bank order, both historical aliases, untouched owner storage, MIPS
+store bounds and register/stack ABI. No production body is rewritten.
+
+`test_particle_render_owner.py` executes the actual particle renderer and all
+three actual gradient emitters together. Its independent wire model checks
+4,096 cases, every packet byte and ordering word, both full frame banks, all
+24 particle slots, signed coordinate/speed/scale limits, full scratch storage,
+exterior guards and both CPU aliases through the real native DMA backend.
+There are no substituted rendering services in this test.
+
+`test_intro_fade_frame_owner.py` executes the literal intro step, tint writer,
+ripple controller, particle-fade writer and skip setter in 1,008 native cases.
+Command expectations cover all eleven commands plus the default path, opacity
+and scale boundaries, exact line/sprite/glyph arguments, complete frame colors,
+DMA command linking and full-width cursor publication. Glyph and tile emission,
+trigonometry and particle updates are controlled boundaries. A glyph service
+switches the current frame bank during the ripple loop; subsequent arguments
+and final command/tile publication must use the live bank.
+
+The old presentation fixture retains its literal World, model, cases and PRNG.
+`motion_index_fixture_transport.py` binds its historical scalar input to a
+complete guarded native `AudioState` for the actual restart entry. This is a
+storage adapter; it does not change the production calculation or reconstruct
+host pointers from address bits. Frozen fixtures remain untouched. Other private
+context views and existing register/asm constraints remain reconstruction debt.

@@ -24,7 +24,8 @@
 #include "game/gfx/clut.h"
 #include "game/sound/fxplay.h"
 
-extern short RaceContext[];
+#include "rr/scene_camera_state.h"
+#include "rr/track_sample_types.h"
 extern unsigned char LoadState;
 #include "rr/cd_directory_buffer.h"
 #include "rr/menu_arena_base.h"
@@ -37,7 +38,6 @@ extern int DialogueSceneMode;
 extern int SelectedStoryBranchId;
 extern unsigned char MenuSelectedTeamId;
 extern char SceneOffsetLookupBuf[];
-extern char *TrackNodes;
 extern int TrackNodeCount;
 extern char MenuSoundVabBuffer[];
 
@@ -68,10 +68,10 @@ int LoadDefaultRaceStep(void) {
     case 2:
             i = 0;
             do {
-                RaceContext[i] = i + 1;
+                RaceContext.startOrder00[i] = i + 1;
                 i++;
             } while (i < 7);
-            RaceContext[7] = 0;
+            RaceContext.startOrder00[7] = 0;
             LoadState = 3;
     case 3:
             r = 1;
@@ -618,7 +618,7 @@ int LoadTrackNodesStep(void) {
         if (CdFileBytesLoaded() != 0) {
             SetTrackNodeData(LoadCursor);
             LoadState = 3;
-            TrackNodesEnd = TrackNodes + TrackNodeCount * 60;
+            TrackNodesEnd = (char *)(TrackNodes + TrackNodeCount);
     case 3:
             r = 1;
         }

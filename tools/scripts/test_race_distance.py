@@ -39,6 +39,17 @@ class Context(C.Structure):
                 ('native_tail', C.c_uint8*(0x5A8-0xF0))]
 
 
+class NativeContext(C.Structure):
+    # Keep the historical Context/model schema above literal. Bind the current
+    # native owner separately, including the five full pointer cells.
+    _fields_ = Context._fields_[:-1] + [
+        ('native_scalar_tail', C.c_uint8*(0x550-0xF0)),
+        ('start_grid', C.c_void_p), ('car_specs', C.c_void_p),
+        ('spec_targets', C.c_void_p*2), ('lane_offsets', C.c_void_p),
+        ('native_resource_tail', C.c_uint8*(0x5C0-0x578)),
+    ]
+
+
 class GuardedResult(C.Structure):
     _fields_ = [('before', C.c_uint32*4), ('result', Result), ('after', C.c_uint32*4)]
 
@@ -85,7 +96,7 @@ unsigned long test_entries_offset(void) {return __builtin_offsetof(RaceStandings
             raise AssertionError(result.stderr.decode())
         cls.lib = C.CDLL(str(directory/'function.so'))
         cls.references = (Distance*2).in_dll(cls.lib, 'PlayerCars')
-        cls.context = Context.in_dll(cls.lib, 'RaceContext')
+        cls.context = NativeContext.in_dll(cls.lib, 'RaceContext')
         cls.calculate = cls.lib.CalcDistanceToPlayer
         cls.calculate.argtypes = [C.POINTER(Distance)]
         cls.calculate.restype = None
@@ -126,7 +137,7 @@ unsigned long test_entries_offset(void) {return __builtin_offsetof(RaceStandings
         self.assertEqual(bytes(current), before_current)
 
     def test_native_layout_full_pointer_and_signed_boundaries(self):
-        self.assertEqual(self.lib.test_context_size(), C.sizeof(Context))
+        self.assertEqual(self.lib.test_context_size(), C.sizeof(NativeContext))
         self.assertEqual(self.lib.test_record_size(), C.sizeof(Distance))
         self.assertEqual(self.lib.test_table_size(), C.sizeof(Result))
         self.assertEqual(self.lib.test_entries_offset(), Result.entries.offset)

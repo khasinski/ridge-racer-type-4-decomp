@@ -1,3 +1,4 @@
+#include "rr/gpu_address.h"
 #include "scratchpad.h"
 #include "rr/frame_storage_types.h"
 #include "rr/gouraud_quad.h"
@@ -37,7 +38,7 @@ void AddVerticalGradientRect(GpuRectangleFields *rect, GpuColorCommand *top, Gpu
     primitive->packet.b3 = bottom->b;
     ordering = (u32 *)(depth * sizeof(u32) + (unsigned long)CurrentDrawBuf);
     primitive->words[0] = (primitive->words[0] & 0xFF000000U) | (ordering[ORDERING_TABLE_WORD] & 0xFFFFFFU);
-    ordering[ORDERING_TABLE_WORD] = (ordering[ORDERING_TABLE_WORD] & 0xFF000000U) | ((unsigned long)primitive & 0xFFFFFFU);
+    ordering[ORDERING_TABLE_WORD] = (ordering[ORDERING_TABLE_WORD] & 0xFF000000U) | (GpuDmaEncodeAddress(primitive) & 0xFFFFFFU);
     primitive++;
     ((GpuScratchPointers *)SCRATCHPAD)->cursor = (u8 *)primitive;
 }
@@ -71,7 +72,7 @@ void AddGouraudRect(GpuRectangleFields *rect, GpuColorCommand *color0, GpuColorC
     primitive->packet.b3 = color3->b;
     ordering = (u32 *)(depth * sizeof(u32) + (unsigned long)CurrentDrawBuf);
     primitive->words[0] = (primitive->words[0] & 0xFF000000U) | (ordering[ORDERING_TABLE_WORD] & 0xFFFFFFU);
-    ordering[ORDERING_TABLE_WORD] = (ordering[ORDERING_TABLE_WORD] & 0xFF000000U) | ((unsigned long)primitive & 0xFFFFFFU);
+    ordering[ORDERING_TABLE_WORD] = (ordering[ORDERING_TABLE_WORD] & 0xFF000000U) | (GpuDmaEncodeAddress(primitive) & 0xFFFFFFU);
     primitive++;
     ((GpuScratchPointers *)SCRATCHPAD)->cursor = (u8 *)primitive;
 }

@@ -3,21 +3,21 @@
 #include "game/gfx/fadein.h"
 #include "game/gfx/fadespr.h"
 
-extern FadeRaceContext RaceContext;
+#include "rr/scene_camera_state.h"
 
 void StartDemoFadeIn(int a0) {
-    if (RaceContext.f41C == 0) {
+    if (RaceContext.fade3E0.mode3C == 0) {
         ResetDemoFadeState();
     }
-    RaceContext.f438 = a0 + 2;
-    RaceContext.f434 = 1;
-    RaceContext.f43C = 0;
-    if (RaceContext.f408 == 1 || (RaceContext.f408 == 0 && RaceContext.f3EC == 0xFF)) {
-        RaceContext.f408 = 2;
-        RaceContext.f3E0 = 1;
+    RaceContext.fade3E0.ripplePreset58 = a0 + 2;
+    RaceContext.fade3E0.rippleMode54 = 1;
+    RaceContext.fade3E0.rippleFrame5C = 0;
+    if (RaceContext.fade3E0.opacityMode28 == 1 || (RaceContext.fade3E0.opacityMode28 == 0 && RaceContext.fade3E0.opacity0C == 0xFF)) {
+        RaceContext.fade3E0.opacityMode28 = 2;
+        RaceContext.fade3E0.alternate00 = 1;
         SetParticleBrightFade(0x20, 0, 0x100);
-        RaceContext.f3F4 = 1;
+        RaceContext.fade3E0.particlesEnabled14 = 1;
     }
-    RaceContext.f3F8 = 3;
-    RaceContext.f41C = 2;
+    RaceContext.fade3E0.spriteMode18 = 3;
+    RaceContext.fade3E0.mode3C = 2;
 }
